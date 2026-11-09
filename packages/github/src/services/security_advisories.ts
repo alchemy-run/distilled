@@ -56,7 +56,7 @@ export type SecurityAdvisoryEcosystems =
 export interface CreatePrivateVulnerabilityReportRequestVulnerabilitiesItemPackage {
   ecosystem: SecurityAdvisoryEcosystems | (string & {});
   /** The unique package name within its ecosystem. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** The functions in the package that are affected. */
 export type CreatePrivateVulnerabilityReportRequestVulnerabilitiesItemVulnerableFunctionsList =
@@ -65,11 +65,14 @@ export interface CreatePrivateVulnerabilityReportRequestVulnerabilitiesItem {
   /** The name of the package affected by the vulnerability. */
   package: CreatePrivateVulnerabilityReportRequestVulnerabilitiesItemPackage;
   /** The range of the package versions affected by the vulnerability. */
-  vulnerable_version_range?: string | null;
+  vulnerable_version_range?: string | null | undefined;
   /** The package version(s) that resolve the vulnerability. */
-  patched_versions?: string | null;
+  patched_versions?: string | null | undefined;
   /** The functions in the package that are affected. */
-  vulnerable_functions?: CreatePrivateVulnerabilityReportRequestVulnerabilitiesItemVulnerableFunctionsList | null;
+  vulnerable_functions?:
+    | CreatePrivateVulnerabilityReportRequestVulnerabilitiesItemVulnerableFunctionsList
+    | null
+    | undefined;
 }
 /** An array of products affected by the vulnerability detailed in a repository security advisory. */
 export type CreatePrivateVulnerabilityReportRequestVulnerabilitiesList =
@@ -92,22 +95,22 @@ export interface CreatePrivateVulnerabilityReportRequest {
   /** A detailed description of what the advisory impacts. */
   description: string;
   /** An array of products affected by the vulnerability detailed in a repository security advisory. */
-  vulnerabilities?: CreatePrivateVulnerabilityReportRequestVulnerabilitiesList | null;
+  vulnerabilities?: CreatePrivateVulnerabilityReportRequestVulnerabilitiesList | null | undefined;
   /** A list of Common Weakness Enumeration (CWE) IDs. */
-  cwe_ids?: CreatePrivateVulnerabilityReportRequestCweIdsList | null;
+  cwe_ids?: CreatePrivateVulnerabilityReportRequestCweIdsList | null | undefined;
   /** The severity of the advisory. You must choose between setting this field or `cvss_vector_string`. */
-  severity?: CreatePrivateVulnerabilityReportRequestSeverity | (string & {}) | null;
+  severity?: CreatePrivateVulnerabilityReportRequestSeverity | (string & {}) | null | undefined;
   /** The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
-  cvss_vector_string?: string | null;
+  cvss_vector_string?: string | null | undefined;
   /** Whether to create a temporary private fork of the repository to collaborate on a fix. */
-  start_private_fork?: boolean;
+  start_private_fork?: boolean | undefined;
 }
 /** The severity of the advisory. */
 export type RepositoryAdvisorySeverity = "critical" | "high" | "medium" | "low";
 /** A GitHub user. */
 export interface SimpleUser {
-  name?: string | null;
-  email?: string | null;
+  name?: string | null | undefined;
+  email?: string | null | undefined;
   login: string;
   id: number;
   node_id: string;
@@ -126,8 +129,8 @@ export interface SimpleUser {
   received_events_url: string;
   type: string;
   site_admin: boolean;
-  starred_at?: string;
-  user_view_type?: string;
+  starred_at?: string | undefined;
+  user_view_type?: string | undefined;
 }
 /** The type of identifier. */
 export type RepositoryAdvisoryIdentifiersItemType = "CVE" | "GHSA";
@@ -183,8 +186,8 @@ export interface CvssSeveritiesCvssV4 {
   score: number | null;
 }
 export interface CvssSeverities {
-  cvss_v3?: CvssSeveritiesCvssV3 | null;
-  cvss_v4?: CvssSeveritiesCvssV4 | null;
+  cvss_v3?: CvssSeveritiesCvssV3 | null | undefined;
+  cvss_v4?: CvssSeveritiesCvssV4 | null | undefined;
 }
 export interface RepositoryAdvisoryCwesItem {
   /** The Common Weakness Enumeration (CWE) identifier. */
@@ -209,8 +212,8 @@ export type SecurityAdvisoryCreditTypes =
   | "other";
 export interface RepositoryAdvisoryCreditsItem {
   /** The username of the user credited. */
-  login?: string;
-  type?: SecurityAdvisoryCreditTypes;
+  login?: string | undefined;
+  type?: SecurityAdvisoryCreditTypes | undefined;
 }
 export type RepositoryAdvisoryCreditsList = Array<RepositoryAdvisoryCreditsItem>;
 /** The state of the user's acceptance of the credit. */
@@ -253,20 +256,20 @@ export interface NullableTeamSimple {
   /** Permission that the team will have for its repositories */
   permission: string;
   /** The level of privacy this team should have */
-  privacy?: string;
+  privacy?: string | undefined;
   /** The notification setting the team has set */
-  notification_setting?: string;
+  notification_setting?: string | undefined;
   html_url: string;
   repositories_url: string;
   slug: string;
   /** Distinguished Name (DN) that team maps to within LDAP environment */
-  ldap_dn?: string;
+  ldap_dn?: string | undefined;
   /** The ownership type of the team */
   type: NullableTeamSimpleType;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
 }
 /** Groups of organization members that gives permissions on specified repositories. */
 export interface Team {
@@ -275,10 +278,10 @@ export interface Team {
   name: string;
   slug: string;
   description: string | null;
-  privacy?: string;
-  notification_setting?: string;
+  privacy?: string | undefined;
+  notification_setting?: string | undefined;
   permission: string;
-  permissions?: TeamPermissions;
+  permissions?: TeamPermissions | undefined;
   url: string;
   html_url: string;
   members_url: string;
@@ -286,11 +289,11 @@ export interface Team {
   /** The ownership type of the team */
   type: TeamType;
   /** How the team's access to the repository was granted. This property is only present when the team is returned in a repository context, such as `GET /repos/{owner}/{repo}/teams`. */
-  access_source?: TeamAccessSource;
+  access_source?: TeamAccessSource | undefined;
   /** Unique identifier of the organization to which this team belongs */
-  organization_id?: number;
+  organization_id?: number | undefined;
   /** Unique identifier of the enterprise to which this team belongs */
-  enterprise_id?: number;
+  enterprise_id?: number | undefined;
   parent: NullableTeamSimple | null;
 }
 /** A list of teams that collaborate on the advisory. */
@@ -425,7 +428,7 @@ export interface RepositoryAdvisory {
   submission: RepositoryAdvisorySubmission | null;
   vulnerabilities: RepositoryAdvisoryVulnerabilitiesList | null;
   cvss: RepositoryAdvisoryCvss | null;
-  cvss_severities?: CvssSeverities | null;
+  cvss_severities?: CvssSeverities | null | undefined;
   cwes: RepositoryAdvisoryCwesList | null;
   /** A list of only the CWE IDs. */
   cwe_ids: RepositoryAdvisoryCweIdsList | null;
@@ -448,11 +451,14 @@ export interface CreateRepositoryAdvisoryRequestVulnerabilitiesItem {
   /** The name of the package affected by the vulnerability. */
   package: CreatePrivateVulnerabilityReportRequestVulnerabilitiesItemPackage;
   /** The range of the package versions affected by the vulnerability. */
-  vulnerable_version_range?: string | null;
+  vulnerable_version_range?: string | null | undefined;
   /** The package version(s) that resolve the vulnerability. */
-  patched_versions?: string | null;
+  patched_versions?: string | null | undefined;
   /** The functions in the package that are affected. */
-  vulnerable_functions?: CreateRepositoryAdvisoryRequestVulnerabilitiesItemVulnerableFunctionsList | null;
+  vulnerable_functions?:
+    | CreateRepositoryAdvisoryRequestVulnerabilitiesItemVulnerableFunctionsList
+    | null
+    | undefined;
 }
 /** A product affected by the vulnerability detailed in a repository security advisory. */
 export type CreateRepositoryAdvisoryRequestVulnerabilitiesList =
@@ -479,19 +485,19 @@ export interface CreateRepositoryAdvisoryRequest {
   /** A detailed description of what the advisory impacts. */
   description: string;
   /** The Common Vulnerabilities and Exposures (CVE) ID. */
-  cve_id?: string | null;
+  cve_id?: string | null | undefined;
   /** A product affected by the vulnerability detailed in a repository security advisory. */
   vulnerabilities: CreateRepositoryAdvisoryRequestVulnerabilitiesList;
   /** A list of Common Weakness Enumeration (CWE) IDs. */
-  cwe_ids?: CreateRepositoryAdvisoryRequestCweIdsList | null;
+  cwe_ids?: CreateRepositoryAdvisoryRequestCweIdsList | null | undefined;
   /** A list of users receiving credit for their participation in the security advisory. */
-  credits?: CreateRepositoryAdvisoryRequestCreditsList | null;
+  credits?: CreateRepositoryAdvisoryRequestCreditsList | null | undefined;
   /** The severity of the advisory. You must choose between setting this field or `cvss_vector_string`. */
-  severity?: CreateRepositoryAdvisoryRequestSeverity | (string & {}) | null;
+  severity?: CreateRepositoryAdvisoryRequestSeverity | (string & {}) | null | undefined;
   /** The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
-  cvss_vector_string?: string | null;
+  cvss_vector_string?: string | null | undefined;
   /** Whether to create a temporary private fork of the repository to collaborate on a fix. */
-  start_private_fork?: boolean;
+  start_private_fork?: boolean | undefined;
 }
 export interface CreateRepositoryAdvisoryCveRequestRequest {
   /** The account owner of the repository. The name is not case sensitive. */
@@ -540,8 +546,8 @@ export type GlobalAdvisoryVulnerabilitiesList = Array<Vulnerability>;
 export type GlobalAdvisoryCvss = RepositoryAdvisoryCvss;
 /** The EPSS scores as calculated by the [Exploit Prediction Scoring System](https://www.first.org/epss). */
 export interface SecurityAdvisoryEpss {
-  percentage?: number;
-  percentile?: number;
+  percentage?: number | undefined;
+  percentile?: number | undefined;
 }
 export type GlobalAdvisoryCwesItem = RepositoryAdvisoryCwesItem;
 export type GlobalAdvisoryCwesList = Array<RepositoryAdvisoryCwesItem>;
@@ -588,8 +594,8 @@ export interface GlobalAdvisory {
   /** The products and respective version ranges affected by the advisory. */
   vulnerabilities: GlobalAdvisoryVulnerabilitiesList | null;
   cvss: RepositoryAdvisoryCvss | null;
-  cvss_severities?: CvssSeverities | null;
-  epss?: SecurityAdvisoryEpss | null;
+  cvss_severities?: CvssSeverities | null | undefined;
+  epss?: SecurityAdvisoryEpss | null | undefined;
   cwes: GlobalAdvisoryCwesList | null;
   /** The users who contributed to the advisory. */
   credits: GlobalAdvisoryCreditsList | null;
@@ -623,41 +629,41 @@ export type ListGlobalAdvisoriesRequestSort =
   | "epss_percentile";
 export interface ListGlobalAdvisoriesRequest {
   /** If specified, only advisories with this GHSA (GitHub Security Advisory) identifier will be returned. */
-  ghsa_id?: string;
+  ghsa_id?: string | undefined;
   /** If specified, only advisories of this type will be returned. By default, a request with no other parameters defined will only return reviewed advisories that are not malware. */
-  type?: ListGlobalAdvisoriesRequestType | (string & {});
+  type?: ListGlobalAdvisoriesRequestType | (string & {}) | undefined;
   /** If specified, only advisories with this CVE (Common Vulnerabilities and Exposures) identifier will be returned. */
-  cve_id?: string;
+  cve_id?: string | undefined;
   /** If specified, only advisories for these ecosystems will be returned. */
-  ecosystem?: SecurityAdvisoryEcosystems | (string & {});
+  ecosystem?: SecurityAdvisoryEcosystems | (string & {}) | undefined;
   /** If specified, only advisories with these severities will be returned. */
-  severity?: ListGlobalAdvisoriesRequestSeverity | (string & {});
+  severity?: ListGlobalAdvisoriesRequestSeverity | (string & {}) | undefined;
   /** If specified, only advisories with these Common Weakness Enumerations (CWEs) will be returned. Example: `cwes=79,284,22` or `cwes[]=79&cwes[]=284&cwes[]=22` */
-  cwes?: ListGlobalAdvisoriesRequestCwes;
+  cwes?: ListGlobalAdvisoriesRequestCwes | undefined;
   /** Whether to only return advisories that have been withdrawn. */
-  is_withdrawn?: boolean;
+  is_withdrawn?: boolean | undefined;
   /** If specified, only return advisories that affect any of `package` or `package@version`. A maximum of 1000 packages can be specified. If the query parameter causes the URL to exceed the maximum URL length supported by your client, you must specify fewer packages. Example: `affects=package1,package2@1.0.0,package3@2.0.0` or `affects[]=package1&affects[]=package2@1.0.0` */
-  affects?: ListGlobalAdvisoriesRequestAffects;
+  affects?: ListGlobalAdvisoriesRequestAffects | undefined;
   /** If specified, only return advisories that were published on a date or date range. For more information on the syntax of the date range, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)." */
-  published?: string;
+  published?: string | undefined;
   /** If specified, only return advisories that were updated on a date or date range. For more information on the syntax of the date range, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)." */
-  updated?: string;
+  updated?: string | undefined;
   /** If specified, only show advisories that were updated or published on a date or date range. For more information on the syntax of the date range, see "[Understanding the search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax#query-for-dates)." */
-  modified?: string;
+  modified?: string | undefined;
   /** If specified, only return advisories that have an EPSS percentage score that matches the provided value. The EPSS percentage represents the likelihood of a CVE being exploited. */
-  epss_percentage?: string;
+  epss_percentage?: string | undefined;
   /** If specified, only return advisories that have an EPSS percentile score that matches the provided value. The EPSS percentile represents the relative rank of the CVE's likelihood of being exploited compared to other CVEs. */
-  epss_percentile?: string;
+  epss_percentile?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The direction to sort the results by. */
-  direction?: ListGlobalAdvisoriesRequestDirection | (string & {});
+  direction?: ListGlobalAdvisoriesRequestDirection | (string & {}) | undefined;
   /** The number of results per page (max 100). For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The property to sort the results by. */
-  sort?: ListGlobalAdvisoriesRequestSort | (string & {});
+  sort?: ListGlobalAdvisoriesRequestSort | (string & {}) | undefined;
 }
 export type ListGlobalAdvisoriesResponseBodyList = Array<GlobalAdvisory>;
 export type ListGlobalAdvisoriesResponse = ListGlobalAdvisoriesResponseBodyList;
@@ -668,17 +674,17 @@ export interface ListOrgRepositoryAdvisoriesRequest {
   /** The organization name. The name is not case sensitive. */
   org: string;
   /** The direction to sort the results by. */
-  direction?: ListOrgRepositoryAdvisoriesRequestDirection | (string & {});
+  direction?: ListOrgRepositoryAdvisoriesRequestDirection | (string & {}) | undefined;
   /** The property to sort the results by. */
-  sort?: ListOrgRepositoryAdvisoriesRequestSort | (string & {});
+  sort?: ListOrgRepositoryAdvisoriesRequestSort | (string & {}) | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The number of advisories to return per page. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter by the state of the repository advisories. Only advisories of this state will be returned. */
-  state?: ListOrgRepositoryAdvisoriesRequestState | (string & {});
+  state?: ListOrgRepositoryAdvisoriesRequestState | (string & {}) | undefined;
 }
 export type ListOrgRepositoryAdvisoriesResponseBodyList = Array<RepositoryAdvisory>;
 export type ListOrgRepositoryAdvisoriesResponse = ListOrgRepositoryAdvisoriesResponseBodyList;
@@ -691,17 +697,17 @@ export interface ListRepositoryAdvisoriesRequest {
   /** The name of the repository without the `.git` extension. The name is not case sensitive. */
   repo: string;
   /** The direction to sort the results by. */
-  direction?: ListRepositoryAdvisoriesRequestDirection | (string & {});
+  direction?: ListRepositoryAdvisoriesRequestDirection | (string & {}) | undefined;
   /** The property to sort the results by. */
-  sort?: ListRepositoryAdvisoriesRequestSort | (string & {});
+  sort?: ListRepositoryAdvisoriesRequestSort | (string & {}) | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results before this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  before?: string;
+  before?: string | undefined;
   /** A cursor, as given in the [Link header](https://docs.github.com/rest/guides/using-pagination-in-the-rest-api#using-link-headers). If specified, the query only searches for results after this cursor. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  after?: string;
+  after?: string | undefined;
   /** The number of advisories to return per page. For more information, see "[Using pagination in the REST API](https://docs.github.com/rest/using-the-rest-api/using-pagination-in-the-rest-api)." */
-  per_page?: number;
+  per_page?: number | undefined;
   /** Filter by state of the repository advisories. Only advisories of this state will be returned. */
-  state?: ListRepositoryAdvisoriesRequestState | (string & {});
+  state?: ListRepositoryAdvisoriesRequestState | (string & {}) | undefined;
 }
 export type ListRepositoryAdvisoriesResponseBodyList = Array<RepositoryAdvisory>;
 export type ListRepositoryAdvisoriesResponse = ListRepositoryAdvisoriesResponseBodyList;
@@ -715,11 +721,14 @@ export interface UpdateRepositoryAdvisoryRequestVulnerabilitiesItem {
   /** The name of the package affected by the vulnerability. */
   package: CreatePrivateVulnerabilityReportRequestVulnerabilitiesItemPackage;
   /** The range of the package versions affected by the vulnerability. */
-  vulnerable_version_range?: string | null;
+  vulnerable_version_range?: string | null | undefined;
   /** The package version(s) that resolve the vulnerability. */
-  patched_versions?: string | null;
+  patched_versions?: string | null | undefined;
   /** The functions in the package that are affected. */
-  vulnerable_functions?: UpdateRepositoryAdvisoryRequestVulnerabilitiesItemVulnerableFunctionsList | null;
+  vulnerable_functions?:
+    | UpdateRepositoryAdvisoryRequestVulnerabilitiesItemVulnerableFunctionsList
+    | null
+    | undefined;
 }
 /** A product affected by the vulnerability detailed in a repository security advisory. */
 export type UpdateRepositoryAdvisoryRequestVulnerabilitiesList =
@@ -746,27 +755,27 @@ export interface UpdateRepositoryAdvisoryRequest {
   /** The GHSA (GitHub Security Advisory) identifier of the advisory. */
   ghsa_id: string;
   /** A short summary of the advisory. */
-  summary?: string;
+  summary?: string | undefined;
   /** A detailed description of what the advisory impacts. */
-  description?: string;
+  description?: string | undefined;
   /** The Common Vulnerabilities and Exposures (CVE) ID. */
-  cve_id?: string | null;
+  cve_id?: string | null | undefined;
   /** A product affected by the vulnerability detailed in a repository security advisory. */
-  vulnerabilities?: UpdateRepositoryAdvisoryRequestVulnerabilitiesList;
+  vulnerabilities?: UpdateRepositoryAdvisoryRequestVulnerabilitiesList | undefined;
   /** A list of Common Weakness Enumeration (CWE) IDs. */
-  cwe_ids?: UpdateRepositoryAdvisoryRequestCweIdsList | null;
+  cwe_ids?: UpdateRepositoryAdvisoryRequestCweIdsList | null | undefined;
   /** A list of users receiving credit for their participation in the security advisory. */
-  credits?: UpdateRepositoryAdvisoryRequestCreditsList | null;
+  credits?: UpdateRepositoryAdvisoryRequestCreditsList | null | undefined;
   /** The severity of the advisory. You must choose between setting this field or `cvss_vector_string`. */
-  severity?: UpdateRepositoryAdvisoryRequestSeverity | (string & {}) | null;
+  severity?: UpdateRepositoryAdvisoryRequestSeverity | (string & {}) | null | undefined;
   /** The CVSS vector that calculates the severity of the advisory. You must choose between setting this field or `severity`. */
-  cvss_vector_string?: string | null;
+  cvss_vector_string?: string | null | undefined;
   /** The state of the advisory. */
-  state?: UpdateRepositoryAdvisoryRequestState | (string & {});
+  state?: UpdateRepositoryAdvisoryRequestState | (string & {}) | undefined;
   /** A list of usernames who have been granted write access to the advisory. */
-  collaborating_users?: UpdateRepositoryAdvisoryRequestCollaboratingUsersList | null;
+  collaborating_users?: UpdateRepositoryAdvisoryRequestCollaboratingUsersList | null | undefined;
   /** A list of team slugs which have been granted write access to the advisory. */
-  collaborating_teams?: UpdateRepositoryAdvisoryRequestCollaboratingTeamsList | null;
+  collaborating_teams?: UpdateRepositoryAdvisoryRequestCollaboratingTeamsList | null | undefined;
 }
 export type CreateForkError = GithubOpError;
 /** Create a temporary private fork Create a temporary private fork to collaborate on fixing a security vulnerability in your repository. > [!NOTE] > Forking a repository happens asynchronously. You may have to wait up to 5 minutes before you can access the fork. */

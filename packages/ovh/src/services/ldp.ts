@@ -58,11 +58,11 @@ export interface CreateDbaasLogChangeContactRequest {
   /** Service name */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateDbaasLogChangeContactResponseBodyList = Array<number>;
 export type CreateDbaasLogChangeContactResponse = CreateDbaasLogChangeContactResponseBodyList;
@@ -89,37 +89,37 @@ export type DbaasLogsOperationStateEnum =
 /** Asynchronous operation */
 export interface DbaasLogsOperation {
   /** Alias used */
-  aliasId?: string | null;
+  aliasId?: string | null | undefined;
   /** Operation creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Dashboard used */
-  dashboardId?: string | null;
+  dashboardId?: string | null | undefined;
   /** Encryption key used */
-  encryptionKeyId?: string | null;
+  encryptionKeyId?: string | null | undefined;
   /** Index used */
-  indexId?: string | null;
+  indexId?: string | null | undefined;
   /** Input used */
-  inputId?: string | null;
+  inputId?: string | null | undefined;
   /** Operation ID */
-  operationId?: string;
+  operationId?: string | undefined;
   /** OpenSearch Dashboards used */
-  osdId?: string | null;
+  osdId?: string | null | undefined;
   /** Role used */
-  roleId?: string | null;
+  roleId?: string | null | undefined;
   /** Service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Operation status */
-  state?: DbaasLogsOperationStateEnum;
+  state?: DbaasLogsOperationStateEnum | undefined;
   /** Stream used */
-  streamId?: string | null;
+  streamId?: string | null | undefined;
   /** Subscription used */
-  subscriptionId?: string | null;
+  subscriptionId?: string | null | undefined;
   /** Metrics tenant used */
-  tenantId?: string | null;
+  tenantId?: string | null | undefined;
   /** Token used */
-  tokenId?: string | null;
+  tokenId?: string | null | undefined;
   /** Operation last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 /** IP blocks */
 export type CreateDbaasLogInputRequestAllowedNetworksList = Array<string>;
@@ -127,23 +127,23 @@ export interface CreateDbaasLogInputRequest {
   /** Service name */
   serviceName: string;
   /** IP blocks */
-  allowedNetworks?: CreateDbaasLogInputRequestAllowedNetworksList | null;
+  allowedNetworks?: CreateDbaasLogInputRequestAllowedNetworksList | null | undefined;
   /** Whether the workload is auto-scaled */
-  autoscale?: boolean | null;
+  autoscale?: boolean | null | undefined;
   /** Description */
   description: string;
   /** Engine ID */
   engineId: string;
   /** Exposed port */
-  exposedPort?: string | null;
+  exposedPort?: string | null | undefined;
   /** Maximum number of instances in auto-scaled mode */
-  maxScaleInstance?: number | null;
+  maxScaleInstance?: number | null | undefined;
   /** Minimum number of instances in auto-scaled mode */
-  minScaleInstance?: number | null;
+  minScaleInstance?: number | null | undefined;
   /** Number of instance running */
-  nbInstance?: number | null;
+  nbInstance?: number | null | undefined;
   /** If set, notify when scaling happens */
-  scalingNotifyEnabled?: boolean | null;
+  scalingNotifyEnabled?: boolean | null | undefined;
   /** Stream ID */
   streamId: string;
   /** Title */
@@ -170,9 +170,9 @@ export interface CreateDbaasLogInputLogUrlRequest {
 /** Temporary url information */
 export interface DbaasLogsTemporaryLogsLink {
   /** Temporary url expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary url */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateDbaasLogOutputGraylogDashboardRequest {
   /** Service name */
@@ -192,35 +192,42 @@ export interface CreateDbaasLogOutputGraylogStreamRequest {
   /** Service name */
   serviceName: string;
   /** Cold storage compression */
-  coldStorageCompression?: DbaasLogsStreamColdStorageCompressionEnum | (string & {}) | null;
+  coldStorageCompression?:
+    | DbaasLogsStreamColdStorageCompressionEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Cold storage archive content */
-  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | (string & {}) | null;
+  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | (string & {}) | null | undefined;
   /** Cold storage enabled */
-  coldStorageEnabled?: boolean | null;
+  coldStorageEnabled?: boolean | null | undefined;
   /** Cold storage notify enabled */
-  coldStorageNotifyEnabled?: boolean | null;
+  coldStorageNotifyEnabled?: boolean | null | undefined;
   /** Cold storage retention time */
-  coldStorageRetention?: number | null;
+  coldStorageRetention?: number | null | undefined;
   /** Description */
   description: string;
   /** Encryption keys used to encrypt stream archives */
-  encryptionKeysIds?: CreateDbaasLogOutputGraylogStreamRequestEncryptionKeysIdsList | null;
+  encryptionKeysIds?:
+    | CreateDbaasLogOutputGraylogStreamRequestEncryptionKeysIdsList
+    | null
+    | undefined;
   /** ES indexing enabled */
-  indexingEnabled?: boolean | null;
+  indexingEnabled?: boolean | null | undefined;
   /** Maximum indexing size (in GB) */
-  indexingMaxSize?: number | null;
+  indexingMaxSize?: number | null | undefined;
   /** If set, notify when size is near 80, 90 or 100 % of the maximum configured setting */
-  indexingNotifyEnabled?: boolean | null;
+  indexingNotifyEnabled?: boolean | null | undefined;
   /** Parent stream ID */
-  parentStreamId?: string | null;
+  parentStreamId?: string | null | undefined;
   /** If set, pause indexing when maximum size is reach */
-  pauseIndexingOnMaxSize?: boolean | null;
+  pauseIndexingOnMaxSize?: boolean | null | undefined;
   /** Retention ID */
-  retentionId?: string | null;
+  retentionId?: string | null | undefined;
   /** Title */
   title: string;
   /** Web Socket enabled */
-  webSocketEnabled?: boolean | null;
+  webSocketEnabled?: boolean | null | undefined;
 }
 /** Possible values for StreamAlertConditionConditionTypeEnum */
 export type DbaasLogsStreamAlertConditionConditionTypeEnum =
@@ -244,27 +251,31 @@ export interface CreateDbaasLogOutputGraylogStreamAlertRequest {
   /** Backlog */
   backlog: number;
   /** Condition type */
-  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | (string & {}) | null;
+  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | (string & {}) | null | undefined;
   /** Constraint type */
-  constraintType?: DbaasLogsStreamAlertConditionConstraintTypeEnum | (string & {}) | null;
+  constraintType?:
+    | DbaasLogsStreamAlertConditionConstraintTypeEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Field */
-  field?: string | null;
+  field?: string | null | undefined;
   /** Grace period */
   grace: number;
   /** Query filter */
-  queryFilter?: string | null;
+  queryFilter?: string | null | undefined;
   /** Repeat notifications enabled */
-  repeatNotificationsEnabled?: boolean | null;
+  repeatNotificationsEnabled?: boolean | null | undefined;
   /** Threshold */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Threshold type */
-  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | (string & {}) | null;
+  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | (string & {}) | null | undefined;
   /** Time */
-  time?: number | null;
+  time?: number | null | undefined;
   /** Title */
   title: string;
   /** Value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface CreateDbaasLogOutputGraylogStreamArchiveUrlRequest {
   /** Service name */
@@ -277,9 +288,9 @@ export interface CreateDbaasLogOutputGraylogStreamArchiveUrlRequest {
 /** Stream archive url */
 export interface DbaasLogsArchiveUrl {
   /** Temporary URL expiration date */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** Temporary URL to get archive */
-  url?: string;
+  url?: string | undefined;
 }
 /** Possible values for StreamRuleOperatorEnum */
 export type DbaasLogsStreamRuleOperatorEnum =
@@ -295,7 +306,7 @@ export interface CreateDbaasLogOutputGraylogStreamRuleRequest {
   /** Field name */
   field: string;
   /** Invert condition */
-  isInverted?: boolean | null;
+  isInverted?: boolean | null | undefined;
   /** Field operator */
   operator: DbaasLogsStreamRuleOperatorEnum | (string & {});
   /** Field value */
@@ -307,7 +318,7 @@ export interface CreateDbaasLogOutputMetricTenantRequest {
   /** Metric tenant description */
   description: string;
   /** Maximum number of time series inside the tenant */
-  maxSeries?: number;
+  maxSeries?: number | undefined;
   /** Delete samples older than the specified retention period. */
   retentionId: string;
   /** Metric tenant title */
@@ -341,11 +352,11 @@ export interface CreateDbaasLogOutputOpensearchIndexRequest {
   /** Service name */
   serviceName: string;
   /** If set, notify when size is near 80, 90 or 100 % of its maximum capacity */
-  alertNotifyEnabled?: boolean | null;
+  alertNotifyEnabled?: boolean | null | undefined;
   /** Description */
   description: string;
   /** Number of shard */
-  nbShard?: number | null;
+  nbShard?: number | null | undefined;
   /** Suffix */
   suffix: string;
 }
@@ -369,7 +380,7 @@ export interface CreateDbaasLogRoleMemberRequest {
   /** Role ID */
   roleId: string;
   /** Custom note */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Username */
   username: string;
 }
@@ -391,7 +402,7 @@ export interface CreateDbaasLogRolePermissionDashboardRequest {
   /** Dashboard ID */
   dashboardId: string;
   /** Permission type */
-  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null;
+  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null | undefined;
 }
 export interface CreateDbaasLogRolePermissionIndexRequest {
   /** Service name */
@@ -401,7 +412,7 @@ export interface CreateDbaasLogRolePermissionIndexRequest {
   /** Index ID */
   indexId: string;
   /** Permission type */
-  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null;
+  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null | undefined;
 }
 export interface CreateDbaasLogRolePermissionOsdRequest {
   /** Service name */
@@ -411,7 +422,7 @@ export interface CreateDbaasLogRolePermissionOsdRequest {
   /** Osd ID */
   osdId: string;
   /** Permission type */
-  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null;
+  permissionType?: DbaasLogsPermissionTypeEnum | (string & {}) | null | undefined;
 }
 export interface CreateDbaasLogRolePermissionStreamRequest {
   /** Service name */
@@ -425,7 +436,7 @@ export interface CreateDbaasLogTokenRequest {
   /** Service name */
   serviceName: string;
   /** Cluster ID */
-  clusterId?: string | null;
+  clusterId?: string | null | undefined;
   /** Token name */
   name: string;
 }
@@ -567,7 +578,7 @@ export interface DuplicateDbaasLogsOutputGraylogDashboardRequest {
   /** Description */
   description: string;
   /** Stream ID */
-  streamId?: string | null;
+  streamId?: string | null | undefined;
   /** Title */
   title: string;
 }
@@ -580,13 +591,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Possible values for ServicePlanEnum */
 export type DbaasLogsServicePlanEnum = "ENTERPRISE" | "STANDARD";
@@ -595,25 +606,25 @@ export type DbaasLogsServiceStateEnum = "DISABLED" | "ENABLED" | "INIT" | "TO_CO
 /** Service */
 export interface DbaasLogsServiceWithIAM {
   /** Service creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Service custom name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
+  iam?: IamResourceMetadata | null | undefined;
   /** If set, can perform extra action on cluster */
-  isClusterOwner?: boolean;
+  isClusterOwner?: boolean | undefined;
   /** Is IAM enabled for this service? */
-  isIamEnabled?: boolean;
+  isIamEnabled?: boolean | undefined;
   /** Service plan */
-  plan?: DbaasLogsServicePlanEnum;
+  plan?: DbaasLogsServicePlanEnum | undefined;
   /** Service name */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Service state */
-  state?: DbaasLogsServiceStateEnum;
+  state?: DbaasLogsServiceStateEnum | undefined;
   /** Service last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** Username on DBaaS Logs */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetDbaasLogClusterRequest {
   /** Service name */
@@ -642,31 +653,31 @@ export type DbaasLogsClusterRegionEnum = "BHS" | "GRA" | "P-19" | "RBX" | "SBG";
 /** Cluster */
 export interface DbaasLogsCluster {
   /** Allowed networks for ARCHIVE flow type */
-  archiveAllowedNetworks?: DbaasLogsClusterArchiveAllowedNetworksList;
+  archiveAllowedNetworks?: DbaasLogsClusterArchiveAllowedNetworksList | undefined;
   /** Certification level of the given cluster */
-  certificationLevel?: DbaasLogsCertificationLevelEnum;
+  certificationLevel?: DbaasLogsCertificationLevelEnum | undefined;
   /** Cluster ID */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Cluster type */
-  clusterType?: DbaasLogsClusterClusterTypeEnum;
+  clusterType?: DbaasLogsClusterClusterTypeEnum | undefined;
   /** PEM for dedicated inputs */
-  dedicatedInputPEM?: string;
+  dedicatedInputPEM?: string | undefined;
   /** Retention ID used by default when none is given on new stream */
-  defaultRetentionId?: string;
+  defaultRetentionId?: string | undefined;
   /** Allowed networks for DIRECT_INPUT flow type */
-  directInputAllowedNetworks?: DbaasLogsClusterDirectInputAllowedNetworksList;
+  directInputAllowedNetworks?: DbaasLogsClusterDirectInputAllowedNetworksList | undefined;
   /** PEM for direct inputs */
-  directInputPEM?: string;
+  directInputPEM?: string | undefined;
   /** Hostname */
-  hostname?: string;
+  hostname?: string | undefined;
   /** All content generated by given service will be placed on this cluster */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** Allow given service to perform advanced operations on cluster */
-  isUnlocked?: boolean;
+  isUnlocked?: boolean | undefined;
   /** Allowed networks for QUERY flow type */
-  queryAllowedNetworks?: DbaasLogsClusterQueryAllowedNetworksList;
+  queryAllowedNetworks?: DbaasLogsClusterQueryAllowedNetworksList | undefined;
   /** Data center localization */
-  region?: DbaasLogsClusterRegionEnum;
+  region?: DbaasLogsClusterRegionEnum | undefined;
 }
 export interface GetDbaasLogClusterRetentionRequest {
   /** Service name */
@@ -681,13 +692,13 @@ export type DbaasLogsRetentionTypeEnum = "LOGS_COLD_STORAGE" | "LOGS_INDEXING" |
 /** Cluster retention */
 export interface DbaasLogsClusterRetention {
   /** Indexed duration expressed in ISO-8601 format */
-  duration?: string | null;
+  duration?: string | null | undefined;
   /** Indicates if a new stream can use it */
-  isSupported?: boolean;
+  isSupported?: boolean | undefined;
   /** Retention ID */
-  retentionId?: string;
+  retentionId?: string | undefined;
   /** Retention type */
-  retentionType?: DbaasLogsRetentionTypeEnum;
+  retentionType?: DbaasLogsRetentionTypeEnum | undefined;
 }
 export interface GetDbaasLogEncryptionKeyRequest {
   /** Service name */
@@ -700,23 +711,23 @@ export type DbaasLogsEncryptionKeyAlgorithmEnum = "ECC25519" | "RSA4096";
 /** Encryption key */
 export interface DbaasLogsEncryptionKey {
   /** Encryption Key algorithm */
-  algorithm?: DbaasLogsEncryptionKeyAlgorithmEnum;
+  algorithm?: DbaasLogsEncryptionKeyAlgorithmEnum | undefined;
   /** Encryption Key content */
   content: string;
   /** Encryption Key creation date */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Encryption Key ID */
-  encryptionKeyId?: string;
+  encryptionKeyId?: string | undefined;
   /** Encryption Key fingerprint */
   fingerprint: string;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Number of archives encrypted with this Encryption Key */
-  nbArchive?: number | null;
+  nbArchive?: number | null | undefined;
   /** Encryption Key title */
   title: string;
   /** Encryption Key user ID */
-  uid?: string;
+  uid?: string | undefined;
 }
 export interface GetDbaasLogInputRequest {
   /** Service name */
@@ -731,43 +742,43 @@ export type DbaasLogsInputStatusEnum = "INIT" | "PENDING" | "PROCESSING" | "RUNN
 /** Input */
 export interface DbaasLogsInput {
   /** IP blocks */
-  allowedNetworks?: DbaasLogsInputAllowedNetworksList | null;
+  allowedNetworks?: DbaasLogsInputAllowedNetworksList | null | undefined;
   /** Whether the workload is auto-scaled */
-  autoscale?: boolean | null;
+  autoscale?: boolean | null | undefined;
   /** Input creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Input description */
-  description?: string;
+  description?: string | undefined;
   /** Input engine ID */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Port */
-  exposedPort?: string | null;
+  exposedPort?: string | null | undefined;
   /** Hostname */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Input ID */
-  inputId?: string;
+  inputId?: string | undefined;
   /** Indicate if input need to be restarted */
-  isRestartRequired?: boolean;
+  isRestartRequired?: boolean | undefined;
   /** Maximum number of instances in auto-scaled mode */
-  maxScaleInstance?: number | null;
+  maxScaleInstance?: number | null | undefined;
   /** Minimum number of instances in auto-scaled mode */
-  minScaleInstance?: number | null;
+  minScaleInstance?: number | null | undefined;
   /** Number of instance running */
-  nbInstance?: number | null;
+  nbInstance?: number | null | undefined;
   /** Input IP address */
-  publicAddress?: string;
+  publicAddress?: string | undefined;
   /** If set, notify when scaling happens */
-  scalingNotifyEnabled?: boolean | null;
+  scalingNotifyEnabled?: boolean | null | undefined;
   /** Input SSL certificate */
-  sslCertificate?: string;
+  sslCertificate?: string | undefined;
   /** init: configuration required, pending: ready to start, running: available */
-  status?: DbaasLogsInputStatusEnum;
+  status?: DbaasLogsInputStatusEnum | undefined;
   /** Associated Graylog stream */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Input title */
-  title?: string;
+  title?: string | undefined;
   /** Input last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogInputConfigtestResultRequest {
   /** Service name */
@@ -778,13 +789,13 @@ export interface GetDbaasLogInputConfigtestResultRequest {
 /** Config test results */
 export interface DbaasLogsTestResult {
   /** Whether the given configuration pass the syntax test */
-  isValid?: boolean;
+  isValid?: boolean | undefined;
   /** Standard error */
-  stderr?: string | null;
+  stderr?: string | null | undefined;
   /** Standard output */
-  stdout?: string | null;
+  stdout?: string | null | undefined;
   /** Last config test update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogInputConfigurationFlowggerRequest {
   /** Service name */
@@ -799,9 +810,9 @@ export type DbaasLogsFlowggerConfigurationLogFramingEnum = "CAPNP" | "LINE" | "N
 /** Flowgger configuration */
 export interface DbaasLogsFlowggerConfiguration {
   /** Type of format to decode */
-  logFormat?: DbaasLogsFlowggerConfigurationLogFormatEnum;
+  logFormat?: DbaasLogsFlowggerConfigurationLogFormatEnum | undefined;
   /** Indicates how messages are delimited */
-  logFraming?: DbaasLogsFlowggerConfigurationLogFramingEnum;
+  logFraming?: DbaasLogsFlowggerConfigurationLogFramingEnum | undefined;
 }
 export interface GetDbaasLogInputConfigurationLogstashRequest {
   /** Service name */
@@ -812,11 +823,11 @@ export interface GetDbaasLogInputConfigurationLogstashRequest {
 /** Logstash configuration */
 export interface DbaasLogsLogstashConfiguration {
   /** The filter section of logstash.conf */
-  filterSection?: string | null;
+  filterSection?: string | null | undefined;
   /** The filter section of logstash.conf */
-  inputSection?: string;
+  inputSection?: string | undefined;
   /** The list of customs Grok patterns */
-  patternSection?: string | null;
+  patternSection?: string | null | undefined;
 }
 export interface GetDbaasLogInputEngineRequest {
   /** Service name */
@@ -829,13 +840,13 @@ export type DbaasLogsEngineNameEnum = "FLOWGGER" | "LOGSTASH" | "TEST";
 /** Input engine */
 export interface DbaasLogsEngine {
   /** Input engine ID */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Indicates if engine will soon not be supported */
-  isDeprecated?: boolean;
+  isDeprecated?: boolean | undefined;
   /** Software name */
-  name?: DbaasLogsEngineNameEnum;
+  name?: DbaasLogsEngineNameEnum | undefined;
   /** Software version */
-  version?: string;
+  version?: string | undefined;
 }
 export interface GetDbaasLogInputEngineHelperRequest {
   /** Service name */
@@ -853,24 +864,24 @@ export type DbaasLogsHelperSectionNameEnum =
 /** Helper section */
 export interface DbaasLogsHelperSection {
   /** Section content */
-  content?: string;
+  content?: string | undefined;
   /** Section name */
-  name?: DbaasLogsHelperSectionNameEnum;
+  name?: DbaasLogsHelperSectionNameEnum | undefined;
 }
 /** Helper sections */
 export type DbaasLogsHelperSectionsList = Array<DbaasLogsHelperSection>;
 /** Helper */
 export interface DbaasLogsHelper {
   /** Helper description */
-  description?: string;
+  description?: string | undefined;
   /** Input engine UUID */
-  engineId?: string;
+  engineId?: string | undefined;
   /** Helper UUID */
-  helperId?: string;
+  helperId?: string | undefined;
   /** Helper sections */
-  sections?: DbaasLogsHelperSectionsList;
+  sections?: DbaasLogsHelperSectionsList | undefined;
   /** Helper title */
-  title?: string;
+  title?: string | undefined;
 }
 export interface GetDbaasLogMetricsRequest {
   /** Service name */
@@ -879,9 +890,9 @@ export interface GetDbaasLogMetricsRequest {
 /** Metrics access */
 export interface DbaasLogsServiceMetric {
   /** Metrics server url */
-  host?: string;
+  host?: string | undefined;
   /** Metrics credentials */
-  token?: string;
+  token?: string | undefined;
 }
 export interface GetDbaasLogOperationRequest {
   /** Service name */
@@ -898,17 +909,17 @@ export interface GetDbaasLogOutputGraylogDashboardRequest {
 /** Graylog dashboard */
 export interface DbaasLogsDashboard {
   /** Dashboard creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Dashboard ID */
-  dashboardId?: string;
+  dashboardId?: string | undefined;
   /** Dashboard description */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Dashboard description */
-  title?: string;
+  title?: string | undefined;
   /** Dashboard last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogOutputGraylogStreamRequest {
   /** Service name */
@@ -921,55 +932,55 @@ export type DbaasLogsStreamEncryptionKeysIdsList = Array<string>;
 /** Graylog stream */
 export interface DbaasLogsStream {
   /** Indicates if the current user can create alert on the stream */
-  canAlert?: boolean;
+  canAlert?: boolean | undefined;
   /** Cluster ID */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Cold storage compression method */
-  coldStorageCompression?: DbaasLogsStreamColdStorageCompressionEnum | null;
+  coldStorageCompression?: DbaasLogsStreamColdStorageCompressionEnum | null | undefined;
   /** ColdStorage content */
-  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | null;
+  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | null | undefined;
   /** Is Cold storage enabled? */
-  coldStorageEnabled?: boolean | null;
+  coldStorageEnabled?: boolean | null | undefined;
   /** Notify on new Cold storage archive */
-  coldStorageNotifyEnabled?: boolean | null;
+  coldStorageNotifyEnabled?: boolean | null | undefined;
   /** Cold storage retention in year */
-  coldStorageRetention?: number | null;
+  coldStorageRetention?: number | null | undefined;
   /** Stream creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Stream description */
-  description?: string;
+  description?: string | undefined;
   /** Encryption keys used to encrypt stream archives */
-  encryptionKeysIds?: DbaasLogsStreamEncryptionKeysIdsList | null;
+  encryptionKeysIds?: DbaasLogsStreamEncryptionKeysIdsList | null | undefined;
   /** Indexing current size (in bytes) */
-  indexingCurrentSize?: number | null;
+  indexingCurrentSize?: number | null | undefined;
   /** Enable ES indexing */
-  indexingEnabled?: boolean | null;
+  indexingEnabled?: boolean | null | undefined;
   /** Maximum indexing size (in GB) */
-  indexingMaxSize?: number | null;
+  indexingMaxSize?: number | null | undefined;
   /** If set, notify when size is near 80, 90 or 100 % of the maximum configured setting */
-  indexingNotifyEnabled?: boolean | null;
+  indexingNotifyEnabled?: boolean | null | undefined;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Number of alert condition */
-  nbAlertCondition?: number;
+  nbAlertCondition?: number | undefined;
   /** Number of coldstored archives */
-  nbArchive?: number;
+  nbArchive?: number | undefined;
   /** Number of subscriptions targeting this stream */
-  nbSubscription?: number;
+  nbSubscription?: number | undefined;
   /** Parent stream ID */
-  parentStreamId?: string | null;
+  parentStreamId?: string | null | undefined;
   /** If set, pause indexing when maximum size is reach */
-  pauseIndexingOnMaxSize?: boolean | null;
+  pauseIndexingOnMaxSize?: boolean | null | undefined;
   /** Retention ID */
-  retentionId?: string;
+  retentionId?: string | undefined;
   /** Stream ID */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Stream description */
-  title?: string;
+  title?: string | undefined;
   /** Stream last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** Enable Websocket */
-  webSocketEnabled?: boolean | null;
+  webSocketEnabled?: boolean | null | undefined;
 }
 export interface GetDbaasLogOutputGraylogStreamAlertRequest {
   /** Service name */
@@ -982,31 +993,31 @@ export interface GetDbaasLogOutputGraylogStreamAlertRequest {
 /** Alert condition */
 export interface DbaasLogsStreamAlertCondition {
   /** Stream alert condition ID */
-  alertId?: string;
+  alertId?: string | undefined;
   /** Backlog size */
-  backlog?: number;
+  backlog?: number | undefined;
   /** Alert condition type */
-  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | null;
+  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | null | undefined;
   /** Constraint type */
-  constraintType?: DbaasLogsStreamAlertConditionConstraintTypeEnum | null;
+  constraintType?: DbaasLogsStreamAlertConditionConstraintTypeEnum | null | undefined;
   /** Field name */
-  field?: string | null;
+  field?: string | null | undefined;
   /** Grace period in minutes */
-  grace?: number;
+  grace?: number | undefined;
   /** Query filter */
-  queryFilter?: string | null;
+  queryFilter?: string | null | undefined;
   /** Repeat notifications */
-  repeatNotificationsEnabled?: boolean | null;
+  repeatNotificationsEnabled?: boolean | null | undefined;
   /** Threshold */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Threshold condition */
-  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | null;
+  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | null | undefined;
   /** Time lapse in minutes */
-  time?: number | null;
+  time?: number | null | undefined;
   /** Condition label */
-  title?: string;
+  title?: string | undefined;
   /** Field value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface GetDbaasLogOutputGraylogStreamArchiveRequest {
   /** Service name */
@@ -1021,21 +1032,21 @@ export type DbaasLogsArchiveRetrievalStateEnum = "sealed" | "unsealed" | "unseal
 /** Stream archive */
 export interface DbaasLogsArchive {
   /** Archive ID */
-  archiveId?: string;
+  archiveId?: string | undefined;
   /** Create date */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Filename */
-  filename?: string;
+  filename?: string | undefined;
   /** MD5 checksum */
-  md5?: string;
+  md5?: string | undefined;
   /** Retrieval delay */
-  retrievalDelay?: number;
+  retrievalDelay?: number | undefined;
   /** Retrieval state */
-  retrievalState?: DbaasLogsArchiveRetrievalStateEnum;
+  retrievalState?: DbaasLogsArchiveRetrievalStateEnum | undefined;
   /** sha256 checksum */
-  sha256?: string;
+  sha256?: string | undefined;
   /** File size in bytes */
-  size?: number;
+  size?: number | undefined;
 }
 export interface GetDbaasLogOutputGraylogStreamRuleRequest {
   /** Service name */
@@ -1048,15 +1059,15 @@ export interface GetDbaasLogOutputGraylogStreamRuleRequest {
 /** Stream rule */
 export interface DbaasLogsStreamRule {
   /** Field name */
-  field?: string;
+  field?: string | undefined;
   /** Invert condition */
-  isInverted?: boolean | null;
+  isInverted?: boolean | null | undefined;
   /** Field operator */
-  operator?: DbaasLogsStreamRuleOperatorEnum | null;
+  operator?: DbaasLogsStreamRuleOperatorEnum | null | undefined;
   /** Stream rule ID */
-  ruleId?: string;
+  ruleId?: string | undefined;
   /** Field value */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetDbaasLogOutputGraylogStreamSubscriptionRequest {
   /** Service name */
@@ -1069,26 +1080,26 @@ export interface GetDbaasLogOutputGraylogStreamSubscriptionRequest {
 /** Log subscription resource */
 export interface DbaasLogsLogSubscriptionResource {
   /** Name of subscribed resource */
-  name?: string;
+  name?: string | undefined;
   /** Type of subscribed resource */
-  type?: string;
+  type?: string | undefined;
 }
 /** Log subscription */
 export interface DbaasLogsLogSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Log kind name of this subscription */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscribed resource, where the logs come from */
-  resource?: DbaasLogsLogSubscriptionResource;
+  resource?: DbaasLogsLogSubscriptionResource | undefined;
   /** Name of the destination log service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Id of the destination log stream */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetDbaasLogOutputMetricTenantRequest {
   /** Service name */
@@ -1101,21 +1112,21 @@ export type DbaasLogsDeliveryStatusEnum = "DELETING" | "DELIVERING" | "READY" | 
 /** Metric Tenant */
 export interface DbaasLogsMetricTenant {
   /** Metric tenant creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Status of the delivering process */
-  deliveryStatus?: DbaasLogsDeliveryStatusEnum;
+  deliveryStatus?: DbaasLogsDeliveryStatusEnum | undefined;
   /** Metric tenant description */
-  description?: string;
+  description?: string | undefined;
   /** Maximum number of time series inside the tenant */
-  maxSeries?: number;
+  maxSeries?: number | undefined;
   /** Delete samples older than the specified retention period. */
-  retentionId?: string;
+  retentionId?: string | undefined;
   /** The Id of the metric tenant */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Metric tenant title */
-  title?: string;
+  title?: string | undefined;
   /** Metric tenant last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogOutputMetricTenantSubscriptionRequest {
   /** Service name */
@@ -1128,19 +1139,19 @@ export interface GetDbaasLogOutputMetricTenantSubscriptionRequest {
 /** Metrics subscription */
 export interface DbaasLogsMetricSubscription {
   /** Creation date of the subscription */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Metric kind name of this subscription */
-  kind?: string;
+  kind?: string | undefined;
   /** Subscribed resource, where the metrics come from */
-  resource?: DbaasLogsLogSubscriptionResource;
+  resource?: DbaasLogsLogSubscriptionResource | undefined;
   /** Name of the destination /dbaas/logs service */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Subscription ID */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Id of the destination metric tenant */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Last update date of the subscription */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 export interface GetDbaasLogOutputOpensearchAliasRequest {
   /** Service name */
@@ -1151,21 +1162,21 @@ export interface GetDbaasLogOutputOpensearchAliasRequest {
 /** Alias */
 export interface DbaasLogsAlias {
   /** Alias ID */
-  aliasId?: string;
+  aliasId?: string | undefined;
   /** Input creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Alias description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Alias name */
-  name?: string;
+  name?: string | undefined;
   /** Number of indices linked */
-  nbIndex?: number;
+  nbIndex?: number | undefined;
   /** Number of streams linked */
-  nbStream?: number;
+  nbStream?: number | undefined;
   /** Input last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogOutputOpensearchIndexRequest {
   /** Service name */
@@ -1176,25 +1187,25 @@ export interface GetDbaasLogOutputOpensearchIndexRequest {
 /** Index */
 export interface DbaasLogsIndex {
   /** If set, notify when size is near 80, 90 or 100 % of its maximum capacity */
-  alertNotifyEnabled?: boolean | null;
+  alertNotifyEnabled?: boolean | null | undefined;
   /** Index creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Current index size (in bytes) */
-  currentSize?: number | null;
+  currentSize?: number | null | undefined;
   /** Index description */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Index ID */
-  indexId?: string;
+  indexId?: string | undefined;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** Maximum index size (in bytes) */
-  maxSize?: number;
+  maxSize?: number | undefined;
   /** Index name */
-  name?: string;
+  name?: string | undefined;
   /** Number of shard */
-  nbShard?: number | null;
+  nbShard?: number | null | undefined;
   /** Index last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogOutputOpensearchOsdRequest {
   /** Service name */
@@ -1205,19 +1216,19 @@ export interface GetDbaasLogOutputOpensearchOsdRequest {
 /** OpenSearch Dashboards instance */
 export interface DbaasLogsOsd {
   /** OpenSearch Dashboards creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Status of the delivering process */
-  deliveryStatus?: DbaasLogsDeliveryStatusEnum;
+  deliveryStatus?: DbaasLogsDeliveryStatusEnum | undefined;
   /** OpenSearch Dashboards description */
-  description?: string;
+  description?: string | undefined;
   /** Indicates if you are allowed to edit entry */
-  isEditable?: boolean;
+  isEditable?: boolean | undefined;
   /** OpenSearch Dashboards name */
-  name?: string;
+  name?: string | undefined;
   /** OpenSearch Dashboards ID */
-  osdId?: string;
+  osdId?: string | undefined;
   /** OpenSearch Dashboards last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogRoleRequest {
   /** Service name */
@@ -1228,19 +1239,19 @@ export interface GetDbaasLogRoleRequest {
 /** Role */
 export interface DbaasLogsRole {
   /** Role creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Role description */
-  description?: string;
+  description?: string | undefined;
   /** Role name */
-  name?: string;
+  name?: string | undefined;
   /** Number of members */
-  nbMember?: number;
+  nbMember?: number | undefined;
   /** Number of permissions */
-  nbPermission?: number;
+  nbPermission?: number | undefined;
   /** Role ID */
-  roleId?: string;
+  roleId?: string | undefined;
   /** Role last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetDbaasLogRoleMemberRequest {
   /** Service name */
@@ -1253,11 +1264,11 @@ export interface GetDbaasLogRoleMemberRequest {
 /** Member */
 export interface DbaasLogsMember {
   /** Membership creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Custom note */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Username on DBaaS Logs */
-  username?: string;
+  username?: string | undefined;
 }
 export interface GetDbaasLogRolePermissionRequest {
   /** Service name */
@@ -1270,19 +1281,19 @@ export interface GetDbaasLogRolePermissionRequest {
 /** Role permission */
 export interface DbaasLogsPermission {
   /** Associated Elasticsearch alias */
-  aliasId?: string | null;
+  aliasId?: string | null | undefined;
   /** Associated Graylog dashboard */
-  dashboardId?: string | null;
+  dashboardId?: string | null | undefined;
   /** Associated Elasticsearch index */
-  indexId?: string | null;
+  indexId?: string | null | undefined;
   /** Associated OpenSearch Dashboards instance */
-  osdId?: string | null;
+  osdId?: string | null | undefined;
   /** Permission ID */
-  permissionId?: string;
+  permissionId?: string | undefined;
   /** Permission type */
-  permissionType?: DbaasLogsPermissionTypeEnum | null;
+  permissionType?: DbaasLogsPermissionTypeEnum | null | undefined;
   /** Associated Graylog stream */
-  streamId?: string | null;
+  streamId?: string | null | undefined;
 }
 export interface GetDbaasLogServiceInfosRequest {
   /** Service name */
@@ -1293,15 +1304,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -1323,21 +1334,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetDbaasLogTokenRequest {
   /** Service name */
@@ -1348,23 +1359,23 @@ export interface GetDbaasLogTokenRequest {
 /** Token */
 export interface DbaasLogsToken {
   /** Cluster ID */
-  clusterId?: string | null;
+  clusterId?: string | null | undefined;
   /** Token creation */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Token name */
-  name?: string;
+  name?: string | undefined;
   /** Token ID */
-  tokenId?: string;
+  tokenId?: string | undefined;
   /** Token last update */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
   /** Token value */
-  value?: string;
+  value?: string | undefined;
 }
 export interface ListDbaasLogClusterRequest {
   /** Service name */
   serviceName: string;
   /** Filter by name (like) */
-  namePattern?: string;
+  namePattern?: string | undefined;
 }
 export type ListDbaasLogClusterResponseBodyList = Array<string>;
 export type ListDbaasLogClusterResponse = ListDbaasLogClusterResponseBodyList;
@@ -1380,7 +1391,7 @@ export interface ListDbaasLogEncryptionKeyRequest {
   /** Service name */
   serviceName: string;
   /** Filter by title (like) */
-  titlePattern?: string;
+  titlePattern?: string | undefined;
 }
 export type ListDbaasLogEncryptionKeyResponseBodyList = Array<string>;
 export type ListDbaasLogEncryptionKeyResponse = ListDbaasLogEncryptionKeyResponseBodyList;
@@ -1388,7 +1399,7 @@ export interface ListDbaasLogInputRequest {
   /** Service name */
   serviceName: string;
   /** Filter by title (like) */
-  titlePattern?: string;
+  titlePattern?: string | undefined;
 }
 export type ListDbaasLogInputResponseBodyList = Array<string>;
 export type ListDbaasLogInputResponse = ListDbaasLogInputResponseBodyList;
@@ -1403,9 +1414,9 @@ export type DbaasLogsInputActionTypeEnum = "DESTROY" | "END" | "LOG" | "RESTART"
 /** Action on input */
 export interface DbaasLogsInputAction {
   /** Indicates if action is allowed */
-  isAllowed?: boolean;
+  isAllowed?: boolean | undefined;
   /** Action type */
-  type?: DbaasLogsInputActionTypeEnum;
+  type?: DbaasLogsInputActionTypeEnum | undefined;
 }
 export type ListDbaasLogInputActionResponseBodyList = Array<DbaasLogsInputAction>;
 export type ListDbaasLogInputActionResponse = ListDbaasLogInputActionResponseBodyList;
@@ -1463,9 +1474,9 @@ export type DbaasLogsUrlTypeEnum =
 /** Web address */
 export interface DbaasLogsUrl {
   /** Web URI */
-  address?: string;
+  address?: string | undefined;
   /** Service type */
-  type?: DbaasLogsUrlTypeEnum;
+  type?: DbaasLogsUrlTypeEnum | undefined;
 }
 export type ListDbaasLogInputUrlResponseBodyList = Array<DbaasLogsUrl>;
 export type ListDbaasLogInputUrlResponse = ListDbaasLogInputUrlResponseBodyList;
@@ -1479,7 +1490,7 @@ export interface ListDbaasLogOutputGraylogDashboardRequest {
   /** Service name */
   serviceName: string;
   /** Filter by title (like) */
-  titlePattern?: string;
+  titlePattern?: string | undefined;
 }
 export type ListDbaasLogOutputGraylogDashboardResponseBodyList = Array<string>;
 export type ListDbaasLogOutputGraylogDashboardResponse =
@@ -1497,7 +1508,7 @@ export interface ListDbaasLogOutputGraylogStreamRequest {
   /** Service name */
   serviceName: string;
   /** Filter by title (like) */
-  titlePattern?: string;
+  titlePattern?: string | undefined;
 }
 export type ListDbaasLogOutputGraylogStreamResponseBodyList = Array<string>;
 export type ListDbaasLogOutputGraylogStreamResponse =
@@ -1546,9 +1557,9 @@ export interface ListDbaasLogOutputGraylogStreamSubscriptionRequest {
   /** Stream ID */
   streamId: string;
   /** Filter by resource name (like) */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Filter by resource type (like) */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 export type ListDbaasLogOutputGraylogStreamSubscriptionResponseBodyList = Array<string>;
 export type ListDbaasLogOutputGraylogStreamSubscriptionResponse =
@@ -1574,9 +1585,9 @@ export interface ListDbaasLogOutputMetricTenantSubscriptionRequest {
   /** Tenant ID */
   tenantId: string;
   /** Filter by resource name (like) */
-  resourceName?: string;
+  resourceName?: string | undefined;
   /** Filter by resource type (like) */
-  resourceType?: string;
+  resourceType?: string | undefined;
 }
 export type ListDbaasLogOutputMetricTenantSubscriptionResponseBodyList = Array<string>;
 export type ListDbaasLogOutputMetricTenantSubscriptionResponse =
@@ -1594,7 +1605,7 @@ export interface ListDbaasLogOutputOpensearchAliasRequest {
   /** Service name */
   serviceName: string;
   /** Filter by name (like) */
-  namePattern?: string;
+  namePattern?: string | undefined;
 }
 export type ListDbaasLogOutputOpensearchAliasResponseBodyList = Array<string>;
 export type ListDbaasLogOutputOpensearchAliasResponse =
@@ -1630,7 +1641,7 @@ export interface ListDbaasLogOutputOpensearchIndexRequest {
   /** Service name */
   serviceName: string;
   /** Filter by name (like) */
-  namePattern?: string;
+  namePattern?: string | undefined;
 }
 export type ListDbaasLogOutputOpensearchIndexResponseBodyList = Array<string>;
 export type ListDbaasLogOutputOpensearchIndexResponse =
@@ -1664,7 +1675,7 @@ export interface ListDbaasLogRoleRequest {
   /** Service name */
   serviceName: string;
   /** Filter by name (like) */
-  namePattern?: string;
+  namePattern?: string | undefined;
 }
 export type ListDbaasLogRoleResponseBodyList = Array<string>;
 export type ListDbaasLogRoleResponse = ListDbaasLogRoleResponseBodyList;
@@ -1692,7 +1703,7 @@ export type ListDbaasLogsRequestIamTagsMap = {
 };
 export interface ListDbaasLogsRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListDbaasLogsRequestIamTagsMap;
+  iamTags?: ListDbaasLogsRequestIamTagsMap | undefined;
 }
 export type ListDbaasLogsResponseBodyList = Array<string>;
 export type ListDbaasLogsResponse = ListDbaasLogsResponseBodyList;
@@ -1700,7 +1711,7 @@ export interface ListDbaasLogTokenRequest {
   /** Service name */
   serviceName: string;
   /** Filter by name (like) */
-  namePattern?: string;
+  namePattern?: string | undefined;
 }
 export type ListDbaasLogTokenResponseBodyList = Array<string>;
 export type ListDbaasLogTokenResponse = ListDbaasLogTokenResponseBodyList;
@@ -1714,9 +1725,9 @@ export interface PutDbaasLogRequest {
   /** Service name */
   serviceName: string;
   /** Service custom name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Enable IAM for this service */
-  enableIam?: boolean | null;
+  enableIam?: boolean | null | undefined;
 }
 /** Allowed networks for ARCHIVE flow type */
 export type PutDbaasLogClusterRequestArchiveAllowedNetworksList = Array<string>;
@@ -1730,11 +1741,14 @@ export interface PutDbaasLogClusterRequest {
   /** Cluster ID */
   clusterId: string;
   /** Allowed networks for ARCHIVE flow type */
-  archiveAllowedNetworks?: PutDbaasLogClusterRequestArchiveAllowedNetworksList | null;
+  archiveAllowedNetworks?: PutDbaasLogClusterRequestArchiveAllowedNetworksList | null | undefined;
   /** Allowed networks for DIRECT_INPUT flow type */
-  directInputAllowedNetworks?: PutDbaasLogClusterRequestDirectInputAllowedNetworksList | null;
+  directInputAllowedNetworks?:
+    | PutDbaasLogClusterRequestDirectInputAllowedNetworksList
+    | null
+    | undefined;
   /** Allowed networks for QUERY flow type */
-  queryAllowedNetworks?: PutDbaasLogClusterRequestQueryAllowedNetworksList | null;
+  queryAllowedNetworks?: PutDbaasLogClusterRequestQueryAllowedNetworksList | null | undefined;
 }
 /** IP blocks */
 export type PutDbaasLogInputRequestAllowedNetworksList = Array<string>;
@@ -1744,23 +1758,23 @@ export interface PutDbaasLogInputRequest {
   /** Input ID */
   inputId: string;
   /** IP blocks */
-  allowedNetworks?: PutDbaasLogInputRequestAllowedNetworksList | null;
+  allowedNetworks?: PutDbaasLogInputRequestAllowedNetworksList | null | undefined;
   /** Whether the workload is auto-scaled */
-  autoscale?: boolean | null;
+  autoscale?: boolean | null | undefined;
   /** Description */
   description: string;
   /** Engine ID */
   engineId: string;
   /** Exposed port */
-  exposedPort?: string | null;
+  exposedPort?: string | null | undefined;
   /** Maximum number of instances in auto-scaled mode */
-  maxScaleInstance?: number | null;
+  maxScaleInstance?: number | null | undefined;
   /** Minimum number of instances in auto-scaled mode */
-  minScaleInstance?: number | null;
+  minScaleInstance?: number | null | undefined;
   /** Number of instance running */
-  nbInstance?: number | null;
+  nbInstance?: number | null | undefined;
   /** If set, notify when scaling happens */
-  scalingNotifyEnabled?: boolean | null;
+  scalingNotifyEnabled?: boolean | null | undefined;
   /** Stream ID */
   streamId: string;
   /** Title */
@@ -1782,11 +1796,11 @@ export interface PutDbaasLogInputConfigurationLogstashRequest {
   /** Input ID */
   inputId: string;
   /** Filter section */
-  filterSection?: string | null;
+  filterSection?: string | null | undefined;
   /** Input section */
   inputSection: string;
   /** Pattern section */
-  patternSection?: string | null;
+  patternSection?: string | null | undefined;
 }
 export interface PutDbaasLogOutputGraylogDashboardRequest {
   /** Service name */
@@ -1806,31 +1820,35 @@ export interface PutDbaasLogOutputGraylogStreamRequest {
   /** Stream ID */
   streamId: string;
   /** Cold storage compression */
-  coldStorageCompression?: DbaasLogsStreamColdStorageCompressionEnum | (string & {}) | null;
+  coldStorageCompression?:
+    | DbaasLogsStreamColdStorageCompressionEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Cold storage content */
-  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | (string & {}) | null;
+  coldStorageContent?: DbaasLogsStreamColdStorageContentEnum | (string & {}) | null | undefined;
   /** Cold storage enabled */
-  coldStorageEnabled?: boolean | null;
+  coldStorageEnabled?: boolean | null | undefined;
   /** Cold storage notify enabled */
-  coldStorageNotifyEnabled?: boolean | null;
+  coldStorageNotifyEnabled?: boolean | null | undefined;
   /** Cold storage retention time */
-  coldStorageRetention?: number | null;
+  coldStorageRetention?: number | null | undefined;
   /** Description */
   description: string;
   /** Encryption keys used to encrypt stream archives */
-  encryptionKeysIds?: PutDbaasLogOutputGraylogStreamRequestEncryptionKeysIdsList | null;
+  encryptionKeysIds?: PutDbaasLogOutputGraylogStreamRequestEncryptionKeysIdsList | null | undefined;
   /** ES indexing enabled */
-  indexingEnabled?: boolean | null;
+  indexingEnabled?: boolean | null | undefined;
   /** Maximum indexing size (in GB) */
-  indexingMaxSize?: number | null;
+  indexingMaxSize?: number | null | undefined;
   /** If set, notify when size is near 80, 90 or 100 % of the maximum configured setting */
-  indexingNotifyEnabled?: boolean | null;
+  indexingNotifyEnabled?: boolean | null | undefined;
   /** If set, pause indexing when maximum size is reach */
-  pauseIndexingOnMaxSize?: boolean | null;
+  pauseIndexingOnMaxSize?: boolean | null | undefined;
   /** Title */
   title: string;
   /** Web socket enabled */
-  webSocketEnabled?: boolean | null;
+  webSocketEnabled?: boolean | null | undefined;
 }
 export interface PutDbaasLogOutputGraylogStreamAlertRequest {
   /** Service name */
@@ -1842,27 +1860,31 @@ export interface PutDbaasLogOutputGraylogStreamAlertRequest {
   /** Backlog */
   backlog: number;
   /** Condition type */
-  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | (string & {}) | null;
+  conditionType?: DbaasLogsStreamAlertConditionConditionTypeEnum | (string & {}) | null | undefined;
   /** Constraint type */
-  constraintType?: DbaasLogsStreamAlertConditionConstraintTypeEnum | (string & {}) | null;
+  constraintType?:
+    | DbaasLogsStreamAlertConditionConstraintTypeEnum
+    | (string & {})
+    | null
+    | undefined;
   /** Field */
-  field?: string | null;
+  field?: string | null | undefined;
   /** Grace period */
   grace: number;
   /** Query filter */
-  queryFilter?: string | null;
+  queryFilter?: string | null | undefined;
   /** Repeat notifications enabled */
-  repeatNotificationsEnabled?: boolean | null;
+  repeatNotificationsEnabled?: boolean | null | undefined;
   /** Threshold */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Threshold type */
-  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | (string & {}) | null;
+  thresholdType?: DbaasLogsStreamAlertConditionThresholdTypeEnum | (string & {}) | null | undefined;
   /** Time */
-  time?: number | null;
+  time?: number | null | undefined;
   /** Title */
   title: string;
   /** Value */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export interface PutDbaasLogOutputMetricTenantRequest {
   /** Service name */
@@ -1872,7 +1894,7 @@ export interface PutDbaasLogOutputMetricTenantRequest {
   /** Metric tenant description */
   description: string;
   /** Maximum number of time series inside the tenant */
-  maxSeries?: number;
+  maxSeries?: number | undefined;
   /** Delete samples older than the specified retention period. */
   retentionId: string;
   /** Metric tenant title */
@@ -1892,7 +1914,7 @@ export interface PutDbaasLogOutputOpensearchIndexRequest {
   /** Index ID */
   indexId: string;
   /** If set, notify when size is near 80, 90 or 100 % of its maximum capacity */
-  alertNotifyEnabled?: boolean | null;
+  alertNotifyEnabled?: boolean | null | undefined;
   /** Description */
   description: string;
 }
@@ -1922,13 +1944,13 @@ export interface PutDbaasLogRoleMemberRequest {
   /** Username */
   username: string;
   /** Custom note */
-  note?: string | null;
+  note?: string | null | undefined;
 }
 export interface PutDbaasLogServiceInfosRequest {
   /** Service name */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutDbaasLogServiceInfosResponse {}
 export interface RestartDbaasLogsInputRequest {

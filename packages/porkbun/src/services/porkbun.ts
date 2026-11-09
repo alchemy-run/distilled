@@ -67,59 +67,59 @@ export interface AccountVerifyPhoneConfirmRequest {
   code: string;
 }
 export interface AccountVerifyPhoneConfirmResponse {
-  status?: string;
-  verified?: boolean;
-  alreadyVerified?: boolean;
-  emailVerified?: boolean;
-  message?: string;
+  status?: string | undefined;
+  verified?: boolean | undefined;
+  alreadyVerified?: boolean | undefined;
+  emailVerified?: boolean | undefined;
+  message?: string | undefined;
 }
 /** `call` reads the code out by voice, for when a text does not arrive. */
 export type AccountVerifyPhoneSendRequestChannel = "sms" | "call";
 export interface AccountVerifyPhoneSendRequest {
   /** `call` reads the code out by voice, for when a text does not arrive. */
-  channel?: AccountVerifyPhoneSendRequestChannel | (string & {});
-  dryRun?: boolean;
+  channel?: AccountVerifyPhoneSendRequestChannel | (string & {}) | undefined;
+  dryRun?: boolean | undefined;
 }
 export interface AccountVerifyPhoneSendResponse {
-  status?: string;
-  sent?: boolean;
-  codeAlreadySent?: boolean;
-  alreadyVerified?: boolean;
-  channel?: string;
+  status?: string | undefined;
+  sent?: boolean | undefined;
+  codeAlreadySent?: boolean | undefined;
+  alreadyVerified?: boolean | undefined;
+  channel?: string | undefined;
   /** The number, masked (`+1 *** 42`). */
-  sentTo?: string;
-  expiresInMinutes?: number;
-  retryAfterSeconds?: number;
-  message?: string;
+  sentTo?: string | undefined;
+  expiresInMinutes?: number | undefined;
+  retryAfterSeconds?: number | undefined;
+  message?: string | undefined;
 }
 /** PKCE challenge method. Only S256 is supported. */
 export type ApikeyRequestRequestCodeChallengeMethod = "S256";
 export interface ApikeyRequestRequest {
   /** Human-readable name for the application/integration requesting access. Optional but strongly recommended: it is shown to the account holder on the approval screen so they know what they're granting access to. If omitted, the approval page shows "No application name was provided." */
-  name?: string;
+  name?: string | undefined;
   /** Optional PKCE (RFC 7636) binding. base64url(SHA-256(codeVerifier)), 43 unpadded chars. When present, the request uses lazy-mint delivery: after approval the account holder copies nothing, and /apikey/retrieve returns BOTH the public and secret keys once to the caller that presents the matching codeVerifier. Omit for the legacy flow (secret shown only in the browser). */
-  codeChallenge?: string;
+  codeChallenge?: string | undefined;
   /** PKCE challenge method. Only S256 is supported. */
-  codeChallengeMethod?: ApikeyRequestRequestCodeChallengeMethod | (string & {});
+  codeChallengeMethod?: ApikeyRequestRequestCodeChallengeMethod | (string & {}) | undefined;
   /** If true, skip the approval flow and immediately return a throwaway SANDBOX key pair (public `pk1_sb_`, secret `sk1_sb_`) for a fresh test account seeded with $1000 fake credit. Use it as apikey/secretapikey against the same base URL to run the whole API in the isolated sandbox -- no real registry actions, DNS changes, or charges. Rate-limited (20/IP/hour). */
-  sandbox?: boolean;
+  sandbox?: boolean | undefined;
   /** Optional app-return redirect for native/mobile apps. Requires codeChallenge (PKCE). Must be an HTTPS URL your app claims as a Universal Link / App Link (custom URI schemes are rejected -- another app could hijack them). After the account holder approves in the system browser, Porkbun redirects here with `?status=approved&requestToken=<token>` (or `status=denied`) so control returns to your app; it then calls /apikey/retrieve with its codeVerifier to receive the keys. The key is NEVER placed in the redirect -- only the request token and status. */
-  returnUrl?: string;
+  returnUrl?: string | undefined;
 }
 /** Which delivery flow this request uses. 'pkce' when a codeChallenge was supplied (the secret is returned once via /apikey/retrieve to the verifier holder); 'legacy' otherwise (the secret is shown only in the browser). */
 export type ApikeyRequestResponseDeliveryMode = "legacy" | "pkce";
 export interface ApikeyRequestResponse {
-  status?: string;
+  status?: string | undefined;
   /** Token used to poll `/apikey/retrieve` to check approval status. */
   requestToken: string;
   /** URL the account holder must visit to approve the request */
-  authUrl?: string;
+  authUrl?: string | undefined;
   /** ISO datetime when this request expires (30 minutes from creation) */
-  expiration?: string;
+  expiration?: string | undefined;
   /** Which delivery flow this request uses. 'pkce' when a codeChallenge was supplied (the secret is returned once via /apikey/retrieve to the verifier holder); 'legacy' otherwise (the secret is shown only in the browser). */
-  deliveryMode?: ApikeyRequestResponseDeliveryMode;
+  deliveryMode?: ApikeyRequestResponseDeliveryMode | undefined;
   /** Human-readable instructions */
-  message?: string;
+  message?: string | undefined;
 }
 /** Domains to check, e.g. ["example.com", "example.net"]. Duplicates are removed. */
 export type BulkDomainCheckDomainRequestDomainsList = Array<string>;
@@ -134,17 +134,17 @@ export type BulkDomainCheckDomainResponseUnresolvedList = Array<string>;
 /** Entries that could not be checked, each with a reason */
 export type BulkDomainCheckDomainResponseInvalidList = Array<unknown>;
 export interface BulkDomainCheckDomainResponse {
-  status?: string;
+  status?: string | undefined;
   /** How many domains were answered */
-  checked?: number;
+  checked?: number | undefined;
   /** Keyed by domain name; each value has the same shape as the single-check `response` object */
-  domains?: BulkDomainCheckDomainResponseDomainsMap;
+  domains?: BulkDomainCheckDomainResponseDomainsMap | undefined;
   /** The registry did not answer for these. NOT a statement of availability - retry them. */
-  unresolved?: BulkDomainCheckDomainResponseUnresolvedList;
+  unresolved?: BulkDomainCheckDomainResponseUnresolvedList | undefined;
   /** Entries that could not be checked, each with a reason */
-  invalid?: BulkDomainCheckDomainResponseInvalidList;
+  invalid?: BulkDomainCheckDomainResponseInvalidList | undefined;
   /** Bulk budget usage; `countedIn` is "domains" */
-  limits?: unknown;
+  limits?: unknown | undefined;
 }
 /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
 export type CloseoutBuyRequestPayWith = "usdc";
@@ -153,48 +153,48 @@ export interface CloseoutBuyRequest {
   /** Exact totalPrice in integer US cents, from /closeout/get/{domain}. Use 0 only with dryRun to request a quote. */
   cost: number;
   /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
-  payWith?: CloseoutBuyRequestPayWith | (string & {});
+  payWith?: CloseoutBuyRequestPayWith | (string & {}) | undefined;
   /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
-  usdcCheckoutId?: string;
+  usdcCheckoutId?: string | undefined;
   /** Validate and price without charging or claiming. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface CloseoutBuyResponse {
-  status?: string;
-  domain?: string;
-  orderId?: number;
-  closeoutId?: number;
-  closeoutPrice?: number;
-  renewalPrice?: number;
-  totalPrice?: number;
-  message?: string;
+  status?: string | undefined;
+  domain?: string | undefined;
+  orderId?: number | undefined;
+  closeoutId?: number | undefined;
+  closeoutPrice?: number | undefined;
+  renewalPrice?: number | undefined;
+  totalPrice?: number | undefined;
+  message?: string | undefined;
 }
 export interface CloudflareCreateRecordRequest {
   domain: string;
   /** A, AAAA, CNAME, TXT, MX, NS, PTR or SPF for a plain `content` value. Structured types (SRV, CAA, TLSA...) need `data` instead. */
   type: string;
   /** `@` for the apex, a bare label (`www`) is expanded, or a full hostname. */
-  name?: string;
+  name?: string | undefined;
   /** The value the record points at. */
-  content?: string;
+  content?: string | undefined;
   /** 1 = automatic (Cloudflare's default), otherwise 60-86400. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Required for MX; lower is preferred. */
-  priority?: number;
+  priority?: number | undefined;
   /** Orange cloud. A/AAAA/CNAME only. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Free-text note stored on the record (100 chars). */
-  comment?: string;
+  comment?: string | undefined;
   /** Structured value for record types Cloudflare models as an object (SRV, CAA...), passed through as given. */
-  data?: unknown;
-  dryRun?: boolean;
+  data?: unknown | undefined;
+  dryRun?: boolean | undefined;
 }
 export type CloudflareCreateRecordResponse = unknown;
 export interface CloudflareDeleteRecordRequest {
   domain: string;
   /** Cloudflare record id from /cloudflare/getRecords. */
   recordId: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type CloudflareDeleteRecordResponse = unknown;
 export interface CloudflareEditRecordRequest {
@@ -202,22 +202,22 @@ export interface CloudflareEditRecordRequest {
   /** Cloudflare record id from /cloudflare/getRecords. */
   recordId: string;
   /** A, AAAA, CNAME, TXT, MX, NS, PTR or SPF for a plain `content` value. Structured types (SRV, CAA, TLSA...) need `data` instead. */
-  type?: string;
+  type?: string | undefined;
   /** `@` for the apex, a bare label (`www`) is expanded, or a full hostname. */
-  name?: string;
+  name?: string | undefined;
   /** The value the record points at. */
-  content?: string;
+  content?: string | undefined;
   /** 1 = automatic (Cloudflare's default), otherwise 60-86400. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Required for MX; lower is preferred. */
-  priority?: number;
+  priority?: number | undefined;
   /** Orange cloud. A/AAAA/CNAME only. */
-  proxied?: boolean;
+  proxied?: boolean | undefined;
   /** Free-text note stored on the record (100 chars). */
-  comment?: string;
+  comment?: string | undefined;
   /** Structured value for record types Cloudflare models as an object (SRV, CAA...), passed through as given. */
-  data?: unknown;
-  dryRun?: boolean;
+  data?: unknown | undefined;
+  dryRun?: boolean | undefined;
 }
 export type CloudflareEditRecordResponse = unknown;
 export interface CloudflareGetConnectionRequest {}
@@ -249,8 +249,8 @@ export interface CloudflareSetProxyRequest {
   /** true = proxy through Cloudflare (orange cloud); false = DNS-only (grey cloud). */
   enabled: boolean;
   /** Optional. Limit to these names; "@" = apex, bare labels are expanded. */
-  records?: CloudflareSetProxyRequestRecordsList;
-  dryRun?: boolean;
+  records?: CloudflareSetProxyRequestRecordsList | undefined;
+  dryRun?: boolean | undefined;
 }
 export type CloudflareSetProxyResponse = unknown;
 export type CloudflareSetZoneSettingsRequestSsl = "off" | "flexible" | "full" | "strict";
@@ -261,13 +261,16 @@ export type CloudflareSetZoneSettingsRequestDevelopmentMode = "on" | "off";
 export type CloudflareSetZoneSettingsRequestCacheLevel = "aggressive" | "basic" | "simplified";
 export interface CloudflareSetZoneSettingsRequest {
   domain: string;
-  ssl?: CloudflareSetZoneSettingsRequestSsl | (string & {});
-  always_use_https?: CloudflareSetZoneSettingsRequestAlwaysUseHttps | (string & {});
-  automatic_https_rewrites?: CloudflareSetZoneSettingsRequestAutomaticHttpsRewrites | (string & {});
-  min_tls_version?: CloudflareSetZoneSettingsRequestMinTlsVersion | (string & {});
-  development_mode?: CloudflareSetZoneSettingsRequestDevelopmentMode | (string & {});
-  cache_level?: CloudflareSetZoneSettingsRequestCacheLevel | (string & {});
-  dryRun?: boolean;
+  ssl?: CloudflareSetZoneSettingsRequestSsl | (string & {}) | undefined;
+  always_use_https?: CloudflareSetZoneSettingsRequestAlwaysUseHttps | (string & {}) | undefined;
+  automatic_https_rewrites?:
+    | CloudflareSetZoneSettingsRequestAutomaticHttpsRewrites
+    | (string & {})
+    | undefined;
+  min_tls_version?: CloudflareSetZoneSettingsRequestMinTlsVersion | (string & {}) | undefined;
+  development_mode?: CloudflareSetZoneSettingsRequestDevelopmentMode | (string & {}) | undefined;
+  cache_level?: CloudflareSetZoneSettingsRequestCacheLevel | (string & {}) | undefined;
+  dryRun?: boolean | undefined;
 }
 export type CloudflareSetZoneSettingsResponse = unknown;
 /** Domain names to move. A comma-separated string is also accepted. */
@@ -276,14 +279,14 @@ export interface ConnectCloudflareRequest {
   /** Domain names to move. A comma-separated string is also accepted. */
   domains: ConnectCloudflareRequestDomainsList;
   /** Validate and return per-domain verdicts without queueing. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type ConnectCloudflareResponse = unknown;
 export interface CreateAccountInviteRequest {
   /** Email address to pre-fill on the registration form (optional) */
-  email?: string;
+  email?: string | undefined;
   /** HTTPS URL to redirect the user to after successful registration (optional). Use this to send users back to your platform after they complete account creation. */
-  returnUrl?: string;
+  returnUrl?: string | undefined;
 }
 export interface CreateAccountInviteResponse {
   status: string;
@@ -312,27 +315,27 @@ export type CreateDnsRequestType =
 export interface CreateDnsRequest {
   domain: string;
   /** Subdomain for the record (e.g. 'www', '*' for wildcard, blank for root). Do not include the domain name itself. */
-  name?: string;
+  name?: string | undefined;
   /** DNS record type */
   type: CreateDnsRequestType | (string & {});
   /** The record value */
   content: string;
   /** Time to live in seconds. Minimum is determined by account settings (typically 600). Defaults to the account minimum if omitted or 0. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Priority for MX and SRV records. Defaults to 0 if omitted. */
-  prio?: number;
+  prio?: number | undefined;
   /** Optional notes to store with the record (not served in DNS) */
-  notes?: string;
+  notes?: string | undefined;
   /** If true, validate only -- checks ownership/type/permissions and returns wouldSucceed without creating the record. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 /** Advisory, and present only when there is something to say. It never means the call failed. The one to handle: a DNS write is accepted and stored even when the domain is NOT delegated to our nameservers -- we keep the zone ready in case the delegation comes back -- so the write changed nothing that resolves, and this field says so. Show these to the user as written. */
 export type DnsWriteWarnings = Array<string>;
 export interface CreateDnsResponse {
-  status?: string;
+  status?: string | undefined;
   /** The numeric ID of the newly created record */
-  id?: string;
-  warnings?: DnsWriteWarnings;
+  id?: string | undefined;
+  warnings?: DnsWriteWarnings | undefined;
 }
 /** Must be 'yes' or '1' to confirm agreement to the Domain Name Registration Agreement, Product Terms of Service, Privacy Policy, and automatic renewal terms. */
 export type CreateDomainRequestAgreeToTerms = "yes" | "1";
@@ -345,57 +348,57 @@ export interface CreateDomainRequest {
   /** Must be 'yes' or '1' to confirm agreement to the Domain Name Registration Agreement, Product Terms of Service, Privacy Policy, and automatic renewal terms. */
   agreeToTerms: CreateDomainRequestAgreeToTerms | (string & {});
   /** Optional. Override WHOIS privacy for this registration. When omitted, the account-level default is used (set under Account Security Settings on porkbun.com/account -- defaults to enabled). Pass `true` to force-enable privacy or `false` to register with public contact info. Strings `"on"`/`"off"`, `"true"`/`"false"`, `"yes"`/`"no"`, `"1"`/`"0"` are also accepted. Has no effect on TLDs that don't support WHOIS privacy (privacy stays off regardless). */
-  whoisPrivacy?: boolean;
+  whoisPrivacy?: boolean | undefined;
   /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
-  payWith?: CreateDomainRequestPayWith | (string & {});
+  payWith?: CreateDomainRequestPayWith | (string & {}) | undefined;
   /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
-  usdcCheckoutId?: string;
+  usdcCheckoutId?: string | undefined;
   /** Optional. When true, runs all pre-flight validation (availability, pricing, cost match, eligibility, funds, monthly spend limit, including the $100 default when none is set) and returns a preview with `dryRun: true` and `wouldSucceed` WITHOUT creating an order or charging. Nothing is registered and the rate-limit budget is not consumed. Use it to safely confirm an operation before committing. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 /** Create-attempt rate limit state */
 export interface CreateDomainResponseLimitsAttempts {
   /** Window in seconds */
-  TTL?: number;
+  TTL?: number | undefined;
   /** Max attempts allowed */
-  limit?: number;
+  limit?: number | undefined;
   /** Attempts used */
-  used?: number;
-  naturalLanguage?: string;
+  used?: number | undefined;
+  naturalLanguage?: string | undefined;
 }
 /** Successful-registration rate limit state */
 export interface CreateDomainResponseLimitsSuccess {
   /** Window in seconds */
-  TTL?: number;
+  TTL?: number | undefined;
   /** Max successes allowed */
-  limit?: number;
+  limit?: number | undefined;
   /** Successes used */
-  used?: number;
-  naturalLanguage?: string;
+  used?: number | undefined;
+  naturalLanguage?: string | undefined;
 }
 /** Current rate limit state for both attempt and success limits */
 export interface CreateDomainResponseLimits {
   /** Create-attempt rate limit state */
-  attempts?: CreateDomainResponseLimitsAttempts;
+  attempts?: CreateDomainResponseLimitsAttempts | undefined;
   /** Successful-registration rate limit state */
-  success?: CreateDomainResponseLimitsSuccess;
+  success?: CreateDomainResponseLimitsSuccess | undefined;
 }
 export interface CreateDomainResponse {
   status: string;
   /** The registered domain name */
   domain: string;
   /** The total amount charged in pennies */
-  cost?: number;
+  cost?: number | undefined;
   /** Internal Porkbun order ID */
   orderId: number;
   /** Current rate limit state for both attempt and success limits */
-  limits?: CreateDomainResponseLimits;
+  limits?: CreateDomainResponseLimits | undefined;
   /** Remaining account credit balance in pennies after the charge */
-  balance?: number;
+  balance?: number | undefined;
   /** Seconds until the success rate limit window resets */
-  ttlRemaining?: number;
+  ttlRemaining?: number | undefined;
   /** Per-request UUID (also in the X-Request-Id header). Present on every API response. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type DryRunPreviewResponseOperation = "registration" | "renewal" | "transfer";
 /** Returned (HTTP 200) by /domain/create, /domain/renew, and /domain/transfer when the request includes `dryRun: true`. All validation has run but nothing was created or charged. All money amounts are in pennies (USD cents). */
@@ -407,31 +410,31 @@ export interface DryRunPreviewResponse {
   wouldSucceed: boolean;
   operation: DryRunPreviewResponseOperation;
   domain: string;
-  tld?: string;
+  tld?: string | undefined;
   /** Availability as reported by the registry check (e.g. `available` / `unavailable`). */
-  available?: string;
+  available?: string | undefined;
   /** Whether the domain is a premium/aftermarket name. */
-  premium?: boolean;
+  premium?: boolean | undefined;
   /** Term in years that would be purchased. */
-  duration?: number;
+  duration?: number | undefined;
   /** Total cost in pennies that would be charged. */
   cost: number;
   /** Human-readable cost. */
-  costDisplay?: string;
+  costDisplay?: string | undefined;
   /** Current account credit balance in pennies. */
-  balance?: number;
+  balance?: number | undefined;
   /** Whether the balance covers the cost. */
-  sufficientFunds?: boolean;
+  sufficientFunds?: boolean | undefined;
   /** The account's monthly API spend cap in pennies. Present only if a cap is configured. */
-  monthlySpendLimit?: number;
+  monthlySpendLimit?: number | undefined;
   /** API spend so far this calendar month in pennies. Present only if a cap is configured. */
-  monthlySpendSoFar?: number;
+  monthlySpendSoFar?: number | undefined;
   /** Whether this cost stays within the monthly cap. Present only if a cap is configured. */
-  withinMonthlySpendLimit?: boolean;
+  withinMonthlySpendLimit?: boolean | undefined;
   /** Human-readable summary of the preview outcome. */
-  message?: string;
+  message?: string | undefined;
   /** Per-request UUID (also in the X-Request-Id header). Present on every API response. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type CreateDomainResponseBody = CreateDomainResponse | DryRunPreviewResponse;
 export type CreateDomainResponse2 = CreateDomainResponseBody;
@@ -448,39 +451,39 @@ export interface CreateHostingRequest {
   acknowledgedCost: number;
   agreeToTerms: CreateHostingRequestAgreeToTerms | (string & {});
   /** Required (true) when the domain is not already on Porkbun nameservers -- provisioning will switch them. */
-  agreeToNameserverChange?: boolean;
+  agreeToNameserverChange?: boolean | undefined;
   /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
-  payWith?: CreateHostingRequestPayWith | (string & {});
+  payWith?: CreateHostingRequestPayWith | (string & {}) | undefined;
   /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
-  usdcCheckoutId?: string;
+  usdcCheckoutId?: string | undefined;
   /** Validate + preview without provisioning or charging. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type CreateHostingResponseHostingStatus = "ACTIVE" | "PENDING";
 export interface CreateHostingResponseHosting {
-  domain?: string;
-  product?: string;
-  plan?: string;
-  server?: string;
-  status?: CreateHostingResponseHostingStatus;
-  trial?: boolean;
-  trialEndsAt?: string | null;
-  autoRenew?: boolean;
-  sku?: string;
+  domain?: string | undefined;
+  product?: string | undefined;
+  plan?: string | undefined;
+  server?: string | undefined;
+  status?: CreateHostingResponseHostingStatus | undefined;
+  trial?: boolean | undefined;
+  trialEndsAt?: string | null | undefined;
+  autoRenew?: boolean | undefined;
+  sku?: string | undefined;
 }
 export interface CreateHostingResponseCost {
-  amount?: number;
-  formatted?: string;
-  interval?: string;
+  amount?: number | undefined;
+  formatted?: string | undefined;
+  interval?: string | undefined;
 }
 export interface CreateHostingResponse {
-  status?: string;
-  orderId?: number;
-  hosting?: CreateHostingResponseHosting;
+  status?: string | undefined;
+  orderId?: number | undefined;
+  hosting?: CreateHostingResponseHosting | undefined;
   /** Cents captured now (0 on the free trial). */
-  charged?: number;
-  cost?: CreateHostingResponseCost;
-  message?: string;
+  charged?: number | undefined;
+  cost?: CreateHostingResponseCost | undefined;
+  message?: string | undefined;
 }
 /** Event types to subscribe to. Omit, or pass ["*"], for all events. Prefix wildcards like "dns.*" are allowed. */
 export type CreateWebhookRequestEventsList = Array<string>;
@@ -488,7 +491,7 @@ export interface CreateWebhookRequest {
   /** HTTPS endpoint that receives the signed POST. Port 443 only, and the hostname must resolve to a public internet address -- private/loopback/reserved targets are refused. */
   url: string;
   /** Event types to subscribe to. Omit, or pass ["*"], for all events. Prefix wildcards like "dns.*" are allowed. */
-  events?: CreateWebhookRequestEventsList;
+  events?: CreateWebhookRequestEventsList | undefined;
 }
 /** Subscribed event types, or ["*"] for all. */
 export type WebhookEndpointEventsList = Array<string>;
@@ -496,29 +499,29 @@ export type WebhookEndpointEventsList = Array<string>;
 export type WebhookEndpointStatus = "ACTIVE" | "DISABLED";
 export interface WebhookEndpoint {
   /** Numeric endpoint id. */
-  id?: number;
+  id?: number | undefined;
   /** Destination HTTPS URL. */
-  url?: string;
+  url?: string | undefined;
   /** Signing secret used to verify the X-Porkbun-Signature header (HMAC-SHA256 key). Returned only to the authenticated owner. */
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
   /** Subscribed event types, or ["*"] for all. */
-  events?: WebhookEndpointEventsList;
+  events?: WebhookEndpointEventsList | undefined;
   /** ACTIVE or DISABLED. */
-  status?: WebhookEndpointStatus;
+  status?: WebhookEndpointStatus | undefined;
   /** Consecutive failed deliveries; reset to 0 on the next success or on re-enable. The endpoint auto-disables at 20. */
-  consecutiveFailures?: number;
+  consecutiveFailures?: number | undefined;
   /** Timestamp of the last successful delivery, or null. */
-  lastSuccessDate?: string | null;
+  lastSuccessDate?: string | null | undefined;
   /** Timestamp of the last failed delivery, or null. */
-  lastFailureDate?: string | null;
+  lastFailureDate?: string | null | undefined;
   /** Last delivery error, or null. */
-  lastError?: string | null;
+  lastError?: string | null | undefined;
   /** When the endpoint was created. */
-  createDate?: string;
+  createDate?: string | undefined;
 }
 export interface WebhookEndpointResponse {
-  status?: string;
-  endpoint?: WebhookEndpoint;
+  status?: string | undefined;
+  endpoint?: WebhookEndpoint | undefined;
 }
 export interface DeleteDnsRequest {
   domain: string;
@@ -527,12 +530,12 @@ export interface DeleteDnsRequest {
 }
 export type BasicResponseStatus = "SUCCESS" | "ERROR";
 export interface BasicResponse {
-  warnings?: DnsWriteWarnings;
+  warnings?: DnsWriteWarnings | undefined;
   status: BasicResponseStatus;
   /** Human-readable message. Present on ERROR, sometimes on SUCCESS. */
-  message?: string;
+  message?: string | undefined;
   /** Machine-readable error code. Present when status is ERROR. */
-  code?: string;
+  code?: string | undefined;
 }
 export interface DeleteHostingRequest {
   domain: string;
@@ -542,13 +545,13 @@ export interface DeleteWebhookRequest {
   id: number;
 }
 export interface DeleteWebhookResponse {
-  status?: string;
-  message?: string;
+  status?: string | undefined;
+  message?: string | undefined;
 }
 export interface DeployHostingRequestFilesItem {
-  path?: string;
+  path?: string | undefined;
   /** base64-encoded file contents */
-  content?: string;
+  content?: string | undefined;
 }
 export type DeployHostingRequestFilesList = Array<DeployHostingRequestFilesItem>;
 export interface DeployHostingRequest {
@@ -557,14 +560,14 @@ export interface DeployHostingRequest {
 }
 export type DeployHostingResponseDeployedList = Array<string>;
 export interface DeployHostingResponseSkippedItem {
-  path?: string;
-  reason?: string;
+  path?: string | undefined;
+  reason?: string | undefined;
 }
 export type DeployHostingResponseSkippedList = Array<DeployHostingResponseSkippedItem>;
 export interface DeployHostingResponse {
-  status?: string;
-  deployed?: DeployHostingResponseDeployedList;
-  skipped?: DeployHostingResponseSkippedList;
+  status?: string | undefined;
+  deployed?: DeployHostingResponseDeployedList | undefined;
+  skipped?: DeployHostingResponseSkippedList | undefined;
 }
 export interface DisconnectCloudflareRequest {}
 export type DisconnectCloudflareResponse = unknown;
@@ -579,24 +582,24 @@ export interface DnsCreateDnssecRecordRequest {
   /** Hex-encoded digest value */
   digest: string;
   /** Maximum signature lifetime in seconds (optional, registry-specific) */
-  maxSigLife?: string;
+  maxSigLife?: string | undefined;
   /** Key data flags (optional, used when submitting full key data) */
-  keyDataFlags?: string;
+  keyDataFlags?: string | undefined;
   /** Key data protocol (optional) */
-  keyDataProtocol?: string;
+  keyDataProtocol?: string | undefined;
   /** Key data algorithm (optional) */
-  keyDataAlgo?: string;
+  keyDataAlgo?: string | undefined;
   /** Key data public key in base64 (optional) */
-  keyDataPubKey?: string;
+  keyDataPubKey?: string | undefined;
 }
 export type DnsCreateDnssecRecordResponseStatus = "SUCCESS" | "ERROR";
 export interface DnsCreateDnssecRecordResponse {
-  warnings?: DnsWriteWarnings;
+  warnings?: DnsWriteWarnings | undefined;
   status: DnsCreateDnssecRecordResponseStatus;
   /** Human-readable message. Present on ERROR, sometimes on SUCCESS. */
-  message?: string;
+  message?: string | undefined;
   /** Machine-readable error code. Present when status is ERROR. */
-  code?: string;
+  code?: string | undefined;
 }
 export interface DnsDeleteByNameTypeRequest {
   domain: string;
@@ -615,32 +618,32 @@ export interface DnsDiffRequest {
   snapshotId: number;
 }
 export interface DnsDiffResponseSnapshot {
-  id?: number;
-  takenAt?: string;
-  reason?: string;
+  id?: number | undefined;
+  takenAt?: string | undefined;
+  reason?: string | undefined;
 }
 export interface DnsHistoryRecord {
   /** Fully qualified. */
-  name?: string;
-  type?: string;
+  name?: string | undefined;
+  type?: string | undefined;
   /** For masked records (parking, ALIAS, HTTPS) this is the value you configured, not the internal host it resolves to. */
-  content?: string;
-  ttl?: number;
-  prio?: number | null;
+  content?: string | undefined;
+  ttl?: number | undefined;
+  prio?: number | null | undefined;
 }
 /** In the restore point, not live. A restore adds these back. */
 export type DnsDiffResponseMissingList = Array<DnsHistoryRecord>;
 /** Live, not in the restore point. A restore leaves these alone unless prune is true. */
 export type DnsDiffResponseExtraList = Array<DnsHistoryRecord>;
 export interface DnsDiffResponse {
-  status?: string;
-  domain?: string;
-  snapshot?: DnsDiffResponseSnapshot;
+  status?: string | undefined;
+  domain?: string | undefined;
+  snapshot?: DnsDiffResponseSnapshot | undefined;
   /** In the restore point, not live. A restore adds these back. */
-  missing?: DnsDiffResponseMissingList;
+  missing?: DnsDiffResponseMissingList | undefined;
   /** Live, not in the restore point. A restore leaves these alone unless prune is true. */
-  extra?: DnsDiffResponseExtraList;
-  inSync?: boolean;
+  extra?: DnsDiffResponseExtraList | undefined;
+  inSync?: boolean | undefined;
 }
 export interface DnsEditByNameTypeRequest {
   domain: string;
@@ -650,55 +653,55 @@ export interface DnsEditByNameTypeRequest {
   /** New record value to set on all matching records */
   content: string;
   /** Time to live in seconds (optional) */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Priority (optional) */
-  prio?: number;
+  prio?: number | undefined;
   /** Notes to store with the record (not served in DNS). Pass an empty string to clear existing notes; pass null or omit this field to leave notes unchanged. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export interface DnsGetDnssecRecordsRequest {
   domain: string;
 }
 export interface DnsGetDnssecRecordsResponseRecordsValue {
-  keyTag?: string;
-  alg?: string;
-  digestType?: string;
-  digest?: string;
+  keyTag?: string | undefined;
+  alg?: string | undefined;
+  digestType?: string | undefined;
+  digest?: string | undefined;
   /** Present for key data records */
-  pubKey?: string;
+  pubKey?: string | undefined;
 }
 /** Object keyed by key tag value. Each value is an object containing the DNSSEC data fields. */
 export type DnsGetDnssecRecordsResponseRecordsMap = {
   [key: string]: DnsGetDnssecRecordsResponseRecordsValue | undefined;
 };
 export interface DnsGetDnssecRecordsResponse {
-  status?: string;
+  status?: string | undefined;
   /** Object keyed by key tag value. Each value is an object containing the DNSSEC data fields. */
-  records?: DnsGetDnssecRecordsResponseRecordsMap;
+  records?: DnsGetDnssecRecordsResponseRecordsMap | undefined;
 }
 export interface DnsHistoryRequest {
   domain: string;
 }
 export interface DnsHistoryResponseRestorePointsItem {
   /** Pass this to /dns/diff and /dns/restore. */
-  id?: number;
-  takenAt?: string;
+  id?: number | undefined;
+  takenAt?: string | undefined;
   /** Why it was taken: before-create, before-edit, before-delete, before-wipe, before-restore-{id}, or a reason supplied by support. */
-  reason?: string;
+  reason?: string | undefined;
   /** auto (taken by the platform before a write), api, cli or archiveDns. */
-  source?: string;
+  source?: string | undefined;
   /** The size of the zone AS IT WAS at that moment, not now. */
-  recordCount?: number;
+  recordCount?: number | undefined;
   /** True when the live zone is identical to this point, so you can see where you are without diffing. */
-  matchesLive?: boolean;
+  matchesLive?: boolean | undefined;
 }
 /** Newest first, up to 50. */
 export type DnsHistoryResponseRestorePointsList = Array<DnsHistoryResponseRestorePointsItem>;
 export interface DnsHistoryResponse {
-  status?: string;
-  domain?: string;
+  status?: string | undefined;
+  domain?: string | undefined;
   /** Newest first, up to 50. */
-  restorePoints?: DnsHistoryResponseRestorePointsList;
+  restorePoints?: DnsHistoryResponseRestorePointsList | undefined;
 }
 export type DnsPreflightRequestIntent =
   | "general"
@@ -708,7 +711,7 @@ export type DnsPreflightRequestIntent =
 export interface DnsPreflightRequest {
   domain: string;
   /** What you are about to do. One of general, move-nameservers, transfer-out, enable-dnssec. May also be sent in the request body. */
-  intent?: DnsPreflightRequestIntent | (string & {});
+  intent?: DnsPreflightRequestIntent | (string & {}) | undefined;
 }
 /** Check ids that will break something. Read these first. */
 export type DnsPreflightResponseBlockersList = Array<string>;
@@ -716,29 +719,29 @@ export type DnsPreflightResponseBlockersList = Array<string>;
 export type DnsPreflightResponseWarningsList = Array<string>;
 export type DnsPreflightResponseChecksItemSeverity = "blocker" | "warning" | "info";
 export interface DnsPreflightResponseChecksItem {
-  id?: string;
-  severity?: DnsPreflightResponseChecksItemSeverity;
-  ok?: boolean;
-  title?: string;
+  id?: string | undefined;
+  severity?: DnsPreflightResponseChecksItemSeverity | undefined;
+  ok?: boolean | undefined;
+  title?: string | undefined;
   /** The reasoning, including the rule it comes from. */
-  detail?: string;
+  detail?: string | undefined;
   /** What to do about it. Absent on checks that passed. */
-  next_action?: string;
+  next_action?: string | undefined;
 }
 /** Every check that ran, passing ones included, so a caller can show what was verified rather than only what failed. */
 export type DnsPreflightResponseChecksList = Array<DnsPreflightResponseChecksItem>;
 export interface DnsPreflightResponse {
-  status?: string;
-  domain?: string;
-  intent?: string;
+  status?: string | undefined;
+  domain?: string | undefined;
+  intent?: string | undefined;
   /** True only when there are no blockers AND no warnings. */
-  safe?: boolean;
+  safe?: boolean | undefined;
   /** Check ids that will break something. Read these first. */
-  blockers?: DnsPreflightResponseBlockersList;
+  blockers?: DnsPreflightResponseBlockersList | undefined;
   /** Will not break outright, but usually what the customer asks about next. */
-  warnings?: DnsPreflightResponseWarningsList;
+  warnings?: DnsPreflightResponseWarningsList | undefined;
   /** Every check that ran, passing ones included, so a caller can show what was verified rather than only what failed. */
-  checks?: DnsPreflightResponseChecksList;
+  checks?: DnsPreflightResponseChecksList | undefined;
 }
 export interface DnsRetrieveByIdRequest {
   domain: string;
@@ -749,25 +752,25 @@ export interface DnsRetrieveByIdRequest {
 export type DnsRecordsResponseCloudflare = "enabled" | "disabled";
 export interface DnsRecordsResponseRecordsItem {
   /** Numeric record ID */
-  id?: string;
+  id?: string | undefined;
   /** Fully-qualified record name */
-  name?: string;
+  name?: string | undefined;
   /** DNS record type */
-  type?: string;
+  type?: string | undefined;
   /** Record value */
-  content?: string;
+  content?: string | undefined;
   /** Time to live in seconds */
-  ttl?: string;
+  ttl?: string | undefined;
   /** Priority (used for MX, SRV records). Null if not applicable. */
-  prio?: string | null;
+  prio?: string | null | undefined;
   /** Optional notes attached to the record. Null if not set. */
-  notes?: string | null;
+  notes?: string | null | undefined;
 }
 export type DnsRecordsResponseRecordsList = Array<DnsRecordsResponseRecordsItem>;
 export interface DnsRecordsResponse {
   status: string;
   /** Whether Cloudflare proxy is enabled for this domain */
-  cloudflare?: DnsRecordsResponseCloudflare;
+  cloudflare?: DnsRecordsResponseCloudflare | undefined;
   records: DnsRecordsResponseRecordsList;
 }
 export interface DnsRetrieveByNameTypeRequest {
@@ -782,21 +785,21 @@ export interface DnsScanRequest {
 }
 export interface DnsRecordInput {
   /** Subdomain prefix only, or empty string for the apex. `@` and a fully-qualified name are both accepted and normalised. */
-  name?: string;
+  name?: string | undefined;
   /** Record type. NS and SOA are ignored on import. */
-  type?: string;
-  content?: string;
+  type?: string | undefined;
+  content?: string | undefined;
   /** Raised to the API minimum if lower. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Priority, for MX and SRV. */
-  prio?: number | null;
+  prio?: number | null | undefined;
 }
 export type DnsScanResponseRecordsList = Array<DnsRecordInput>;
 export interface DnsScanResponse {
-  status?: string;
-  domain?: string;
-  recordCount?: number;
-  records?: DnsScanResponseRecordsList;
+  status?: string | undefined;
+  domain?: string | undefined;
+  recordCount?: number | undefined;
+  records?: DnsScanResponseRecordsList | undefined;
 }
 /** Redirect kind. 'permanent' = HTTP 301; 'temporary' = HTTP 302 (default); 'masked' = loads the destination in a frame (URL masking). For a precise code -- including a 307 temporary redirect -- use `redirectType`. */
 export type DomainAddUrlForwardRequestType = "temporary" | "permanent" | "masked";
@@ -809,13 +812,13 @@ export type DomainAddUrlForwardRequestWildcard = "yes" | "no";
 export interface DomainAddUrlForwardRequest {
   domain: string;
   /** Subdomain to forward (optional, leave blank or omit for root domain). Alphanumeric and hyphens only. */
-  subdomain?: string;
+  subdomain?: string | undefined;
   /** Destination URL to forward to */
   location: string;
   /** Redirect kind. 'permanent' = HTTP 301; 'temporary' = HTTP 302 (default); 'masked' = loads the destination in a frame (URL masking). For a precise code -- including a 307 temporary redirect -- use `redirectType`. */
   type: DomainAddUrlForwardRequestType | (string & {});
   /** Optional. The exact redirect type; takes precedence over `type` when supplied. 301 = permanent, 302 or 307 = temporary (this is how you request 307), masked = URL masking. Omit to derive from `type` (temporary->302, permanent->301). */
-  redirectType?: DomainAddUrlForwardRequestRedirectType | (string & {});
+  redirectType?: DomainAddUrlForwardRequestRedirectType | (string & {}) | undefined;
   /** Whether to append the request URI path to the forwarding destination */
   includePath: DomainAddUrlForwardRequestIncludePath | (string & {});
   /** Whether to also forward all subdomains of the forwarded subdomain */
@@ -826,18 +829,18 @@ export interface DomainCancelTransferRequest {
   domain: string;
 }
 export interface DomainCancelTransferResponse {
-  status?: string;
-  domain?: string;
-  cancelled?: boolean;
-  previousStatus?: string;
-  transferStatus?: string;
-  withdrawnAtRegistry?: boolean;
-  registryResultCode?: string;
-  registryCode?: string;
-  refunded?: boolean;
-  refundAmount?: number;
-  orderId?: number;
-  message?: string;
+  status?: string | undefined;
+  domain?: string | undefined;
+  cancelled?: boolean | undefined;
+  previousStatus?: string | undefined;
+  transferStatus?: string | undefined;
+  withdrawnAtRegistry?: boolean | undefined;
+  registryResultCode?: string | undefined;
+  registryCode?: string | undefined;
+  refunded?: boolean | undefined;
+  refundAmount?: number | undefined;
+  orderId?: number | undefined;
+  message?: string | undefined;
 }
 export interface DomainCheckDomainRequest {
   domain: string;
@@ -849,53 +852,53 @@ export type CheckDomainResponseResponseFirstYearPromo = "yes" | "no";
 /** Whether this is a premium domain */
 export type CheckDomainResponseResponsePremium = "yes" | "no";
 export interface CheckDomainResponseResponseAdditionalRenewal {
-  type?: string;
-  price?: string;
-  regularPrice?: string;
+  type?: string | undefined;
+  price?: string | undefined;
+  regularPrice?: string | undefined;
 }
 export type CheckDomainResponseResponseAdditionalTransfer =
   CheckDomainResponseResponseAdditionalRenewal;
 /** Renewal and transfer pricing for this domain */
 export interface CheckDomainResponseResponseAdditional {
-  renewal?: CheckDomainResponseResponseAdditionalRenewal;
-  transfer?: CheckDomainResponseResponseAdditionalRenewal;
+  renewal?: CheckDomainResponseResponseAdditionalRenewal | undefined;
+  transfer?: CheckDomainResponseResponseAdditionalRenewal | undefined;
 }
 export interface CheckDomainResponseResponse {
   /** Whether the domain is available for registration */
-  avail?: CheckDomainResponseResponseAvail;
+  avail?: CheckDomainResponseResponseAvail | undefined;
   /** The price type (always 'registration' for the primary price) */
-  type?: string;
+  type?: string | undefined;
   /** Registration price per year in USD */
-  price?: string;
+  price?: string | undefined;
   /** Whether the returned price is a first-year promotional price */
-  firstYearPromo?: CheckDomainResponseResponseFirstYearPromo;
+  firstYearPromo?: CheckDomainResponseResponseFirstYearPromo | undefined;
   /** Standard (non-promo) registration price in USD */
-  regularPrice?: string;
+  regularPrice?: string | undefined;
   /** Whether this is a premium domain */
-  premium?: CheckDomainResponseResponsePremium;
+  premium?: CheckDomainResponseResponsePremium | undefined;
   /** Minimum registration duration in years required by the registry */
-  minDuration?: number;
+  minDuration?: number | undefined;
   /** Renewal and transfer pricing for this domain */
-  additional?: CheckDomainResponseResponseAdditional;
+  additional?: CheckDomainResponseResponseAdditional | undefined;
 }
 /** Current rate limit usage for this account */
 export interface CheckDomainResponseLimits {
   /** Rate limit window in seconds */
-  TTL?: number;
+  TTL?: number | undefined;
   /** Maximum checks allowed in the window */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of checks used so far in the current window */
-  used?: number;
+  used?: number | undefined;
   /** Human-readable rate limit summary */
-  naturalLanguage?: string;
+  naturalLanguage?: string | undefined;
 }
 export interface CheckDomainResponse {
   status: string;
   response: CheckDomainResponseResponse;
   /** Current rate limit usage for this account */
-  limits?: CheckDomainResponseLimits;
+  limits?: CheckDomainResponseLimits | undefined;
   /** Seconds remaining until the rate limit window resets */
-  ttlRemaining?: number;
+  ttlRemaining?: number | undefined;
 }
 /** Array of IP addresses (IPv4 and/or IPv6) to associate with the host record */
 export type DomainCreateGlueRequestIpsList = Array<string>;
@@ -920,34 +923,34 @@ export interface DomainGetContactsRequest {
 }
 /** A domain contact. On update, a provided role requires firstName, address1, city, postalCode, country, phone, phoneCountryCode, and email. Country is an ISO 3166-1 alpha-2 code; phoneCountryCode is the numeric calling code (e.g. "1", "44"). state may be empty where not applicable. */
 export interface DomainContact {
-  firstName?: string;
-  lastName?: string;
-  organization?: string;
-  address1?: string;
-  address2?: string;
-  address3?: string;
-  city?: string;
+  firstName?: string | undefined;
+  lastName?: string | undefined;
+  organization?: string | undefined;
+  address1?: string | undefined;
+  address2?: string | undefined;
+  address3?: string | undefined;
+  city?: string | undefined;
   /** State/province; may be empty where not applicable. */
-  state?: string;
-  postalCode?: string;
+  state?: string | undefined;
+  postalCode?: string | undefined;
   /** ISO 3166-1 alpha-2 country code. */
-  country?: string;
+  country?: string | undefined;
   /** National phone number, digits only. */
-  phone?: string;
+  phone?: string | undefined;
   /** Numeric international calling code. */
-  phoneCountryCode?: string;
-  fax?: string;
-  email?: string;
+  phoneCountryCode?: string | undefined;
+  fax?: string | undefined;
+  email?: string | undefined;
 }
 export interface DomainGetContactsResponseContacts {
-  registrant?: DomainContact;
-  admin?: DomainContact;
-  tech?: DomainContact;
-  billing?: DomainContact;
+  registrant?: DomainContact | undefined;
+  admin?: DomainContact | undefined;
+  tech?: DomainContact | undefined;
+  billing?: DomainContact | undefined;
 }
 export interface DomainGetContactsResponse {
-  status?: string;
-  contacts?: DomainGetContactsResponseContacts;
+  status?: string | undefined;
+  contacts?: DomainGetContactsResponseContacts | undefined;
 }
 export interface DomainGetGlueRequest {
   domain: string;
@@ -957,41 +960,41 @@ export type DomainGetGlueResponseHostsItemList = Array<unknown>;
 /** Array of [hostname, ipAddresses] tuples. Each element is a two-item array: index 0 is the full hostname (string), index 1 is an object with `v4` (array of IPv4 strings) and `v6` (array of IPv6 strings). Example: `["ns1.example.com", {"v4": ["1.2.3.4"], "v6": []}]` */
 export type DomainGetGlueResponseHostsList = Array<DomainGetGlueResponseHostsItemList>;
 export interface DomainGetGlueResponse {
-  status?: string;
+  status?: string | undefined;
   /** Array of [hostname, ipAddresses] tuples. Each element is a two-item array: index 0 is the full hostname (string), index 1 is an object with `v4` (array of IPv4 strings) and `v6` (array of IPv6 strings). Example: `["ns1.example.com", {"v4": ["1.2.3.4"], "v6": []}]` */
-  hosts?: DomainGetGlueResponseHostsList;
+  hosts?: DomainGetGlueResponseHostsList | undefined;
 }
 export interface DomainGetNsRequest {
   domain: string;
 }
 export type DomainGetNsResponseNsList = Array<string>;
 export interface DomainGetNsResponse {
-  status?: string;
-  ns?: DomainGetNsResponseNsList;
+  status?: string | undefined;
+  ns?: DomainGetNsResponseNsList | undefined;
 }
 export interface DomainGetRegistrationRequirementsRequest {
   /** TLD without a leading dot, e.g. `com`, `us`, `ca`. */
   tld: string;
 }
 export interface DomainGetRegistrationRequirementsResponse {
-  status?: string;
-  tld?: string;
+  status?: string | undefined;
+  tld?: string | undefined;
   /** Whether this TLD can be registered via the API. False for TLDs with registry eligibility requirements the API cannot submit (register those on the website). */
-  apiRegisterable?: boolean;
+  apiRegisterable?: boolean | undefined;
   /** Fixed registration term the API uses for this TLD. */
-  registrationDurationYears?: number;
+  registrationDurationYears?: number | undefined;
   /** Maximum years the registry allows, or null if unspecified. */
-  maxRegistrationYears?: number | null;
-  whoisPrivacySupported?: boolean;
-  requiresValidatedAddress?: boolean;
+  maxRegistrationYears?: number | null | undefined;
+  whoisPrivacySupported?: boolean | undefined;
+  requiresValidatedAddress?: boolean | undefined;
   /** TLD uses only the registrant contact (no admin/tech/billing). */
-  registrantOnly?: boolean;
+  registrantOnly?: boolean | undefined;
   /** JSON Schema (Draft 2020-12) for the /domain/create request body this TLD accepts (cost, agreeToTerms, whoisPrivacy, credentials), including the fixed registration term. */
-  requestSchema?: unknown;
+  requestSchema?: unknown | undefined;
   /** JSON Schema of extra registry/eligibility fields the TLD requires (e.g. .us purpose+category, .ca legal type) with enums and human labels, plus an x-policyNote. Null when the TLD has no structured extra data. These fields are documented for eligibility; they are not accepted by /domain/create today. */
-  registryRequirements?: unknown | null;
+  registryRequirements?: unknown | null | undefined;
   /** Present only when apiRegisterable is false. */
-  notApiRegisterableReason?: string;
+  notApiRegisterableReason?: string | undefined;
 }
 export interface DomainGetTransferSetupRequest {
   /** Domain name. */
@@ -999,16 +1002,16 @@ export interface DomainGetTransferSetupRequest {
 }
 export type DomainGetTransferSetupResponsePorkbunNameserversList = Array<string>;
 export interface DomainGetTransferSetupResponse {
-  status?: string;
-  domain?: string;
-  transfer?: unknown;
-  held?: number;
-  zoneReady?: number;
-  recordCount?: number;
-  delegation?: unknown;
-  dnssec?: number;
-  nextStep?: unknown;
-  porkbunNameservers?: DomainGetTransferSetupResponsePorkbunNameserversList;
+  status?: string | undefined;
+  domain?: string | undefined;
+  transfer?: unknown | undefined;
+  held?: number | undefined;
+  zoneReady?: number | undefined;
+  recordCount?: number | undefined;
+  delegation?: unknown | undefined;
+  dnssec?: number | undefined;
+  nextStep?: unknown | undefined;
+  porkbunNameservers?: DomainGetTransferSetupResponsePorkbunNameserversList | undefined;
 }
 export interface DomainGetUrlForwardingRequest {
   domain: string;
@@ -1021,16 +1024,16 @@ export type GetUrlForwardingResponseForwardsItemIncludePath = "yes" | "no";
 export type GetUrlForwardingResponseForwardsItemWildcard = "yes" | "no";
 export interface GetUrlForwardingResponseForwardsItem {
   /** Numeric record ID */
-  id?: string;
+  id?: string | undefined;
   /** Subdomain portion (empty string for root) */
-  subdomain?: string;
-  location?: string;
+  subdomain?: string | undefined;
+  location?: string | undefined;
   /** Redirect kind: 'permanent' (HTTP 301), 'temporary' (HTTP 302 or 307), or 'masked' (URL masking). Use `redirectType` for the exact code. */
-  type?: GetUrlForwardingResponseForwardsItemType;
+  type?: GetUrlForwardingResponseForwardsItemType | undefined;
   /** The exact stored redirect type. Distinguishes 302 from 307 (both report as 'temporary' in `type`); round-trips directly into addUrlForward's `redirectType`. */
-  redirectType?: GetUrlForwardingResponseForwardsItemRedirectType;
-  includePath?: GetUrlForwardingResponseForwardsItemIncludePath;
-  wildcard?: GetUrlForwardingResponseForwardsItemWildcard;
+  redirectType?: GetUrlForwardingResponseForwardsItemRedirectType | undefined;
+  includePath?: GetUrlForwardingResponseForwardsItemIncludePath | undefined;
+  wildcard?: GetUrlForwardingResponseForwardsItemWildcard | undefined;
 }
 export type GetUrlForwardingResponseForwardsList = Array<GetUrlForwardingResponseForwardsItem>;
 export interface GetUrlForwardingResponse {
@@ -1041,12 +1044,12 @@ export interface DomainStartTransferRequest {
   /** Domain name. */
   domain: string;
   /** Release even though the zone is empty. Use only when the domain needs no DNS here. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DomainStartTransferResponse {
-  status?: string;
-  domain?: string;
-  message?: string;
+  status?: string | undefined;
+  domain?: string | undefined;
+  message?: string | undefined;
 }
 /** Auto-renew status to set */
 export type DomainUpdateAutoRenewRequestStatus = "on" | "off";
@@ -1058,20 +1061,20 @@ export interface DomainUpdateAutoRenewRequest {
   /** Auto-renew status to set */
   status: DomainUpdateAutoRenewRequestStatus | (string & {});
   /** Array of additional domain names to update. Combined with the domain in the URL path if provided. */
-  domains?: DomainUpdateAutoRenewRequestDomainsList;
+  domains?: DomainUpdateAutoRenewRequestDomainsList | undefined;
 }
 export interface DomainUpdateAutoRenewResponseResultsValue {
-  status?: string;
-  message?: string;
+  status?: string | undefined;
+  message?: string | undefined;
 }
 /** Object keyed by domain name */
 export type DomainUpdateAutoRenewResponseResultsMap = {
   [key: string]: DomainUpdateAutoRenewResponseResultsValue | undefined;
 };
 export interface DomainUpdateAutoRenewResponse {
-  status?: string;
+  status?: string | undefined;
   /** Object keyed by domain name */
-  results?: DomainUpdateAutoRenewResponseResultsMap;
+  results?: DomainUpdateAutoRenewResponseResultsMap | undefined;
 }
 /** Any subset of roles to change; unspecified roles are left as-is. */
 export type DomainUpdateContactsRequestContacts = DomainGetContactsResponseContacts;
@@ -1082,18 +1085,21 @@ export type DomainUpdateContactsRequestAddressValidationChoice =
 export interface DomainUpdateContactsRequest {
   domain: string;
   /** Any subset of roles to change; unspecified roles are left as-is. */
-  contacts?: DomainGetContactsResponseContacts;
+  contacts?: DomainGetContactsResponseContacts | undefined;
   /** A single contact applied to all four roles. Use this OR `contacts`, not both. */
-  contact?: DomainContact;
+  contact?: DomainContact | undefined;
   /** Validate and report wouldSucceed without applying the change. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
   /** Only for a registrant change on an address-validated TLD after an ADDRESS_VALIDATION_REQUIRED response. 'accept_suggestion' saves the standardized suggestedAddress; 'use_as_entered' keeps the submitted address (rejected if a real correction was offered). */
-  addressValidationChoice?: DomainUpdateContactsRequestAddressValidationChoice | (string & {});
+  addressValidationChoice?:
+    | DomainUpdateContactsRequestAddressValidationChoice
+    | (string & {})
+    | undefined;
 }
 export interface DomainUpdateContactsResponse {
-  status?: string;
-  message?: string;
-  registrantChanged?: boolean;
+  status?: string | undefined;
+  message?: string | undefined;
+  registrantChanged?: boolean | undefined;
 }
 /** Array of IP addresses (IPv4 and/or IPv6) to associate with the host record */
 export type DomainUpdateGlueRequestIpsList = Array<string>;
@@ -1117,12 +1123,12 @@ export interface DomainUpdateTransferAuthCodeRequest {
   authCode: string;
 }
 export interface DomainUpdateTransferAuthCodeResponse {
-  status?: string;
-  domain?: string;
-  authCodeValid?: boolean;
-  previousStatus?: string;
-  transferStatus?: string;
-  message?: string;
+  status?: string | undefined;
+  domain?: string | undefined;
+  authCodeValid?: boolean | undefined;
+  previousStatus?: string | undefined;
+  transferStatus?: string | undefined;
+  message?: string | undefined;
 }
 /** DNS record type */
 export type EditDnsRequestType =
@@ -1144,17 +1150,17 @@ export interface EditDnsRequest {
   /** Numeric DNS record ID */
   id: string;
   /** Subdomain for the record. Do not include the domain name itself. */
-  name?: string;
+  name?: string | undefined;
   /** DNS record type */
-  type?: EditDnsRequestType | (string & {});
+  type?: EditDnsRequestType | (string & {}) | undefined;
   /** The record value */
-  content?: string;
+  content?: string | undefined;
   /** Time to live in seconds (optional) */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Priority for MX/SRV records (optional) */
-  prio?: number;
+  prio?: number | undefined;
   /** Notes (optional). Pass empty string to clear notes; omit or pass null to leave unchanged. */
-  notes?: string;
+  notes?: string | undefined;
 }
 export interface EmailSetPasswordRequest {
   /** The full email address (e.g. user@example.com) */
@@ -1173,143 +1179,143 @@ export interface GetAccountInviteStatusResponse {
   /** Current state of the invite */
   inviteStatus: GetAccountInviteStatusResponseInviteStatus;
   /** ID of the newly created account. Present only when `inviteStatus` is `ACCEPTED`. */
-  newAccountId?: number;
+  newAccountId?: number | undefined;
 }
 export interface GetApikeyRequest {
   /** The token returned by /apikey/request. Must be a 64-character lowercase hex string. */
   requestToken: string;
   /** PKCE verifier (RFC 7636). Required only when the request was created with a codeChallenge. The high-entropy secret whose base64url(SHA-256(codeVerifier)) equals that challenge. When it matches, this response includes the secret key (secretapikey) once. */
-  codeVerifier?: string;
+  codeVerifier?: string | undefined;
 }
 export type GetApikeyResponseStatus = "SUCCESS" | "PENDING" | "ERROR";
 export interface GetApikeyResponse {
-  status?: GetApikeyResponseStatus;
+  status?: GetApikeyResponseStatus | undefined;
   /** The approved public API key. Present only when status is SUCCESS. */
-  apikey?: string | Redacted.Redacted<string>;
+  apikey?: string | Redacted.Redacted<string> | undefined;
   /** The secret API key. Returned ONLY for a PKCE request, exactly once, on the retrieve that presents a valid codeVerifier. Never returned for legacy requests, and never again after the first successful claim (later calls return apikey only, with code SECRET_ALREADY_CLAIMED). Store it immediately. */
-  secretapikey?: string;
-  message?: string;
+  secretapikey?: string | undefined;
+  message?: string | undefined;
   /** Machine-readable error code. Present when status is ERROR. */
-  code?: string;
+  code?: string | undefined;
 }
 export interface GetApiSettingsRequest {}
 export type ApiSettingsResponseStatus = "SUCCESS" | "ERROR";
 export interface ApiSettingsResponseSettings {
   /** The monthly spend limit the account holder set, in cents. `null` means none is set; `spendLimit` shows what is actually enforced. */
-  monthlySpendLimit?: number | null;
+  monthlySpendLimit?: number | null | undefined;
   /** Send an alert email when balance drops below this amount (cents). `null` = disabled. */
-  lowBalanceAlert?: number | null;
+  lowBalanceAlert?: number | null | undefined;
   /** Whether automatic balance top-up is enabled. */
-  autoTopup?: boolean;
+  autoTopup?: boolean | undefined;
   /** Trigger auto top-up when balance falls below this amount (cents). `null` = disabled. */
-  topupThreshold?: number | null;
+  topupThreshold?: number | null | undefined;
   /** Amount to add during an auto top-up (cents). */
-  topupAmount?: number | null;
+  topupAmount?: number | null | undefined;
 }
 /** `account`: the account holder's own limit. `default`: none set, so the $100 default applies. `none`: none set and the account bought over the API before the default existed (2026-10-03), so purchases are not capped. */
 export type ApiSettingsResponseSpendLimitSource = "account" | "default" | "none";
 /** The monthly cap on API purchases actually enforced (registrations, renewals, transfers, closeouts, paid hosting). */
 export interface ApiSettingsResponseSpendLimit {
   /** Cents. `null` means no cap. */
-  limit?: number | null;
+  limit?: number | null | undefined;
   /** `account`: the account holder's own limit. `default`: none set, so the $100 default applies. `none`: none set and the account bought over the API before the default existed (2026-10-03), so purchases are not capped. */
-  source?: ApiSettingsResponseSpendLimitSource;
+  source?: ApiSettingsResponseSpendLimitSource | undefined;
   /** API spending this calendar month, in cents. */
-  spent?: number;
+  spent?: number | undefined;
   /** Cents left this month, or `null` with no cap. */
-  remaining?: number | null;
+  remaining?: number | null | undefined;
 }
 export type ApiSettingsResponseTopupLimitSource = "account" | "default";
 /** The monthly cap on credit added over the API: card top-ups, auto top-ups set off by an API purchase, MPP and USDC together. */
 export interface ApiSettingsResponseTopupLimit {
   /** Cents: the monthly spend limit, or $100 when none is set. */
-  limit?: number;
-  source?: ApiSettingsResponseTopupLimitSource;
+  limit?: number | undefined;
+  source?: ApiSettingsResponseTopupLimitSource | undefined;
   /** Credit added over the API this calendar month, in cents. */
-  added?: number | null;
+  added?: number | null | undefined;
 }
 export interface ApiSettingsResponse {
-  status?: ApiSettingsResponseStatus;
-  settings?: ApiSettingsResponseSettings;
+  status?: ApiSettingsResponseStatus | undefined;
+  settings?: ApiSettingsResponseSettings | undefined;
   /** Total API spend in the current calendar month, in cents. */
-  monthlySpend?: number;
+  monthlySpend?: number | undefined;
   /** The monthly cap on API purchases actually enforced (registrations, renewals, transfers, closeouts, paid hosting). */
-  spendLimit?: ApiSettingsResponseSpendLimit;
+  spendLimit?: ApiSettingsResponseSpendLimit | undefined;
   /** The monthly cap on credit added over the API: card top-ups, auto top-ups set off by an API purchase, MPP and USDC together. */
-  topupLimit?: ApiSettingsResponseTopupLimit;
+  topupLimit?: ApiSettingsResponseTopupLimit | undefined;
 }
 export interface GetAutoTopupRequest {}
 /** Advisory. Present when the settings cannot do anything as they stand, e.g. no payment method is saved. */
 export type AutoTopupResponseWarningsList = Array<string>;
 export interface AutoTopupResponse {
-  status?: string;
-  enabled?: boolean;
+  status?: string | undefined;
+  enabled?: boolean | undefined;
   /** Balance in cents below which a top-up fires; null when auto top-up is off. */
-  threshold?: number | null;
+  threshold?: number | null | undefined;
   /** Configured amount to add, in cents; null when never set. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** What POST /account/topup would charge right now: the configured amount, or the $50 default. */
-  effectiveAmount?: number;
+  effectiveAmount?: number | undefined;
   /** The platform default used when the account has configured nothing. */
-  defaultAmount?: number;
+  defaultAmount?: number | undefined;
   /** False means nothing can be charged and auto top-up cannot fire, whatever the settings say. */
-  paymentMethodOnFile?: boolean;
+  paymentMethodOnFile?: boolean | undefined;
   /** Current account credit, in cents. */
-  balance?: number;
-  chargesToday?: number;
-  chargesThisMonth?: number;
-  maxChargesPerDay?: number;
-  maxChargesPerMonth?: number;
+  balance?: number | undefined;
+  chargesToday?: number | undefined;
+  chargesThisMonth?: number | undefined;
+  maxChargesPerDay?: number | undefined;
+  maxChargesPerMonth?: number | undefined;
   /** Advisory. Present when the settings cannot do anything as they stand, e.g. no payment method is saved. */
-  warnings?: AutoTopupResponseWarningsList;
+  warnings?: AutoTopupResponseWarningsList | undefined;
 }
 export interface GetBalanceRequest {}
 export type BalanceResponseStatus = "SUCCESS" | "ERROR";
 export interface BalanceResponse {
-  status?: BalanceResponseStatus;
+  status?: BalanceResponseStatus | undefined;
   /** Available account credit balance in cents. */
-  balance?: number;
+  balance?: number | undefined;
   /** Human-readable balance string (e.g. `$12.34`). */
-  display?: string;
+  display?: string | undefined;
 }
 export interface GetCloseoutRequest {
   domain: string;
 }
 export interface CloseoutItem {
   /** Provider id for this listing. */
-  closeoutId?: number;
-  domain?: string;
-  tld?: string;
+  closeoutId?: number | undefined;
+  domain?: string | undefined;
+  tld?: string | undefined;
   /** Current closeout price, integer US cents. Descends on a schedule. */
-  price?: number;
+  price?: number | undefined;
   /** The provider's own renewal figure. Indicative only -- the amount actually charged is `renewalPrice` from /closeout/get/{domain}, which uses Porkbun pricing. */
-  providerRenewalPrice?: number | null;
+  providerRenewalPrice?: number | null | undefined;
   /** Porkbun's renewal or transfer price for the year included. Only returned by /closeout/get/{domain}. */
-  renewalPrice?: number | null;
+  renewalPrice?: number | null | undefined;
   /** price + renewalPrice. What /closeout/buy charges. Only returned by /closeout/get/{domain}. */
-  totalPrice?: number | null;
+  totalPrice?: number | null | undefined;
   /** True when the name is already at Porkbun (renewed rather than transferred in). Only returned by /closeout/get/{domain}. */
-  localDomain?: boolean | null;
+  localDomain?: boolean | null | undefined;
   /** Domain age in years. */
-  age?: number | null;
+  age?: number | null | undefined;
   /** Original registration date, ISO 8601 UTC. */
-  registrationDate?: string | null;
+  registrationDate?: string | null | undefined;
   /** When the listing ends, ISO 8601 UTC. */
-  endTime?: string | null;
-  nameLength?: number | null;
-  isIdn?: boolean;
+  endTime?: string | null | undefined;
+  nameLength?: number | null | undefined;
+  isIdn?: boolean | undefined;
   /** Third-party appraisal in US cents. Provider-supplied; treat as a weak signal. */
-  estibotAppraisal?: number | null;
-  monthlyVisitors?: number | null;
-  inboundLinks?: number | null;
-  expiredRevenue?: number | null;
+  estibotAppraisal?: number | null | undefined;
+  monthlyVisitors?: number | null | undefined;
+  inboundLinks?: number | null | undefined;
+  expiredRevenue?: number | null | undefined;
   /** How many other TLDs the same SLD is registered in. */
-  otherTldCount?: number | null;
+  otherTldCount?: number | null | undefined;
 }
 export interface GetCloseoutResponse {
-  status?: string;
-  available?: boolean;
-  closeout?: CloseoutItem;
+  status?: string | undefined;
+  available?: boolean | undefined;
+  closeout?: CloseoutItem | undefined;
 }
 export interface GetCloudflareRequest {
   domain: string;
@@ -1342,32 +1348,32 @@ export type GetDnssecRecordsResponseRecordsMap = {
   [key: string]: DnsGetDnssecRecordsResponseRecordsValue | undefined;
 };
 export interface GetDnssecRecordsResponse {
-  status?: string;
+  status?: string | undefined;
   /** Object keyed by key tag value. Each value is an object containing the DNSSEC data fields. */
-  records?: GetDnssecRecordsResponseRecordsMap;
+  records?: GetDnssecRecordsResponseRecordsMap | undefined;
 }
 export type GetDomainRequestIncludeLabels = "yes" | "no";
 export interface GetDomainRequest {
   /** Fully qualified domain name in the authenticated account. */
   domain: string;
   /** Return label metadata. Defaults to no. */
-  includeLabels?: GetDomainRequestIncludeLabels | (string & {});
+  includeLabels?: GetDomainRequestIncludeLabels | (string & {}) | undefined;
 }
 export interface GetDomainResponseDomain {
-  domain?: string;
-  status?: string;
-  tld?: string;
-  createDate?: string;
-  expireDate?: string;
-  securityLock?: number;
-  whoisPrivacy?: number;
-  autoRenew?: number;
-  apiAccess?: number;
-  notLocal?: number;
+  domain?: string | undefined;
+  status?: string | undefined;
+  tld?: string | undefined;
+  createDate?: string | undefined;
+  expireDate?: string | undefined;
+  securityLock?: number | undefined;
+  whoisPrivacy?: number | undefined;
+  autoRenew?: number | undefined;
+  apiAccess?: number | undefined;
+  notLocal?: number | undefined;
 }
 export interface GetDomainResponse {
-  status?: string;
-  domain?: GetDomainResponseDomain;
+  status?: string | undefined;
+  domain?: GetDomainResponseDomain | undefined;
 }
 export interface GetDomainGlueRequest {
   domain: string;
@@ -1377,17 +1383,17 @@ export type GetDomainGlueResponseHostsItemList = Array<unknown>;
 /** Array of [hostname, ipAddresses] tuples. Each element is a two-item array: index 0 is the full hostname (string), index 1 is an object with `v4` (array of IPv4 strings) and `v6` (array of IPv6 strings). Example: `["ns1.example.com", {"v4": ["1.2.3.4"], "v6": []}]` */
 export type GetDomainGlueResponseHostsList = Array<GetDomainGlueResponseHostsItemList>;
 export interface GetDomainGlueResponse {
-  status?: string;
+  status?: string | undefined;
   /** Array of [hostname, ipAddresses] tuples. Each element is a two-item array: index 0 is the full hostname (string), index 1 is an object with `v4` (array of IPv4 strings) and `v6` (array of IPv6 strings). Example: `["ns1.example.com", {"v4": ["1.2.3.4"], "v6": []}]` */
-  hosts?: GetDomainGlueResponseHostsList;
+  hosts?: GetDomainGlueResponseHostsList | undefined;
 }
 export interface GetDomainNsRequest {
   domain: string;
 }
 export type GetDomainNsResponseNsList = Array<string>;
 export interface GetDomainNsResponse {
-  status?: string;
-  ns?: GetDomainNsResponseNsList;
+  status?: string | undefined;
+  ns?: GetDomainNsResponseNsList | undefined;
 }
 export type GetDomainsRequestIncludeLabels = "yes" | "no";
 export type GetDomainsRequestTldsList = Array<string>;
@@ -1397,59 +1403,59 @@ export type GetDomainsRequestSortName = "domain" | "tld" | "create_date" | "expi
 export type GetDomainsRequestSortDirection = "asc" | "desc";
 export interface GetDomainsRequest {
   /** Zero-based offset for pagination. Returns up to 1000 domains per call. */
-  start?: number;
+  start?: number | undefined;
   /** Return label metadata for each domain. Defaults to no. */
-  includeLabels?: GetDomainsRequestIncludeLabels | (string & {});
+  includeLabels?: GetDomainsRequestIncludeLabels | (string & {}) | undefined;
   /** Exact domain name match. Returns 0 or 1 result. */
-  domain?: string;
+  domain?: string | undefined;
   /** Substring match against the full domain name. Case-insensitive. */
-  nameContains?: string;
+  nameContains?: string | undefined;
   /** Filter to domains expiring within this many days. */
-  expiringWithinDays?: number;
+  expiringWithinDays?: number | undefined;
   /** Limit to these TLDs (no leading dot). Use bracket form: `?tlds[]=com&tlds[]=io`. */
-  tlds?: GetDomainsRequestTldsList;
+  tlds?: GetDomainsRequestTldsList | undefined;
   /** Filter to domains with auto-renew on or off. */
-  autoRenew?: GetDomainsRequestAutoRenew | (string & {});
+  autoRenew?: GetDomainsRequestAutoRenew | (string & {}) | undefined;
   /** Filter to domains opted in to API access. */
-  apiAccess?: GetDomainsRequestApiAccess | (string & {});
+  apiAccess?: GetDomainsRequestApiAccess | (string & {}) | undefined;
   /** Field to sort by. Default: `expire_date` ascending. */
-  sortName?: GetDomainsRequestSortName | (string & {});
+  sortName?: GetDomainsRequestSortName | (string & {}) | undefined;
   /** Sort direction. Default: asc. */
-  sortDirection?: GetDomainsRequestSortDirection | (string & {});
+  sortDirection?: GetDomainsRequestSortDirection | (string & {}) | undefined;
 }
 export interface DomainListAllResponseDomainsItemLabelsItem {
-  id?: string;
-  title?: string;
-  color?: string;
+  id?: string | undefined;
+  title?: string | undefined;
+  color?: string | undefined;
 }
 /** Only present when includeLabels=yes */
 export type DomainListAllResponseDomainsItemLabelsList =
   Array<DomainListAllResponseDomainsItemLabelsItem>;
 export interface DomainListAllResponseDomainsItem {
-  domain?: string;
+  domain?: string | undefined;
   /** Domain registration status (e.g. ACTIVE) */
-  status?: string;
-  tld?: string;
-  createDate?: string;
-  expireDate?: string;
+  status?: string | undefined;
+  tld?: string | undefined;
+  createDate?: string | undefined;
+  expireDate?: string | undefined;
   /** 1 if transfer lock is enabled, 0 otherwise */
-  securityLock?: number;
+  securityLock?: number | undefined;
   /** 1 if WHOIS privacy is enabled, 0 otherwise */
-  whoisPrivacy?: number;
+  whoisPrivacy?: number | undefined;
   /** 1 if auto-renew is enabled, 0 otherwise */
-  autoRenew?: number;
+  autoRenew?: number | undefined;
   /** 1 if the domain is opted in to API access, 0 otherwise. Per-domain API access can be toggled at porkbun.com/account or globally via the `Opt In All Domains` setting. */
-  apiAccess?: number;
+  apiAccess?: number | undefined;
   /** 1 if the domain is externally managed (not authoritative), 0 otherwise */
-  notLocal?: number;
+  notLocal?: number | undefined;
   /** Only present when includeLabels=yes */
-  labels?: DomainListAllResponseDomainsItemLabelsList;
+  labels?: DomainListAllResponseDomainsItemLabelsList | undefined;
 }
 export type DomainListAllResponseDomainsList = Array<DomainListAllResponseDomainsItem>;
 export interface DomainListAllResponse {
   status: string;
   /** Number of domains returned in this page. */
-  count?: number;
+  count?: number | undefined;
   domains: DomainListAllResponseDomainsList;
 }
 export interface GetDomainUrlForwardingRequest {
@@ -1459,21 +1465,21 @@ export interface GetHostingRequest {
   domain: string;
 }
 export interface GetHostingResponseHosting {
-  domain?: string;
-  product?: string;
-  status?: string;
-  plan?: string;
-  server?: string;
-  isTrial?: boolean;
-  autoRenew?: boolean;
-  expireDate?: string;
+  domain?: string | undefined;
+  product?: string | undefined;
+  status?: string | undefined;
+  plan?: string | undefined;
+  server?: string | undefined;
+  isTrial?: boolean | undefined;
+  autoRenew?: boolean | undefined;
+  expireDate?: string | undefined;
   /** True when a deprovision (retire) is queued/underway. Poll this endpoint until hosting is null for teardown completion. */
-  pendingRetire?: boolean;
-  cost?: unknown;
+  pendingRetire?: boolean | undefined;
+  cost?: unknown | undefined;
 }
 export interface GetHostingResponse {
-  status?: string;
-  hosting?: GetHostingResponseHosting | null;
+  status?: string | undefined;
+  hosting?: GetHostingResponseHosting | null | undefined;
 }
 export interface GetInvoiceRequest {
   /** Invoice (order) ID, from `GET /account/invoices`. */
@@ -1481,10 +1487,10 @@ export interface GetInvoiceRequest {
 }
 export type GetInvoiceResponseInvoiceState = "PAID" | "PARTIALLY_REFUNDED" | "REFUNDED" | "UNPAID";
 export interface GetInvoiceResponseInvoiceBillTo {
-  company?: string | null;
-  name?: string | null;
-  address?: string | null;
-  vat?: string | null;
+  company?: string | null | undefined;
+  name?: string | null | undefined;
+  address?: string | null | undefined;
+  vat?: string | null | undefined;
 }
 export type GetInvoiceResponseInvoicePaymentMethodsList = Array<string>;
 export type GetInvoiceResponseInvoiceItemsItemStatus =
@@ -1495,56 +1501,56 @@ export type GetInvoiceResponseInvoiceItemsItemStatus =
   | "COUPON";
 export type GetInvoiceResponseInvoiceItemsItemTagsList = Array<string>;
 export interface GetInvoiceResponseInvoiceItemsItem {
-  domain?: string;
-  product?: string;
-  type?: string;
-  years?: number | null;
+  domain?: string | undefined;
+  product?: string | undefined;
+  type?: string | undefined;
+  years?: number | null | undefined;
   /** Resulting domain expiry, on lines that buy a domain term. */
-  expires?: string | null;
-  status?: GetInvoiceResponseInvoiceItemsItemStatus;
-  price_cents?: number;
+  expires?: string | null | undefined;
+  status?: GetInvoiceResponseInvoiceItemsItemStatus | undefined;
+  price_cents?: number | undefined;
   /** Discount on this line; on a REFUND line, the amount refunded. */
-  discount_cents?: number;
-  tags?: GetInvoiceResponseInvoiceItemsItemTagsList;
+  discount_cents?: number | undefined;
+  tags?: GetInvoiceResponseInvoiceItemsItemTagsList | undefined;
 }
 export type GetInvoiceResponseInvoiceItemsList = Array<GetInvoiceResponseInvoiceItemsItem>;
 export interface GetInvoiceResponseInvoice {
-  id?: number;
-  date?: string;
-  state?: GetInvoiceResponseInvoiceState;
-  billTo?: GetInvoiceResponseInvoiceBillTo;
-  paymentMethods?: GetInvoiceResponseInvoicePaymentMethodsList;
-  items?: GetInvoiceResponseInvoiceItemsList;
-  gross_cents?: number;
-  refunded_cents?: number;
-  total_cents?: number;
-  total?: string;
-  currency?: string;
-  url?: string | null;
-  pdfUrl?: string | null;
+  id?: number | undefined;
+  date?: string | undefined;
+  state?: GetInvoiceResponseInvoiceState | undefined;
+  billTo?: GetInvoiceResponseInvoiceBillTo | undefined;
+  paymentMethods?: GetInvoiceResponseInvoicePaymentMethodsList | undefined;
+  items?: GetInvoiceResponseInvoiceItemsList | undefined;
+  gross_cents?: number | undefined;
+  refunded_cents?: number | undefined;
+  total_cents?: number | undefined;
+  total?: string | undefined;
+  currency?: string | undefined;
+  url?: string | null | undefined;
+  pdfUrl?: string | null | undefined;
   /** Downloads the PDF without signing in, for 15 minutes (null on a sandbox key). The link to hand a user. */
-  downloadUrl?: string | null;
+  downloadUrl?: string | null | undefined;
   /** When downloadUrl stops working (ISO 8601). */
-  downloadExpires?: string | null;
+  downloadExpires?: string | null | undefined;
 }
 export interface GetInvoiceResponse {
-  status?: string;
-  invoice?: GetInvoiceResponseInvoice;
+  status?: string | undefined;
+  invoice?: GetInvoiceResponseInvoice | undefined;
 }
 export interface GetInvoicePdfRequest {
   /** Invoice (order) ID, from `GET /account/invoices`. */
   orderId: number;
 }
 export interface GetInvoicePdfResponse {
-  status?: string;
-  filename?: string;
-  contentType?: string;
-  sizeBytes?: number;
-  contentBase64?: string;
+  status?: string | undefined;
+  filename?: string | undefined;
+  contentType?: string | undefined;
+  sizeBytes?: number | undefined;
+  contentBase64?: string | undefined;
   /** Downloads the PDF without signing in, for 15 minutes (null on a sandbox key). The link to hand a user. */
-  downloadUrl?: string | null;
+  downloadUrl?: string | null | undefined;
   /** When downloadUrl stops working (ISO 8601). */
-  downloadExpires?: string | null;
+  downloadExpires?: string | null | undefined;
 }
 export interface GetIpRequest {}
 export interface IpResponse {
@@ -1552,7 +1558,7 @@ export interface IpResponse {
   /** The caller's public IP address */
   yourIp: string;
   /** Raw value of the X-Forwarded-For header */
-  xForwardedFor?: string;
+  xForwardedFor?: string | undefined;
 }
 export interface GetPingRequest {}
 export interface GetPingResponse {
@@ -1560,116 +1566,116 @@ export interface GetPingResponse {
   /** The caller's public IP address */
   yourIp: string;
   /** Raw value of the X-Forwarded-For header */
-  xForwardedFor?: string;
+  xForwardedFor?: string | undefined;
   /** Present and true when valid credentials were supplied */
-  credentialsValid?: boolean;
+  credentialsValid?: boolean | undefined;
 }
 export type GetPricingRequestTldsCase0List = Array<string>;
 /** Optional TLDs to price: an array, or a comma-separated string. If neither `tld` nor `tlds` is given (or both are empty), all supported TLDs are returned. */
 export type GetPricingRequestTlds = GetPricingRequestTldsCase0List | string;
 export interface GetPricingRequest {
   /** Optional single TLD to price, e.g. `io`. Combines with `tlds`. */
-  tld?: string;
+  tld?: string | undefined;
   /** Optional TLDs to price: an array, or a comma-separated string. If neither `tld` nor `tlds` is given (or both are empty), all supported TLDs are returned. */
-  tlds?: GetPricingRequestTlds;
+  tlds?: GetPricingRequestTlds | undefined;
 }
 /** Present only when a filter named TLDs Porkbun does not sell: those names, as sent. They are not in `pricing`. */
 export type GetPricingResponseUnsupportedList = Array<string>;
 export type GetPricingResponsePricingValueCouponsValueFirstYearOnly = "yes" | "no";
 export interface GetPricingResponsePricingValueCouponsValue {
-  code?: string;
-  max_per_user?: number;
-  first_year_only?: GetPricingResponsePricingValueCouponsValueFirstYearOnly;
-  type?: string;
-  amount?: number;
+  code?: string | undefined;
+  max_per_user?: number | undefined;
+  first_year_only?: GetPricingResponsePricingValueCouponsValueFirstYearOnly | undefined;
+  type?: string | undefined;
+  amount?: number | undefined;
 }
 /** Active coupon codes for this TLD, keyed by product type */
 export type GetPricingResponsePricingValueCouponsMap = {
   [key: string]: GetPricingResponsePricingValueCouponsValue | undefined;
 };
 export interface GetPricingResponsePricingValue {
-  registration?: string;
-  renewal?: string;
-  transfer?: string;
+  registration?: string | undefined;
+  renewal?: string | undefined;
+  transfer?: string | undefined;
   /** Present only for special TLDs (e.g. 'handshake') */
-  specialType?: string;
+  specialType?: string | undefined;
   /** Active coupon codes for this TLD, keyed by product type */
-  coupons?: GetPricingResponsePricingValueCouponsMap;
+  coupons?: GetPricingResponsePricingValueCouponsMap | undefined;
 }
 /** Object keyed by TLD string */
 export type GetPricingResponsePricingMap = {
   [key: string]: GetPricingResponsePricingValue | undefined;
 };
 export interface GetPricingResponse {
-  status?: string;
+  status?: string | undefined;
   /** Present only when a filter named TLDs Porkbun does not sell: those names, as sent. They are not in `pricing`. */
-  unsupported?: GetPricingResponseUnsupportedList;
+  unsupported?: GetPricingResponseUnsupportedList | undefined;
   /** Object keyed by TLD string */
-  pricing?: GetPricingResponsePricingMap;
+  pricing?: GetPricingResponsePricingMap | undefined;
 }
 export interface GetPricingGetRequest {
   /** One TLD to price, e.g. `io`. */
-  tld?: string;
+  tld?: string | undefined;
   /** Comma-separated TLDs to price, e.g. `com,io,dev`. Omit (with `tld`) for every TLD. */
-  tlds?: string;
+  tlds?: string | undefined;
 }
 /** Present only when a filter named TLDs Porkbun does not sell: those names, as sent. They are not in `pricing`. */
 export type GetPricingGetResponseUnsupportedList = Array<string>;
 export type GetPricingGetResponsePricingValueCouponsValueFirstYearOnly = "yes" | "no";
 export interface GetPricingGetResponsePricingValueCouponsValue {
-  code?: string;
-  max_per_user?: number;
-  first_year_only?: GetPricingGetResponsePricingValueCouponsValueFirstYearOnly;
-  type?: string;
-  amount?: number;
+  code?: string | undefined;
+  max_per_user?: number | undefined;
+  first_year_only?: GetPricingGetResponsePricingValueCouponsValueFirstYearOnly | undefined;
+  type?: string | undefined;
+  amount?: number | undefined;
 }
 /** Active coupon codes for this TLD, keyed by product type */
 export type GetPricingGetResponsePricingValueCouponsMap = {
   [key: string]: GetPricingGetResponsePricingValueCouponsValue | undefined;
 };
 export interface GetPricingGetResponsePricingValue {
-  registration?: string;
-  renewal?: string;
-  transfer?: string;
+  registration?: string | undefined;
+  renewal?: string | undefined;
+  transfer?: string | undefined;
   /** Present only for special TLDs (e.g. 'handshake') */
-  specialType?: string;
+  specialType?: string | undefined;
   /** Active coupon codes for this TLD, keyed by product type */
-  coupons?: GetPricingGetResponsePricingValueCouponsMap;
+  coupons?: GetPricingGetResponsePricingValueCouponsMap | undefined;
 }
 /** Object keyed by TLD string */
 export type GetPricingGetResponsePricingMap = {
   [key: string]: GetPricingGetResponsePricingValue | undefined;
 };
 export interface GetPricingGetResponse {
-  status?: string;
+  status?: string | undefined;
   /** Present only when a filter named TLDs Porkbun does not sell: those names, as sent. They are not in `pricing`. */
-  unsupported?: GetPricingGetResponseUnsupportedList;
+  unsupported?: GetPricingGetResponseUnsupportedList | undefined;
   /** Object keyed by TLD string */
-  pricing?: GetPricingGetResponsePricingMap;
+  pricing?: GetPricingGetResponsePricingMap | undefined;
 }
 export interface GetSslRequest {
   domain: string;
 }
 export interface GetSslResponse {
-  status?: string;
+  status?: string | undefined;
   /** The full PEM-encoded certificate chain (certificate + intermediates) */
-  certificatechain?: string;
+  certificatechain?: string | undefined;
   /** The PEM-encoded private key */
-  privatekey?: string | Redacted.Redacted<string>;
+  privatekey?: string | Redacted.Redacted<string> | undefined;
   /** The PEM-encoded public key */
-  publickey?: string;
+  publickey?: string | undefined;
 }
 export interface GetSslRetrieveRequest {
   domain: string;
 }
 export interface GetSslRetrieveResponse {
-  status?: string;
+  status?: string | undefined;
   /** The full PEM-encoded certificate chain (certificate + intermediates) */
-  certificatechain?: string;
+  certificatechain?: string | undefined;
   /** The PEM-encoded private key */
-  privatekey?: string | Redacted.Redacted<string>;
+  privatekey?: string | Redacted.Redacted<string> | undefined;
   /** The PEM-encoded public key */
-  publickey?: string;
+  publickey?: string | undefined;
 }
 export interface GetTransferGetRequest {
   /** The domain name (e.g. `example.com`). */
@@ -1685,15 +1691,15 @@ export type GetTransferResponseTransferStatus =
   | "CANCELED"
   | "INIT";
 export interface GetTransferResponseTransfer {
-  domain?: string;
-  status?: GetTransferResponseTransferStatus;
-  statusDescription?: string;
-  transferDate?: string;
-  orderId?: number;
+  domain?: string | undefined;
+  status?: GetTransferResponseTransferStatus | undefined;
+  statusDescription?: string | undefined;
+  transferDate?: string | undefined;
+  orderId?: number | undefined;
 }
 export interface GetTransferResponse {
-  status?: GetTransferResponseStatus;
-  transfer?: GetTransferResponseTransfer;
+  status?: GetTransferResponseStatus | undefined;
+  transfer?: GetTransferResponseTransfer | undefined;
 }
 export interface GetWebhookRequest {
   id: number;
@@ -1703,114 +1709,114 @@ export type HostingCreateWpCredentialsRequestRole = "editor" | "administrator";
 export interface HostingCreateWpCredentialsRequest {
   domain: string;
   /** Least privilege by default. `editor` = content only (recommended for agents). `administrator` = full control incl. plugin install; requires acknowledgeFullAccess. */
-  role?: HostingCreateWpCredentialsRequestRole | (string & {});
+  role?: HostingCreateWpCredentialsRequestRole | (string & {}) | undefined;
   /** Required when role=administrator: confirms you understand the credential can run arbitrary code on the site. */
-  acknowledgeFullAccess?: boolean;
+  acknowledgeFullAccess?: boolean | undefined;
   /** Label shown in wp-admin (sanitized to letters, digits and dashes). */
-  name?: string;
+  name?: string | undefined;
   /** Validate without creating anything. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface HostingCreateWpCredentialsResponseCredentials {
-  username?: string;
-  applicationPassword?: string | Redacted.Redacted<string>;
-  role?: string;
-  name?: string;
-  restUrl?: string;
+  username?: string | undefined;
+  applicationPassword?: string | Redacted.Redacted<string> | undefined;
+  role?: string | undefined;
+  name?: string | undefined;
+  restUrl?: string | undefined;
   /** Ready-to-use HTTP Basic header value. */
-  authorization?: string;
+  authorization?: string | undefined;
 }
 export interface HostingCreateWpCredentialsResponse {
-  status?: string;
-  credentials?: HostingCreateWpCredentialsResponseCredentials;
-  message?: string;
+  status?: string | undefined;
+  credentials?: HostingCreateWpCredentialsResponseCredentials | undefined;
+  message?: string | undefined;
 }
 export interface HostingDeleteFileRequest {
   domain: string;
   path: string;
   /** Delete a directory together with everything in it (up to 2,000 items per call; call again to continue). Without it, a non-empty directory returns HOSTING_DIR_NOT_EMPTY. */
-  recursive?: boolean;
+  recursive?: boolean | undefined;
 }
 export interface HostingDeleteFileResponse {
-  status?: string;
-  deleted?: string;
+  status?: string | undefined;
+  deleted?: string | undefined;
 }
 export interface HostingDeleteWpCredentialsRequest {
   domain: string;
   /** The application password uuid to revoke. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Revoke every application password for the user. */
-  all?: boolean;
-  wpUser?: string;
-  dryRun?: boolean;
+  all?: boolean | undefined;
+  wpUser?: string | undefined;
+  dryRun?: boolean | undefined;
 }
 export interface HostingDeleteWpCredentialsResponse {
-  status?: string;
-  revoked?: string;
-  message?: string;
+  status?: string | undefined;
+  revoked?: string | undefined;
+  message?: string | undefined;
 }
 export interface HostingFilesRequest {
   domain: string;
 }
 export type HostingFilesResponseFilesList = Array<string>;
 export interface HostingFilesResponse {
-  status?: string;
-  path?: string;
-  files?: HostingFilesResponseFilesList;
+  status?: string | undefined;
+  path?: string | undefined;
+  files?: HostingFilesResponseFilesList | undefined;
 }
 export interface HostingGetWpCredentialsRequest {
   domain: string;
-  wpUser?: string;
+  wpUser?: string | undefined;
 }
 export type HostingGetWpCredentialsResponseCredentialsList = Array<unknown>;
 export interface HostingGetWpCredentialsResponse {
-  status?: string;
-  wpUser?: string;
-  credentials?: HostingGetWpCredentialsResponseCredentialsList;
+  status?: string | undefined;
+  wpUser?: string | undefined;
+  credentials?: HostingGetWpCredentialsResponseCredentialsList | undefined;
 }
 export interface HostingMakeDirRequest {
   domain: string;
   path: string;
 }
 export interface HostingMakeDirResponse {
-  status?: string;
-  created?: string;
+  status?: string | undefined;
+  created?: string | undefined;
 }
 export interface HostingPlansRequest {}
 export interface HostingPlansResponsePlansItem {
-  product?: string;
-  plan?: string;
-  sku?: string;
-  interval?: string;
+  product?: string | undefined;
+  plan?: string | undefined;
+  sku?: string | undefined;
+  interval?: string | undefined;
   /** Price in cents; pass as acknowledgedCost to /hosting/create. */
-  price?: number;
-  priceFormatted?: string;
-  trialDays?: number;
-  name?: string;
-  features?: unknown;
+  price?: number | undefined;
+  priceFormatted?: string | undefined;
+  trialDays?: number | undefined;
+  name?: string | undefined;
+  features?: unknown | undefined;
 }
 export type HostingPlansResponsePlansList = Array<HostingPlansResponsePlansItem>;
 export interface HostingPlansResponse {
-  status?: string;
-  plans?: HostingPlansResponsePlansList;
+  status?: string | undefined;
+  plans?: HostingPlansResponsePlansList | undefined;
 }
 /** Records to create. Omit to import what a scan discovers. NS and SOA entries are ignored -- they describe the delegation, not the zone contents. */
 export type ImportDnsRequestRecordsList = Array<DnsRecordInput>;
 export interface ImportDnsRequest {
   domain: string;
   /** Records to create. Omit to import what a scan discovers. NS and SOA entries are ignored -- they describe the delegation, not the zone contents. */
-  records?: ImportDnsRequestRecordsList;
+  records?: ImportDnsRequestRecordsList | undefined;
 }
 export type ImportDnsResponseFailuresList = Array<unknown>;
 export interface ImportDnsResponse {
-  status?: string;
-  domain?: string;
-  created?: number;
+  status?: string | undefined;
+  domain?: string | undefined;
+  created?: number | undefined;
   /** Already present, so nothing needed doing. */
-  skipped?: number;
-  failed?: number;
-  failures?: ImportDnsResponseFailuresList;
-  warnings?: DnsWriteWarnings;
+  skipped?: number | undefined;
+  failed?: number | undefined;
+  failures?: ImportDnsResponseFailuresList | undefined;
+  warnings?: DnsWriteWarnings | undefined;
 }
 /** Return label metadata for each domain. Defaults to no. */
 export type ListDomainsRequestIncludeLabels = "yes" | "no";
@@ -1826,32 +1832,32 @@ export type ListDomainsRequestSortName = "domain" | "tld" | "create_date" | "exp
 export type ListDomainsRequestSortDirection = "asc" | "desc";
 export interface ListDomainsRequest {
   /** Zero-based offset for pagination (default: 0). Returns up to 1000 domains per call. */
-  start?: number;
+  start?: number | undefined;
   /** Return label metadata for each domain. Defaults to no. */
-  includeLabels?: ListDomainsRequestIncludeLabels | (string & {});
+  includeLabels?: ListDomainsRequestIncludeLabels | (string & {}) | undefined;
   /** Exact domain name match. Returns 0 or 1 result. Useful as an alternative to `/domain/get/{domain}`. */
-  domain?: string;
+  domain?: string | undefined;
   /** Substring match against the full domain name. Case-insensitive. */
-  nameContains?: string;
+  nameContains?: string | undefined;
   /** Filter to domains expiring within this many days (relative to now). */
-  expiringWithinDays?: number;
+  expiringWithinDays?: number | undefined;
   /** Limit to these TLDs (without leading dot). */
-  tlds?: ListDomainsRequestTldsList;
+  tlds?: ListDomainsRequestTldsList | undefined;
   /** Filter to domains with auto-renew on or off. */
-  autoRenew?: ListDomainsRequestAutoRenew | (string & {});
+  autoRenew?: ListDomainsRequestAutoRenew | (string & {}) | undefined;
   /** Filter to domains opted in to API access (yes) or not (no). Useful for finding domains an API key can actually operate on. */
-  apiAccess?: ListDomainsRequestApiAccess | (string & {});
+  apiAccess?: ListDomainsRequestApiAccess | (string & {}) | undefined;
   /** Field to sort by. Default: `expire_date` ascending. */
-  sortName?: ListDomainsRequestSortName | (string & {});
+  sortName?: ListDomainsRequestSortName | (string & {}) | undefined;
   /** Sort direction. Default: asc. */
-  sortDirection?: ListDomainsRequestSortDirection | (string & {});
+  sortDirection?: ListDomainsRequestSortDirection | (string & {}) | undefined;
 }
 export interface ListInvoicesRequest {
   /** Only invoices from this year, e.g. 2026. */
-  year?: number;
+  year?: number | undefined;
   /** Offset for paging. */
-  start?: number;
-  limit?: number;
+  start?: number | undefined;
+  limit?: number | undefined;
 }
 export type ListInvoicesResponseInvoicesItemState =
   | "PAID"
@@ -1861,29 +1867,29 @@ export type ListInvoicesResponseInvoicesItemState =
 /** Up to 10 domains on the invoice. */
 export type ListInvoicesResponseInvoicesItemDomainsList = Array<string>;
 export interface ListInvoicesResponseInvoicesItem {
-  id?: number;
-  date?: string;
-  state?: ListInvoicesResponseInvoicesItemState;
-  total_cents?: number;
-  total?: string;
-  itemCount?: number;
+  id?: number | undefined;
+  date?: string | undefined;
+  state?: ListInvoicesResponseInvoicesItemState | undefined;
+  total_cents?: number | undefined;
+  total?: string | undefined;
+  itemCount?: number | undefined;
   /** Up to 10 domains on the invoice. */
-  domains?: ListInvoicesResponseInvoicesItemDomainsList;
+  domains?: ListInvoicesResponseInvoicesItemDomainsList | undefined;
   /** The invoice page on porkbun.com (null on a sandbox key). */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export type ListInvoicesResponseInvoicesList = Array<ListInvoicesResponseInvoicesItem>;
 /** Years that have invoices. */
 export type ListInvoicesResponseYearsList = Array<number>;
 export interface ListInvoicesResponse {
-  status?: string;
-  invoices?: ListInvoicesResponseInvoicesList;
+  status?: string | undefined;
+  invoices?: ListInvoicesResponseInvoicesList | undefined;
   /** How many invoices match (for paging). */
-  total?: number;
-  start?: number;
-  limit?: number;
+  total?: number | undefined;
+  start?: number | undefined;
+  limit?: number | undefined;
   /** Years that have invoices. */
-  years?: ListInvoicesResponseYearsList;
+  years?: ListInvoicesResponseYearsList | undefined;
 }
 /** Filter to listings under these TLDs (without the leading dot). */
 export type ListMarketplaceListingsRequestTldsList = Array<string>;
@@ -1893,77 +1899,77 @@ export type ListMarketplaceListingsRequestSortName = "domain" | "tld" | "price" 
 export type ListMarketplaceListingsRequestSortDirection = "asc" | "desc";
 export interface ListMarketplaceListingsRequest {
   /** Pagination offset (unfiltered mode only). Default 0. */
-  start?: number;
+  start?: number | undefined;
   /** Number of domains to return (unfiltered mode only). Default 1000, max 5000. */
-  limit?: number;
+  limit?: number | undefined;
   /** Search string. Each space-separated term filters by SLD substring. Prefix a term with `-` to exclude it. */
-  query?: string;
+  query?: string | undefined;
   /** Filter to listings under these TLDs (without the leading dot). */
-  tlds?: ListMarketplaceListingsRequestTldsList;
+  tlds?: ListMarketplaceListingsRequestTldsList | undefined;
   /** Filter to listings whose SLD has at least this many characters. */
-  sldLengthMin?: number;
+  sldLengthMin?: number | undefined;
   /** Filter to listings whose SLD has at most this many characters. */
-  sldLengthMax?: number;
+  sldLengthMax?: number | undefined;
   /** Field to sort filtered results by. Default `sld_length` ascending when `query` is set, otherwise `create_date` descending. */
-  sortName?: ListMarketplaceListingsRequestSortName | (string & {});
+  sortName?: ListMarketplaceListingsRequestSortName | (string & {}) | undefined;
   /** Sort direction. Defaults vary by `sortName`. */
-  sortDirection?: ListMarketplaceListingsRequestSortDirection | (string & {});
+  sortDirection?: ListMarketplaceListingsRequestSortDirection | (string & {}) | undefined;
 }
 export interface ListMarketplaceListingsResponseDomainsItem {
   /** Date the listing was created */
-  create_date?: string;
-  domain?: string;
-  tld?: string;
+  create_date?: string | undefined;
+  domain?: string | undefined;
+  tld?: string | undefined;
   /** Character length of the SLD (the part of the domain before the TLD) */
-  sld_length?: number;
+  sld_length?: number | undefined;
   /** Listing price in USD */
-  price?: number;
+  price?: number | undefined;
 }
 export type ListMarketplaceListingsResponseDomainsList =
   Array<ListMarketplaceListingsResponseDomainsItem>;
 export interface ListMarketplaceListingsResponse {
-  status?: string;
+  status?: string | undefined;
   /** Number of domains returned in this response */
-  count?: number;
+  count?: number | undefined;
   /** True when one or more filter parameters were applied (query, tlds, sldLengthMin/Max, sortName). */
-  filtered?: boolean;
-  domains?: ListMarketplaceListingsResponseDomainsList;
+  filtered?: boolean | undefined;
+  domains?: ListMarketplaceListingsResponseDomainsList | undefined;
 }
 export type ListMarketplaceListingsGetRequestTldsList = Array<string>;
 export type ListMarketplaceListingsGetRequestSortName = "domain" | "tld" | "price" | "sld_length";
 export type ListMarketplaceListingsGetRequestSortDirection = "asc" | "desc";
 export interface ListMarketplaceListingsGetRequest {
   /** SLD substring search. Multi-word; prefix a term with `-` to exclude. Example: `ai -test`. */
-  query?: string;
+  query?: string | undefined;
   /** Filter to listings under these TLDs (without leading dot). Use bracket form: `?tlds[]=com&tlds[]=io`. */
-  tlds?: ListMarketplaceListingsGetRequestTldsList;
+  tlds?: ListMarketplaceListingsGetRequestTldsList | undefined;
   /** Minimum SLD character length. */
-  sldLengthMin?: number;
+  sldLengthMin?: number | undefined;
   /** Maximum SLD character length. */
-  sldLengthMax?: number;
+  sldLengthMax?: number | undefined;
   /** Field to sort filtered results by. */
-  sortName?: ListMarketplaceListingsGetRequestSortName | (string & {});
+  sortName?: ListMarketplaceListingsGetRequestSortName | (string & {}) | undefined;
   /** Sort direction. */
-  sortDirection?: ListMarketplaceListingsGetRequestSortDirection | (string & {});
+  sortDirection?: ListMarketplaceListingsGetRequestSortDirection | (string & {}) | undefined;
   /** Pagination offset (unfiltered mode only). */
-  start?: number;
+  start?: number | undefined;
   /** Page size (unfiltered mode only). Default 1000, max 5000. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ListMarketplaceListingsGetResponseDomainsItem {
-  create_date?: string;
-  domain?: string;
-  tld?: string;
-  sld_length?: number;
-  price?: number;
+  create_date?: string | undefined;
+  domain?: string | undefined;
+  tld?: string | undefined;
+  sld_length?: number | undefined;
+  price?: number | undefined;
 }
 export type ListMarketplaceListingsGetResponseDomainsList =
   Array<ListMarketplaceListingsGetResponseDomainsItem>;
 export interface ListMarketplaceListingsGetResponse {
-  status?: string;
-  count?: number;
-  filtered?: boolean;
-  domains?: ListMarketplaceListingsGetResponseDomainsList;
+  status?: string | undefined;
+  count?: number | undefined;
+  filtered?: boolean | undefined;
+  domains?: ListMarketplaceListingsGetResponseDomainsList | undefined;
 }
 export interface ListTransfersGetRequest {}
 export type ListTransfersResponseStatus = "SUCCESS" | "ERROR";
@@ -1976,43 +1982,43 @@ export type ListTransfersResponseTransfersItemStatus =
   | "CANCELED"
   | "INIT";
 export interface ListTransfersResponseTransfersItem {
-  domain?: string;
-  status?: ListTransfersResponseTransfersItemStatus;
-  statusDescription?: string;
-  transferDate?: string;
-  orderId?: number;
+  domain?: string | undefined;
+  status?: ListTransfersResponseTransfersItemStatus | undefined;
+  statusDescription?: string | undefined;
+  transferDate?: string | undefined;
+  orderId?: number | undefined;
 }
 export type ListTransfersResponseTransfersList = Array<ListTransfersResponseTransfersItem>;
 export interface ListTransfersResponse {
-  status?: ListTransfersResponseStatus;
-  transfers?: ListTransfersResponseTransfersList;
+  status?: ListTransfersResponseStatus | undefined;
+  transfers?: ListTransfersResponseTransfersList | undefined;
 }
 export interface ListWebhookRequest {}
 export type WebhookListResponseEndpointsList = Array<WebhookEndpoint>;
 export interface WebhookListResponse {
-  status?: string;
-  endpoints?: WebhookListResponseEndpointsList;
+  status?: string | undefined;
+  endpoints?: WebhookListResponseEndpointsList | undefined;
 }
 export interface MockDirectoryRequest {}
 export interface MockDirectoryResponseEndpointsItem {
-  method?: string;
-  path?: string;
-  summary?: string;
-  mockUrl?: string;
+  method?: string | undefined;
+  path?: string | undefined;
+  summary?: string | undefined;
+  mockUrl?: string | undefined;
 }
 export type MockDirectoryResponseEndpointsList = Array<MockDirectoryResponseEndpointsItem>;
 export interface MockDirectoryResponse {
-  status?: string;
-  mock?: boolean;
-  count?: number;
-  endpoints?: MockDirectoryResponseEndpointsList;
+  status?: string | undefined;
+  mock?: boolean | undefined;
+  count?: number | undefined;
+  endpoints?: MockDirectoryResponseEndpointsList | undefined;
 }
 export type MockEndpointRequestStatus = "error";
 export interface MockEndpointRequest {
   /** The real endpoint path to mock, e.g. `domain/listAll`. */
   path: string;
   /** Set to `error` to return the error-response shape. */
-  status?: MockEndpointRequestStatus | (string & {});
+  status?: MockEndpointRequestStatus | (string & {}) | undefined;
 }
 export type MockEndpointResponse = unknown;
 export interface PingRequest {}
@@ -2021,9 +2027,9 @@ export interface PingResponse {
   /** The caller's public IP address */
   yourIp: string;
   /** Raw value of the X-Forwarded-For header */
-  xForwardedFor?: string;
+  xForwardedFor?: string | undefined;
   /** Present and true when valid credentials were supplied */
-  credentialsValid?: boolean;
+  credentialsValid?: boolean | undefined;
 }
 export interface PostIpRequest {}
 export interface PreviewCloudflareRequest {
@@ -2037,37 +2043,37 @@ export interface RenewDomainRequest {
   /** The renewal cost in pennies (USD cents). Must exactly equal the total price for the domain at its minimum renewal duration. Obtain this from /domain/checkDomain first. */
   cost: number;
   /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
-  payWith?: RenewDomainRequestPayWith | (string & {});
+  payWith?: RenewDomainRequestPayWith | (string & {}) | undefined;
   /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
-  usdcCheckoutId?: string;
+  usdcCheckoutId?: string | undefined;
   /** Optional. When true, runs all pre-flight validation and returns a preview with `dryRun: true` and `wouldSucceed` WITHOUT renewing or charging. Nothing changes and the rate-limit budget is not consumed. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type RenewDomainResponseLimitsAttempts = CreateDomainResponseLimitsAttempts;
 export type RenewDomainResponseLimitsSuccess = CreateDomainResponseLimitsSuccess;
 /** Current rate limit state for both attempt and success limits */
 export interface RenewDomainResponseLimits {
-  attempts?: CreateDomainResponseLimitsAttempts;
-  success?: CreateDomainResponseLimitsSuccess;
+  attempts?: CreateDomainResponseLimitsAttempts | undefined;
+  success?: CreateDomainResponseLimitsSuccess | undefined;
 }
 export interface RenewDomainResponse {
   status: string;
   /** The renewed domain name */
   domain: string;
   /** The new expiration date returned by the registry */
-  expirationDate?: string;
+  expirationDate?: string | undefined;
   /** The total amount charged in pennies */
-  cost?: number;
+  cost?: number | undefined;
   /** Internal Porkbun order ID */
   orderId: number;
   /** Current rate limit state for both attempt and success limits */
-  limits?: RenewDomainResponseLimits;
+  limits?: RenewDomainResponseLimits | undefined;
   /** Remaining account credit balance in pennies after the charge */
-  balance?: number;
+  balance?: number | undefined;
   /** Seconds until the success rate limit window resets */
-  ttlRemaining?: number;
+  ttlRemaining?: number | undefined;
   /** Per-request UUID (also in the X-Request-Id header). Present on every API response. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type RenewDomainResponseBody = RenewDomainResponse | DryRunPreviewResponse;
 export type RenewDomainResponse2 = RenewDomainResponseBody;
@@ -2079,74 +2085,74 @@ export interface ResendWebhookRequest {
 export type WebhookDeliveryStatus = "PENDING" | "PROCESSING" | "DELIVERED" | "FAILED";
 export interface WebhookDelivery {
   /** Delivery id. */
-  id?: number;
+  id?: number | undefined;
   /** Endpoint this delivery targets. */
-  endpointId?: number;
-  eventType?: string;
+  endpointId?: number | undefined;
+  eventType?: string | undefined;
   /** UUIDv7 of the event; sent as X-Porkbun-Webhook-Id. Stable across resends. */
-  eventId?: string;
+  eventId?: string | undefined;
   /** PENDING (queued/awaiting retry), PROCESSING (in flight), DELIVERED (2xx), or FAILED (gave up after max attempts). */
-  status?: WebhookDeliveryStatus;
+  status?: WebhookDeliveryStatus | undefined;
   /** Delivery attempts made so far. */
-  attempts?: number;
+  attempts?: number | undefined;
   /** Attempt cap before the delivery is marked FAILED. */
-  maxAttempts?: number;
+  maxAttempts?: number | undefined;
   /** HTTP status from the last attempt, or null if not yet attempted / connection error. */
-  httpStatus?: number | null;
+  httpStatus?: number | null | undefined;
   /** Last delivery error, or null. */
-  lastError?: string | null;
+  lastError?: string | null | undefined;
   /** When the next attempt is scheduled (for PENDING rows). */
-  nextAttemptAt?: string;
+  nextAttemptAt?: string | undefined;
   /** When the delivery was queued. */
-  createDate?: string;
+  createDate?: string | undefined;
   /** When it was successfully delivered, or null. */
-  deliveredDate?: string | null;
+  deliveredDate?: string | null | undefined;
   /** The full event envelope that was sent. Present only on GET /webhook/delivery/{id}. */
-  payload?: unknown;
+  payload?: unknown | undefined;
 }
 export interface WebhookResendResponse {
-  status?: string;
-  delivery?: WebhookDelivery;
-  message?: string;
+  status?: string | undefined;
+  delivery?: WebhookDelivery | undefined;
+  message?: string | undefined;
 }
 export interface ResetSandboxRequest {}
 export interface ResetSandboxResponse {
-  status?: string;
-  message?: string;
-  domainsCleared?: number;
-  balance?: number;
-  sandbox?: boolean;
+  status?: string | undefined;
+  message?: string | undefined;
+  domainsCleared?: number | undefined;
+  balance?: number | undefined;
+  sandbox?: boolean | undefined;
 }
 export interface RestoreDnsRequest {
   domain: string;
   /** The restore point to go back to, from GET /dns/history/{domain}. */
   snapshotId: number;
   /** Also delete live records that are not in the restore point. Default false, which only adds back what is missing. */
-  prune?: boolean;
+  prune?: boolean | undefined;
   /** Report what would change without changing anything. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface DnsRestoreResponseFailedItem {
-  name?: string;
-  type?: string;
-  reason?: string;
+  name?: string | undefined;
+  type?: string | undefined;
+  reason?: string | undefined;
 }
 /** Records that could not be recreated, with the reason. Parking and other masked types are managed elsewhere and cannot be restored this way. */
 export type DnsRestoreResponseFailedList = Array<DnsRestoreResponseFailedItem>;
 export interface DnsRestoreResponse {
-  warnings?: DnsWriteWarnings;
-  status?: string;
-  domain?: string;
+  warnings?: DnsWriteWarnings | undefined;
+  status?: string | undefined;
+  domain?: string | undefined;
   /** The restore point used. */
-  restoredFrom?: number;
+  restoredFrom?: number | undefined;
   /** A new restore point holding the state from immediately BEFORE this restore. Restore that to undo this. */
-  previousStateSavedAs?: number | null;
+  previousStateSavedAs?: number | null | undefined;
   /** Records added back. A true count -- anything that could not be recreated is in `failed` instead. */
-  restored?: number;
+  restored?: number | undefined;
   /** Records deleted, which is always 0 unless prune was true. */
-  removed?: number;
+  removed?: number | undefined;
   /** Records that could not be recreated, with the reason. Parking and other masked types are managed elsewhere and cannot be restored this way. */
-  failed?: DnsRestoreResponseFailedList;
+  failed?: DnsRestoreResponseFailedList | undefined;
 }
 export interface RetryCloudflareRequest {
   domain: string;
@@ -2154,14 +2160,14 @@ export interface RetryCloudflareRequest {
 export type RetryCloudflareResponse = unknown;
 export interface SandboxTopupRequest {
   /** Fake credit to add in US cents (default 100000; max 1000000). */
-  amount?: number;
+  amount?: number | undefined;
 }
 export interface SandboxTopupResponse {
-  status?: string;
-  granted?: number;
-  balance?: number;
-  display?: string;
-  sandbox?: boolean;
+  status?: string | undefined;
+  granted?: number | undefined;
+  balance?: number | undefined;
+  display?: string | undefined;
+  sandbox?: boolean | undefined;
 }
 /** Event type to emit. */
 export type SandboxTriggerWebhookRequestEventType =
@@ -2176,116 +2182,116 @@ export interface SandboxTriggerWebhookRequest {
   /** Event type to emit. */
   eventType: SandboxTriggerWebhookRequestEventType | (string & {});
   /** Domain used in the sample payload (default example.com). */
-  domain?: string;
+  domain?: string | undefined;
 }
 export interface SandboxTriggerWebhookResponse {
-  status?: string;
-  event?: string;
-  data?: unknown;
-  endpointsRegistered?: number;
-  message?: string;
-  sandbox?: boolean;
+  status?: string | undefined;
+  event?: string | undefined;
+  data?: unknown | undefined;
+  endpointsRegistered?: number | undefined;
+  message?: string | undefined;
+  sandbox?: boolean | undefined;
 }
 export interface SearchCloseoutRequest {
   /** Keyword match on the domain name. */
-  query?: string;
+  query?: string | undefined;
   /** Single TLD, with or without the leading dot. Omit to search all. */
-  tld?: string;
+  tld?: string | undefined;
   /** Exact SLD character count. */
-  nameLength?: number;
+  nameLength?: number | undefined;
   /** Minimum domain age in years. Pair with sortName=registrationDate to find aged names. */
-  ageMin?: number;
+  ageMin?: number | undefined;
   /** Maximum domain age in years. */
-  ageMax?: number;
+  ageMax?: number | undefined;
   /** Minimum closeout price, integer US cents. Converted to whole dollars for the provider, rounding outward so the range never excludes an item inside it. */
-  priceMin?: number;
+  priceMin?: number | undefined;
   /** Maximum closeout price, integer US cents. */
-  priceMax?: number;
+  priceMax?: number | undefined;
   /** One of: domain, endTime, price, revenue, visitors, inboundLinks, registrationDate. Ascending on registrationDate means oldest registration first, which is how you find aged names. Ascending on revenue, visitors or inboundLinks puts the domains with no recorded figure first (they return null) -- use desc on those to see the highest values; the response carries a `warnings` entry reminding you. */
-  sortName?: string;
+  sortName?: string | undefined;
   /** `asc` or `desc`. */
-  sortDirection?: string;
+  sortDirection?: string | undefined;
   /** Offset for paging. Default 0. */
-  start?: number;
+  start?: number | undefined;
   /** Rows per page, 1-500. Default 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type SearchCloseoutResponseCloseoutsList = Array<CloseoutItem>;
 export interface SearchCloseoutResponse {
-  status?: string;
-  count?: number;
+  status?: string | undefined;
+  count?: number | undefined;
   /** Size of the filtered set, for paging. */
-  totalAvailable?: number;
-  start?: number;
-  limit?: number;
-  closeouts?: SearchCloseoutResponseCloseoutsList;
+  totalAvailable?: number | undefined;
+  start?: number | undefined;
+  limit?: number | undefined;
+  closeouts?: SearchCloseoutResponseCloseoutsList | undefined;
 }
 export interface SetAutoTopupRequest {
   /** Turn auto top-up on or off. Omit to change only the amount. */
   enabled: boolean;
   /** Balance in integer US cents below which a top-up fires. Required when enabling, and meaningless without it. */
-  threshold?: number;
+  threshold?: number | undefined;
   /** What a top-up adds, in integer US cents. Can be sent on its own; required when enabling if none is on file. Over the API: 500-50000. */
-  amount?: number;
+  amount?: number | undefined;
   /** Validate only; change nothing. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface TestWebhookRequest {
   /** Endpoint id. */
   id: number;
 }
 export interface WebhookTestResponse {
-  status?: string;
+  status?: string | undefined;
   /** UUID of the queued webhook.test event. */
-  eventId?: string;
-  message?: string;
+  eventId?: string | undefined;
+  message?: string | undefined;
 }
 export interface TopupAccountCreditRequest {
   /** Optional one-off amount in integer US cents (500-50000). Omit to charge the amount the account has configured, which is the common case. A supplied amount does NOT change the stored setting -- use it instead of rewriting the customer's configuration for a single charge. */
-  amount?: number;
+  amount?: number | undefined;
   /** Preview the charge without making it. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface TopupAccountCreditResponse {
-  status?: string;
+  status?: string | undefined;
   /** Amount charged, in cents. */
-  charged?: number;
-  chargedDisplay?: string;
+  charged?: number | undefined;
+  chargedDisplay?: string | undefined;
   /** Account credit balance after the top-up, in cents. */
-  balance?: number;
-  balanceDisplay?: string;
+  balance?: number | undefined;
+  balanceDisplay?: string | undefined;
   /** The captured order recorded for the purchase, 0 if order creation failed (the credit is granted either way). */
-  orderId?: number;
+  orderId?: number | undefined;
   /** True when the account had no configured amount and the $50 default was charged. */
-  usedDefaultAmount?: boolean;
-  chargesToday?: number;
-  chargesThisMonth?: number;
+  usedDefaultAmount?: boolean | undefined;
+  chargesToday?: number | undefined;
+  chargesThisMonth?: number | undefined;
   /** Sandbox only: credit was granted without charging a card. */
-  simulated?: boolean;
-  message?: string;
+  simulated?: boolean | undefined;
+  message?: string | undefined;
 }
 export interface TopupCryptoRequest {
   /** Checkout amount in integer US cents, $1.00 to $500.00 (100 = $1.00). Credit is this less Coinbase's fee of about 1%. */
   amount: number;
   /** Check eligibility only; creates no checkout. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface TopupCryptoResponse {
-  status?: string;
-  checkoutId?: string;
-  amount_cents?: number;
+  status?: string | undefined;
+  checkoutId?: string | undefined;
+  amount_cents?: number | undefined;
   /** Coinbase's fee, about 1%, estimated high. */
-  estimatedFee_cents?: number;
+  estimatedFee_cents?: number | undefined;
   /** Credit the account gets once it is paid. */
-  estimatedCredit_cents?: number;
-  currency?: string;
-  network?: string;
+  estimatedCredit_cents?: number | undefined;
+  currency?: string | undefined;
+  network?: string | undefined;
   /** Coinbase-hosted page for a person to pay. */
-  payUrl?: string;
+  payUrl?: string | undefined;
   /** x402 payment URL an agent's wallet pays directly. */
-  x402Url?: string | null;
-  expiresAt?: string | null;
-  message?: string;
+  x402Url?: string | null | undefined;
+  expiresAt?: string | null | undefined;
+  message?: string | undefined;
 }
 export interface TopupCryptoStatusRequest {
   checkoutId: string;
@@ -2298,29 +2304,29 @@ export type TopupCryptoStatusResponseState =
   | "FAILED"
   | "DEACTIVATED";
 export interface TopupCryptoStatusResponse {
-  status?: string;
-  checkoutId?: string;
-  state?: TopupCryptoStatusResponseState;
-  credited?: boolean;
-  balance_cents?: number;
-  balance?: string;
+  status?: string | undefined;
+  checkoutId?: string | undefined;
+  state?: TopupCryptoStatusResponseState | undefined;
+  credited?: boolean | undefined;
+  balance_cents?: number | undefined;
+  balance?: string | undefined;
 }
 export interface TopupMppRequest {
   /** Credit to add, in integer US cents. */
   amount: number;
   /** Check eligibility and limits only. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type TopupMppResponseMethodsList = Array<string>;
 export interface TopupMppResponse {
-  status?: string;
-  amount_cents?: number;
+  status?: string | undefined;
+  amount_cents?: number | undefined;
   /** Signed MPP payment URL; POST it with an MPP client. */
-  payUrl?: string;
-  expiresAt?: string;
-  protocol?: string;
-  methods?: TopupMppResponseMethodsList;
-  message?: string;
+  payUrl?: string | undefined;
+  expiresAt?: string | undefined;
+  protocol?: string | undefined;
+  methods?: TopupMppResponseMethodsList | undefined;
+  message?: string | undefined;
 }
 /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
 export type TransferDomainRequestPayWith = "usdc";
@@ -2332,31 +2338,31 @@ export interface TransferDomainRequest {
   /** The transfer cost in cents as returned by the pricing API. Must match exactly. */
   cost: number;
   /** Charge the transfer but hold it at `PENDINGDNS` instead of releasing it to the registry, so the DNS zone can be built before the domain moves. This is the no-downtime path: hold, then `POST /domain/prepareTransfer/{domain}`, then load records with `/dns/import/{domain}`, then `POST /domain/startTransfer/{domain}`. Nothing releases a held transfer on a timer. Not available for .uk or Handshake TLDs, which return `TRANSFER_HOLD_NOT_AVAILABLE` and are not charged. */
-  holdForDnsSetup?: boolean;
+  holdForDnsSetup?: boolean | undefined;
   /** Optional. `"usdc"` pays for this purchase directly in USDC on Base over x402 instead of from account credit. The first call answers HTTP 402 (`PAYMENT_REQUIRED`) with Coinbase's terms in the `PAYMENT-REQUIRED` header and charges nothing; an x402 client pays and repeats the same request with a `PAYMENT-SIGNATURE` header, and the purchase completes in that call. If it then fails, the payment stays on the account as account credit; it is not sent back to the wallet. If your wallet pays URLs itself instead, pay the 402's `x402Url` (or have a person pay `payUrl`) and repeat the request with `usdcCheckoutId`. See the guide: https://porkbun.com/llms/guides/pay-with-usdc-x402 */
-  payWith?: TransferDomainRequestPayWith | (string & {});
+  payWith?: TransferDomainRequestPayWith | (string & {}) | undefined;
   /** With `payWith: "usdc"`: the `checkoutId` from an earlier `PAYMENT_REQUIRED`, once its `x402Url` or `payUrl` has been paid. Send it with otherwise the same request; the purchase completes if the checkout is paid and was opened for this purchase. */
-  usdcCheckoutId?: string;
+  usdcCheckoutId?: string | undefined;
   /** Optional. When true, runs all pre-flight validation and returns a preview with `dryRun: true` and `wouldSucceed` WITHOUT initiating the transfer or charging. Nothing changes and the rate-limit budget is not consumed. */
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type TransferDomainResponseStatus = "SUCCESS" | "ERROR";
 export interface TransferDomainResponseLimits {
-  attempts?: unknown;
-  success?: unknown;
+  attempts?: unknown | undefined;
+  success?: unknown | undefined;
 }
 export interface TransferDomainResponse {
-  status?: TransferDomainResponseStatus;
-  domain?: string;
-  orderId?: number;
-  transferId?: number;
-  message?: string;
+  status?: TransferDomainResponseStatus | undefined;
+  domain?: string | undefined;
+  orderId?: number | undefined;
+  transferId?: number | undefined;
+  message?: string | undefined;
   /** Remaining account credit balance in cents. */
-  balance?: number;
-  ttlRemaining?: number;
-  limits?: TransferDomainResponseLimits;
+  balance?: number | undefined;
+  ttlRemaining?: number | undefined;
+  limits?: TransferDomainResponseLimits | undefined;
   /** Per-request UUID (also in the X-Request-Id header). Present on every API response. */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export type TransferDomainResponseBody = TransferDomainResponse | DryRunPreviewResponse;
 export type TransferDomainResponse2 = TransferDomainResponseBody;
@@ -2366,12 +2372,12 @@ export interface TransferDomainPrepareRequest {
 }
 export type TransferDomainPrepareResponsePorkbunNameserversList = Array<string>;
 export interface TransferDomainPrepareResponse {
-  status?: string;
-  domain?: string;
-  zoneReady?: boolean;
-  recordCount?: number;
-  message?: string;
-  porkbunNameservers?: TransferDomainPrepareResponsePorkbunNameserversList;
+  status?: string | undefined;
+  domain?: string | undefined;
+  zoneReady?: boolean | undefined;
+  recordCount?: number | undefined;
+  message?: string | undefined;
+  porkbunNameservers?: TransferDomainPrepareResponsePorkbunNameserversList | undefined;
 }
 /** Replacement event subscription list (optional). */
 export type UpdateWebhookRequestEventsList = Array<string>;
@@ -2381,49 +2387,49 @@ export interface UpdateWebhookRequest {
   /** Endpoint id to update. */
   id: number;
   /** HTTPS endpoint that receives the signed POST. Port 443 only, and the hostname must resolve to a public internet address -- private/loopback/reserved targets are refused. */
-  url?: string;
+  url?: string | undefined;
   /** Replacement event subscription list (optional). */
-  events?: UpdateWebhookRequestEventsList;
+  events?: UpdateWebhookRequestEventsList | undefined;
   /** Set ACTIVE to resume (also clears the failure counter) or DISABLED to pause (optional). */
-  status?: UpdateWebhookRequestStatus | (string & {});
+  status?: UpdateWebhookRequestStatus | (string & {}) | undefined;
 }
 export type WebhookDeliveriesRequestStatus = "PENDING" | "PROCESSING" | "DELIVERED" | "FAILED";
 export interface WebhookDeliveriesRequest {
   /** Only deliveries for this endpoint. */
-  endpointId?: number;
+  endpointId?: number | undefined;
   /** Filter by delivery status. */
-  status?: WebhookDeliveriesRequestStatus | (string & {});
+  status?: WebhookDeliveriesRequestStatus | (string & {}) | undefined;
   /** Pagination offset (default 0). */
-  start?: number;
+  start?: number | undefined;
   /** Page size, 1-200 (default 50). */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** Newest first. The bulky `payload` field is omitted here. */
 export type WebhookDeliveryListResponseDeliveriesList = Array<WebhookDelivery>;
 export interface WebhookDeliveryListResponse {
-  status?: string;
+  status?: string | undefined;
   /** Newest first. The bulky `payload` field is omitted here. */
-  deliveries?: WebhookDeliveryListResponseDeliveriesList;
+  deliveries?: WebhookDeliveryListResponseDeliveriesList | undefined;
   /** Total matching deliveries (for pagination). */
-  total?: number;
+  total?: number | undefined;
   /** Offset of this page. */
-  start?: number;
+  start?: number | undefined;
   /** Page size used. */
-  limit?: number;
-  message?: string;
+  limit?: number | undefined;
+  message?: string | undefined;
 }
 export interface WebhookDeliveryRequest {
   id: number;
 }
 export interface WebhookDeliveryResponse {
-  status?: string;
-  delivery?: WebhookDelivery;
+  status?: string | undefined;
+  delivery?: WebhookDelivery | undefined;
 }
 export interface WebhookEventTypesRequest {}
 export type WebhookEventTypesResponseEventTypesList = Array<string>;
 export interface WebhookEventTypesResponse {
-  status?: string;
-  eventTypes?: WebhookEventTypesResponseEventTypesList;
+  status?: string | undefined;
+  eventTypes?: WebhookEventTypesResponseEventTypesList | undefined;
 }
 export interface WebhookRotateSecretRequest {
   /** Endpoint id. */

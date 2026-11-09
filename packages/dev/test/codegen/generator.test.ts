@@ -320,12 +320,14 @@ describe("proto3 defaults and server streams", () => {
   const { code } = generateService(grpcModel(), { ...spec, streams: true });
 
   test("a member with a default is required in a response-only shape", () => {
-    expect(code).toMatch(/export interface SayResponse \{\s*text: string;\s*note\?: string;/);
+    expect(code).toMatch(
+      /export interface SayResponse \{\s*text: string;\s*note\?: string \| undefined;/,
+    );
   });
 
   test("a member with a default stays optional where a request reaches it", () => {
-    expect(code).toMatch(/export interface SayRequest \{\s*text\?: string;/);
-    expect(code).toMatch(/export interface Shared \{\s*label\?: string;/);
+    expect(code).toMatch(/export interface SayRequest \{\s*text\?: string \| undefined;/);
+    expect(code).toMatch(/export interface Shared \{\s*label\?: string \| undefined;/);
   });
 
   test("a server-streaming operation is made with makeStreaming", () => {

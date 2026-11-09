@@ -87,108 +87,108 @@ export type StringList = Array<string>;
 /** Translates to IAM Policy bindings (without auditing at this level) */
 export interface PolicyBinding {
   /** Role. (https://cloud.google.com/iam/docs/understanding-roles) For example, `roles/viewer`, `roles/editor`, or `roles/owner`. */
-  role?: string;
+  role?: string | undefined;
   /** Uses the same format as in IAM policy. `member` must include both a prefix and ID. For example, `user:{emailId}`, `serviceAccount:{emailId}`, `group:{emailId}`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type PolicyBindingList = Array<PolicyBinding>;
 /** Describes policy settings that can be applied to a newly created tenant project. */
 export interface TenantProjectPolicy {
   /** Policy bindings to be applied to the tenant project, in addition to the 'roles/owner' role granted to the Service Consumer Management service account. */
-  policyBindings?: PolicyBindingList;
+  policyBindings?: PolicyBindingList | undefined;
 }
 /** Describes the service account configuration for the tenant project. */
 export interface ServiceAccountConfig {
   /** ID of the IAM service account to be created in tenant project. The email format of the service account is "@.iam.gserviceaccount.com". This account ID must be unique within tenant project and service producers have to guarantee it. The ID must be 6-30 characters long, and match the following regular expression: `[a-z]([-a-z0-9]*[a-z0-9])`. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Roles for the associated service account for the tenant project. */
-  tenantProjectRoles?: StringList;
+  tenantProjectRoles?: StringList | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Describes the billing configuration for a new tenant project. */
 export interface BillingConfig {
   /** Name of the billing account. For example `billingAccounts/012345-567890-ABCDEF`. */
-  billingAccount?: string;
+  billingAccount?: string | undefined;
 }
 /** This structure defines a tenant project to be added to the specified tenancy unit and its initial configuration and properties. A project lien is created for the tenant project to prevent the tenant project from being deleted accidentally. The lien is deleted as part of tenant project removal. */
 export interface TenantProjectConfig {
   /** Describes ownership and policies for the new tenant project. */
-  tenantProjectPolicy?: TenantProjectPolicy;
+  tenantProjectPolicy?: TenantProjectPolicy | undefined;
   /** Folder where project in this tenancy unit must be located This folder must have been previously created with the required permissions for the caller to create and configure a project in it. Valid folder resource names have the format `folders/{folder_number}` (for example, `folders/123456`). */
-  folder?: string;
+  folder?: string | undefined;
   /** Configuration for the IAM service account on the tenant project. */
-  serviceAccountConfig?: ServiceAccountConfig;
+  serviceAccountConfig?: ServiceAccountConfig | undefined;
   /** Labels that are applied to this project. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Google Cloud API names of services that are activated on this project during provisioning. If any of these services can't be activated, the request fails. For example: 'compute.googleapis.com','cloudfunctions.googleapis.com' */
-  services?: StringList;
+  services?: StringList | undefined;
   /** Billing account properties. The billing account must be specified. */
-  billingConfig?: BillingConfig;
+  billingConfig?: BillingConfig | undefined;
 }
 /** Request to add a newly created and configured tenant project to a tenancy unit. */
 export interface AddTenantProjectRequest {
   /** Required. Tag of the added project. Must be less than 128 characters. Required. */
-  tag?: string;
+  tag?: string | undefined;
   /** Configuration of the new tenant project to be added to tenancy unit resources. */
-  projectConfig?: TenantProjectConfig;
+  projectConfig?: TenantProjectConfig | undefined;
 }
 export interface AddProjectServicesTenancyUnitsRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   parent: string;
   /** Request body */
-  body?: AddTenantProjectRequest;
+  body?: AddTenantProjectRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Request to apply configuration to an existing tenant project. */
 export interface ApplyTenantProjectConfigRequest {
   /** Configuration that should be applied to the existing tenant project. */
-  projectConfig?: TenantProjectConfig;
+  projectConfig?: TenantProjectConfig | undefined;
   /** Required. Tag of the project. Must be less than 128 characters. Required. */
-  tag?: string;
+  tag?: string | undefined;
 }
 export interface ApplyProjectConfigServicesTenancyUnitsRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   name: string;
   /** Request body */
-  body?: ApplyTenantProjectConfigRequest;
+  body?: ApplyTenantProjectConfigRequest | undefined;
 }
 /** Request to attach an existing project to the tenancy unit as a new tenant resource. */
 export interface AttachTenantProjectRequest {
   /** Required. Tag of the tenant resource after attachment. Must be less than 128 characters. Required. */
-  tag?: string;
+  tag?: string | undefined;
   /** When attaching an external project, this is in the format of `projects/{project_number}`. */
-  externalResource?: string;
+  externalResource?: string | undefined;
   /** When attaching a reserved project already in tenancy units, this is the tag of a tenant resource under the tenancy unit for the managed service's service producer project. The reserved tenant resource must be in an active state. */
-  reservedResource?: string;
+  reservedResource?: string | undefined;
 }
 export interface AttachProjectServicesTenancyUnitsRequest {
   /** Required. Name of the tenancy unit that the project will be attached to. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   name: string;
   /** Request body */
-  body?: AttachTenantProjectRequest;
+  body?: AttachTenantProjectRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -196,20 +196,20 @@ export interface CancelOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 /** Request to create a tenancy unit for a service consumer of a managed service. */
 export interface CreateTenancyUnitRequest {
   /** Optional. Optional service producer-provided identifier of the tenancy unit. Must be no longer than 40 characters and preferably URI friendly. If it isn't provided, a UID for the tenancy unit is automatically generated. The identifier must be unique across a managed service. If the tenancy unit already exists for the managed service and service consumer pair, calling `CreateTenancyUnit` returns the existing tenancy unit if the provided identifier is identical or empty, otherwise the call fails. */
-  tenancyUnitId?: string;
+  tenancyUnitId?: string | undefined;
 }
 export interface CreateServicesTenancyUnitsRequest {
   /** Required. services/{service}/{collection id}/{resource id} {collection id} is the cloud resource collection type representing the service consumer, for example 'projects', or 'organizations'. {resource id} is the consumer numeric id, such as project number: '123456'. {service} the name of a managed service, such as 'service.googleapis.com'. Enables service binding using the new tenancy unit. */
   parent: string;
   /** Request body */
-  body?: CreateTenancyUnitRequest;
+  body?: CreateTenancyUnitRequest | undefined;
 }
 export type TenantResourceStatusEnum =
   | "STATUS_UNSPECIFIED"
@@ -221,29 +221,29 @@ export type TenantResourceStatusEnum =
 /** Resource constituting the TenancyUnit. */
 export interface TenantResource {
   /** Output only. The resource name of the tenant project from which this active regional tenant project was migrated. This field is only set for active regional migrated mapping tenant projects. Format: `services//{collection_id}/{RESOURCE_ID}/locations/{LOCATION}/tenantProjects/{TENANT_ID}`. */
-  sourceTenantProject?: string;
+  sourceTenantProject?: string | undefined;
   /** Output only. The newly created regional resource name of the tenant project that has been migrated from a global service. This field is only set for migrated tenant projects. Format: `services//{collection_id}/{RESOURCE_ID}/locations/{LOCATION}/tenantProjects/{TENANT_ID}`. */
-  migratedTenantProject?: string;
+  migratedTenantProject?: string | undefined;
   /** Unique per single tenancy unit. */
-  tag?: string;
+  tag?: string | undefined;
   /** Output only. @OutputOnly Identifier of the tenant resource. For cloud projects, it is in the form 'projects/{number}'. For example 'projects/123456'. */
-  resource?: string;
+  resource?: string | undefined;
   /** Status of tenant resource. */
-  status?: TenantResourceStatusEnum;
+  status?: TenantResourceStatusEnum | undefined;
 }
 export type TenantResourceList = Array<TenantResource>;
 /** Representation of a tenancy unit. */
 export interface TenancyUnit {
   /** Output only. @OutputOnly Cloud resource name of the consumer of this service. For example 'projects/123456'. */
-  consumer?: string;
+  consumer?: string | undefined;
   /** Output only. @OutputOnly The time this tenancy unit was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Google Cloud API name of the managed service owning this tenancy unit. For example 'serviceconsumermanagement.googleapis.com'. */
-  service?: string;
+  service?: string | undefined;
   /** Resources constituting the tenancy unit. There can be at most 512 tenant resources in a tenancy unit. */
-  tenantResources?: TenantResourceList;
+  tenantResources?: TenantResourceList | undefined;
   /** Globally unique identifier of this tenancy unit "services/{service}/{collection id}/{resource id}/tenancyUnits/{unit}" */
-  name?: string;
+  name?: string | undefined;
 }
 export interface DeleteOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -252,13 +252,13 @@ export interface DeleteOperationsRequest {
 /** Request message to delete tenant project resource from the tenancy unit. */
 export interface DeleteTenantProjectRequest {
   /** Required. Tag of the resource within the tenancy unit. */
-  tag?: string;
+  tag?: string | undefined;
 }
 export interface DeleteProjectServicesTenancyUnitsRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   name: string;
   /** Request body */
-  body?: DeleteTenantProjectRequest;
+  body?: DeleteTenantProjectRequest | undefined;
 }
 export interface DeleteServicesTenancyUnitsRequest {
   /** Required. Name of the tenancy unit to be deleted. */
@@ -272,31 +272,31 @@ export interface ListOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListServicesTenancyUnitsRequest {
   /** Optional. Filter expression over tenancy resources field. Optional. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of results returned by this request. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of `nextPageToken` from the previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Managed service and service consumer. Required. services/{service}/{collection id}/{resource id} {collection id} is the cloud resource collection type representing the service consumer, for example 'projects', or 'organizations'. {resource id} is the consumer numeric id, such as project number: '123456'. {service} the name of a service, such as 'service.googleapis.com'. */
   parent: string;
 }
@@ -304,9 +304,9 @@ export type TenancyUnitList = Array<TenancyUnit>;
 /** Response for the list request. */
 export interface ListTenancyUnitsResponse {
   /** Tenancy units matching the request. */
-  tenancyUnits?: TenancyUnitList;
+  tenancyUnits?: TenancyUnitList | undefined;
   /** Pagination token for large results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Request message to remove a tenant project resource from the tenancy unit. */
 export type RemoveTenantProjectRequest = DeleteTenantProjectRequest;
@@ -314,24 +314,24 @@ export interface RemoveProjectServicesTenancyUnitsRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   name: string;
   /** Request body */
-  body?: DeleteTenantProjectRequest;
+  body?: DeleteTenantProjectRequest | undefined;
 }
 export interface SearchServicesRequest {
   /** Optional. The continuation token, which is used to page through large result sets. To get the next page of results, set this parameter to the value of `nextPageToken` from the previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Set a query `{expression}` for querying tenancy units. Your `{expression}` must be in the format: `field_name=literal_string`. The `field_name` is the name of the field you want to compare. Supported fields are `tenant_resources.tag` and `tenant_resources.resource`. For example, to search tenancy units that contain at least one tenant resource with a given tag 'xyz', use the query `tenant_resources.tag=xyz`. To search tenancy units that contain at least one tenant resource with a given resource name 'projects/123456', use the query `tenant_resources.resource=projects/123456`. Multiple expressions can be joined with `AND`s. Tenancy units must match all expressions to be included in the result set. For example, `tenant_resources.tag=xyz AND tenant_resources.resource=projects/123456` */
-  query?: string;
+  query?: string | undefined;
   /** Required. Service for which search is performed. services/{service} {service} the name of a service, for example 'service.googleapis.com'. */
   parent: string;
   /** Optional. The maximum number of results returned by this request. Currently, the default maximum is set to 256. If `page_size` <= 256, the request proceeds. Else, the request fails with an `TU_INVALID_PAGE_SIZE` error. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response for the search query. */
 export interface SearchTenancyUnitsResponse {
   /** Tenancy Units matching the request. */
-  tenancyUnits?: TenancyUnitList;
+  tenancyUnits?: TenancyUnitList | undefined;
   /** Pagination token for large results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Request message to undelete tenant project resource previously deleted from the tenancy unit. */
 export type UndeleteTenantProjectRequest = DeleteTenantProjectRequest;
@@ -339,7 +339,7 @@ export interface UndeleteProjectServicesTenancyUnitsRequest {
   /** Required. Name of the tenancy unit. Such as 'services/service.googleapis.com/projects/12345/tenancyUnits/abcd'. */
   name: string;
   /** Request body */
-  body?: DeleteTenantProjectRequest;
+  body?: DeleteTenantProjectRequest | undefined;
 }
 export type AddProjectServicesTenancyUnitsError =
   | NotFound

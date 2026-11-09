@@ -31,9 +31,9 @@ const TELEMETRY = {
 
 export interface CreateVulnerabilityDiscoveryRepositoryRequest {
   accountId: string;
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   name: string;
-  workerScriptName?: string;
+  workerScriptName?: string | undefined;
 }
 export type CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryReadiness =
   | "awaiting_source"
@@ -55,7 +55,10 @@ export interface CreateVulnerabilityDiscoveryRepositoryResultCase0Repository {
   /** Source state. `awaiting_source`: the upload repository's default branch has no commits yet. `processing`: an import is in progress. `ready`: source is available. `failed`: the Worker import failed or could not be verified. */
   readiness: CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryReadiness;
   source: CreateVulnerabilityDiscoveryRepositoryResultCase0RepositorySource;
-  importError?: CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryImportError | null;
+  importError?:
+    | CreateVulnerabilityDiscoveryRepositoryResultCase0RepositoryImportError
+    | null
+    | undefined;
 }
 export type CreateVulnerabilityDiscoveryRepositoryResultCase0UploadExpiresIn = 3600;
 export interface CreateVulnerabilityDiscoveryRepositoryResultCase0Upload {
@@ -89,7 +92,10 @@ export interface CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositor
   /** Source state. `awaiting_source`: the upload repository's default branch has no commits yet. `processing`: an import is in progress. `ready`: source is available. `failed`: the Worker import failed or could not be verified. */
   readiness: CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryReadiness;
   source: CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositorySource;
-  importError?: CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryImportError | null;
+  importError?:
+    | CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepositoryImportError
+    | null
+    | undefined;
 }
 export interface CreateVulnerabilityDiscoveryRepositoryResultRepository {
   repository: CreateVulnerabilityDiscoveryRepositoryResultRepositoryRepository;
@@ -103,9 +109,9 @@ export type CreateVulnerabilityDiscoveryScanRequestReposItemHostsList = Array<st
 export interface CreateVulnerabilityDiscoveryScanRequestReposItem {
   name: string;
   /** Branch to scan. Defaults to the repository's default branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** Explicit hostname scopes. Every hostname must be authorized for this repository before review admission; rejected scopes return 422 and do not persist a scan request. */
-  hosts?: CreateVulnerabilityDiscoveryScanRequestReposItemHostsList;
+  hosts?: CreateVulnerabilityDiscoveryScanRequestReposItemHostsList | undefined;
 }
 export type CreateVulnerabilityDiscoveryScanRequestReposList =
   Array<CreateVulnerabilityDiscoveryScanRequestReposItem>;
@@ -115,11 +121,11 @@ export interface CreateVulnerabilityDiscoveryScanRequestTelemetryWindow {
 }
 export interface CreateVulnerabilityDiscoveryScanRequest {
   accountId: string;
-  idempotencyKey?: string;
+  idempotencyKey?: string | undefined;
   /** Repository names must be unique within a request. */
   repos: CreateVulnerabilityDiscoveryScanRequestReposList;
   /** UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days. */
-  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow;
+  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | undefined;
 }
 export type CreateVulnerabilityDiscoveryScanResponsePhase =
   | "provisioning"
@@ -176,7 +182,7 @@ export interface CreateVulnerabilityDiscoveryScanResponse {
   status: CreateVulnerabilityDiscoveryScanResponseStatus;
   submittedAt: string;
   /** UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days. */
-  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null;
+  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null | undefined;
 }
 export interface GetVulnerabilityDiscoveryReportRequest {
   accountId: string;
@@ -312,18 +318,36 @@ export interface GetVulnerabilityDiscoveryReportResponseReportFindingsItem {
   trace: GetVulnerabilityDiscoveryReportResponseReportFindingsItemTraceList;
   wafRules: GetVulnerabilityDiscoveryReportResponseReportFindingsItemWafRules;
   /** Least-privileged position required to trigger the finding. Optional on legacy report revisions. */
-  attackerPosition?: GetVulnerabilityDiscoveryReportResponseReportFindingsItemAttackerPosition | null;
-  externalLinks?: GetVulnerabilityDiscoveryReportResponseReportFindingsItemExternalLinksList | null;
+  attackerPosition?:
+    | GetVulnerabilityDiscoveryReportResponseReportFindingsItemAttackerPosition
+    | null
+    | undefined;
+  externalLinks?:
+    | GetVulnerabilityDiscoveryReportResponseReportFindingsItemExternalLinksList
+    | null
+    | undefined;
   /** Accepted settled impact-charter premises cited by the finding. Optional on legacy report revisions. */
-  impactIds?: GetVulnerabilityDiscoveryReportResponseReportFindingsItemImpactIdsList | null;
+  impactIds?:
+    | GetVulnerabilityDiscoveryReportResponseReportFindingsItemImpactIdsList
+    | null
+    | undefined;
   /** One bounded unresolved proof question. Optional on legacy report revisions. */
-  openQuestion?: string | null;
+  openQuestion?: string | null | undefined;
   /** Method used or needed to close the proof. Optional on legacy report revisions. */
-  proofMethod?: GetVulnerabilityDiscoveryReportResponseReportFindingsItemProofMethod | null;
+  proofMethod?:
+    | GetVulnerabilityDiscoveryReportResponseReportFindingsItemProofMethod
+    | null
+    | undefined;
   /** Current proof lifecycle state. Optional on legacy report revisions. */
-  proofState?: GetVulnerabilityDiscoveryReportResponseReportFindingsItemProofState | null;
+  proofState?:
+    | GetVulnerabilityDiscoveryReportResponseReportFindingsItemProofState
+    | null
+    | undefined;
   /** Accepted settled threat-model premises cited by the finding. Optional on legacy report revisions. */
-  threatIds?: GetVulnerabilityDiscoveryReportResponseReportFindingsItemThreatIdsList | null;
+  threatIds?:
+    | GetVulnerabilityDiscoveryReportResponseReportFindingsItemThreatIdsList
+    | null
+    | undefined;
 }
 export type GetVulnerabilityDiscoveryReportResponseReportFindingsList =
   Array<GetVulnerabilityDiscoveryReportResponseReportFindingsItem>;
@@ -367,7 +391,7 @@ export interface GetVulnerabilityDiscoveryReportResponseReportTrafficContextTarg
   hosts: GetVulnerabilityDiscoveryReportResponseReportTrafficContextTargetHostsList;
   kind: GetVulnerabilityDiscoveryReportResponseReportTrafficContextTargetKind;
   /** UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days. */
-  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null;
+  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null | undefined;
 }
 export interface GetVulnerabilityDiscoveryReportResponseReportTrafficContextWafRulesItemPathsItem {
   id: string;
@@ -407,7 +431,10 @@ export interface GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebA
   host: string;
   method: string;
   riskLabels: GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemRiskLabelsList;
-  performance?: GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemPerformance | null;
+  performance?:
+    | GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemPerformance
+    | null
+    | undefined;
 }
 export type GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsList =
   Array<GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItem>;
@@ -451,8 +478,8 @@ export interface GetVulnerabilityDiscoveryReportResponseReport {
   repositoryName: string;
   summary: string;
   trafficContext: GetVulnerabilityDiscoveryReportResponseReportTrafficContext;
-  externalLinks?: GetVulnerabilityDiscoveryReportResponseReportExternalLinksList | null;
-  limitations?: GetVulnerabilityDiscoveryReportResponseReportLimitationsList | null;
+  externalLinks?: GetVulnerabilityDiscoveryReportResponseReportExternalLinksList | null | undefined;
+  limitations?: GetVulnerabilityDiscoveryReportResponseReportLimitationsList | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetVulnerabilityDiscoveryReportResponse {
@@ -464,8 +491,8 @@ export interface GetVulnerabilityDiscoveryReportResponse {
 export interface GetVulnerabilityDiscoveryRepositoryRequest {
   accountId: string;
   repoId: string;
-  scanCursor?: string;
-  scanLimit?: number;
+  scanCursor?: string | undefined;
+  scanLimit?: number | undefined;
 }
 export type GetVulnerabilityDiscoveryRepositoryResponseRepositoryReadiness =
   | "awaiting_source"
@@ -488,7 +515,7 @@ export interface GetVulnerabilityDiscoveryRepositoryResponseRepository {
   /** Source state. `awaiting_source`: the upload repository's default branch has no commits yet. `processing`: an import is in progress. `ready`: source is available. `failed`: the Worker import failed or could not be verified. */
   readiness: GetVulnerabilityDiscoveryRepositoryResponseRepositoryReadiness;
   source: GetVulnerabilityDiscoveryRepositoryResponseRepositorySource;
-  importError?: GetVulnerabilityDiscoveryRepositoryResponseRepositoryImportError | null;
+  importError?: GetVulnerabilityDiscoveryRepositoryResponseRepositoryImportError | null | undefined;
 }
 export type GetVulnerabilityDiscoveryRepositoryResponseScansItemPhase =
   | "provisioning"
@@ -544,7 +571,7 @@ export interface GetVulnerabilityDiscoveryRepositoryResponseScansItem {
   status: GetVulnerabilityDiscoveryRepositoryResponseScansItemStatus;
   submittedAt: string;
   /** UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days. */
-  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null;
+  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null | undefined;
 }
 export type GetVulnerabilityDiscoveryRepositoryResponseScansList =
   Array<GetVulnerabilityDiscoveryRepositoryResponseScansItem>;
@@ -612,12 +639,12 @@ export interface GetVulnerabilityDiscoveryScanResponse {
   status: GetVulnerabilityDiscoveryScanResponseStatus;
   submittedAt: string;
   /** UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days. */
-  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null;
+  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null | undefined;
 }
 export interface ListVulnerabilityDiscoveryRepositoriesRequest {
   accountId: string;
-  cursor?: string;
-  limit?: number;
+  cursor?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListVulnerabilityDiscoveryRepositoriesResultItemReadiness =
   | "awaiting_source"
@@ -640,7 +667,7 @@ export interface ListVulnerabilityDiscoveryRepositoriesResultItem {
   /** Source state. `awaiting_source`: the upload repository's default branch has no commits yet. `processing`: an import is in progress. `ready`: source is available. `failed`: the Worker import failed or could not be verified. */
   readiness: ListVulnerabilityDiscoveryRepositoriesResultItemReadiness;
   source: ListVulnerabilityDiscoveryRepositoriesResultItemSource;
-  importError?: ListVulnerabilityDiscoveryRepositoriesResultItemImportError | null;
+  importError?: ListVulnerabilityDiscoveryRepositoriesResultItemImportError | null | undefined;
 }
 export type ListVulnerabilityDiscoveryRepositoriesResultList =
   Array<ListVulnerabilityDiscoveryRepositoriesResultItem>;
@@ -671,11 +698,11 @@ export type ListVulnerabilityDiscoveryScansRequestStatus =
   | ListVulnerabilityDiscoveryScansRequestStatusCase1List;
 export interface ListVulnerabilityDiscoveryScansRequest {
   accountId: string;
-  cursor?: string;
-  limit?: number;
-  repo?: string;
+  cursor?: string | undefined;
+  limit?: number | undefined;
+  repo?: string | undefined;
   /** Repeat parameter or provide comma-separated values. */
-  status?: ListVulnerabilityDiscoveryScansRequestStatus;
+  status?: ListVulnerabilityDiscoveryScansRequestStatus | undefined;
 }
 export type ListVulnerabilityDiscoveryScansResultItemPhase =
   | "provisioning"
@@ -731,7 +758,7 @@ export interface ListVulnerabilityDiscoveryScansResultItem {
   status: ListVulnerabilityDiscoveryScansResultItemStatus;
   submittedAt: string;
   /** UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days. */
-  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null;
+  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null | undefined;
 }
 export type ListVulnerabilityDiscoveryScansResultList =
   Array<ListVulnerabilityDiscoveryScansResultItem>;
@@ -861,18 +888,36 @@ export interface VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesI
   trace: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemTraceList;
   wafRules: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemWafRules;
   /** Least-privileged position required to trigger the finding. Optional on legacy report revisions. */
-  attackerPosition?: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemAttackerPosition | null;
-  externalLinks?: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemExternalLinksList | null;
+  attackerPosition?:
+    | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemAttackerPosition
+    | null
+    | undefined;
+  externalLinks?:
+    | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemExternalLinksList
+    | null
+    | undefined;
   /** Accepted settled impact-charter premises cited by the finding. Optional on legacy report revisions. */
-  impactIds?: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemImpactIdsList | null;
+  impactIds?:
+    | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemImpactIdsList
+    | null
+    | undefined;
   /** One bounded unresolved proof question. Optional on legacy report revisions. */
-  openQuestion?: string | null;
+  openQuestion?: string | null | undefined;
   /** Method used or needed to close the proof. Optional on legacy report revisions. */
-  proofMethod?: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemProofMethod | null;
+  proofMethod?:
+    | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemProofMethod
+    | null
+    | undefined;
   /** Current proof lifecycle state. Optional on legacy report revisions. */
-  proofState?: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemProofState | null;
+  proofState?:
+    | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemProofState
+    | null
+    | undefined;
   /** Accepted settled threat-model premises cited by the finding. Optional on legacy report revisions. */
-  threatIds?: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemThreatIdsList | null;
+  threatIds?:
+    | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItemThreatIdsList
+    | null
+    | undefined;
 }
 export type VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsList =
   Array<VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemFindingsItem>;
@@ -906,7 +951,7 @@ export interface VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesI
   hosts: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextTargetHostsList;
   kind: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextTargetKind;
   /** UTC ISO-8601 interval. Start is inclusive, end is exclusive, and the interval must be positive and at most seven days. */
-  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null;
+  telemetryWindow?: CreateVulnerabilityDiscoveryScanRequestTelemetryWindow | null | undefined;
 }
 export type VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWafRulesItemPathsItem =
   GetVulnerabilityDiscoveryReportResponseReportTrafficContextWafRulesItemPathsItem;
@@ -937,7 +982,10 @@ export interface VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesI
   host: string;
   method: string;
   riskLabels: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsItemRiskLabelsList;
-  performance?: GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemPerformance | null;
+  performance?:
+    | GetVulnerabilityDiscoveryReportResponseReportTrafficContextWebAssetsOperationsItemPerformance
+    | null
+    | undefined;
 }
 export type VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsList =
   Array<VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContextWebAssetsOperationsItem>;
@@ -973,8 +1021,14 @@ export interface VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesI
   repositoryName: string;
   summary: string;
   trafficContext: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemTrafficContext;
-  externalLinks?: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemExternalLinksList | null;
-  limitations?: VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemLimitationsList | null;
+  externalLinks?:
+    | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemExternalLinksList
+    | null
+    | undefined;
+  limitations?:
+    | VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItemLimitationsList
+    | null
+    | undefined;
 }
 export type VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesList =
   Array<VulnerabilityDiscoveryScansGetReportResponseReportRepositoriesItem>;

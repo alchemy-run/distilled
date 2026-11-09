@@ -48,15 +48,15 @@ export interface RoleAssignmentPropertiesInput {
   /** The principal ID. */
   principalId: string;
   /** The principal type of the assigned principal ID. */
-  principalType?: RoleAssignmentPropertiesInputPrincipalType | (string & {});
+  principalType?: RoleAssignmentPropertiesInputPrincipalType | (string & {}) | undefined;
   /** Description of role assignment */
-  description?: string;
+  description?: string | undefined;
   /** The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' */
-  condition?: string;
+  condition?: string | undefined;
   /** Version of the condition. Currently the only accepted value is '2.0' */
-  conditionVersion?: string;
+  conditionVersion?: string | undefined;
   /** Id of the delegated managed identity resource */
-  delegatedManagedIdentityResourceId?: string;
+  delegatedManagedIdentityResourceId?: string | undefined;
 }
 export interface CreateRoleAssignmentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -73,17 +73,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The principal type of the assigned principal ID. */
 export type RoleAssignmentPropertiesPrincipalType =
@@ -97,41 +97,41 @@ export type RoleAssignmentPropertiesPrincipalType =
 /** Role assignment properties. */
 export interface RoleAssignmentProperties {
   /** The role assignment scope. */
-  scope?: string;
+  scope?: string | undefined;
   /** The role definition ID. */
   roleDefinitionId: string;
   /** The principal ID. */
   principalId: string;
   /** The principal type of the assigned principal ID. */
-  principalType?: RoleAssignmentPropertiesPrincipalType;
+  principalType?: RoleAssignmentPropertiesPrincipalType | undefined;
   /** Description of role assignment */
-  description?: string;
+  description?: string | undefined;
   /** The conditions on the role assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' */
-  condition?: string;
+  condition?: string | undefined;
   /** Version of the condition. Currently the only accepted value is '2.0' */
-  conditionVersion?: string;
+  conditionVersion?: string | undefined;
   /** Time it was created */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Time it was updated */
-  updatedOn?: string;
+  updatedOn?: string | undefined;
   /** Id of the user who created the assignment */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Id of the user who updated the assignment */
-  updatedBy?: string;
+  updatedBy?: string | undefined;
   /** Id of the delegated managed identity resource */
-  delegatedManagedIdentityResourceId?: string;
+  delegatedManagedIdentityResourceId?: string | undefined;
 }
 export interface CreateRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Role assignment properties. */
-  properties?: RoleAssignmentProperties;
+  properties?: RoleAssignmentProperties | undefined;
 }
 export interface CreateRoleAssignmentByIdRequest {
   /** The fully qualified ID of the role assignment including scope, resource name, and resource type. Format: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example: /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME> */
@@ -141,15 +141,15 @@ export interface CreateRoleAssignmentByIdRequest {
 }
 export interface CreateRoleAssignmentByIdResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Role assignment properties. */
-  properties?: RoleAssignmentProperties;
+  properties?: RoleAssignmentProperties | undefined;
 }
 export interface DeleteRoleAssignmentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -157,37 +157,37 @@ export interface DeleteRoleAssignmentRequest {
   /** The name of the role assignment. It can be any valid GUID. */
   roleAssignmentName: string;
   /** Tenant ID for cross-tenant request */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface DeleteRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Role assignment properties. */
-  properties?: RoleAssignmentProperties;
+  properties?: RoleAssignmentProperties | undefined;
 }
 export interface DeleteRoleAssignmentByIdRequest {
   /** The fully qualified ID of the role assignment including scope, resource name, and resource type. Format: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example: /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME> */
   roleAssignmentId: string;
   /** Tenant ID for cross-tenant request */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface DeleteRoleAssignmentByIdResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Role assignment properties. */
-  properties?: RoleAssignmentProperties;
+  properties?: RoleAssignmentProperties | undefined;
 }
 export interface DeleteRoleDefinitionRequest {
   /** The scope of the role definition. */
@@ -206,13 +206,13 @@ export type PermissionNotDataActionsList = Array<string>;
 /** Role definition permissions. */
 export interface Permission {
   /** Allowed actions. */
-  actions?: PermissionActionsList;
+  actions?: PermissionActionsList | undefined;
   /** Denied actions. */
-  notActions?: PermissionNotActionsList;
+  notActions?: PermissionNotActionsList | undefined;
   /** Allowed Data actions. */
-  dataActions?: PermissionDataActionsList;
+  dataActions?: PermissionDataActionsList | undefined;
   /** Denied Data actions. */
-  notDataActions?: PermissionNotDataActionsList;
+  notDataActions?: PermissionNotDataActionsList | undefined;
 }
 /** Role definition permissions. */
 export type RoleDefinitionPropertiesPermissionsList = Array<Permission>;
@@ -221,34 +221,34 @@ export type RoleDefinitionPropertiesAssignableScopesList = Array<string>;
 /** Role definition properties. */
 export interface RoleDefinitionProperties {
   /** The role name. */
-  roleName?: string;
+  roleName?: string | undefined;
   /** The role definition description. */
-  description?: string;
+  description?: string | undefined;
   /** The role type. */
-  type?: string;
+  type?: string | undefined;
   /** Role definition permissions. */
-  permissions?: RoleDefinitionPropertiesPermissionsList;
+  permissions?: RoleDefinitionPropertiesPermissionsList | undefined;
   /** Role definition assignable scopes. */
-  assignableScopes?: RoleDefinitionPropertiesAssignableScopesList;
+  assignableScopes?: RoleDefinitionPropertiesAssignableScopesList | undefined;
   /** Time it was created */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Time it was updated */
-  updatedOn?: string;
+  updatedOn?: string | undefined;
   /** Id of the user who created the assignment */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Id of the user who updated the assignment */
-  updatedBy?: string;
+  updatedBy?: string | undefined;
 }
 /** Role definition. */
 export interface RoleDefinition {
   /** The role definition ID. */
-  id?: string;
+  id?: string | undefined;
   /** The role definition name. */
-  name?: string;
+  name?: string | undefined;
   /** The role definition type. */
-  type?: string;
+  type?: string | undefined;
   /** Role definition properties. */
-  properties?: RoleDefinitionProperties;
+  properties?: RoleDefinitionProperties | undefined;
 }
 export interface GetDenyAssignmentRequest {
   /** The scope of the deny assignment. */
@@ -267,30 +267,30 @@ export type DenyAssignmentPermissionNotDataActionsList = Array<string>;
 /** Deny assignment permissions. */
 export interface DenyAssignmentPermission {
   /** Actions to which the deny assignment does not grant access. */
-  actions?: DenyAssignmentPermissionActionsList;
+  actions?: DenyAssignmentPermissionActionsList | undefined;
   /** Actions to exclude from that the deny assignment does not grant access. */
-  notActions?: DenyAssignmentPermissionNotActionsList;
+  notActions?: DenyAssignmentPermissionNotActionsList | undefined;
   /** Data actions to which the deny assignment does not grant access. */
-  dataActions?: DenyAssignmentPermissionDataActionsList;
+  dataActions?: DenyAssignmentPermissionDataActionsList | undefined;
   /** Data actions to exclude from that the deny assignment does not grant access. */
-  notDataActions?: DenyAssignmentPermissionNotDataActionsList;
+  notDataActions?: DenyAssignmentPermissionNotDataActionsList | undefined;
   /** The conditions on the Deny assignment permission. This limits the resources it applies to. */
-  condition?: string;
+  condition?: string | undefined;
   /** Version of the condition. */
-  conditionVersion?: string;
+  conditionVersion?: string | undefined;
 }
 /** An array of permissions that are denied by the deny assignment. */
 export type DenyAssignmentPropertiesPermissionsList = Array<DenyAssignmentPermission>;
 /** The name of the entity last modified it */
 export interface DenyAssignmentPropertiesPrincipalsItem {
   /** The id of the principal made changes */
-  id?: string;
+  id?: string | undefined;
   /** The name of the principal made changes */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Type of principal such as user , group etc */
-  type?: string;
+  type?: string | undefined;
   /** Email of principal */
-  email?: string;
+  email?: string | undefined;
 }
 /** Array of principals to which the deny assignment applies. */
 export type DenyAssignmentPropertiesPrincipalsList = Array<DenyAssignmentPropertiesPrincipalsItem>;
@@ -302,44 +302,44 @@ export type DenyAssignmentPropertiesExcludePrincipalsList =
 /** Deny assignment properties. */
 export interface DenyAssignmentProperties {
   /** The display name of the deny assignment. */
-  denyAssignmentName?: string;
+  denyAssignmentName?: string | undefined;
   /** The description of the deny assignment. */
-  description?: string;
+  description?: string | undefined;
   /** An array of permissions that are denied by the deny assignment. */
-  permissions?: DenyAssignmentPropertiesPermissionsList;
+  permissions?: DenyAssignmentPropertiesPermissionsList | undefined;
   /** The deny assignment scope. */
-  scope?: string;
+  scope?: string | undefined;
   /** Determines if the deny assignment applies to child scopes. Default value is false. */
-  doNotApplyToChildScopes?: boolean;
+  doNotApplyToChildScopes?: boolean | undefined;
   /** Array of principals to which the deny assignment applies. */
-  principals?: DenyAssignmentPropertiesPrincipalsList;
+  principals?: DenyAssignmentPropertiesPrincipalsList | undefined;
   /** Array of principals to which the deny assignment does not apply. */
-  excludePrincipals?: DenyAssignmentPropertiesExcludePrincipalsList;
+  excludePrincipals?: DenyAssignmentPropertiesExcludePrincipalsList | undefined;
   /** Specifies whether this deny assignment was created by Azure and cannot be edited or deleted. */
-  isSystemProtected?: boolean;
+  isSystemProtected?: boolean | undefined;
   /** The conditions on the deny assignment. This limits the resources it can be assigned to. e.g.: @Resource[Microsoft.Storage/storageAccounts/blobServices/containers:ContainerName] StringEqualsIgnoreCase 'foo_storage_container' */
-  condition?: string;
+  condition?: string | undefined;
   /** Version of the condition. */
-  conditionVersion?: string;
+  conditionVersion?: string | undefined;
   /** Time it was created */
-  createdOn?: string;
+  createdOn?: string | undefined;
   /** Time it was updated */
-  updatedOn?: string;
+  updatedOn?: string | undefined;
   /** Id of the user who created the assignment */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** Id of the user who updated the assignment */
-  updatedBy?: string;
+  updatedBy?: string | undefined;
 }
 /** Deny Assignment */
 export interface DenyAssignment {
   /** The deny assignment ID. */
-  id?: string;
+  id?: string | undefined;
   /** The deny assignment name. */
-  name?: string;
+  name?: string | undefined;
   /** The deny assignment type. */
-  type?: string;
+  type?: string | undefined;
   /** Deny assignment properties. */
-  properties?: DenyAssignmentProperties;
+  properties?: DenyAssignmentProperties | undefined;
 }
 export interface GetDenyAssignmentByIdRequest {
   /** The fully qualified deny assignment ID. For example, use the format, /subscriptions/{guid}/providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId} for subscription level deny assignments, or /providers/Microsoft.Authorization/denyAssignments/{denyAssignmentId} for tenant level deny assignments. */
@@ -349,33 +349,33 @@ export interface GetProviderOperationsMetadataRequest {
   /** The namespace of the resource provider. */
   resourceProviderNamespace: string;
   /** Specifies whether to expand the values. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** Operation */
 export interface ProviderOperation {
   /** The operation name. */
-  name?: string;
+  name?: string | undefined;
   /** The operation display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The operation description. */
-  description?: string;
+  description?: string | undefined;
   /** The operation origin. */
-  origin?: string;
+  origin?: string | undefined;
   /** The operation properties. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** The dataAction flag to specify the operation type. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
 }
 /** The resource type operations. */
 export type ResourceTypeOperationsList = Array<ProviderOperation>;
 /** Resource Type */
 export interface ResourceType {
   /** The resource type name. */
-  name?: string;
+  name?: string | undefined;
   /** The resource type display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The resource type operations. */
-  operations?: ResourceTypeOperationsList;
+  operations?: ResourceTypeOperationsList | undefined;
 }
 /** The provider resource types */
 export type GetProviderOperationsMetadataResponseResourceTypesList = Array<ResourceType>;
@@ -383,17 +383,17 @@ export type GetProviderOperationsMetadataResponseResourceTypesList = Array<Resou
 export type GetProviderOperationsMetadataResponseOperationsList = Array<ProviderOperation>;
 export interface GetProviderOperationsMetadataResponse {
   /** The provider ID. */
-  id?: string;
+  id?: string | undefined;
   /** The provider name. */
-  name?: string;
+  name?: string | undefined;
   /** The provider type. */
-  type?: string;
+  type?: string | undefined;
   /** The provider display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The provider resource types */
-  resourceTypes?: GetProviderOperationsMetadataResponseResourceTypesList;
+  resourceTypes?: GetProviderOperationsMetadataResponseResourceTypesList | undefined;
   /** The provider operations. */
-  operations?: GetProviderOperationsMetadataResponseOperationsList;
+  operations?: GetProviderOperationsMetadataResponseOperationsList | undefined;
 }
 export interface GetRoleAssignmentRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
@@ -401,37 +401,37 @@ export interface GetRoleAssignmentRequest {
   /** The name of the role assignment. It can be any valid GUID. */
   roleAssignmentName: string;
   /** Tenant ID for cross-tenant request */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface GetRoleAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Role assignment properties. */
-  properties?: RoleAssignmentProperties;
+  properties?: RoleAssignmentProperties | undefined;
 }
 export interface GetRoleAssignmentByIdRequest {
   /** The fully qualified ID of the role assignment including scope, resource name, and resource type. Format: /{scope}/providers/Microsoft.Authorization/roleAssignments/{roleAssignmentName}. Example: /subscriptions/<SUB_ID>/resourcegroups/<RESOURCE_GROUP>/providers/Microsoft.Authorization/roleAssignments/<ROLE_ASSIGNMENT_NAME> */
   roleAssignmentId: string;
   /** Tenant ID for cross-tenant request */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface GetRoleAssignmentByIdResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Role assignment properties. */
-  properties?: RoleAssignmentProperties;
+  properties?: RoleAssignmentProperties | undefined;
 }
 export interface GetRoleDefinitionRequest {
   /** The scope of the role definition. */
@@ -453,16 +453,16 @@ export interface ListDenyAssignmentForResourceRequest {
   /** The name of the resource to get deny assignments for. */
   resourceName: string;
   /** The filter to apply on the operation. Use $filter=atScope() to return all deny assignments at or above the scope. Use $filter=denyAssignmentName eq '{name}' to search deny assignments by name at specified scope. Use $filter=principalId eq '{id}' to return all deny assignments at, above and below the scope for the specified principal. Use $filter=gdprExportPrincipalId eq '{id}' to return all deny assignments at, above and below the scope for the specified principal. This filter is different from the principalId filter as it returns not only those deny assignments that contain the specified principal is the Principals list but also those deny assignments that contain the specified principal is the ExcludePrincipals list. Additionally, when gdprExportPrincipalId filter is used, only the deny assignment name and description properties are returned. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Deny assignment list. */
 export type DenyAssignmentListResultValueList = Array<DenyAssignment>;
 /** Deny assignment list operation result. */
 export interface DenyAssignmentListResult {
   /** Deny assignment list. */
-  value?: DenyAssignmentListResultValueList;
+  value?: DenyAssignmentListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDenyAssignmentForResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -470,19 +470,19 @@ export interface ListDenyAssignmentForResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The filter to apply on the operation. Use $filter=atScope() to return all deny assignments at or above the scope. Use $filter=denyAssignmentName eq '{name}' to search deny assignments by name at specified scope. Use $filter=principalId eq '{id}' to return all deny assignments at, above and below the scope for the specified principal. Use $filter=gdprExportPrincipalId eq '{id}' to return all deny assignments at, above and below the scope for the specified principal. This filter is different from the principalId filter as it returns not only those deny assignments that contain the specified principal is the Principals list but also those deny assignments that contain the specified principal is the ExcludePrincipals list. Additionally, when gdprExportPrincipalId filter is used, only the deny assignment name and description properties are returned. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListDenyAssignmentForScopeRequest {
   /** The scope of the deny assignments. */
   scope: string;
   /** The filter to apply on the operation. Use $filter=atScope() to return all deny assignments at or above the scope. Use $filter=denyAssignmentName eq '{name}' to search deny assignments by name at specified scope. Use $filter=principalId eq '{id}' to return all deny assignments at, above and below the scope for the specified principal. Use $filter=gdprExportPrincipalId eq '{id}' to return all deny assignments at, above and below the scope for the specified principal. This filter is different from the principalId filter as it returns not only those deny assignments that contain the specified principal is the Principals list but also those deny assignments that contain the specified principal is the ExcludePrincipals list. Additionally, when gdprExportPrincipalId filter is used, only the deny assignment name and description properties are returned. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListDenyAssignmentsRequest {
   /** The ID of the target subscription. */
   subscriptionId: string;
   /** The filter to apply on the operation. Use $filter=atScope() to return all deny assignments at or above the scope. Use $filter=denyAssignmentName eq '{name}' to search deny assignments by name at specified scope. Use $filter=principalId eq '{id}' to return all deny assignments at, above and below the scope for the specified principal. Use $filter=gdprExportPrincipalId eq '{id}' to return all deny assignments at, above and below the scope for the specified principal. This filter is different from the principalId filter as it returns not only those deny assignments that contain the specified principal is the Principals list but also those deny assignments that contain the specified principal is the ExcludePrincipals list. Additionally, when gdprExportPrincipalId filter is used, only the deny assignment name and description properties are returned. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 export interface ListPermissionsForResourceRequest {
   /** The ID of the target subscription. */
@@ -503,9 +503,9 @@ export type PermissionGetResultValueList = Array<Permission>;
 /** Permissions information. */
 export interface PermissionGetResult {
   /** An array of permissions. */
-  value?: PermissionGetResultValueList;
+  value?: PermissionGetResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPermissionsForResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -515,7 +515,7 @@ export interface ListPermissionsForResourceGroupRequest {
 }
 export interface ListProviderOperationsMetadataRequest {
   /** Specifies whether to expand the values. */
-  _expand?: string;
+  _expand?: string | undefined;
 }
 /** The provider resource types */
 export type ProviderOperationsMetadataResourceTypesList = Array<ResourceType>;
@@ -524,17 +524,17 @@ export type ProviderOperationsMetadataOperationsList = Array<ProviderOperation>;
 /** Provider Operations metadata */
 export interface ProviderOperationsMetadata {
   /** The provider ID. */
-  id?: string;
+  id?: string | undefined;
   /** The provider name. */
-  name?: string;
+  name?: string | undefined;
   /** The provider type. */
-  type?: string;
+  type?: string | undefined;
   /** The provider display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The provider resource types */
-  resourceTypes?: ProviderOperationsMetadataResourceTypesList;
+  resourceTypes?: ProviderOperationsMetadataResourceTypesList | undefined;
   /** The provider operations. */
-  operations?: ProviderOperationsMetadataOperationsList;
+  operations?: ProviderOperationsMetadataOperationsList | undefined;
 }
 /** The ProviderOperationsMetadata items on this page */
 export type ProviderOperationsMetadataListResultValueList = Array<ProviderOperationsMetadata>;
@@ -543,7 +543,7 @@ export interface ProviderOperationsMetadataListResult {
   /** The ProviderOperationsMetadata items on this page */
   value: ProviderOperationsMetadataListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRoleAssignmentForResourceRequest {
   /** The ID of the target subscription. */
@@ -557,22 +557,22 @@ export interface ListRoleAssignmentForResourceRequest {
   /** The name of the resource to get role assignments for. */
   resourceName: string;
   /** The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Tenant ID for cross-tenant request */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 /** Role Assignments */
 export interface RoleAssignment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Role assignment properties. */
-  properties?: RoleAssignmentProperties;
+  properties?: RoleAssignmentProperties | undefined;
 }
 /** The RoleAssignment items on this page */
 export type RoleAssignmentListResultValueList = Array<RoleAssignment>;
@@ -581,7 +581,7 @@ export interface RoleAssignmentListResult {
   /** The RoleAssignment items on this page */
   value: RoleAssignmentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRoleAssignmentForResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -589,42 +589,42 @@ export interface ListRoleAssignmentForResourceGroupRequest {
   /** The name of the resource group. The name is case insensitive. */
   resourceGroupName: string;
   /** The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Tenant ID for cross-tenant request */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface ListRoleAssignmentForScopeRequest {
   /** The fully qualified Azure Resource manager identifier of the resource. */
   scope: string;
   /** The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Tenant ID for cross-tenant request */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** The skipToken to apply on the operation. Use $skipToken={skiptoken} to return paged role assignments following the skipToken passed. Only supported on provider level calls. */
-  _skipToken?: string;
+  _skipToken?: string | undefined;
 }
 export interface ListRoleAssignmentForSubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
   subscriptionId: string;
   /** The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal. */
-  _filter?: string;
+  _filter?: string | undefined;
   /** Tenant ID for cross-tenant request */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export interface ListRoleDefinitionsRequest {
   /** The scope of the role definition. */
   scope: string;
   /** The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well. */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Role definition list. */
 export type RoleDefinitionListResultValueList = Array<RoleDefinition>;
 /** Role definition list operation result. */
 export interface RoleDefinitionListResult {
   /** Role definition list. */
-  value?: RoleDefinitionListResultValueList;
+  value?: RoleDefinitionListResultValueList | undefined;
   /** The URL to use for getting the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Role definition permissions. */
 export type RoleDefinitionPropertiesInputPermissionsList = Array<Permission>;
@@ -633,15 +633,15 @@ export type RoleDefinitionPropertiesInputAssignableScopesList = Array<string>;
 /** Role definition properties. */
 export interface RoleDefinitionPropertiesInput {
   /** The role name. */
-  roleName?: string;
+  roleName?: string | undefined;
   /** The role definition description. */
-  description?: string;
+  description?: string | undefined;
   /** The role type. */
-  type?: string;
+  type?: string | undefined;
   /** Role definition permissions. */
-  permissions?: RoleDefinitionPropertiesInputPermissionsList;
+  permissions?: RoleDefinitionPropertiesInputPermissionsList | undefined;
   /** Role definition assignable scopes. */
-  assignableScopes?: RoleDefinitionPropertiesInputAssignableScopesList;
+  assignableScopes?: RoleDefinitionPropertiesInputAssignableScopesList | undefined;
 }
 export interface RoleDefinitionsCreateOrUpdateRequest {
   /** The scope of the role definition. */
@@ -649,7 +649,7 @@ export interface RoleDefinitionsCreateOrUpdateRequest {
   /** The ID of the role definition. */
   roleDefinitionId: string;
   /** Role definition properties. */
-  properties?: RoleDefinitionPropertiesInput;
+  properties?: RoleDefinitionPropertiesInput | undefined;
 }
 export type CreateRoleAssignmentError = AzureOpError;
 /** Create or update a role assignment by scope and name. */

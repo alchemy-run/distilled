@@ -184,7 +184,7 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface AddTagsToCertificateRequest {
@@ -196,22 +196,22 @@ export type AcmeEndpointArn = string;
 export type DomainName = string;
 export type DomainScopeOption = "ENABLED" | "DISABLED" | (string & {});
 export interface DomainScope {
-  ExactDomain?: DomainScopeOption;
-  Subdomains?: DomainScopeOption;
-  Wildcards?: DomainScopeOption;
+  ExactDomain?: DomainScopeOption | undefined;
+  Subdomains?: DomainScopeOption | undefined;
+  Wildcards?: DomainScopeOption | undefined;
 }
 export type HostedZoneId = string;
 export interface DnsPrevalidationOptions {
-  DomainScope?: DomainScope;
-  HostedZoneId?: string;
+  DomainScope?: DomainScope | undefined;
+  HostedZoneId?: string | undefined;
 }
 export type PrevalidationOptions = { DnsPrevalidation: DnsPrevalidationOptions };
 export interface CreateAcmeDomainValidationRequest {
-  IdempotencyToken?: string;
+  IdempotencyToken?: string | undefined;
   AcmeEndpointArn: string;
   DomainName: string;
   PrevalidationOptions: PrevalidationOptions;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type AcmeDomainValidationArn = string;
 export interface CreateAcmeDomainValidationResponse {
@@ -222,19 +222,19 @@ export type AcmeContact = "REQUIRED" | "NOT_REQUIRED" | (string & {});
 export type PublicKeyAlgorithm = "RSA_2048" | "EC_prime256v1" | "EC_secp384r1" | (string & {});
 export type PublicKeyAlgorithmList = PublicKeyAlgorithm[];
 export interface PublicCertificateAuthority {
-  AllowedKeyAlgorithms?: PublicKeyAlgorithm[];
+  AllowedKeyAlgorithms?: PublicKeyAlgorithm[] | undefined;
 }
 export type CertificateAuthority = { PublicCertificateAuthority: PublicCertificateAuthority };
 export interface CreateAcmeEndpointRequest {
-  IdempotencyToken?: string;
+  IdempotencyToken?: string | undefined;
   AuthorizationBehavior: AcmeAuthorizationBehavior;
-  Contact?: AcmeContact;
+  Contact?: AcmeContact | undefined;
   CertificateAuthority: CertificateAuthority;
-  Tags?: Tag[];
-  CertificateTags?: Tag[];
+  Tags?: Tag[] | undefined;
+  CertificateTags?: Tag[] | undefined;
 }
 export interface CreateAcmeEndpointResponse {
-  AcmeEndpointArn?: string;
+  AcmeEndpointArn?: string | undefined;
 }
 export type RoleArn = string;
 export type TimeType = "MINUTES" | "HOURS" | "DAYS" | (string & {});
@@ -243,25 +243,25 @@ export interface Expiration {
   Type: TimeType;
 }
 export interface CreateAcmeExternalAccountBindingRequest {
-  IdempotencyToken?: string;
+  IdempotencyToken?: string | undefined;
   AcmeEndpointArn: string;
   RoleArn: string;
-  Expiration?: Expiration;
-  Tags?: Tag[];
+  Expiration?: Expiration | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type AcmeExternalAccountBindingArn = string;
 export interface AcmeExternalAccountBinding {
-  AcmeExternalAccountBindingArn?: string;
-  AcmeEndpointArn?: string;
-  RoleArn?: string;
-  ExpiresAt?: Date;
-  RevokedAt?: Date;
-  LastUsedAt?: Date;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  AcmeExternalAccountBindingArn?: string | undefined;
+  AcmeEndpointArn?: string | undefined;
+  RoleArn?: string | undefined;
+  ExpiresAt?: Date | undefined;
+  RevokedAt?: Date | undefined;
+  LastUsedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface CreateAcmeExternalAccountBindingResponse {
-  ExternalAccountBinding?: AcmeExternalAccountBinding;
+  ExternalAccountBinding?: AcmeExternalAccountBinding | undefined;
 }
 export interface DeleteAcmeDomainValidationRequest {
   AcmeDomainValidationArn: string;
@@ -286,15 +286,15 @@ export interface DescribeAcmeAccountRequest {
 export type AcmeAccountStatus = "VALID" | "DEACTIVATED" | "REVOKED" | (string & {});
 export type ContactList = string[];
 export interface AcmeAccount {
-  AccountUrl?: string;
-  PublicKeyThumbprint?: string;
-  Status?: AcmeAccountStatus;
-  CreatedAt?: Date;
-  AcmeExternalAccountBindingArn?: string;
-  Contacts?: string[];
+  AccountUrl?: string | undefined;
+  PublicKeyThumbprint?: string | undefined;
+  Status?: AcmeAccountStatus | undefined;
+  CreatedAt?: Date | undefined;
+  AcmeExternalAccountBindingArn?: string | undefined;
+  Contacts?: string[] | undefined;
 }
 export interface DescribeAcmeAccountResponse {
-  AcmeAccount?: AcmeAccount;
+  AcmeAccount?: AcmeAccount | undefined;
 }
 export interface DescribeAcmeDomainValidationRequest {
   AcmeDomainValidationArn: string;
@@ -307,9 +307,9 @@ export interface ResourceRecord {
   Value: string;
 }
 export interface DnsPrevalidationDetails {
-  DomainScope?: DomainScope;
-  HostedZoneId?: string;
-  ResourceRecord?: ResourceRecord;
+  DomainScope?: DomainScope | undefined;
+  HostedZoneId?: string | undefined;
+  ResourceRecord?: ResourceRecord | undefined;
 }
 export type PrevalidationDetails = { DnsPrevalidation: DnsPrevalidationDetails };
 export type AcmeDomainValidationStatus =
@@ -330,47 +330,47 @@ export type AcmeDomainValidationFailureReason =
   | "TIMED_OUT"
   | (string & {});
 export interface FailureDetails {
-  Reason?: AcmeDomainValidationFailureReason;
-  Message?: string;
+  Reason?: AcmeDomainValidationFailureReason | undefined;
+  Message?: string | undefined;
 }
 export interface AcmeDomainValidation {
-  AcmeDomainValidationArn?: string;
-  AcmeEndpointArn?: string;
-  DomainName?: string;
-  PrevalidationType?: PrevalidationType;
-  PrevalidationDetails?: PrevalidationDetails;
-  Status?: AcmeDomainValidationStatus;
-  FailureDetails?: FailureDetails;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  AcmeDomainValidationArn?: string | undefined;
+  AcmeEndpointArn?: string | undefined;
+  DomainName?: string | undefined;
+  PrevalidationType?: PrevalidationType | undefined;
+  PrevalidationDetails?: PrevalidationDetails | undefined;
+  Status?: AcmeDomainValidationStatus | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface DescribeAcmeDomainValidationResponse {
-  AcmeDomainValidation?: AcmeDomainValidation;
+  AcmeDomainValidation?: AcmeDomainValidation | undefined;
 }
 export interface DescribeAcmeEndpointRequest {
   AcmeEndpointArn: string;
 }
 export type AcmeEndpointStatus = "CREATING" | "ACTIVE" | "DELETING" | "FAILED" | (string & {});
 export interface AcmeEndpoint {
-  AcmeEndpointArn?: string;
-  EndpointUrl?: string;
-  Status?: AcmeEndpointStatus;
-  FailureReason?: string;
-  AuthorizationBehavior?: AcmeAuthorizationBehavior;
-  Contact?: AcmeContact;
-  CertificateAuthority?: CertificateAuthority;
-  CertificateTags?: Tag[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  AcmeEndpointArn?: string | undefined;
+  EndpointUrl?: string | undefined;
+  Status?: AcmeEndpointStatus | undefined;
+  FailureReason?: string | undefined;
+  AuthorizationBehavior?: AcmeAuthorizationBehavior | undefined;
+  Contact?: AcmeContact | undefined;
+  CertificateAuthority?: CertificateAuthority | undefined;
+  CertificateTags?: Tag[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export interface DescribeAcmeEndpointResponse {
-  AcmeEndpoint?: AcmeEndpoint;
+  AcmeEndpoint?: AcmeEndpoint | undefined;
 }
 export interface DescribeAcmeExternalAccountBindingRequest {
   AcmeExternalAccountBindingArn: string;
 }
 export interface DescribeAcmeExternalAccountBindingResponse {
-  ExternalAccountBinding?: AcmeExternalAccountBinding;
+  ExternalAccountBinding?: AcmeExternalAccountBinding | undefined;
 }
 export interface DescribeCertificateRequest {
   CertificateArn: string;
@@ -381,18 +381,18 @@ export type CertificateManagedBy = "CLOUDFRONT" | (string & {});
 export type ValidationEmailList = string[];
 export type DomainStatus = "PENDING_VALIDATION" | "SUCCESS" | "FAILED" | (string & {});
 export interface HttpRedirect {
-  RedirectFrom?: string;
-  RedirectTo?: string;
+  RedirectFrom?: string | undefined;
+  RedirectTo?: string | undefined;
 }
 export type ValidationMethod = "EMAIL" | "DNS" | "HTTP" | (string & {});
 export interface DomainValidation {
   DomainName: string;
-  ValidationEmails?: string[];
-  ValidationDomain?: string;
-  ValidationStatus?: DomainStatus;
-  ResourceRecord?: ResourceRecord;
-  HttpRedirect?: HttpRedirect;
-  ValidationMethod?: ValidationMethod;
+  ValidationEmails?: string[] | undefined;
+  ValidationDomain?: string | undefined;
+  ValidationStatus?: DomainStatus | undefined;
+  ResourceRecord?: ResourceRecord | undefined;
+  HttpRedirect?: HttpRedirect | undefined;
+  ValidationMethod?: ValidationMethod | undefined;
 }
 export type DomainValidationList = DomainValidation[];
 export type CertificateStatus =
@@ -456,7 +456,7 @@ export type RenewalStatus =
 export interface RenewalSummary {
   RenewalStatus: RenewalStatus;
   DomainValidationOptions: DomainValidation[];
-  RenewalStatusReason?: FailureReason;
+  RenewalStatusReason?: FailureReason | undefined;
   UpdatedAt: Date;
 }
 export type KeyUsageName =
@@ -473,7 +473,7 @@ export type KeyUsageName =
   | "CUSTOM"
   | (string & {});
 export interface KeyUsage {
-  Name?: KeyUsageName;
+  Name?: KeyUsageName | undefined;
 }
 export type KeyUsageList = KeyUsage[];
 export type ExtendedKeyUsageName =
@@ -491,68 +491,68 @@ export type ExtendedKeyUsageName =
   | "CUSTOM"
   | (string & {});
 export interface ExtendedKeyUsage {
-  Name?: ExtendedKeyUsageName;
-  OID?: string;
+  Name?: ExtendedKeyUsageName | undefined;
+  OID?: string | undefined;
 }
 export type ExtendedKeyUsageList = ExtendedKeyUsage[];
 export type RenewalEligibility = "ELIGIBLE" | "INELIGIBLE" | (string & {});
 export type CertificateTransparencyLoggingPreference = "ENABLED" | "DISABLED" | (string & {});
 export type CertificateExport = "ENABLED" | "DISABLED" | (string & {});
 export interface CertificateOptions {
-  CertificateTransparencyLoggingPreference?: CertificateTransparencyLoggingPreference;
-  Export?: CertificateExport;
-  ValidationMethod?: ValidationMethod;
+  CertificateTransparencyLoggingPreference?: CertificateTransparencyLoggingPreference | undefined;
+  Export?: CertificateExport | undefined;
+  ValidationMethod?: ValidationMethod | undefined;
 }
 export type UpdateStatus = "PENDING_DOMAIN_VALIDATION" | "SUCCESS" | "FAILED" | (string & {});
 export type UpdateType = "DOMAIN_VALIDATION_METHOD" | (string & {});
 export interface DomainValidationMethodUpdateSummary {
-  From?: ValidationMethod;
-  To?: ValidationMethod;
+  From?: ValidationMethod | undefined;
+  To?: ValidationMethod | undefined;
 }
 export interface UpdateSummary {
-  Status?: UpdateStatus;
-  Type?: UpdateType;
-  DomainValidationMethodUpdateSummary?: DomainValidationMethodUpdateSummary;
-  RequestedAt?: Date;
-  UpdatedAt?: Date;
+  Status?: UpdateStatus | undefined;
+  Type?: UpdateType | undefined;
+  DomainValidationMethodUpdateSummary?: DomainValidationMethodUpdateSummary | undefined;
+  RequestedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type CertificateKeyPairOrigin = "AWS_MANAGED" | "ACME" | "CUSTOMER_PROVIDED" | (string & {});
 export type AcmeAccountId = string;
 export interface CertificateDetail {
-  CertificateArn?: string;
-  DomainName?: string;
-  SubjectAlternativeNames?: string[];
-  ManagedBy?: CertificateManagedBy;
-  DomainValidationOptions?: DomainValidation[];
-  Serial?: string;
-  Subject?: string;
-  Issuer?: string;
-  CreatedAt?: Date;
-  IssuedAt?: Date;
-  ImportedAt?: Date;
-  Status?: CertificateStatus;
-  RevokedAt?: Date;
-  RevocationReason?: RevocationReason;
-  NotBefore?: Date;
-  NotAfter?: Date;
-  KeyAlgorithm?: KeyAlgorithm;
-  SignatureAlgorithm?: string;
-  InUseBy?: string[];
-  FailureReason?: FailureReason;
-  Type?: CertificateType;
-  RenewalSummary?: RenewalSummary;
-  KeyUsages?: KeyUsage[];
-  ExtendedKeyUsages?: ExtendedKeyUsage[];
-  CertificateAuthorityArn?: string;
-  RenewalEligibility?: RenewalEligibility;
-  Options?: CertificateOptions;
-  UpdateSummary?: UpdateSummary;
-  CertificateKeyPairOrigin?: CertificateKeyPairOrigin;
-  AcmeEndpointArn?: string;
-  AcmeAccountId?: string;
+  CertificateArn?: string | undefined;
+  DomainName?: string | undefined;
+  SubjectAlternativeNames?: string[] | undefined;
+  ManagedBy?: CertificateManagedBy | undefined;
+  DomainValidationOptions?: DomainValidation[] | undefined;
+  Serial?: string | undefined;
+  Subject?: string | undefined;
+  Issuer?: string | undefined;
+  CreatedAt?: Date | undefined;
+  IssuedAt?: Date | undefined;
+  ImportedAt?: Date | undefined;
+  Status?: CertificateStatus | undefined;
+  RevokedAt?: Date | undefined;
+  RevocationReason?: RevocationReason | undefined;
+  NotBefore?: Date | undefined;
+  NotAfter?: Date | undefined;
+  KeyAlgorithm?: KeyAlgorithm | undefined;
+  SignatureAlgorithm?: string | undefined;
+  InUseBy?: string[] | undefined;
+  FailureReason?: FailureReason | undefined;
+  Type?: CertificateType | undefined;
+  RenewalSummary?: RenewalSummary | undefined;
+  KeyUsages?: KeyUsage[] | undefined;
+  ExtendedKeyUsages?: ExtendedKeyUsage[] | undefined;
+  CertificateAuthorityArn?: string | undefined;
+  RenewalEligibility?: RenewalEligibility | undefined;
+  Options?: CertificateOptions | undefined;
+  UpdateSummary?: UpdateSummary | undefined;
+  CertificateKeyPairOrigin?: CertificateKeyPairOrigin | undefined;
+  AcmeEndpointArn?: string | undefined;
+  AcmeAccountId?: string | undefined;
 }
 export interface DescribeCertificateResponse {
-  Certificate?: CertificateDetail;
+  Certificate?: CertificateDetail | undefined;
 }
 export type PassphraseBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export interface ExportCertificateRequest {
@@ -563,158 +563,158 @@ export type CertificateBody = string;
 export type CertificateChain = string;
 export type PrivateKey = string | redacted.Redacted<string>;
 export interface ExportCertificateResponse {
-  Certificate?: string;
-  CertificateChain?: string;
-  PrivateKey?: string | redacted.Redacted<string>;
+  Certificate?: string | undefined;
+  CertificateChain?: string | undefined;
+  PrivateKey?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetAccountConfigurationRequest {}
 export type PositiveInteger = number;
 export interface ExpiryEventsConfiguration {
-  DaysBeforeExpiry?: number;
+  DaysBeforeExpiry?: number | undefined;
 }
 export interface GetAccountConfigurationResponse {
-  ExpiryEvents?: ExpiryEventsConfiguration;
+  ExpiryEvents?: ExpiryEventsConfiguration | undefined;
 }
 export interface GetAcmeExternalAccountBindingCredentialsRequest {
   AcmeExternalAccountBindingArn: string;
 }
 export type MacKey = string | redacted.Redacted<string>;
 export interface GetAcmeExternalAccountBindingCredentialsResponse {
-  KeyId?: string;
-  MacKey?: string | redacted.Redacted<string>;
+  KeyId?: string | undefined;
+  MacKey?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetCertificateRequest {
   CertificateArn: string;
 }
 export interface GetCertificateResponse {
-  Certificate?: string;
-  CertificateChain?: string;
+  Certificate?: string | undefined;
+  CertificateChain?: string | undefined;
 }
 export type CertificateBodyBlob = Uint8Array;
 export type PrivateKeyBlob = Uint8Array | redacted.Redacted<Uint8Array>;
 export type CertificateChainBlob = Uint8Array;
 export interface ImportCertificateRequest {
-  CertificateArn?: string;
+  CertificateArn?: string | undefined;
   Certificate: Uint8Array;
   PrivateKey: Uint8Array | redacted.Redacted<Uint8Array>;
-  CertificateChain?: Uint8Array;
-  Tags?: Tag[];
+  CertificateChain?: Uint8Array | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface ImportCertificateResponse {
-  CertificateArn?: string;
+  CertificateArn?: string | undefined;
 }
 export interface ListAcmeAccountsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   AcmeEndpointArn: string;
 }
 export interface AcmeAccountSummary {
-  AccountUrl?: string;
-  PublicKeyThumbprint?: string;
-  Status?: AcmeAccountStatus;
-  CreatedAt?: Date;
-  AcmeExternalAccountBindingArn?: string;
-  Contacts?: string[];
+  AccountUrl?: string | undefined;
+  PublicKeyThumbprint?: string | undefined;
+  Status?: AcmeAccountStatus | undefined;
+  CreatedAt?: Date | undefined;
+  AcmeExternalAccountBindingArn?: string | undefined;
+  Contacts?: string[] | undefined;
 }
 export type AcmeAccountList = AcmeAccountSummary[];
 export interface ListAcmeAccountsResponse {
-  AcmeAccounts?: AcmeAccountSummary[];
-  NextToken?: string;
+  AcmeAccounts?: AcmeAccountSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAcmeDomainValidationsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   AcmeEndpointArn: string;
 }
 export interface AcmeDomainValidationSummary {
-  AcmeDomainValidationArn?: string;
-  AcmeEndpointArn?: string;
-  DomainName?: string;
-  PrevalidationType?: PrevalidationType;
-  PrevalidationDetails?: PrevalidationDetails;
-  Status?: AcmeDomainValidationStatus;
-  FailureDetails?: FailureDetails;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  AcmeDomainValidationArn?: string | undefined;
+  AcmeEndpointArn?: string | undefined;
+  DomainName?: string | undefined;
+  PrevalidationType?: PrevalidationType | undefined;
+  PrevalidationDetails?: PrevalidationDetails | undefined;
+  Status?: AcmeDomainValidationStatus | undefined;
+  FailureDetails?: FailureDetails | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type AcmeDomainValidationList = AcmeDomainValidationSummary[];
 export interface ListAcmeDomainValidationsResponse {
-  AcmeDomainValidations?: AcmeDomainValidationSummary[];
-  NextToken?: string;
+  AcmeDomainValidations?: AcmeDomainValidationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAcmeEndpointsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface AcmeEndpointSummary {
-  AcmeEndpointArn?: string;
-  EndpointUrl?: string;
-  Status?: AcmeEndpointStatus;
-  FailureReason?: string;
-  AuthorizationBehavior?: AcmeAuthorizationBehavior;
-  Contact?: AcmeContact;
-  CertificateAuthority?: CertificateAuthority;
-  CertificateTags?: Tag[];
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  AcmeEndpointArn?: string | undefined;
+  EndpointUrl?: string | undefined;
+  Status?: AcmeEndpointStatus | undefined;
+  FailureReason?: string | undefined;
+  AuthorizationBehavior?: AcmeAuthorizationBehavior | undefined;
+  Contact?: AcmeContact | undefined;
+  CertificateAuthority?: CertificateAuthority | undefined;
+  CertificateTags?: Tag[] | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type AcmeEndpointList = AcmeEndpointSummary[];
 export interface ListAcmeEndpointsResponse {
-  AcmeEndpoints?: AcmeEndpointSummary[];
-  NextToken?: string;
+  AcmeEndpoints?: AcmeEndpointSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListAcmeExternalAccountBindingsRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
   AcmeEndpointArn: string;
 }
 export interface AcmeExternalAccountBindingSummary {
-  AcmeExternalAccountBindingArn?: string;
-  AcmeEndpointArn?: string;
-  RoleArn?: string;
-  ExpiresAt?: Date;
-  RevokedAt?: Date;
-  LastUsedAt?: Date;
-  CreatedAt?: Date;
-  UpdatedAt?: Date;
+  AcmeExternalAccountBindingArn?: string | undefined;
+  AcmeEndpointArn?: string | undefined;
+  RoleArn?: string | undefined;
+  ExpiresAt?: Date | undefined;
+  RevokedAt?: Date | undefined;
+  LastUsedAt?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type AcmeExternalAccountBindingList = AcmeExternalAccountBindingSummary[];
 export interface ListAcmeExternalAccountBindingsResponse {
-  ExternalAccountBindings?: AcmeExternalAccountBindingSummary[];
-  NextToken?: string;
+  ExternalAccountBindings?: AcmeExternalAccountBindingSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CertificateArn = string;
 export type NextToken = string;
 export type MaxItems = number;
 export interface ListCertificateDomainValidationsRequest {
   CertificateArn: string;
-  NextToken?: string;
-  MaxItems?: number;
+  NextToken?: string | undefined;
+  MaxItems?: number | undefined;
 }
 export interface EmailValidationChallenge {
-  ValidationEmails?: string[];
-  ValidationDomain?: string;
+  ValidationEmails?: string[] | undefined;
+  ValidationDomain?: string | undefined;
 }
 export interface DnsValidationChallenge {
-  ResourceRecord?: ResourceRecord;
+  ResourceRecord?: ResourceRecord | undefined;
 }
 export type ValidationChallenge =
-  | { EmailValidationChallenge: EmailValidationChallenge; DnsValidationChallenge?: never }
-  | { EmailValidationChallenge?: never; DnsValidationChallenge: DnsValidationChallenge };
+  | { EmailValidationChallenge: EmailValidationChallenge; DnsValidationChallenge?: undefined }
+  | { EmailValidationChallenge?: undefined; DnsValidationChallenge: DnsValidationChallenge };
 export interface ValidationConfiguration {
-  ValidationMethod?: ValidationMethod;
-  ValidationChallenge?: ValidationChallenge;
-  ValidationStatus?: DomainStatus;
+  ValidationMethod?: ValidationMethod | undefined;
+  ValidationChallenge?: ValidationChallenge | undefined;
+  ValidationStatus?: DomainStatus | undefined;
 }
 export interface DomainValidationSummary {
   DomainName: string;
-  ActiveValidationConfiguration?: ValidationConfiguration;
-  RequestedValidationConfiguration?: ValidationConfiguration;
+  ActiveValidationConfiguration?: ValidationConfiguration | undefined;
+  RequestedValidationConfiguration?: ValidationConfiguration | undefined;
 }
 export type DomainValidationSummaryList = DomainValidationSummary[];
 export interface ListCertificateDomainValidationsResponse {
-  DomainValidationSummaryList?: DomainValidationSummary[];
-  NextToken?: string;
+  DomainValidationSummaryList?: DomainValidationSummary[] | undefined;
+  NextToken?: string | undefined;
 }
 export type CertificateStatuses = CertificateStatus[];
 export type CertificateKeyPairOrigins = CertificateKeyPairOrigin[];
@@ -722,68 +722,68 @@ export type ExtendedKeyUsageFilterList = ExtendedKeyUsageName[];
 export type KeyUsageFilterList = KeyUsageName[];
 export type KeyAlgorithmList = KeyAlgorithm[];
 export interface Filters {
-  extendedKeyUsage?: ExtendedKeyUsageName[];
-  keyUsage?: KeyUsageName[];
-  keyTypes?: KeyAlgorithm[];
-  exportOption?: CertificateExport;
-  managedBy?: CertificateManagedBy;
+  extendedKeyUsage?: ExtendedKeyUsageName[] | undefined;
+  keyUsage?: KeyUsageName[] | undefined;
+  keyTypes?: KeyAlgorithm[] | undefined;
+  exportOption?: CertificateExport | undefined;
+  managedBy?: CertificateManagedBy | undefined;
 }
 export type SortBy = "CREATED_AT" | (string & {});
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface ListCertificatesRequest {
-  CertificateStatuses?: CertificateStatus[];
-  CertificateKeyPairOrigins?: CertificateKeyPairOrigin[];
-  Includes?: Filters;
-  NextToken?: string;
-  MaxItems?: number;
-  SortBy?: SortBy;
-  SortOrder?: SortOrder;
+  CertificateStatuses?: CertificateStatus[] | undefined;
+  CertificateKeyPairOrigins?: CertificateKeyPairOrigin[] | undefined;
+  Includes?: Filters | undefined;
+  NextToken?: string | undefined;
+  MaxItems?: number | undefined;
+  SortBy?: SortBy | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type KeyUsageNames = KeyUsageName[];
 export type ExtendedKeyUsageNames = ExtendedKeyUsageName[];
 export interface CertificateSummary {
-  CertificateArn?: string;
-  DomainName?: string;
-  SubjectAlternativeNameSummaries?: string[];
-  HasAdditionalSubjectAlternativeNames?: boolean;
-  Status?: CertificateStatus;
-  Type?: CertificateType;
-  KeyAlgorithm?: KeyAlgorithm;
-  KeyUsages?: KeyUsageName[];
-  ExtendedKeyUsages?: ExtendedKeyUsageName[];
-  ExportOption?: CertificateExport;
-  InUse?: boolean;
-  Exported?: boolean;
-  RenewalEligibility?: RenewalEligibility;
-  NotBefore?: Date;
-  NotAfter?: Date;
-  CreatedAt?: Date;
-  IssuedAt?: Date;
-  ImportedAt?: Date;
-  RevokedAt?: Date;
-  ManagedBy?: CertificateManagedBy;
-  CertificateKeyPairOrigin?: CertificateKeyPairOrigin;
+  CertificateArn?: string | undefined;
+  DomainName?: string | undefined;
+  SubjectAlternativeNameSummaries?: string[] | undefined;
+  HasAdditionalSubjectAlternativeNames?: boolean | undefined;
+  Status?: CertificateStatus | undefined;
+  Type?: CertificateType | undefined;
+  KeyAlgorithm?: KeyAlgorithm | undefined;
+  KeyUsages?: KeyUsageName[] | undefined;
+  ExtendedKeyUsages?: ExtendedKeyUsageName[] | undefined;
+  ExportOption?: CertificateExport | undefined;
+  InUse?: boolean | undefined;
+  Exported?: boolean | undefined;
+  RenewalEligibility?: RenewalEligibility | undefined;
+  NotBefore?: Date | undefined;
+  NotAfter?: Date | undefined;
+  CreatedAt?: Date | undefined;
+  IssuedAt?: Date | undefined;
+  ImportedAt?: Date | undefined;
+  RevokedAt?: Date | undefined;
+  ManagedBy?: CertificateManagedBy | undefined;
+  CertificateKeyPairOrigin?: CertificateKeyPairOrigin | undefined;
 }
 export type CertificateSummaryList = CertificateSummary[];
 export interface ListCertificatesResponse {
-  NextToken?: string;
-  CertificateSummaryList?: CertificateSummary[];
+  NextToken?: string | undefined;
+  CertificateSummaryList?: CertificateSummary[] | undefined;
 }
 export interface ListTagsForCertificateRequest {
   CertificateArn: string;
 }
 export interface ListTagsForCertificateResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type IdempotencyToken = string;
 export interface PutAccountConfigurationRequest {
-  ExpiryEvents?: ExpiryEventsConfiguration;
+  ExpiryEvents?: ExpiryEventsConfiguration | undefined;
   IdempotencyToken: string;
 }
 export interface PutAccountConfigurationResponse {}
@@ -804,18 +804,18 @@ export type DomainValidationOptionList = DomainValidationOption[];
 export type PcaArn = string;
 export interface RequestCertificateRequest {
   DomainName: string;
-  ValidationMethod?: ValidationMethod;
-  SubjectAlternativeNames?: string[];
-  IdempotencyToken?: string;
-  DomainValidationOptions?: DomainValidationOption[];
-  Options?: CertificateOptions;
-  CertificateAuthorityArn?: string;
-  Tags?: Tag[];
-  KeyAlgorithm?: KeyAlgorithm;
-  ManagedBy?: CertificateManagedBy;
+  ValidationMethod?: ValidationMethod | undefined;
+  SubjectAlternativeNames?: string[] | undefined;
+  IdempotencyToken?: string | undefined;
+  DomainValidationOptions?: DomainValidationOption[] | undefined;
+  Options?: CertificateOptions | undefined;
+  CertificateAuthorityArn?: string | undefined;
+  Tags?: Tag[] | undefined;
+  KeyAlgorithm?: KeyAlgorithm | undefined;
+  ManagedBy?: CertificateManagedBy | undefined;
 }
 export interface RequestCertificateResponse {
-  CertificateArn?: string;
+  CertificateArn?: string | undefined;
 }
 export interface ResendValidationEmailRequest {
   CertificateArn: string;
@@ -837,7 +837,7 @@ export interface RevokeCertificateRequest {
   RevocationReason: RevocationReason;
 }
 export interface RevokeCertificateResponse {
-  CertificateArn?: string;
+  CertificateArn?: string | undefined;
 }
 export type CertificateFilterStatementList = CertificateFilterStatement[];
 export type FilterString = string;
@@ -854,251 +854,255 @@ export interface DnsNameFilter {
 export type SubjectAlternativeNameFilter = { DnsName: DnsNameFilter };
 export type SerialNumber = string;
 export interface TimestampRange {
-  Start?: Date;
-  End?: Date;
+  Start?: Date | undefined;
+  End?: Date | undefined;
 }
 export type X509AttributeFilter =
   | {
       Subject: SubjectFilter;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
-      NotAfter?: never;
-      NotBefore?: never;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
+      Subject?: undefined;
       SubjectAlternativeName: SubjectAlternativeNameFilter;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
-      NotAfter?: never;
-      NotBefore?: never;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
       ExtendedKeyUsage: ExtendedKeyUsageName;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
-      NotAfter?: never;
-      NotBefore?: never;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
       KeyUsage: KeyUsageName;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
-      NotAfter?: never;
-      NotBefore?: never;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
       KeyAlgorithm: KeyAlgorithm;
-      SerialNumber?: never;
-      NotAfter?: never;
-      NotBefore?: never;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
       SerialNumber: string;
-      NotAfter?: never;
-      NotBefore?: never;
+      NotAfter?: undefined;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
       NotAfter: TimestampRange;
-      NotBefore?: never;
+      NotBefore?: undefined;
     }
   | {
-      Subject?: never;
-      SubjectAlternativeName?: never;
-      ExtendedKeyUsage?: never;
-      KeyUsage?: never;
-      KeyAlgorithm?: never;
-      SerialNumber?: never;
-      NotAfter?: never;
+      Subject?: undefined;
+      SubjectAlternativeName?: undefined;
+      ExtendedKeyUsage?: undefined;
+      KeyUsage?: undefined;
+      KeyAlgorithm?: undefined;
+      SerialNumber?: undefined;
+      NotAfter?: undefined;
       NotBefore: TimestampRange;
     };
 export type AcmCertificateMetadataFilter =
   | {
       Status: CertificateStatus;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
+      Status?: undefined;
       RenewalStatus: RenewalStatus;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
       Type: CertificateType;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
       InUse: boolean;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
       Exported: boolean;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
       ExportOption: CertificateExport;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
       ManagedBy: CertificateManagedBy;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
       ValidationMethod: ValidationMethod;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
       CertificateKeyPairOrigin: CertificateKeyPairOrigin;
-      AcmeEndpointArn?: never;
-      AcmeAccountId?: never;
+      AcmeEndpointArn?: undefined;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
       AcmeEndpointArn: string;
-      AcmeAccountId?: never;
+      AcmeAccountId?: undefined;
     }
   | {
-      Status?: never;
-      RenewalStatus?: never;
-      Type?: never;
-      InUse?: never;
-      Exported?: never;
-      ExportOption?: never;
-      ManagedBy?: never;
-      ValidationMethod?: never;
-      CertificateKeyPairOrigin?: never;
-      AcmeEndpointArn?: never;
+      Status?: undefined;
+      RenewalStatus?: undefined;
+      Type?: undefined;
+      InUse?: undefined;
+      Exported?: undefined;
+      ExportOption?: undefined;
+      ManagedBy?: undefined;
+      ValidationMethod?: undefined;
+      CertificateKeyPairOrigin?: undefined;
+      AcmeEndpointArn?: undefined;
       AcmeAccountId: string;
     };
 export type CertificateFilter =
-  | { CertificateArn: string; X509AttributeFilter?: never; AcmCertificateMetadataFilter?: never }
   | {
-      CertificateArn?: never;
-      X509AttributeFilter: X509AttributeFilter;
-      AcmCertificateMetadataFilter?: never;
+      CertificateArn: string;
+      X509AttributeFilter?: undefined;
+      AcmCertificateMetadataFilter?: undefined;
     }
   | {
-      CertificateArn?: never;
-      X509AttributeFilter?: never;
+      CertificateArn?: undefined;
+      X509AttributeFilter: X509AttributeFilter;
+      AcmCertificateMetadataFilter?: undefined;
+    }
+  | {
+      CertificateArn?: undefined;
+      X509AttributeFilter?: undefined;
       AcmCertificateMetadataFilter: AcmCertificateMetadataFilter;
     };
 export type CertificateFilterStatement =
-  | { And: CertificateFilterStatement[]; Or?: never; Not?: never; Filter?: never }
-  | { And?: never; Or: CertificateFilterStatement[]; Not?: never; Filter?: never }
-  | { And?: never; Or?: never; Not: CertificateFilterStatement; Filter?: never }
-  | { And?: never; Or?: never; Not?: never; Filter: CertificateFilter };
+  | { And: CertificateFilterStatement[]; Or?: undefined; Not?: undefined; Filter?: undefined }
+  | { And?: undefined; Or: CertificateFilterStatement[]; Not?: undefined; Filter?: undefined }
+  | { And?: undefined; Or?: undefined; Not: CertificateFilterStatement; Filter?: undefined }
+  | { And?: undefined; Or?: undefined; Not?: undefined; Filter: CertificateFilter };
 export type SearchMaxResults = number;
 export type SearchCertificatesSortBy =
   | "CREATED_AT"
@@ -1125,144 +1129,144 @@ export type SearchCertificatesSortBy =
   | (string & {});
 export type SearchCertificatesSortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface SearchCertificatesRequest {
-  FilterStatement?: CertificateFilterStatement;
-  MaxResults?: number;
-  NextToken?: string;
-  SortBy?: SearchCertificatesSortBy;
-  SortOrder?: SearchCertificatesSortOrder;
+  FilterStatement?: CertificateFilterStatement | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  SortBy?: SearchCertificatesSortBy | undefined;
+  SortOrder?: SearchCertificatesSortOrder | undefined;
 }
 export type DomainComponentList = string[];
 export interface CustomAttribute {
-  ObjectIdentifier?: string;
-  Value?: string;
+  ObjectIdentifier?: string | undefined;
+  Value?: string | undefined;
 }
 export type CustomAttributeList = CustomAttribute[];
 export interface DistinguishedName {
-  CommonName?: string;
-  DomainComponents?: string[];
-  Country?: string;
-  CustomAttributes?: CustomAttribute[];
-  DistinguishedNameQualifier?: string;
-  GenerationQualifier?: string;
-  GivenName?: string;
-  Initials?: string;
-  Locality?: string;
-  Organization?: string;
-  OrganizationalUnit?: string;
-  Pseudonym?: string;
-  SerialNumber?: string;
-  State?: string;
-  Surname?: string;
-  Title?: string;
+  CommonName?: string | undefined;
+  DomainComponents?: string[] | undefined;
+  Country?: string | undefined;
+  CustomAttributes?: CustomAttribute[] | undefined;
+  DistinguishedNameQualifier?: string | undefined;
+  GenerationQualifier?: string | undefined;
+  GivenName?: string | undefined;
+  Initials?: string | undefined;
+  Locality?: string | undefined;
+  Organization?: string | undefined;
+  OrganizationalUnit?: string | undefined;
+  Pseudonym?: string | undefined;
+  SerialNumber?: string | undefined;
+  State?: string | undefined;
+  Surname?: string | undefined;
+  Title?: string | undefined;
 }
 export interface OtherName {
-  ObjectIdentifier?: string;
-  Value?: string;
+  ObjectIdentifier?: string | undefined;
+  Value?: string | undefined;
 }
 export type GeneralName =
   | {
       DirectoryName: DistinguishedName;
-      DnsName?: never;
-      IpAddress?: never;
-      OtherName?: never;
-      RegisteredId?: never;
-      Rfc822Name?: never;
-      UniformResourceIdentifier?: never;
+      DnsName?: undefined;
+      IpAddress?: undefined;
+      OtherName?: undefined;
+      RegisteredId?: undefined;
+      Rfc822Name?: undefined;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
+      DirectoryName?: undefined;
       DnsName: string;
-      IpAddress?: never;
-      OtherName?: never;
-      RegisteredId?: never;
-      Rfc822Name?: never;
-      UniformResourceIdentifier?: never;
+      IpAddress?: undefined;
+      OtherName?: undefined;
+      RegisteredId?: undefined;
+      Rfc822Name?: undefined;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
-      DnsName?: never;
+      DirectoryName?: undefined;
+      DnsName?: undefined;
       IpAddress: string;
-      OtherName?: never;
-      RegisteredId?: never;
-      Rfc822Name?: never;
-      UniformResourceIdentifier?: never;
+      OtherName?: undefined;
+      RegisteredId?: undefined;
+      Rfc822Name?: undefined;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
-      DnsName?: never;
-      IpAddress?: never;
+      DirectoryName?: undefined;
+      DnsName?: undefined;
+      IpAddress?: undefined;
       OtherName: OtherName;
-      RegisteredId?: never;
-      Rfc822Name?: never;
-      UniformResourceIdentifier?: never;
+      RegisteredId?: undefined;
+      Rfc822Name?: undefined;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
-      DnsName?: never;
-      IpAddress?: never;
-      OtherName?: never;
+      DirectoryName?: undefined;
+      DnsName?: undefined;
+      IpAddress?: undefined;
+      OtherName?: undefined;
       RegisteredId: string;
-      Rfc822Name?: never;
-      UniformResourceIdentifier?: never;
+      Rfc822Name?: undefined;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
-      DnsName?: never;
-      IpAddress?: never;
-      OtherName?: never;
-      RegisteredId?: never;
+      DirectoryName?: undefined;
+      DnsName?: undefined;
+      IpAddress?: undefined;
+      OtherName?: undefined;
+      RegisteredId?: undefined;
       Rfc822Name: string;
-      UniformResourceIdentifier?: never;
+      UniformResourceIdentifier?: undefined;
     }
   | {
-      DirectoryName?: never;
-      DnsName?: never;
-      IpAddress?: never;
-      OtherName?: never;
-      RegisteredId?: never;
-      Rfc822Name?: never;
+      DirectoryName?: undefined;
+      DnsName?: undefined;
+      IpAddress?: undefined;
+      OtherName?: undefined;
+      RegisteredId?: undefined;
+      Rfc822Name?: undefined;
       UniformResourceIdentifier: string;
     };
 export type GeneralNameList = GeneralName[];
 export interface X509Attributes {
-  Issuer?: DistinguishedName;
-  Subject?: DistinguishedName;
-  SubjectAlternativeNames?: GeneralName[];
-  ExtendedKeyUsages?: ExtendedKeyUsageName[];
-  KeyAlgorithm?: KeyAlgorithm;
-  KeyUsages?: KeyUsageName[];
-  SerialNumber?: string;
-  NotAfter?: Date;
-  NotBefore?: Date;
+  Issuer?: DistinguishedName | undefined;
+  Subject?: DistinguishedName | undefined;
+  SubjectAlternativeNames?: GeneralName[] | undefined;
+  ExtendedKeyUsages?: ExtendedKeyUsageName[] | undefined;
+  KeyAlgorithm?: KeyAlgorithm | undefined;
+  KeyUsages?: KeyUsageName[] | undefined;
+  SerialNumber?: string | undefined;
+  NotAfter?: Date | undefined;
+  NotBefore?: Date | undefined;
 }
 export interface AcmCertificateMetadata {
-  CreatedAt?: Date;
-  Exported?: boolean;
-  ImportedAt?: Date;
-  InUse?: boolean;
-  IssuedAt?: Date;
-  RenewalEligibility?: RenewalEligibility;
-  RevokedAt?: Date;
-  Status?: CertificateStatus;
-  RenewalStatus?: RenewalStatus;
-  Type?: CertificateType;
-  ExportOption?: CertificateExport;
-  ManagedBy?: CertificateManagedBy;
-  ValidationMethod?: ValidationMethod;
-  CertificateKeyPairOrigin?: CertificateKeyPairOrigin;
-  AcmeEndpointArn?: string;
-  AcmeAccountId?: string;
+  CreatedAt?: Date | undefined;
+  Exported?: boolean | undefined;
+  ImportedAt?: Date | undefined;
+  InUse?: boolean | undefined;
+  IssuedAt?: Date | undefined;
+  RenewalEligibility?: RenewalEligibility | undefined;
+  RevokedAt?: Date | undefined;
+  Status?: CertificateStatus | undefined;
+  RenewalStatus?: RenewalStatus | undefined;
+  Type?: CertificateType | undefined;
+  ExportOption?: CertificateExport | undefined;
+  ManagedBy?: CertificateManagedBy | undefined;
+  ValidationMethod?: ValidationMethod | undefined;
+  CertificateKeyPairOrigin?: CertificateKeyPairOrigin | undefined;
+  AcmeEndpointArn?: string | undefined;
+  AcmeAccountId?: string | undefined;
 }
 export type CertificateMetadata = { AcmCertificateMetadata: AcmCertificateMetadata };
 export interface CertificateSearchResult {
-  CertificateArn?: string;
-  X509Attributes?: X509Attributes;
-  CertificateMetadata?: CertificateMetadata;
+  CertificateArn?: string | undefined;
+  X509Attributes?: X509Attributes | undefined;
+  CertificateMetadata?: CertificateMetadata | undefined;
 }
 export type CertificateSearchResultList = CertificateSearchResult[];
 export interface SearchCertificatesResponse {
-  Results?: CertificateSearchResult[];
-  NextToken?: string;
+  Results?: CertificateSearchResult[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1277,14 +1281,14 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAcmeDomainValidationRequest {
   AcmeDomainValidationArn: string;
-  PrevalidationOptions?: PrevalidationOptions;
+  PrevalidationOptions?: PrevalidationOptions | undefined;
 }
 export interface UpdateAcmeDomainValidationResponse {}
 export interface UpdateAcmeEndpointRequest {
   AcmeEndpointArn: string;
-  AuthorizationBehavior?: AcmeAuthorizationBehavior;
-  Contact?: AcmeContact;
-  CertificateAuthority?: CertificateAuthority;
+  AuthorizationBehavior?: AcmeAuthorizationBehavior | undefined;
+  Contact?: AcmeContact | undefined;
+  CertificateAuthority?: CertificateAuthority | undefined;
 }
 export interface UpdateAcmeEndpointResponse {}
 export interface UpdateCertificateOptionsRequest {
@@ -1296,8 +1300,8 @@ export type AvailabilityErrorMessage = string;
 export type CoralAvailabilityThrottlingReason = string;
 export type CoralAvailabilityThrottledResource = string;
 export interface ThrottlingReason {
-  reason?: string;
-  resource?: string;
+  reason?: string | undefined;
+  resource?: string | undefined;
 }
 export type ThrottlingReasonList = ThrottlingReason[];
 export type ValidationExceptionMessage = string;

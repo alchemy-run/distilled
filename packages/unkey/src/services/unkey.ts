@@ -168,15 +168,15 @@ export interface ApisListKeysRequest {
   /** The API namespace whose keys you want to list. Returns all keys in this API, subject to pagination and filters. */
   apiId: string;
   /** Maximum number of keys to return per request. Balance between response size and number of pagination calls needed. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from previous response to fetch next page. Use when `hasMore: true` in previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Filter keys by external ID to find keys for a specific user or entity. Must exactly match the externalId set during key creation. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** When true, attempts to include the plaintext key value in the response. SECURITY WARNING: - This requires special permissions on the calling root key - Only works for keys created with 'recoverable: true' - Exposes sensitive key material in the response - Should only be used in secure administrative contexts - Never enable this in user-facing applications */
-  decrypt?: boolean;
+  decrypt?: boolean | undefined;
   /** EXPERIMENTAL: Skip the cache and fetch the keys directly from the database. This ensures you see the most recent state, including keys created moments ago. Use this when: - You've just created a key and need to display it immediately - You need absolute certainty about the current key state - You're debugging cache consistency issues This parameter comes with a performance cost and should be used sparingly. */
-  revalidateKeysCache?: boolean;
+  revalidateKeysCache?: boolean | undefined;
 }
 /** Custom metadata associated with this key. */
 export type KeyResponseDataMetaMap = { [key: string]: unknown | undefined };
@@ -191,13 +191,13 @@ export interface KeyCreditsRefill {
   /** Number of credits to add during each refill cycle. */
   amount: number;
   /** Day of the month for monthly refills (1-31). Only required when interval is 'monthly'. For days beyond the month's length, refill occurs on the last day of the month. */
-  refillDay?: number;
+  refillDay?: number | undefined;
 }
 /** Credit configuration and remaining balance for this key. */
 export interface KeyCreditsData {
   /** Number of credits remaining (null for unlimited). */
   remaining: number | null;
-  refill?: KeyCreditsRefill;
+  refill?: KeyCreditsRefill | undefined;
 }
 /** Identity metadata */
 export type IdentityMetaMap = { [key: string]: unknown | undefined };
@@ -221,9 +221,9 @@ export interface Identity {
   /** External identity ID */
   externalId: string;
   /** Identity metadata */
-  meta?: IdentityMetaMap;
+  meta?: IdentityMetaMap | undefined;
   /** Identity ratelimits */
-  ratelimits?: IdentityRatelimitsList;
+  ratelimits?: IdentityRatelimitsList | undefined;
 }
 export type KeyResponseDataRatelimitsList = Array<RatelimitResponse>;
 export interface KeyResponseData {
@@ -234,31 +234,31 @@ export interface KeyResponseData {
   /** Whether the key is enabled or disabled. */
   enabled: boolean;
   /** Human-readable name for this key. */
-  name?: string;
+  name?: string | undefined;
   /** Custom metadata associated with this key. */
-  meta?: KeyResponseDataMetaMap;
+  meta?: KeyResponseDataMetaMap | undefined;
   /** Unix timestamp in milliseconds when key was created. */
   createdAt: number;
   /** Unix timestamp in milliseconds when key was last updated. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
   /** Unix timestamp in milliseconds when key was last used for verification. This is an approximated value, accurate to within 5 minutes. */
-  lastUsedAt?: number;
+  lastUsedAt?: number | undefined;
   /** Unix timestamp in milliseconds when key expires (if set). */
-  expires?: number;
-  permissions?: KeyResponseDataPermissionsList;
-  roles?: KeyResponseDataRolesList;
-  credits?: KeyCreditsData;
-  identity?: Identity;
+  expires?: number | undefined;
+  permissions?: KeyResponseDataPermissionsList | undefined;
+  roles?: KeyResponseDataRolesList | undefined;
+  credits?: KeyCreditsData | undefined;
+  identity?: Identity | undefined;
   /** Decrypted key value (only when decrypt=true). */
-  plaintext?: string | Redacted.Redacted<string>;
-  ratelimits?: KeyResponseDataRatelimitsList;
+  plaintext?: string | Redacted.Redacted<string> | undefined;
+  ratelimits?: KeyResponseDataRatelimitsList | undefined;
 }
 /** Array of API keys with complete configuration and metadata. */
 export type V2ApisListKeysResponseData = Array<KeyResponseData>;
 /** Pagination metadata for list endpoints. Provides information necessary to traverse through large result sets efficiently using cursor-based pagination. */
 export interface Pagination {
   /** Opaque pagination token for retrieving the next page of results. Include this exact value in the cursor field of subsequent requests. Cursors are temporary and may expire after extended periods. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Indicates whether additional results exist beyond this page. When true, use the cursor to fetch the next page. When false, you have reached the end of the result set. */
   hasMore: boolean;
 }
@@ -270,9 +270,9 @@ export interface V2ApisListKeysResponseBody {
 /** Configure Git as the app source. Provide `repository` to connect it during creation, or use an empty object to connect a repository later. */
 export interface AppGitCreateInput {
   /** The GitHub repository to connect, as "owner/repo". The workspace must have the Unkey GitHub App installed with access to it. Omit this field to create the Git app before selecting its repository. */
-  repository?: string;
+  repository?: string | undefined;
   /** The branch this app's deployments track. This requires `repository`. Omit it to adopt the repository's default branch on GitHub. */
-  defaultBranch?: string;
+  defaultBranch?: string | undefined;
 }
 /** An app's OCI image source. */
 export interface AppOCI {
@@ -284,8 +284,8 @@ export interface CreateAppRequest {
   /** Human-readable name for this app. */
   name: string;
   slug: string;
-  git?: AppGitCreateInput;
-  oci?: AppOCI;
+  git?: AppGitCreateInput | undefined;
+  oci?: AppOCI | undefined;
 }
 export interface V2AppsCreateAppResponseData {
   /** The unique identifier of the newly created app, generated by Unkey. Always begins with 'app_' followed by a unique alphanumeric sequence. */
@@ -298,11 +298,11 @@ export interface V2AppsCreateAppResponseBody {
 /** Build from the app's connected GitHub repository. */
 export interface DeploymentSourceGit {
   /** Branch to build (its HEAD). Omit branch and commitSha to use the app's default branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** Commit to build (full or abbreviated SHA). Takes precedence over branch. */
-  commitSha?: string;
+  commitSha?: string | undefined;
   /** Build from a fork instead of the app's connected repository, as "owner/repo". Requires commitSha. */
-  repository?: string;
+  repository?: string | undefined;
 }
 /** Deploy a prebuilt OCI image without a build. */
 export interface DeploymentSourceOCI {
@@ -317,9 +317,9 @@ export interface CreateDeploymentV3Request {
   project: string;
   app: string;
   environment: string;
-  git?: DeploymentSourceGit;
-  oci?: DeploymentSourceOCI;
-  deployment?: DeploymentSourceDeployment;
+  git?: DeploymentSourceGit | undefined;
+  oci?: DeploymentSourceOCI | undefined;
+  deployment?: DeploymentSourceDeployment | undefined;
 }
 export interface V3DeploymentsCreateDeploymentResponseData {
   /** Unique deployment identifier */
@@ -350,7 +350,7 @@ export interface DnsRecord {
   /** Whether Unkey has read this record back with the expected value. Use it to see which records are still outstanding. False does not always mean the record is missing. A provider that does not expose the published value to a DNS lookup, such as a proxied or flattened routing record, leaves this false for as long as it serves traffic; such a domain verifies through its TXT record instead. Always false on a domain no check has run against yet. */
   verified: boolean;
   /** What this record is for and any provider-specific caveat that applies to it. Worth surfacing to whoever edits the DNS zone. Treat it as optional: it carries no data the record itself needs, so a future record type may omit it. */
-  note?: string;
+  note?: string | undefined;
 }
 /** Every DNS record needed to finish setting up this domain, ready to create at your provider. The list already accounts for whether the domain is an apex or a subdomain, so no further branching is needed: create each entry as given. One record establishes routing and one proves ownership. Create all of them: whether ownership can be inferred from the routing record depends on how your provider publishes it, and a name another workspace has already verified can only be claimed through the ownership record. Neither is knowable before the records exist. */
 export type V2DomainsCreateDomainResponseDataDnsRecordsList = Array<DnsRecord>;
@@ -365,7 +365,7 @@ export interface V2DomainsCreateDomainResponseData {
   domainId: string;
   /** Every DNS record needed to finish setting up this domain, ready to create at your provider. The list already accounts for whether the domain is an apex or a subdomain, so no further branching is needed: create each entry as given. One record establishes routing and one proves ownership. Create all of them: whether ownership can be inferred from the routing record depends on how your provider publishes it, and a name another workspace has already verified can only be claimed through the ownership record. Neither is knowable before the records exist. */
   dnsRecords: V2DomainsCreateDomainResponseDataDnsRecordsList;
-  domainConnect?: DomainConnect;
+  domainConnect?: DomainConnect | undefined;
 }
 export interface V2DomainsCreateDomainResponseBody {
   meta: Meta;
@@ -389,9 +389,9 @@ export interface CreateIdentityRequest {
   /** Creates an identity using your system's unique identifier for a user, organization, or entity. Must be stable and unique across your workspace - duplicate externalIds return CONFLICT errors. This identifier links Unkey identities to your authentication system, database records, or tenant structure. Avoid changing externalIds after creation as this breaks the link between your systems. Use consistent identifier patterns across your application for easier management and debugging. Accepts letters, numbers, underscores, dots, and hyphens for flexible identifier formats. Essential for implementing proper multi-tenant isolation and user-specific rate limiting. */
   externalId: string;
   /** Stores arbitrary JSON metadata returned during key verification for contextual information. Eliminates additional database lookups during verification, improving performance for stateless services. Avoid storing sensitive data here as it's returned in verification responses. Large metadata objects increase verification latency and should stay under 10KB total size. Use this for subscription details, feature flags, user preferences, and organization information. Metadata is returned as-is whenever keys associated with this identity are verified. */
-  meta?: CreateIdentityRequestMetaMap;
+  meta?: CreateIdentityRequestMetaMap | undefined;
   /** Defines shared rate limits that apply to all keys belonging to this identity. Prevents abuse by users with multiple keys by enforcing consistent limits across their entire key portfolio. Essential for implementing fair usage policies and tiered access levels in multi-tenant applications. Rate limit counters are shared across all keys with this identity, regardless of how many keys the user creates. During verification, specify which named limits to check for enforcement. Identity rate limits supplement any key-specific rate limits that may also be configured. - Each named limit can have different thresholds and windows When verifying keys, you can specify which limits you want to use and all keys attached to this identity will share the limits, regardless of which specific key is used. */
-  ratelimits?: CreateIdentityRequestRatelimitsList;
+  ratelimits?: CreateIdentityRequestRatelimitsList | undefined;
 }
 export interface V2IdentitiesCreateIdentityResponseData {
   /** The unique identifier of the created identity. */
@@ -413,29 +413,29 @@ export interface CreateKeyRequest {
   /** The API namespace this key belongs to. Keys from different APIs cannot access each other. */
   apiId: string;
   /** Adds a visual identifier to the beginning of the generated key for easier recognition in logs and dashboards. The prefix becomes part of the actual key string (e.g., `prod_xxxxxxxxx`). Avoid using sensitive information in prefixes as they may appear in logs and error messages. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Sets a human-readable identifier for internal organization and dashboard display. Never exposed to end users, only visible in management interfaces and API responses. Avoid generic names like "API Key" when managing multiple keys for the same user or service. */
-  name?: string;
+  name?: string | undefined;
   /** Controls the cryptographic strength of the generated key in bytes. Higher values increase security but result in longer keys that may be more annoying to handle. The default 16 bytes provides 2^128 possible combinations, sufficient for most applications. Consider 32 bytes for highly sensitive APIs, but avoid values above 64 bytes unless specifically required. */
-  byteLength?: number;
+  byteLength?: number | undefined;
   /** Links this key to a user or entity in your system using your own identifier. Returned during verification to identify the key owner without additional database lookups. Essential for user-specific analytics, billing, and multi-tenant key management. Use your primary user ID, organization ID, or tenant ID for best results. Accepts letters, numbers, underscores, dots, and hyphens for flexible identifier formats. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Stores arbitrary JSON metadata returned during key verification for contextual information. Eliminates additional database lookups during verification, improving performance for stateless services. Avoid storing sensitive data here as it's returned in verification responses. Large metadata objects increase verification latency and should stay under 10KB total size. */
-  meta?: CreateKeyRequestMetaMap;
+  meta?: CreateKeyRequestMetaMap | undefined;
   /** Assigns existing roles to this key for permission management through role-based access control. Roles must already exist in your workspace before assignment. During verification, all permissions from assigned roles are checked against requested permissions. Roles provide a convenient way to group permissions and apply consistent access patterns across multiple keys. */
-  roles?: CreateKeyRequestRolesList;
+  roles?: CreateKeyRequestRolesList | undefined;
   /** Grants specific permissions directly to this key without requiring role membership. Wildcard permissions like `documents.*` grant access to all sub-permissions including `documents.read` and `documents.write`. Direct permissions supplement any permissions inherited from assigned roles. */
-  permissions?: CreateKeyRequestPermissionsList;
+  permissions?: CreateKeyRequestPermissionsList | undefined;
   /** Sets when this key automatically expires as a Unix timestamp in milliseconds. Verification fails with code=EXPIRED immediately after this time passes. Omitting this field creates a permanent key that never expires. Avoid setting timestamps in the past as they immediately invalidate the key. Keys expire based on server time, not client time, which prevents timezone-related issues. Essential for trial periods, temporary access, and security compliance requiring key rotation. */
-  expires?: number;
+  expires?: number | undefined;
   /** Controls usage-based limits through credit consumption with optional automatic refills. Unlike rate limits which control frequency, credits control total usage with global consistency. Essential for implementing usage-based pricing, subscription tiers, and hard usage quotas. Omitting this field creates unlimited usage, while setting null is not allowed during creation. */
-  credits?: KeyCreditsData;
+  credits?: KeyCreditsData | undefined;
   /** Defines time-based rate limits that protect against abuse by controlling request frequency. Unlike credits which track total usage, rate limits reset automatically after each window expires. Multiple rate limits can control different operation types with separate thresholds and windows. Essential for preventing API abuse while maintaining good performance for legitimate usage. */
-  ratelimits?: CreateKeyRequestRatelimitsList;
+  ratelimits?: CreateKeyRequestRatelimitsList | undefined;
   /** Controls whether the key is active immediately upon creation. When set to `false`, the key exists but all verification attempts fail with `code=DISABLED`. Useful for pre-creating keys that will be activated later or for keys requiring manual approval. Most keys should be created with `enabled=true` for immediate use. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Controls whether the plaintext key is stored in an encrypted vault for later retrieval. When true, allows recovering the actual key value using keys.getKey with decrypt=true. When false, the key value cannot be retrieved after creation for maximum security. Only enable for development keys or when key recovery is absolutely necessary. */
-  recoverable?: boolean;
+  recoverable?: boolean | undefined;
 }
 export interface V2KeysCreateKeyResponseData {
   /** The unique identifier for this key in Unkey's system. This is NOT the actual API key, but a reference ID used for management operations like updating or deleting the key. Store this ID in your database to reference the key later. This ID is not sensitive and can be logged or displayed in dashboards. */
@@ -452,14 +452,14 @@ export interface CreatePortalRequest {
   slug: string;
   /** Human-readable name your end users see in the portal header and page titles. Unlike `slug` it is not part of any URL, so it can be changed freely. */
   displayName: string;
-  keyspaceId?: string;
-  appId?: string;
+  keyspaceId?: string | undefined;
+  appId?: string | undefined;
   /** Whether sessions can be minted for this portal immediately. Defaults to true; send false to create it dormant and enable it later. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Absolute `https://` URL of the logo shown in the portal header. Loaded by your end users' browsers, so the host you name receives their IP and user agent on every page view. */
-  logoUrl?: string;
+  logoUrl?: string | undefined;
   /** Six-digit hex colour used for primary actions and accents in the portal. */
-  primaryColor?: string;
+  primaryColor?: string | undefined;
 }
 export interface V2PortalCreatePortalResponseData {
   /** The unique identifier of the newly created portal, generated by Unkey. Always begins with 'prt_' followed by a unique alphanumeric sequence. */
@@ -507,7 +507,7 @@ export interface DeleteKeyRequest {
   /** Specifies which key to delete using the database identifier returned from `createKey`. Do not confuse this with the actual API key string that users include in requests. Deletion immediately invalidates the key, causing all future verification attempts to fail with `code=NOT_FOUND`. Key deletion triggers cache invalidation across all regions but may take up to 30 seconds to fully propagate. */
   keyId: string;
   /** Controls deletion behavior between recoverable soft-deletion and irreversible permanent erasure. Soft deletion (default) preserves key data for potential recovery through direct database operations. Permanent deletion completely removes all traces including hash values and metadata with no recovery option. Use permanent deletion only for regulatory compliance (GDPR), resolving hash collisions, or when reusing identical key strings. Permanent deletion cannot be undone and may affect analytics data that references the deleted key. Most applications should use soft deletion to maintain audit trails and prevent accidental data loss. */
-  permanent?: boolean;
+  permanent?: boolean | undefined;
 }
 export interface V2KeysDeleteKeyResponseBody {
   meta: Meta;
@@ -542,9 +542,9 @@ export interface EnvironmentVariableInput {
   /** The variable value. Always encrypted at rest. The limit is enforced server-side in UTF-8 bytes, so a multibyte value may be rejected before it reaches this code-point maximum. */
   value: string;
   /** How the value may be read back. Defaults to `writeonly`. */
-  kind?: EnvironmentVariableKind | (string & {});
+  kind?: EnvironmentVariableKind | (string & {}) | undefined;
   /** Human-readable description of the variable. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The variables to upsert. Each entry is created if its key is new or fully overwritten if the key already exists. Existing variables whose keys are not in this list are left untouched, unless `prune` is true. Each entry is written exactly as sent, never merged with the current state. Only `value` is required; omitted optional fields (`kind`, `description`) fall back to their defaults rather than any previous value, so overwriting a variable without a `description` clears it. Each key may appear at most once; a duplicate key is rejected with a 400. The whole operation is atomic: if any part fails the environment is left unchanged. All values are encrypted at rest. Limited to 50 variables per request. */
 export type EnvironmentsSetEnvironmentVariablesRequestVariablesList =
@@ -556,7 +556,7 @@ export interface EnvironmentsSetEnvironmentVariablesRequest {
   /** The variables to upsert. Each entry is created if its key is new or fully overwritten if the key already exists. Existing variables whose keys are not in this list are left untouched, unless `prune` is true. Each entry is written exactly as sent, never merged with the current state. Only `value` is required; omitted optional fields (`kind`, `description`) fall back to their defaults rather than any previous value, so overwriting a variable without a `description` clears it. Each key may appear at most once; a duplicate key is rejected with a 400. The whole operation is atomic: if any part fails the environment is left unchanged. All values are encrypted at rest. Limited to 50 variables per request. */
   variables: EnvironmentsSetEnvironmentVariablesRequestVariablesList;
   /** Optional. Defaults to false. When false, the variables above are upserted and any existing variable not in the list is kept. When true, this becomes a full replace: after upserting, every variable not in the list is deleted. Combined with an empty `variables` list, `prune: true` resets the entire environment by deleting every variable. */
-  prune?: boolean;
+  prune?: boolean | undefined;
 }
 export interface V2EnvironmentsSetEnvironmentVariablesResponseBody {
   meta: Meta;
@@ -574,13 +574,13 @@ export interface EnvironmentHealthcheck {
   /** HTTP path probed on the container. Must start with a slash. */
   path: string;
   /** How often the probe runs, in seconds. Defaults to 10 when omitted. */
-  intervalSeconds?: number;
+  intervalSeconds?: number | undefined;
   /** Per-probe timeout, in seconds. Defaults to 5 when omitted. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Consecutive failures before the container is restarted. Defaults to 3 when omitted. */
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   /** Delay before the first probe runs, in seconds. Defaults to 0 when omitted. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
 }
 /** Signal sent to the container on shutdown. */
 export type EnvironmentShutdownSignal = "SIGTERM" | "SIGINT" | "SIGQUIT" | "SIGKILL";
@@ -606,35 +606,35 @@ export interface EnvironmentsUpdateSettingsRequest {
   app: string;
   environment: string;
   /** Path to the Dockerfile used for builds. Omit to leave unchanged; set null to clear and fall back to Railpack. */
-  dockerfile?: string | null;
+  dockerfile?: string | null | undefined;
   /** The directory your app lives in. Unkey builds from here. Use "." for the repository root, or set a subdirectory when your app is nested (e.g., services/api). Omit to leave unchanged. */
-  rootDirectory?: string;
+  rootDirectory?: string | undefined;
   /** Overrides the build command auto-detected by Railpack. Omit to leave unchanged; set null to clear and fall back to auto-detection. */
-  buildCommand?: string | null;
+  buildCommand?: string | null | undefined;
   /** Glob patterns that trigger auto-deploys when matching files change. Do not start a pattern with "/" or "./". Use "src/**" for everything under a directory and "**\/*.go" for a file type. A pattern with no wildcard matches only that exact file, so "src" is not "src/**". Omit to leave unchanged. Invalid patterns are rejected with a 400. */
-  watchPaths?: EnvironmentsUpdateSettingsRequestWatchPathsList;
+  watchPaths?: EnvironmentsUpdateSettingsRequestWatchPathsList | undefined;
   /** Whether pushes auto-deploy. Omit to leave unchanged. */
-  autoDeploy?: boolean;
+  autoDeploy?: boolean | undefined;
   /** Container port the app listens on. Omit to leave unchanged. */
-  port?: number;
+  port?: number | undefined;
   /** CPU allocation in vCPUs. Minimum 0.25 (1/4 vCPU), in steps of 0.25. The upper bound is your workspace's per-instance quota; exceeding it returns 400. Omit to leave unchanged. */
-  vCpus?: number;
+  vCpus?: number | undefined;
   /** Memory allocation in MiB. Minimum 256, in steps of 256. The upper bound is your workspace's per-instance quota; exceeding it returns 400. Omit to leave unchanged. */
-  memoryMib?: number;
+  memoryMib?: number | undefined;
   /** Ephemeral storage allocation in MiB, in steps of 512 (0 for none). The upper bound is your workspace's per-instance quota; exceeding it returns 400. Omit to leave unchanged. */
-  storageMib?: number;
+  storageMib?: number | undefined;
   /** Override container entrypoint command. Omit to leave unchanged. */
-  command?: EnvironmentsUpdateSettingsRequestCommandList;
+  command?: EnvironmentsUpdateSettingsRequestCommandList | undefined;
   /** HTTP healthcheck configuration. Omit to leave unchanged; set null to remove. */
-  healthcheck?: EnvironmentHealthcheck | null;
+  healthcheck?: EnvironmentHealthcheck | null | undefined;
   /** Signal sent to the container on shutdown. Omit to leave unchanged. */
-  shutdownSignal?: EnvironmentShutdownSignal | (string & {});
+  shutdownSignal?: EnvironmentShutdownSignal | (string & {}) | undefined;
   /** Protocol used to reach the upstream container. Omit to leave unchanged. */
-  upstreamProtocol?: EnvironmentUpstreamProtocol | (string & {});
+  upstreamProtocol?: EnvironmentUpstreamProtocol | (string & {}) | undefined;
   /** Path to the OpenAPI spec file within the build. Must start with a slash. Omit to leave unchanged; set null to clear. */
-  openapiSpecPath?: string | null;
+  openapiSpecPath?: string | null | undefined;
   /** Desired set of regions with per-region replica bounds. Omit to leave regions unchanged; when present, this replaces the full set (regions absent from the list are removed). At least one region is required; an empty list is rejected because an environment cannot have zero regions. */
-  regions?: EnvironmentsUpdateSettingsRequestRegionsList;
+  regions?: EnvironmentsUpdateSettingsRequestRegionsList | undefined;
 }
 export interface V2EnvironmentsUpdateSettingsResponseBody {
   meta: Meta;
@@ -648,13 +648,13 @@ export interface GatewayListPoliciesRequest {
 /** String matcher. Exactly one of `exact`, `prefix` or `regex` must be set. */
 export interface StringMatch {
   /** Matches when the input equals this value. */
-  exact?: string;
+  exact?: string | undefined;
   /** Matches when the input starts with this value. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Matches when the input satisfies this RE2 regular expression. Invalid patterns are rejected when the policy is created. */
-  regex?: string;
+  regex?: string | undefined;
   /** Compare case-insensitively. May accompany any match mode. */
-  ignoreCase?: boolean;
+  ignoreCase?: boolean | undefined;
 }
 /** Matches on the request path. */
 export interface PathMatch {
@@ -677,8 +677,8 @@ export interface MethodMatch {
 export interface FieldMatch {
   name: string;
   /** Matches when the field is present, regardless of value. */
-  present?: boolean;
-  value?: StringMatch;
+  present?: boolean | undefined;
+  value?: StringMatch | undefined;
 }
 /** Matches when the remote IP is in at least one of these ranges. Entries are CIDRs such as `203.0.113.0/24` or single addresses such as `203.0.113.7`. */
 export type RemoteIpMatchInList = Array<string>;
@@ -687,17 +687,17 @@ export type RemoteIpMatchNotInList = Array<string>;
 /** Matches the remote IP against IPv4 or IPv6 CIDR ranges. Exactly one of `in` or `notIn` must be set. Entries are rejected if they have host bits set (such as `10.1.2.3/8`), are IPv4-mapped IPv6 addresses, or carry a zone. Single addresses are returned as full-length prefixes, such as `203.0.113.7/32`. */
 export interface RemoteIpMatch {
   /** Matches when the remote IP is in at least one of these ranges. Entries are CIDRs such as `203.0.113.0/24` or single addresses such as `203.0.113.7`. */
-  in?: RemoteIpMatchInList;
+  in?: RemoteIpMatchInList | undefined;
   /** Matches when the remote IP is in none of these ranges. Entries are CIDRs such as `198.51.100.0/24` or single addresses such as `198.51.100.7`. */
-  notIn?: RemoteIpMatchNotInList;
+  notIn?: RemoteIpMatchNotInList | undefined;
 }
 /** A single request match expression. Exactly one of `path`, `method`, `header`, `queryParam` or `remoteIp` must be set. */
 export interface MatchExpr {
-  path?: PathMatch;
-  method?: MethodMatch;
-  header?: FieldMatch;
-  queryParam?: FieldMatch;
-  remoteIp?: RemoteIpMatch;
+  path?: PathMatch | undefined;
+  method?: MethodMatch | undefined;
+  header?: FieldMatch | undefined;
+  queryParam?: FieldMatch | undefined;
+  remoteIp?: RemoteIpMatch | undefined;
 }
 /** Optional request matchers. The policy applies only to requests matching all expressions; omitted when the policy applies to every request. */
 export type PolicyResponseMatchList = Array<MatchExpr>;
@@ -707,7 +707,7 @@ export type KeyauthPolicyKeyspacesList = Array<string>;
 export interface HeaderKeyLocation {
   name: string;
   /** Optional prefix removed from the header value before verification. */
-  stripPrefix?: string;
+  stripPrefix?: string | undefined;
 }
 /** Extract the key from a query parameter. */
 export interface QueryParamKeyLocation {
@@ -715,9 +715,9 @@ export interface QueryParamKeyLocation {
 }
 /** Where to look for the API key on incoming requests. Exactly one of `bearer`, `header` or `queryParam` must be set. */
 export interface KeyLocation {
-  bearer?: unknown;
-  header?: HeaderKeyLocation;
-  queryParam?: QueryParamKeyLocation;
+  bearer?: unknown | undefined;
+  header?: HeaderKeyLocation | undefined;
+  queryParam?: QueryParamKeyLocation | undefined;
 }
 /** Where to look for the key on incoming requests, tried in order. Defaults to the `Authorization Bearer` header when omitted. */
 export type KeyauthPolicyLocationsList = Array<KeyLocation>;
@@ -726,11 +726,11 @@ export interface KeyRatelimit {
   /** Name of a rate limit configured on the key or its identity, or the name of the inline override defined by `limit` and `duration`. */
   name: string;
   /** Inline override: maximum number of operations per window. Must be set together with `duration`. */
-  limit?: number;
+  limit?: number | undefined;
   /** Inline override: window duration in milliseconds. Must be set together with `limit`. */
-  duration?: number;
+  duration?: number | undefined;
   /** Cost charged against the limit per request. Defaults to 1. */
-  cost?: number;
+  cost?: number | undefined;
 }
 /** Rate limits applied during key verification. */
 export type KeyauthPolicyRatelimitsList = Array<KeyRatelimit>;
@@ -739,13 +739,13 @@ export interface KeyauthPolicy {
   /** Keyspaces to verify keys against, referenced by id. All keyspaces must belong to your workspace. */
   keyspaces: KeyauthPolicyKeyspacesList;
   /** Where to look for the key on incoming requests, tried in order. Defaults to the `Authorization Bearer` header when omitted. */
-  locations?: KeyauthPolicyLocationsList;
+  locations?: KeyauthPolicyLocationsList | undefined;
   /** Optional permission query the verified key must satisfy, e.g. `documents.read AND documents.write`. */
-  permissionQuery?: string;
+  permissionQuery?: string | undefined;
   /** Rate limits applied during key verification. */
-  ratelimits?: KeyauthPolicyRatelimitsList;
+  ratelimits?: KeyauthPolicyRatelimitsList | undefined;
   /** Usage credits a matching request deducts from the verified key. Defaults to 1. Set to 0 to verify the key without spending credits, or to a higher value to charge more per request. Keys with unlimited usage are unaffected. */
-  credits?: number;
+  credits?: number | undefined;
 }
 /** Rate limit by the value of a request header. */
 export type HeaderKey = QueryParamKeyLocation;
@@ -755,11 +755,11 @@ export interface PrincipalFieldKey {
 }
 /** How requests are grouped for rate limiting. Exactly one of `remoteIp`, `header`, `authenticatedSubject`, `path` or `principalField` must be set. */
 export interface RatelimitIdentifier {
-  remoteIp?: unknown;
-  header?: QueryParamKeyLocation;
-  authenticatedSubject?: unknown;
-  path?: unknown;
-  principalField?: PrincipalFieldKey;
+  remoteIp?: unknown | undefined;
+  header?: QueryParamKeyLocation | undefined;
+  authenticatedSubject?: unknown | undefined;
+  path?: unknown | undefined;
+  principalField?: PrincipalFieldKey | undefined;
 }
 /** Ordered list of sources that form a compound rate limit key. The gateway resolves each source for each request. Each unique combination of resolved values has its own counter. All counters use the same limit and window. Example: `[authenticatedSubject, path]` limits each subject separately on each path. */
 export type RatelimitPolicyIdentifiersList = Array<RatelimitIdentifier>;
@@ -770,9 +770,9 @@ export interface RatelimitPolicy {
   /** Window duration in milliseconds. */
   windowMs: number;
   /** Deprecated. Accepted for compatibility with old clients. Use `identifiers` with one entry. Responses always return `identifiers`. */
-  identifier?: RatelimitIdentifier;
+  identifier?: RatelimitIdentifier | undefined;
   /** Ordered list of sources that form a compound rate limit key. The gateway resolves each source for each request. Each unique combination of resolved values has its own counter. All counters use the same limit and window. Example: `[authenticatedSubject, path]` limits each subject separately on each path. */
-  identifiers?: RatelimitPolicyIdentifiersList;
+  identifiers?: RatelimitPolicyIdentifiersList | undefined;
 }
 /** What to do with matching requests. */
 export type FirewallPolicyAction = "ACTION_DENY";
@@ -784,15 +784,15 @@ export interface FirewallPolicy {
 /** Adds request data to the log entries of matching requests. The gateway always records a basic log entry for every request: method, host, path, status, and latency. Each capture setting is a separate opt-in: request headers, response headers, request body, response body, and query data. The policy's `match` expressions select the requests. A policy without `match` expressions matches every request. If more than one enabled logging policy matches a request, the gateway combines their settings. The gateway always redacts the `Authorization` header and configured key locations before it stores headers or query data. */
 export interface LoggingPolicy {
   /** Capture request headers, the user agent, and the client IP. The user agent and client IP are included because they identify the client. */
-  requestHeaders?: boolean;
+  requestHeaders?: boolean | undefined;
   /** Capture response headers. */
-  responseHeaders?: boolean;
+  responseHeaders?: boolean | undefined;
   /** Capture the request body, up to the capture limit. */
-  requestBody?: boolean;
+  requestBody?: boolean | undefined;
   /** Capture the response body, up to the capture limit. */
-  responseBody?: boolean;
+  responseBody?: boolean | undefined;
   /** Capture the query string and query parameters. Query data is a separate opt-in because URLs can contain secrets, for example `?api_key=...`. */
-  query?: boolean;
+  query?: boolean | undefined;
 }
 /** A stored gateway policy as returned by list endpoints. Exactly one of `keyauth`, `ratelimit`, `firewall`, `openapi` or `logging` is set. */
 export interface PolicyResponse {
@@ -803,12 +803,12 @@ export interface PolicyResponse {
   /** Disabled policies are stored but skipped during evaluation. */
   enabled: boolean;
   /** Optional request matchers. The policy applies only to requests matching all expressions; omitted when the policy applies to every request. */
-  match?: PolicyResponseMatchList;
-  keyauth?: KeyauthPolicy;
-  ratelimit?: RatelimitPolicy;
-  firewall?: FirewallPolicy;
-  openapi?: unknown;
-  logging?: LoggingPolicy;
+  match?: PolicyResponseMatchList | undefined;
+  keyauth?: KeyauthPolicy | undefined;
+  ratelimit?: RatelimitPolicy | undefined;
+  firewall?: FirewallPolicy | undefined;
+  openapi?: unknown | undefined;
+  logging?: LoggingPolicy | undefined;
 }
 /** The environment's gateway policies in evaluation order. */
 export type V2GatewayListPoliciesResponseData = Array<PolicyResponse>;
@@ -825,12 +825,12 @@ export interface Policy {
   /** Disabled policies are stored but skipped during evaluation. */
   enabled: boolean;
   /** Optional request matchers. The policy applies only to requests matching all expressions; omit to apply to every request. */
-  match?: PolicyMatchList;
-  keyauth?: KeyauthPolicy;
-  ratelimit?: RatelimitPolicy;
-  firewall?: FirewallPolicy;
-  openapi?: unknown;
-  logging?: LoggingPolicy;
+  match?: PolicyMatchList | undefined;
+  keyauth?: KeyauthPolicy | undefined;
+  ratelimit?: RatelimitPolicy | undefined;
+  firewall?: FirewallPolicy | undefined;
+  openapi?: unknown | undefined;
+  logging?: LoggingPolicy | undefined;
 }
 /** The environment's complete policy list, in evaluation order. Every call replaces all stored policies with exactly this list; an empty list removes every policy. The operation is atomic: if any policy is invalid, nothing is written. An environment can hold at most 50 policies. */
 export type GatewaySetPoliciesRequestPoliciesList = Array<Policy>;
@@ -854,16 +854,16 @@ export interface GatewayUpdatePolicyRequest {
   /** Id of the policy to update, as returned by `gateway.listPolicies`. Ids are regenerated whenever `gateway.setPolicies` replaces the list, so list the policies first if you are unsure the id is current. */
   policyId: string;
   /** New human-readable name. Omit to keep the current name. */
-  name?: string;
+  name?: string | undefined;
   /** Enable or disable the policy. Disabled policies are stored but skipped during evaluation. Omit to keep the current setting. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Replaces all match expressions. Set null to remove them so the policy applies to every request. Omit to keep the current expressions. */
-  match?: GatewayUpdatePolicyRequestMatchList | null;
-  keyauth?: KeyauthPolicy;
-  ratelimit?: RatelimitPolicy;
-  firewall?: FirewallPolicy;
-  openapi?: unknown;
-  logging?: LoggingPolicy;
+  match?: GatewayUpdatePolicyRequestMatchList | null | undefined;
+  keyauth?: KeyauthPolicy | undefined;
+  ratelimit?: RatelimitPolicy | undefined;
+  firewall?: FirewallPolicy | undefined;
+  openapi?: unknown | undefined;
+  logging?: LoggingPolicy | undefined;
 }
 export interface V2GatewayUpdatePolicyResponseBody {
   meta: Meta;
@@ -879,7 +879,7 @@ export interface AppGit {
   /** The connected GitHub repository, as "owner/repo". */
   repository: string;
   /** The branch this app's deployments track. */
-  defaultBranch?: string;
+  defaultBranch?: string | undefined;
 }
 export interface App {
   /** The unique identifier of the app, generated by Unkey. */
@@ -889,13 +889,13 @@ export interface App {
   /** URL-safe handle for this app, unique within its project. Chosen at creation time. */
   slug: string;
   /** The configured source used to create deployments. Omitted for historical apps whose source could not be classified. */
-  sourceType?: AppSourceType;
+  sourceType?: AppSourceType | undefined;
   /** The connected GitHub repository and the branch its deployments track. Omitted when the app has no repository connected (for example a prebuilt OCI image app). */
-  git?: AppGit;
+  git?: AppGit | undefined;
   /** The configured OCI image source. Omitted when the app is not OCI-sourced. */
-  oci?: AppOCI;
+  oci?: AppOCI | undefined;
   /** The identifier of the deployment currently serving this app. Omitted if the app has no active deployment yet. */
-  currentDeploymentId?: string;
+  currentDeploymentId?: string | undefined;
   /** Whether the app is currently serving a rolled-back deployment rather than its latest one. */
   isRolledBack: boolean;
   /** Whether delete protection is enabled for this app. When true, the app cannot be deleted until protection is disabled. */
@@ -903,7 +903,7 @@ export interface App {
   /** Unix timestamp in milliseconds when the app was created. */
   createdAt: number;
   /** Unix timestamp in milliseconds when the app was last updated. Omitted if the app has never been updated. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export interface V2AppsGetAppResponseBody {
   meta: Meta;
@@ -931,7 +931,7 @@ export interface DeploymentGit {
   /** The git commit SHA this deployment was built from. */
   commitSha: string;
   /** The git branch this deployment was built from. Omitted when unknown. */
-  branch?: string;
+  branch?: string | undefined;
 }
 export interface DeploymentDocker {
   /** The OCI image reference requested for this deployment. */
@@ -977,7 +977,7 @@ export interface DeploymentRuntime {
   shutdownSignal: EnvironmentShutdownSignal;
   upstreamProtocol: EnvironmentUpstreamProtocol;
   /** HTTP health probe configuration. Omitted when no healthcheck is configured. */
-  healthcheck?: EnvironmentHealthcheck;
+  healthcheck?: EnvironmentHealthcheck | undefined;
 }
 export interface Deployment {
   /** The unique identifier of the deployment, generated by Unkey. */
@@ -992,22 +992,22 @@ export interface Deployment {
   /** Slug of the project this deployment belongs to. */
   project: string;
   /** Present for git-sourced deployments. Mutually exclusive with `docker`. */
-  git?: DeploymentGit;
+  git?: DeploymentGit | undefined;
   /** Compatibility field present for OCI image-sourced deployments. Mutually exclusive with `git`. */
-  docker?: DeploymentDocker;
+  docker?: DeploymentDocker | undefined;
   /** Lifecycle operations you are allowed to call on this deployment right now. Empty when none apply (e.g. while building or in a terminal state). */
   availableActions: DeploymentAvailableActionsList;
   /** Regions this deployment is configured to run in. Empty while the deployment has no scheduled regions yet. */
   regions: DeploymentRegionsList;
   /** Why the deployment failed. Present only when `status` is `failed`. */
-  error?: DeploymentError;
+  error?: DeploymentError | undefined;
   /** Public hostnames this deployment is reachable at. */
-  domains?: DeploymentDomainsList;
+  domains?: DeploymentDomainsList | undefined;
   runtime: DeploymentRuntime;
   /** Unix timestamp in milliseconds when the deployment was created. */
   createdAt: number;
   /** Unix timestamp in milliseconds when the deployment was last updated. Omitted if the deployment has never been updated. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export interface V2DeploymentsGetDeploymentResponseBody {
   meta: Meta;
@@ -1034,14 +1034,14 @@ export interface Domain {
   /** The verification status of the domain. - `pending`: the domain is created. No DNS check has completed yet. - `verifying`: Unkey checks the DNS records approximately each minute. - `verified`: the domain is verified. Unkey has configured routing and requested a certificate. - `failed`: the required DNS records did not appear within 24 hours. Fix the records, then retry verification. */
   status: DomainStatus;
   /** Why the most recent verification attempt did not succeed, in plain language. Omitted while verification is progressing normally. */
-  verificationError?: string;
+  verificationError?: string | undefined;
   /** The DNS records this domain needs. Create each record at your DNS provider. Each record has a `verified` flag. The flag shows whether Unkey has read that record back, so it tells you which records are still missing. */
   dnsRecords: DomainDnsRecordsList;
-  domainConnect?: DomainConnect;
+  domainConnect?: DomainConnect | undefined;
   /** Unix timestamp in milliseconds when the domain was created. The 24 hour verification window runs from here. */
   createdAt: number;
   /** Unix timestamp in milliseconds of the last change to this domain. Omitted if it has never changed. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export interface V2DomainsGetDomainResponseBody {
   meta: Meta;
@@ -1068,22 +1068,22 @@ export interface EnvironmentRuntime {
   storageMib: number;
   /** Container entrypoint command override. */
   command: EnvironmentRuntimeCommandList;
-  healthcheck?: EnvironmentHealthcheck;
+  healthcheck?: EnvironmentHealthcheck | undefined;
   shutdownSignal: EnvironmentShutdownSignal;
   upstreamProtocol: EnvironmentUpstreamProtocol;
   /** Path to the OpenAPI spec served by the container, if any. */
-  openapiSpecPath?: string;
+  openapiSpecPath?: string | undefined;
 }
 /** Paths that trigger a rebuild when changed. */
 export type EnvironmentBuildWatchPathsList = Array<string>;
 /** Build settings that control how the app is built. Omitted until the environment has build settings. */
 export interface EnvironmentBuild {
   /** Path to the Dockerfile used to build the app, if any. */
-  dockerfile?: string;
+  dockerfile?: string | undefined;
   /** The directory the app is built from. "." for the repository root. */
   rootDirectory: string;
   /** Overrides the build command auto-detected by Railpack, so monorepos can scope the build to a single app. Omitted when left to auto-detection or for Dockerfile builds. */
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** Paths that trigger a rebuild when changed. */
   watchPaths: EnvironmentBuildWatchPathsList;
   /** Whether pushes automatically trigger a deployment. */
@@ -1105,11 +1105,11 @@ export interface Environment {
   /** Unix timestamp in milliseconds when the environment was created. */
   createdAt: number;
   /** Unix timestamp in milliseconds when the environment was last updated. Omitted if the environment has never been updated. */
-  updatedAt?: number;
-  runtime?: EnvironmentRuntime;
-  build?: EnvironmentBuild;
+  updatedAt?: number | undefined;
+  runtime?: EnvironmentRuntime | undefined;
+  build?: EnvironmentBuild | undefined;
   /** Per-region deployment settings for this environment. Empty until regional settings are configured. */
-  regions?: EnvironmentRegionsList;
+  regions?: EnvironmentRegionsList | undefined;
 }
 export interface V2EnvironmentsGetEnvironmentResponseBody {
   meta: Meta;
@@ -1127,23 +1127,23 @@ export interface GetKeyRequest {
   /** Specifies which key to retrieve using the database identifier returned from `keys.createKey`. Do not confuse this with the actual API key string that users include in requests. Key data includes metadata, permissions, usage statistics, and configuration but never the plaintext key value unless `decrypt=true`. Find this ID in creation responses, key listings, dashboard, or verification responses. */
   keyId: string;
   /** Controls whether to include the plaintext key value in the response for recovery purposes. Only works for keys created with `recoverable=true` and requires the `decrypt_key` permission. Returned keys must be handled securely, never logged, cached, or stored insecurely. Use only for legitimate recovery scenarios like user password resets or emergency access. Most applications should keep this false to maintain security best practices and avoid accidental key exposure. Decryption requests are audited and may trigger security alerts in enterprise environments. */
-  decrypt?: boolean;
+  decrypt?: boolean | undefined;
 }
 export interface V2KeysGetKeyResponseBody {
   meta: Meta;
   data: KeyResponseData;
 }
 export interface GetPortalRequest {
-  portal?: string;
-  keyspaceId?: string;
-  appId?: string;
+  portal?: string | undefined;
+  keyspaceId?: string | undefined;
+  appId?: string | undefined;
 }
 /** How the portal looks to your end users. Both fields are optional; a portal with neither set renders with default styling. */
 export interface PortalBranding {
   /** Absolute `https://` URL of the logo shown in the portal header. Loaded by your end users' browsers, so the host you name receives their IP and user agent on every page view. */
-  logoUrl?: string;
+  logoUrl?: string | undefined;
   /** Six-digit hex colour used for primary actions and accents in the portal. */
-  primaryColor?: string;
+  primaryColor?: string | undefined;
 }
 /** A portal you expose to your end users so they can manage their own keys. Exactly one of `keyspaceId` or `appId` is present, naming the single resource the portal serves. Neither is in the required list because which one appears depends on the portal, so a reader checks for the one it cares about. */
 export interface Portal {
@@ -1155,14 +1155,14 @@ export interface Portal {
   displayName: string;
   /** Whether new sessions can be minted for this portal. Disabling a portal stops `portal.createSession` from minting new sessions. It does not end sessions that are already live. */
   enabled: boolean;
-  keyspaceId?: string;
-  appId?: string;
+  keyspaceId?: string | undefined;
+  appId?: string | undefined;
   /** How the portal looks to your end users. Omitted when no branding is set. */
-  branding?: PortalBranding;
+  branding?: PortalBranding | undefined;
   /** Unix timestamp in milliseconds when the portal was created. */
   createdAt: number;
   /** Unix timestamp in milliseconds when the portal was last changed. Omitted if it has never been changed since creation. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export interface V2PortalGetPortalResponseBody {
   meta: Meta;
@@ -1181,7 +1181,7 @@ export interface Project {
   /** Unix timestamp in milliseconds when the project was created. */
   createdAt: number;
   /** Unix timestamp in milliseconds when the project was last updated. Omitted if the project has never been updated. */
-  updatedAt?: number;
+  updatedAt?: number | undefined;
   /** Whether delete protection is enabled for this project. When true, the project cannot be deleted until protection is disabled. */
   deleteProtection: boolean;
 }
@@ -1216,7 +1216,7 @@ export interface Permission {
   /** The unique URL-safe identifier for this permission. */
   slug: string;
   /** Optional detailed explanation of what this permission grants access to. Helps team members understand the scope and implications of granting this permission. Include information about what resources can be accessed and what actions can be performed. Not visible to end users - this is for internal documentation and team clarity. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Complete list of all permissions directly assigned to the key (including both newly added permissions and those that were already assigned). This response includes: - All direct permissions assigned to the key (both pre-existing and newly added) - Both the permission ID and name for each permission Important notes: - This list does NOT include permissions granted through roles - For a complete permission picture, use `/v2/keys.getKey` instead - An empty array indicates the key has no direct permissions assigned */
 export type V2KeysAddPermissionsResponseData = Array<Permission>;
@@ -1240,9 +1240,9 @@ export interface Role {
   /** The human-readable name for this role that describes its function. Should be descriptive enough for administrators to understand what access this role provides. Use clear, semantic names that reflect the job function or responsibility level. Names must be unique within your workspace to avoid confusion during role assignment. */
   name: string;
   /** Optional detailed explanation of what this role encompasses and what access it provides. Helps team members understand the role's scope, intended use cases, and security implications. Include information about what types of users should receive this role and what they can accomplish. Not visible to end users - this is for internal documentation and access control audits. */
-  description?: string;
+  description?: string | undefined;
   /** Complete list of permissions currently assigned to this role. Each permission grants specific access rights that will be inherited by any keys or users assigned this role. Use this list to understand the full scope of access provided by this role. Permissions can be added or removed from roles without affecting the role's identity or other properties. Empty array indicates a role with no permissions currently assigned. */
-  permissions?: RolePermissionsList;
+  permissions?: RolePermissionsList | undefined;
 }
 /** Complete list of all roles directly assigned to the key after the operation completes. The response includes: - All roles now assigned to the key (both pre-existing and newly added) - Both ID and name of each role for easy reference Important notes: - The response shows the complete current state after the addition - An empty array means the key has no roles assigned (unlikely after an add operation) - This only shows direct role assignments, not inherited or nested roles - Role permissions are not expanded in this response - use keys.getKey for full details */
 export type V2KeysAddRolesResponseData = Array<Role>;
@@ -1328,7 +1328,7 @@ export interface KeysUpdateCreditsRequest {
   /** The ID of the key to update (begins with `key_`). This is the database reference ID for the key, not the actual API key string that users authenticate with. This ID uniquely identifies which key's credits will be updated. */
   keyId: string;
   /** The credit value to use with the specified operation. The meaning depends on the operation: for 'set', this becomes the new remaining credits value; for 'increment', this amount is added to current credits; for 'decrement', this amount is subtracted from current credits. Set to null when using 'set' operation to make the key unlimited (removes usage restrictions entirely). When decrementing, if the result would be negative, remaining credits are automatically set to zero. Credits are consumed during successful key verification, and when credits reach zero, verification fails with `code=USAGE_EXCEEDED`. Required when using 'increment' or 'decrement' operations. Optional for 'set' operation (null creates unlimited usage). */
-  value?: number | null;
+  value?: number | null | undefined;
   /** Defines how to modify the key's remaining credits. Use 'set' to replace current credits with a specific value or unlimited usage, 'increment' to add credits for plan upgrades or credit purchases, and 'decrement' to reduce credits for refunds or policy violations. */
   operation: KeysUpdateCreditsRequestOperation | (string & {});
 }
@@ -1347,11 +1347,11 @@ export interface V2KeysWhoamiResponseBody {
 export interface ListAppsRequest {
   project: string;
   /** Maximum number of apps to return per request. Balance between response size and number of pagination calls needed. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response to fetch the next page. Use when `hasMore: true` in the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Free-form text to filter apps. Returns apps whose ID, name, or slug contains the search string. Matching is case-insensitive. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Array of apps in the project, ordered by app id. */
 export type V2AppsListAppsResponseBodyDataList = Array<App>;
@@ -1365,17 +1365,17 @@ export interface V2AppsListAppsResponseBody {
 export type ListDeploymentsRequestStatusList = Array<DeploymentStatus | (string & {})>;
 export interface ListDeploymentsRequest {
   /** Restrict results to a single project, identified by its ID or slug. Required when filtering by `app` or `environment`. */
-  project?: string;
+  project?: string | undefined;
   /** Restrict results to a single app, identified by its ID or slug. Requires `project` to also be set. */
-  app?: string;
+  app?: string | undefined;
   /** Restrict results to a single environment, identified by its ID or slug. Requires `project` and `app` to also be set. */
-  environment?: string;
+  environment?: string | undefined;
   /** Restrict results to deployments in any of the given lifecycle statuses. Omit to return deployments in every status. */
-  status?: ListDeploymentsRequestStatusList;
+  status?: ListDeploymentsRequestStatusList | undefined;
   /** Maximum number of deployments to return per request. Balance between response size and number of pagination calls needed. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response to fetch the next page. Use when `hasMore: true` in the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Array of deployments, ordered newest first. */
 export type V2DeploymentsListDeploymentsResponseBodyDataList = Array<Deployment>;
@@ -1387,17 +1387,17 @@ export interface V2DeploymentsListDeploymentsResponseBody {
 }
 export interface ListDomainsRequest {
   /** Match domains whose project ID or slug equals this value. This filter does not require an app or environment filter. */
-  project?: string;
+  project?: string | undefined;
   /** Match domains whose app ID or slug equals this value. This filter does not require a project or environment filter. */
-  app?: string;
+  app?: string | undefined;
   /** Match domains whose environment ID or slug equals this value. This filter does not require a project or app filter. */
-  environment?: string;
+  environment?: string | undefined;
   /** The maximum number of domains one response contains. A small limit makes the response smaller, but makes more requests necessary. */
-  limit?: number;
+  limit?: number | undefined;
   /** The pagination cursor from the response that came before. Send it to get the next page when that response has `hasMore: true`. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Free-form text to filter domains. Returns domains whose ID or name contains the search string. Matching is case-insensitive. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Domains that match every request filter and that you have permission to read, sorted by ID. The array is empty when no readable domains match, including when a filtered resource is missing or mismatched. */
 export type V2DomainsListDomainsResponseBodyDataList = Array<Domain>;
@@ -1424,18 +1424,18 @@ export interface ListEnvironmentVariablesRequest {
   app: string;
   environment: string;
   /** Maximum number of variables to return per request. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response to fetch the next page. Use when `hasMore: true` in the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export interface EnvironmentVariable {
   /** The variable name. */
   key: string;
   kind: EnvironmentVariableKind;
   /** The decrypted plaintext value. Present only for `recoverable` variables. Omitted for `writeonly` variables, which can never be read back. */
-  value?: string;
+  value?: string | undefined;
   /** Human-readable description. Omitted if none was provided. */
-  description?: string;
+  description?: string | undefined;
   /** Unix timestamp in milliseconds when the variable was created. */
   createdAt: number;
 }
@@ -1447,11 +1447,11 @@ export interface V2EnvironmentsListEnvironmentVariablesResponseBody {
 }
 export interface ListIdentitiesRequest {
   /** The maximum number of identities to return in a single request. Use this to control response size and loading performance. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response. Use this to fetch subsequent pages of results when the response contains a cursor value. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Free-form text to filter identities. Returns identities whose ID or external ID contains the search string. Matching is case-insensitive. */
-  search?: string;
+  search?: string | undefined;
 }
 /** List of identities matching the specified criteria. */
 export type V2IdentitiesListIdentitiesResponseData = Array<Identity>;
@@ -1462,11 +1462,11 @@ export interface V2IdentitiesListIdentitiesResponseBody {
 }
 export interface ListPermissionsRequest {
   /** Pagination cursor from a previous response to fetch the next page of permissions. Include this value when you need to retrieve additional permissions beyond the initial response. Each response containing more results than the requested limit includes a cursor for subsequent pages. Leave empty or omit this field to start from the beginning of the permission list. Cursors are temporary and may expire - always handle cases where a cursor becomes invalid. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of permissions to return in a single response. */
-  limit?: number;
+  limit?: number | undefined;
   /** Free-form text to filter permissions. Returns permissions whose ID, name, slug, or description contains the search string. Matching is case-insensitive. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Array of permission objects with complete configuration details. */
 export type V2PermissionsListPermissionsResponseData = Array<Permission>;
@@ -1477,11 +1477,11 @@ export interface V2PermissionsListPermissionsResponseBody {
 }
 export interface ListProjectsRequest {
   /** Maximum number of projects to return per request. Balance between response size and number of pagination calls needed. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response to fetch the next page. Use when `hasMore: true` in the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Free-form text to filter projects. Returns projects whose ID, name, or slug contains the search string. Matching is case-insensitive. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Array of projects in the workspace, ordered by project id. */
 export type V2ProjectsListProjectsResponseBodyDataList = Array<Project>;
@@ -1513,23 +1513,23 @@ export interface V2KeysMigrateKeyData {
   /** The current hash of the key on your side */
   hash: string;
   /** Sets a human-readable identifier for internal organization and dashboard display. Never exposed to end users, only visible in management interfaces and API responses. Avoid generic names like "API Key" when managing multiple keys for the same user or service. */
-  name?: string;
+  name?: string | undefined;
   /** Links this key to a user or entity in your system using your own identifier. Returned during verification to identify the key owner without additional database lookups. Essential for user-specific analytics, billing, and multi-tenant key management. Use your primary user ID, organization ID, or tenant ID for best results. Accepts letters, numbers, underscores, dots, and hyphens for flexible identifier formats. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Stores arbitrary JSON metadata returned during key verification for contextual information. Eliminates additional database lookups during verification, improving performance for stateless services. Avoid storing sensitive data here as it's returned in verification responses. Large metadata objects increase verification latency and should stay under 10KB total size. */
-  meta?: V2KeysMigrateKeyDataMetaMap;
+  meta?: V2KeysMigrateKeyDataMetaMap | undefined;
   /** Assigns existing roles to this key for permission management through role-based access control. Roles must already exist in your workspace before assignment. During verification, all permissions from assigned roles are checked against requested permissions. Roles provide a convenient way to group permissions and apply consistent access patterns across multiple keys. */
-  roles?: V2KeysMigrateKeyDataRolesList;
+  roles?: V2KeysMigrateKeyDataRolesList | undefined;
   /** Grants specific permissions directly to this key without requiring role membership. Wildcard permissions like `documents.*` grant access to all sub-permissions including `documents.read` and `documents.write`. Direct permissions supplement any permissions inherited from assigned roles. */
-  permissions?: V2KeysMigrateKeyDataPermissionsList;
+  permissions?: V2KeysMigrateKeyDataPermissionsList | undefined;
   /** Sets when this key automatically expires as a Unix timestamp in milliseconds. Verification fails with code=EXPIRED immediately after this time passes. Omitting this field creates a permanent key that never expires. Avoid setting timestamps in the past as they immediately invalidate the key. Keys expire based on server time, not client time, which prevents timezone-related issues. Essential for trial periods, temporary access, and security compliance requiring key rotation. */
-  expires?: number;
+  expires?: number | undefined;
   /** Controls whether the key is active immediately upon creation. When set to `false`, the key exists but all verification attempts fail with `code=DISABLED`. Useful for pre-creating keys that will be activated later or for keys requiring manual approval. Most keys should be created with `enabled=true` for immediate use. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Controls usage-based limits through credit consumption with optional automatic refills. Unlike rate limits which control frequency, credits control total usage with global consistency. Essential for implementing usage-based pricing, subscription tiers, and hard usage quotas. Omitting this field creates unlimited usage, while setting null is not allowed during creation. */
-  credits?: KeyCreditsData;
+  credits?: KeyCreditsData | undefined;
   /** Defines time-based rate limits that protect against abuse by controlling request frequency. Unlike credits which track total usage, rate limits reset automatically after each window expires. Multiple rate limits can control different operation types with separate thresholds and windows. Essential for preventing API abuse while maintaining good performance for legitimate usage. */
-  ratelimits?: V2KeysMigrateKeyDataRatelimitsList;
+  ratelimits?: V2KeysMigrateKeyDataRatelimitsList | undefined;
 }
 export type MigrateKeysRequestKeysList = Array<V2KeysMigrateKeyData>;
 export interface MigrateKeysRequest {
@@ -1565,7 +1565,7 @@ export interface PermissionsCreatePermissionRequest {
   /** Creates a URL-safe identifier for this permission that can be used in APIs and integrations. Must start with a letter and contain only letters, numbers, periods, underscores, and hyphens. Slugs are often used in REST endpoints, configuration files, and external integrations. Should closely match the name but in a format suitable for technical usage. Must be unique within your workspace to ensure reliable permission lookups. Keep slugs concise but descriptive for better developer experience. */
   slug: string;
   /** Provides detailed documentation of what this permission grants access to. Include information about affected resources, allowed actions, and any important limitations. This internal documentation helps team members understand permission scope and security implications. Not visible to end users - designed for development teams and security audits. Consider documenting: - What resources can be accessed - What operations are permitted - Any conditions or limitations - Related permissions that might be needed */
-  description?: string;
+  description?: string | undefined;
 }
 export interface V2PermissionsCreatePermissionResponseData {
   /** The unique identifier assigned to the newly created permission. Use this ID to reference the permission in role assignments, key operations, and other API calls. Always begins with 'perm_' followed by a unique alphanumeric sequence. Store this ID if you need to manage or reference this permission in future operations. */
@@ -1581,9 +1581,9 @@ export interface PermissionsCreateRoleRequest {
   /** The unique name for this role. Must be unique within your workspace and clearly indicate the role's purpose. Use descriptive names like 'admin', 'editor', or 'Billing Manager'. Examples: 'admin.billing', 'support.readonly', 'developer.api', 'Billing Manager' */
   name: string;
   /** Provides comprehensive documentation of what this role encompasses and what access it grants. Include information about the intended use case, what permissions should be assigned, and any important considerations. This internal documentation helps team members understand role boundaries and security implications. Not visible to end users - designed for administration teams and access control audits. Consider documenting: - The role's intended purpose and scope - What types of users should receive this role - What permissions are typically associated with it - Any security considerations or limitations - Related roles that might be used together */
-  description?: string;
+  description?: string | undefined;
   /** Permission slugs to attach to the role. Existing permissions are reused. Missing permissions are created automatically when the root key has `rbac.*.create_permission`. Omit this field or provide an empty array to create the role without permissions. */
-  permissions?: PermissionsCreateRoleRequestPermissionsList;
+  permissions?: PermissionsCreateRoleRequestPermissionsList | undefined;
 }
 export interface V2PermissionsCreateRoleResponseData {
   /** The unique identifier assigned to the newly created role. Use this ID to reference the role in permission assignments, key operations, and role management calls. Always begins with 'role_' followed by a unique alphanumeric sequence. Store this ID if you need to manage, modify, or assign this role in future operations. */
@@ -1627,11 +1627,11 @@ export interface V2PermissionsGetRoleResponseBody {
 }
 export interface PermissionsListRolesRequest {
   /** Maximum number of roles to return in a single response. Use smaller values for faster response times and better UI performance. Use larger values when you need to process many roles efficiently. Results exceeding this limit will be paginated with a cursor for continuation. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response to fetch the next page of roles. Include this when you need to retrieve additional roles beyond the first page. Each response containing more results will include a cursor value that can be used here. Leave empty or omit this field to start from the beginning of the role list. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Free-form text to filter roles. Returns roles whose ID, name, or description contains the search string. Matching is case-insensitive. */
-  search?: string;
+  search?: string | undefined;
 }
 /** Array of roles with their assigned permissions. */
 export type V2PermissionsListRolesResponseData = Array<Role>;
@@ -1644,9 +1644,9 @@ export interface V2PermissionsListRolesResponseBody {
 export type PermissionsSetRolePermissionsRequestPermissionsList = Array<string>;
 export interface PermissionsSetRolePermissionsRequest {
   /** The role whose directly assigned permissions will be replaced. Accepts either the generated role ID or the unique role name. */
-  role?: string;
+  role?: string | undefined;
   /** Deprecated. Use `role` instead. Accepts either the generated role ID or the unique role name. */
-  roleId?: string;
+  roleId?: string | undefined;
   /** The complete set of permission slugs to assign directly to the role. Missing permissions are created when authorized. An empty array clears all direct permissions. */
   permissions: PermissionsSetRolePermissionsRequestPermissionsList;
 }
@@ -1668,7 +1668,7 @@ export interface PortalCreateSessionRequest {
   /** The capabilities granted to the end user in the Portal, from a fixed vocabulary. All capabilities are scoped to this end user: key capabilities (`keys:*`) apply only to keys the end user owns within the keyspace configured on the portal. An end user can never see another identity's keys. Rerolling and usage analytics are both reached from the keys page, so `keys:reroll` and `analytics:read` each require `keys:read` in the same session; requesting either without it is rejected. Each scope requires the equivalent permission on your own root key. See Required Permissions on this operation. */
   scopes: PortalCreateSessionRequestScopesList;
   /** Absolute URL the end user is sent back to when they leave the portal, or when their session expires mid-visit. Set per session rather than per portal, so one portal can serve several entry points and return each user to the page they came from. When omitted, the portal shows no return link. */
-  returnUrl?: string;
+  returnUrl?: string | undefined;
 }
 export interface V2PortalCreateSessionResponseData {
   /** The portal session's identifier. Not a credential: it is safe to log and to store against your own records of the end user's visit. */
@@ -1700,7 +1700,7 @@ export interface PortalGetVerificationsRequest {
   /** End of the query window as a unix timestamp in milliseconds (exclusive). Bucket granularity (minute, hour, or day) is chosen automatically from the window size. */
   endTime: number;
   /** Optional. Restrict results to a single key. The key must belong to the authenticated end user; results are always scoped to the session identity regardless of this value. */
-  keyId?: string;
+  keyId?: string | undefined;
 }
 export interface V2PortalGetVerificationsDataPoint {
   /** Bucket start as a unix timestamp in milliseconds. */
@@ -1741,9 +1741,9 @@ export interface V2PortalGetVerificationsResponseBody {
 }
 export interface PortalListKeysRequest {
   /** Maximum number of keys to return per request. Balance between response size and number of pagination calls needed. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response to fetch the next page. Use when `hasMore: true` in the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** Array of the portal end user's API keys. */
 export type V2PortalListKeysResponseData = Array<KeyResponseData>;
@@ -1755,11 +1755,11 @@ export interface V2PortalListKeysResponseBody {
 export interface PortalListSessionsRequest {
   portal: string;
   /** Maximum number of end users to return per request. */
-  limit?: number;
+  limit?: number | undefined;
   /** Pagination cursor from a previous response to fetch the next page. Use when `hasMore: true` in the previous response. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Returns only end users whose `externalId` starts with this string. Matching is case-sensitive, and `%` and `_` match literally. */
-  search?: string;
+  search?: string | undefined;
 }
 /** `pending` when the portal URL was created but not opened yet. `active` when the end user opened it. */
 export type V2PortalListSessionsSessionStatus = "pending" | "active";
@@ -1846,7 +1846,7 @@ export interface RatelimitLimitRequest {
   /** The id or name of the namespace. */
   namespace: string;
   /** Sets how much of the rate limit quota this request consumes, enabling weighted rate limiting. Use higher values for resource-intensive operations and 0 for tracking without limiting. When accumulated cost exceeds the limit within the duration window, subsequent requests are rejected. Essential for implementing fair usage policies and preventing resource abuse through expensive operations. */
-  cost?: number;
+  cost?: number | undefined;
   /** Sets the rate limit window duration in milliseconds after which the counter resets. Shorter durations enable faster recovery but may be less effective against sustained abuse. Common values include 60000 (1 minute), 3600000 (1 hour), and 86400000 (24 hours). Balance user experience with protection needs when choosing window sizes. */
   duration: number;
   /** Defines the scope of rate limiting by identifying the entity being limited. Use user IDs for per-user limits, IP addresses for anonymous limiting, or API key IDs for per-key limits. Accepts letters, numbers, underscores, dots, colons, slashes, and hyphens for flexible identifier formats. The same identifier can be used across different namespaces to apply multiple rate limit types. Choose identifiers that provide appropriate granularity for your rate limiting strategy. */
@@ -1864,7 +1864,7 @@ export interface V2RatelimitLimitResponseData {
   /** Whether the request passed the rate limit check. If true, the request is allowed to proceed. If false, the request has exceeded the rate limit and should be blocked or rejected. You MUST check this field to determine if the request should proceed, as the endpoint always returns `HTTP 200` even when rate limited. */
   success: boolean;
   /** If a rate limit override was applied for this identifier, this field contains the ID of the override that was used. Empty when no override is in effect. This can be useful for: - Debugging which override rule was matched - Tracking the effects of specific overrides - Understanding why limits differ from default values */
-  overrideId?: string;
+  overrideId?: string | undefined;
 }
 export interface V2RatelimitLimitResponseBody {
   meta: Meta;
@@ -1874,9 +1874,9 @@ export interface RatelimitListOverridesRequest {
   /** The id or name of the rate limit namespace to list overrides for. */
   namespace: string;
   /** Pagination cursor from a previous response. Include this when fetching subsequent pages of results. Each response containing more results than the requested limit will include a cursor value in the pagination object that can be used here. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of override entries to return in a single response. Use this to control response size and loading performance. - Lower values (10-20): Better for UI displays and faster response times - Higher values (50-100): Better for data exports or bulk operations - Default (10): Suitable for most dashboard views Results exceeding this limit will be paginated, with a cursor provided for fetching subsequent pages. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type V2RatelimitListOverridesResponseData = Array<RatelimitOverride>;
 export interface V2RatelimitListOverridesResponseBody {
@@ -1888,7 +1888,7 @@ export interface V2RatelimitLimitRequestBody {
   /** The id or name of the namespace. */
   namespace: string;
   /** Sets how much of the rate limit quota this request consumes, enabling weighted rate limiting. Use higher values for resource-intensive operations and 0 for tracking without limiting. When accumulated cost exceeds the limit within the duration window, subsequent requests are rejected. Essential for implementing fair usage policies and preventing resource abuse through expensive operations. */
-  cost?: number;
+  cost?: number | undefined;
   /** Sets the rate limit window duration in milliseconds after which the counter resets. Shorter durations enable faster recovery but may be less effective against sustained abuse. Common values include 60000 (1 minute), 3600000 (1 hour), and 86400000 (24 hours). Balance user experience with protection needs when choosing window sizes. */
   duration: number;
   /** Defines the scope of rate limiting by identifying the entity being limited. Use user IDs for per-user limits, IP addresses for anonymous limiting, or API key IDs for per-key limits. Accepts letters, numbers, underscores, dots, colons, slashes, and hyphens for flexible identifier formats. The same identifier can be used across different namespaces to apply multiple rate limit types. Choose identifiers that provide appropriate granularity for your rate limiting strategy. */
@@ -1915,7 +1915,7 @@ export interface V2RatelimitMultiLimitCheck {
   /** Whether the request passed the rate limit check. If true, the request is allowed to proceed. If false, the request has exceeded the rate limit and should be blocked or rejected. You MUST check this field to determine if the request should proceed, as the endpoint always returns `HTTP 200` even when rate limited. */
   passed: boolean;
   /** If a rate limit override was applied for this identifier, this field contains the ID of the override that was used. Empty when no override is in effect. This can be useful for: - Debugging which override rule was matched - Tracking the effects of specific overrides - Understanding why limits differ from default values */
-  overrideId?: string;
+  overrideId?: string | undefined;
 }
 /** Array of individual rate limit check results, one for each rate limit check in the request */
 export type V2RatelimitMultiLimitResponseDataLimitsList = Array<V2RatelimitMultiLimitCheck>;
@@ -1965,11 +1965,11 @@ export interface V2EnvironmentsRemoveEnvironmentVariablesResponseBody {
 export type RootKeysCreateKeyRequestPermissionsList = Array<string>;
 export interface RootKeysCreateKeyRequest {
   /** Optional name for the root key. */
-  name?: string;
+  name?: string | undefined;
   /** Permissions to grant to the root key. Each permission must be within the caller's existing permissions. */
   permissions: RootKeysCreateKeyRequestPermissionsList;
   /** Expiration as Unix milliseconds, strictly in the future. Expiring root-key callers must provide a child expiry no later than their own. JWT admins and nonexpiring root-key callers may omit it or set null for no expiration. */
-  expires?: number | null;
+  expires?: number | null | undefined;
 }
 export interface V2RootKeysCreateKeyResponseData {
   /** Identifier used to manage the root key. */
@@ -1991,9 +1991,9 @@ export interface V2RootKeysDeleteKeyResponseBody {
 }
 export interface RootKeysListKeysRequest {
   /** Maximum number of readable root keys per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque cursor from a previous response. Omit for the first page. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 /** All permissions assigned to the root key. */
 export type V2RootKeysListKeysResponseDataPermissionsList = Array<string>;
@@ -2045,11 +2045,11 @@ export interface RootKeysUpdateKeyRequest {
   /** Root key identifier returned by rootKeys.createKey or rootKeys.listKeys. */
   keyId: string;
   /** New root key name. Set null to remove the name. Omit to keep the current name. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Whether the root key can authenticate. Omit to keep the current state. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Complete replacement permission set. Every permission must be a supported URN in the authenticated workspace and within the caller's permissions. Omit to keep the current permissions. */
-  permissions?: RootKeysUpdateKeyRequestPermissionsList;
+  permissions?: RootKeysUpdateKeyRequestPermissionsList | undefined;
 }
 export interface V2RootKeysUpdateKeyResponseBody {
   meta: Meta;
@@ -2066,22 +2066,22 @@ export interface StopDeploymentRequest {
 export interface StopDeploymentResponse {}
 export interface AppGitUpdateInput {
   /** The GitHub repository to connect, as "owner/repo". Omit to change only the tracked branch of the already-connected repository. The workspace must have the Unkey GitHub App installed with access to it. */
-  repository?: string;
+  repository?: string | undefined;
   /** The branch this app's deployments track. Omit to adopt the repository's GitHub default branch on a new connection, keep the current branch when replacing an already-connected repository, or set it alone to retarget the branch of the connected repository. */
-  defaultBranch?: string;
+  defaultBranch?: string | undefined;
 }
 export interface UpdateAppRequest {
   project: string;
   app: string;
   /** New human-readable name for the app. Omit this field to leave the current name unchanged. */
-  name?: string;
-  slug?: string;
+  name?: string | undefined;
+  slug?: string | undefined;
   /** Connect, reconfigure, or disconnect this app's GitHub repository. Omit to leave unchanged, set null to disconnect, or set an object with a "repository" to connect or replace it and/or a "defaultBranch" to set which branch it tracks. Fields are independent, so send only the one you change. */
-  git?: AppGitUpdateInput | null;
+  git?: AppGitUpdateInput | null | undefined;
   /** Change the default image reference for an OCI-sourced app. This does not create a deployment. It can be combined with other app settings. Source switching is not supported. */
-  oci?: AppOCI;
+  oci?: AppOCI | undefined;
   /** Enable or disable delete protection for the app. Omit this field to leave the current setting unchanged. */
-  deleteProtection?: boolean;
+  deleteProtection?: boolean | undefined;
 }
 export interface V2AppsUpdateAppResponseBody {
   meta: Meta;
@@ -2095,9 +2095,9 @@ export interface UpdateIdentityRequest {
   /** The ID of the identity to update. Accepts either the externalId (your system-generated identifier) or the identityId (internal identifier returned by the identity service). */
   identity: string;
   /** Replaces all existing metadata with this new metadata object. Omitting this field preserves existing metadata, while providing an empty object clears all metadata. Avoid storing sensitive data here as it's returned in verification responses. Large metadata objects increase verification latency and should stay under 10KB total size. */
-  meta?: UpdateIdentityRequestMetaMap;
+  meta?: UpdateIdentityRequestMetaMap | undefined;
   /** Replaces all existing identity rate limits with this complete list of rate limits. Omitting this field preserves existing rate limits, while providing an empty array removes all rate limits. These limits are shared across all keys belonging to this identity, preventing abuse through multiple keys. Rate limit changes take effect immediately but may take up to 30 seconds to propagate across all regions. */
-  ratelimits?: UpdateIdentityRequestRatelimitsList;
+  ratelimits?: UpdateIdentityRequestRatelimitsList | undefined;
 }
 export interface V2IdentitiesUpdateIdentityResponseBody {
   data: Identity;
@@ -2114,13 +2114,13 @@ export interface UpdateKeyCreditsRefill {
   /** Number of credits to add during each refill cycle. */
   amount: number;
   /** Day of the month for monthly refills (1-31). Only required when interval is 'monthly'. For days beyond the month's length, refill occurs on the last day of the month. */
-  refillDay?: number;
+  refillDay?: number | undefined;
 }
 /** Credit configuration and remaining balance for this key. */
 export interface UpdateKeyCreditsData {
   /** Number of credits remaining (null for unlimited). This also clears the refilling schedule. */
-  remaining?: number | null;
-  refill?: UpdateKeyCreditsRefill | null;
+  remaining?: number | null | undefined;
+  refill?: UpdateKeyCreditsRefill | null | undefined;
 }
 /** Defines time-based rate limits that protect against abuse by controlling request frequency. Omitting this field preserves existing rate limits, while setting null removes all rate limits. Unlike credits which track total usage, rate limits reset automatically after each window expires. Multiple rate limits can control different operation types with separate thresholds and windows. */
 export type UpdateKeyRequestRatelimitsList = Array<RatelimitRequest>;
@@ -2130,21 +2130,21 @@ export interface UpdateKeyRequest {
   /** Specifies which key to update using the database identifier returned from `createKey`. Do not confuse this with the actual API key string that users include in requests. */
   keyId: string;
   /** Sets a human-readable name for internal organization and identification. Omitting this field leaves the current name unchanged, while setting null removes it entirely. Avoid generic names like "API Key" when managing multiple keys per user or service. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Links this key to a user or entity in your system for ownership tracking during verification. Omitting this field preserves the current association, while setting null disconnects the key from any identity. Essential for user-specific analytics, billing, and key management across multiple users. Supports letters, numbers, underscores, dots, and hyphens for flexible identifier formats. */
-  externalId?: string | null;
+  externalId?: string | null | undefined;
   /** Stores arbitrary JSON metadata returned during key verification. Omitting this field preserves existing metadata, while setting null removes all metadata entirely. Avoid storing sensitive data here as it's returned in verification responses. Large metadata objects increase verification latency and should stay under 10KB total size. */
-  meta?: UpdateKeyRequestMetaMap | null;
+  meta?: UpdateKeyRequestMetaMap | null | undefined;
   /** Sets when this key automatically expires as a Unix timestamp in milliseconds. Verification fails with code=EXPIRED immediately after this time passes. Omitting this field preserves the current expiration, while setting null makes the key permanent. Avoid setting timestamps in the past as they immediately invalidate the key. Keys expire based on server time, not client time, which prevents timezone-related issues. Active sessions continue until their next verification attempt after expiry. */
-  expires?: number | null;
+  expires?: number | null | undefined;
   /** Controls usage-based limits for this key through credit consumption. Omitting this field preserves current credit settings, while setting null enables unlimited usage. Cannot configure refill settings when credits is null, and refillDay requires monthly interval. Essential for implementing usage-based pricing and subscription quotas. */
-  credits?: UpdateKeyCreditsData | null;
+  credits?: UpdateKeyCreditsData | null | undefined;
   /** Defines time-based rate limits that protect against abuse by controlling request frequency. Omitting this field preserves existing rate limits, while setting null removes all rate limits. Unlike credits which track total usage, rate limits reset automatically after each window expires. Multiple rate limits can control different operation types with separate thresholds and windows. */
-  ratelimits?: UpdateKeyRequestRatelimitsList | null;
+  ratelimits?: UpdateKeyRequestRatelimitsList | null | undefined;
   /** Controls whether the key is currently active for verification requests. When set to `false`, all verification attempts fail with `code=DISABLED` regardless of other settings. Omitting this field preserves the current enabled status. Useful for temporarily suspending access during billing issues, security incidents, or maintenance windows without losing key configuration. */
-  enabled?: boolean;
-  roles?: UpdateKeyRequestRolesList;
-  permissions?: UpdateKeyRequestPermissionsList;
+  enabled?: boolean | undefined;
+  roles?: UpdateKeyRequestRolesList | undefined;
+  permissions?: UpdateKeyRequestPermissionsList | undefined;
 }
 export interface V2KeysUpdateKeyResponseBody {
   meta: Meta;
@@ -2153,19 +2153,19 @@ export interface V2KeysUpdateKeyResponseBody {
 export interface UpdatePortalRequest {
   portal: string;
   /** New handle for this portal. Omit to leave unchanged. */
-  slug?: string;
+  slug?: string | undefined;
   /** New human-readable name shown to your end users. Omit to leave unchanged. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Re-point the portal at a different keyspace. Omit to leave the resource it serves alone. Re-pointing revokes the portal's live sessions, because a session carries the keyspace scope it was minted with and would otherwise keep reaching the resource the portal no longer serves. The new keyspace must belong to the same project as the portal's current resource. A portal cannot move between projects, because its permissions are addressed under the project it belongs to. Re-pointing across projects returns 412; create a portal in the target project instead. */
-  keyspaceId?: string;
+  keyspaceId?: string | undefined;
   /** Re-point the portal at a different app. Omit to leave the resource it serves alone. Re-pointing revokes the portal's live sessions, for the same reason as `keyspaceId`. The same project restriction applies, and it is easy to hit when switching between an app and a keyspace: keyspaces are created in the workspace's default project, while an app belongs to the project you created it in. */
-  appId?: string;
+  appId?: string | undefined;
   /** Whether new sessions can be minted. Omit to leave unchanged. Disabling also revokes the portal's live sessions. Re-enabling does not restore them. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Absolute `https://` URL of the portal logo. Omit to leave unchanged, or set null to remove the logo. */
-  logoUrl?: string | null;
+  logoUrl?: string | null | undefined;
   /** Six-digit hex colour for primary actions. Omit to leave unchanged, or set null to fall back to default styling. */
-  primaryColor?: string | null;
+  primaryColor?: string | null | undefined;
 }
 export interface V2PortalUpdatePortalResponseBody {
   meta: Meta;
@@ -2173,11 +2173,11 @@ export interface V2PortalUpdatePortalResponseBody {
 }
 export interface UpdateProjectRequest {
   project: string;
-  slug?: string;
+  slug?: string | undefined;
   /** New human-readable name for the project. Omit this field to leave the current name unchanged. */
-  name?: string;
+  name?: string | undefined;
   /** Enable or disable delete protection for the project. Omit this field to leave the current setting unchanged. */
-  deleteProtection?: boolean;
+  deleteProtection?: boolean | undefined;
 }
 export interface V2ProjectsUpdateProjectResponseBody {
   meta: Meta;
@@ -2201,11 +2201,11 @@ export interface KeysVerifyKeyRatelimit {
   /** References an existing ratelimit by its name. Key Ratelimits will take precedence over identifier-based limits. */
   name: string;
   /** Optionally override how expensive this operation is and how many tokens are deducted from the current limit. */
-  cost?: number;
+  cost?: number | undefined;
   /** Optionally override the maximum number of requests allowed within the specified interval. */
-  limit?: number;
+  limit?: number | undefined;
   /** Optionally override the duration of the rate limit window duration. */
-  duration?: number;
+  duration?: number | undefined;
 }
 /** Enforces time-based rate limiting during verification to prevent abuse and ensure fair usage. Omitting this field skips rate limit checks entirely, relying only on configured key rate limits. Multiple rate limits can be checked simultaneously, each with different costs and temporary overrides. Rate limit checks are optimized for performance but may allow brief bursts during high concurrency. */
 export type VerifyKeyRequestRatelimitsList = Array<KeysVerifyKeyRatelimit>;
@@ -2213,16 +2213,16 @@ export interface VerifyKeyRequest {
   /** The API key to verify, exactly as provided by your user. Include any prefix - even small changes will cause verification to fail. */
   key: string;
   /** Attaches metadata tags for analytics and monitoring without affecting verification outcomes. Enables segmentation of API usage in dashboards by endpoint, client version, region, or custom dimensions. Use 'key=value' format for compatibility with most analytics tools and clear categorization. Avoid including sensitive data in tags as they may appear in logs and analytics reports. */
-  tags?: VerifyKeyRequestTagsList;
+  tags?: VerifyKeyRequestTagsList | undefined;
   /** Checks if the key has the specified permission(s) using a query syntax. Supports single permissions, logical operators (AND, OR), and parentheses for grouping. Examples: - Single permission: "documents.read" - Multiple permissions: "documents.read AND documents.write" - Complex queries: "(documents.read OR documents.write) AND users.view" Verification fails if the key lacks the required permissions through direct assignment or role inheritance. */
-  permissions?: string;
-  credits?: KeysVerifyKeyCredits;
+  permissions?: string | undefined;
+  credits?: KeysVerifyKeyCredits | undefined;
   /** Restricts verification to keys in these keyspaces, matched by exact ID. Omit this field to verify without a keyspace restriction. A failed keyspace check returns `NOT_FOUND` without consuming credits or rate limits. */
-  keyspaces?: VerifyKeyRequestKeyspacesList;
+  keyspaces?: VerifyKeyRequestKeyspacesList | undefined;
   /** Enforces time-based rate limiting during verification to prevent abuse and ensure fair usage. Omitting this field skips rate limit checks entirely, relying only on configured key rate limits. Multiple rate limits can be checked simultaneously, each with different costs and temporary overrides. Rate limit checks are optimized for performance but may allow brief bursts during high concurrency. */
-  ratelimits?: VerifyKeyRequestRatelimitsList;
+  ratelimits?: VerifyKeyRequestRatelimitsList | undefined;
   /** Migrate keys on demand from your previous system. Reach out for migration support at support@unkey.dev */
-  migrationId?: string;
+  migrationId?: string | undefined;
 }
 /** A machine-readable code indicating the verification status or failure reason. Values: `VALID` (key is valid and passed all checks), `NOT_FOUND` (key doesn't exist or belongs to wrong API), `FORBIDDEN` (key lacks required permissions), `INSUFFICIENT_PERMISSIONS` (key lacks specific required permissions for this request), `USAGE_EXCEEDED` (key has no remaining credits), `RATE_LIMITED` (key exceeded rate limits), `DISABLED` (key was explicitly disabled), `EXPIRED` (key has passed its expiration date). */
 export type V2KeysVerifyKeyResponseDataCode =
@@ -2265,26 +2265,26 @@ export interface V2KeysVerifyKeyResponseData {
   /** A machine-readable code indicating the verification status or failure reason. Values: `VALID` (key is valid and passed all checks), `NOT_FOUND` (key doesn't exist or belongs to wrong API), `FORBIDDEN` (key lacks required permissions), `INSUFFICIENT_PERMISSIONS` (key lacks specific required permissions for this request), `USAGE_EXCEEDED` (key has no remaining credits), `RATE_LIMITED` (key exceeded rate limits), `DISABLED` (key was explicitly disabled), `EXPIRED` (key has passed its expiration date). */
   code: V2KeysVerifyKeyResponseDataCode;
   /** The unique identifier of the verified key in Unkey's system. Use this ID for operations like updating or revoking the key. This field is returned for both valid and invalid keys (except when `code=NOT_FOUND`). */
-  keyId?: string;
+  keyId?: string | undefined;
   /** The ID of the keyspace the key belongs to. Returned for both valid and invalid keys, except when `code=NOT_FOUND`. */
-  keyspaceId?: string;
+  keyspaceId?: string | undefined;
   /** The human-readable name assigned to this key during creation. This is useful for displaying in logs or admin interfaces to identify the key's purpose. */
-  name?: string;
+  name?: string | undefined;
   /** Custom metadata associated with the key. This can include any JSON-serializable data you stored with the key during creation or updates, such as plan information, feature flags, or user details. Use this to avoid additional database lookups for contextual information needed during API calls. */
-  meta?: V2KeysVerifyKeyResponseDataMetaMap;
+  meta?: V2KeysVerifyKeyResponseDataMetaMap | undefined;
   /** Unix timestamp (in milliseconds) when the key will expire. If omitted, the key has no expiration. You can use this to warn users about upcoming expirations or to understand the validity period. */
-  expires?: number;
+  expires?: number | undefined;
   /** The number of requests/credits remaining for this key. If omitted, the key has unlimited usage. This value decreases with each verification (based on the 'cost' parameter) unless explicit credit refills are configured. */
-  credits?: number;
+  credits?: number | undefined;
   /** Indicates if the key is currently enabled. Disabled keys will always fail verification with `code=DISABLED`. This is useful for implementing temporary suspensions without deleting the key. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** A list of all permission names assigned to this key, either directly or through roles. These permissions determine what actions the key can perform. Only returned when permissions were checked during verification or when the key fails with `code=FORBIDDEN`. */
-  permissions?: V2KeysVerifyKeyResponseDataPermissionsList;
+  permissions?: V2KeysVerifyKeyResponseDataPermissionsList | undefined;
   /** A list of all role names assigned to this key. Roles are collections of permissions that grant access to specific functionality. Only returned when permissions were checked during verification. */
-  roles?: V2KeysVerifyKeyResponseDataRolesList;
+  roles?: V2KeysVerifyKeyResponseDataRolesList | undefined;
   /** Information about the identity associated with this key. Identities allow multiple keys to share resources (like rate limits) and represent the same user or entity across different applications or devices. */
-  identity?: Identity;
-  ratelimits?: V2KeysVerifyKeyResponseDataRatelimitsList;
+  identity?: Identity | undefined;
+  ratelimits?: V2KeysVerifyKeyResponseDataRatelimitsList | undefined;
 }
 export interface V2KeysVerifyKeyResponseBody {
   meta: Meta;

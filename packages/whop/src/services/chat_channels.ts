@@ -98,11 +98,11 @@ export interface ChatChannel {
   who_can_react: WhoCanReactTypes;
 }
 export interface ListChatChannelRequest {
-  after?: string;
-  before?: string;
-  first?: number;
-  last?: number;
-  product_id?: string;
+  after?: string | undefined;
+  before?: string | undefined;
+  first?: number | undefined;
+  last?: number | undefined;
+  product_id?: string | undefined;
   account_id: string;
 }
 /** A list of words that are automatically filtered from messages in this chat. Empty unless the caller has permission to moderate this chat. */
@@ -153,17 +153,17 @@ export interface UpdateChatChannelRequest {
   /** The unique identifier of the chat channel to update. Accepts either an experience ID (e.g. 'exp_xxxxx') or a chat channel ID. */
   id: string;
   /** Whether media uploads such as images and videos are banned in this chat channel. */
-  ban_media?: boolean | null;
+  ban_media?: boolean | null | undefined;
   /** Whether URLs and links are banned from being posted in this chat channel. */
-  ban_urls?: boolean | null;
+  ban_urls?: boolean | null | undefined;
   /** A list of words that are automatically blocked from messages in this chat channel. For example, ['spam', 'scam']. */
-  banned_words?: UpdateChatChannelRequestBannedWordsList | null;
+  banned_words?: UpdateChatChannelRequestBannedWordsList | null | undefined;
   /** The minimum number of seconds a user must wait between sending messages in this chat channel. Pass null or 0 to remove the cooldown. */
-  user_posts_cooldown_seconds?: number | null;
+  user_posts_cooldown_seconds?: number | null | undefined;
   /** Controls which roles are allowed to send messages in this chat channel. */
-  who_can_post?: WhoCanPostTypes | (string & {}) | null;
+  who_can_post?: WhoCanPostTypes | (string & {}) | null | undefined;
   /** Controls which roles are allowed to add reactions to messages in this chat channel. */
-  who_can_react?: WhoCanReactTypes | (string & {}) | null;
+  who_can_react?: WhoCanReactTypes | (string & {}) | null | undefined;
 }
 export type GetChatChannelError =
   | BadRequest

@@ -103,14 +103,14 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 /** In order to align with the Infra Manager dependency, we create the same TerraformVariable message to represent a Terraform input variable, by following Infra Manager's API documentation: https://cloud.google.com/infrastructure-manager/docs/reference/rest. A Terraform input variable. */
 export interface TerraformVariable {
   /** Optional. Input variable value. */
-  inputValue?: unknown;
+  inputValue?: unknown | undefined;
 }
 export type TerraformVariableMap = { [key: string]: TerraformVariable | undefined };
 export type SapSystemS4ConfigScalingMethodEnum =
@@ -138,112 +138,112 @@ export type LocationDetailsInternetAccessEnum =
 /** Message for SAP instance details. */
 export interface LocationDetails {
   /** Optional. Network project. */
-  networkProject?: string;
+  networkProject?: string | undefined;
   /** Required. VPC name. */
-  vpcName?: string;
+  vpcName?: string | undefined;
   /** Required. Region name. */
-  regionName?: string;
+  regionName?: string | undefined;
   /** Optional. Network tags. */
-  customTags?: StringList;
+  customTags?: StringList | undefined;
   /** Optional. When the user skips DNS configuration in the UI, `deployment_dns_enabled` is false; otherwise `deployment_dns_enabled` is true. */
-  deploymentDnsEnabled?: boolean;
+  deploymentDnsEnabled?: boolean | undefined;
   /** Optional. DNS zone name. */
-  dnsZone?: string;
+  dnsZone?: string | undefined;
   /** Optional. DNS zone name suffix. */
-  dnsZoneNameSuffix?: string;
+  dnsZoneNameSuffix?: string | undefined;
   /** Required. Subnet name. */
-  subnetName?: string;
+  subnetName?: string | undefined;
   /** Optional. Zone 2 name. */
-  zone2Name?: string;
+  zone2Name?: string | undefined;
   /** Required. Zone 1 name. */
-  zone1Name?: string;
+  zone1Name?: string | undefined;
   /** Optional. Create firewall. If true, creates a firewall for the deployment. This field provides an option to not always create a firewall for the deployment. */
-  createCommsFirewall?: boolean;
-  internetAccess?: LocationDetailsInternetAccessEnum | (string & {});
+  createCommsFirewall?: boolean | undefined;
+  internetAccess?: LocationDetailsInternetAccessEnum | (string & {}) | undefined;
 }
 /** Message for SAP instance details. */
 export interface DatabaseDetails {
   /** Optional. Primary DB VM name. */
-  primaryDbVm?: string;
+  primaryDbVm?: string | undefined;
   /** Database service account. Let customers bring their own SA for the database. */
-  databaseServiceAccount?: string;
+  databaseServiceAccount?: string | undefined;
   /** Required. The SID is a three-digit server-specific unique identification code. */
-  sid?: string;
+  sid?: string | undefined;
   /** Required. Image for the database server. */
-  image?: string;
+  image?: string | undefined;
   /** Optional. Instance ID. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Required. Disk type. */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Required. Machine type. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Optional. Secondary DB VM name. */
-  secondaryDbVm?: string;
+  secondaryDbVm?: string | undefined;
   /** Required. Secret Manager secret. */
-  secretManagerSecret?: string;
+  secretManagerSecret?: string | undefined;
 }
 /** Message for SAP instance details. */
 export interface AppDetails {
   /** Required. Image for the app server and ASCS server. */
-  image?: string;
+  image?: string | undefined;
   /** Required. Secret Manager secret. */
-  secretManagerSecret?: string;
+  secretManagerSecret?: string | undefined;
   /** Required. The SAP SID is a three-digit server-specific unique identification code. */
-  sid?: string;
+  sid?: string | undefined;
   /** Optional. Instance ID for app. */
-  appInstanceId?: string;
+  appInstanceId?: string | undefined;
   /** Application service account. Let customers bring their own service account for the application. */
-  appServiceAccount?: string;
+  appServiceAccount?: string | undefined;
   /** Optional. ERS VM name. */
-  ersVm?: string;
+  ersVm?: string | undefined;
   /** ASCS service account. Let customers bring their own service account for ASCS. */
-  ascsServiceAccount?: string;
+  ascsServiceAccount?: string | undefined;
   /** Optional. Storage location. */
-  sharedStorage?: string;
+  sharedStorage?: string | undefined;
   /** Optional. Customized VM names. */
-  appVmNames?: StringList;
+  appVmNames?: StringList | undefined;
   /** Required. Image for the ASCS server. */
-  ascsImage?: string;
+  ascsImage?: string | undefined;
   /** Required. VMs multiplier. */
-  vmsMultiplier?: number;
+  vmsMultiplier?: number | undefined;
   /** Required. ASCS machine type. */
-  ascsMachineType?: string;
+  ascsMachineType?: string | undefined;
   /** Optional. Instance ID for ERS. */
-  ersInstanceId?: string;
+  ersInstanceId?: string | undefined;
   /** Optional. ASCS VM name. */
-  ascsVm?: string;
+  ascsVm?: string | undefined;
   /** Optional. Instance ID for ASCS. */
-  ascsInstanceId?: string;
+  ascsInstanceId?: string | undefined;
   /** Required. Machine type. */
-  machineType?: string;
+  machineType?: string | undefined;
 }
 /** Message for SAP system workload. */
 export interface SapSystemS4Config {
   /** VM prefix. */
-  vmPrefix?: string;
+  vmPrefix?: string | undefined;
   /** Required. Supports scale up and scale out. */
-  scalingMethod?: SapSystemS4ConfigScalingMethodEnum | (string & {});
+  scalingMethod?: SapSystemS4ConfigScalingMethodEnum | (string & {}) | undefined;
   /** Required. Supports non-HA and HA models. */
-  deploymentModel?: SapSystemS4ConfigDeploymentModelEnum | (string & {});
+  deploymentModel?: SapSystemS4ConfigDeploymentModelEnum | (string & {}) | undefined;
   /** The project that infrastructure is deployed in. Currently only supports the same project where the deployment resource exists. */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Ansible runner service account. Let customers bring their own service account for the Ansible runner. */
-  ansibleRunnerServiceAccount?: string;
-  allowStoppingForUpdate?: boolean;
+  ansibleRunnerServiceAccount?: string | undefined;
+  allowStoppingForUpdate?: boolean | undefined;
   /** Required. Deployment environment. */
-  environmentType?: SapSystemS4ConfigEnvironmentTypeEnum | (string & {});
+  environmentType?: SapSystemS4ConfigEnvironmentTypeEnum | (string & {}) | undefined;
   /** Optional. SAP boot disk image. */
-  sapBootDiskImage?: string;
+  sapBootDiskImage?: string | undefined;
   /** Required. Media bucket name. */
-  mediaBucketName?: string;
+  mediaBucketName?: string | undefined;
   /** Required. SAP HANA version. */
-  version?: SapSystemS4ConfigVersionEnum | (string & {});
+  version?: SapSystemS4ConfigVersionEnum | (string & {}) | undefined;
   /** Database details. */
-  location?: LocationDetails;
+  location?: LocationDetails | undefined;
   /** Database details. */
-  database?: DatabaseDetails;
+  database?: DatabaseDetails | undefined;
   /** Instance details. */
-  app?: AppDetails;
+  app?: AppDetails | undefined;
 }
 export type DeploymentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -270,17 +270,17 @@ export type SqlServerWorkloadSqlServerEditionEnum =
 /** Pacemaker configuration. */
 export interface Pacemaker {
   /** Required. Pacemaker cluster username. */
-  pacemakerClusterUsername?: string;
+  pacemakerClusterUsername?: string | undefined;
   /** Required. Pacemaker cluster name. */
-  pacemakerCluster?: string;
+  pacemakerCluster?: string | undefined;
   /** Required. Pacemaker cluster secret name. */
-  pacemakerClusterSecret?: string;
+  pacemakerClusterSecret?: string | undefined;
   /** Required. Bucket location for node certificates. */
-  bucketNameNodeCertificates?: string;
+  bucketNameNodeCertificates?: string | undefined;
   /** Required. SQL Pacemaker username. */
-  sqlPacemakerUsername?: string;
+  sqlPacemakerUsername?: string | undefined;
   /** Required. SQL Pacemaker secret name. */
-  sqlPacemakerSecret?: string;
+  sqlPacemakerSecret?: string | undefined;
 }
 export type SqlLocationDetailsInternetAccessEnum =
   | "INTERNET_ACCESS_UNSPECIFIED"
@@ -289,49 +289,49 @@ export type SqlLocationDetailsInternetAccessEnum =
 /** Location and networking details for configuring SQL server workload. */
 export interface SqlLocationDetails {
   /** Optional. Create a new DNS zone when the field is empty. Only shown for `Using an existing DNS`. List of existing DNS zones. Terraform variable name: existing_dns_zone_name. */
-  dnsZone?: string;
+  dnsZone?: string | undefined;
   /** Required. The project that infrastructure is deployed in. Currently only supports the same project where the deployment resource exists. */
-  gcpProjectId?: string;
+  gcpProjectId?: string | undefined;
   /** Required. Region name. */
-  region?: string;
+  region?: string | undefined;
   /** Optional. Secondary zone cannot be the same as primary_zone and is only for High Availability deployment mode. */
-  secondaryZone?: string;
+  secondaryZone?: string | undefined;
   /** Required. Subnetwork name. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** Required. Internet Access. */
-  internetAccess?: SqlLocationDetailsInternetAccessEnum | (string & {});
+  internetAccess?: SqlLocationDetailsInternetAccessEnum | (string & {}) | undefined;
   /** Required. Primary zone. */
-  primaryZone?: string;
+  primaryZone?: string | undefined;
   /** Optional. Tertiary zone cannot be the same as primary_zone and secondary_zone, and it is only for High Availability deployment mode. */
-  tertiaryZone?: string;
+  tertiaryZone?: string | undefined;
   /** Required. Network name. */
-  network?: string;
+  network?: string | undefined;
 }
 export type DatabaseTenancyModelEnum = "TENANCY_MODEL_UNSPECIFIED" | "SHARED" | "SOLE_TENANT";
 /** Database details. */
 export interface Database {
   /** Required. Secret Manager secret. */
-  secretManagerSecret?: string;
+  secretManagerSecret?: string | undefined;
   /** Optional. The type of a secondary-sole-tenant node/node group. E.g., compute.googleapis.com/node-name. */
-  secondarySoleTenantNodeType?: string;
+  secondarySoleTenantNodeType?: string | undefined;
   /** Required. Machine type. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Optional. The name of a secondary-sole-tenant node/node group. */
-  secondarySoleTenantNode?: string;
+  secondarySoleTenantNode?: string | undefined;
   /** Required. Whether to have TempDB on local SSD. */
-  tempdbOnSsd?: boolean;
+  tempdbOnSsd?: boolean | undefined;
   /** Optional. The type of a primary sole-tenant node/node group. E.g., compute.googleapis.com/node-name. */
-  soleTenantNodeType?: string;
+  soleTenantNodeType?: string | undefined;
   /** Required. Whether simultaneous multithreading is enabled or not. */
-  smt?: boolean;
+  smt?: boolean | undefined;
   /** Required. Disk type. */
-  diskType?: string;
+  diskType?: string | undefined;
   /** Optional. The name of a primary sole-tenant node/node group. */
-  soleTenantNode?: string;
+  soleTenantNode?: string | undefined;
   /** Optional. Only useful for Linux High Availability setup. */
-  floatingIpAddress?: string;
+  floatingIpAddress?: string | undefined;
   /** Required. SHARED or SOLE_TENANT. */
-  tenancyModel?: DatabaseTenancyModelEnum | (string & {});
+  tenancyModel?: DatabaseTenancyModelEnum | (string & {}) | undefined;
 }
 export type SqlServerWorkloadHaTypeEnum = "HA_TYPE_UNSPECIFIED" | "AOAG" | "FCI";
 export type SqlServerWorkloadOperatingSystemTypeEnum =
@@ -357,15 +357,15 @@ export type ActiveDirectoryTypeEnum =
 /** Active Directory details. */
 export interface ActiveDirectory {
   /** Optional. Domain username. */
-  domainUsername?: string;
+  domainUsername?: string | undefined;
   /** Required. Active Directory type. */
-  type?: ActiveDirectoryTypeEnum | (string & {});
+  type?: ActiveDirectoryTypeEnum | (string & {}) | undefined;
   /** Optional. Human readable form of a domain such as `example.com`. */
-  domain?: string;
+  domain?: string | undefined;
   /** Required. Secret Manager secret. */
-  secretManagerSecret?: string;
+  secretManagerSecret?: string | undefined;
   /** Optional. DNS IP address. */
-  dnsAddress?: string;
+  dnsAddress?: string | undefined;
 }
 export type SqlServerWorkloadDeploymentModelEnum =
   | "DEPLOYMENT_MODEL_UNSPECIFIED"
@@ -374,105 +374,105 @@ export type SqlServerWorkloadDeploymentModelEnum =
 /** Message for MS SQL workload. */
 export interface SqlServerWorkload {
   /** Optional. OS image type. It's used to create boot disks for VM instances. When either Windows licensing type or SQL licensing type is BYOL, this option is disabled and defaults to a custom image. */
-  osImageType?: SqlServerWorkloadOsImageTypeEnum | (string & {});
+  osImageType?: SqlServerWorkloadOsImageTypeEnum | (string & {}) | undefined;
   /** Optional. SQL Server Edition type, only applicable when the operating system is Linux. */
-  sqlServerEdition?: SqlServerWorkloadSqlServerEditionEnum | (string & {});
+  sqlServerEdition?: SqlServerWorkloadSqlServerEditionEnum | (string & {}) | undefined;
   /** Required. Name of the media storing SQL server installation files. */
-  mediaBucket?: string;
+  mediaBucket?: string | undefined;
   /** Optional. Pacemaker configuration, only applicable for Linux HA deployments. */
-  pacemaker?: Pacemaker;
+  pacemaker?: Pacemaker | undefined;
   /** Required. Location details. */
-  location?: SqlLocationDetails;
+  location?: SqlLocationDetails | undefined;
   /** Compute Engine service account. Let customers bring their own service account for Compute Engine. */
-  computeEngineServiceAccount?: string;
+  computeEngineServiceAccount?: string | undefined;
   /** Required. Database details. */
-  database?: Database;
+  database?: Database | undefined;
   /** Optional. AOAG or FCI. It is only needed for the High Availability deployment mode. */
-  haType?: SqlServerWorkloadHaTypeEnum | (string & {});
+  haType?: SqlServerWorkloadHaTypeEnum | (string & {}) | undefined;
   /** Required. The type of the operating system the SQL server is going to run on top of. */
-  operatingSystemType?: SqlServerWorkloadOperatingSystemTypeEnum | (string & {});
+  operatingSystemType?: SqlServerWorkloadOperatingSystemTypeEnum | (string & {}) | undefined;
   /** Required. Deployment environment. */
-  environmentType?: SqlServerWorkloadEnvironmentTypeEnum | (string & {});
+  environmentType?: SqlServerWorkloadEnvironmentTypeEnum | (string & {}) | undefined;
   /** Optional. SHARED_DISK or S2D. */
-  fciType?: SqlServerWorkloadFciTypeEnum | (string & {});
+  fciType?: SqlServerWorkloadFciTypeEnum | (string & {}) | undefined;
   /** Optional. 2017, 2019, or 2022. */
-  sqlServerVersion?: SqlServerWorkloadSqlServerVersionEnum | (string & {});
+  sqlServerVersion?: SqlServerWorkloadSqlServerVersionEnum | (string & {}) | undefined;
   /** Required. Should be unique in the project. */
-  vmPrefix?: string;
+  vmPrefix?: string | undefined;
   /** Required. The image of the operating system. */
-  osImage?: string;
+  osImage?: string | undefined;
   /** Required. Active Directory details. */
-  activeDirectory?: ActiveDirectory;
+  activeDirectory?: ActiveDirectory | undefined;
   /** Required. SQL licensing type. */
-  isSqlPayg?: boolean;
+  isSqlPayg?: boolean | undefined;
   /** Required. HIGH_AVAILABILITY or SINGLE_INSTANCE. */
-  deploymentModel?: SqlServerWorkloadDeploymentModelEnum | (string & {});
+  deploymentModel?: SqlServerWorkloadDeploymentModelEnum | (string & {}) | undefined;
 }
 /** The Deployment object represents user intent for deploying a specific type of workload. */
 export interface Deployment {
   /** Output only. Update time stamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. terraform_variables represents all the Terraform variables for the deployment workload. The key is the name of the Terraform variable, and the value is the TerraformVariable. For example: { "project_id": { "input_value": { "string_value": "my-project-id" } }, "zone": { "input_value": { "string_value": "us-central1-a" } } } */
-  terraformVariables?: TerraformVariableMap;
+  terraformVariables?: TerraformVariableMap | undefined;
   /** Output only. Create time stamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** SAP system workload input. */
-  sapSystemS4Config?: SapSystemS4Config;
+  sapSystemS4Config?: SapSystemS4Config | undefined;
   /** Output only. Current state of the deployment. */
-  state?: DeploymentStateEnum | (string & {});
+  state?: DeploymentStateEnum | (string & {}) | undefined;
   /** Optional. Workload type of the deployment. */
-  workloadType?: DeploymentWorkloadTypeEnum | (string & {});
+  workloadType?: DeploymentWorkloadTypeEnum | (string & {}) | undefined;
   /** Optional. The user-specified Cloud Build worker pool resource in which the Cloud Build job will execute. Format: `projects/{project}/locations/{location}/workerPools/{workerPoolId}`. If this field is unspecified, the default Cloud Build worker pool will be used. */
-  workerPool?: string;
+  workerPool?: string | undefined;
   /** Description of the deployment. */
-  description?: string;
+  description?: string | undefined;
   /** User-specified Service Account (SA) credentials to be used for Cloud Build. Format: `projects/{projectID}/serviceAccounts/{serviceAccount}` The default Cloud Build SA will be used initially if this field is not set during deployment creation. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** The name of the deployment resource. The format is 'projects/{project_id}/locations/{location_id}/deployments/{deployment_id}'. */
-  name?: string;
+  name?: string | undefined;
   /** MS SQL workload input. */
-  sqlServerWorkload?: SqlServerWorkload;
+  sqlServerWorkload?: SqlServerWorkload | undefined;
 }
 export interface CreateProjectsLocationsDeploymentsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. ID of the deployment. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** Required. The resource prefix of the Deployment using the form: `projects/{project_id}/locations/{location_id}` */
   parent: string;
   /** Request body */
-  body?: Deployment;
+  body?: Deployment | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 /** Message for output of deployment resource. */
 export interface DeploymentOutput {
   /** Type of the resource. */
-  type?: string;
+  type?: string | undefined;
   /** Name of the resource. */
-  name?: string;
+  name?: string | undefined;
 }
 export type DeploymentOutputList = Array<DeploymentOutput>;
 export type ActuationStateEnum =
@@ -500,48 +500,48 @@ export type ActuationOutputErrorCodeEnum =
 /** Message for output of actuation. */
 export interface ActuationOutput {
   /** Output only. Failed task name returned from Ansible. */
-  ansibleFailedTask?: StringList;
+  ansibleFailedTask?: StringList | undefined;
   /** Output only. Error message returned from Terraform. */
-  terraformError?: string;
+  terraformError?: string | undefined;
   /** Reference to the Terraform template used. */
-  terraformTemplate?: string;
+  terraformTemplate?: string | undefined;
   /** Output only. Error message returned from Ansible. */
-  ansibleError?: string;
+  ansibleError?: string | undefined;
   /** Output only. Whether the error message is user facing. If true, the error message will be shown in the UI. */
-  hasUserFacingErrorMsg?: boolean;
+  hasUserFacingErrorMsg?: boolean | undefined;
   /** Reference to the Blueprint Controller deployment and revision resource. */
-  blueprintId?: string;
+  blueprintId?: string | undefined;
   /** A link to the Cloud Storage file that stores build logs. */
-  actuateLogs?: string;
+  actuateLogs?: string | undefined;
   /** Output only. Code describing any errors that may have occurred. If not specified, there is no error in actuation. */
-  errorCode?: ActuationOutputErrorCodeEnum | (string & {});
+  errorCode?: ActuationOutputErrorCodeEnum | (string & {}) | undefined;
   /** Cloud Build instance UUID associated with this revision, without any suffix or prefix */
-  cloudbuildId?: string;
+  cloudbuildId?: string | undefined;
   /** A link to the actuation Cloud Build log. */
-  errorLogs?: string;
+  errorLogs?: string | undefined;
 }
 /** The Actuation object represents the bootstrap state and output results of deployed infrastructure and software. */
 export interface Actuation {
   /** Output only. Deployment output. */
-  deploymentOutput?: DeploymentOutputList;
+  deploymentOutput?: DeploymentOutputList | undefined;
   /** The name of the actuation resource. The format is projects/{project}/locations/{location}/deployments/{deployment}/actuations/{actuation}. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. End time stamp. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. Actuation state. */
-  state?: ActuationStateEnum | (string & {});
+  state?: ActuationStateEnum | (string & {}) | undefined;
   /** Output only. Start time stamp. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Actuation output. */
-  actuationOutput?: ActuationOutput;
+  actuationOutput?: ActuationOutput | undefined;
 }
 export interface CreateProjectsLocationsDeploymentsActuationsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource name of the Actuation location using the form: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
   /** Request body */
-  body?: Actuation;
+  body?: Actuation | undefined;
 }
 export type EvaluationEvaluationTypeEnum =
   | "EVALUATION_TYPE_UNSPECIFIED"
@@ -552,76 +552,76 @@ export type ResourceStatusStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "ACTIVE
 /** The lifecycle status of an Evaluation resource. */
 export interface ResourceStatus {
   /** State of the Evaluation resource. */
-  state?: ResourceStatusStateEnum | (string & {});
+  state?: ResourceStatusStateEnum | (string & {}) | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** A filter for matching Compute Engine instances. */
 export interface GceInstanceFilter {
   /** If non-empty, only Compute Engine instances associated with at least one of the provided service accounts will be included in the evaluation. */
-  serviceAccounts?: StringList;
+  serviceAccounts?: StringList | undefined;
 }
 /** Resource filter for an evaluation defining the scope of resources to be evaluated. */
 export interface ResourceFilter {
   /** Labels to filter resources by. Each key-value pair in the map must exist on the resource for it to be included (e.g. VM instance labels). For example, specifying `{ "env": "prod", "database": "nosql" }` will only include resources that have labels `env=prod` and `database=nosql`. */
-  inclusionLabels?: StringMap;
+  inclusionLabels?: StringMap | undefined;
   /** Filter compute engine resources. */
-  gceInstanceFilter?: GceInstanceFilter;
+  gceInstanceFilter?: GceInstanceFilter | undefined;
   /** The scopes of evaluation resource. Format: * `projects/{project_id}` * `folders/{folder_id}` * `organizations/{organization_id}` */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** The pattern to filter resources by their id For example, a pattern of ".*prod-cluster.*" will match all resources that contain "prod-cluster" in their ID. */
-  resourceIdPatterns?: StringList;
+  resourceIdPatterns?: StringList | undefined;
 }
 /** BigQuery destination for evaluation results. */
 export interface BigQueryDestination {
   /** Optional. Determines if a new results table will be created when an Execution is created. */
-  createNewResultsTable?: boolean;
+  createNewResultsTable?: boolean | undefined;
   /** Optional. Destination dataset to save evaluation results. */
-  destinationDataset?: string;
+  destinationDataset?: string | undefined;
 }
 /** Represents a Workload Manager Evaluation configuration. An Evaluation defines a set of rules to be validated against a scope of Cloud resources. */
 export interface Evaluation {
   /** Name of resource that has the form `projects/{project_id}/locations/{location_id}/evaluations/{evaluation_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Evaluation type. */
-  evaluationType?: EvaluationEvaluationTypeEnum | (string & {});
+  evaluationType?: EvaluationEvaluationTypeEnum | (string & {}) | undefined;
   /** Optional. Immutable. Customer-managed encryption key name, in the format projects/*\/locations/*\/keyRings/*\/cryptoKeys/*. The key will be used for CMEK encryption of the evaluation resource. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
   /** Output only. [Output only] The current lifecycle state of the evaluation resource. */
-  resourceStatus?: ResourceStatus;
+  resourceStatus?: ResourceStatus | undefined;
   /** The Cloud Storage bucket name for custom rules. */
-  customRulesBucket?: string;
+  customRulesBucket?: string | undefined;
   /** Resource filter for an evaluation defining the scope of resources to be evaluated. */
-  resourceFilter?: ResourceFilter;
+  resourceFilter?: ResourceFilter | undefined;
   /** Description of the Evaluation. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. [Output only] Create time stamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The names of the rules used for this evaluation. */
-  ruleNames?: StringList;
+  ruleNames?: StringList | undefined;
   /** Crontab format schedule for scheduled evaluation, currently only supports the following fixed schedules: * `0 *\/1 * * *` # Hourly * `0 *\/6 * * *` # Every 6 hours * `0 *\/12 * * *` # Every 12 hours * `0 0 *\/1 * *` # Daily * `0 0 *\/7 * *` # Weekly * `0 0 *\/14 * *` # Every 14 days * `0 0 1 *\/1 *` # Monthly */
-  schedule?: string;
+  schedule?: string | undefined;
   /** Optional. The BigQuery destination for detailed evaluation results. If this field is specified, the results of each evaluation execution are exported to BigQuery. */
-  bigQueryDestination?: BigQueryDestination;
+  bigQueryDestination?: BigQueryDestination | undefined;
   /** Output only. [Output only] Update time stamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsEvaluationsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The resource prefix of the evaluation location using the form: `projects/{project_id}/locations/{location_id}`. */
   parent: string;
   /** Required. Id of the requesting object. */
-  evaluationId?: string;
+  evaluationId?: string | undefined;
   /** Request body */
-  body?: Evaluation;
+  body?: Evaluation | undefined;
 }
 export interface DeleteProjectsLocationsDeploymentsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Optional. If set to true, any actuation will also be deleted. Follows the best practice from https://aip.dev/135#cascading-delete. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsDeploymentsActuationsRequest {
   /** Required. The name of the actuation to delete. projects/{project}/locations/{location}/deployments/{deployment}/actuations/{actuation}. */
@@ -631,13 +631,13 @@ export interface DeleteProjectsLocationsEvaluationsRequest {
   /** Required. Name of the resource. */
   name: string;
   /** Optional. Followed the best practice from https://aip.dev/135#cascading-delete. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsEvaluationsExecutionsRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Name of the resource. */
   name: string;
 }
@@ -645,7 +645,7 @@ export interface DeleteProjectsLocationsInsightsRequest {
   /** Required. The system id of the SAP system resource to delete. Formatted as projects/{project}/locations/{location}/sapSystems/{sap_system_id} */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -658,15 +658,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsDeploymentsRequest {
   /** Required. Name of the resource. The format is 'projects/{project_id}/locations/{location_id}/deployments/{deployment_id}'. */
@@ -692,9 +692,9 @@ export type BackupPropertiesLatestBackupStatusEnum =
 /** Backup properties. */
 export interface BackupProperties {
   /** The time when the latest backup was performed. */
-  latestBackupTime?: string;
+  latestBackupTime?: string | undefined;
   /** Output only. The state of the latest backup. */
-  latestBackupStatus?: BackupPropertiesLatestBackupStatusEnum;
+  latestBackupStatus?: BackupPropertiesLatestBackupStatusEnum | undefined;
 }
 export type DatabasePropertiesDatabaseTypeEnum =
   | "DATABASE_TYPE_UNSPECIFIED"
@@ -707,9 +707,9 @@ export type DatabasePropertiesDatabaseTypeEnum =
 /** Database Properties. */
 export interface DatabaseProperties {
   /** Output only. Backup properties. */
-  backupProperties?: BackupProperties;
+  backupProperties?: BackupProperties | undefined;
   /** Output only. Type of the database. `HANA`, `DB2`, etc. */
-  databaseType?: DatabasePropertiesDatabaseTypeEnum;
+  databaseType?: DatabasePropertiesDatabaseTypeEnum | undefined;
 }
 export type InstancePropertiesRolesItemEnum =
   | "INSTANCE_ROLE_UNSPECIFIED"
@@ -722,15 +722,15 @@ export type InstancePropertiesRolesItemEnumList = Array<InstancePropertiesRolesI
 /** Maintenance Event */
 export interface UpcomingMaintenanceEvent {
   /** Optional. Start time */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Optional. Maintenance status */
-  maintenanceStatus?: string;
+  maintenanceStatus?: string | undefined;
   /** Optional. Instance maintenance behavior. Could be `MIGRATE` or `TERMINATE`. */
-  onHostMaintenance?: string;
+  onHostMaintenance?: string | undefined;
   /** Optional. Type */
-  type?: string;
+  type?: string | undefined;
   /** Optional. End time */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type ServiceStatesStateEnum =
   | "STATE_UNSPECIFIED"
@@ -742,54 +742,54 @@ export type ServiceStatesStateEnum =
 /** The IAM permission status. */
 export interface IAMPermission {
   /** Output only. The name of the permission. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Whether the permission is granted. */
-  granted?: boolean;
+  granted?: boolean | undefined;
 }
 export type IAMPermissionList = Array<IAMPermission>;
 /** The state of the service. */
 export interface ServiceStates {
   /** Output only. The overall state of the service. */
-  state?: ServiceStatesStateEnum;
+  state?: ServiceStatesStateEnum | undefined;
   /** Optional. Output only. The IAM permissions for the service. */
-  iamPermissions?: IAMPermissionList;
+  iamPermissions?: IAMPermissionList | undefined;
 }
 /** Agent status. */
 export interface AgentStates {
   /** Optional. The available version of the agent in artifact registry. */
-  availableVersion?: string;
+  availableVersion?: string | undefined;
   /** Optional. Whether the agent is fully enabled. If false, the agent is has some issues. */
-  isFullyEnabled?: boolean;
+  isFullyEnabled?: boolean | undefined;
   /** Optional. The Process metrics of the agent. */
-  processMetrics?: ServiceStates;
+  processMetrics?: ServiceStates | undefined;
   /** Optional. HANA monitoring metrics of the agent. */
-  hanaMonitoring?: ServiceStates;
+  hanaMonitoring?: ServiceStates | undefined;
   /** Optional. The System discovery metrics of the agent. */
-  systemDiscovery?: ServiceStates;
+  systemDiscovery?: ServiceStates | undefined;
   /** Optional. The installed version of the agent on the host. */
-  installedVersion?: string;
+  installedVersion?: string | undefined;
 }
 /** SAP instance properties. */
 export interface SapInstanceProperties {
   /** Optional. Sap Instance Agent status. */
-  agentStates?: AgentStates;
+  agentStates?: AgentStates | undefined;
   /** Optional. SAP Instance numbers. They are from '00' to '99'. */
-  numbers?: StringList;
+  numbers?: StringList | undefined;
 }
 /** Instance Properties. */
 export interface InstanceProperties {
   /** Optional. Instance number. */
-  instanceNumber?: string;
+  instanceNumber?: string | undefined;
   /** Optional. Instance machine type. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Optional. Instance status. */
-  status?: string;
+  status?: string | undefined;
   /** Optional. Instance roles. */
-  roles?: InstancePropertiesRolesItemEnumList;
+  roles?: InstancePropertiesRolesItemEnumList | undefined;
   /** Optional. the next maintenance event on VM */
-  upcomingMaintenanceEvent?: UpcomingMaintenanceEvent;
+  upcomingMaintenanceEvent?: UpcomingMaintenanceEvent | undefined;
   /** Optional. SAP Instance properties. */
-  sapInstanceProperties?: SapInstanceProperties;
+  sapInstanceProperties?: SapInstanceProperties | undefined;
 }
 export type CloudResourceKindEnum =
   | "RESOURCE_KIND_UNSPECIFIED"
@@ -807,25 +807,25 @@ export type CloudResourceKindEnum =
 /** The resource on GCP */
 export interface CloudResource {
   /** Output only. resource name Example: compute.googleapis.com/projects/wlm-obs-dev/zones/us-central1-a/instances/sap-pri */
-  name?: string;
+  name?: string | undefined;
   /** Output only. All instance properties. */
-  instanceProperties?: InstanceProperties;
+  instanceProperties?: InstanceProperties | undefined;
   /** Output only. */
-  kind?: CloudResourceKindEnum;
+  kind?: CloudResourceKindEnum | undefined;
 }
 export type CloudResourceList = Array<CloudResource>;
 /** The component of sap workload */
 export interface SapComponent {
   /** Output only. sid is the sap component identificator */
-  sid?: string;
+  sid?: string | undefined;
   /** The detected topology of the component. */
-  topologyType?: SapComponentTopologyTypeEnum;
+  topologyType?: SapComponentTopologyTypeEnum | undefined;
   /** Output only. All instance properties. */
-  databaseProperties?: DatabaseProperties;
+  databaseProperties?: DatabaseProperties | undefined;
   /** List of host URIs that are part of the HA configuration if present. An empty list indicates the component is not configured for HA. */
-  haHosts?: StringList;
+  haHosts?: StringList | undefined;
   /** Output only. resources in the component */
-  resources?: CloudResourceList;
+  resources?: CloudResourceList | undefined;
 }
 export type SapWorkloadArchitectureEnum =
   | "ARCHITECTURE_UNSPECIFIED"
@@ -838,36 +838,36 @@ export type SapWorkloadArchitectureEnum =
 /** Contains the details of a product. */
 export interface Product {
   /** Optional. Version of the product. */
-  version?: string;
+  version?: string | undefined;
   /** Optional. Name of the product. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ProductList = Array<Product>;
 /** The body of sap workload */
 export interface SapWorkload {
   /** Output only. database component */
-  database?: SapComponent;
+  database?: SapComponent | undefined;
   /** Output only. The architecture. */
-  architecture?: SapWorkloadArchitectureEnum;
+  architecture?: SapWorkloadArchitectureEnum | undefined;
   /** Output only. application component */
-  application?: SapComponent;
+  application?: SapComponent | undefined;
   /** Output only. The metadata for SAP workload. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Output only. The products on this workload. */
-  products?: ProductList;
+  products?: ProductList | undefined;
 }
 /** Workload resource. */
 export interface WorkloadProfile {
   /** Identifier. name of resource names have the form 'projects/{project_id}/locations/{location}/workloadProfiles/{workload_id}' */
-  name?: string;
+  name?: string | undefined;
   /** Optional. such as name, description, version. More example can be found in deployment */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. The type of the workload */
-  workloadType?: WorkloadProfileWorkloadTypeEnum;
+  workloadType?: WorkloadProfileWorkloadTypeEnum | undefined;
   /** The sap workload content */
-  sapWorkload?: SapWorkload;
+  sapWorkload?: SapWorkload | undefined;
   /** Required. time when the workload data was refreshed */
-  refreshedTime?: string;
+  refreshedTime?: string | undefined;
 }
 export interface GetProjectsLocationsDiscoveredprofilesHealthRequest {
   /** Required. The resource name */
@@ -883,15 +883,15 @@ export type HealthCheckStateEnum =
 /** HealthCheck contains the detailed health check of a component based on asource. */
 export interface HealthCheck {
   /** Output only. The source of the health check. */
-  source?: string;
+  source?: string | undefined;
   /** Output only. The message of the health check. */
-  message?: string;
+  message?: string | undefined;
   /** Output only. The health check source metric name. */
-  metric?: string;
+  metric?: string | undefined;
   /** Output only. The resource the check performs on. */
-  resource?: CloudResource;
+  resource?: CloudResource | undefined;
   /** Output only. The state of the health check. */
-  state?: HealthCheckStateEnum;
+  state?: HealthCheckStateEnum | undefined;
 }
 export type HealthCheckList = Array<HealthCheck>;
 export type ComponentHealthComponentHealthTypeEnum =
@@ -908,15 +908,15 @@ export type ComponentHealthStateEnum =
 /** HealthCondition contains the detailed health check of each component. */
 export interface ComponentHealth {
   /** The detailed health checks of the component. */
-  componentHealthChecks?: HealthCheckList;
+  componentHealthChecks?: HealthCheckList | undefined;
   /** Sub component health. */
-  subComponentsHealth?: ComponentHealthList;
+  subComponentsHealth?: ComponentHealthList | undefined;
   /** Output only. The type of the component health. */
-  componentHealthType?: ComponentHealthComponentHealthTypeEnum;
+  componentHealthType?: ComponentHealthComponentHealthTypeEnum | undefined;
   /** The component of a workload. */
-  component?: string;
+  component?: string | undefined;
   /** Output only. The health state of the component. */
-  state?: ComponentHealthStateEnum;
+  state?: ComponentHealthStateEnum | undefined;
 }
 export type ComponentHealthList = Array<ComponentHealth>;
 export type WorkloadProfileHealthStateEnum =
@@ -928,11 +928,11 @@ export type WorkloadProfileHealthStateEnum =
 /** WorkloadProfileHealth contains the detailed health check of workload. */
 export interface WorkloadProfileHealth {
   /** The time when the health check was performed. */
-  checkTime?: string;
+  checkTime?: string | undefined;
   /** The detailed condition reports of each component. */
-  componentsHealth?: ComponentHealthList;
+  componentsHealth?: ComponentHealthList | undefined;
   /** Output only. The health state of the workload. */
-  state?: WorkloadProfileHealthStateEnum;
+  state?: WorkloadProfileHealthStateEnum | undefined;
 }
 export interface GetProjectsLocationsEvaluationsRequest {
   /** Required. Name of the resource. */
@@ -947,17 +947,17 @@ export type ExecutionStateEnum = "STATE_UNSPECIFIED" | "RUNNING" | "SUCCEEDED" |
 /** Additional information generated by an execution. */
 export interface Notice {
   /** Output only. Message of the notice. */
-  message?: string;
+  message?: string | undefined;
 }
 export type NoticeList = Array<Notice>;
 /** Execution summary. */
 export interface Summary {
   /** Output only. Number of new failures compared to the previous execution. */
-  newFailures?: string;
+  newFailures?: string | undefined;
   /** Output only. Number of new fixes compared to the previous execution. */
-  newFixes?: string;
+  newFixes?: string | undefined;
   /** Output only. Number of failures. */
-  failures?: string;
+  failures?: string | undefined;
 }
 export type RuleExecutionResultStateEnum =
   | "STATE_UNSPECIFIED"
@@ -967,15 +967,15 @@ export type RuleExecutionResultStateEnum =
 /** Execution result summary per rule. */
 export interface RuleExecutionResult {
   /** Rule name as plain text like `sap-hana-configured`. */
-  rule?: string;
+  rule?: string | undefined;
   /** Number of violations. */
-  resultCount?: string;
+  resultCount?: string | undefined;
   /** Execution message, if any. */
-  message?: string;
+  message?: string | undefined;
   /** Output only. The execution status. */
-  state?: RuleExecutionResultStateEnum | (string & {});
+  state?: RuleExecutionResultStateEnum | (string & {}) | undefined;
   /** Number of total scanned resources. */
-  scannedResourceCount?: string;
+  scannedResourceCount?: string | undefined;
 }
 export type RuleExecutionResultList = Array<RuleExecutionResult>;
 export type ExecutionEngineEnum = "ENGINE_UNSPECIFIED" | "ENGINE_SCANNER" | "V2";
@@ -983,43 +983,43 @@ export type ExternalDataSourcesTypeEnum = "TYPE_UNSPECIFIED" | "BIG_QUERY_TABLE"
 /** External data sources for an execution. */
 export interface ExternalDataSources {
   /** Required. Type of external data source. */
-  type?: ExternalDataSourcesTypeEnum | (string & {});
+  type?: ExternalDataSourcesTypeEnum | (string & {}) | undefined;
   /** Optional. Name of external data source. The name will be used inside the rego/sql to refer the external data. */
-  name?: string;
+  name?: string | undefined;
   /** Required. URI of external data source. example of bq table {project_ID}.{dataset_ID}.{table_ID}. */
-  uri?: string;
+  uri?: string | undefined;
   /** Required. The asset type of the external data source. This can be a supported Cloud Asset Inventory asset type (see https://cloud.google.com/asset-inventory/docs/supported-asset-types) to override the default asset type, or it can be a custom type defined by the user. */
-  assetType?: string;
+  assetType?: string | undefined;
 }
 export type ExternalDataSourcesList = Array<ExternalDataSources>;
 /** Execution that represents a single run of an Evaluation. */
 export interface Execution {
   /** Output only. [Output only] Inventory time stamp. */
-  inventoryTime?: string;
+  inventoryTime?: string | undefined;
   /** The name of execution resource. The format is projects/{project}/locations/{location}/evaluations/{evaluation}/executions/{execution}. */
-  name?: string;
+  name?: string | undefined;
   /** Type which represents whether the execution executed directly by user or scheduled according to the `Evaluation.schedule` field. */
-  runType?: ExecutionRunTypeEnum | (string & {});
+  runType?: ExecutionRunTypeEnum | (string & {}) | undefined;
   /** Output only. [Output only] State. */
-  state?: ExecutionStateEnum | (string & {});
+  state?: ExecutionStateEnum | (string & {}) | undefined;
   /** Output only. Additional information generated by the execution. */
-  notices?: NoticeList;
+  notices?: NoticeList | undefined;
   /** Output only. [Output only] Evaluation ID. */
-  evaluationId?: string;
+  evaluationId?: string | undefined;
   /** Output only. [Output only] Start time stamp. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. [Output only] Result summary for the execution. */
-  resultSummary?: Summary;
+  resultSummary?: Summary | undefined;
   /** Output only. [Output only] End time stamp. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. Execution result summary per rule. */
-  ruleResults?: RuleExecutionResultList;
+  ruleResults?: RuleExecutionResultList | undefined;
   /** Optional. Engine. */
-  engine?: ExecutionEngineEnum | (string & {});
+  engine?: ExecutionEngineEnum | (string & {}) | undefined;
   /** Labels as key value pairs. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. External data sources. */
-  externalDataSources?: ExternalDataSourcesList;
+  externalDataSources?: ExternalDataSourcesList | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1027,13 +1027,13 @@ export interface GetProjectsLocationsOperationsRequest {
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
 }
@@ -1041,258 +1041,258 @@ export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsDeploymentsRequest {
   /** Required. The resource prefix of the Deployment using the form: `projects/{project_id}/locations/{location_id}` */
   parent: string;
   /** Optional. Filter resource following https://google.aip.dev/160. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type DeploymentList = Array<Deployment>;
 /** Message for response to listing deployments. */
 export interface ListDeploymentsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of deployments. */
-  deployments?: DeploymentList;
+  deployments?: DeploymentList | undefined;
 }
 export interface ListProjectsLocationsDeploymentsActuationsRequest {
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The resource prefix of the Actuation using the form: 'projects/{project_id}/locations/{location}/deployments/{deployment}'. */
   parent: string;
   /** Optional. Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ActuationList = Array<Actuation>;
 /** The response object from `ListActuations`. */
 export interface ListActuationsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of actuations. */
-  actuations?: ActuationList;
+  actuations?: ActuationList | undefined;
 }
 export interface ListProjectsLocationsDiscoveredprofilesRequest {
   /** Optional. A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. Parent value for ListDiscoveredProfilesRequest */
   parent: string;
   /** Optional. Filtering results */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type WorkloadProfileList = Array<WorkloadProfile>;
 /** List discovered profile Response returns discovered profiles from agents */
 export interface ListDiscoveredProfilesResponse {
   /** Output only. The list of workload profiles */
-  workloadProfiles?: WorkloadProfileList;
+  workloadProfiles?: WorkloadProfileList | undefined;
   /** Output only. A token identifying a page of results the server should return */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsEvaluationsRequest {
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Hint for how to order the results. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent value for ListEvaluationsRequest. */
   parent: string;
   /** Filter to be applied when listing the evaluation results. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type EvaluationList = Array<Evaluation>;
 /** Response message for the ListEvaluations RPC. */
 export interface ListEvaluationsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The list of evaluations. */
-  evaluations?: EvaluationList;
+  evaluations?: EvaluationList | undefined;
 }
 export interface ListProjectsLocationsEvaluationsExecutionsRequest {
   /** Required. The resource prefix of the Execution using the form: `projects/{project}/locations/{location}/evaluations/{evaluation}`. */
   parent: string;
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ExecutionList = Array<Execution>;
 /** Response message for the ListExecutions RPC. */
 export interface ListExecutionsResponse {
   /** A token identifying a page of results the server should return. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of Execution. */
-  executions?: ExecutionList;
+  executions?: ExecutionList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsEvaluationsExecutionsResultsRequest {
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The execution results. Format: {parent}/evaluations/*\/executions/*\/results. */
   parent: string;
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** A ShellCommand is invoked via the agent's command line executor. */
 export interface ShellCommand {
   /** Optional. If not specified, the default timeout is 60 seconds. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Arguments to be passed to the command. */
-  args?: string;
+  args?: string | undefined;
   /** The name of the command to be executed. */
-  command?: string;
+  command?: string | undefined;
 }
 /** An AgentCommand specifies a one-time executable program for the agent to run. */
 export interface AgentCommand {
   /** A map of key/value pairs that can be used to specify additional one-time executable settings. */
-  parameters?: StringMap;
+  parameters?: StringMap | undefined;
   /** The name of the agent one-time executable that will be invoked. */
-  command?: string;
+  command?: string | undefined;
 }
 /** Command specifies the type of command to execute. */
 export interface Command {
   /** ShellCommand is invoked via the agent's command line executor. */
-  shellCommand?: ShellCommand;
+  shellCommand?: ShellCommand | undefined;
   /** AgentCommand specifies a one-time executable program for the agent to run. */
-  agentCommand?: AgentCommand;
+  agentCommand?: AgentCommand | undefined;
 }
 export type CommandList = Array<Command>;
 export type ExecutionResultTypeEnum = "TYPE_UNSPECIFIED" | "TYPE_PASSED" | "TYPE_VIOLATED";
 /** The rule output of the violation. */
 export interface RuleOutput {
   /** Output only. The message generated by rule. */
-  message?: string;
+  message?: string | undefined;
   /** Output only. Violation details generated by rule. */
-  details?: StringMap;
+  details?: StringMap | undefined;
 }
 export type RuleOutputList = Array<RuleOutput>;
 /** The violation in an evaluation result. */
 export interface ViolationDetails {
   /** Output only. The rule output of the violation. */
-  ruleOutput?: RuleOutputList;
+  ruleOutput?: RuleOutputList | undefined;
   /** Details of the violation. */
-  observed?: StringMap;
+  observed?: StringMap | undefined;
   /** The name of the asset. */
-  asset?: string;
+  asset?: string | undefined;
   /** The service account associated with the resource. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
 }
 /** Resource in execution result. */
 export interface Resource {
   /** The name of the resource. */
-  name?: string;
+  name?: string | undefined;
   /** The type of resource. */
-  type?: string;
+  type?: string | undefined;
   /** The service account associated with the resource. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
 }
 /** The result of an execution. */
 export interface ExecutionResult {
   /** The URL for the documentation of the rule. */
-  documentationUrl?: string;
+  documentationUrl?: string | undefined;
   /** The commands to remediate the violation. */
-  commands?: CommandList;
+  commands?: CommandList | undefined;
   /** The rule that is violated in an evaluation. */
-  rule?: string;
+  rule?: string | undefined;
   /** Execution result type of the scanned resource. */
-  type?: ExecutionResultTypeEnum;
+  type?: ExecutionResultTypeEnum | undefined;
   /** The severity of violation. */
-  severity?: string;
+  severity?: string | undefined;
   /** The details of violation in an evaluation result. */
-  violationDetails?: ViolationDetails;
+  violationDetails?: ViolationDetails | undefined;
   /** The resource that violates the rule. */
-  resource?: Resource;
+  resource?: Resource | undefined;
   /** The violation message of an execution. */
-  violationMessage?: string;
+  violationMessage?: string | undefined;
 }
 export type ExecutionResultList = Array<ExecutionResult>;
 /** Response message for the ListExecutionResults RPC. */
 export interface ListExecutionResultsResponse {
   /** The versions from the specified publisher. */
-  executionResults?: ExecutionResultList;
+  executionResults?: ExecutionResultList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsEvaluationsExecutionsScannedResourcesRequest {
   /** Rule name. */
-  rule?: string;
+  rule?: string | undefined;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent for ListScannedResourcesRequest. */
   parent: string;
   /** Filtering results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Field to sort by. See https://google.aip.dev/132#ordering for more details. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 /** A scanned resource. */
 export interface ScannedResource {
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Resource name. */
-  resource?: string;
+  resource?: string | undefined;
 }
 export type ScannedResourceList = Array<ScannedResource>;
 /** Response message for the ListScannedResources RPC. */
 export interface ListScannedResourcesResponse {
   /** All scanned resources in response. */
-  scannedResources?: ScannedResourceList;
+  scannedResources?: ScannedResourceList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export type ListProjectsLocationsRulesEvaluationTypeEnum =
   | "EVALUATION_TYPE_UNSPECIFIED"
@@ -1301,118 +1301,120 @@ export type ListProjectsLocationsRulesEvaluationTypeEnum =
   | "OTHER";
 export interface ListProjectsLocationsRulesRequest {
   /** Requested page size. Server may return fewer items than requested. If unspecified, server will pick an appropriate default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A token identifying a page of results the server should return. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The Cloud Storage bucket name for custom rules. */
-  customRulesBucket?: string;
+  customRulesBucket?: string | undefined;
   /** Required. The [project] on which to execute the request. The format is: projects/{project_id}/locations/{location} Currently, the pre-defined rules are global available to all projects and all regions. */
   parent: string;
   /** Filter based on primary_category, secondary_category. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The evaluation type of the rules will be applied to. The Cloud Storage bucket name for custom rules. */
-  evaluationType?: ListProjectsLocationsRulesEvaluationTypeEnum | (string & {});
+  evaluationType?: ListProjectsLocationsRulesEvaluationTypeEnum | (string & {}) | undefined;
 }
 export type RuleRuleTypeEnum = "RULE_TYPE_UNSPECIFIED" | "BASELINE" | "CUSTOM";
 /** A rule to be evaluated. */
 export interface Rule {
   /** The name display in UI. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The secondary category. */
-  secondaryCategory?: string;
+  secondaryCategory?: string | undefined;
   /** The document url for the rule. */
-  uri?: string;
+  uri?: string | undefined;
   /** List of user-defined tags. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** The primary category. */
-  primaryCategory?: string;
+  primaryCategory?: string | undefined;
   /** The message template for rule. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** The type of the rule. */
-  ruleType?: RuleRuleTypeEnum;
+  ruleType?: RuleRuleTypeEnum | undefined;
   /** The remediation for the rule. */
-  remediation?: string;
+  remediation?: string | undefined;
   /** The severity of the rule. */
-  severity?: string;
+  severity?: string | undefined;
   /** Describe rule in plain language. */
-  description?: string;
+  description?: string | undefined;
   /** The CAI asset type of the rule is evaluating, for joined asset types, it will be the corresponding primary asset types. */
-  assetType?: string;
+  assetType?: string | undefined;
   /** Rule name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The version of the rule. */
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 export type RuleList = Array<Rule>;
 /** Response message for the ListRules RPC. */
 export interface ListRulesResponse {
   /** All rules in response. */
-  rules?: RuleList;
+  rules?: RuleList | undefined;
 }
 export interface PatchProjectsLocationsEvaluationsRequest {
   /** Name of resource that has the form `projects/{project_id}/locations/{location_id}/evaluations/{evaluation_id}`. */
   name: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. Field mask is used to specify the fields to be overwritten in the Evaluation resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Evaluation;
+  body?: Evaluation | undefined;
 }
 /** Request message for the RunEvaluation RPC. */
 export interface RunEvaluationRequest {
   /** Required. ID of the execution which will be created. */
-  executionId?: string;
+  executionId?: string | undefined;
   /** Required. The resource being created. */
-  execution?: Execution;
+  execution?: Execution | undefined;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface RunProjectsLocationsEvaluationsExecutionsRequest {
   /** Required. The resource name of the Evaluation using the form: `projects/{project}/locations/{location}/evaluations/{evaluation}`. */
   name: string;
   /** Request body */
-  body?: RunEvaluationRequest;
+  body?: RunEvaluationRequest | undefined;
 }
 /** Message describing SAP discovery system metadata */
 export interface SapDiscoveryMetadata {
   /** Optional. Customer defined, something like "E-commerce pre prod" */
-  definedSystem?: string;
+  definedSystem?: string | undefined;
   /** Optional. Customer region string for customer's use. Does not represent GCP region. */
-  customerRegion?: string;
+  customerRegion?: string | undefined;
   /** Optional. Should be "prod", "QA", "dev", "staging", etc. */
-  environmentType?: string;
+  environmentType?: string | undefined;
   /** Optional. This SAP product name */
-  sapProduct?: string;
+  sapProduct?: string | undefined;
 }
 /** A SAP software component name, version, and type. */
 export interface SapDiscoveryWorkloadPropertiesSoftwareComponentProperties {
   /** Optional. The component's major version. */
-  version?: string;
+  version?: string | undefined;
   /** Optional. Name of the component. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The component's minor version. */
-  extVersion?: string;
+  extVersion?: string | undefined;
   /** Optional. The component's type. */
-  type?: string;
+  type?: string | undefined;
 }
 export type SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList =
   Array<SapDiscoveryWorkloadPropertiesSoftwareComponentProperties>;
 /** A product name and version. */
 export interface SapDiscoveryWorkloadPropertiesProductVersion {
   /** Optional. Name of the product. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Version of the product. */
-  version?: string;
+  version?: string | undefined;
 }
 export type SapDiscoveryWorkloadPropertiesProductVersionList =
   Array<SapDiscoveryWorkloadPropertiesProductVersion>;
 /** A set of properties describing an SAP workload. */
 export interface SapDiscoveryWorkloadProperties {
   /** Optional. A list of SAP software components and their versions running on the system. */
-  softwareComponentVersions?: SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList;
+  softwareComponentVersions?:
+    | SapDiscoveryWorkloadPropertiesSoftwareComponentPropertiesList
+    | undefined;
   /** Optional. List of SAP Products and their versions running on the system. */
-  productVersions?: SapDiscoveryWorkloadPropertiesProductVersionList;
+  productVersions?: SapDiscoveryWorkloadPropertiesProductVersionList | undefined;
 }
 export type SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum =
   | "DATABASE_TYPE_UNSPECIFIED"
@@ -1425,19 +1427,22 @@ export type SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum =
 /** A set of properties describing an SAP Database layer. */
 export interface SapDiscoveryComponentDatabaseProperties {
   /** Optional. Instance number of the SAP instance. */
-  instanceNumber?: string;
+  instanceNumber?: string | undefined;
   /** Optional. The version of the database software running in the system. */
-  databaseVersion?: string;
+  databaseVersion?: string | undefined;
   /** Optional. SID of the system database. */
-  databaseSid?: string;
+  databaseSid?: string | undefined;
   /** Optional. URI of the recognized shared NFS of the database. May be empty if the database has only a single node. */
-  sharedNfsUri?: string;
+  sharedNfsUri?: string | undefined;
   /** Optional. Landscape ID from the HANA nameserver. */
-  landscapeId?: string;
+  landscapeId?: string | undefined;
   /** Required. URI of the recognized primary instance of the database. */
-  primaryInstanceUri?: string;
+  primaryInstanceUri?: string | undefined;
   /** Required. Type of the database. HANA, DB2, etc. */
-  databaseType?: SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum | (string & {});
+  databaseType?:
+    | SapDiscoveryComponentDatabasePropertiesDatabaseTypeEnum
+    | (string & {})
+    | undefined;
 }
 export type SapDiscoveryComponentTopologyTypeEnum =
   | "TOPOLOGY_TYPE_UNSPECIFIED"
@@ -1451,21 +1456,24 @@ export type SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum =
 /** A set of properties describing an SAP Application layer. */
 export interface SapDiscoveryComponentApplicationProperties {
   /** Optional. Kernel version for Netweaver running in the system. */
-  kernelVersion?: string;
+  kernelVersion?: string | undefined;
   /** Optional. Resource URI of the recognized ASCS host of the application. */
-  ascsUri?: string;
+  ascsUri?: string | undefined;
   /** Required. Type of the application. Netweaver, etc. */
-  applicationType?: SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum | (string & {});
+  applicationType?:
+    | SapDiscoveryComponentApplicationPropertiesApplicationTypeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Instance number of the SAP application instance. */
-  appInstanceNumber?: string;
+  appInstanceNumber?: string | undefined;
   /** Optional. Resource URI of the recognized shared NFS of the application. May be empty if the application server has only a single node. */
-  nfsUri?: string;
+  nfsUri?: string | undefined;
   /** Optional. Instance number of the ERS instance. */
-  ersInstanceNumber?: string;
+  ersInstanceNumber?: string | undefined;
   /** Optional. Instance number of the ASCS instance. */
-  ascsInstanceNumber?: string;
+  ascsInstanceNumber?: string | undefined;
   /** Optional. Deprecated: ApplicationType now tells you whether this is ABAP or Java. */
-  abap?: boolean;
+  abap?: boolean | undefined;
 }
 export type SapDiscoveryResourceInstancePropertiesInstanceRoleEnum =
   | "INSTANCE_ROLE_UNSPECIFIED"
@@ -1487,63 +1495,63 @@ export type SapDiscoveryResourceInstancePropertiesInstanceRoleEnum =
 /** Disk mount on the instance. */
 export interface SapDiscoveryResourceInstancePropertiesDiskMount {
   /** Optional. Name of the disk. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Names of the disks providing this mount point. */
-  diskNames?: StringList;
+  diskNames?: StringList | undefined;
   /** Optional. Filesystem mount point. */
-  mountPoint?: string;
+  mountPoint?: string | undefined;
 }
 export type SapDiscoveryResourceInstancePropertiesDiskMountList =
   Array<SapDiscoveryResourceInstancePropertiesDiskMount>;
 /** Fields to describe an SAP application server instance. */
 export interface SapDiscoveryResourceInstancePropertiesAppInstance {
   /** Optional. Instance number of the SAP application instance. */
-  number?: string;
+  number?: string | undefined;
   /** Optional. Instance name of the SAP application instance. */
-  name?: string;
+  name?: string | undefined;
 }
 export type SapDiscoveryResourceInstancePropertiesAppInstanceList =
   Array<SapDiscoveryResourceInstancePropertiesAppInstance>;
 /** Version is reported as Major.Minor.Build.Patch. */
 export interface SapDiscoveryResourceInstancePropertiesKernelVersionVersion {
   /** Optional. The build version number. */
-  build?: number;
+  build?: number | undefined;
   /** Optional. The patch version number. */
-  patch?: number;
+  patch?: number | undefined;
   /** Optional. The major version number. */
-  major?: number;
+  major?: number | undefined;
   /** Optional. The minor version number. */
-  minor?: number;
+  minor?: number | undefined;
   /** Optional. A catch-all for any unparsed version components. This is in case the number of points in the version string exceeds the expected count of 4. */
-  remainder?: string;
+  remainder?: string | undefined;
 }
 /** KernelVersion encapsulates the kernel version data for the system. */
 export interface SapDiscoveryResourceInstancePropertiesKernelVersion {
   /** Optional. Raw string of the kernel version. */
-  rawString?: string;
+  rawString?: string | undefined;
   /** Optional. Captures the OS-specific kernel version, the portion of the string up to the first dash. */
-  osKernel?: SapDiscoveryResourceInstancePropertiesKernelVersionVersion;
+  osKernel?: SapDiscoveryResourceInstancePropertiesKernelVersionVersion | undefined;
   /** Optional. Captures the distro-specific kernel version, the portion of the string following the first dash. */
-  distroKernel?: SapDiscoveryResourceInstancePropertiesKernelVersionVersion;
+  distroKernel?: SapDiscoveryResourceInstancePropertiesKernelVersionVersion | undefined;
 }
 /** A set of properties only present for an instance type resource */
 export interface SapDiscoveryResourceInstanceProperties {
   /** Optional. Bitmask of instance role, a resource may have multiple roles at once. */
-  instanceRole?: SapDiscoveryResourceInstancePropertiesInstanceRoleEnum | (string & {});
+  instanceRole?: SapDiscoveryResourceInstancePropertiesInstanceRoleEnum | (string & {}) | undefined;
   /** Optional. The VM's instance number. */
-  instanceNumber?: string;
+  instanceNumber?: string | undefined;
   /** Optional. Disk mounts on the instance. */
-  diskMounts?: SapDiscoveryResourceInstancePropertiesDiskMountList;
+  diskMounts?: SapDiscoveryResourceInstancePropertiesDiskMountList | undefined;
   /** Optional. App server instances on the host */
-  appInstances?: SapDiscoveryResourceInstancePropertiesAppInstanceList;
+  appInstances?: SapDiscoveryResourceInstancePropertiesAppInstanceList | undefined;
   /** Optional. A virtual hostname of the instance if it has one. */
-  virtualHostname?: string;
+  virtualHostname?: string | undefined;
   /** Optional. A list of instance URIs that are part of a cluster with this one. */
-  clusterInstances?: StringList;
+  clusterInstances?: StringList | undefined;
   /** Optional. Instance is part of a DR site. */
-  isDrSite?: boolean;
+  isDrSite?: boolean | undefined;
   /** Optional. The kernel version of the instance. */
-  osKernelVersion?: SapDiscoveryResourceInstancePropertiesKernelVersion;
+  osKernelVersion?: SapDiscoveryResourceInstancePropertiesKernelVersion | undefined;
 }
 export type SapDiscoveryResourceResourceTypeEnum =
   | "RESOURCE_TYPE_UNSPECIFIED"
@@ -1566,66 +1574,66 @@ export type SapDiscoveryResourceResourceKindEnum =
 /** Message describing a resource. */
 export interface SapDiscoveryResource {
   /** Optional. A set of properties only applying to instance type resources. */
-  instanceProperties?: SapDiscoveryResourceInstanceProperties;
+  instanceProperties?: SapDiscoveryResourceInstanceProperties | undefined;
   /** Required. The type of this resource. */
-  resourceType?: SapDiscoveryResourceResourceTypeEnum | (string & {});
+  resourceType?: SapDiscoveryResourceResourceTypeEnum | (string & {}) | undefined;
   /** Required. ComputeInstance, ComputeDisk, VPC, Bare Metal server, etc. */
-  resourceKind?: SapDiscoveryResourceResourceKindEnum | (string & {});
+  resourceKind?: SapDiscoveryResourceResourceKindEnum | (string & {}) | undefined;
   /** Required. URI of the resource, includes project, location, and name. */
-  resourceUri?: string;
+  resourceUri?: string | undefined;
   /** Required. Unix timestamp of when this resource last had its discovery data updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. A list of resource URIs related to this resource. */
-  relatedResources?: StringList;
+  relatedResources?: StringList | undefined;
 }
 export type SapDiscoveryResourceList = Array<SapDiscoveryResource>;
 /** A replication site used in Disaster Recovery (DR) configurations. */
 export interface SapDiscoveryComponentReplicationSite {
   /** Optional. The system component for the site. */
-  component?: SapDiscoveryComponent;
+  component?: SapDiscoveryComponent | undefined;
   /** Optional. The name of the source site from which this one replicates. */
-  sourceSite?: string;
+  sourceSite?: string | undefined;
 }
 export type SapDiscoveryComponentReplicationSiteList = Array<SapDiscoveryComponentReplicationSite>;
 /** Message describing the system component. */
 export interface SapDiscoveryComponent {
   /** Required. Pantheon Project in which the resources reside. */
-  hostProject?: string;
+  hostProject?: string | undefined;
   /** Optional. The component is a SAP database. */
-  databaseProperties?: SapDiscoveryComponentDatabaseProperties;
+  databaseProperties?: SapDiscoveryComponentDatabaseProperties | undefined;
   /** Optional. The detected topology of the component. */
-  topologyType?: SapDiscoveryComponentTopologyTypeEnum | (string & {});
+  topologyType?: SapDiscoveryComponentTopologyTypeEnum | (string & {}) | undefined;
   /** Optional. The component is a SAP application. */
-  applicationProperties?: SapDiscoveryComponentApplicationProperties;
+  applicationProperties?: SapDiscoveryComponentApplicationProperties | undefined;
   /** Optional. A list of host URIs that are part of the HA configuration if present. An empty list indicates the component is not configured for HA. */
-  haHosts?: StringList;
+  haHosts?: StringList | undefined;
   /** Optional. The SAP identifier, used by the SAP software and helps differentiate systems for customers. */
-  sid?: string;
+  sid?: string | undefined;
   /** Optional. The region this component's resources are primarily located in. */
-  region?: string;
+  region?: string | undefined;
   /** Optional. The resources in a component. */
-  resources?: SapDiscoveryResourceList;
+  resources?: SapDiscoveryResourceList | undefined;
   /** Optional. A list of replication sites used in Disaster Recovery (DR) configurations. */
-  replicationSites?: SapDiscoveryComponentReplicationSiteList;
+  replicationSites?: SapDiscoveryComponentReplicationSiteList | undefined;
 }
 /** The schema of SAP system discovery data. */
 export interface SapDiscovery {
   /** Required. Unix timestamp this system has been updated last. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. The GCP project number that this SapSystem belongs to. */
-  projectNumber?: string;
+  projectNumber?: string | undefined;
   /** Output only. A combination of database SID, database instance URI and tenant DB name to make a unique identifier per-system. */
-  systemId?: string;
+  systemId?: string | undefined;
   /** Optional. The metadata for SAP system discovery data. */
-  metadata?: SapDiscoveryMetadata;
+  metadata?: SapDiscoveryMetadata | undefined;
   /** Optional. Whether to use DR reconciliation or not. */
-  useDrReconciliation?: boolean;
+  useDrReconciliation?: boolean | undefined;
   /** Optional. The properties of the workload. */
-  workloadProperties?: SapDiscoveryWorkloadProperties;
+  workloadProperties?: SapDiscoveryWorkloadProperties | undefined;
   /** Optional. An SAP system may run without an application layer. */
-  applicationLayer?: SapDiscoveryComponent;
+  applicationLayer?: SapDiscoveryComponent | undefined;
   /** Required. An SAP System must have a database. */
-  databaseLayer?: SapDiscoveryComponent;
+  databaseLayer?: SapDiscoveryComponent | undefined;
 }
 export type AgentStatusSystemdServiceRunningEnum =
   | "UNSPECIFIED_STATE"
@@ -1645,11 +1653,11 @@ export type AgentStatusServiceStatusStateEnum =
 /** The configuration value. */
 export interface AgentStatusConfigValue {
   /** Output only. The name of the configuration value. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The value of the configuration value. */
-  value?: string;
+  value?: string | undefined;
   /** Output only. Whether the configuration value is the default value or overridden. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
 }
 export type AgentStatusConfigValueList = Array<AgentStatusConfigValue>;
 export type AgentStatusServiceStatusFullyFunctionalEnum =
@@ -1665,35 +1673,35 @@ export type AgentStatusIAMPermissionGrantedEnum =
 /** The IAM permission status. */
 export interface AgentStatusIAMPermission {
   /** Output only. The name of the permission. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Whether the permission is granted. */
-  granted?: AgentStatusIAMPermissionGrantedEnum | (string & {});
+  granted?: AgentStatusIAMPermissionGrantedEnum | (string & {}) | undefined;
 }
 export type AgentStatusIAMPermissionList = Array<AgentStatusIAMPermission>;
 /** The status of a service (process metrics, host metrics, etc.). */
 export interface AgentStatusServiceStatus {
   /** Output only. The state of the service (enabled or disabled in the configuration). */
-  state?: AgentStatusServiceStatusStateEnum | (string & {});
+  state?: AgentStatusServiceStatusStateEnum | (string & {}) | undefined;
   /** Output only. The error message for the service if it is not fully functional. */
-  errorMessage?: string;
+  errorMessage?: string | undefined;
   /** Output only. The configuration values for the service. */
-  configValues?: AgentStatusConfigValueList;
+  configValues?: AgentStatusConfigValueList | undefined;
   /** Output only. The name of the service. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The message to display when the service state is unspecified. */
-  unspecifiedStateMessage?: string;
+  unspecifiedStateMessage?: string | undefined;
   /** Output only. Whether the service is fully functional (all checks passed). */
-  fullyFunctional?: AgentStatusServiceStatusFullyFunctionalEnum | (string & {});
+  fullyFunctional?: AgentStatusServiceStatusFullyFunctionalEnum | (string & {}) | undefined;
   /** Output only. The permissions required for the service. */
-  iamPermissions?: AgentStatusIAMPermissionList;
+  iamPermissions?: AgentStatusIAMPermissionList | undefined;
 }
 export type AgentStatusServiceStatusList = Array<AgentStatusServiceStatus>;
 /** The reference to public documentation. */
 export interface AgentStatusReference {
   /** Output only. The name of the reference. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The URL of the reference. */
-  url?: string;
+  url?: string | undefined;
 }
 export type AgentStatusReferenceList = Array<AgentStatusReference>;
 export type AgentStatusCloudApiAccessFullScopesGrantedEnum =
@@ -1709,31 +1717,34 @@ export type AgentStatusConfigurationValidEnum =
 /** The schema of agent status data. */
 export interface AgentStatus {
   /** Output only. Whether the agent service is running in systemd. */
-  systemdServiceRunning?: AgentStatusSystemdServiceRunningEnum | (string & {});
+  systemdServiceRunning?: AgentStatusSystemdServiceRunningEnum | (string & {}) | undefined;
   /** Output only. The URI of the instance. Format: projects//zones//instances/ */
-  instanceUri?: string;
+  instanceUri?: string | undefined;
   /** Output only. The kernel version of the system. */
-  kernelVersion?: SapDiscoveryResourceInstancePropertiesKernelVersion;
+  kernelVersion?: SapDiscoveryResourceInstancePropertiesKernelVersion | undefined;
   /** Output only. Whether the agent service is enabled in systemd. */
-  systemdServiceEnabled?: AgentStatusSystemdServiceEnabledEnum | (string & {});
+  systemdServiceEnabled?: AgentStatusSystemdServiceEnabledEnum | (string & {}) | undefined;
   /** Output only. The services (process metrics, host metrics, etc.). */
-  services?: AgentStatusServiceStatusList;
+  services?: AgentStatusServiceStatusList | undefined;
   /** Output only. The error message for the agent configuration if invalid. */
-  configurationErrorMessage?: string;
+  configurationErrorMessage?: string | undefined;
   /** Output only. The installed version of the agent on the host. */
-  installedVersion?: string;
+  installedVersion?: string | undefined;
   /** Output only. The available version of the agent in artifact registry. */
-  availableVersion?: string;
+  availableVersion?: string | undefined;
   /** Output only. Optional references to public documentation. */
-  references?: AgentStatusReferenceList;
+  references?: AgentStatusReferenceList | undefined;
   /** Output only. The name of the agent. */
-  agentName?: string;
+  agentName?: string | undefined;
   /** Output only. Whether the agent has full access to Cloud APIs. */
-  cloudApiAccessFullScopesGranted?: AgentStatusCloudApiAccessFullScopesGrantedEnum | (string & {});
+  cloudApiAccessFullScopesGranted?:
+    | AgentStatusCloudApiAccessFullScopesGrantedEnum
+    | (string & {})
+    | undefined;
   /** Output only. The path to the agent configuration file. */
-  configurationFilePath?: string;
+  configurationFilePath?: string | undefined;
   /** Output only. Whether the agent configuration is valid. */
-  configurationValid?: AgentStatusConfigurationValidEnum | (string & {});
+  configurationValid?: AgentStatusConfigurationValidEnum | (string & {}) | undefined;
 }
 export type SapValidationValidationDetailSapValidationTypeEnum =
   | "SAP_VALIDATION_TYPE_UNSPECIFIED"
@@ -1747,28 +1758,31 @@ export type SapValidationValidationDetailSapValidationTypeEnum =
 /** Message describing the SAP validation metrics. */
 export interface SapValidationValidationDetail {
   /** Optional. The SAP system that the validation data is from. */
-  sapValidationType?: SapValidationValidationDetailSapValidationTypeEnum | (string & {});
+  sapValidationType?:
+    | SapValidationValidationDetailSapValidationTypeEnum
+    | (string & {})
+    | undefined;
   /** Optional. Was there a SAP system detected for this validation type. */
-  isPresent?: boolean;
+  isPresent?: boolean | undefined;
   /** Optional. The pairs of metrics data: field name & field value. */
-  details?: StringMap;
+  details?: StringMap | undefined;
 }
 export type SapValidationValidationDetailList = Array<SapValidationValidationDetail>;
 /** A presentation of SAP workload insight. The schema of SAP workloads validation related data. */
 export interface SapValidation {
   /** Optional. The zone of the instance that the Insight data comes from. */
-  zone?: string;
+  zone?: string | undefined;
   /** Required. The project_id of the cloud project that the Insight data comes from. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Optional. A list of SAP validation metrics data. */
-  validationDetails?: SapValidationValidationDetailList;
+  validationDetails?: SapValidationValidationDetailList | undefined;
 }
 /** A presentation of OpenShift workload insight. The schema of OpenShift workloads validation related data. */
 export interface OpenShiftValidation {
   /** Required. The OpenShift cluster ID (e.g. 8371bb05-7cac-4d38-82c0-0f58c4f6f936). */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Required. The validation details of the OpenShift cluster in JSON format. */
-  validationDetails?: DocumentMap;
+  validationDetails?: DocumentMap | undefined;
 }
 export type TorsoValidationWorkloadTypeEnum =
   | "WORKLOAD_TYPE_UNSPECIFIED"
@@ -1778,15 +1792,15 @@ export type TorsoValidationWorkloadTypeEnum =
 /** The schema of torso workload validation data. */
 export interface TorsoValidation {
   /** Required. agent_version lists the version of the agent that collected this data. */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
   /** Optional. instance_name lists the human readable name of the instance that the data comes from. */
-  instanceName?: string;
+  instanceName?: string | undefined;
   /** Required. workload_type specifies the type of torso workload. */
-  workloadType?: TorsoValidationWorkloadTypeEnum | (string & {});
+  workloadType?: TorsoValidationWorkloadTypeEnum | (string & {}) | undefined;
   /** Required. validation_details contains the pairs of validation data: field name & field value. */
-  validationDetails?: StringMap;
+  validationDetails?: StringMap | undefined;
   /** Required. project_id lists the human readable cloud project that the data comes from. */
-  projectId?: string;
+  projectId?: string | undefined;
 }
 export type SqlserverValidationValidationDetailTypeEnum =
   | "SQLSERVER_VALIDATION_TYPE_UNSPECIFIED"
@@ -1805,61 +1819,61 @@ export type SqlserverValidationValidationDetailTypeEnum =
 /** Message containing collected data names and values. */
 export interface SqlserverValidationDetails {
   /** Required. Collected data is in format. */
-  fields?: StringMap;
+  fields?: StringMap | undefined;
 }
 export type SqlserverValidationDetailsList = Array<SqlserverValidationDetails>;
 /** Message describing the Sqlserver validation metrics. */
 export interface SqlserverValidationValidationDetail {
   /** Optional. The Sqlserver system that the validation data is from. */
-  type?: SqlserverValidationValidationDetailTypeEnum | (string & {});
+  type?: SqlserverValidationValidationDetailTypeEnum | (string & {}) | undefined;
   /** Required. Details wraps map that represents collected data names and values. */
-  details?: SqlserverValidationDetailsList;
+  details?: SqlserverValidationDetailsList | undefined;
 }
 export type SqlserverValidationValidationDetailList = Array<SqlserverValidationValidationDetail>;
 /** A presentation of SQLServer workload insight. The schema of SqlServer workloads validation related data. */
 export interface SqlserverValidation {
   /** Required. The project_id of the cloud project that the Insight data comes from. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Optional. The agent version collected this data point */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
   /** Required. The instance_name of the instance that the Insight data comes from. According to https://linter.aip.dev/122/name-suffix: field names should not use the _name suffix unless the field would be ambiguous without it. */
-  instance?: string;
+  instance?: string | undefined;
   /** Optional. A list of SqlServer validation metrics data. */
-  validationDetails?: SqlserverValidationValidationDetailList;
+  validationDetails?: SqlserverValidationValidationDetailList | undefined;
 }
 /** A presentation of host resource usage where the workload runs. */
 export interface Insight {
   /** The insights data for SAP system discovery. This is a copy of SAP System proto and should get updated whenever that one changes. */
-  sapDiscovery?: SapDiscovery;
+  sapDiscovery?: SapDiscovery | undefined;
   /** The insights data for the agent status. */
-  agentStatus?: AgentStatus;
+  agentStatus?: AgentStatus | undefined;
   /** The insights data for the SAP workload validation. */
-  sapValidation?: SapValidation;
+  sapValidation?: SapValidation | undefined;
   /** The insights data for the OpenShift workload validation. */
-  openShiftValidation?: OpenShiftValidation;
+  openShiftValidation?: OpenShiftValidation | undefined;
   /** Output only. [Output only] Create time stamp */
-  sentTime?: string;
+  sentTime?: string | undefined;
   /** Optional. The instance id where the insight is generated from */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** The insights data for workload validation of torso workloads. */
-  torsoValidation?: TorsoValidation;
+  torsoValidation?: TorsoValidation | undefined;
   /** The insights data for the sqlserver workload validation. */
-  sqlserverValidation?: SqlserverValidation;
+  sqlserverValidation?: SqlserverValidation | undefined;
 }
 /** Request for sending the data insights. */
 export interface WriteInsightRequest {
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The metrics data details. */
-  insight?: Insight;
+  insight?: Insight | undefined;
   /** Optional. The agent version collected this data point. */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
 }
 export interface WriteInsightProjectsLocationsInsightsRequest {
   /** Required. The GCP location. The format is: projects/{project}/locations/{location}. */
   location: string;
   /** Request body */
-  body?: WriteInsightRequest;
+  body?: WriteInsightRequest | undefined;
 }
 /** The response for write insights request. */
 export interface WriteInsightResponse {}

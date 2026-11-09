@@ -188,137 +188,141 @@ export type __mapOf__stringMin0Max256PatternS = { [key: string]: string | undefi
 const __mapOf__stringMin0Max256PatternS = /*@__PURE__*/ __L.at(__c29, 0);
 export type NetworkType = "IPV4" | "DUALSTACK" | (string & {});
 export interface CreateClusterRequest {
-  ClientToken?: string;
-  ClusterName?: string;
-  Tags?: { [key: string]: string | undefined };
-  NetworkType?: NetworkType;
+  ClientToken?: string | undefined;
+  ClusterName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export type __stringMin1Max256PatternAZaZ09 = string;
 export type __stringMin1Max128PatternAZaZ09 = string;
 export type __stringMin1Max32PatternS = string;
 export interface ClusterEndpoint {
-  Endpoint?: string;
-  Region?: string;
+  Endpoint?: string | undefined;
+  Region?: string | undefined;
 }
 export type __listOfClusterEndpoint = ClusterEndpoint[];
 const __listOfClusterEndpoint = /*@__PURE__*/ __L.at(__c27, 1);
 export type Status = "PENDING" | "DEPLOYED" | "PENDING_DELETION" | (string & {});
 export type __stringMin12Max12PatternD12 = string;
 export interface Cluster {
-  ClusterArn?: string;
-  ClusterEndpoints?: ClusterEndpoint[];
-  Name?: string;
-  Status?: Status;
-  Owner?: string;
-  NetworkType?: NetworkType;
+  ClusterArn?: string | undefined;
+  ClusterEndpoints?: ClusterEndpoint[] | undefined;
+  Name?: string | undefined;
+  Status?: Status | undefined;
+  Owner?: string | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export interface CreateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface CreateControlPanelRequest {
-  ClientToken?: string;
-  ClusterArn?: string;
-  ControlPanelName?: string;
-  Tags?: { [key: string]: string | undefined };
+  ClientToken?: string | undefined;
+  ClusterArn?: string | undefined;
+  ControlPanelName?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ControlPanel {
-  ClusterArn?: string;
-  ControlPanelArn?: string;
-  DefaultControlPanel?: boolean;
-  Name?: string;
-  RoutingControlCount?: number;
-  Status?: Status;
-  Owner?: string;
+  ClusterArn?: string | undefined;
+  ControlPanelArn?: string | undefined;
+  DefaultControlPanel?: boolean | undefined;
+  Name?: string | undefined;
+  RoutingControlCount?: number | undefined;
+  Status?: Status | undefined;
+  Owner?: string | undefined;
 }
 export interface CreateControlPanelResponse {
-  ControlPanel?: ControlPanel;
+  ControlPanel?: ControlPanel | undefined;
 }
 export interface CreateRoutingControlRequest {
-  ClientToken?: string;
-  ClusterArn?: string;
-  ControlPanelArn?: string;
-  RoutingControlName?: string;
+  ClientToken?: string | undefined;
+  ClusterArn?: string | undefined;
+  ControlPanelArn?: string | undefined;
+  RoutingControlName?: string | undefined;
 }
 export interface RoutingControl {
-  ControlPanelArn?: string;
-  Name?: string;
-  RoutingControlArn?: string;
-  Status?: Status;
-  Owner?: string;
+  ControlPanelArn?: string | undefined;
+  Name?: string | undefined;
+  RoutingControlArn?: string | undefined;
+  Status?: Status | undefined;
+  Owner?: string | undefined;
 }
 export interface CreateRoutingControlResponse {
-  RoutingControl?: RoutingControl;
+  RoutingControl?: RoutingControl | undefined;
 }
 export type __listOf__stringMin1Max256PatternAZaZ09 = string[];
 const __listOf__stringMin1Max256PatternAZaZ09 = /*@__PURE__*/ __L.at(__c1, 0);
 export type RuleType = "ATLEAST" | "AND" | "OR" | (string & {});
 export interface RuleConfig {
-  Inverted?: boolean;
-  Threshold?: number;
-  Type?: RuleType;
+  Inverted?: boolean | undefined;
+  Threshold?: number | undefined;
+  Type?: RuleType | undefined;
 }
 export interface NewAssertionRule {
-  AssertedControls?: string[];
-  ControlPanelArn?: string;
-  Name?: string;
-  RuleConfig?: RuleConfig;
-  WaitPeriodMs?: number;
+  AssertedControls?: string[] | undefined;
+  ControlPanelArn?: string | undefined;
+  Name?: string | undefined;
+  RuleConfig?: RuleConfig | undefined;
+  WaitPeriodMs?: number | undefined;
 }
 export interface NewGatingRule {
-  ControlPanelArn?: string;
-  GatingControls?: string[];
-  Name?: string;
-  RuleConfig?: RuleConfig;
-  TargetControls?: string[];
-  WaitPeriodMs?: number;
+  ControlPanelArn?: string | undefined;
+  GatingControls?: string[] | undefined;
+  Name?: string | undefined;
+  RuleConfig?: RuleConfig | undefined;
+  TargetControls?: string[] | undefined;
+  WaitPeriodMs?: number | undefined;
 }
 export interface CreateSafetyRuleRequest {
-  AssertionRule?: NewAssertionRule;
-  ClientToken?: string;
-  GatingRule?: NewGatingRule;
-  Tags?: { [key: string]: string | undefined };
+  AssertionRule?: NewAssertionRule | undefined;
+  ClientToken?: string | undefined;
+  GatingRule?: NewGatingRule | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface AssertionRule {
-  AssertedControls?: string[];
-  ControlPanelArn?: string;
-  Name?: string;
-  RuleConfig?: RuleConfig;
-  SafetyRuleArn?: string;
-  Status?: Status;
-  WaitPeriodMs?: number;
-  Owner?: string;
+  AssertedControls?: string[] | undefined;
+  ControlPanelArn?: string | undefined;
+  Name?: string | undefined;
+  RuleConfig?: RuleConfig | undefined;
+  SafetyRuleArn?: string | undefined;
+  Status?: Status | undefined;
+  WaitPeriodMs?: number | undefined;
+  Owner?: string | undefined;
 }
 export interface GatingRule {
-  ControlPanelArn?: string;
-  GatingControls?: string[];
-  Name?: string;
-  RuleConfig?: RuleConfig;
-  SafetyRuleArn?: string;
-  Status?: Status;
-  TargetControls?: string[];
-  WaitPeriodMs?: number;
-  Owner?: string;
+  ControlPanelArn?: string | undefined;
+  GatingControls?: string[] | undefined;
+  Name?: string | undefined;
+  RuleConfig?: RuleConfig | undefined;
+  SafetyRuleArn?: string | undefined;
+  Status?: Status | undefined;
+  TargetControls?: string[] | undefined;
+  WaitPeriodMs?: number | undefined;
+  Owner?: string | undefined;
 }
 export interface CreateSafetyRuleResponse {
-  AssertionRule?: AssertionRule & {
-    AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    WaitPeriodMs: number;
-  };
-  GatingRule?: GatingRule & {
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
-    WaitPeriodMs: number;
-  };
+  AssertionRule?:
+    | (AssertionRule & {
+        AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        WaitPeriodMs: number;
+      })
+    | undefined;
+  GatingRule?:
+    | (GatingRule & {
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
+        WaitPeriodMs: number;
+      })
+    | undefined;
 }
 export interface DeleteClusterRequest {
   ClusterArn: string;
@@ -340,55 +344,59 @@ export interface DescribeClusterRequest {
   ClusterArn: string;
 }
 export interface DescribeClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface DescribeControlPanelRequest {
   ControlPanelArn: string;
 }
 export interface DescribeControlPanelResponse {
-  ControlPanel?: ControlPanel;
+  ControlPanel?: ControlPanel | undefined;
 }
 export interface DescribeRoutingControlRequest {
   RoutingControlArn: string;
 }
 export interface DescribeRoutingControlResponse {
-  RoutingControl?: RoutingControl;
+  RoutingControl?: RoutingControl | undefined;
 }
 export interface DescribeSafetyRuleRequest {
   SafetyRuleArn: string;
 }
 export interface DescribeSafetyRuleResponse {
-  AssertionRule?: AssertionRule & {
-    AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    WaitPeriodMs: number;
-  };
-  GatingRule?: GatingRule & {
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
-    WaitPeriodMs: number;
-  };
+  AssertionRule?:
+    | (AssertionRule & {
+        AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        WaitPeriodMs: number;
+      })
+    | undefined;
+  GatingRule?:
+    | (GatingRule & {
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
+        WaitPeriodMs: number;
+      })
+    | undefined;
 }
 export interface GetResourcePolicyRequest {
   ResourceArn: string;
 }
 export type __policy = string;
 export interface GetResourcePolicyResponse {
-  Policy?: string;
+  Policy?: string | undefined;
 }
 export type MaxResults = number;
 export interface ListAssociatedRoute53HealthChecksRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   RoutingControlArn: string;
 }
 export type __stringMax36PatternS = string;
@@ -397,85 +405,87 @@ const __listOf__stringMax36PatternS =
   __listOf__stringMin1Max256PatternAZaZ09 as any as S.Schema<__listOf__stringMax36PatternS>;
 export type __stringMin1Max8096PatternS = string;
 export interface ListAssociatedRoute53HealthChecksResponse {
-  HealthCheckIds?: string[];
-  NextToken?: string;
+  HealthCheckIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListClustersRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfCluster = Cluster[];
 const __listOfCluster = /*@__PURE__*/ __L.at(__c15, 1);
 export interface ListClustersResponse {
-  Clusters?: Cluster[];
-  NextToken?: string;
+  Clusters?: Cluster[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListControlPanelsRequest {
-  ClusterArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ClusterArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfControlPanel = ControlPanel[];
 const __listOfControlPanel = /*@__PURE__*/ __L.at(__c16, 1);
 export interface ListControlPanelsResponse {
-  ControlPanels?: ControlPanel[];
-  NextToken?: string;
+  ControlPanels?: ControlPanel[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRoutingControlsRequest {
   ControlPanelArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type __listOfRoutingControl = RoutingControl[];
 const __listOfRoutingControl = /*@__PURE__*/ __L.at(__c17, 1);
 export interface ListRoutingControlsResponse {
-  NextToken?: string;
-  RoutingControls?: RoutingControl[];
+  NextToken?: string | undefined;
+  RoutingControls?: RoutingControl[] | undefined;
 }
 export interface ListSafetyRulesRequest {
   ControlPanelArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface Rule {
-  ASSERTION?: AssertionRule;
-  GATING?: GatingRule;
+  ASSERTION?: AssertionRule | undefined;
+  GATING?: GatingRule | undefined;
 }
 export type __listOfRule = Rule[];
 const __listOfRule = /*@__PURE__*/ __L.at(__c18, 2);
 export interface ListSafetyRulesResponse {
-  NextToken?: string;
-  SafetyRules?: (Rule & {
-    ASSERTION: AssertionRule & {
-      AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
-      ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-      Name: __stringMin1Max64PatternS;
-      RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-      SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-      Status: Status;
-      WaitPeriodMs: number;
-    };
-    GATING: GatingRule & {
-      ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-      GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
-      Name: __stringMin1Max64PatternS;
-      RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-      SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-      Status: Status;
-      TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
-      WaitPeriodMs: number;
-    };
-  })[];
+  NextToken?: string | undefined;
+  SafetyRules?:
+    | (Rule & {
+        ASSERTION: AssertionRule & {
+          AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
+          ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+          Name: __stringMin1Max64PatternS;
+          RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+          SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+          Status: Status;
+          WaitPeriodMs: number;
+        };
+        GATING: GatingRule & {
+          ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+          GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
+          Name: __stringMin1Max64PatternS;
+          RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+          SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+          Status: Status;
+          TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
+          WaitPeriodMs: number;
+        };
+      })[]
+    | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
-  Tags?: { [key: string]: string | undefined };
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface TagResourceResponse {}
 export type __listOf__string = string[];
@@ -483,64 +493,68 @@ const __listOf__string =
   __listOf__stringMin1Max256PatternAZaZ09 as any as S.Schema<__listOf__string>;
 export interface UntagResourceRequest {
   ResourceArn: string;
-  TagKeys?: string[];
+  TagKeys?: string[] | undefined;
 }
 export interface UntagResourceResponse {}
 export interface UpdateClusterRequest {
-  ClusterArn?: string;
-  NetworkType?: NetworkType;
+  ClusterArn?: string | undefined;
+  NetworkType?: NetworkType | undefined;
 }
 export interface UpdateClusterResponse {
-  Cluster?: Cluster;
+  Cluster?: Cluster | undefined;
 }
 export interface UpdateControlPanelRequest {
-  ControlPanelArn?: string;
-  ControlPanelName?: string;
+  ControlPanelArn?: string | undefined;
+  ControlPanelName?: string | undefined;
 }
 export interface UpdateControlPanelResponse {
-  ControlPanel?: ControlPanel;
+  ControlPanel?: ControlPanel | undefined;
 }
 export interface UpdateRoutingControlRequest {
-  RoutingControlArn?: string;
-  RoutingControlName?: string;
+  RoutingControlArn?: string | undefined;
+  RoutingControlName?: string | undefined;
 }
 export interface UpdateRoutingControlResponse {
-  RoutingControl?: RoutingControl;
+  RoutingControl?: RoutingControl | undefined;
 }
 export interface AssertionRuleUpdate {
-  Name?: string;
-  SafetyRuleArn?: string;
-  WaitPeriodMs?: number;
+  Name?: string | undefined;
+  SafetyRuleArn?: string | undefined;
+  WaitPeriodMs?: number | undefined;
 }
 export interface GatingRuleUpdate {
-  Name?: string;
-  SafetyRuleArn?: string;
-  WaitPeriodMs?: number;
+  Name?: string | undefined;
+  SafetyRuleArn?: string | undefined;
+  WaitPeriodMs?: number | undefined;
 }
 export interface UpdateSafetyRuleRequest {
-  AssertionRuleUpdate?: AssertionRuleUpdate;
-  GatingRuleUpdate?: GatingRuleUpdate;
+  AssertionRuleUpdate?: AssertionRuleUpdate | undefined;
+  GatingRuleUpdate?: GatingRuleUpdate | undefined;
 }
 export interface UpdateSafetyRuleResponse {
-  AssertionRule?: AssertionRule & {
-    AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    WaitPeriodMs: number;
-  };
-  GatingRule?: GatingRule & {
-    ControlPanelArn: __stringMin1Max256PatternAZaZ09;
-    GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
-    Name: __stringMin1Max64PatternS;
-    RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
-    SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
-    Status: Status;
-    TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
-    WaitPeriodMs: number;
-  };
+  AssertionRule?:
+    | (AssertionRule & {
+        AssertedControls: __listOf__stringMin1Max256PatternAZaZ09;
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        WaitPeriodMs: number;
+      })
+    | undefined;
+  GatingRule?:
+    | (GatingRule & {
+        ControlPanelArn: __stringMin1Max256PatternAZaZ09;
+        GatingControls: __listOf__stringMin1Max256PatternAZaZ09;
+        Name: __stringMin1Max64PatternS;
+        RuleConfig: RuleConfig & { Inverted: boolean; Threshold: number; Type: RuleType };
+        SafetyRuleArn: __stringMin1Max256PatternAZaZ09;
+        Status: Status;
+        TargetControls: __listOf__stringMin1Max256PatternAZaZ09;
+        WaitPeriodMs: number;
+      })
+    | undefined;
 }
 export type CreateClusterError =
   | AccessDeniedException

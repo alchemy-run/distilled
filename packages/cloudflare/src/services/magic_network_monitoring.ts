@@ -124,8 +124,8 @@ export interface CreateConfigRequest {
   defaultSampling: number;
   /** The account name. */
   name: string;
-  routerIps?: ConfigsCreateRequestRouterIpsList;
-  warpDevices?: ConfigsCreateRequestWarpDevicesList;
+  routerIps?: ConfigsCreateRequestRouterIpsList | undefined;
+  warpDevices?: ConfigsCreateRequestWarpDevicesList | undefined;
 }
 export type ConfigsCreateResponseRouterIpsList = Array<string>;
 export type ConfigsCreateResponseWarpDevicesItem = ConfigsCreateRequestWarpDevicesItem;
@@ -163,17 +163,17 @@ export interface CreateRuleRequest {
   /** MNM rule type. */
   type: RulesCreateRequestType | (string & {});
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number;
+  bandwidthThreshold?: number | undefined;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"]. */
-  duration?: RulesCreateRequestDuration | (string & {});
+  duration?: RulesCreateRequestDuration | (string & {}) | undefined;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number;
+  packetThreshold?: number | undefined;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
-  prefixMatch?: RulesCreateRequestPrefixMatch | (string & {});
+  prefixMatch?: RulesCreateRequestPrefixMatch | (string & {}) | undefined;
   /** Level of sensitivity set for zscore rules. */
-  zscoreSensitivity?: RulesCreateRequestZscoreSensitivity | (string & {});
+  zscoreSensitivity?: RulesCreateRequestZscoreSensitivity | (string & {}) | undefined;
   /** Target of the zscore rule analysis. */
-  zscoreTarget?: RulesCreateRequestZscoreTarget | (string & {});
+  zscoreTarget?: RulesCreateRequestZscoreTarget | (string & {}) | undefined;
 }
 export type RulesCreateResponsePrefixesList = Array<string>;
 export type RulesCreateResponseType = "threshold" | "zscore" | "advanced_ddos";
@@ -201,17 +201,17 @@ export interface CreateRuleResponse {
   /** MNM rule type. */
   type: RulesCreateResponseType;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number | null;
+  bandwidthThreshold?: number | null | undefined;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"]. */
-  duration?: RulesCreateResponseDuration | null;
+  duration?: RulesCreateResponseDuration | null | undefined;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number | null;
+  packetThreshold?: number | null | undefined;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
-  prefixMatch?: RulesCreateResponsePrefixMatch | null;
+  prefixMatch?: RulesCreateResponsePrefixMatch | null | undefined;
   /** Level of sensitivity set for zscore rules. */
-  zscoreSensitivity?: RulesCreateResponseZscoreSensitivity | null;
+  zscoreSensitivity?: RulesCreateResponseZscoreSensitivity | null | undefined;
   /** Target of the zscore rule analysis. */
-  zscoreTarget?: RulesCreateResponseZscoreTarget | null;
+  zscoreTarget?: RulesCreateResponseZscoreTarget | null | undefined;
 }
 export interface CreateVpcFlowTokenRequest {
   accountId: string;
@@ -263,17 +263,17 @@ export interface DeleteRuleResponse {
   /** MNM rule type. */
   type: RulesDeleteResponseType;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number | null;
+  bandwidthThreshold?: number | null | undefined;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"]. */
-  duration?: RulesDeleteResponseDuration | null;
+  duration?: RulesDeleteResponseDuration | null | undefined;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number | null;
+  packetThreshold?: number | null | undefined;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
-  prefixMatch?: RulesDeleteResponsePrefixMatch | null;
+  prefixMatch?: RulesDeleteResponsePrefixMatch | null | undefined;
   /** Level of sensitivity set for zscore rules. */
-  zscoreSensitivity?: RulesDeleteResponseZscoreSensitivity | null;
+  zscoreSensitivity?: RulesDeleteResponseZscoreSensitivity | null | undefined;
   /** Target of the zscore rule analysis. */
-  zscoreTarget?: RulesDeleteResponseZscoreTarget | null;
+  zscoreTarget?: RulesDeleteResponseZscoreTarget | null | undefined;
 }
 export interface GetConfigRequest {
   accountId: string;
@@ -328,17 +328,17 @@ export interface GetRuleResponse {
   /** MNM rule type. */
   type: RulesGetResponseType;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number | null;
+  bandwidthThreshold?: number | null | undefined;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"]. */
-  duration?: RulesGetResponseDuration | null;
+  duration?: RulesGetResponseDuration | null | undefined;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number | null;
+  packetThreshold?: number | null | undefined;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
-  prefixMatch?: RulesGetResponsePrefixMatch | null;
+  prefixMatch?: RulesGetResponsePrefixMatch | null | undefined;
   /** Level of sensitivity set for zscore rules. */
-  zscoreSensitivity?: RulesGetResponseZscoreSensitivity | null;
+  zscoreSensitivity?: RulesGetResponseZscoreSensitivity | null | undefined;
   /** Target of the zscore rule analysis. */
-  zscoreTarget?: RulesGetResponseZscoreTarget | null;
+  zscoreTarget?: RulesGetResponseZscoreTarget | null | undefined;
 }
 export interface ListRulesRequest {
   accountId: string;
@@ -368,24 +368,24 @@ export interface RulesListResultItem {
   /** MNM rule type. */
   type: RulesListResultItemType;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number | null;
+  bandwidthThreshold?: number | null | undefined;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"]. */
-  duration?: RulesListResultItemDuration | null;
+  duration?: RulesListResultItemDuration | null | undefined;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number | null;
+  packetThreshold?: number | null | undefined;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
-  prefixMatch?: RulesListResultItemPrefixMatch | null;
+  prefixMatch?: RulesListResultItemPrefixMatch | null | undefined;
   /** Level of sensitivity set for zscore rules. */
-  zscoreSensitivity?: RulesListResultItemZscoreSensitivity | null;
+  zscoreSensitivity?: RulesListResultItemZscoreSensitivity | null | undefined;
   /** Target of the zscore rule analysis. */
-  zscoreTarget?: RulesListResultItemZscoreTarget | null;
+  zscoreTarget?: RulesListResultItemZscoreTarget | null | undefined;
 }
 export type RulesListResultList = Array<RulesListResultItem>;
 export interface ListRulesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: RulesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ConfigsEditRequestRouterIpsList = Array<string>;
 export type ConfigsEditRequestWarpDevicesItem = ConfigsCreateRequestWarpDevicesItem;
@@ -393,11 +393,11 @@ export type ConfigsEditRequestWarpDevicesList = Array<ConfigsCreateRequestWarpDe
 export interface PatchConfigRequest {
   accountId: string;
   /** Fallback sampling rate of flow messages being sent in packets per second. This should match the packet sampling rate configured on the router. */
-  defaultSampling?: number;
+  defaultSampling?: number | undefined;
   /** The account name. */
-  name?: string;
-  routerIps?: ConfigsEditRequestRouterIpsList;
-  warpDevices?: ConfigsEditRequestWarpDevicesList;
+  name?: string | undefined;
+  routerIps?: ConfigsEditRequestRouterIpsList | undefined;
+  warpDevices?: ConfigsEditRequestWarpDevicesList | undefined;
 }
 export type ConfigsEditResponseRouterIpsList = Array<string>;
 export type ConfigsEditResponseWarpDevicesItem = ConfigsCreateRequestWarpDevicesItem;
@@ -429,17 +429,17 @@ export interface PatchRuleRequest {
   /** MNM rule type. */
   type: RulesEditRequestType | (string & {});
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number;
+  bandwidthThreshold?: number | undefined;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"]. */
-  duration?: RulesEditRequestDuration | (string & {});
+  duration?: RulesEditRequestDuration | (string & {}) | undefined;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number;
+  packetThreshold?: number | undefined;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
-  prefixMatch?: RulesEditRequestPrefixMatch | (string & {});
+  prefixMatch?: RulesEditRequestPrefixMatch | (string & {}) | undefined;
   /** Level of sensitivity set for zscore rules. */
-  zscoreSensitivity?: RulesEditRequestZscoreSensitivity | (string & {});
+  zscoreSensitivity?: RulesEditRequestZscoreSensitivity | (string & {}) | undefined;
   /** Target of the zscore rule analysis. */
-  zscoreTarget?: RulesEditRequestZscoreTarget | (string & {});
+  zscoreTarget?: RulesEditRequestZscoreTarget | (string & {}) | undefined;
 }
 export type RulesEditResponsePrefixesList = Array<string>;
 export type RulesEditResponseType = "threshold" | "zscore" | "advanced_ddos";
@@ -459,17 +459,17 @@ export interface PatchRuleResponse {
   /** MNM rule type. */
   type: RulesEditResponseType;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number | null;
+  bandwidthThreshold?: number | null | undefined;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"]. */
-  duration?: RulesEditResponseDuration | null;
+  duration?: RulesEditResponseDuration | null | undefined;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number | null;
+  packetThreshold?: number | null | undefined;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
-  prefixMatch?: RulesEditResponsePrefixMatch | null;
+  prefixMatch?: RulesEditResponsePrefixMatch | null | undefined;
   /** Level of sensitivity set for zscore rules. */
-  zscoreSensitivity?: RulesEditResponseZscoreSensitivity | null;
+  zscoreSensitivity?: RulesEditResponseZscoreSensitivity | null | undefined;
   /** Target of the zscore rule analysis. */
-  zscoreTarget?: RulesEditResponseZscoreTarget | null;
+  zscoreTarget?: RulesEditResponseZscoreTarget | null | undefined;
 }
 export interface PatchRuleAdvertisementRequest {
   accountId: string;
@@ -490,8 +490,8 @@ export interface UpdateConfigRequest {
   defaultSampling: number;
   /** The account name. */
   name: string;
-  routerIps?: ConfigsUpdateRequestRouterIpsList;
-  warpDevices?: ConfigsUpdateRequestWarpDevicesList;
+  routerIps?: ConfigsUpdateRequestRouterIpsList | undefined;
+  warpDevices?: ConfigsUpdateRequestWarpDevicesList | undefined;
 }
 export type ConfigsUpdateResponseRouterIpsList = Array<string>;
 export type ConfigsUpdateResponseWarpDevicesItem = ConfigsCreateRequestWarpDevicesItem;
@@ -529,17 +529,17 @@ export interface UpdateRuleRequest {
   /** MNM rule type. */
   type: RulesUpdateRequestType | (string & {});
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number;
+  bandwidthThreshold?: number | undefined;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"]. */
-  duration?: RulesUpdateRequestDuration | (string & {});
+  duration?: RulesUpdateRequestDuration | (string & {}) | undefined;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number;
+  packetThreshold?: number | undefined;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
-  prefixMatch?: RulesUpdateRequestPrefixMatch | (string & {});
+  prefixMatch?: RulesUpdateRequestPrefixMatch | (string & {}) | undefined;
   /** Level of sensitivity set for zscore rules. */
-  zscoreSensitivity?: RulesUpdateRequestZscoreSensitivity | (string & {});
+  zscoreSensitivity?: RulesUpdateRequestZscoreSensitivity | (string & {}) | undefined;
   /** Target of the zscore rule analysis. */
-  zscoreTarget?: RulesUpdateRequestZscoreTarget | (string & {});
+  zscoreTarget?: RulesUpdateRequestZscoreTarget | (string & {}) | undefined;
 }
 export type RulesUpdateResponsePrefixesList = Array<string>;
 export type RulesUpdateResponseType = "threshold" | "zscore" | "advanced_ddos";
@@ -567,17 +567,17 @@ export interface UpdateRuleResponse {
   /** MNM rule type. */
   type: RulesUpdateResponseType;
   /** The number of bits per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  bandwidthThreshold?: number | null;
+  bandwidthThreshold?: number | null | undefined;
   /** The amount of time that the rule threshold must be exceeded to send an alert notification. The final value must be equivalent to one of the following 8 values ["1m","5m","10m","15m","20m","30m","45m","60m"]. */
-  duration?: RulesUpdateResponseDuration | null;
+  duration?: RulesUpdateResponseDuration | null | undefined;
   /** The number of packets per second for the rule. When this value is exceeded for the set duration, an alert notification is sent. Minimum of 1 and no maximum. */
-  packetThreshold?: number | null;
+  packetThreshold?: number | null | undefined;
   /** Prefix match type to be applied for a prefix auto advertisement when using an advanced_ddos rule. */
-  prefixMatch?: RulesUpdateResponsePrefixMatch | null;
+  prefixMatch?: RulesUpdateResponsePrefixMatch | null | undefined;
   /** Level of sensitivity set for zscore rules. */
-  zscoreSensitivity?: RulesUpdateResponseZscoreSensitivity | null;
+  zscoreSensitivity?: RulesUpdateResponseZscoreSensitivity | null | undefined;
   /** Target of the zscore rule analysis. */
-  zscoreTarget?: RulesUpdateResponseZscoreTarget | null;
+  zscoreTarget?: RulesUpdateResponseZscoreTarget | null | undefined;
 }
 export type CreateConfigError =
   | MnmConfigAlreadyExists

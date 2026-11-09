@@ -187,47 +187,61 @@ export type CVSSSubsequentSystemIntegrityImpactEnum =
 /** Common Vulnerability Scoring System. This message is compatible with CVSS v2 and v3. For CVSS v2 details, see https://www.first.org/cvss/v2/guide CVSS v2 calculator: https://nvd.nist.gov/vuln-metrics/cvss/v2-calculator For CVSS v3 details, see https://www.first.org/cvss/specification-document CVSS v3 calculator: https://nvd.nist.gov/vuln-metrics/cvss/v3-calculator For CVSS v4 details, see https://www.first.org/cvss/v4.0/user-guide CVSS v4 calculator: https://nvd.nist.gov/vuln-metrics/cvss/v4-calculator */
 export interface CVSS {
   /** Optional. Vulnerable System Integrity Impact (VI). Defined in CVSS v4. */
-  vulnerableSystemIntegrityImpact?: CVSSVulnerableSystemIntegrityImpactEnum | (string & {});
+  vulnerableSystemIntegrityImpact?:
+    | CVSSVulnerableSystemIntegrityImpactEnum
+    | (string & {})
+    | undefined;
   /** Optional. Privileges Required (PR). Defined in CVSS v3, v4. */
-  privilegesRequired?: CVSSPrivilegesRequiredEnum | (string & {});
+  privilegesRequired?: CVSSPrivilegesRequiredEnum | (string & {}) | undefined;
   /** Optional. Attack Vector (AV). Defined in CVSS v2, v3, v4. */
-  attackVector?: CVSSAttackVectorEnum | (string & {});
+  attackVector?: CVSSAttackVectorEnum | (string & {}) | undefined;
   /** Optional. Vulnerable System Availability Impact (VA). Defined in CVSS v4. */
-  vulnerableSystemAvailabilityImpact?: CVSSVulnerableSystemAvailabilityImpactEnum | (string & {});
+  vulnerableSystemAvailabilityImpact?:
+    | CVSSVulnerableSystemAvailabilityImpactEnum
+    | (string & {})
+    | undefined;
   /** Optional. Exploit Maturity (E). Defined in CVSS v4. */
-  exploitMaturity?: CVSSExploitMaturityEnum | (string & {});
+  exploitMaturity?: CVSSExploitMaturityEnum | (string & {}) | undefined;
   /** Optional. User Interaction (UI). Defined in CVSS v3, v4. */
-  userInteraction?: CVSSUserInteractionEnum | (string & {});
+  userInteraction?: CVSSUserInteractionEnum | (string & {}) | undefined;
   /** Optional. Confidentiality Impact (C). Defined in CVSS v2, v3. */
-  confidentialityImpact?: CVSSConfidentialityImpactEnum | (string & {});
+  confidentialityImpact?: CVSSConfidentialityImpactEnum | (string & {}) | undefined;
   /** Optional. Subsequent System Availability Impact (SA). Defined in CVSS v4. */
-  subsequentSystemAvailabilityImpact?: CVSSSubsequentSystemAvailabilityImpactEnum | (string & {});
+  subsequentSystemAvailabilityImpact?:
+    | CVSSSubsequentSystemAvailabilityImpactEnum
+    | (string & {})
+    | undefined;
   /** Optional. Attack Requirements (AT). Defined in CVSS v4. */
-  attackRequirements?: CVSSAttackRequirementsEnum | (string & {});
+  attackRequirements?: CVSSAttackRequirementsEnum | (string & {}) | undefined;
   /** Optional. Vulnerable System Confidentiality Impact (VC). Defined in CVSS v4. */
   vulnerableSystemConfidentialityImpact?:
     | CVSSVulnerableSystemConfidentialityImpactEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Subsequent System Confidentiality Impact (SC). Defined in CVSS v4. */
   subsequentSystemConfidentialityImpact?:
     | CVSSSubsequentSystemConfidentialityImpactEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Scope (S). Defined in CVSS v3. */
-  scope?: CVSSScopeEnum | (string & {});
+  scope?: CVSSScopeEnum | (string & {}) | undefined;
   /** Optional. Authentication (Au). Defined in CVSS v2. */
-  authentication?: CVSSAuthenticationEnum | (string & {});
+  authentication?: CVSSAuthenticationEnum | (string & {}) | undefined;
   /** Optional. Integrity Impact (I). Defined in CVSS v2, v3. */
-  integrityImpact?: CVSSIntegrityImpactEnum | (string & {});
-  impactScore?: number;
+  integrityImpact?: CVSSIntegrityImpactEnum | (string & {}) | undefined;
+  impactScore?: number | undefined;
   /** Optional. Attack Complexity (AC). Defined in CVSS v2, v3, v4. */
-  attackComplexity?: CVSSAttackComplexityEnum | (string & {});
-  exploitabilityScore?: number;
+  attackComplexity?: CVSSAttackComplexityEnum | (string & {}) | undefined;
+  exploitabilityScore?: number | undefined;
   /** Optional. The base score is a function of the base metric scores. */
-  baseScore?: number;
+  baseScore?: number | undefined;
   /** Optional. Availability Impact (A). Defined in CVSS v2, v3. */
-  availabilityImpact?: CVSSAvailabilityImpactEnum | (string & {});
+  availabilityImpact?: CVSSAvailabilityImpactEnum | (string & {}) | undefined;
   /** Optional. Subsequent System Integrity Impact (SI). Defined in CVSS v4. */
-  subsequentSystemIntegrityImpact?: CVSSSubsequentSystemIntegrityImpactEnum | (string & {});
+  subsequentSystemIntegrityImpact?:
+    | CVSSSubsequentSystemIntegrityImpactEnum
+    | (string & {})
+    | undefined;
 }
 export type StringList = Array<string>;
 export type VulnerabilityTypeSeverityEnum =
@@ -241,86 +255,86 @@ export type VersionKindEnum = "NORMAL" | "MINIMUM" | "MAXIMUM";
 /** Version contains structured information about the version of the package. For a discussion of this in Debian/Ubuntu: http://serverfault.com/questions/604541/debian-packages-version-convention For a discussion of this in Redhat/Fedora/Centos: http://blog.jasonantman.com/2014/07/how-yum-and-rpm-compare-versions/ */
 export interface Version {
   /** Distinguish between sentinel MIN/MAX versions and normal versions. If kind is not NORMAL, then the other fields are ignored. */
-  kind?: VersionKindEnum | (string & {});
+  kind?: VersionKindEnum | (string & {}) | undefined;
   /** Used to correct mistakes in the version numbering scheme. */
-  epoch?: number;
+  epoch?: number | undefined;
   /** The main part of the version name. */
-  name?: string;
+  name?: string | undefined;
   /** The iteration of the package build from the above version. */
-  revision?: string;
+  revision?: string | undefined;
   /** Whether this version is vulnerable, when defining the version bounds. For example, if the minimum version is 2.0, inclusive=true would say 2.0 is vulnerable, while inclusive=false would say it's not */
-  inclusive?: boolean;
+  inclusive?: boolean | undefined;
 }
 /** BaseImage describes a base image of a container image. */
 export interface BaseImage {
   /** The name of the base image. */
-  name?: string;
+  name?: string | undefined;
   /** The number of layers that the base image is composed of. */
-  layerCount?: number;
+  layerCount?: number | undefined;
   /** The repository name in which the base image is from. */
-  repository?: string;
+  repository?: string | undefined;
   /** The registry of the base image. */
-  registry?: string;
+  registry?: string | undefined;
 }
 export type BaseImageList = Array<BaseImage>;
 /** Details about the layer a package was found in. */
 export interface LayerDetails {
   /** The index of the layer in the container image. */
-  index?: number;
+  index?: number | undefined;
   /** The base images the layer is found within. */
-  baseImages?: BaseImageList;
+  baseImages?: BaseImageList | undefined;
   /** The chain ID of the layer in the container image. */
-  chainId?: string;
+  chainId?: string | undefined;
   /** The layer build command that was used to build the layer. This may not be found in all layers depending on how the container image is built. */
-  command?: string;
+  command?: string | undefined;
   /** The diff ID (sha256 hash) of the layer in the container image. */
-  diffId?: string;
+  diffId?: string | undefined;
 }
 /** Indicates the location at which a package was found. */
 export interface FileLocation {
   /** Each package found in a file should have its own layer metadata (that is, information from the origin layer of the package). */
-  layerDetails?: LayerDetails;
+  layerDetails?: LayerDetails | undefined;
   /** For jars that are contained inside .war files, this filepath can indicate the path to war file combined with the path to jar file. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Line number in the file where the package is found. Optional field that only applies to source repository scanning. */
-  lineNumber?: number;
+  lineNumber?: number | undefined;
 }
 export type FileLocationList = Array<FileLocation>;
 /** The location of the vulnerability */
 export interface VulnerabilityLocation {
   /** The version of the package being described. This field can be used as a filter in list requests. */
-  version?: Version;
+  version?: Version | undefined;
   /** The cpe_uri in [cpe format] (https://cpe.mitre.org/specification/) format. Examples include distro or storage location for vulnerable jar. This field can be used as a filter in list requests. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** The package being described. */
-  package?: string;
+  package?: string | undefined;
   /** The file location at which this package was found. */
-  fileLocation?: FileLocationList;
+  fileLocation?: FileLocationList | undefined;
 }
 /** Identifies all occurrences of this vulnerability in the package for a specific distro/location For example: glibc in cpe:/o:debian:debian_linux:8 for versions 2.1 - 2.2 */
 export interface Detail {
   /** A vendor-specific description of this note. */
-  description?: string;
+  description?: string | undefined;
   /** The min version of the package in which the vulnerability exists. */
-  minAffectedVersion?: Version;
+  minAffectedVersion?: Version | undefined;
   /** The max version of the package in which the vulnerability exists. */
-  maxAffectedVersion?: Version;
+  maxAffectedVersion?: Version | undefined;
   /** The name of the package where the vulnerability was found. This field can be used as a filter in list requests. */
-  package?: string;
+  package?: string | undefined;
   /** The cpe_uri in [cpe format] (https://cpe.mitre.org/specification/) in which the vulnerability manifests. Examples include distro or storage location for vulnerable jar. This field can be used as a filter in list requests. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** The type of package; whether native or non native(ruby gems, node.js packages etc) */
-  packageType?: string;
+  packageType?: string | undefined;
   /** The source from which the information in this Detail was obtained. */
-  source?: string;
+  source?: string | undefined;
   /** The vendor of the product. e.g. "google" */
-  vendor?: string;
+  vendor?: string | undefined;
   /** The fix for this specific package version. */
-  fixedLocation?: VulnerabilityLocation;
+  fixedLocation?: VulnerabilityLocation | undefined;
   /** Whether this Detail is obsolete. Occurrences are expected not to point to obsolete details. */
-  isObsolete?: boolean;
+  isObsolete?: boolean | undefined;
   /** The severity (eg: distro assigned severity) for this vulnerability. */
-  severityName?: string;
+  severityName?: string | undefined;
 }
 export type DetailList = Array<Detail>;
 export type VulnerabilityTypeCvssVersionEnum =
@@ -331,21 +345,21 @@ export type VulnerabilityTypeCvssVersionEnum =
 /** VulnerabilityType provides metadata about a security vulnerability. */
 export interface VulnerabilityType {
   /** Optional. The full description of the CVSS for version 4. */
-  cvssV4?: CVSS;
+  cvssV4?: CVSS | undefined;
   /** A list of CWE for this vulnerability. For details, see: https://cwe.mitre.org/index.html */
-  cwe?: StringList;
+  cwe?: StringList | undefined;
   /** Note provider assigned impact of the vulnerability */
-  severity?: VulnerabilityTypeSeverityEnum | (string & {});
+  severity?: VulnerabilityTypeSeverityEnum | (string & {}) | undefined;
   /** The CVSS score for this Vulnerability. */
-  cvssScore?: number;
+  cvssScore?: number | undefined;
   /** All information about the package to specifically identify this vulnerability. One entry per (version range and cpe_uri) the package vulnerability has manifested in. */
-  details?: DetailList;
+  details?: DetailList | undefined;
   /** CVSS version used to populate cvss_score and severity. */
-  cvssVersion?: VulnerabilityTypeCvssVersionEnum | (string & {});
+  cvssVersion?: VulnerabilityTypeCvssVersionEnum | (string & {}) | undefined;
   /** The full description of the CVSS for version 2. */
-  cvssV2?: CVSS;
+  cvssV2?: CVSS | undefined;
   /** Time this advisory was published by the source. */
-  advisoryPublishTime?: string;
+  advisoryPublishTime?: string | undefined;
 }
 export type DiscoveryAnalysisKindEnum =
   | "KIND_UNSPECIFIED"
@@ -370,14 +384,14 @@ export type DiscoveryAnalysisKindEnum =
 /** A note that indicates a type of analysis a provider would perform. This note exists in a provider's project. A `Discovery` occurrence is created in a consumer's project at the start of analysis. The occurrence's operation will indicate the status of the analysis. Absence of an occurrence linked to this note for a resource indicates that analysis hasn't started. */
 export interface Discovery {
   /** The kind of analysis that is handled by this discovery. */
-  analysisKind?: DiscoveryAnalysisKindEnum | (string & {});
+  analysisKind?: DiscoveryAnalysisKindEnum | (string & {}) | undefined;
 }
 /** License information. */
 export interface License {
   /** Often a single license can be used to represent the licensing terms. Sometimes it is necessary to include a choice of one or more licenses or some combination of license identifiers. Examples: "LGPL-2.1-only OR MIT", "LGPL-2.1-only AND MIT", "GPL-2.0-or-later WITH Bison-exception-2.2". */
-  expression?: string;
+  expression?: string | undefined;
   /** Comments */
-  comments?: string;
+  comments?: string | undefined;
 }
 export type ExternalRefCategoryEnum =
   | "CATEGORY_UNSPECIFIED"
@@ -388,56 +402,56 @@ export type ExternalRefCategoryEnum =
 /** An External Reference allows a Package to reference an external source of additional information, metadata, enumerations, asset identifiers, or downloadable content believed to be relevant to the Package */
 export interface ExternalRef {
   /** The unique string with no spaces necessary to access the package-specific information, metadata, or content within the target location */
-  locator?: string;
+  locator?: string | undefined;
   /** Type of category (e.g. 'npm' for the PACKAGE_MANAGER category) */
-  type?: string;
+  type?: string | undefined;
   /** An External Reference allows a Package to reference an external source of additional information, metadata, enumerations, asset identifiers, or downloadable content believed to be relevant to the Package */
-  category?: ExternalRefCategoryEnum | (string & {});
+  category?: ExternalRefCategoryEnum | (string & {}) | undefined;
   /** Human-readable information about the purpose and target of the reference */
-  comment?: string;
+  comment?: string | undefined;
 }
 export type ExternalRefList = Array<ExternalRef>;
 /** PackageInfoNote represents an SPDX Package Information section: https://spdx.github.io/spdx-spec/3-package-information/ */
 export interface PackageInfoNote {
   /** List the licenses that have been declared by the authors of the package */
-  licenseDeclared?: License;
+  licenseDeclared?: License | undefined;
   /** Contain the license the SPDX file creator has concluded as governing the This field is to contain a list of all licenses found in the package. The relationship between licenses (i.e., conjunctive, disjunctive) is not specified in this field - it is simply a listing of all licenses found */
-  filesLicenseInfo?: StringList;
+  filesLicenseInfo?: StringList | undefined;
   /** Identify the copyright holders of the package, as well as any dates present */
-  copyright?: string;
+  copyright?: string | undefined;
   /** ExternalRef */
-  externalRefs?: ExternalRefList;
+  externalRefs?: ExternalRefList | undefined;
   /** This section identifies the download Universal Resource Locator (URL), or a specific location within a version control system (VCS) for the package at the time that the SPDX file was created */
-  downloadLocation?: string;
+  downloadLocation?: string | undefined;
   /** A place for the SPDX data creator to record, at the package level, acknowledgements that may be needed to be communicated in some contexts */
-  attribution?: string;
+  attribution?: string | undefined;
   /** Identify the actual distribution source for the package/directory identified in the SPDX file */
-  supplier?: string;
+  supplier?: string | undefined;
   /** Identify the full name of the package as given by the Package Originator */
-  title?: string;
+  title?: string | undefined;
   /** Identify the version of the package */
-  version?: string;
+  version?: string | undefined;
   /** Provide a place for the SPDX file creator to record a web site that serves as the package's home page */
-  homePage?: string;
+  homePage?: string | undefined;
   /** The type of package: OS, MAVEN, GO, GO_STDLIB, etc. */
-  packageType?: string;
+  packageType?: string | undefined;
   /** This field provides an independently reproducible mechanism identifying specific contents of a package based on the actual files (except the SPDX file itself, if it is included in the package) that make up each package and that correlates to the data in this SPDX file */
-  verificationCode?: string;
+  verificationCode?: string | undefined;
   /** A more detailed description of the package */
-  detailedDescription?: string;
+  detailedDescription?: string | undefined;
   /** A short description of the package */
-  summaryDescription?: string;
+  summaryDescription?: string | undefined;
   /** If the package identified in the SPDX file originated from a different person or organization than identified as Package Supplier, this field identifies from where or whom the package originally came */
-  originator?: string;
+  originator?: string | undefined;
   /** Indicates whether the file content of this package has been available for or subjected to analysis when creating the SPDX document */
-  analyzed?: boolean;
+  analyzed?: boolean | undefined;
   /** Provide an independently reproducible mechanism that permits unique identification of a specific package that correlates to the data in this SPDX file */
-  checksum?: string;
+  checksum?: string | undefined;
 }
 /** An artifact that can be deployed in some runtime. */
 export interface Deployable {
   /** Resource URI for the artifact being deployed. */
-  resourceUri?: StringList;
+  resourceUri?: StringList | undefined;
 }
 export type NoteKindEnum =
   | "KIND_UNSPECIFIED"
@@ -475,80 +489,80 @@ export type FileNoteFileTypeEnum =
 /** FileNote represents an SPDX File Information section: https://spdx.github.io/spdx-spec/4-file-information/ */
 export interface FileNote {
   /** This field provides information about the type of file identified */
-  fileType?: FileNoteFileTypeEnum | (string & {});
+  fileType?: FileNoteFileTypeEnum | (string & {}) | undefined;
   /** Provide a unique identifier to match analysis information on each specific file in a package */
-  checksum?: StringList;
+  checksum?: StringList | undefined;
   /** Identify the full path and filename that corresponds to the file information in this section */
-  title?: string;
+  title?: string | undefined;
 }
 export type DistributionArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86" | "X64";
 /** This represents a particular channel of distribution for a given package. e.g. Debian's jessie-backports dpkg mirror */
 export interface Distribution {
   /** A freeform string denoting the maintainer of this package. */
-  maintainer?: string;
+  maintainer?: string | undefined;
   /** The latest available version of this package in this distribution channel. */
-  latestVersion?: Version;
+  latestVersion?: Version | undefined;
   /** The distribution channel-specific homepage for this package. */
-  url?: string;
+  url?: string | undefined;
   /** The distribution channel-specific description of this package. */
-  description?: string;
+  description?: string | undefined;
   /** The cpe_uri in [cpe format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** The CPU architecture for which packages in this distribution channel were built */
-  architecture?: DistributionArchitectureEnum | (string & {});
+  architecture?: DistributionArchitectureEnum | (string & {}) | undefined;
 }
 export type DistributionList = Array<Distribution>;
 export type PackageArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86" | "X64";
 /** Digest information. */
 export interface Digest {
   /** `SHA1`, `SHA512` etc. */
-  algo?: string;
+  algo?: string | undefined;
   /** Value of the digest. */
-  digestBytes?: string;
+  digestBytes?: string | undefined;
 }
 export type DigestList = Array<Digest>;
 /** This represents a particular package that is distributed over various channels. e.g. glibc (aka libc6) is distributed by many, at various versions. */
 export interface Package {
   /** The cpe_uri in [CPE format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. The cpe_uri will be blank for language packages. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** The various channels by which a package is distributed. */
-  distribution?: DistributionList;
+  distribution?: DistributionList | undefined;
   /** The version of the package. */
-  version?: Version;
+  version?: Version | undefined;
   /** The name of the package. */
-  name?: string;
+  name?: string | undefined;
   /** The type of package; whether native or non native (e.g., ruby gems, node.js packages, etc.). */
-  packageType?: string;
+  packageType?: string | undefined;
   /** Licenses that have been declared by the authors of the package. */
-  license?: License;
+  license?: License | undefined;
   /** A freeform text denoting the maintainer of this package. */
-  maintainer?: string;
+  maintainer?: string | undefined;
   /** The description of this package. */
-  description?: string;
+  description?: string | undefined;
   /** The CPU architecture for which packages in this distribution channel were built. Architecture will be blank for language packages. */
-  architecture?: PackageArchitectureEnum | (string & {});
+  architecture?: PackageArchitectureEnum | (string & {}) | undefined;
   /** Hash value, typically a file digest, that allows unique identification a specific package. */
-  digest?: DigestList;
+  digest?: DigestList | undefined;
   /** The homepage for this package. */
-  url?: string;
+  url?: string | undefined;
 }
 /** This submessage provides human-readable hints about the purpose of the AttestationAuthority. Because the name of a Note acts as its resource reference, it is important to disambiguate the canonical name of the Note (which might be a UUID for security purposes) from "readable" names more suitable for debug output. Note that these hints should NOT be used to look up AttestationAuthorities in security sensitive contexts, such as when looking up Attestations to verify. */
 export interface AttestationAuthorityHint {
   /** The human readable name of this Attestation Authority, for example "qa". */
-  humanReadableName?: string;
+  humanReadableName?: string | undefined;
 }
 /** Note kind that represents a logical attestation "role" or "authority". For example, an organization might have one `AttestationAuthority` for "QA" and one for "build". This Note is intended to act strictly as a grouping mechanism for the attached Occurrences (Attestations). This grouping mechanism also provides a security boundary, since IAM ACLs gate the ability for a principle to attach an Occurrence to a given Note. It also provides a single point of lookup to find all attached Attestation Occurrences, even if they don't all live in the same project. */
 export interface AttestationAuthority {
-  hint?: AttestationAuthorityHint;
+  hint?: AttestationAuthorityHint | undefined;
 }
 /** Describes the CIS benchmark version that is applicable to a given OS and os version. */
 export interface ComplianceVersion {
   /** The CPE URI (https://cpe.mitre.org/specification/) this benchmark is applicable to. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** The version of the benchmark. This is set to the version of the OS-specific CIS document the benchmark is defined in. */
-  version?: string;
+  version?: string | undefined;
   /** The name of the document that defines this benchmark, e.g. "CIS Container-Optimized OS". */
-  benchmarkDocument?: string;
+  benchmarkDocument?: string | undefined;
 }
 export type ComplianceVersionList = Array<ComplianceVersion>;
 export type CisBenchmarkSeverityEnum =
@@ -561,28 +575,28 @@ export type CisBenchmarkSeverityEnum =
 /** A compliance check that is a CIS benchmark. */
 export interface CisBenchmark {
   /** The profile level of this CIS benchmark check. */
-  profileLevel?: number;
+  profileLevel?: number | undefined;
   /** The severity level of this CIS benchmark check. */
-  severity?: CisBenchmarkSeverityEnum | (string & {});
+  severity?: CisBenchmarkSeverityEnum | (string & {}) | undefined;
 }
 /** ComplianceNote encapsulates all information about a specific compliance check. */
 export interface ComplianceNote {
   /** Serialized scan instructions with a predefined format. */
-  scanInstructions?: string;
+  scanInstructions?: string | undefined;
   /** A description of remediation steps if the compliance check fails. */
-  remediation?: string;
+  remediation?: string | undefined;
   /** The OS and config versions the benchmark applies to. */
-  version?: ComplianceVersionList;
+  version?: ComplianceVersionList | undefined;
   /** Right now we only have one compliance type, but we may add additional types in the future. */
-  cisBenchmark?: CisBenchmark;
+  cisBenchmark?: CisBenchmark | undefined;
   /** Potential impact of the suggested remediation */
-  impact?: string;
+  impact?: string | undefined;
   /** A description about this compliance check. */
-  description?: string;
+  description?: string | undefined;
   /** A rationale for the existence of this compliance check. */
-  rationale?: string;
+  rationale?: string | undefined;
   /** The title that identifies this compliance check. */
-  title?: string;
+  title?: string | undefined;
 }
 export type RelationshipNoteTypeEnum =
   | "RELATIONSHIP_TYPE_UNSPECIFIED"
@@ -632,31 +646,31 @@ export type RelationshipNoteTypeEnum =
 /** RelationshipNote represents an SPDX Relationship section: https://spdx.github.io/spdx-spec/7-relationships-between-SPDX-elements/ */
 export interface RelationshipNote {
   /** The type of relationship between the source and target SPDX elements */
-  type?: RelationshipNoteTypeEnum | (string & {});
+  type?: RelationshipNoteTypeEnum | (string & {}) | undefined;
 }
 export type IdentifierHelperFieldEnum = "IDENTIFIER_HELPER_FIELD_UNSPECIFIED" | "GENERIC_URI";
 /** Helps in identifying the underlying product. This should be treated like a one-of field. Only one field should be set in this proto. This is a workaround because spanner indexes on one-of fields restrict addition and deletion of fields. */
 export interface IdentifierHelper {
   /** The field that is set in the API proto. */
-  field?: IdentifierHelperFieldEnum | (string & {});
+  field?: IdentifierHelperFieldEnum | (string & {}) | undefined;
   /** Contains a URI which is vendor-specific. Example: The artifact repository URL of an image. */
-  genericUri?: string;
+  genericUri?: string | undefined;
 }
 /** Product contains information about a product and how to uniquely identify it. */
 export interface Product {
   /** Token that identifies a product so that it can be referred to from other parts in the document. There is no predefined format as long as it uniquely identifies a group in the context of the current document. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the product. */
-  name?: string;
+  name?: string | undefined;
   /** Helps in identifying the underlying product. */
-  identifierHelper?: IdentifierHelper;
+  identifierHelper?: IdentifierHelper | undefined;
 }
 /** An URI message. */
 export interface URI {
   /** The unique resource identifier. */
-  uri?: string;
+  uri?: string | undefined;
   /** A label for the URI. */
-  label?: string;
+  label?: string | undefined;
 }
 export type RemediationRemediationTypeEnum =
   | "REMEDIATION_TYPE_UNSPECIFIED"
@@ -668,11 +682,11 @@ export type RemediationRemediationTypeEnum =
 /** Specifies details on how to handle (and presumably, fix) a vulnerability. */
 export interface Remediation {
   /** Contains a comprehensive human-readable discussion of the remediation. */
-  details?: string;
+  details?: string | undefined;
   /** Contains the URL where to obtain the remediation. */
-  remediationUri?: URI;
+  remediationUri?: URI | undefined;
   /** The type of remediation that can be applied. */
-  remediationType?: RemediationRemediationTypeEnum | (string & {});
+  remediationType?: RemediationRemediationTypeEnum | (string & {}) | undefined;
 }
 export type RemediationList = Array<Remediation>;
 export type URIList = Array<URI>;
@@ -686,9 +700,9 @@ export type JustificationJustificationTypeEnum =
 /** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
 export interface Justification {
   /** The justification type for this vulnerability. */
-  justificationType?: JustificationJustificationTypeEnum | (string & {});
+  justificationType?: JustificationJustificationTypeEnum | (string & {}) | undefined;
   /** Additional details on why this justification was chosen. */
-  details?: string;
+  details?: string | undefined;
 }
 export type AssessmentStateEnum =
   | "STATE_UNSPECIFIED"
@@ -699,110 +713,110 @@ export type AssessmentStateEnum =
 /** Assessment provides all information that is related to a single vulnerability for this product. */
 export interface Assessment {
   /** A detailed description of this Vex. */
-  longDescription?: string;
+  longDescription?: string | undefined;
   /** Specifies details on how to handle (and presumably, fix) a vulnerability. */
-  remediations?: RemediationList;
+  remediations?: RemediationList | undefined;
   /** Contains information about the impact of this vulnerability, this will change with time. */
-  impacts?: StringList;
+  impacts?: StringList | undefined;
   /** Holds a list of references associated with this vulnerability item and assessment. These uris have additional information about the vulnerability and the assessment itself. E.g. Link to a document which details how this assessment concluded the state of this vulnerability. */
-  relatedUris?: URIList;
+  relatedUris?: URIList | undefined;
   /** A one sentence description of this Vex. */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   /** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
-  justification?: Justification;
+  justification?: Justification | undefined;
   /** The vulnerability identifier for this Assessment. Will hold one of common identifiers e.g. CVE, GHSA etc. */
-  vulnerabilityId?: string;
+  vulnerabilityId?: string | undefined;
   /** Provides the state of this Vulnerability assessment. */
-  state?: AssessmentStateEnum | (string & {});
+  state?: AssessmentStateEnum | (string & {}) | undefined;
   /** Holds the MITRE standard Common Vulnerabilities and Exposures (CVE) tracking number for the vulnerability. */
-  cve?: string;
+  cve?: string | undefined;
 }
 /** Publisher contains information about the publisher of this Note. */
 export interface Publisher {
   /** Provides information about the authority of the issuing party to release the document, in particular, the party's constituency and responsibilities or other obligations. */
-  issuingAuthority?: string;
+  issuingAuthority?: string | undefined;
   /** Name of the publisher. Examples: 'Google', 'Google Cloud Platform'. */
-  name?: string;
+  name?: string | undefined;
   /** The context or namespace. Contains a URL which is under control of the issuing party and can be used as a globally unique identifier for that issuing party. Example: https://csaf.io */
-  publisherNamespace?: string;
+  publisherNamespace?: string | undefined;
 }
 /** A single VulnerabilityAssessmentNote represents one particular product's vulnerability assessment for one CVE. Multiple VulnerabilityAssessmentNotes together form a Vex statement. Please go/sds-vex-example for a sample Vex statement in the CSAF format. */
 export interface VulnerabilityAssessmentNote {
   /** The title of the note. E.g. `Vex-Debian-11.4` */
-  title?: string;
+  title?: string | undefined;
   /** A one sentence description of this Vex. */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   /** A detailed description of this Vex. */
-  longDescription?: string;
+  longDescription?: string | undefined;
   /** The product affected by this vex. */
-  product?: Product;
+  product?: Product | undefined;
   /** Represents a vulnerability assessment for the product. */
-  assessment?: Assessment;
+  assessment?: Assessment | undefined;
   /** Identifies the language used by this document, corresponding to IETF BCP 47 / RFC 5646. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Publisher details of this Note. */
-  publisher?: Publisher;
+  publisher?: Publisher | undefined;
 }
 /** A set of properties that uniquely identify a given Docker image. */
 export interface Fingerprint {
   /** The ordered list of v2 blobs that represent a given image. */
-  v2Blob?: StringList;
+  v2Blob?: StringList | undefined;
   /** Output only. The name of the image's v2 blobs computed via: [bottom] := v2_blobbottom := sha256(v2_blob[N] + " " + v2_name[N+1]) Only the name of the final blob is kept. This field can be used as a filter in list requests. */
-  v2Name?: string;
+  v2Name?: string | undefined;
   /** The layer-id of the final layer in the Docker image's v1 representation. This field can be used as a filter in list requests. */
-  v1Name?: string;
+  v1Name?: string | undefined;
 }
 /** Basis describes the base image portion (Note) of the DockerImage relationship. Linked occurrences are derived from this or an equivalent image via: FROM Or an equivalent reference, e.g. a tag of the resource_url. */
 export interface Basis {
   /** The resource_url for the resource representing the basis of associated occurrence images. */
-  resourceUrl?: string;
+  resourceUrl?: string | undefined;
   /** The fingerprint of the base image. */
-  fingerprint?: Fingerprint;
+  fingerprint?: Fingerprint | undefined;
 }
 /** This submessage provides human-readable hints about the purpose of the authority. Because the name of a note acts as its resource reference, it is important to disambiguate the canonical name of the Note (which might be a UUID for security purposes) from "readable" names more suitable for debug output. Note that these hints should not be used to look up authorities in security sensitive contexts, such as when looking up attestations to verify. */
 export interface DSSEHint {
   /** Required. The human readable name of this attestation authority, for example "cloudbuild-prod". */
-  humanReadableName?: string;
+  humanReadableName?: string | undefined;
 }
 /** A note describing an attestation */
 export interface DSSEAttestationNote {
   /** DSSEHint hints at the purpose of the attestation authority. */
-  hint?: DSSEHint;
+  hint?: DSSEHint | undefined;
 }
 export type BuildSignatureKeyTypeEnum = "KEY_TYPE_UNSPECIFIED" | "PGP_ASCII_ARMORED" | "PKIX_PEM";
 /** Message encapsulating the signature of the verified build. */
 export interface BuildSignature {
   /** The type of the key, either stored in `public_key` or referenced in `key_id` */
-  keyType?: BuildSignatureKeyTypeEnum | (string & {});
+  keyType?: BuildSignatureKeyTypeEnum | (string & {}) | undefined;
   /** An Id for the key used to sign. This could be either an Id for the key stored in `public_key` (such as the Id or fingerprint for a PGP key, or the CN for a cert), or a reference to an external key (such as a reference to a key in Cloud Key Management Service). */
-  keyId?: string;
+  keyId?: string | undefined;
   /** Public key of the builder which can be used to verify that the related findings are valid and unchanged. If `key_type` is empty, this defaults to PEM encoded public keys. This field may be empty if `key_id` references an external key. For Cloud Build based signatures, this is a PEM encoded public key. To verify the Cloud Build signature, place the contents of this field into a file (public.pem). The signature field is base64-decoded into its binary representation in signature.bin, and the provenance bytes from `BuildDetails` are base64-decoded into a binary representation in signed.bin. OpenSSL can then verify the signature: `openssl sha256 -verify public.pem -signature signature.bin signed.bin` */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** Signature of the related `BuildProvenance`, encoded in a base64 string. */
-  signature?: string;
+  signature?: string | undefined;
 }
 /** Note holding the version of the provider's builder and the signature of the provenance message in linked BuildDetails. */
 export interface BuildType {
   /** Version of the builder which produced this Note. */
-  builderVersion?: string;
+  builderVersion?: string | undefined;
   /** Signature of the build in Occurrences pointing to the Note containing this `BuilderDetails`. */
-  signature?: BuildSignature;
+  signature?: BuildSignature | undefined;
 }
 /** The note representing a secret. */
 export interface SecretNote {}
 /** The note representing an SBOM reference. */
 export interface SBOMReferenceNote {
   /** The version of the format that the SBOM takes. E.g. if the format is spdx, the version may be 2.3. */
-  version?: string;
+  version?: string | undefined;
   /** The format that SBOM takes. E.g. may be spdx, cyclonedx, etc... */
-  format?: string;
+  format?: string | undefined;
 }
 /** Metadata for any related URL information */
 export interface RelatedUrl {
   /** Label to describe usage of the URL */
-  label?: string;
+  label?: string | undefined;
   /** Specific URL to associate with the note */
-  url?: string;
+  url?: string | undefined;
 }
 export type RelatedUrlList = Array<RelatedUrl>;
 /** AISkillAnalysisNote provides the metadata of an AI-based skill analysis. */
@@ -810,95 +824,95 @@ export type AISkillAnalysisNote = SecretNote;
 /** The Upgrade Distribution represents metadata about the Upgrade for each operating system (CPE). Some distributions have additional metadata around updates, classifying them into various categories and severities. */
 export interface UpgradeDistribution {
   /** The severity as specified by the upstream operating system. */
-  severity?: string;
+  severity?: string | undefined;
   /** Required - The specific operating system this metadata applies to. See https://cpe.mitre.org/specification/. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** The cve that would be resolved by this upgrade. */
-  cve?: StringList;
+  cve?: StringList | undefined;
   /** The operating system classification of this Upgrade, as specified by the upstream operating system upgrade feed. */
-  classification?: string;
+  classification?: string | undefined;
 }
 export type UpgradeDistributionList = Array<UpgradeDistribution>;
 /** An Upgrade Note represents a potential upgrade of a package to a given version. For each package version combination (i.e. bash 4.0, bash 4.1, bash 4.1.2), there will be a Upgrade Note. */
 export interface UpgradeNote {
   /** Required - The package this Upgrade is for. */
-  package?: string;
+  package?: string | undefined;
   /** Required - The version of the package in machine + human readable form. */
-  version?: Version;
+  version?: Version | undefined;
   /** Metadata about the upgrade for each specific operating system. */
-  distributions?: UpgradeDistributionList;
+  distributions?: UpgradeDistributionList | undefined;
 }
 /** DocumentNote represents an SPDX Document Creation Infromation section: https://spdx.github.io/spdx-spec/2-document-creation-information/ */
 export interface DocumentNote {
   /** Provide a reference number that can be used to understand how to parse and interpret the rest of the file */
-  spdxVersion?: string;
+  spdxVersion?: string | undefined;
   /** Compliance with the SPDX specification includes populating the SPDX fields therein with data related to such fields ("SPDX-Metadata") */
-  dataLicence?: string;
+  dataLicence?: string | undefined;
 }
 /** Provides a detailed description of a `Note`. */
 export interface Note {
   /** A one sentence description of this `Note`. */
-  shortDescription?: string;
+  shortDescription?: string | undefined;
   /** A package vulnerability type of note. */
-  vulnerabilityType?: VulnerabilityType;
+  vulnerabilityType?: VulnerabilityType | undefined;
   /** A note describing a provider/analysis type. */
-  discovery?: Discovery;
+  discovery?: Discovery | undefined;
   /** A note describing an SPDX Package. */
-  spdxPackage?: PackageInfoNote;
+  spdxPackage?: PackageInfoNote | undefined;
   /** A note describing something that can be deployed. */
-  deployable?: Deployable;
+  deployable?: Deployable | undefined;
   /** Output only. This explicitly denotes which kind of note is specified. This field can be used as a filter in list requests. */
-  kind?: NoteKindEnum | (string & {});
+  kind?: NoteKindEnum | (string & {}) | undefined;
   /** A note describing an SPDX File. */
-  spdxFile?: FileNote;
+  spdxFile?: FileNote | undefined;
   /** A note describing a package hosted by various package managers. */
-  package?: Package;
+  package?: Package | undefined;
   /** A note describing an attestation role. */
-  attestationAuthority?: AttestationAuthority;
+  attestationAuthority?: AttestationAuthority | undefined;
   /** A note describing a compliance check. */
-  compliance?: ComplianceNote;
+  compliance?: ComplianceNote | undefined;
   /** A note describing a relationship between SPDX elements. */
-  spdxRelationship?: RelationshipNote;
+  spdxRelationship?: RelationshipNote | undefined;
   /** A note describing a vulnerability assessment. */
-  vulnerabilityAssessment?: VulnerabilityAssessmentNote;
+  vulnerabilityAssessment?: VulnerabilityAssessmentNote | undefined;
   /** A note describing a base image. */
-  baseImage?: Basis;
+  baseImage?: Basis | undefined;
   /** Time of expiration for this note, null if note does not expire. */
-  expirationTime?: string;
+  expirationTime?: string | undefined;
   /** A note describing a dsse attestation note. */
-  dsseAttestation?: DSSEAttestationNote;
+  dsseAttestation?: DSSEAttestationNote | undefined;
   /** A detailed description of this `Note`. */
-  longDescription?: string;
+  longDescription?: string | undefined;
   /** Build provenance type for a verifiable build. */
-  buildType?: BuildType;
+  buildType?: BuildType | undefined;
   /** A note describing a secret. */
-  secret?: SecretNote;
+  secret?: SecretNote | undefined;
   /** Output only. The time this note was created. This field can be used as a filter in list requests. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The name of the note in the form "projects/{provider_project_id}/notes/{NOTE_ID}" */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time this note was last updated. This field can be used as a filter in list requests. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** A note describing a reference to an SBOM. */
-  sbomReference?: SBOMReferenceNote;
+  sbomReference?: SBOMReferenceNote | undefined;
   /** URLs associated with this note */
-  relatedUrl?: RelatedUrlList;
+  relatedUrl?: RelatedUrlList | undefined;
   /** A note describing an AI skill analysis. */
-  aiSkillAnalysis?: SecretNote;
+  aiSkillAnalysis?: SecretNote | undefined;
   /** A note describing an upgrade. */
-  upgrade?: UpgradeNote;
+  upgrade?: UpgradeNote | undefined;
   /** A note describing a software bill of materials. */
-  sbom?: DocumentNote;
+  sbom?: DocumentNote | undefined;
 }
 export interface CreateProjectsNotesRequest {
   /** This field contains the project Id for example: "projects/{project_id} */
   parent: string;
   /** The name of the project. Should be of the form "providers/{provider_id}". @Deprecated */
-  name?: string;
+  name?: string | undefined;
   /** The ID to use for this note. */
-  noteId?: string;
+  noteId?: string | undefined;
   /** Request body */
-  body?: Note;
+  body?: Note | undefined;
 }
 export type OccurrenceKindEnum =
   | "KIND_UNSPECIFIED"
@@ -923,307 +937,315 @@ export type OccurrenceKindEnum =
 /** An occurrence of a particular package installation found within a system's filesystem. e.g. glibc was found in /var/lib/dpkg/status */
 export interface Location {
   /** The path from which we gathered that this package/version is installed. */
-  path?: string;
+  path?: string | undefined;
   /** Deprecated. The version installed at this location. */
-  version?: Version;
+  version?: Version | undefined;
   /** Deprecated. The cpe_uri in [cpe format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
 }
 export type LocationList = Array<Location>;
 export type InstallationArchitectureEnum = "ARCHITECTURE_UNSPECIFIED" | "X86" | "X64";
 /** This represents how a particular software package may be installed on a system. */
 export interface Installation {
   /** All of the places within the filesystem versions of this package have been found. */
-  location?: LocationList;
+  location?: LocationList | undefined;
   /** Output only. The CPU architecture for which packages in this distribution channel were built. Architecture will be blank for language packages. */
-  architecture?: InstallationArchitectureEnum | (string & {});
+  architecture?: InstallationArchitectureEnum | (string & {}) | undefined;
   /** Output only. The name of the installed package. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The type of package; whether native or non native (e.g., ruby gems, node.js packages, etc.). */
-  packageType?: string;
+  packageType?: string | undefined;
   /** Output only. The cpe_uri in [CPE format](https://cpe.mitre.org/specification/) denoting the package manager version distributing a package. The cpe_uri will be blank for language packages. */
-  cpeUri?: string;
+  cpeUri?: string | undefined;
   /** Licenses that have been declared by the authors of the package. */
-  license?: License;
+  license?: License | undefined;
   /** Output only. The version of the package. */
-  version?: Version;
+  version?: Version | undefined;
 }
 /** FileOccurrence represents an SPDX File Information section: https://spdx.github.io/spdx-spec/4-file-information/ */
 export interface FileOccurrence {
   /** This field provides a place for the SPDX file creator to record license notices or other such related notices found in the file */
-  notice?: string;
+  notice?: string | undefined;
   /** This field provides a place for the SPDX data creator to record, at the file level, acknowledgements that may be needed to be communicated in some contexts */
-  attributions?: StringList;
+  attributions?: StringList | undefined;
   /** Identify the copyright holder of the file, as well as any dates present */
-  copyright?: string;
+  copyright?: string | undefined;
   /** This field contains the license information actually found in the file, if any */
-  filesLicenseInfo?: StringList;
+  filesLicenseInfo?: StringList | undefined;
   /** This field contains the license the SPDX file creator has concluded as governing the file or alternative values if the governing license cannot be determined */
-  licenseConcluded?: License;
+  licenseConcluded?: License | undefined;
   /** This field provides a place for the SPDX file creator to record file contributors */
-  contributors?: StringList;
+  contributors?: StringList | undefined;
   /** This field provides a place for the SPDX file creator to record any general comments about the file */
-  comment?: string;
+  comment?: string | undefined;
   /** Uniquely identify any element in an SPDX document which may be referenced by other elements */
-  id?: string;
+  id?: string | undefined;
 }
 /** A DSSE signature */
 export interface EnvelopeSignature {
   /** The signature itself */
-  sig?: string;
+  sig?: string | undefined;
   /** A reference id to the key being used for signing */
-  keyid?: string;
+  keyid?: string | undefined;
 }
 export type EnvelopeSignatureList = Array<EnvelopeSignature>;
 /** MUST match https://github.com/secure-systems-lab/dsse/blob/master/envelope.proto. An authenticated message of arbitrary type. */
 export interface Envelope {
   /** The bytes being signed */
-  payload?: string;
+  payload?: string | undefined;
   /** The signatures over the payload */
-  signatures?: EnvelopeSignatureList;
+  signatures?: EnvelopeSignatureList | undefined;
   /** The type of payload being signed */
-  payloadType?: string;
+  payloadType?: string | undefined;
 }
 export interface BuilderConfig {
-  id?: string;
+  id?: string | undefined;
 }
 /** Indicates that the builder claims certain fields in this message to be complete. */
 export interface Completeness {
   /** If true, the builder claims that recipe.arguments is complete, meaning that all external inputs are properly captured in the recipe. */
-  arguments?: boolean;
+  arguments?: boolean | undefined;
   /** If true, the builder claims that recipe.environment is claimed to be complete. */
-  environment?: boolean;
+  environment?: boolean | undefined;
   /** If true, the builder claims that materials are complete, usually through some controls to prevent network access. Sometimes called "hermetic". */
-  materials?: boolean;
+  materials?: boolean | undefined;
 }
 /** Other properties of the build. */
 export interface Metadata {
   /** Identifies the particular build invocation, which can be useful for finding associated logs or other ad-hoc analysis. The value SHOULD be globally unique, per in-toto Provenance spec. */
-  buildInvocationId?: string;
+  buildInvocationId?: string | undefined;
   /** If true, the builder claims that running the recipe on materials will produce bit-for-bit identical output. */
-  reproducible?: boolean;
+  reproducible?: boolean | undefined;
   /** The timestamp of when the build completed. */
-  buildFinishedOn?: string;
+  buildFinishedOn?: string | undefined;
   /** The timestamp of when the build started. */
-  buildStartedOn?: string;
+  buildStartedOn?: string | undefined;
   /** Indicates that the builder claims certain fields in this message to be complete. */
-  completeness?: Completeness;
+  completeness?: Completeness | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** Steps taken to build the artifact. For a TaskRun, typically each container corresponds to one step in the recipe. */
 export interface Recipe {
   /** String identifying the entry point into the build. This is often a path to a configuration file and/or a target label within that file. The syntax and meaning are defined by recipe.type. For example, if the recipe type were "make", then this would reference the directory in which to run make as well as which target to use. */
-  entryPoint?: string;
+  entryPoint?: string | undefined;
   /** Index in materials containing the recipe steps that are not implied by recipe.type. For example, if the recipe type were "make", then this would point to the source containing the Makefile, not the make program itself. Set to -1 if the recipe doesn't come from a material, as zero is default unset value for int64. */
-  definedInMaterial?: string;
+  definedInMaterial?: string | undefined;
   /** Any other builder-controlled inputs necessary for correctly evaluating the recipe. Usually only needed for reproducing the build but not evaluated as part of policy. */
-  environment?: DocumentMapList;
+  environment?: DocumentMapList | undefined;
   /** Collection of all external inputs that influenced the build on top of recipe.definedInMaterial and recipe.entryPoint. For example, if the recipe type were "make", then this might be the flags passed to make aside from the target, which is captured in recipe.entryPoint. */
-  arguments?: DocumentMapList;
+  arguments?: DocumentMapList | undefined;
   /** URI indicating what type of recipe was performed. It determines the meaning of recipe.entryPoint, recipe.arguments, recipe.environment, and materials. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface InTotoProvenance {
   /** required */
-  builderConfig?: BuilderConfig;
-  metadata?: Metadata;
+  builderConfig?: BuilderConfig | undefined;
+  metadata?: Metadata | undefined;
   /** The collection of artifacts that influenced the build including sources, dependencies, build tools, base images, and so on. This is considered to be incomplete unless metadata.completeness.materials is true. Unset or null is equivalent to empty. */
-  materials?: StringList;
+  materials?: StringList | undefined;
   /** Identifies the configuration used for the build. When combined with materials, this SHOULD fully describe the build, such that re-running this recipe results in bit-for-bit identical output (if the build is reproducible). required */
-  recipe?: Recipe;
+  recipe?: Recipe | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Subject refers to the subject of the intoto statement */
 export interface Subject {
   /** name is the name of the Subject used here */
-  name?: string;
+  name?: string | undefined;
   /** "": "" Algorithms can be e.g. sha256, sha512 See https://github.com/in-toto/attestation/blob/main/spec/v1/digest_set.md. */
-  digest?: StringMap;
+  digest?: StringMap | undefined;
 }
 export type SubjectList = Array<Subject>;
 /** Steps taken to build the artifact. For a TaskRun, typically each container corresponds to one step in the recipe. */
 export interface SlsaRecipe {
   /** URI indicating what type of recipe was performed. It determines the meaning of recipe.entryPoint, recipe.arguments, recipe.environment, and materials. */
-  type?: string;
+  type?: string | undefined;
   /** Any other builder-controlled inputs necessary for correctly evaluating the recipe. Usually only needed for reproducing the build but not evaluated as part of policy. Depending on the recipe Type, the structure may be different. */
-  environment?: DocumentMap;
+  environment?: DocumentMap | undefined;
   /** String identifying the entry point into the build. This is often a path to a configuration file and/or a target label within that file. The syntax and meaning are defined by recipe.type. For example, if the recipe type were "make", then this would reference the directory in which to run make as well as which target to use. */
-  entryPoint?: string;
+  entryPoint?: string | undefined;
   /** Index in materials containing the recipe steps that are not implied by recipe.type. For example, if the recipe type were "make", then this would point to the source containing the Makefile, not the make program itself. Set to -1 if the recipe doesn't come from a material, as zero is default unset value for int64. */
-  definedInMaterial?: string;
+  definedInMaterial?: string | undefined;
   /** Collection of all external inputs that influenced the build on top of recipe.definedInMaterial and recipe.entryPoint. For example, if the recipe type were "make", then this might be the flags passed to make aside from the target, which is captured in recipe.entryPoint. Depending on the recipe Type, the structure may be different. */
-  arguments?: DocumentMap;
+  arguments?: DocumentMap | undefined;
 }
 /** Material is a material used in the generation of the provenance */
 export interface Material {
   /** digest is a map from a hash algorithm (e.g. sha256) to the value in the material */
-  digest?: StringMap;
+  digest?: StringMap | undefined;
   /** uri is the uri of the material */
-  uri?: string;
+  uri?: string | undefined;
 }
 export type MaterialList = Array<Material>;
 /** SlsaBuilder encapsulates the identity of the builder of this provenance. */
 export interface SlsaBuilder {
   /** id is the id of the slsa provenance builder */
-  id?: string;
+  id?: string | undefined;
 }
 /** Indicates that the builder claims certain fields in this message to be complete. */
 export interface SlsaCompleteness {
   /** If true, the builder claims that recipe.environment is claimed to be complete. */
-  environment?: boolean;
+  environment?: boolean | undefined;
   /** If true, the builder claims that materials are complete, usually through some controls to prevent network access. Sometimes called "hermetic". */
-  materials?: boolean;
+  materials?: boolean | undefined;
   /** If true, the builder claims that recipe.arguments is complete, meaning that all external inputs are properly captured in the recipe. */
-  arguments?: boolean;
+  arguments?: boolean | undefined;
 }
 /** Other properties of the build. */
 export interface SlsaMetadata {
   /** The timestamp of when the build completed. */
-  buildFinishedOn?: string;
+  buildFinishedOn?: string | undefined;
   /** Indicates that the builder claims certain fields in this message to be complete. */
-  completeness?: SlsaCompleteness;
+  completeness?: SlsaCompleteness | undefined;
   /** The timestamp of when the build started. */
-  buildStartedOn?: string;
+  buildStartedOn?: string | undefined;
   /** Identifies the particular build invocation, which can be useful for finding associated logs or other ad-hoc analysis. The value SHOULD be globally unique, per in-toto Provenance spec. */
-  buildInvocationId?: string;
+  buildInvocationId?: string | undefined;
   /** If true, the builder claims that running the recipe on materials will produce bit-for-bit identical output. */
-  reproducible?: boolean;
+  reproducible?: boolean | undefined;
 }
 /** SlsaProvenance is the slsa provenance as defined by the slsa spec. */
 export interface SlsaProvenance {
   /** Identifies the configuration used for the build. When combined with materials, this SHOULD fully describe the build, such that re-running this recipe results in bit-for-bit identical output (if the build is reproducible). */
-  recipe?: SlsaRecipe;
+  recipe?: SlsaRecipe | undefined;
   /** The collection of artifacts that influenced the build including sources, dependencies, build tools, base images, and so on. This is considered to be incomplete unless metadata.completeness.materials is true. Unset or null is equivalent to empty. */
-  materials?: MaterialList;
+  materials?: MaterialList | undefined;
   /** builder is the builder of this provenance */
-  builder?: SlsaBuilder;
+  builder?: SlsaBuilder | undefined;
   /** metadata is the metadata of the provenance */
-  metadata?: SlsaMetadata;
+  metadata?: SlsaMetadata | undefined;
 }
 /** Describes where the config file that kicked off the build came from. This is effectively a pointer to the source where buildConfig came from. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaConfigSource {
   /** String identifying the entry point into the build. */
-  entryPoint?: string;
+  entryPoint?: string | undefined;
   /** URI indicating the identity of the source of the config. */
-  uri?: string;
+  uri?: string | undefined;
   /** Collection of cryptographic digests for the contents of the artifact specified by invocation.configSource.uri. */
-  digest?: StringMap;
+  digest?: StringMap | undefined;
 }
 /** Identifies the event that kicked off the build. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaInvocation {
   /** Describes where the config file that kicked off the build came from. */
-  configSource?: GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaConfigSource;
+  configSource?:
+    | GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaConfigSource
+    | undefined;
   /** Any other builder-controlled inputs necessary for correctly evaluating the build. */
-  environment?: DocumentMap;
+  environment?: DocumentMap | undefined;
   /** Collection of all external inputs that influenced the build on top of invocation.configSource. */
-  parameters?: DocumentMap;
+  parameters?: DocumentMap | undefined;
 }
 /** Indicates that the builder claims certain fields in this message to be complete. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaCompleteness {
   /** If true, the builder claims that materials is complete. */
-  materials?: boolean;
+  materials?: boolean | undefined;
   /** If true, the builder claims that invocation.environment is complete. */
-  environment?: boolean;
+  environment?: boolean | undefined;
   /** If true, the builder claims that invocation.parameters is complete. */
-  parameters?: boolean;
+  parameters?: boolean | undefined;
 }
 /** Other properties of the build. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaMetadata {
   /** Identifies this particular build invocation, which can be useful for finding associated logs or other ad-hoc analysis. */
-  buildInvocationId?: string;
+  buildInvocationId?: string | undefined;
   /** The timestamp of when the build started. */
-  buildStartedOn?: string;
+  buildStartedOn?: string | undefined;
   /** If true, the builder claims that running invocation on materials will produce bit-for-bit identical output. */
-  reproducible?: boolean;
+  reproducible?: boolean | undefined;
   /** The timestamp of when the build completed. */
-  buildFinishedOn?: string;
+  buildFinishedOn?: string | undefined;
   /** Indicates that the builder claims certain fields in this message to be complete. */
-  completeness?: GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaCompleteness;
+  completeness?:
+    | GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaCompleteness
+    | undefined;
 }
 /** Identifies the entity that executed the recipe, which is trusted to have correctly performed the operation and populated this provenance. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaBuilder {
   /** URI indicating the builder's identity. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The collection of artifacts that influenced the build including sources, dependencies, build tools, base images, and so on. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaMaterial {
   /** The method by which this artifact was referenced during the build. */
-  uri?: string;
+  uri?: string | undefined;
   /** Collection of cryptographic digests for the contents of this artifact. */
-  digest?: StringMap;
+  digest?: StringMap | undefined;
 }
 export type GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaMaterialList =
   Array<GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaMaterial>;
 /** SlsaProvenanceZeroTwo is the slsa provenance as defined by the slsa spec. See full explanation of fields at slsa.dev/provenance/v0.2. */
 export interface SlsaProvenanceZeroTwo {
   /** URI indicating what type of build was performed. */
-  buildType?: string;
+  buildType?: string | undefined;
   /** Identifies the event that kicked off the build. */
-  invocation?: GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaInvocation;
+  invocation?:
+    | GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaInvocation
+    | undefined;
   /** Other properties of the build. */
-  metadata?: GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaMetadata;
+  metadata?: GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaMetadata | undefined;
   /** Identifies the entity that executed the recipe, which is trusted to have correctly performed the operation and populated this provenance. */
-  builder?: GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaBuilder;
+  builder?: GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaBuilder | undefined;
   /** The collection of artifacts that influenced the build including sources, dependencies, build tools, base images, and so on. */
-  materials?: GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaMaterialList;
+  materials?:
+    | GoogleDevtoolsContaineranalysisV1alpha1SlsaProvenanceZeroTwoSlsaMaterialList
+    | undefined;
   /** Lists the steps in the build. */
-  buildConfig?: DocumentMap;
+  buildConfig?: DocumentMap | undefined;
 }
 /** Spec defined at https://github.com/in-toto/attestation/tree/main/spec#statement The serialized InTotoStatement will be stored as Envelope.payload. Envelope.payloadType is always "application/vnd.in-toto+json". */
 export interface InTotoStatement {
   /** Generic Grafeas provenance. */
-  provenance?: InTotoProvenance;
+  provenance?: InTotoProvenance | undefined;
   /** "https://slsa.dev/provenance/v0.1" for SlsaProvenance. */
-  predicateType?: string;
+  predicateType?: string | undefined;
   /** subject is the subjects of the intoto statement */
-  subject?: SubjectList;
+  subject?: SubjectList | undefined;
   /** SLSA 0.1 provenance. */
-  slsaProvenance?: SlsaProvenance;
+  slsaProvenance?: SlsaProvenance | undefined;
   /** SLSA 0.2 provenance. */
-  slsaProvenanceZeroTwo?: SlsaProvenanceZeroTwo;
+  slsaProvenanceZeroTwo?: SlsaProvenanceZeroTwo | undefined;
   /** Always "https://in-toto.io/Statement/v0.1". */
-  _type?: string;
+  _type?: string | undefined;
 }
 /** An occurrence describing an attestation on a resource */
 export interface DSSEAttestationOccurrence {
   /** If doing something security critical, make sure to verify the signatures in this metadata. */
-  envelope?: Envelope;
-  statement?: InTotoStatement;
+  envelope?: Envelope | undefined;
+  statement?: InTotoStatement | undefined;
 }
 export type DeploymentPlatformEnum = "PLATFORM_UNSPECIFIED" | "GKE" | "FLEX" | "CUSTOM";
 /** The period during which some deployable was active in a runtime. */
 export interface Deployment {
   /** Address of the runtime element hosting this deployment. */
-  address?: string;
+  address?: string | undefined;
   /** Platform hosting this deployment. */
-  platform?: DeploymentPlatformEnum | (string & {});
+  platform?: DeploymentPlatformEnum | (string & {}) | undefined;
   /** End of the lifetime of this deployment. */
-  undeployTime?: string;
+  undeployTime?: string | undefined;
   /** Identity of the user that triggered this deployment. */
-  userEmail?: string;
+  userEmail?: string | undefined;
   /** Configuration used to create this deployment. */
-  config?: string;
+  config?: string | undefined;
   /** Resource URI for the artifact being deployed taken from the deployable field with the same name. */
-  resourceUri?: StringList;
+  resourceUri?: StringList | undefined;
   /** Beginning of the lifetime of this deployment. */
-  deployTime?: string;
+  deployTime?: string | undefined;
 }
 /** The location of the secret. */
 export interface SecretLocation {
   /** The secret is found from a file. */
-  fileLocation?: FileLocation;
+  fileLocation?: FileLocation | undefined;
 }
 export type SecretLocationList = Array<SecretLocation>;
 export type SecretStatusStatusEnum = "STATUS_UNSPECIFIED" | "UNKNOWN" | "VALID" | "INVALID";
 /** The status of the secret with a timestamp. */
 export interface SecretStatus {
   /** Optional. The time the secret status was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. The status of the secret. */
-  status?: SecretStatusStatusEnum | (string & {});
+  status?: SecretStatusStatusEnum | (string & {}) | undefined;
   /** Optional. Optional message about the status code. */
-  message?: string;
+  message?: string | undefined;
 }
 export type SecretStatusList = Array<SecretStatus>;
 export type SecretOccurrenceKindEnum =
@@ -1253,90 +1275,90 @@ export type SecretOccurrenceKindEnum =
 /** The occurrence provides details of a secret. */
 export interface SecretOccurrence {
   /** Optional. Locations where the secret is detected. */
-  locations?: SecretLocationList;
+  locations?: SecretLocationList | undefined;
   /** Optional. Status of the secret. */
-  statuses?: SecretStatusList;
+  statuses?: SecretStatusList | undefined;
   /** Required. Type of secret. */
-  kind?: SecretOccurrenceKindEnum | (string & {});
+  kind?: SecretOccurrenceKindEnum | (string & {}) | undefined;
 }
 export interface ResourceDescriptor {
-  mediaType?: string;
-  digest?: StringMap;
-  annotations?: DocumentMap;
-  name?: string;
-  downloadLocation?: string;
-  content?: string;
-  uri?: string;
+  mediaType?: string | undefined;
+  digest?: StringMap | undefined;
+  annotations?: DocumentMap | undefined;
+  name?: string | undefined;
+  downloadLocation?: string | undefined;
+  content?: string | undefined;
+  uri?: string | undefined;
 }
 export type ResourceDescriptorList = Array<ResourceDescriptor>;
 export interface ProvenanceBuilder {
-  builderDependencies?: ResourceDescriptorList;
-  version?: StringMap;
-  id?: string;
+  builderDependencies?: ResourceDescriptorList | undefined;
+  version?: StringMap | undefined;
+  id?: string | undefined;
 }
 export interface BuildMetadata {
-  invocationId?: string;
-  finishedOn?: string;
-  startedOn?: string;
+  invocationId?: string | undefined;
+  finishedOn?: string | undefined;
+  startedOn?: string | undefined;
 }
 export interface RunDetails {
-  byproducts?: ResourceDescriptorList;
-  builder?: ProvenanceBuilder;
-  metadata?: BuildMetadata;
+  byproducts?: ResourceDescriptorList | undefined;
+  builder?: ProvenanceBuilder | undefined;
+  metadata?: BuildMetadata | undefined;
 }
 export interface BuildDefinition {
-  externalParameters?: DocumentMap;
-  internalParameters?: DocumentMap;
-  resolvedDependencies?: ResourceDescriptorList;
-  buildType?: string;
+  externalParameters?: DocumentMap | undefined;
+  internalParameters?: DocumentMap | undefined;
+  resolvedDependencies?: ResourceDescriptorList | undefined;
+  buildType?: string | undefined;
 }
 /** Keep in sync with schema at https://github.com/slsa-framework/slsa/blob/main/docs/provenance/schema/v1/provenance.proto Builder renamed to ProvenanceBuilder because of Java conflicts. */
 export interface SlsaProvenanceV1 {
-  runDetails?: RunDetails;
-  buildDefinition?: BuildDefinition;
+  runDetails?: RunDetails | undefined;
+  buildDefinition?: BuildDefinition | undefined;
 }
 export interface InTotoSlsaProvenanceV1 {
-  predicateType?: string;
-  predicate?: SlsaProvenanceV1;
+  predicateType?: string | undefined;
+  predicate?: SlsaProvenanceV1 | undefined;
   /** InToto spec defined at https://github.com/in-toto/attestation/tree/main/spec#statement */
-  _type?: string;
-  subject?: SubjectList;
+  _type?: string | undefined;
+  subject?: SubjectList | undefined;
 }
 /** RepoSource describes the location of the source in a Google Cloud Source Repository. */
 export interface RepoSource {
   /** Name of the tag to build. */
-  tagName?: string;
+  tagName?: string | undefined;
   /** ID of the project that owns the repo. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Explicit commit SHA to build. */
-  commitSha?: string;
+  commitSha?: string | undefined;
   /** Name of the repo. */
-  repoName?: string;
+  repoName?: string | undefined;
   /** Name of the branch to build. */
-  branchName?: string;
+  branchName?: string | undefined;
 }
 /** StorageSource describes the location of the source in an archive file in Google Cloud Storage. */
 export interface StorageSource {
   /** Google Cloud Storage bucket containing source (see [Bucket Name Requirements] (https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
-  bucket?: string;
+  bucket?: string | undefined;
   /** Google Cloud Storage object containing source. */
-  object?: string;
+  object?: string | undefined;
   /** Google Cloud Storage generation for the object. */
-  generation?: string;
+  generation?: string | undefined;
 }
 export type HashTypeEnum = "NONE" | "SHA256" | "GO_MODULE_H1" | "DIRSUM_SHA256";
 /** Container message for hash values. */
 export interface Hash {
   /** The hash value. */
-  value?: string;
+  value?: string | undefined;
   /** The type of hash that was performed. */
-  type?: HashTypeEnum | (string & {});
+  type?: HashTypeEnum | (string & {}) | undefined;
 }
 export type HashList = Array<Hash>;
 /** Container message for hashes of byte content of files, used in Source messages to verify integrity of source input to the build. */
 export interface FileHashes {
   /** Collection of file hashes. */
-  fileHash?: HashList;
+  fileHash?: HashList | undefined;
 }
 export type FileHashesMap = { [key: string]: FileHashes | undefined };
 export type GoogleDevtoolsContaineranalysisV1alpha1AliasContextKindEnum =
@@ -1347,156 +1369,156 @@ export type GoogleDevtoolsContaineranalysisV1alpha1AliasContextKindEnum =
 /** An alias to a repo revision. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1AliasContext {
   /** The alias name. */
-  name?: string;
+  name?: string | undefined;
   /** The alias kind. */
-  kind?: GoogleDevtoolsContaineranalysisV1alpha1AliasContextKindEnum | (string & {});
+  kind?: GoogleDevtoolsContaineranalysisV1alpha1AliasContextKindEnum | (string & {}) | undefined;
 }
 /** Selects a repo using a Google Cloud Platform project ID (e.g., winged-cargo-31) and a repo name within that project. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1ProjectRepoId {
   /** The ID of the project. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** The name of the repo. Leave empty for the default repo. */
-  repoName?: string;
+  repoName?: string | undefined;
 }
 /** A unique identifier for a Cloud Repo. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1RepoId {
   /** A server-assigned, globally unique identifier. */
-  uid?: string;
+  uid?: string | undefined;
   /** A combination of a project ID and a repo name. */
-  projectRepoId?: GoogleDevtoolsContaineranalysisV1alpha1ProjectRepoId;
+  projectRepoId?: GoogleDevtoolsContaineranalysisV1alpha1ProjectRepoId | undefined;
 }
 /** A CloudRepoSourceContext denotes a particular revision in a Google Cloud Source Repo. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1CloudRepoSourceContext {
   /** An alias, which may be a branch or tag. */
-  aliasContext?: GoogleDevtoolsContaineranalysisV1alpha1AliasContext;
+  aliasContext?: GoogleDevtoolsContaineranalysisV1alpha1AliasContext | undefined;
   /** A revision ID. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** The ID of the repo. */
-  repoId?: GoogleDevtoolsContaineranalysisV1alpha1RepoId;
+  repoId?: GoogleDevtoolsContaineranalysisV1alpha1RepoId | undefined;
 }
 /** A SourceContext referring to a Gerrit project. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1GerritSourceContext {
   /** A revision (commit) ID. */
-  revisionId?: string;
+  revisionId?: string | undefined;
   /** The URI of a running Gerrit instance. */
-  hostUri?: string;
+  hostUri?: string | undefined;
   /** The full project name within the host. Projects may be nested, so "project/subproject" is a valid project name. The "repo name" is the hostURI/project. */
-  gerritProject?: string;
+  gerritProject?: string | undefined;
   /** An alias, which may be a branch or tag. */
-  aliasContext?: GoogleDevtoolsContaineranalysisV1alpha1AliasContext;
+  aliasContext?: GoogleDevtoolsContaineranalysisV1alpha1AliasContext | undefined;
 }
 /** A GitSourceContext denotes a particular revision in a third party Git repository (e.g., GitHub). */
 export interface GoogleDevtoolsContaineranalysisV1alpha1GitSourceContext {
   /** Git repository URL. */
-  url?: string;
+  url?: string | undefined;
   /** Required. Git commit hash. */
-  revisionId?: string;
+  revisionId?: string | undefined;
 }
 /** A SourceContext is a reference to a tree of files. A SourceContext together with a path point to a unique revision of a single file or directory. */
 export interface GoogleDevtoolsContaineranalysisV1alpha1SourceContext {
   /** Labels with user defined metadata. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** A SourceContext referring to a revision in a Google Cloud Source Repo. */
-  cloudRepo?: GoogleDevtoolsContaineranalysisV1alpha1CloudRepoSourceContext;
+  cloudRepo?: GoogleDevtoolsContaineranalysisV1alpha1CloudRepoSourceContext | undefined;
   /** A SourceContext referring to a Gerrit project. */
-  gerrit?: GoogleDevtoolsContaineranalysisV1alpha1GerritSourceContext;
+  gerrit?: GoogleDevtoolsContaineranalysisV1alpha1GerritSourceContext | undefined;
   /** A SourceContext referring to any third party Git repo (e.g., GitHub). */
-  git?: GoogleDevtoolsContaineranalysisV1alpha1GitSourceContext;
+  git?: GoogleDevtoolsContaineranalysisV1alpha1GitSourceContext | undefined;
 }
 export type GoogleDevtoolsContaineranalysisV1alpha1SourceContextList =
   Array<GoogleDevtoolsContaineranalysisV1alpha1SourceContext>;
 /** Source describes the location of the source used for the build. */
 export interface Source {
   /** If provided, get source from this location in a Cloud Repo. */
-  repoSource?: RepoSource;
+  repoSource?: RepoSource | undefined;
   /** If provided, get the source from this location in Google Cloud Storage. */
-  storageSource?: StorageSource;
+  storageSource?: StorageSource | undefined;
   /** Hash(es) of the build source, which can be used to verify that the original source integrity was maintained in the build. The keys to this map are file paths used as build source and the values contain the hash values for those files. If the build source came in a single package such as a gzipped tarfile (.tar.gz), the FileHash will be for the single path to that file. */
-  fileHashes?: FileHashesMap;
+  fileHashes?: FileHashesMap | undefined;
   /** If provided, some of the source code used for the build may be found in these locations, in the case where the source repository had multiple remotes or submodules. This list will not include the context specified in the context field. */
-  additionalContexts?: GoogleDevtoolsContaineranalysisV1alpha1SourceContextList;
+  additionalContexts?: GoogleDevtoolsContaineranalysisV1alpha1SourceContextList | undefined;
   /** If provided, the input binary artifacts for the build came from this location. */
-  artifactStorageSource?: StorageSource;
+  artifactStorageSource?: StorageSource | undefined;
   /** If provided, the source code used for the build came from this location. */
-  context?: GoogleDevtoolsContaineranalysisV1alpha1SourceContext;
+  context?: GoogleDevtoolsContaineranalysisV1alpha1SourceContext | undefined;
 }
 /** Artifact describes a build product. */
 export interface Artifact {
   /** Related artifact names. This may be the path to a binary or jar file, or in the case of a container build, the name used to push the container image to Google Container Registry, as presented to `docker push`. Note that a single Artifact ID can have multiple names, for example if two tags are applied to one image. */
-  names?: StringList;
+  names?: StringList | undefined;
   /** Artifact ID, if any; for container images, this will be a URL by digest like gcr.io/projectID/imagename@sha256:123456 */
-  id?: string;
+  id?: string | undefined;
   /** Hash or checksum value of a binary, or Docker Registry 2.0 digest of a container. */
-  checksum?: string;
+  checksum?: string | undefined;
   /** Name of the artifact. This may be the path to a binary or jar file, or in the case of a container build, the name used to push the container image to Google Container Registry, as presented to `docker push`. This field is deprecated in favor of the plural `names` field; it continues to exist here to allow existing BuildProvenance serialized to json in google.devtools.containeranalysis.v1alpha1.BuildDetails.provenance_bytes to deserialize back into proto. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ArtifactList = Array<Artifact>;
 /** Command describes a step performed as part of the build pipeline. */
 export interface Command {
   /** Name of the command, as presented on the command line, or if the command is packaged as a Docker container, as presented to `docker pull`. */
-  name?: string;
+  name?: string | undefined;
   /** Working directory (relative to project source root) used when running this Command. */
-  dir?: string;
+  dir?: string | undefined;
   /** Optional unique identifier for this Command, used in wait_for to reference this Command as a dependency. */
-  id?: string;
+  id?: string | undefined;
   /** Command-line arguments used when executing this Command. */
-  args?: StringList;
+  args?: StringList | undefined;
   /** Environment variables set before running this Command. */
-  env?: StringList;
+  env?: StringList | undefined;
   /** The ID(s) of the Command(s) that this Command depends on. */
-  waitFor?: StringList;
+  waitFor?: StringList | undefined;
 }
 export type CommandList = Array<Command>;
 /** Provenance of a build. Contains all information needed to verify the full details about the build from source to completion. */
 export interface BuildProvenance {
   /** ID of the project. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** Special options applied to this build. This is a catch-all field where build providers can enter any desired additional details. */
-  buildOptions?: StringMap;
+  buildOptions?: StringMap | undefined;
   /** Details of the Source input to the build. */
-  sourceProvenance?: Source;
+  sourceProvenance?: Source | undefined;
   /** Output of the build. */
-  builtArtifacts?: ArtifactList;
+  builtArtifacts?: ArtifactList | undefined;
   /** E-mail address of the user who initiated this build. Note that this was the user's e-mail address at the time the build was initiated; this address may not represent the same end-user for all time. */
-  creator?: string;
+  creator?: string | undefined;
   /** Trigger identifier if the build was triggered automatically; empty if not. */
-  triggerId?: string;
+  triggerId?: string | undefined;
   /** Time at which the build was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Time at which execution of the build was started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Unique identifier of the build. */
-  id?: string;
+  id?: string | undefined;
   /** Commands requested by the build. */
-  commands?: CommandList;
+  commands?: CommandList | undefined;
   /** Time at which execution of the build was finished. */
-  finishTime?: string;
+  finishTime?: string | undefined;
   /** Version string of the builder at the time this build was executed. */
-  builderVersion?: string;
+  builderVersion?: string | undefined;
   /** Google Cloud Storage bucket where logs were written. */
-  logsBucket?: string;
+  logsBucket?: string | undefined;
 }
 /** Message encapsulating build provenance details. */
 export interface BuildDetails {
   /** In-Toto Slsa Provenance V1 represents a slsa provenance meeting the slsa spec, wrapped in an in-toto statement. This allows for direct jsonification of a to-spec in-toto slsa statement with a to-spec slsa provenance. */
-  inTotoSlsaProvenanceV1?: InTotoSlsaProvenanceV1;
+  inTotoSlsaProvenanceV1?: InTotoSlsaProvenanceV1 | undefined;
   /** The actual provenance */
-  provenance?: BuildProvenance;
+  provenance?: BuildProvenance | undefined;
   /** Deprecated. See InTotoStatement for the replacement. In-toto Provenance representation as defined in spec. */
-  intotoProvenance?: InTotoProvenance;
+  intotoProvenance?: InTotoProvenance | undefined;
   /** Serialized JSON representation of the provenance, used in generating the `BuildSignature` in the corresponding Result. After verifying the signature, `provenance_bytes` can be unmarshalled and compared to the provenance to confirm that it is unchanged. A base64-encoded string representation of the provenance bytes is used for the signature in order to interoperate with openssl which expects this format for signature verification. The serialized form is captured both to avoid ambiguity in how the provenance is marshalled to json as well to prevent incompatibilities with future changes. */
-  provenanceBytes?: string;
+  provenanceBytes?: string | undefined;
   /** In-toto Statement representation as defined in spec. The intoto_statement can contain any type of provenance. The serialized payload of the statement can be stored and signed in the Occurrence's envelope. */
-  intotoStatement?: InTotoStatement;
+  intotoStatement?: InTotoStatement | undefined;
 }
 export type SBOMStatusSbomStateEnum = "SBOM_STATE_UNSPECIFIED" | "PENDING" | "COMPLETE";
 /** The status of an SBOM generation. */
 export interface SBOMStatus {
   /** Output only. The progress of the SBOM generation. */
-  sbomState?: SBOMStatusSbomStateEnum | (string & {});
+  sbomState?: SBOMStatusSbomStateEnum | (string & {}) | undefined;
   /** Output only. If there was an error generating an SBOM, this will indicate what that error was. */
-  error?: string;
+  error?: string | undefined;
 }
 export type DiscoveredAnalysisStatusEnum =
   | "ANALYSIS_STATUS_UNSPECIFIED"
@@ -1509,37 +1531,37 @@ export type DiscoveredAnalysisStatusEnum =
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
 }
 /** Indicates which analysis completed successfully. Multiple types of analysis can be performed on a single resource. */
 export interface AnalysisCompleted {
   /** type of analysis that were completed on a resource. */
-  analysisType?: StringList;
+  analysisType?: StringList | undefined;
 }
 export type StatusList = Array<Status>;
 /** A file as part of a resource. */
 export interface File {
   /** Optional. The name of the file. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The digest(s) of the file. */
-  digest?: StringMap;
+  digest?: StringMap | undefined;
 }
 export type FileList = Array<File>;
 export type DiscoveredContinuousAnalysisEnum =
@@ -1553,47 +1575,47 @@ export type VulnerabilityAttestationStateEnum =
 /** The status of a vulnerability attestation generation. */
 export interface VulnerabilityAttestation {
   /** Output only. The last time we attempted to generate an attestation. */
-  lastAttemptTime?: string;
+  lastAttemptTime?: string | undefined;
   /** Output only. If failure, the error reason for why the attestation generation failed. */
-  error?: string;
+  error?: string | undefined;
   /** Output only. The success/failure state of the latest attestation attempt. */
-  state?: VulnerabilityAttestationStateEnum | (string & {});
+  state?: VulnerabilityAttestationStateEnum | (string & {}) | undefined;
 }
 /** Provides information about the scan status of a discovered resource. */
 export interface Discovered {
   /** Output only. The status of an SBOM generation. */
-  sbomStatus?: SBOMStatus;
+  sbomStatus?: SBOMStatus | undefined;
   /** The last time this resource was scanned. */
-  lastScanTime?: string;
+  lastScanTime?: string | undefined;
   /** Optional. The last time vulnerability scan results changed. */
-  lastVulnerabilityUpdateTime?: string;
+  lastVulnerabilityUpdateTime?: string | undefined;
   /** The status of discovery for the resource. */
-  analysisStatus?: DiscoveredAnalysisStatusEnum | (string & {});
+  analysisStatus?: DiscoveredAnalysisStatusEnum | (string & {}) | undefined;
   /** Output only. An operation that indicates the status of the current scan. This field is deprecated, do not use. */
-  operation?: Operation;
+  operation?: Operation | undefined;
   /** The list of analysis that were completed for a resource. */
-  analysisCompleted?: AnalysisCompleted;
+  analysisCompleted?: AnalysisCompleted | undefined;
   /** Indicates any errors encountered during analysis of a resource. There could be 0 or more of these errors. */
-  analysisError?: StatusList;
+  analysisError?: StatusList | undefined;
   /** When an error is encountered this will contain a LocalizedMessage under details to show to the user. The LocalizedMessage output only and populated by the API. */
-  analysisStatusError?: Status;
+  analysisStatusError?: Status | undefined;
   /** The CPE of the resource being scanned. */
-  cpe?: string;
+  cpe?: string | undefined;
   /** Optional. Files that make up the resource described by the occurrence. */
-  files?: FileList;
+  files?: FileList | undefined;
   /** The time occurrences related to this discovery occurrence were archived. */
-  archiveTime?: string;
+  archiveTime?: string | undefined;
   /** Whether the resource is continuously analyzed. */
-  continuousAnalysis?: DiscoveredContinuousAnalysisEnum | (string & {});
+  continuousAnalysis?: DiscoveredContinuousAnalysisEnum | (string & {}) | undefined;
   /** Output only. The status of a vulnerability attestation generation. */
-  vulnerabilityAttestation?: VulnerabilityAttestation;
+  vulnerabilityAttestation?: VulnerabilityAttestation | undefined;
 }
 /** Location details with file path and line number. */
 export interface FindingLocation {
   /** Optional. Relative path of the file containing the finding. */
-  filePath?: string;
+  filePath?: string | undefined;
   /** Optional. Line number (1-based), or 0 if whole File / unknown. */
-  lineNumber?: string;
+  lineNumber?: string | undefined;
 }
 export type FindingSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
 export type FindingScannerEnum =
@@ -1605,15 +1627,15 @@ export type FindingScannerEnum =
 /** Finding provides details for a single finding within an AISkillAnalysisOccurrence. */
 export interface Finding {
   /** Optional. Category of the finding. */
-  category?: string;
+  category?: string | undefined;
   /** Optional. Location (path and line) where the finding was detected. */
-  location?: FindingLocation;
+  location?: FindingLocation | undefined;
   /** Optional. Severity of the finding. */
-  severity?: FindingSeverityEnum | (string & {});
+  severity?: FindingSeverityEnum | (string & {}) | undefined;
   /** Optional. Scanner determines which engine (e.g. static, llm) emitted the finding. */
-  scanner?: FindingScannerEnum | (string & {});
+  scanner?: FindingScannerEnum | (string & {}) | undefined;
   /** Optional. Description of the finding category. */
-  details?: string;
+  details?: string | undefined;
 }
 export type FindingList = Array<Finding>;
 export type AISkillAnalysisOccurrenceMaxSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
@@ -1628,9 +1650,9 @@ export type MaliciousContentStaticResultScanStateEnum =
 /** Result of Malicious Content Static scan. */
 export interface MaliciousContentStaticResult {
   /** Optional. Tracks max severity found. */
-  maxSeverity?: MaliciousContentStaticResultMaxSeverityEnum | (string & {});
+  maxSeverity?: MaliciousContentStaticResultMaxSeverityEnum | (string & {}) | undefined;
   /** Output only. State of the scan. */
-  scanState?: MaliciousContentStaticResultScanStateEnum | (string & {});
+  scanState?: MaliciousContentStaticResultScanStateEnum | (string & {}) | undefined;
 }
 export type MalwareScanResultVerdictEnum = "VERDICT_UNSPECIFIED" | "PASSED" | "FAILED";
 export type MalwareScanResultScanStateEnum =
@@ -1640,23 +1662,23 @@ export type MalwareScanResultScanStateEnum =
 /** Result of Malware scan. */
 export interface MalwareScanResult {
   /** Optional. Verdict of the scan. */
-  verdict?: MalwareScanResultVerdictEnum | (string & {});
+  verdict?: MalwareScanResultVerdictEnum | (string & {}) | undefined;
   /** Output only. State of the scan. */
-  scanState?: MalwareScanResultScanStateEnum | (string & {});
+  scanState?: MalwareScanResultScanStateEnum | (string & {}) | undefined;
 }
 export type MaliciousContentLLMResultMaxSeverityEnum = "SEVERITY_UNSPECIFIED" | "CRITICAL" | "HIGH";
 /** Token usage associated with an AI scan. */
 export interface TokenUsage {
   /** Output only. Prompt tokens for using tools. */
-  toolUsePromptCount?: string;
+  toolUsePromptCount?: string | undefined;
   /** Output only. Cache matched tokens for implicit cache. */
-  cacheCount?: string;
+  cacheCount?: string | undefined;
   /** Output only. Tokens in the user request. */
-  promptCount?: string;
+  promptCount?: string | undefined;
   /** Output only. Tokens in the thinking output. */
-  thinkingCount?: string;
+  thinkingCount?: string | undefined;
   /** Output only. Tokens in the model response. */
-  candidateCount?: string;
+  candidateCount?: string | undefined;
 }
 export type MaliciousContentLLMResultScanStateEnum =
   | "SCAN_STATE_UNSPECIFIED"
@@ -1665,13 +1687,13 @@ export type MaliciousContentLLMResultScanStateEnum =
 /** Result of Malicious Content LLM scan. */
 export interface MaliciousContentLLMResult {
   /** Optional. Tracks max severity found. */
-  maxSeverity?: MaliciousContentLLMResultMaxSeverityEnum | (string & {});
+  maxSeverity?: MaliciousContentLLMResultMaxSeverityEnum | (string & {}) | undefined;
   /** Optional. The base name of the model that performed the scan. */
-  modelId?: string;
+  modelId?: string | undefined;
   /** Output only. Telemetry metrics tracking token usage for the AI scan. */
-  tokenUsage?: TokenUsage;
+  tokenUsage?: TokenUsage | undefined;
   /** Output only. State of the scan. */
-  scanState?: MaliciousContentLLMResultScanStateEnum | (string & {});
+  scanState?: MaliciousContentLLMResultScanStateEnum | (string & {}) | undefined;
 }
 export type WorkspacePolicyResultVerdictEnum = "VERDICT_UNSPECIFIED" | "PASSED" | "FAILED";
 export type WorkspacePolicyResultScanStateEnum =
@@ -1681,54 +1703,54 @@ export type WorkspacePolicyResultScanStateEnum =
 /** Result of Workspace Policy scan. */
 export interface WorkspacePolicyResult {
   /** Optional. Verdict of the scan. */
-  verdict?: WorkspacePolicyResultVerdictEnum | (string & {});
+  verdict?: WorkspacePolicyResultVerdictEnum | (string & {}) | undefined;
   /** Output only. State of the scan. */
-  scanState?: WorkspacePolicyResultScanStateEnum | (string & {});
+  scanState?: WorkspacePolicyResultScanStateEnum | (string & {}) | undefined;
 }
 /** Per scanner verdict details. */
 export interface PerScannerVerdict {
   /** Optional. Malicious Content Static scan result. */
-  maliciousContentStaticResult?: MaliciousContentStaticResult;
+  maliciousContentStaticResult?: MaliciousContentStaticResult | undefined;
   /** Optional. Malware scan result. */
-  malwareScan?: MalwareScanResult;
+  malwareScan?: MalwareScanResult | undefined;
   /** Optional. Malicious Content LLM scan result. */
-  maliciousContentLlmResult?: MaliciousContentLLMResult;
+  maliciousContentLlmResult?: MaliciousContentLLMResult | undefined;
   /** Optional. Workspace Policy scan result. */
-  workspacePolicy?: WorkspacePolicyResult;
+  workspacePolicy?: WorkspacePolicyResult | undefined;
 }
 /** AISkillAnalysisOccurrence provides the results of an AI-based skill analysis. */
 export interface AISkillAnalysisOccurrence {
   /** Optional. Name of the skill that produced this analysis. */
-  skillName?: string;
+  skillName?: string | undefined;
   /** Optional. Findings produced by the analysis. */
-  findings?: FindingList;
+  findings?: FindingList | undefined;
   /** Optional. Maximum severity found among findings. */
-  maxSeverity?: AISkillAnalysisOccurrenceMaxSeverityEnum | (string & {});
+  maxSeverity?: AISkillAnalysisOccurrenceMaxSeverityEnum | (string & {}) | undefined;
   /** Optional. Per scanner verdict. */
-  perScannerVerdict?: PerScannerVerdict;
+  perScannerVerdict?: PerScannerVerdict | undefined;
 }
 /** PackageInfoOccurrence represents an SPDX Package Information section: https://spdx.github.io/spdx-spec/3-package-information/ */
 export interface PackageInfoOccurrence {
   /** Output only. A short description of the package */
-  summaryDescription?: string;
+  summaryDescription?: string | undefined;
   /** Output only. Identify the version of the package */
-  version?: string;
+  version?: string | undefined;
   /** A place for the SPDX file creator to record any general comments about the package being described */
-  comment?: string;
+  comment?: string | undefined;
   /** Provide a place for the SPDX file creator to record any relevant background information or additional comments about the origin of the package */
-  sourceInfo?: string;
+  sourceInfo?: string | undefined;
   /** Output only. The type of package: OS, MAVEN, GO, GO_STDLIB, etc. */
-  packageType?: string;
+  packageType?: string | undefined;
   /** Output only. Identify the full name of the package as given by the Package Originator */
-  title?: string;
+  title?: string | undefined;
   /** Output only. Provide a place for the SPDX file creator to record a web site that serves as the package's home page */
-  homePage?: string;
+  homePage?: string | undefined;
   /** Uniquely identify any element in an SPDX document which may be referenced by other elements */
-  id?: string;
+  id?: string | undefined;
   /** package or alternative values, if the governing license cannot be determined */
-  licenseConcluded?: License;
+  licenseConcluded?: License | undefined;
   /** Provide the actual file name of the package, or path of the directory being treated as a package */
-  filename?: string;
+  filename?: string | undefined;
 }
 export type RelationshipOccurrenceTypeEnum =
   | "RELATIONSHIP_TYPE_UNSPECIFIED"
@@ -1778,13 +1800,13 @@ export type RelationshipOccurrenceTypeEnum =
 /** RelationshipOccurrence represents an SPDX Relationship section: https://spdx.github.io/spdx-spec/7-relationships-between-SPDX-elements/ */
 export interface RelationshipOccurrence {
   /** Also referred to as SPDXRef-A The source SPDX element (file, package, etc) */
-  source?: string;
+  source?: string | undefined;
   /** Output only. The type of relationship between the source and target SPDX elements */
-  type?: RelationshipOccurrenceTypeEnum | (string & {});
+  type?: RelationshipOccurrenceTypeEnum | (string & {}) | undefined;
   /** A place for the SPDX file creator to record any general comments about the relationship */
-  comment?: string;
+  comment?: string | undefined;
   /** Also referred to as SPDXRef-B The target SPDC element (file, package, etc) In cases where there are "known unknowns", the use of the keyword NOASSERTION can be used The keywords NONE can be used to indicate that an SPDX element (package/file/snippet) has no other elements connected by some relationship to it */
-  target?: string;
+  target?: string | undefined;
 }
 export type LayerDirectiveEnum =
   | "DIRECTIVE_UNSPECIFIED"
@@ -1808,111 +1830,111 @@ export type LayerDirectiveEnum =
 /** Layer holds metadata specific to a layer of a Docker image. */
 export interface Layer {
   /** The recovered Dockerfile directive used to construct this layer. */
-  directive?: LayerDirectiveEnum | (string & {});
+  directive?: LayerDirectiveEnum | (string & {}) | undefined;
   /** The recovered arguments to the Dockerfile directive. */
-  arguments?: string;
+  arguments?: string | undefined;
 }
 export type LayerList = Array<Layer>;
 /** Derived describes the derived image portion (Occurrence) of the DockerImage relationship. This image would be produced from a Dockerfile with FROM . */
 export interface Derived {
   /** This contains layer-specific metadata, if populated it has length "distance" and is ordered with [distance] being the layer immediately following the base image and [1] being the final layer. */
-  layerInfo?: LayerList;
+  layerInfo?: LayerList | undefined;
   /** The fingerprint of the derived image. */
-  fingerprint?: Fingerprint;
+  fingerprint?: Fingerprint | undefined;
   /** Output only. The number of layers by which this image differs from the associated image basis. */
-  distance?: number;
+  distance?: number | undefined;
   /** Output only. This contains the base image URL for the derived image occurrence. */
-  baseResourceUrl?: string;
+  baseResourceUrl?: string | undefined;
 }
 /** A predicate which describes the SBOM being referenced. */
 export interface SbomReferenceIntotoPredicate {
   /** A map of algorithm to digest of the contents of the SBOM. */
-  digest?: StringMap;
+  digest?: StringMap | undefined;
   /** The location of the SBOM. */
-  location?: string;
+  location?: string | undefined;
   /** The person or system referring this predicate to the consumer. */
-  referrerId?: string;
+  referrerId?: string | undefined;
   /** The mime type of the SBOM. */
-  mimeType?: string;
+  mimeType?: string | undefined;
 }
 /** The actual payload that contains the SBOM Reference data. The payload follows the intoto statement specification. See https://github.com/in-toto/attestation/blob/main/spec/v1.0/statement.md for more details. */
 export interface SbomReferenceIntotoPayload {
   /** URI identifying the type of the Predicate. */
-  predicateType?: string;
+  predicateType?: string | undefined;
   /** Set of software artifacts that the attestation applies to. Each element represents a single software artifact. */
-  subject?: SubjectList;
+  subject?: SubjectList | undefined;
   /** Identifier for the schema of the Statement. */
-  _type?: string;
+  _type?: string | undefined;
   /** Additional parameters of the Predicate. Includes the actual data about the SBOM. */
-  predicate?: SbomReferenceIntotoPredicate;
+  predicate?: SbomReferenceIntotoPredicate | undefined;
 }
 /** The occurrence representing an SBOM reference as applied to a specific resource. The occurrence follows the DSSE specification. See https://github.com/secure-systems-lab/dsse/blob/master/envelope.md for more details. */
 export interface SBOMReferenceOccurrence {
   /** The kind of payload that SbomReferenceIntotoPayload takes. Since it's in the intoto format, this value is expected to be 'application/vnd.in-toto+json'. */
-  payloadType?: string;
+  payloadType?: string | undefined;
   /** The actual payload that contains the SBOM reference data. */
-  payload?: SbomReferenceIntotoPayload;
+  payload?: SbomReferenceIntotoPayload | undefined;
   /** The signatures over the payload. */
-  signatures?: EnvelopeSignatureList;
+  signatures?: EnvelopeSignatureList | undefined;
 }
 /** DocumentOccurrence represents an SPDX Document Creation Information section: https://spdx.github.io/spdx-spec/2-document-creation-information/ */
 export interface DocumentOccurrence {
   /** Identify any external SPDX documents referenced within this SPDX document */
-  externalDocumentRefs?: StringList;
+  externalDocumentRefs?: StringList | undefined;
   /** Identify the current SPDX document which may be referenced in relationships by other files, packages internally and documents externally */
-  id?: string;
+  id?: string | undefined;
   /** A field for creators of the SPDX file to provide general comments about the creation of the SPDX file or any other relevant comment not included in the other fields */
-  creatorComment?: string;
+  creatorComment?: string | undefined;
   /** A field for creators of the SPDX file to provide the version of the SPDX License List used when the SPDX file was created */
-  licenseListVersion?: string;
+  licenseListVersion?: string | undefined;
   /** Provide an SPDX document specific namespace as a unique absolute Uniform Resource Identifier (URI) as specified in RFC-3986, with the exception of the '#' delimiter */
-  namespace?: string;
+  namespace?: string | undefined;
   /** A field for creators of the SPDX file content to provide comments to the consumers of the SPDX document */
-  documentComment?: string;
+  documentComment?: string | undefined;
   /** Identify who (or what, in the case of a tool) created the SPDX file. If the SPDX file was created by an individual, indicate the person's name */
-  creators?: StringList;
+  creators?: StringList | undefined;
   /** Identify when the SPDX file was originally created. The date is to be specified according to combined date and time in UTC format as specified in ISO 8601 standard */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identify name of this document as designated by creator */
-  title?: string;
+  title?: string | undefined;
 }
 /** Details about files that caused a compliance check to fail. */
 export interface NonCompliantFile {
   /** Explains why a file is non compliant for a CIS check. */
-  reason?: string;
+  reason?: string | undefined;
   /** display_command is a single command that can be used to display a list of non compliant files. When there is no such command, we can also iterate a list of non compliant file using 'path'. Empty if `display_command` is set. */
-  path?: string;
+  path?: string | undefined;
   /** Command to display the non-compliant files. */
-  displayCommand?: string;
+  displayCommand?: string | undefined;
 }
 export type NonCompliantFileList = Array<NonCompliantFile>;
 /** An indication that the compliance checks in the associated ComplianceNote were not satisfied for particular resources or a specified reason. */
 export interface ComplianceOccurrence {
   /** The OS and config version the benchmark was run on. */
-  version?: ComplianceVersion;
+  version?: ComplianceVersion | undefined;
   /** The reason for non compliance of these files. */
-  nonComplianceReason?: string;
+  nonComplianceReason?: string | undefined;
   /** A list of files which are violating compliance checks. */
-  nonCompliantFiles?: NonCompliantFileList;
+  nonCompliantFiles?: NonCompliantFileList | undefined;
 }
 /** ExploitPredictionScoringSystem provides information about the Exploit Prediction Scoring System (EPSS) score and percentile. */
 export interface ExploitPredictionScoringSystem {
   /** Optional. The EPSS score representing the probability [0-1] of exploitation in the wild in the next 30 days */
-  score?: number;
+  score?: number | undefined;
   /** Optional. The percentile of the current score, the proportion of all scored vulnerabilities with the same or a lower EPSS score */
-  percentile?: number;
+  percentile?: number | undefined;
 }
 /** CISAKnownExploitedVulnerabilities provides information about whether the vulnerability is known to have been leveraged as part of a ransomware campaign. */
 export interface CISAKnownExploitedVulnerabilities {
   /** Optional. Whether the vulnerability is known to have been leveraged as part of a ransomware campaign. */
-  knownRansomwareCampaignUse?: string;
+  knownRansomwareCampaignUse?: string | undefined;
 }
 /** The Risk message provides information about the risk of a vulnerability. */
 export interface Risk {
   /** Optional. The Exploit Prediction Scoring System (EPSS) estimates the likelihood (probability) that a software vulnerability will be exploited in the wild. */
-  epss?: ExploitPredictionScoringSystem;
+  epss?: ExploitPredictionScoringSystem | undefined;
   /** Optional. CISA maintains the authoritative source of vulnerabilities that have been exploited in the wild. */
-  cisaKev?: CISAKnownExploitedVulnerabilities;
+  cisaKev?: CISAKnownExploitedVulnerabilities | undefined;
 }
 export type VulnerabilityDetailsCvssVersionEnum =
   | "CVSS_VERSION_UNSPECIFIED"
@@ -1928,21 +1950,21 @@ export type VexAssessmentStateEnum =
 /** VexAssessment provides all publisher provided Vex information that is related to this vulnerability. */
 export interface VexAssessment {
   /** Holds the MITRE standard Common Vulnerabilities and Exposures (CVE) tracking number for the vulnerability. */
-  cve?: string;
+  cve?: string | undefined;
   /** Justification provides the justification when the state of the assessment if NOT_AFFECTED. */
-  justification?: Justification;
+  justification?: Justification | undefined;
   /** Contains information about the impact of this vulnerability, this will change with time. */
-  impacts?: StringList;
+  impacts?: StringList | undefined;
   /** Holds a list of references associated with this vulnerability item and assessment. These uris have additional information about the vulnerability and the assessment itself. E.g. Link to a document which details how this assessment concluded the state of this vulnerability. */
-  relatedUris?: URIList;
+  relatedUris?: URIList | undefined;
   /** The vulnerability identifier for this Assessment. Will hold one of common identifiers e.g. CVE, GHSA etc. */
-  vulnerabilityId?: string;
+  vulnerabilityId?: string | undefined;
   /** Provides the state of this Vulnerability assessment. */
-  state?: VexAssessmentStateEnum | (string & {});
+  state?: VexAssessmentStateEnum | (string & {}) | undefined;
   /** The VulnerabilityAssessment note from which this VexAssessment was generated. This will be of the form: `projects/[PROJECT_ID]/notes/[NOTE_ID]`. */
-  noteName?: string;
+  noteName?: string | undefined;
   /** Specifies details on how to handle (and presumably, fix) a vulnerability. */
-  remediations?: RemediationList;
+  remediations?: RemediationList | undefined;
 }
 export type PackageIssueEffectiveSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -1954,14 +1976,14 @@ export type PackageIssueEffectiveSeverityEnum =
 /** This message wraps a location affected by a vulnerability and its associated fix (if one is available). */
 export interface PackageIssue {
   /** The type of package (e.g. OS, MAVEN, GO). */
-  packageType?: string;
+  packageType?: string | undefined;
   /** Output only. The distro or language system assigned severity for this vulnerability when that is available and note provider assigned severity when distro or language system has not yet assigned a severity for this vulnerability. */
-  effectiveSeverity?: PackageIssueEffectiveSeverityEnum | (string & {});
-  severityName?: string;
+  effectiveSeverity?: PackageIssueEffectiveSeverityEnum | (string & {}) | undefined;
+  severityName?: string | undefined;
   /** The location of the vulnerability. */
-  affectedLocation?: VulnerabilityLocation;
+  affectedLocation?: VulnerabilityLocation | undefined;
   /** The location of the available fix for vulnerability. */
-  fixedLocation?: VulnerabilityLocation;
+  fixedLocation?: VulnerabilityLocation | undefined;
 }
 export type PackageIssueList = Array<PackageIssue>;
 export type VulnerabilityDetailsSeverityEnum =
@@ -1981,29 +2003,29 @@ export type VulnerabilityDetailsEffectiveSeverityEnum =
 /** Used by Occurrence to point to where the vulnerability exists and how to fix it. */
 export interface VulnerabilityDetails {
   /** Optional. The CVSS v4 score of this vulnerability. */
-  cvssV4?: CVSS;
+  cvssV4?: CVSS | undefined;
   /** Risk information about the vulnerability, such as CISA, EPSS, etc. */
-  risk?: Risk;
+  risk?: Risk | undefined;
   /** Output only. CVSS version used to populate cvss_score and severity. */
-  cvssVersion?: VulnerabilityDetailsCvssVersionEnum | (string & {});
+  cvssVersion?: VulnerabilityDetailsCvssVersionEnum | (string & {}) | undefined;
   /** VexAssessment provides all publisher provided Vex information that is related to this vulnerability for this resource. */
-  vexAssessment?: VexAssessment;
+  vexAssessment?: VexAssessment | undefined;
   /** The CVSS v3 score of this vulnerability. */
-  cvssV3?: CVSS;
+  cvssV3?: CVSS | undefined;
   /** The set of affected locations and their fixes (if available) within the associated resource. */
-  packageIssue?: PackageIssueList;
+  packageIssue?: PackageIssueList | undefined;
   /** The CVSS v2 score of this vulnerability. */
-  cvssV2?: CVSS;
+  cvssV2?: CVSS | undefined;
   /** Output only. The note provider assigned Severity of the vulnerability. */
-  severity?: VulnerabilityDetailsSeverityEnum | (string & {});
+  severity?: VulnerabilityDetailsSeverityEnum | (string & {}) | undefined;
   /** The distro assigned severity for this vulnerability when that is available and note provider assigned severity when distro has not yet assigned a severity for this vulnerability. When there are multiple package issues for this vulnerability, they can have different effective severities because some might come from the distro and some might come from installed language packs (e.g. Maven JARs or Go binaries). For this reason, it is advised to use the effective severity on the PackageIssue level, as this field may eventually be deprecated. In the case where multiple PackageIssues have different effective severities, the one set here will be the highest severity of any of the PackageIssues. */
-  effectiveSeverity?: VulnerabilityDetailsEffectiveSeverityEnum | (string & {});
+  effectiveSeverity?: VulnerabilityDetailsEffectiveSeverityEnum | (string & {}) | undefined;
   /** The type of package; whether native or non native(ruby gems, node.js packages etc). This may be deprecated in the future because we can have multiple PackageIssues with different package types. */
-  type?: string;
+  type?: string | undefined;
   /** Output only. The CVSS score of this vulnerability. CVSS score is on a scale of 0-10 where 0 indicates low severity and 10 indicates high severity. */
-  cvssScore?: number;
+  cvssScore?: number | undefined;
   /** Occurrence-specific extra details about the vulnerability. */
-  extraDetails?: string;
+  extraDetails?: string | undefined;
 }
 export type PgpSignedAttestationContentTypeEnum =
   | "CONTENT_TYPE_UNSPECIFIED"
@@ -2011,119 +2033,119 @@ export type PgpSignedAttestationContentTypeEnum =
 /** An attestation wrapper with a PGP-compatible signature. This message only supports `ATTACHED` signatures, where the payload that is signed is included alongside the signature itself in the same file. */
 export interface PgpSignedAttestation {
   /** The raw content of the signature, as output by GNU Privacy Guard (GPG) or equivalent. Since this message only supports attached signatures, the payload that was signed must be attached. While the signature format supported is dependent on the verification implementation, currently only ASCII-armored (`--armor` to gpg), non-clearsigned (`--sign` rather than `--clearsign` to gpg) are supported. Concretely, `gpg --sign --armor --output=signature.gpg payload.json` will create the signature content expected in this field in `signature.gpg` for the `payload.json` attestation payload. */
-  signature?: string;
+  signature?: string | undefined;
   /** Type (for example schema) of the attestation payload that was signed. The verifier must ensure that the provided type is one that the verifier supports, and that the attestation payload is a valid instantiation of that type (for example by validating a JSON schema). */
-  contentType?: PgpSignedAttestationContentTypeEnum | (string & {});
+  contentType?: PgpSignedAttestationContentTypeEnum | (string & {}) | undefined;
   /** The cryptographic fingerprint of the key used to generate the signature, as output by, e.g. `gpg --list-keys`. This should be the version 4, full 160-bit fingerprint, expressed as a 40 character hexadecimal string. See https://tools.ietf.org/html/rfc4880#section-12.2 for details. Implementations may choose to acknowledge "LONG", "SHORT", or other abbreviated key IDs, but only the full fingerprint is guaranteed to work. In gpg, the full fingerprint can be retrieved from the `fpr` field returned when calling --list-keys with --with-colons. For example: ``` gpg --with-colons --with-fingerprint --force-v4-certs \ --list-keys attester@example.com tru::1:1513631572:0:3:1:5 pub:...... fpr:::::::::24FF6481B76AC91E66A00AC657A93A81EF3AE6FB: ``` Above, the fingerprint is `24FF6481B76AC91E66A00AC657A93A81EF3AE6FB`. */
-  pgpKeyId?: string;
+  pgpKeyId?: string | undefined;
 }
 /** Occurrence that represents a single "attestation". The authenticity of an Attestation can be verified using the attached signature. If the verifier trusts the public key of the signer, then verifying the signature is sufficient to establish trust. In this circumstance, the AttestationAuthority to which this Attestation is attached is primarily useful for look-up (how to find this Attestation if you already know the Authority and artifact to be verified) and intent (which authority was this attestation intended to sign for). */
 export interface Attestation {
-  pgpSignedAttestation?: PgpSignedAttestation;
+  pgpSignedAttestation?: PgpSignedAttestation | undefined;
 }
 /** Resource is an entity that can have metadata. E.g., a Docker image. */
 export interface Resource {
   /** The hash of the resource content. E.g., the Docker digest. */
-  contentHash?: Hash;
+  contentHash?: Hash | undefined;
   /** The unique URI of the resource. E.g., "https://gcr.io/project/image@sha256:foo" for a Docker image. */
-  uri?: string;
+  uri?: string | undefined;
   /** The name of the resource. E.g., the name of a Docker image - "Debian". */
-  name?: string;
+  name?: string | undefined;
 }
 /** An Upgrade Occurrence represents that a specific resource_url could install a specific upgrade. This presence is supplied via local sources (i.e. it is present in the mirror and the running system has noticed its availability). */
 export interface UpgradeOccurrence {
   /** Metadata about the upgrade for available for the specific operating system for the resource_url. This allows efficient filtering, as well as making it easier to use the occurrence. */
-  distribution?: UpgradeDistribution;
+  distribution?: UpgradeDistribution | undefined;
   /** Required - The version of the package in a machine + human readable form. */
-  parsedVersion?: Version;
+  parsedVersion?: Version | undefined;
   /** Required - The package this Upgrade is for. */
-  package?: string;
+  package?: string | undefined;
 }
 /** `Occurrence` includes information about analysis occurrences for an image. */
 export interface Occurrence {
   /** Output only. This explicitly denotes which of the `Occurrence` details are specified. This field can be used as a filter in list requests. */
-  kind?: OccurrenceKindEnum | (string & {});
+  kind?: OccurrenceKindEnum | (string & {}) | undefined;
   /** Describes the installation of a package on the linked resource. */
-  installation?: Installation;
+  installation?: Installation | undefined;
   /** Describes a specific SPDX File. */
-  spdxFile?: FileOccurrence;
+  spdxFile?: FileOccurrence | undefined;
   /** https://github.com/secure-systems-lab/dsse */
-  envelope?: Envelope;
+  envelope?: Envelope | undefined;
   /** This represents a DSSE attestation occurrence */
-  dsseAttestation?: DSSEAttestationOccurrence;
+  dsseAttestation?: DSSEAttestationOccurrence | undefined;
   /** Describes the deployment of an artifact on a runtime. */
-  deployment?: Deployment;
+  deployment?: Deployment | undefined;
   /** Output only. The time this `Occurrence` was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The time this `Occurrence` was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** This represents a secret occurrence */
-  secret?: SecretOccurrence;
+  secret?: SecretOccurrence | undefined;
   /** Build details for a verifiable build. */
-  buildDetails?: BuildDetails;
+  buildDetails?: BuildDetails | undefined;
   /** A description of actions that can be taken to remedy the `Note` */
-  remediation?: string;
+  remediation?: string | undefined;
   /** Describes the initial scan status for this resource. */
-  discovered?: Discovered;
+  discovered?: Discovered | undefined;
   /** This represents an AI skill analysis occurrence */
-  aiSkillAnalysis?: AISkillAnalysisOccurrence;
+  aiSkillAnalysis?: AISkillAnalysisOccurrence | undefined;
   /** Describes a specific SPDX Package. */
-  spdxPackage?: PackageInfoOccurrence;
+  spdxPackage?: PackageInfoOccurrence | undefined;
   /** Describes a specific relationship between SPDX elements. */
-  spdxRelationship?: RelationshipOccurrence;
+  spdxRelationship?: RelationshipOccurrence | undefined;
   /** Describes how this resource derives from the basis in the associated note. */
-  derivedImage?: Derived;
+  derivedImage?: Derived | undefined;
   /** Output only. The name of the `Occurrence` in the form "projects/{project_id}/occurrences/{OCCURRENCE_ID}" */
-  name?: string;
+  name?: string | undefined;
   /** This represents an SBOM reference occurrence */
-  sbomReference?: SBOMReferenceOccurrence;
+  sbomReference?: SBOMReferenceOccurrence | undefined;
   /** Describes a specific software bill of materials document. */
-  sbom?: DocumentOccurrence;
+  sbom?: DocumentOccurrence | undefined;
   /** Describes whether or not a resource passes compliance checks. */
-  compliance?: ComplianceOccurrence;
+  compliance?: ComplianceOccurrence | undefined;
   /** Details of a security vulnerability note. */
-  vulnerabilityDetails?: VulnerabilityDetails;
+  vulnerabilityDetails?: VulnerabilityDetails | undefined;
   /** The unique URL of the image or the container for which the `Occurrence` applies. For example, https://gcr.io/project/image@sha256:foo This field can be used as a filter in list requests. */
-  resourceUrl?: string;
+  resourceUrl?: string | undefined;
   /** An analysis note associated with this image, in the form "providers/{provider_id}/notes/{NOTE_ID}" This field can be used as a filter in list requests. */
-  noteName?: string;
+  noteName?: string | undefined;
   /** Describes an attestation of an artifact. */
-  attestation?: Attestation;
+  attestation?: Attestation | undefined;
   /** The resource for which the `Occurrence` applies. */
-  resource?: Resource;
+  resource?: Resource | undefined;
   /** Describes an upgrade. */
-  upgrade?: UpgradeOccurrence;
+  upgrade?: UpgradeOccurrence | undefined;
 }
 export interface CreateProjectsOccurrencesRequest {
   /** The name of the project. Should be of the form "projects/{project_id}". @Deprecated */
-  name?: string;
+  name?: string | undefined;
   /** This field contains the project Id for example: "projects/{project_id}" */
   parent: string;
   /** Request body */
-  body?: Occurrence;
+  body?: Occurrence | undefined;
 }
 /** Request for creating an operation */
 export interface CreateOperationRequest {
   /** The ID to use for this operation. */
-  operationId?: string;
+  operationId?: string | undefined;
   /** The operation to create. */
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface CreateProjectsOperationsRequest {
   /** The project Id that this operation should be created under. */
   parent: string;
   /** Request body */
-  body?: CreateOperationRequest;
+  body?: CreateOperationRequest | undefined;
 }
 export interface CreateProvidersNotesRequest {
   /** This field contains the project Id for example: "projects/{project_id} */
-  parent?: string;
+  parent?: string | undefined;
   /** The name of the project. Should be of the form "providers/{provider_id}". @Deprecated */
   name: string;
   /** The ID to use for this note. */
-  noteId?: string;
+  noteId?: string | undefined;
   /** Request body */
-  body?: Note;
+  body?: Note | undefined;
 }
 export interface DeleteProjectsNotesRequest {
   /** The name of the note in the form of "providers/{provider_id}/notes/{NOTE_ID}" */
@@ -2142,60 +2164,60 @@ export interface DeleteProvidersNotesRequest {
 /** Encapsulates settings provided to GetIamPolicy. */
 export interface GetPolicyOptions {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  requestedPolicyVersion?: number;
+  requestedPolicyVersion?: number | undefined;
 }
 /** Request message for `GetIamPolicy` method. */
 export interface GetIamPolicyRequest {
   /** OPTIONAL: A `GetPolicyOptions` object for specifying options to `GetIamPolicy`. */
-  options?: GetPolicyOptions;
+  options?: GetPolicyOptions | undefined;
 }
 export interface GetIamPolicyProjectsNotesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface Expr {
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: Expr;
+  condition?: Expr | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
 }
 export type BindingList = Array<Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface Policy {
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: BindingList;
+  bindings?: BindingList | undefined;
 }
 export interface GetIamPolicyProjectsOccurrencesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetIamPolicyProvidersNotesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GetIamPolicyRequest;
+  body?: GetIamPolicyRequest | undefined;
 }
 export interface GetNotesProjectsOccurrencesRequest {
   /** The name of the occurrence in the form "projects/{project_id}/occurrences/{OCCURRENCE_ID}" */
@@ -2216,15 +2238,15 @@ export interface GetProjectsScanConfigsRequest {
 /** Indicates various scans and whether they are turned on or off. */
 export interface ScanConfig {
   /** Output only. The time this scan config was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The time this scan config was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. A human-readable description of what the `ScanConfig` does. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The name of the ScanConfig in the form "projects/{project_id}/scanConfigs/{scan_config_id}". */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the Scan is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface GetProvidersNotesRequest {
   /** The name of the note in the form of "providers/{provider_id}/notes/{NOTE_ID}" */
@@ -2234,7 +2256,7 @@ export interface GetVulnerabilitySummaryProjectsOccurrencesRequest {
   /** This contains the project Id for example: projects/{project_id} */
   parent: string;
   /** The filter expression. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type SeverityCountSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -2246,53 +2268,53 @@ export type SeverityCountSeverityEnum =
 /** The number of occurrences created for a specific severity. */
 export interface SeverityCount {
   /** The number of occurrences with the severity. */
-  count?: string;
+  count?: string | undefined;
   /** The severity of the occurrences. */
-  severity?: SeverityCountSeverityEnum;
+  severity?: SeverityCountSeverityEnum | undefined;
 }
 export type SeverityCountList = Array<SeverityCount>;
 /** A summary of how many vulnz occurrences there are per severity type. counts by groups, or if we should have different summary messages like this. */
 export interface GetVulnzOccurrencesSummaryResponse {
   /** A map of how many occurrences were found for each severity. */
-  counts?: SeverityCountList;
+  counts?: SeverityCountList | undefined;
 }
 export interface ListProjectsNotesRequest {
   /** The name field will contain the project Id for example: "providers/{provider_id} @Deprecated */
-  name?: string;
+  name?: string | undefined;
   /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Number of notes to return in the list. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** This field contains the project Id for example: "projects/{PROJECT_ID}". */
   parent: string;
   /** The filter expression. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type NoteList = Array<Note>;
 /** Response including listed notes. */
 export interface ListNotesResponse {
   /** The occurrences requested */
-  notes?: NoteList;
+  notes?: NoteList | undefined;
   /** The next pagination token in the list response. It should be used as page_token for the following request. An empty value means no more result. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsNotesOccurrencesRequest {
   /** Number of notes to return in the list. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The filter expression. */
-  filter?: string;
+  filter?: string | undefined;
   /** The name field will contain the note name for example: "provider/{provider_id}/notes/{note_id}" */
   name: string;
   /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type OccurrenceList = Array<Occurrence>;
 /** Response including listed occurrences for a note. */
 export interface ListNoteOccurrencesResponse {
   /** The occurrences attached to the specified note. */
-  occurrences?: OccurrenceList;
+  occurrences?: OccurrenceList | undefined;
   /** Token to receive the next page of notes. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListProjectsOccurrencesKindEnum =
   | "KIND_UNSPECIFIED"
@@ -2318,158 +2340,158 @@ export interface ListProjectsOccurrencesRequest {
   /** This contains the project Id for example: projects/{project_id}. */
   parent: string;
   /** The filter expression. */
-  filter?: string;
+  filter?: string | undefined;
   /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The kind of occurrences to filter on. */
-  kind?: ListProjectsOccurrencesKindEnum | (string & {});
+  kind?: ListProjectsOccurrencesKindEnum | (string & {}) | undefined;
   /** Number of occurrences to return in the list. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name field contains the project Id. For example: "projects/{project_id} @Deprecated */
-  name?: string;
+  name?: string | undefined;
 }
 /** Response including listed active occurrences. */
 export interface ListOccurrencesResponse {
   /** The occurrences requested. */
-  occurrences?: OccurrenceList;
+  occurrences?: OccurrenceList | undefined;
   /** The next pagination token in the list response. It should be used as `page_token` for the following request. An empty value means no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsScanConfigsRequest {
   /** The number of items to return. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The page token to use for the next request. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** This containers the project Id i.e.: projects/{project_id} */
   parent: string;
   /** The filter expression. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ScanConfigList = Array<ScanConfig>;
 /** A list of scan configs for the project. */
 export interface ListScanConfigsResponse {
   /** A page token to pass in order to get more scan configs. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The set of scan configs. */
-  scanConfigs?: ScanConfigList;
+  scanConfigs?: ScanConfigList | undefined;
 }
 export interface ListProvidersNotesRequest {
   /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Number of notes to return in the list. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name field will contain the project Id for example: "providers/{provider_id} @Deprecated */
   name: string;
   /** This field contains the project Id for example: "projects/{PROJECT_ID}". */
-  parent?: string;
+  parent?: string | undefined;
   /** The filter expression. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface ListProvidersNotesOccurrencesRequest {
   /** The name field will contain the note name for example: "provider/{provider_id}/notes/{note_id}" */
   name: string;
   /** Token to provide to skip to a particular spot in the list. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Number of notes to return in the list. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The filter expression. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export interface PatchProjectsNotesRequest {
   /** The name of the note. Should be of the form "projects/{provider_id}/notes/{note_id}". */
   name: string;
   /** The fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Note;
+  body?: Note | undefined;
 }
 export interface PatchProjectsOccurrencesRequest {
   /** The fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The name of the occurrence. Should be of the form "projects/{project_id}/occurrences/{OCCURRENCE_ID}". */
   name: string;
   /** Request body */
-  body?: Occurrence;
+  body?: Occurrence | undefined;
 }
 /** Request for updating an existing operation */
 export interface UpdateOperationRequest {
   /** The fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The operation to create. */
-  operation?: Operation;
+  operation?: Operation | undefined;
 }
 export interface PatchProjectsOperationsRequest {
   /** The name of the Operation. Should be of the form "projects/{provider_id}/operations/{operation_id}". */
   name: string;
   /** Request body */
-  body?: UpdateOperationRequest;
+  body?: UpdateOperationRequest | undefined;
 }
 export interface PatchProjectsScanConfigsRequest {
   /** The fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** The scan config to update of the form projects/{project_id}/scanConfigs/{scan_config_id}. */
   name: string;
   /** Request body */
-  body?: ScanConfig;
+  body?: ScanConfig | undefined;
 }
 export interface PatchProvidersNotesRequest {
   /** The name of the note. Should be of the form "projects/{provider_id}/notes/{note_id}". */
   name: string;
   /** The fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Note;
+  body?: Note | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface SetIamPolicyRequest {
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: Policy;
+  policy?: Policy | undefined;
 }
 export interface SetIamPolicyProjectsNotesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsOccurrencesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProvidersNotesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: SetIamPolicyRequest;
+  body?: SetIamPolicyRequest | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsNotesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsOccurrencesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProvidersNotesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: TestIamPermissionsRequest;
+  body?: TestIamPermissionsRequest | undefined;
 }
 export type CreateProjectsNotesError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a new `Note`. */

@@ -81,13 +81,13 @@ export type CreateApiKeyRequestPermissionsList = Array<
 >;
 export interface CreateApiKeyRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
   /** The name of the API key */
   name: string;
   /** The list of organization resource permissions explicitly assigned to the API key */
   permissions: CreateApiKeyRequestPermissionsList;
   /** When the API key expires */
-  expiresAt?: string | null;
+  expiresAt?: string | null | undefined;
 }
 export type ApiKeyResponsePermissionsItem =
   | "write:registries"
@@ -128,20 +128,20 @@ export interface ApiKeyResponse {
 export interface DeleteApiKeyRequest {
   name: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface DeleteApiKeyResponse {}
 export interface DeleteApiKeyForUserRequest {
   userId: string;
   name: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface DeleteApiKeyForUserResponse {}
 export interface GetApiKeyRequest {
   name: string;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type ApiKeyListPermissionsItem =
   | "write:registries"
@@ -183,15 +183,15 @@ export interface ApiKeyList {
   /** The user ID of the user who created the API key */
   userId: string;
   /** The organization ID associated with the API key */
-  organizationId?: string;
+  organizationId?: string | undefined;
 }
 export interface GetCurrentApiKeyRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface ListApiKeysRequest {
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export type ListApiKeysResponseBodyList = Array<ApiKeyList>;
 export type ListApiKeysResponse = ListApiKeysResponseBodyList;

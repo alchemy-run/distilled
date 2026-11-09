@@ -209,60 +209,60 @@ export type ContainerEnabledBuiltInVariableItemEnumList = Array<
 /** Represents a Google Tag Manager Container. */
 export interface Container {
   /** Container Country ID. */
-  timeZoneCountryId?: string;
+  timeZoneCountryId?: string | undefined;
   /** The fingerprint of the GTM Container as computed at storage time. This value is recomputed whenever the account is modified. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Container display name. */
-  name?: string;
+  name?: string | undefined;
   /** The Container ID uniquely identifies the GTM Container. */
-  containerId?: string;
+  containerId?: string | undefined;
   /** Optional list of domain names associated with the Container. */
-  domainName?: StringList;
+  domainName?: StringList | undefined;
   /** Container Public ID. */
-  publicId?: string;
+  publicId?: string | undefined;
   /** List of Usage Contexts for the Container. Valid values include: web, android, ios. */
-  usageContext?: ContainerUsageContextItemEnumList;
+  usageContext?: ContainerUsageContextItemEnumList | undefined;
   /** Container Notes. */
-  notes?: string;
+  notes?: string | undefined;
   /** List of enabled built-in variables. Valid values include: pageUrl, pageHostname, pagePath, referrer, event, clickElement, clickClasses, clickId, clickTarget, clickUrl, clickText, formElement, formClasses, formId, formTarget, formUrl, formText, errorMessage, errorUrl, errorLine, newHistoryFragment, oldHistoryFragment, newHistoryState, oldHistoryState, historySource, containerVersion, debugMode, randomNumber, containerId. */
-  enabledBuiltInVariable?: ContainerEnabledBuiltInVariableItemEnumList;
+  enabledBuiltInVariable?: ContainerEnabledBuiltInVariableItemEnumList | undefined;
   /** GTM Account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Container Time Zone ID. */
-  timeZoneId?: string;
+  timeZoneId?: string | undefined;
 }
 export interface CreateAccountsContainersRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** Request body */
-  body?: Container;
+  body?: Container | undefined;
 }
 export type EnvironmentTypeEnum = "user" | "live" | "latest" | "draft";
 /** Represents a Google Tag Manager Environment. Note that a user can create, delete and update environments of type USER, but can only update the enable_debug and url fields of environments of other types. */
 export interface Environment {
   /** Whether or not to enable debug by default on for the environment. */
-  enableDebug?: boolean;
+  enableDebug?: boolean | undefined;
   /** The environment description. Can be set or changed only on USER type environments. */
-  description?: string;
+  description?: string | undefined;
   /** GTM Container ID. */
-  containerId?: string;
+  containerId?: string | undefined;
   /** The fingerprint of the GTM environment as computed at storage time. This value is recomputed whenever the environment is modified. */
-  fingerprint?: string;
-  containerVersionId?: string;
+  fingerprint?: string | undefined;
+  containerVersionId?: string | undefined;
   /** Default preview page url for the environment. */
-  url?: string;
+  url?: string | undefined;
   /** The environment display name. Can be set or changed only on USER type environments. */
-  name?: string;
+  name?: string | undefined;
   /** The type of this environment. */
-  type?: EnvironmentTypeEnum | (string & {});
+  type?: EnvironmentTypeEnum | (string & {}) | undefined;
   /** GTM Environment ID uniquely identifies the GTM Environment. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** GTM Account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The environment authorization code. */
-  authorizationCode?: string;
+  authorizationCode?: string | undefined;
   /** The last update time-stamp for the authorization code. */
-  authorizationTimestampMs?: string;
+  authorizationTimestampMs?: string | undefined;
 }
 export interface CreateAccountsContainersEnvironmentsRequest {
   /** The GTM Container ID. */
@@ -270,20 +270,20 @@ export interface CreateAccountsContainersEnvironmentsRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** Request body */
-  body?: Environment;
+  body?: Environment | undefined;
 }
 /** Represents a Google Tag Manager Folder. */
 export interface Folder {
   /** GTM Container ID. */
-  containerId?: string;
+  containerId?: string | undefined;
   /** The fingerprint of the GTM Folder as computed at storage time. This value is recomputed whenever the folder is modified. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The Folder ID uniquely identifies the GTM Folder. */
-  folderId?: string;
+  folderId?: string | undefined;
   /** GTM Account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Folder display name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateAccountsContainersFoldersRequest {
   /** The GTM Account ID. */
@@ -291,13 +291,13 @@ export interface CreateAccountsContainersFoldersRequest {
   /** The GTM Container ID. */
   containerId: string;
   /** Request body */
-  body?: Folder;
+  body?: Folder | undefined;
 }
 export interface TeardownTag {
   /** The name of the teardown tag. */
-  tagName?: string;
+  tagName?: string | undefined;
   /** If true, fire the teardown tag if and only if the main tag fires successfully. If false, fire the teardown tag regardless of main tag firing status. */
-  stopTeardownOnFailure?: boolean;
+  stopTeardownOnFailure?: boolean | undefined;
 }
 export type TeardownTagList = Array<TeardownTag>;
 export type TagTagFiringOptionEnum = "unlimited" | "oncePerEvent" | "oncePerLoad";
@@ -312,64 +312,64 @@ export type ParameterTypeEnum =
 /** Represents a Google Tag Manager Parameter. */
 export interface Parameter {
   /** The parameter type. Valid values are: - boolean: The value represents a boolean, represented as 'true' or 'false' - integer: The value represents a 64-bit signed integer value, in base 10 - list: A list of parameters should be specified - map: A map of parameters should be specified - template: The value represents any text; this can include variable references (even variable references that might return non-string types) - trigger_reference: The value represents a trigger, represented as the trigger id - tag_reference: The value represents a tag, represented as the tag name */
-  type?: ParameterTypeEnum | (string & {});
+  type?: ParameterTypeEnum | (string & {}) | undefined;
   /** A parameter's value (may contain variable references). as appropriate to the specified type. */
-  value?: string;
+  value?: string | undefined;
   /** The named key that uniquely identifies a parameter. Required for top-level parameters, as well as map values. Ignored for list values. */
-  key?: string;
+  key?: string | undefined;
   /** This map parameter's parameters (must have keys; keys must be unique). */
-  map?: ParameterList;
+  map?: ParameterList | undefined;
   /** This list parameter's parameters (keys will be ignored). */
-  list?: ParameterList;
+  list?: ParameterList | undefined;
 }
 export type ParameterList = Array<Parameter>;
 export interface SetupTag {
   /** The name of the setup tag. */
-  tagName?: string;
+  tagName?: string | undefined;
   /** If true, fire the main tag if and only if the setup tag fires successfully. If false, fire the main tag regardless of setup tag firing status. */
-  stopOnSetupFailure?: boolean;
+  stopOnSetupFailure?: boolean | undefined;
 }
 export type SetupTagList = Array<SetupTag>;
 /** Represents a Google Tag Manager Tag. */
 export interface Tag {
   /** GTM Container ID. */
-  containerId?: string;
+  containerId?: string | undefined;
   /** GTM Account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Firing trigger IDs. A tag will fire when any of the listed triggers are true and all of its blockingTriggerIds (if any specified) are false. */
-  firingTriggerId?: StringList;
+  firingTriggerId?: StringList | undefined;
   /** If set to true, this tag will only fire in the live environment (e.g. not in preview or debug mode). */
-  liveOnly?: boolean;
+  liveOnly?: boolean | undefined;
   /** The fingerprint of the GTM Tag as computed at storage time. This value is recomputed whenever the tag is modified. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Tag display name. */
-  name?: string;
+  name?: string | undefined;
   /** The Tag ID uniquely identifies the GTM Tag. */
-  tagId?: string;
+  tagId?: string | undefined;
   /** The list of teardown tags. Currently we only allow one. */
-  teardownTag?: TeardownTagList;
+  teardownTag?: TeardownTagList | undefined;
   /** Blocking trigger IDs. If any of the listed triggers evaluate to true, the tag will not fire. */
-  blockingTriggerId?: StringList;
+  blockingTriggerId?: StringList | undefined;
   /** User notes on how to apply this tag in the container. */
-  notes?: string;
+  notes?: string | undefined;
   /** Parent folder id. */
-  parentFolderId?: string;
+  parentFolderId?: string | undefined;
   /** Option to fire this tag. */
-  tagFiringOption?: TagTagFiringOptionEnum | (string & {});
+  tagFiringOption?: TagTagFiringOptionEnum | (string & {}) | undefined;
   /** The tag's parameters. */
-  parameter?: ParameterList;
+  parameter?: ParameterList | undefined;
   /** The list of setup tags. Currently we only allow one. */
-  setupTag?: SetupTagList;
+  setupTag?: SetupTagList | undefined;
   /** True if the tag is paused. */
-  paused?: boolean;
+  paused?: boolean | undefined;
   /** The start timestamp in milliseconds to schedule a tag. */
-  scheduleStartMs?: string;
+  scheduleStartMs?: string | undefined;
   /** User defined numeric priority of the tag. Tags are fired asynchronously in order of priority. Tags with higher numeric value fire first. A tag's priority can be a positive or negative value. The default value is 0. */
-  priority?: Parameter;
+  priority?: Parameter | undefined;
   /** GTM Tag Type. */
-  type?: string;
+  type?: string | undefined;
   /** The end timestamp in milliseconds to schedule a tag. */
-  scheduleEndMs?: string;
+  scheduleEndMs?: string | undefined;
 }
 export interface CreateAccountsContainersTagsRequest {
   /** The GTM Account ID. */
@@ -377,7 +377,7 @@ export interface CreateAccountsContainersTagsRequest {
   /** The GTM Container ID. */
   containerId: string;
   /** Request body */
-  body?: Tag;
+  body?: Tag | undefined;
 }
 export type ConditionTypeEnum =
   | "equals"
@@ -394,9 +394,9 @@ export type ConditionTypeEnum =
 /** Represents a predicate. */
 export interface Condition {
   /** A list of named parameters (key/value), depending on the condition's type. Notes: - For binary operators, include parameters named arg0 and arg1 for specifying the left and right operands, respectively. - At this time, the left operand (arg0) must be a reference to a variable. - For case-insensitive Regex matching, include a boolean parameter named ignore_case that is set to true. If not specified or set to any other value, the matching will be case sensitive. - To negate an operator, include a boolean parameter named negate boolean parameter that is set to true. */
-  parameter?: ParameterList;
+  parameter?: ParameterList | undefined;
   /** The type of operator for this condition. */
-  type?: ConditionTypeEnum | (string & {});
+  type?: ConditionTypeEnum | (string & {}) | undefined;
 }
 export type ConditionList = Array<Condition>;
 export type TriggerTypeEnum =
@@ -422,61 +422,61 @@ export type TriggerTypeEnum =
 /** Represents a Google Tag Manager Trigger */
 export interface Trigger {
   /** The trigger will only fire iff all Conditions are true. */
-  filter?: ConditionList;
+  filter?: ConditionList | undefined;
   /** The fingerprint of the GTM Trigger as computed at storage time. This value is recomputed whenever the trigger is modified. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Time between triggering recurring Timer Events (in milliseconds). Only valid for Timer triggers. */
-  interval?: Parameter;
+  interval?: Parameter | undefined;
   /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled vertically. Only valid for AMP scroll triggers. */
-  verticalScrollPercentageList?: Parameter;
+  verticalScrollPercentageList?: Parameter | undefined;
   /** GTM Container ID. */
-  containerId?: string;
+  containerId?: string | undefined;
   /** A click trigger CSS selector (i.e. "a", "button" etc.). Only valid for AMP Click trigger. */
-  selector?: Parameter;
+  selector?: Parameter | undefined;
   /** A visibility trigger minimum percent visibility. Only valid for AMP Visibility trigger. */
-  visiblePercentageMin?: Parameter;
+  visiblePercentageMin?: Parameter | undefined;
   /** Globally unique id of the trigger that auto-generates this (a Form Submit, Link Click or Timer listener) if any. Used to make incompatible auto-events work together with trigger filtering based on trigger ids. This value is populated during output generation since the tags implied by triggers don't exist until then. Only valid for Form Submit, Link Click and Timer triggers. */
-  uniqueTriggerId?: Parameter;
+  uniqueTriggerId?: Parameter | undefined;
   /** A visibility trigger minimum continuous visible time (in milliseconds). Only valid for AMP Visibility trigger. */
-  continuousTimeMinMilliseconds?: Parameter;
+  continuousTimeMinMilliseconds?: Parameter | undefined;
   /** Trigger display name. */
-  name?: string;
+  name?: string | undefined;
   /** Parent folder id. */
-  parentFolderId?: string;
+  parentFolderId?: string | undefined;
   /** Additional parameters. */
-  parameter?: ParameterList;
+  parameter?: ParameterList | undefined;
   /** Name of the GTM event that is fired. Only valid for Timer triggers. */
-  eventName?: Parameter;
+  eventName?: Parameter | undefined;
   /** Limit of the number of GTM events this Timer Trigger will fire. If no limit is set, we will continue to fire GTM events until the user leaves the page. Only valid for Timer triggers. */
-  limit?: Parameter;
+  limit?: Parameter | undefined;
   /** The Trigger ID uniquely identifies the GTM Trigger. */
-  triggerId?: string;
+  triggerId?: string | undefined;
   /** Whether or not we should delay the form submissions or link opening until all of the tags have fired (by preventing the default action and later simulating the default action). Only valid for Form Submission and Link Click triggers. */
-  waitForTags?: Parameter;
+  waitForTags?: Parameter | undefined;
   /** A visibility trigger maximum percent visibility. Only valid for AMP Visibility trigger. */
-  visiblePercentageMax?: Parameter;
+  visiblePercentageMax?: Parameter | undefined;
   /** Defines the data layer event that causes this trigger. */
-  type?: TriggerTypeEnum | (string & {});
+  type?: TriggerTypeEnum | (string & {}) | undefined;
   /** A visibility trigger CSS selector (i.e. "#id"). Only valid for AMP Visibility trigger. */
-  visibilitySelector?: Parameter;
+  visibilitySelector?: Parameter | undefined;
   /** How long to wait (in milliseconds) for tags to fire when 'waits_for_tags' above evaluates to true. Only valid for Form Submission and Link Click triggers. */
-  waitForTagsTimeout?: Parameter;
+  waitForTagsTimeout?: Parameter | undefined;
   /** GTM Account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** A visibility trigger minimum total visible time (in milliseconds). Only valid for AMP Visibility trigger. */
-  totalTimeMinMilliseconds?: Parameter;
+  totalTimeMinMilliseconds?: Parameter | undefined;
   /** Whether or not we should only fire tags if the form submit or link click event is not cancelled by some other event handler (e.g. because of validation). Only valid for Form Submission and Link Click triggers. */
-  checkValidation?: Parameter;
+  checkValidation?: Parameter | undefined;
   /** Time between Timer Events to fire (in seconds). Only valid for AMP Timer trigger. */
-  intervalSeconds?: Parameter;
+  intervalSeconds?: Parameter | undefined;
   /** Used in the case of custom event, which is fired iff all Conditions are true. */
-  customEventFilter?: ConditionList;
+  customEventFilter?: ConditionList | undefined;
   /** List of integer percentage values for scroll triggers. The trigger will fire when each percentage is reached when the view is scrolled horizontally. Only valid for AMP scroll triggers. */
-  horizontalScrollPercentageList?: Parameter;
+  horizontalScrollPercentageList?: Parameter | undefined;
   /** Max time to fire Timer Events (in seconds). Only valid for AMP Timer trigger. */
-  maxTimerLengthSeconds?: Parameter;
+  maxTimerLengthSeconds?: Parameter | undefined;
   /** Used in the case of auto event tracking. */
-  autoEventFilter?: ConditionList;
+  autoEventFilter?: ConditionList | undefined;
 }
 export interface CreateAccountsContainersTriggersRequest {
   /** The GTM Account ID. */
@@ -484,36 +484,36 @@ export interface CreateAccountsContainersTriggersRequest {
   /** The GTM Container ID. */
   containerId: string;
   /** Request body */
-  body?: Trigger;
+  body?: Trigger | undefined;
 }
 /** Represents a Google Tag Manager Variable. */
 export interface Variable {
   /** User notes on how to apply this variable in the container. */
-  notes?: string;
+  notes?: string | undefined;
   /** For mobile containers only: A list of trigger IDs for disabling conditional variables; the variable is enabled if one of the enabling trigger is true while all the disabling trigger are false. Treated as an unordered set. */
-  disablingTriggerId?: StringList;
+  disablingTriggerId?: StringList | undefined;
   /** For mobile containers only: A list of trigger IDs for enabling conditional variables; the variable is enabled if one of the enabling triggers is true while all the disabling triggers are false. Treated as an unordered set. */
-  enablingTriggerId?: StringList;
+  enablingTriggerId?: StringList | undefined;
   /** Parent folder id. */
-  parentFolderId?: string;
+  parentFolderId?: string | undefined;
   /** The variable's parameters. */
-  parameter?: ParameterList;
+  parameter?: ParameterList | undefined;
   /** GTM Variable Type. */
-  type?: string;
+  type?: string | undefined;
   /** The start timestamp in milliseconds to schedule a variable. */
-  scheduleStartMs?: string;
+  scheduleStartMs?: string | undefined;
   /** The fingerprint of the GTM Variable as computed at storage time. This value is recomputed whenever the variable is modified. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The Variable ID uniquely identifies the GTM Variable. */
-  variableId?: string;
+  variableId?: string | undefined;
   /** The end timestamp in milliseconds to schedule a variable. */
-  scheduleEndMs?: string;
+  scheduleEndMs?: string | undefined;
   /** GTM Container ID. */
-  containerId?: string;
+  containerId?: string | undefined;
   /** GTM Account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Variable display name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateAccountsContainersVariablesRequest {
   /** The GTM Account ID. */
@@ -521,16 +521,16 @@ export interface CreateAccountsContainersVariablesRequest {
   /** The GTM Container ID. */
   containerId: string;
   /** Request body */
-  body?: Variable;
+  body?: Variable | undefined;
 }
 /** Options for new container versions. */
 export interface CreateContainerVersionRequestVersionOptions {
   /** The notes of the container version to be created. */
-  notes?: string;
+  notes?: string | undefined;
   /** The name of the container version to be created. */
-  name?: string;
+  name?: string | undefined;
   /** The creation of this version may be for quick preview and shouldn't be saved. */
-  quickPreview?: boolean;
+  quickPreview?: boolean | undefined;
 }
 export interface CreateAccountsContainersVersionsRequest {
   /** The GTM Account ID. */
@@ -538,7 +538,7 @@ export interface CreateAccountsContainersVersionsRequest {
   /** The GTM Container ID. */
   containerId: string;
   /** Request body */
-  body?: CreateContainerVersionRequestVersionOptions;
+  body?: CreateContainerVersionRequestVersionOptions | undefined;
 }
 export type TriggerList = Array<Trigger>;
 export type FolderList = Array<Folder>;
@@ -547,36 +547,36 @@ export type TagList = Array<Tag>;
 /** Represents a Google Tag Manager Container Version. */
 export interface ContainerVersion {
   /** The container that this version was taken from. */
-  container?: Container;
+  container?: Container | undefined;
   /** The triggers in the container that this version was taken from. */
-  trigger?: TriggerList;
+  trigger?: TriggerList | undefined;
   /** User notes on how to apply this container version in the container. */
-  notes?: string;
+  notes?: string | undefined;
   /** The Container Version ID uniquely identifies the GTM Container Version. */
-  containerVersionId?: string;
+  containerVersionId?: string | undefined;
   /** Container version display name. */
-  name?: string;
+  name?: string | undefined;
   /** The folders in the container that this version was taken from. */
-  folder?: FolderList;
+  folder?: FolderList | undefined;
   /** GTM Account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** GTM Container ID. */
-  containerId?: string;
+  containerId?: string | undefined;
   /** A value of true indicates this container version has been deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The fingerprint of the GTM Container Version as computed at storage time. This value is recomputed whenever the container version is modified. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The variables in the container that this version was taken from. */
-  variable?: VariableList;
+  variable?: VariableList | undefined;
   /** The tags in the container that this version was taken from. */
-  tag?: TagList;
+  tag?: TagList | undefined;
 }
 /** Create container versions response. */
 export interface CreateContainerVersionResponse {
   /** Compiler errors or not. */
-  compilerError?: boolean;
+  compilerError?: boolean | undefined;
   /** The container version created. */
-  containerVersion?: ContainerVersion;
+  containerVersion?: ContainerVersion | undefined;
 }
 export type AccountAccessPermissionItemEnum =
   | "read"
@@ -591,7 +591,7 @@ export type AccountAccessPermissionItemEnumList = Array<
 /** Defines the Google Tag Manager Account access permissions. */
 export interface AccountAccess {
   /** List of Account permissions. Valid account permissions are read and manage. */
-  permission?: AccountAccessPermissionItemEnumList;
+  permission?: AccountAccessPermissionItemEnumList | undefined;
 }
 export type ContainerAccessPermissionItemEnum =
   | "read"
@@ -606,29 +606,29 @@ export type ContainerAccessPermissionItemEnumList = Array<
 /** Defines the Google Tag Manager Container access permissions. */
 export interface ContainerAccess {
   /** List of Container permissions. Valid container permissions are: read, edit, delete, publish. */
-  permission?: ContainerAccessPermissionItemEnumList;
+  permission?: ContainerAccessPermissionItemEnumList | undefined;
   /** GTM Container ID. */
-  containerId?: string;
+  containerId?: string | undefined;
 }
 export type ContainerAccessList = Array<ContainerAccess>;
 /** Represents a user's permissions to an account and its container. */
 export interface UserAccess {
   /** Account Permission ID. */
-  permissionId?: string;
+  permissionId?: string | undefined;
   /** User's email address. */
-  emailAddress?: string;
+  emailAddress?: string | undefined;
   /** GTM Account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** GTM Account access permissions. */
-  accountAccess?: AccountAccess;
+  accountAccess?: AccountAccess | undefined;
   /** GTM Container access permissions. */
-  containerAccess?: ContainerAccessList;
+  containerAccess?: ContainerAccessList | undefined;
 }
 export interface CreateAccountsPermissionsRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** Request body */
-  body?: UserAccess;
+  body?: UserAccess | undefined;
 }
 export interface DeleteAccountsContainersRequest {
   /** The GTM Account ID. */
@@ -705,13 +705,13 @@ export interface GetAccountsRequest {
 /** Represents a Google Tag Manager Account. */
 export interface Account {
   /** Account display name. */
-  name?: string;
+  name?: string | undefined;
   /** The Account ID uniquely identifies the GTM Account. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Whether the account shares data anonymously with Google and others. */
-  shareData?: boolean;
+  shareData?: boolean | undefined;
   /** The fingerprint of the GTM Account as computed at storage time. This value is recomputed whenever the account is modified. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
 }
 export interface GetAccountsContainersRequest {
   /** The GTM Account ID. */
@@ -778,7 +778,7 @@ export type AccountList = Array<Account>;
 /** List Accounts Response. */
 export interface ListAccountsResponse {
   /** List of GTM Accounts that a user has access to. */
-  accounts?: AccountList;
+  accounts?: AccountList | undefined;
 }
 export interface ListAccountsContainersRequest {
   /** The GTM Account ID. */
@@ -788,7 +788,7 @@ export type ContainerList = Array<Container>;
 /** List Containers Response. */
 export interface ListContainersResponse {
   /** All Containers of a GTM Account. */
-  containers?: ContainerList;
+  containers?: ContainerList | undefined;
 }
 export interface ListAccountsContainersEnvironmentsRequest {
   /** The GTM Account ID. */
@@ -800,7 +800,7 @@ export type EnvironmentList = Array<Environment>;
 /** List Environments Response. */
 export interface ListEnvironmentsResponse {
   /** All Environments of a GTM Container. */
-  environments?: EnvironmentList;
+  environments?: EnvironmentList | undefined;
 }
 export interface ListAccountsContainersFoldersRequest {
   /** The GTM Container ID. */
@@ -811,7 +811,7 @@ export interface ListAccountsContainersFoldersRequest {
 /** List Folders Response. */
 export interface ListFoldersResponse {
   /** All GTM Folders of a GTM Container. */
-  folders?: FolderList;
+  folders?: FolderList | undefined;
 }
 export interface ListAccountsContainersFoldersEntitiesRequest {
   /** The GTM Container ID. */
@@ -824,11 +824,11 @@ export interface ListAccountsContainersFoldersEntitiesRequest {
 /** Represents a Google Tag Manager Folder's contents. */
 export interface FolderEntities {
   /** The list of tags inside the folder. */
-  tag?: TagList;
+  tag?: TagList | undefined;
   /** The list of variables inside the folder. */
-  variable?: VariableList;
+  variable?: VariableList | undefined;
   /** The list of triggers inside the folder. */
-  trigger?: TriggerList;
+  trigger?: TriggerList | undefined;
 }
 export interface ListAccountsContainersTagsRequest {
   /** The GTM Account ID. */
@@ -839,7 +839,7 @@ export interface ListAccountsContainersTagsRequest {
 /** List Tags Response. */
 export interface ListTagsResponse {
   /** All GTM Tags of a GTM Container. */
-  tags?: TagList;
+  tags?: TagList | undefined;
 }
 export interface ListAccountsContainersTriggersRequest {
   /** The GTM Account ID. */
@@ -850,7 +850,7 @@ export interface ListAccountsContainersTriggersRequest {
 /** List triggers response. */
 export interface ListTriggersResponse {
   /** All GTM Triggers of a GTM Container. */
-  triggers?: TriggerList;
+  triggers?: TriggerList | undefined;
 }
 export interface ListAccountsContainersVariablesRequest {
   /** The GTM Container ID. */
@@ -861,45 +861,45 @@ export interface ListAccountsContainersVariablesRequest {
 /** List Variables Response. */
 export interface ListVariablesResponse {
   /** All GTM Variables of a GTM Container. */
-  variables?: VariableList;
+  variables?: VariableList | undefined;
 }
 export interface ListAccountsContainersVersionsRequest {
   /** Also retrieve deleted (archived) versions when true. */
-  includeDeleted?: boolean;
+  includeDeleted?: boolean | undefined;
   /** The GTM Account ID. */
   accountId: string;
   /** The GTM Container ID. */
   containerId: string;
   /** Retrieve headers only when true. */
-  headers?: boolean;
+  headers?: boolean | undefined;
 }
 export type ContainerVersionList = Array<ContainerVersion>;
 /** Represents a Google Tag Manager Container Version Header. */
 export interface ContainerVersionHeader {
   /** Container version display name. */
-  name?: string;
+  name?: string | undefined;
   /** Number of tags in the container version. */
-  numTags?: string;
+  numTags?: string | undefined;
   /** Number of triggers in the container version. */
-  numTriggers?: string;
+  numTriggers?: string | undefined;
   /** Number of variables in the container version. */
-  numVariables?: string;
+  numVariables?: string | undefined;
   /** GTM Account ID. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** GTM Container ID. */
-  containerId?: string;
+  containerId?: string | undefined;
   /** A value of true indicates this container version has been deleted. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** The Container Version ID uniquely identifies the GTM Container Version. */
-  containerVersionId?: string;
+  containerVersionId?: string | undefined;
 }
 export type ContainerVersionHeaderList = Array<ContainerVersionHeader>;
 /** List container versions response. */
 export interface ListContainerVersionsResponse {
   /** All versions of a GTM Container. */
-  containerVersion?: ContainerVersionList;
+  containerVersion?: ContainerVersionList | undefined;
   /** All container version headers of a GTM Container. */
-  containerVersionHeader?: ContainerVersionHeaderList;
+  containerVersionHeader?: ContainerVersionHeaderList | undefined;
 }
 export interface ListAccountsPermissionsRequest {
   /** The GTM Account ID. */
@@ -909,7 +909,7 @@ export type UserAccessList = Array<UserAccess>;
 /** List AccountUsers Response. */
 export interface ListAccountUsersResponse {
   /** All GTM AccountUsers of a GTM Account. */
-  userAccess?: UserAccessList;
+  userAccess?: UserAccessList | undefined;
 }
 export interface PublishAccountsContainersVersionsRequest {
   /** The GTM Container ID. */
@@ -919,14 +919,14 @@ export interface PublishAccountsContainersVersionsRequest {
   /** The GTM Container Version ID. */
   containerVersionId: string;
   /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
 }
 /** Publish container version response. */
 export interface PublishContainerVersionResponse {
   /** Compiler errors or not. */
-  compilerError?: boolean;
+  compilerError?: boolean | undefined;
   /** The container version created. */
-  containerVersion?: ContainerVersion;
+  containerVersion?: ContainerVersion | undefined;
 }
 export interface RestoreAccountsContainersVersionsRequest {
   /** The GTM Container ID. */
@@ -946,25 +946,25 @@ export interface UndeleteAccountsContainersVersionsRequest {
 }
 export interface UpdateAccountsRequest {
   /** When provided, this fingerprint must match the fingerprint of the account in storage. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The GTM Account ID. */
   accountId: string;
   /** Request body */
-  body?: Account;
+  body?: Account | undefined;
 }
 export interface UpdateAccountsContainersRequest {
   /** When provided, this fingerprint must match the fingerprint of the container in storage. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Account ID. */
   accountId: string;
   /** Request body */
-  body?: Container;
+  body?: Container | undefined;
 }
 export interface UpdateAccountsContainersEnvironmentsRequest {
   /** When provided, this fingerprint must match the fingerprint of the environment in storage. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Environment ID. */
@@ -972,27 +972,27 @@ export interface UpdateAccountsContainersEnvironmentsRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** Request body */
-  body?: Environment;
+  body?: Environment | undefined;
 }
 export interface UpdateAccountsContainersFoldersRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the folder in storage. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The GTM Folder ID. */
   folderId: string;
   /** The GTM Container ID. */
   containerId: string;
   /** Request body */
-  body?: Folder;
+  body?: Folder | undefined;
 }
 export interface UpdateAccountsContainersMove_foldersRequest {
   /** The variables to be moved to the folder. */
-  variableId?: StringList;
+  variableId?: StringList | undefined;
   /** The tags to be moved to the folder. */
-  tagId?: StringList;
+  tagId?: StringList | undefined;
   /** The triggers to be moved to the folder. */
-  triggerId?: StringList;
+  triggerId?: StringList | undefined;
   /** The GTM Container ID. */
   containerId: string;
   /** The GTM Folder ID. */
@@ -1000,7 +1000,7 @@ export interface UpdateAccountsContainersMove_foldersRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** Request body */
-  body?: Folder;
+  body?: Folder | undefined;
 }
 export interface UpdateAccountsContainersMove_foldersResponse {}
 export interface UpdateAccountsContainersReauthorize_environmentsRequest {
@@ -1011,7 +1011,7 @@ export interface UpdateAccountsContainersReauthorize_environmentsRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** Request body */
-  body?: Environment;
+  body?: Environment | undefined;
 }
 export interface UpdateAccountsContainersTagsRequest {
   /** The GTM Container ID. */
@@ -1019,11 +1019,11 @@ export interface UpdateAccountsContainersTagsRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the tag in storage. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The GTM Tag ID. */
   tagId: string;
   /** Request body */
-  body?: Tag;
+  body?: Tag | undefined;
 }
 export interface UpdateAccountsContainersTriggersRequest {
   /** The GTM Container ID. */
@@ -1031,11 +1031,11 @@ export interface UpdateAccountsContainersTriggersRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the trigger in storage. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** The GTM Trigger ID. */
   triggerId: string;
   /** Request body */
-  body?: Trigger;
+  body?: Trigger | undefined;
 }
 export interface UpdateAccountsContainersVariablesRequest {
   /** The GTM Container ID. */
@@ -1045,9 +1045,9 @@ export interface UpdateAccountsContainersVariablesRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the variable in storage. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Request body */
-  body?: Variable;
+  body?: Variable | undefined;
 }
 export interface UpdateAccountsContainersVersionsRequest {
   /** The GTM Container ID. */
@@ -1057,9 +1057,9 @@ export interface UpdateAccountsContainersVersionsRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** When provided, this fingerprint must match the fingerprint of the container version in storage. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** Request body */
-  body?: ContainerVersion;
+  body?: ContainerVersion | undefined;
 }
 export interface UpdateAccountsPermissionsRequest {
   /** The GTM User ID. */
@@ -1067,7 +1067,7 @@ export interface UpdateAccountsPermissionsRequest {
   /** The GTM Account ID. */
   accountId: string;
   /** Request body */
-  body?: UserAccess;
+  body?: UserAccess | undefined;
 }
 export type CreateAccountsContainersError =
   | NotFound

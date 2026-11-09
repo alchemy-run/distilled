@@ -166,8 +166,8 @@ export type RequestTagMap = { [key: string]: string | undefined };
 export interface CreateDbBackupInput {
   name: string;
   dbResourceId: string;
-  retentionDays?: number;
-  tags?: { [key: string]: string | undefined };
+  retentionDays?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DbBackupId = string;
 export type Arn = string;
@@ -199,9 +199,9 @@ export type ResourceDeploymentType =
   | (string & {});
 export type KmsKeyId = string;
 export interface ClusterConfiguration {
-  ingestQueryInstances?: number;
-  queryOnlyInstances?: number;
-  dedicatedCompactor?: boolean;
+  ingestQueryInstances?: number | undefined;
+  queryOnlyInstances?: number | undefined;
+  dedicatedCompactor?: boolean | undefined;
 }
 export type DbParameterGroupId = string;
 export type DbInstanceType =
@@ -242,30 +242,30 @@ export interface MaintenanceSchedule {
 }
 export interface CreateDbBackupOutput {
   id: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
-  status?: DbBackupStatus;
-  createdAt?: Date;
-  expiresAfter?: string;
-  dbResourceId?: string;
-  type?: DbBackupType;
-  engineType?: EngineType;
-  deploymentType?: ResourceDeploymentType;
-  kmsKeyId?: string;
-  clusterConfiguration?: ClusterConfiguration;
-  dbParameterGroupId?: string;
-  dbInstanceType?: DbInstanceType;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  failoverMode?: FailoverMode;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  vpcSubnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
-  publiclyAccessible?: boolean;
-  port?: number;
-  networkType?: NetworkType;
-  influxAuthParametersSecretArn?: string;
-  maintenanceSchedule?: MaintenanceSchedule;
+  status?: DbBackupStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAfter?: string | undefined;
+  dbResourceId?: string | undefined;
+  type?: DbBackupType | undefined;
+  engineType?: EngineType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
+  kmsKeyId?: string | undefined;
+  clusterConfiguration?: ClusterConfiguration | undefined;
+  dbParameterGroupId?: string | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  failoverMode?: FailoverMode | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  vpcSubnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
 }
 export type DbClusterName = string;
 export type Username = string | redacted.Redacted<string>;
@@ -289,31 +289,31 @@ export interface DbBackupConfiguration {
   type: AutomatedDbBackupType;
   retentionDays: number;
   enabled: boolean;
-  customSchedule?: string;
+  customSchedule?: string | undefined;
 }
 export type DbBackupConfigurationInputList = DbBackupConfiguration[];
 export interface CreateDbClusterInput {
   name: string;
-  username?: string | redacted.Redacted<string>;
-  password?: string | redacted.Redacted<string>;
-  organization?: string;
-  bucket?: string;
-  port?: number;
-  dbParameterGroupIdentifier?: string;
+  username?: string | redacted.Redacted<string> | undefined;
+  password?: string | redacted.Redacted<string> | undefined;
+  organization?: string | undefined;
+  bucket?: string | undefined;
+  port?: number | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
   dbInstanceType: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  networkType?: NetworkType;
-  publiclyAccessible?: boolean;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  networkType?: NetworkType | undefined;
+  publiclyAccessible?: boolean | undefined;
   vpcSubnetIds: string[];
   vpcSecurityGroupIds: string[];
-  deploymentType?: ClusterDeploymentType;
-  failoverMode?: FailoverMode;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  maintenanceSchedule?: MaintenanceSchedule;
-  dbBackupConfigurations?: DbBackupConfiguration[];
-  kmsKeyId?: string;
-  tags?: { [key: string]: string | undefined };
+  deploymentType?: ClusterDeploymentType | undefined;
+  failoverMode?: FailoverMode | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
+  kmsKeyId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DbClusterId = string;
 export type ClusterStatus =
@@ -332,32 +332,32 @@ export type ClusterStatus =
   | "RESTORE_FAILED"
   | (string & {});
 export interface CreateDbClusterOutput {
-  dbClusterId?: string;
-  dbClusterStatus?: ClusterStatus;
+  dbClusterId?: string | undefined;
+  dbClusterStatus?: ClusterStatus | undefined;
 }
 export type DbInstanceName = string;
 export type DeploymentType = "SINGLE_AZ" | "WITH_MULTIAZ_STANDBY" | (string & {});
 export interface CreateDbInstanceInput {
   name: string;
-  username?: string | redacted.Redacted<string>;
+  username?: string | redacted.Redacted<string> | undefined;
   password: string | redacted.Redacted<string>;
-  organization?: string;
-  bucket?: string;
+  organization?: string | undefined;
+  bucket?: string | undefined;
   dbInstanceType: DbInstanceType;
   vpcSubnetIds: string[];
   vpcSecurityGroupIds: string[];
-  publiclyAccessible?: boolean;
-  dbStorageType?: DbStorageType;
+  publiclyAccessible?: boolean | undefined;
+  dbStorageType?: DbStorageType | undefined;
   allocatedStorage: number;
-  dbParameterGroupIdentifier?: string;
-  deploymentType?: DeploymentType;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  maintenanceSchedule?: MaintenanceSchedule;
-  tags?: { [key: string]: string | undefined };
-  port?: number;
-  networkType?: NetworkType;
-  dbBackupConfigurations?: DbBackupConfiguration[];
-  kmsKeyId?: string;
+  dbParameterGroupIdentifier?: string | undefined;
+  deploymentType?: DeploymentType | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type DbInstanceId = string;
 export type Status =
@@ -390,38 +390,38 @@ export interface DbBackupConfigurationOutput {
   type: AutomatedDbBackupType;
   retentionDays: number;
   enabled: boolean;
-  customSchedule?: string;
-  nextAutomatedBackupTime?: Date;
+  customSchedule?: string | undefined;
+  nextAutomatedBackupTime?: Date | undefined;
 }
 export type DbBackupConfigurationOutputList = DbBackupConfigurationOutput[];
 export interface CreateDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
   vpcSubnetIds: string[];
-  publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: string[];
-  dbParameterGroupIdentifier?: string;
-  availabilityZone?: string;
-  secondaryAvailabilityZone?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  influxAuthParametersSecretArn?: string;
-  dbClusterId?: string;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  publiclyAccessible?: boolean | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  availabilityZone?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  dbClusterId?: string | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type DbParameterGroupName = string;
 export type LogLevel = "debug" | "info" | "error" | (string & {});
@@ -438,267 +438,275 @@ export interface Duration {
   value: number;
 }
 export interface InfluxDBv2Parameters {
-  fluxLogEnabled?: boolean;
-  logLevel?: LogLevel;
-  noTasks?: boolean;
-  queryConcurrency?: number;
-  queryQueueSize?: number;
-  tracingType?: TracingType;
-  metricsDisabled?: boolean;
-  httpIdleTimeout?: Duration;
-  httpReadHeaderTimeout?: Duration;
-  httpReadTimeout?: Duration;
-  httpWriteTimeout?: Duration;
-  influxqlMaxSelectBuckets?: number;
-  influxqlMaxSelectPoint?: number;
-  influxqlMaxSelectSeries?: number;
-  pprofDisabled?: boolean;
-  queryInitialMemoryBytes?: number;
-  queryMaxMemoryBytes?: number;
-  queryMemoryBytes?: number;
-  sessionLength?: number;
-  sessionRenewDisabled?: boolean;
-  storageCacheMaxMemorySize?: number;
-  storageCacheSnapshotMemorySize?: number;
-  storageCacheSnapshotWriteColdDuration?: Duration;
-  storageCompactFullWriteColdDuration?: Duration;
-  storageCompactThroughputBurst?: number;
-  storageMaxConcurrentCompactions?: number;
-  storageMaxIndexLogFileSize?: number;
-  storageNoValidateFieldSize?: boolean;
-  storageRetentionCheckInterval?: Duration;
-  storageSeriesFileMaxConcurrentSnapshotCompactions?: number;
-  storageSeriesIdSetCacheSize?: number;
-  storageWalMaxConcurrentWrites?: number;
-  storageWalMaxWriteDelay?: Duration;
-  uiDisabled?: boolean;
+  fluxLogEnabled?: boolean | undefined;
+  logLevel?: LogLevel | undefined;
+  noTasks?: boolean | undefined;
+  queryConcurrency?: number | undefined;
+  queryQueueSize?: number | undefined;
+  tracingType?: TracingType | undefined;
+  metricsDisabled?: boolean | undefined;
+  httpIdleTimeout?: Duration | undefined;
+  httpReadHeaderTimeout?: Duration | undefined;
+  httpReadTimeout?: Duration | undefined;
+  httpWriteTimeout?: Duration | undefined;
+  influxqlMaxSelectBuckets?: number | undefined;
+  influxqlMaxSelectPoint?: number | undefined;
+  influxqlMaxSelectSeries?: number | undefined;
+  pprofDisabled?: boolean | undefined;
+  queryInitialMemoryBytes?: number | undefined;
+  queryMaxMemoryBytes?: number | undefined;
+  queryMemoryBytes?: number | undefined;
+  sessionLength?: number | undefined;
+  sessionRenewDisabled?: boolean | undefined;
+  storageCacheMaxMemorySize?: number | undefined;
+  storageCacheSnapshotMemorySize?: number | undefined;
+  storageCacheSnapshotWriteColdDuration?: Duration | undefined;
+  storageCompactFullWriteColdDuration?: Duration | undefined;
+  storageCompactThroughputBurst?: number | undefined;
+  storageMaxConcurrentCompactions?: number | undefined;
+  storageMaxIndexLogFileSize?: number | undefined;
+  storageNoValidateFieldSize?: boolean | undefined;
+  storageRetentionCheckInterval?: Duration | undefined;
+  storageSeriesFileMaxConcurrentSnapshotCompactions?: number | undefined;
+  storageSeriesIdSetCacheSize?: number | undefined;
+  storageWalMaxConcurrentWrites?: number | undefined;
+  storageWalMaxWriteDelay?: Duration | undefined;
+  uiDisabled?: boolean | undefined;
 }
 export type LogFormats = "full" | (string & {});
 export type DataFusionRuntimeType = "multi-thread" | "multi-thread-alt" | (string & {});
 export type PercentOrAbsoluteLong =
-  | { percent: string; absolute?: never }
-  | { percent?: never; absolute: number };
+  | { percent: string; absolute?: undefined }
+  | { percent?: undefined; absolute: number };
 export type PluginRepositorySecretArn = string;
 export interface InfluxDBv3CoreParameters {
-  queryFileLimit?: number;
-  queryLogSize?: number;
-  logFilter?: string;
-  logFormat?: LogFormats;
-  dataFusionNumThreads?: number;
-  dataFusionRuntimeType?: DataFusionRuntimeType;
-  dataFusionRuntimeDisableLifoSlot?: boolean;
-  dataFusionRuntimeEventInterval?: number;
-  dataFusionRuntimeGlobalQueueInterval?: number;
-  dataFusionRuntimeMaxBlockingThreads?: number;
-  dataFusionRuntimeMaxIoEventsPerTick?: number;
-  dataFusionRuntimeThreadKeepAlive?: Duration;
-  dataFusionRuntimeThreadPriority?: number;
-  dataFusionMaxParquetFanout?: number;
-  dataFusionUseCachedParquetLoader?: boolean;
-  dataFusionConfig?: string;
-  maxHttpRequestSize?: number;
-  forceSnapshotMemThreshold?: PercentOrAbsoluteLong;
-  walSnapshotSize?: number;
-  walMaxWriteBufferSize?: number;
-  snapshottedWalFilesToKeep?: number;
-  preemptiveCacheAge?: Duration;
-  parquetMemCachePrunePercentage?: number;
-  parquetMemCachePruneInterval?: Duration;
-  disableParquetMemCache?: boolean;
-  parquetMemCacheQueryPathDuration?: Duration;
-  lastCacheEvictionInterval?: Duration;
-  distinctCacheEvictionInterval?: Duration;
-  gen1Duration?: Duration;
-  execMemPoolBytes?: PercentOrAbsoluteLong;
-  parquetMemCacheSize?: PercentOrAbsoluteLong;
-  walReplayFailOnError?: boolean;
-  walReplayConcurrencyLimit?: number;
-  tableIndexCacheMaxEntries?: number;
-  tableIndexCacheConcurrencyLimit?: number;
-  gen1LookbackDuration?: Duration;
-  retentionCheckInterval?: Duration;
-  deleteGracePeriod?: Duration;
-  hardDeleteDefaultDuration?: Duration;
-  pluginRepositoryUrl?: string;
-  pluginRepositorySecretArn?: string;
+  queryFileLimit?: number | undefined;
+  queryLogSize?: number | undefined;
+  logFilter?: string | undefined;
+  logFormat?: LogFormats | undefined;
+  dataFusionNumThreads?: number | undefined;
+  dataFusionRuntimeType?: DataFusionRuntimeType | undefined;
+  dataFusionRuntimeDisableLifoSlot?: boolean | undefined;
+  dataFusionRuntimeEventInterval?: number | undefined;
+  dataFusionRuntimeGlobalQueueInterval?: number | undefined;
+  dataFusionRuntimeMaxBlockingThreads?: number | undefined;
+  dataFusionRuntimeMaxIoEventsPerTick?: number | undefined;
+  dataFusionRuntimeThreadKeepAlive?: Duration | undefined;
+  dataFusionRuntimeThreadPriority?: number | undefined;
+  dataFusionMaxParquetFanout?: number | undefined;
+  dataFusionUseCachedParquetLoader?: boolean | undefined;
+  dataFusionConfig?: string | undefined;
+  maxHttpRequestSize?: number | undefined;
+  forceSnapshotMemThreshold?: PercentOrAbsoluteLong | undefined;
+  walSnapshotSize?: number | undefined;
+  walMaxWriteBufferSize?: number | undefined;
+  snapshottedWalFilesToKeep?: number | undefined;
+  preemptiveCacheAge?: Duration | undefined;
+  parquetMemCachePrunePercentage?: number | undefined;
+  parquetMemCachePruneInterval?: Duration | undefined;
+  disableParquetMemCache?: boolean | undefined;
+  parquetMemCacheQueryPathDuration?: Duration | undefined;
+  lastCacheEvictionInterval?: Duration | undefined;
+  distinctCacheEvictionInterval?: Duration | undefined;
+  gen1Duration?: Duration | undefined;
+  execMemPoolBytes?: PercentOrAbsoluteLong | undefined;
+  parquetMemCacheSize?: PercentOrAbsoluteLong | undefined;
+  walReplayFailOnError?: boolean | undefined;
+  walReplayConcurrencyLimit?: number | undefined;
+  tableIndexCacheMaxEntries?: number | undefined;
+  tableIndexCacheConcurrencyLimit?: number | undefined;
+  gen1LookbackDuration?: Duration | undefined;
+  retentionCheckInterval?: Duration | undefined;
+  deleteGracePeriod?: Duration | undefined;
+  hardDeleteDefaultDuration?: Duration | undefined;
+  pluginRepositoryUrl?: string | undefined;
+  pluginRepositorySecretArn?: string | undefined;
 }
 export interface InfluxDBv3EnterpriseParameters {
-  queryFileLimit?: number;
-  queryLogSize?: number;
-  logFilter?: string;
-  logFormat?: LogFormats;
-  dataFusionNumThreads?: number;
-  dataFusionRuntimeType?: DataFusionRuntimeType;
-  dataFusionRuntimeDisableLifoSlot?: boolean;
-  dataFusionRuntimeEventInterval?: number;
-  dataFusionRuntimeGlobalQueueInterval?: number;
-  dataFusionRuntimeMaxBlockingThreads?: number;
-  dataFusionRuntimeMaxIoEventsPerTick?: number;
-  dataFusionRuntimeThreadKeepAlive?: Duration;
-  dataFusionRuntimeThreadPriority?: number;
-  dataFusionMaxParquetFanout?: number;
-  dataFusionUseCachedParquetLoader?: boolean;
-  dataFusionConfig?: string;
-  maxHttpRequestSize?: number;
-  forceSnapshotMemThreshold?: PercentOrAbsoluteLong;
-  walSnapshotSize?: number;
-  walMaxWriteBufferSize?: number;
-  snapshottedWalFilesToKeep?: number;
-  preemptiveCacheAge?: Duration;
-  parquetMemCachePrunePercentage?: number;
-  parquetMemCachePruneInterval?: Duration;
-  disableParquetMemCache?: boolean;
-  parquetMemCacheQueryPathDuration?: Duration;
-  lastCacheEvictionInterval?: Duration;
-  distinctCacheEvictionInterval?: Duration;
-  gen1Duration?: Duration;
-  execMemPoolBytes?: PercentOrAbsoluteLong;
-  parquetMemCacheSize?: PercentOrAbsoluteLong;
-  walReplayFailOnError?: boolean;
-  walReplayConcurrencyLimit?: number;
-  tableIndexCacheMaxEntries?: number;
-  tableIndexCacheConcurrencyLimit?: number;
-  gen1LookbackDuration?: Duration;
-  retentionCheckInterval?: Duration;
-  deleteGracePeriod?: Duration;
-  hardDeleteDefaultDuration?: Duration;
-  pluginRepositoryUrl?: string;
-  pluginRepositorySecretArn?: string;
+  queryFileLimit?: number | undefined;
+  queryLogSize?: number | undefined;
+  logFilter?: string | undefined;
+  logFormat?: LogFormats | undefined;
+  dataFusionNumThreads?: number | undefined;
+  dataFusionRuntimeType?: DataFusionRuntimeType | undefined;
+  dataFusionRuntimeDisableLifoSlot?: boolean | undefined;
+  dataFusionRuntimeEventInterval?: number | undefined;
+  dataFusionRuntimeGlobalQueueInterval?: number | undefined;
+  dataFusionRuntimeMaxBlockingThreads?: number | undefined;
+  dataFusionRuntimeMaxIoEventsPerTick?: number | undefined;
+  dataFusionRuntimeThreadKeepAlive?: Duration | undefined;
+  dataFusionRuntimeThreadPriority?: number | undefined;
+  dataFusionMaxParquetFanout?: number | undefined;
+  dataFusionUseCachedParquetLoader?: boolean | undefined;
+  dataFusionConfig?: string | undefined;
+  maxHttpRequestSize?: number | undefined;
+  forceSnapshotMemThreshold?: PercentOrAbsoluteLong | undefined;
+  walSnapshotSize?: number | undefined;
+  walMaxWriteBufferSize?: number | undefined;
+  snapshottedWalFilesToKeep?: number | undefined;
+  preemptiveCacheAge?: Duration | undefined;
+  parquetMemCachePrunePercentage?: number | undefined;
+  parquetMemCachePruneInterval?: Duration | undefined;
+  disableParquetMemCache?: boolean | undefined;
+  parquetMemCacheQueryPathDuration?: Duration | undefined;
+  lastCacheEvictionInterval?: Duration | undefined;
+  distinctCacheEvictionInterval?: Duration | undefined;
+  gen1Duration?: Duration | undefined;
+  execMemPoolBytes?: PercentOrAbsoluteLong | undefined;
+  parquetMemCacheSize?: PercentOrAbsoluteLong | undefined;
+  walReplayFailOnError?: boolean | undefined;
+  walReplayConcurrencyLimit?: number | undefined;
+  tableIndexCacheMaxEntries?: number | undefined;
+  tableIndexCacheConcurrencyLimit?: number | undefined;
+  gen1LookbackDuration?: Duration | undefined;
+  retentionCheckInterval?: Duration | undefined;
+  deleteGracePeriod?: Duration | undefined;
+  hardDeleteDefaultDuration?: Duration | undefined;
+  pluginRepositoryUrl?: string | undefined;
+  pluginRepositorySecretArn?: string | undefined;
   ingestQueryInstances: number;
   queryOnlyInstances: number;
   dedicatedCompactor: boolean;
-  compactionRowLimit?: number;
-  compactionMaxNumFilesPerPlan?: number;
-  compactionGen2Duration?: Duration;
-  compactionMultipliers?: string;
-  compactionCleanupWait?: Duration;
-  compactionCheckInterval?: Duration;
-  lastValueCacheDisableFromHistory?: boolean;
-  distinctValueCacheDisableFromHistory?: boolean;
-  replicationInterval?: Duration;
-  catalogSyncInterval?: Duration;
+  compactionRowLimit?: number | undefined;
+  compactionMaxNumFilesPerPlan?: number | undefined;
+  compactionGen2Duration?: Duration | undefined;
+  compactionMultipliers?: string | undefined;
+  compactionCleanupWait?: Duration | undefined;
+  compactionCheckInterval?: Duration | undefined;
+  lastValueCacheDisableFromHistory?: boolean | undefined;
+  distinctValueCacheDisableFromHistory?: boolean | undefined;
+  replicationInterval?: Duration | undefined;
+  catalogSyncInterval?: Duration | undefined;
 }
 export type Parameters =
-  | { InfluxDBv2: InfluxDBv2Parameters; InfluxDBv3Core?: never; InfluxDBv3Enterprise?: never }
-  | { InfluxDBv2?: never; InfluxDBv3Core: InfluxDBv3CoreParameters; InfluxDBv3Enterprise?: never }
   | {
-      InfluxDBv2?: never;
-      InfluxDBv3Core?: never;
+      InfluxDBv2: InfluxDBv2Parameters;
+      InfluxDBv3Core?: undefined;
+      InfluxDBv3Enterprise?: undefined;
+    }
+  | {
+      InfluxDBv2?: undefined;
+      InfluxDBv3Core: InfluxDBv3CoreParameters;
+      InfluxDBv3Enterprise?: undefined;
+    }
+  | {
+      InfluxDBv2?: undefined;
+      InfluxDBv3Core?: undefined;
       InfluxDBv3Enterprise: InfluxDBv3EnterpriseParameters;
     };
 export interface CreateDbParameterGroupInput {
   name: string;
-  description?: string;
-  parameters?: Parameters;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  parameters?: Parameters | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateDbParameterGroupOutput {
   id: string;
   name: string;
   arn: string;
-  description?: string;
-  parameters?: Parameters;
+  description?: string | undefined;
+  parameters?: Parameters | undefined;
 }
 export interface DeleteDbBackupInput {
   identifier: string;
 }
 export interface DeleteDbBackupOutput {
   id: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
-  status?: DbBackupStatus;
-  createdAt?: Date;
-  expiresAfter?: string;
-  dbResourceId?: string;
-  type?: DbBackupType;
-  engineType?: EngineType;
-  deploymentType?: ResourceDeploymentType;
-  kmsKeyId?: string;
-  clusterConfiguration?: ClusterConfiguration;
-  dbParameterGroupId?: string;
-  dbInstanceType?: DbInstanceType;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  failoverMode?: FailoverMode;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  vpcSubnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
-  publiclyAccessible?: boolean;
-  port?: number;
-  networkType?: NetworkType;
-  influxAuthParametersSecretArn?: string;
-  maintenanceSchedule?: MaintenanceSchedule;
+  status?: DbBackupStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAfter?: string | undefined;
+  dbResourceId?: string | undefined;
+  type?: DbBackupType | undefined;
+  engineType?: EngineType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
+  kmsKeyId?: string | undefined;
+  clusterConfiguration?: ClusterConfiguration | undefined;
+  dbParameterGroupId?: string | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  failoverMode?: FailoverMode | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  vpcSubnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
 }
 export interface DeleteDbClusterInput {
   dbClusterId: string;
-  retainAutomatedBackups?: boolean;
+  retainAutomatedBackups?: boolean | undefined;
 }
 export interface DeleteDbClusterOutput {
-  dbClusterStatus?: ClusterStatus;
+  dbClusterStatus?: ClusterStatus | undefined;
 }
 export type DbInstanceIdentifier = string;
 export interface DeleteDbInstanceInput {
   identifier: string;
-  retainAutomatedBackups?: boolean;
+  retainAutomatedBackups?: boolean | undefined;
 }
 export interface DeleteDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
   vpcSubnetIds: string[];
-  publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: string[];
-  dbParameterGroupIdentifier?: string;
-  availabilityZone?: string;
-  secondaryAvailabilityZone?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  influxAuthParametersSecretArn?: string;
-  dbClusterId?: string;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  publiclyAccessible?: boolean | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  availabilityZone?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  dbClusterId?: string | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface GetDbBackupInput {
   identifier: string;
 }
 export interface GetDbBackupOutput {
   id: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
-  status?: DbBackupStatus;
-  createdAt?: Date;
-  expiresAfter?: string;
-  dbResourceId?: string;
-  type?: DbBackupType;
-  engineType?: EngineType;
-  deploymentType?: ResourceDeploymentType;
-  kmsKeyId?: string;
-  clusterConfiguration?: ClusterConfiguration;
-  dbParameterGroupId?: string;
-  dbInstanceType?: DbInstanceType;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  failoverMode?: FailoverMode;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  vpcSubnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
-  publiclyAccessible?: boolean;
-  port?: number;
-  networkType?: NetworkType;
-  influxAuthParametersSecretArn?: string;
-  maintenanceSchedule?: MaintenanceSchedule;
+  status?: DbBackupStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAfter?: string | undefined;
+  dbResourceId?: string | undefined;
+  type?: DbBackupType | undefined;
+  engineType?: EngineType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
+  kmsKeyId?: string | undefined;
+  clusterConfiguration?: ClusterConfiguration | undefined;
+  dbParameterGroupId?: string | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  failoverMode?: FailoverMode | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  vpcSubnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
 }
 export interface GetDbClusterInput {
   dbClusterId: string;
@@ -707,30 +715,30 @@ export interface GetDbClusterOutput {
   id: string;
   name: string;
   arn: string;
-  status?: ClusterStatus;
-  endpoint?: string;
-  readerEndpoint?: string;
-  port?: number;
-  deploymentType?: ClusterDeploymentType;
-  dbInstanceType?: DbInstanceType;
-  networkType?: NetworkType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  engineType?: EngineType;
-  publiclyAccessible?: boolean;
-  dbParameterGroupIdentifier?: string;
-  effectiveDbParameterGroupIdentifier?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  influxAuthParametersSecretArn?: string;
-  vpcSubnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
-  failoverMode?: FailoverMode;
-  clusterConfiguration?: ClusterConfiguration;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  status?: ClusterStatus | undefined;
+  endpoint?: string | undefined;
+  readerEndpoint?: string | undefined;
+  port?: number | undefined;
+  deploymentType?: ClusterDeploymentType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  networkType?: NetworkType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  engineType?: EngineType | undefined;
+  publiclyAccessible?: boolean | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  effectiveDbParameterGroupIdentifier?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  vpcSubnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  failoverMode?: FailoverMode | undefined;
+  clusterConfiguration?: ClusterConfiguration | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface GetDbInstanceInput {
   identifier: string;
@@ -739,30 +747,30 @@ export interface GetDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
   vpcSubnetIds: string[];
-  publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: string[];
-  dbParameterGroupIdentifier?: string;
-  availabilityZone?: string;
-  secondaryAvailabilityZone?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  influxAuthParametersSecretArn?: string;
-  dbClusterId?: string;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  publiclyAccessible?: boolean | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  availabilityZone?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  dbClusterId?: string | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface GetDbParameterGroupInput {
   identifier: string;
@@ -771,134 +779,134 @@ export interface GetDbParameterGroupOutput {
   id: string;
   name: string;
   arn: string;
-  description?: string;
-  parameters?: Parameters;
+  description?: string | undefined;
+  parameters?: Parameters | undefined;
 }
 export type NextToken = string;
 export type MaxResults = number;
 export interface ListDbBackupsInput {
-  dbResourceId?: string;
-  nextToken?: string;
-  maxResults?: number;
+  dbResourceId?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DbBackupSummary {
   id: string;
-  name?: string;
+  name?: string | undefined;
   arn: string;
-  status?: DbBackupStatus;
-  createdAt?: Date;
-  expiresAfter?: string;
-  dbResourceId?: string;
-  type?: DbBackupType;
-  engineType?: EngineType;
-  deploymentType?: ResourceDeploymentType;
-  kmsKeyId?: string;
+  status?: DbBackupStatus | undefined;
+  createdAt?: Date | undefined;
+  expiresAfter?: string | undefined;
+  dbResourceId?: string | undefined;
+  type?: DbBackupType | undefined;
+  engineType?: EngineType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type DbBackupSummaryList = DbBackupSummary[];
 export interface ListDbBackupsOutput {
   items: DbBackupSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDbClustersInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DbClusterSummary {
   id: string;
   name: string;
   arn: string;
-  status?: ClusterStatus;
-  endpoint?: string;
-  readerEndpoint?: string;
-  port?: number;
-  deploymentType?: ClusterDeploymentType;
-  dbInstanceType?: DbInstanceType;
-  networkType?: NetworkType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  engineType?: EngineType;
+  status?: ClusterStatus | undefined;
+  endpoint?: string | undefined;
+  readerEndpoint?: string | undefined;
+  port?: number | undefined;
+  deploymentType?: ClusterDeploymentType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  networkType?: NetworkType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  engineType?: EngineType | undefined;
 }
 export type DbClusterSummaryList = DbClusterSummary[];
 export interface ListDbClustersOutput {
   items: DbClusterSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDbInstancesInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DbInstanceSummary {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
 }
 export type DbInstanceSummaryList = DbInstanceSummary[];
 export interface ListDbInstancesOutput {
   items: DbInstanceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDbInstancesForClusterInput {
   dbClusterId: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DbInstanceForClusterSummary {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
 }
 export type DbInstanceForClusterSummaryList = DbInstanceForClusterSummary[];
 export interface ListDbInstancesForClusterOutput {
   items: DbInstanceForClusterSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListDbParameterGroupsInput {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DbParameterGroupSummary {
   id: string;
   name: string;
   arn: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type DbParameterGroupSummaryList = DbParameterGroupSummary[];
 export interface ListDbParameterGroupsOutput {
   items: DbParameterGroupSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export type ResponseTagMap = { [key: string]: string | undefined };
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DbInstanceIdList = string[];
 export interface RebootDbClusterInput {
   dbClusterId: string;
-  instanceIds?: string[];
+  instanceIds?: string[] | undefined;
 }
 export interface RebootDbClusterOutput {
-  dbClusterStatus?: ClusterStatus;
+  dbClusterStatus?: ClusterStatus | undefined;
 }
 export interface RebootDbInstanceInput {
   identifier: string;
@@ -907,58 +915,58 @@ export interface RebootDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
   vpcSubnetIds: string[];
-  publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: string[];
-  dbParameterGroupIdentifier?: string;
-  availabilityZone?: string;
-  secondaryAvailabilityZone?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  influxAuthParametersSecretArn?: string;
-  dbClusterId?: string;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  publiclyAccessible?: boolean | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  availabilityZone?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  dbClusterId?: string | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type DbResourceName = string;
 export type RestoreMode = "NEW_RESOURCE" | "REPLACE_EXISTING" | (string & {});
 export interface RestoreFromDbBackupInput {
   name: string;
   dbBackupId: string;
-  restoreToTime?: Date;
-  restoreMode?: RestoreMode;
-  vpcSubnetIds?: string[];
-  vpcSecurityGroupIds?: string[];
-  publiclyAccessible?: boolean;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  maintenanceSchedule?: MaintenanceSchedule;
-  tags?: { [key: string]: string | undefined };
-  port?: number;
-  networkType?: NetworkType;
-  deploymentType?: ResourceDeploymentType;
-  dbBackupConfigurations?: DbBackupConfiguration[];
-  kmsKeyId?: string;
+  restoreToTime?: Date | undefined;
+  restoreMode?: RestoreMode | undefined;
+  vpcSubnetIds?: string[] | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  publiclyAccessible?: boolean | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
+  dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type RestoreStatus = "RESTORING" | (string & {});
 export type ResourceType = "DB_INSTANCE" | "DB_CLUSTER" | (string & {});
 export interface RestoreFromDbBackupOutput {
-  restoredDbResourceId?: string;
-  restoreStatus?: RestoreStatus;
-  resourceType?: ResourceType;
-  engineType?: EngineType;
-  deploymentType?: ResourceDeploymentType;
+  restoredDbResourceId?: string | undefined;
+  restoreStatus?: RestoreStatus | undefined;
+  resourceType?: ResourceType | undefined;
+  engineType?: EngineType | undefined;
+  deploymentType?: ResourceDeploymentType | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -973,57 +981,57 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDbClusterInput {
   dbClusterId: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  dbParameterGroupIdentifier?: string;
-  port?: number;
-  dbInstanceType?: DbInstanceType;
-  failoverMode?: FailoverMode;
-  maintenanceSchedule?: MaintenanceSchedule;
-  dbBackupConfigurations?: DbBackupConfiguration[];
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  port?: number | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  failoverMode?: FailoverMode | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
 }
 export interface UpdateDbClusterOutput {
-  dbClusterStatus?: ClusterStatus;
+  dbClusterStatus?: ClusterStatus | undefined;
 }
 export interface UpdateDbInstanceInput {
   identifier: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  dbParameterGroupIdentifier?: string;
-  port?: number;
-  dbInstanceType?: DbInstanceType;
-  deploymentType?: DeploymentType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  maintenanceSchedule?: MaintenanceSchedule;
-  dbBackupConfigurations?: DbBackupConfiguration[];
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  port?: number | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  deploymentType?: DeploymentType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  dbBackupConfigurations?: DbBackupConfiguration[] | undefined;
 }
 export interface UpdateDbInstanceOutput {
   id: string;
   name: string;
   arn: string;
-  status?: Status;
-  endpoint?: string;
-  port?: number;
-  networkType?: NetworkType;
-  dbInstanceType?: DbInstanceType;
-  dbStorageType?: DbStorageType;
-  allocatedStorage?: number;
-  deploymentType?: DeploymentType;
+  status?: Status | undefined;
+  endpoint?: string | undefined;
+  port?: number | undefined;
+  networkType?: NetworkType | undefined;
+  dbInstanceType?: DbInstanceType | undefined;
+  dbStorageType?: DbStorageType | undefined;
+  allocatedStorage?: number | undefined;
+  deploymentType?: DeploymentType | undefined;
   vpcSubnetIds: string[];
-  publiclyAccessible?: boolean;
-  vpcSecurityGroupIds?: string[];
-  dbParameterGroupIdentifier?: string;
-  availabilityZone?: string;
-  secondaryAvailabilityZone?: string;
-  logDeliveryConfiguration?: LogDeliveryConfiguration;
-  influxAuthParametersSecretArn?: string;
-  dbClusterId?: string;
-  instanceMode?: InstanceMode;
-  instanceModes?: InstanceMode[];
-  maintenanceSchedule?: MaintenanceSchedule;
-  lastMaintenanceTime?: Date;
-  nextMaintenanceTime?: Date;
-  dbBackupConfigurations?: DbBackupConfigurationOutput[];
-  kmsKeyId?: string;
+  publiclyAccessible?: boolean | undefined;
+  vpcSecurityGroupIds?: string[] | undefined;
+  dbParameterGroupIdentifier?: string | undefined;
+  availabilityZone?: string | undefined;
+  secondaryAvailabilityZone?: string | undefined;
+  logDeliveryConfiguration?: LogDeliveryConfiguration | undefined;
+  influxAuthParametersSecretArn?: string | undefined;
+  dbClusterId?: string | undefined;
+  instanceMode?: InstanceMode | undefined;
+  instanceModes?: InstanceMode[] | undefined;
+  maintenanceSchedule?: MaintenanceSchedule | undefined;
+  lastMaintenanceTime?: Date | undefined;
+  nextMaintenanceTime?: Date | undefined;
+  dbBackupConfigurations?: DbBackupConfigurationOutput[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type ValidationExceptionReason = "FIELD_VALIDATION_FAILED" | "OTHER" | (string & {});
 export type CreateDbBackupError =

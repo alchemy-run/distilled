@@ -116,7 +116,7 @@ export interface CardSpendLimit {
   /** Maximum total spend allowed per interval, in cents. */
   amountCents: number;
   /** Maximum ATM withdrawal allowed per interval, in cents. Null for virtual cards and credit cards. */
-  atmAmountCents?: number | null;
+  atmAmountCents?: number | null | undefined;
   interval: unknown;
 }
 export interface Card {
@@ -135,13 +135,13 @@ export interface Card {
   kind: unknown;
   /** Last four digits of the card's primary account number (PAN). */
   lastFour: string;
-  merchantLock?: CardMerchantLock | null;
+  merchantLock?: CardMerchantLock | null | undefined;
   /** Cardholder name printed on the card. */
   nameOnCard: string;
   /** Optional user-assigned label for the card. */
-  nickname?: string | null;
-  physicalCardStatus?: unknown | null;
-  spendLimit?: CardSpendLimit | null;
+  nickname?: string | null | undefined;
+  physicalCardStatus?: unknown | null | undefined;
+  spendLimit?: CardSpendLimit | null | undefined;
   spendLimitType: unknown;
   status: unknown;
   type: unknown;
@@ -159,11 +159,11 @@ export interface CreateCardRequestSpendLimit {
   interval: unknown;
 }
 export interface CreateCardRequest {
-  accountId?: unknown | null;
+  accountId?: unknown | null | undefined;
   kind: unknown;
   /** Optional user-assigned label for the card. */
-  nickname?: string | null;
-  spendLimit?: CreateCardRequestSpendLimit | null;
+  nickname?: string | null | undefined;
+  spendLimit?: CreateCardRequestSpendLimit | null | undefined;
   type: unknown;
   userId: unknown;
 }
@@ -192,7 +192,7 @@ export interface CreateCustomerRequestAddress {
   /** Primary street address line. */
   address1: string;
   /** Secondary street address line (optional). */
-  address2?: string | null;
+  address2?: string | null | undefined;
   /** City name. */
   city: string;
   country: unknown;
@@ -203,7 +203,7 @@ export interface CreateCustomerRequestAddress {
   region: unknown;
 }
 export interface CreateCustomerRequest {
-  address?: CreateCustomerRequestAddress | null;
+  address?: CreateCustomerRequestAddress | null | undefined;
   email: unknown;
   /** The name of the customer. */
   name: string;
@@ -212,7 +212,7 @@ export interface ApiV1ArCustomerResponseDataAddress {
   /** Primary street address line. */
   address1: string;
   /** Secondary street address line (optional). */
-  address2?: string | null;
+  address2?: string | null | undefined;
   /** City name. */
   city: string;
   country: unknown;
@@ -222,8 +222,8 @@ export interface ApiV1ArCustomerResponseDataAddress {
 }
 /** Response data for Accounts Receivable customer API endpoints */
 export interface ApiV1ArCustomerResponseData {
-  address?: ApiV1ArCustomerResponseDataAddress | null;
-  deletedAt?: unknown | null;
+  address?: ApiV1ArCustomerResponseDataAddress | null | undefined;
+  deletedAt?: unknown | null | undefined;
   email: unknown;
   id: unknown;
   /** Name of customer. */
@@ -233,7 +233,7 @@ export interface CreateInternalTransferRequest {
   amount: number;
   destinationAccountId: string;
   idempotencyKey: string;
-  note?: string | null;
+  note?: string | null | undefined;
   sourceAccountId: string;
 }
 export type TransactionAttachmentType = "checkImage" | "receipt" | "other";
@@ -252,7 +252,7 @@ export interface CurrencyExchangeInfo {
   exchangeRate: number;
   feeAmount: number;
   feePercentage: number;
-  feeTransactionId?: string | null;
+  feeTransactionId?: string | null | undefined;
 }
 export type USState =
   | "AL"
@@ -308,13 +308,13 @@ export type USState =
   | "WY";
 export interface AddressData {
   address1: string;
-  address2?: string | null;
+  address2?: string | null | undefined;
   city: string;
   postalCode: string;
-  state?: USState | (string & {}) | null;
+  state?: USState | (string & {}) | null | undefined;
 }
 export interface CreditCardInfo {
-  email?: string | null;
+  email?: string | null | undefined;
   id: unknown;
   paymentMethod: string;
 }
@@ -323,7 +323,7 @@ export interface DebitCardInfo {
 }
 export interface AddressWithoutName {
   address1: string;
-  address2?: string | null;
+  address2?: string | null | undefined;
   city: string;
   country: string;
   postalCode: string;
@@ -331,8 +331,8 @@ export interface AddressWithoutName {
 }
 export interface DomesticWireRoutingInfo {
   accountNumber: string;
-  address?: AddressWithoutName | null;
-  bankName?: string | null;
+  address?: AddressWithoutName | null | undefined;
+  bankName?: string | null | undefined;
   routingNumber: string;
 }
 export type ElectronicAccountType =
@@ -346,8 +346,8 @@ export type ElectronicAccountType =
   | "personalLoan";
 export interface ElectronicRoutingInfo {
   accountNumber: string;
-  address?: AddressWithoutName | null;
-  bankName?: string | null;
+  address?: AddressWithoutName | null | undefined;
+  bankName?: string | null | undefined;
   electronicAccountType: ElectronicAccountType;
   routingNumber: string;
 }
@@ -357,9 +357,9 @@ export interface SwiftCodeData {
   bankName: string;
 }
 export interface InternationalWireCorrespondentInfo {
-  bankName?: string | null;
-  routingNumber?: string | null;
-  swiftCode?: string | null;
+  bankName?: string | null | undefined;
+  routingNumber?: string | null | undefined;
+  swiftCode?: string | null | undefined;
 }
 export interface InternationalWireAustraliaSpecificData {
   bsbCode: string;
@@ -399,45 +399,45 @@ export interface InternationalWireSouthAfricaSpecificData {
   branchCode: string;
 }
 export interface InternationalWireCountrySpecificData {
-  australia?: InternationalWireAustraliaSpecificData | null;
-  brazil?: InternationalWireBrazilSpecificData | null;
-  canada?: InternationalWireCanadaSpecificData | null;
-  chile?: InternationalWireBrazilSpecificData | null;
-  colombia?: InternationalWireBrazilSpecificData | null;
-  dominicanRepublic?: InternationalWireDominicanRepublicSpecificData | null;
-  honduras?: InternationalWireDominicanRepublicSpecificData | null;
-  india?: InternationalWireIndiaSpecificData | null;
-  kazakhstan?: InternationalWireBrazilSpecificData | null;
-  pakistan?: InternationalWirePakistanSpecificData | null;
-  paraguay?: InternationalWireBrazilSpecificData | null;
-  philippines?: InternationalWirePhilippinesSpecificData | null;
-  russia?: InternationalWireRussiaSpecificData | null;
-  southAfrica?: InternationalWireSouthAfricaSpecificData | null;
+  australia?: InternationalWireAustraliaSpecificData | null | undefined;
+  brazil?: InternationalWireBrazilSpecificData | null | undefined;
+  canada?: InternationalWireCanadaSpecificData | null | undefined;
+  chile?: InternationalWireBrazilSpecificData | null | undefined;
+  colombia?: InternationalWireBrazilSpecificData | null | undefined;
+  dominicanRepublic?: InternationalWireDominicanRepublicSpecificData | null | undefined;
+  honduras?: InternationalWireDominicanRepublicSpecificData | null | undefined;
+  india?: InternationalWireIndiaSpecificData | null | undefined;
+  kazakhstan?: InternationalWireBrazilSpecificData | null | undefined;
+  pakistan?: InternationalWirePakistanSpecificData | null | undefined;
+  paraguay?: InternationalWireBrazilSpecificData | null | undefined;
+  philippines?: InternationalWirePhilippinesSpecificData | null | undefined;
+  russia?: InternationalWireRussiaSpecificData | null | undefined;
+  southAfrica?: InternationalWireSouthAfricaSpecificData | null | undefined;
 }
 export interface InternationalWireRoutingInfo {
-  address?: AddressWithoutName | null;
-  bankDetails?: SwiftCodeData | null;
-  correspondentInfo?: InternationalWireCorrespondentInfo | null;
+  address?: AddressWithoutName | null | undefined;
+  bankDetails?: SwiftCodeData | null | undefined;
+  correspondentInfo?: InternationalWireCorrespondentInfo | null | undefined;
   countrySpecific: InternationalWireCountrySpecificData;
-  emailAddress?: string | null;
+  emailAddress?: string | null | undefined;
   iban: string;
-  phoneNumber?: string | null;
+  phoneNumber?: string | null | undefined;
   swiftCode: string;
 }
 export interface TransactionMethodData {
-  address?: AddressData | null;
-  creditCardInfo?: CreditCardInfo | null;
-  debitCardInfo?: DebitCardInfo | null;
-  domesticWireRoutingInfo?: DomesticWireRoutingInfo | null;
-  electronicRoutingInfo?: ElectronicRoutingInfo | null;
-  internationalWireRoutingInfo?: InternationalWireRoutingInfo | null;
+  address?: AddressData | null | undefined;
+  creditCardInfo?: CreditCardInfo | null | undefined;
+  debitCardInfo?: DebitCardInfo | null | undefined;
+  domesticWireRoutingInfo?: DomesticWireRoutingInfo | null | undefined;
+  electronicRoutingInfo?: ElectronicRoutingInfo | null | undefined;
+  internationalWireRoutingInfo?: InternationalWireRoutingInfo | null | undefined;
 }
 /** A GL code allocation on a transaction -- a GL code name paired with the amount allocated to it. When a transaction is fully categorized, the amounts across all allocations sum to the transaction total. */
 export interface GlAllocation {
   /** The amount allocated to this GL code */
   amount: number;
   /** Optional user-provided description for this allocation */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The name of the GL code from the connected accounting integration */
   glCodeName: string;
 }
@@ -469,13 +469,13 @@ export type TransactionKind =
   | "other";
 export interface TransactionMerchant {
   /** The transaction amount in the smallest unit of the merchant's currency (e.g., cents for USD/EUR, yen for JPY, fils for BHD). For debits this is negative, for credits positive. Use 'merchantCurrency' to determine the appropriate decimal scaling: most currencies use 2 decimal places (divide by 100), but JPY uses 0 (no division needed) and BHD/KWD/OMR use 3 (divide by 1000). This is useful for international transactions where the merchant charges in a currency different from the account currency. Nothing if not available. */
-  amount?: number | null;
-  category?: unknown | null;
+  amount?: number | null | undefined;
+  category?: unknown | null | undefined;
   /** 4-digit merchant category code (MCC) for card transactions */
-  categoryCode?: string | null;
-  currency?: unknown | null;
+  categoryCode?: string | null | undefined;
+  currency?: unknown | null | undefined;
   /** Merchant ID for card transactions */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export type TransactionRelationKind =
   | "ProvisionalCreditReversalToMerchantRefund"
@@ -525,42 +525,42 @@ export interface Transaction {
   accountId: unknown;
   amount: number;
   attachments: TransactionAttachmentsList;
-  bankDescription?: string | null;
+  bankDescription?: string | null | undefined;
   /** Id of the card behind this transaction, present on card payments and refunds (debit or credit); null otherwise, including for card-related fee transactions. Fetch the card's details (kind, cardholder, last four, etc.) via the Cards API (`GET /cards/{cardId}`). Supersedes the kind-specific `details.creditCardInfo.id` / `details.debitCardInfo.id`. */
-  cardId?: string | null;
-  categoryData?: CategoryData | null;
+  cardId?: string | null | undefined;
+  categoryData?: CategoryData | null | undefined;
   /** Present for check deposits and mailed checks; Nothing otherwise. */
-  checkNumber?: string | null;
+  checkNumber?: string | null | undefined;
   compliantWithReceiptPolicy: boolean;
   counterpartyId: string;
   counterpartyName: string;
-  counterpartyNickname?: string | null;
+  counterpartyNickname?: string | null | undefined;
   createdAt: string;
-  creditAccountPeriodId?: string | null;
-  currencyExchangeInfo?: CurrencyExchangeInfo | null;
+  creditAccountPeriodId?: string | null | undefined;
+  currencyExchangeInfo?: CurrencyExchangeInfo | null | undefined;
   dashboardLink: string;
-  details?: TransactionMethodData | null;
+  details?: TransactionMethodData | null | undefined;
   estimatedDeliveryDate: string;
-  externalMemo?: string | null;
-  failedAt?: string | null;
-  feeId?: string | null;
+  externalMemo?: string | null | undefined;
+  failedAt?: string | null | undefined;
+  feeId?: string | null | undefined;
   /** Deprecated: use transactionGlAllocations instead. This field does not reflect GL codes assigned via Mercury auto-categorization rules. Preserved for backwards compatibility. */
-  generalLedgerCodeName?: string | null;
+  generalLedgerCodeName?: string | null | undefined;
   /** GL code allocations assigned to this transaction via a connected accounting software integration (e.g. QuickBooks, Xero, NetSuite). Each allocation has a GL code name and the amount allocated to it; amounts sum to the transaction total when the transaction is fully categorized. Empty if no GL codes have been assigned. Distinct from Mercury custom categories (see transactionCategoryData). */
   glAllocations: TransactionGlAllocationsList;
   hasGeneratedReceipt: boolean;
   id: string;
   kind: TransactionKind;
-  merchant?: TransactionMerchant | null;
-  mercuryCategory?: MercuryCategory | null;
-  note?: string | null;
-  postedAt?: string | null;
-  reasonForFailure?: string | null;
+  merchant?: TransactionMerchant | null | undefined;
+  mercuryCategory?: MercuryCategory | null | undefined;
+  note?: string | null | undefined;
+  postedAt?: string | null | undefined;
+  reasonForFailure?: string | null | undefined;
   relatedTransactions: TransactionRelatedTransactionsList;
-  requestId?: string | null;
+  requestId?: string | null | undefined;
   status: TransactionStatus;
   /** Present for transactions that have tracking numbers (e.g., RTP, ACH, wires); Nothing otherwise. */
-  trackingNumber?: string | null;
+  trackingNumber?: string | null | undefined;
 }
 /** Response for POST /api/v1/transfer endpoint. Returns both the credit and debit transactions for the transfer (depository, treasury, or investment). */
 export interface InternalTransferAPIResponse {
@@ -576,7 +576,7 @@ export interface ApiV1ArLineItemData {
   /** the quantity of this item */
   quantity: number;
   /** the sales tax applied to this item */
-  salesTaxRate?: number | null;
+  salesTaxRate?: number | null | undefined;
   /** the price of one unit of the item before sales tax */
   unitPrice: number;
 }
@@ -589,24 +589,24 @@ export interface CreateInvoiceRequest {
   ccEmails: CreateInvoiceRequestCcEmailsList;
   /** Whether or not the invoice can be paid via credit card. Requires Stripe to be setup for the Mercury account. */
   creditCardEnabled: boolean;
-  currencyCode?: unknown | null;
+  currencyCode?: unknown | null | undefined;
   customerId: unknown;
   destinationAccountId: unknown;
   dueDate: unknown;
   /** Internal note for the invoice, visible by users in the organization but not visible to payers. */
-  internalNote?: string | null;
+  internalNote?: string | null | undefined;
   invoiceDate: unknown;
   /** The payer facing invoice number/identifier. */
-  invoiceNumber?: string | null;
+  invoiceNumber?: string | null | undefined;
   /** The line items for the invoice */
   lineItems: CreateInvoiceRequestLineItemsList;
   /** Memo for the payer of the invoice. */
-  payerMemo?: string | null;
+  payerMemo?: string | null | undefined;
   /** Purchase order number for the invoice, if applicable. */
-  poNumber?: string | null;
-  sendEmailOption?: unknown | null;
-  servicePeriodEndDate?: unknown | null;
-  servicePeriodStartDate?: unknown | null;
+  poNumber?: string | null | undefined;
+  sendEmailOption?: unknown | null | undefined;
+  servicePeriodEndDate?: unknown | null | undefined;
+  servicePeriodStartDate?: unknown | null | undefined;
   /** Whether or not the invoice payment instructions will show the real account and routing number for the destination account or use virtual account numbers instead. Virtual accounts are safer and are preferred in most cases. */
   useRealAccountNumber: boolean;
 }
@@ -620,7 +620,7 @@ export interface ApiV1ArInvoiceResponse {
   achDebitEnabled: boolean;
   /** The total amount of the invoice line items plus taxes. */
   amount: number;
-  canceledAt?: unknown | null;
+  canceledAt?: unknown | null | undefined;
   /** Emails to be CCed on invoice notifications/reminders. */
   ccEmails: ApiV1ArInvoiceResponseCcEmailsList;
   createdAt: unknown;
@@ -632,18 +632,18 @@ export interface ApiV1ArInvoiceResponse {
   dueDate: unknown;
   id: unknown;
   /** Internal note for the invoice, visible by users in the mercury organization but not visible to payers. */
-  internalNote?: string | null;
+  internalNote?: string | null | undefined;
   invoiceDate: unknown;
   /** The payer facing invoice number/identifier. */
   invoiceNumber: string;
   /** The line items for the invoice. */
   lineItems: ApiV1ArInvoiceResponseLineItemsList;
   /** Memo for the payer of the invoice. */
-  payerMemo?: string | null;
+  payerMemo?: string | null | undefined;
   /** Purchase order number for the invoice if applicable. */
-  poNumber?: string | null;
-  servicePeriodEndDate?: unknown | null;
-  servicePeriodStartDate?: unknown | null;
+  poNumber?: string | null | undefined;
+  servicePeriodEndDate?: unknown | null | undefined;
+  servicePeriodStartDate?: unknown | null | undefined;
   /** Public slug for an invoice. Used to construct the pay page URL as well as the URL to retrieve the PDF of the invoice. */
   slug: string;
   status: unknown;
@@ -684,24 +684,24 @@ export interface RealTimePaymentRoutingInfoRaw {
 }
 export interface CreateRecipientRequest {
   /** Deprecated. Use checkInfo instead. */
-  address?: AddressData;
+  address?: AddressData | undefined;
   /** Information needed to send a physical check. */
-  checkInfo?: CheckInfoRaw;
+  checkInfo?: CheckInfoRaw | undefined;
   /** Contact email address of the recipient */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** Information needed to send a domestic wire. */
-  domesticWireRoutingInfo?: DomesticWireRoutingInfoRaw;
+  domesticWireRoutingInfo?: DomesticWireRoutingInfoRaw | undefined;
   /** Information needed to send an ACH. */
-  electronicRoutingInfo?: ElectronicRoutingInfoRaw;
+  electronicRoutingInfo?: ElectronicRoutingInfoRaw | undefined;
   emails: CreateRecipientRequestEmailsList;
   name: string;
-  nickname?: string;
+  nickname?: string | undefined;
   /** Information needed to send a real-time payment. */
-  realTimePaymentRoutingInfo?: RealTimePaymentRoutingInfoRaw;
+  realTimePaymentRoutingInfo?: RealTimePaymentRoutingInfoRaw | undefined;
 }
 export interface Address {
   address1: string;
-  address2?: string | null;
+  address2?: string | null | undefined;
   city: string;
   country: string;
   name: string;
@@ -711,7 +711,7 @@ export interface Address {
 export interface RecipientAttachment {
   /** Name of the uploaded file */
   fileName: string;
-  formType?: unknown | null;
+  formType?: unknown | null | undefined;
   uploadedAt: unknown;
   /** Presigned URL to download the attachment (valid for 12 hours) */
   url: string;
@@ -728,23 +728,23 @@ export type RecipientInfoEmailsList = Array<string>;
 export type RealTimePaymentRoutingInfo = DomesticWireRoutingInfo;
 export type RecipientStatus = "active" | "deleted";
 export interface RecipientInfo {
-  address?: Address | null;
+  address?: Address | null | undefined;
   attachments: RecipientInfoAttachmentsList;
-  checkInfo?: CheckInfoRaw | null;
-  contactEmail?: string | null;
-  dateLastPaid?: string | null;
-  defaultAddress?: AddressWithoutName | null;
+  checkInfo?: CheckInfoRaw | null | undefined;
+  contactEmail?: string | null | undefined;
+  dateLastPaid?: string | null | undefined;
+  defaultAddress?: AddressWithoutName | null | undefined;
   defaultPaymentMethod: PaymentMethod;
-  domesticWireRoutingInfo?: DomesticWireRoutingInfo | null;
-  electronicRoutingInfo?: ElectronicRoutingInfo | null;
+  domesticWireRoutingInfo?: DomesticWireRoutingInfo | null | undefined;
+  electronicRoutingInfo?: ElectronicRoutingInfo | null | undefined;
   emails: RecipientInfoEmailsList;
   id: string;
-  internationalWireRoutingInfo?: InternationalWireRoutingInfo | null;
-  inviteId?: string | null;
-  isBusiness?: boolean | null;
+  internationalWireRoutingInfo?: InternationalWireRoutingInfo | null | undefined;
+  inviteId?: string | null | undefined;
+  isBusiness?: boolean | null | undefined;
   name: string;
-  nickname?: string | null;
-  realTimePaymentRoutingInfo?: DomesticWireRoutingInfo | null;
+  nickname?: string | null | undefined;
+  realTimePaymentRoutingInfo?: DomesticWireRoutingInfo | null | undefined;
   status: RecipientStatus;
 }
 /** Payment methods the recipient may submit details for. */
@@ -752,14 +752,14 @@ export type CreateRecipientInviteRequestPaymentMethodsList = Array<PaymentMethod
 export interface CreateRecipientInviteRequest {
   contactEmail: unknown;
   /** Name the invite is created for. This field is required when 'recipientId' is absent. When 'recipientId' is present, this field is optional and updates the recipient's name to this value. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Optional notes shown to the recipient. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** Optional organization name to display on the request. */
-  organizationNameOnRequest?: string | null;
+  organizationNameOnRequest?: string | null | undefined;
   /** Payment methods the recipient may submit details for. */
   paymentMethods: CreateRecipientInviteRequestPaymentMethodsList;
-  recipientId?: unknown | null;
+  recipientId?: unknown | null | undefined;
   /** Whether the recipient must upload a tax document. */
   requireTaxDocument: boolean;
   /** When true, sends an Email to the invitee. When false, does not send an email to the invitee. */
@@ -770,17 +770,17 @@ export type RecipientInviteApiResponsePaymentMethodsList = Array<PaymentMethod>;
 export interface RecipientInviteApiResponse {
   contactEmail: unknown;
   createdAt: unknown;
-  expiresAt?: unknown | null;
+  expiresAt?: unknown | null | undefined;
   id: unknown;
   /** Recipient name the invite was created for. */
   name: string;
   /** Notes shown to the recipient, if any. */
-  notes?: string | null;
+  notes?: string | null | undefined;
   /** URL where the recipient submits their payment details. */
   onboardingUrl: string;
   /** Payment methods the recipient may submit details for. */
   paymentMethods: RecipientInviteApiResponsePaymentMethodsList;
-  recipientId?: unknown | null;
+  recipientId?: unknown | null | undefined;
   /** Whether the recipient must upload a tax document. */
   requireTaxDocument: boolean;
   status: unknown;
@@ -803,28 +803,28 @@ export type SimplePurposeCategory =
   | "other";
 export interface SimplePurpose {
   /** Additional information. Required for: Vendor (vendor name), Contractor (contractor name), Other (payment description). Optional for Subsidiary (subsidiary name). Not accepted for any other categories. */
-  additionalInfo?: string;
+  additionalInfo?: string | undefined;
   /** Payment category. */
   category: SimplePurposeCategory | (string & {});
 }
 /** External API representation of SendMoneyPurpose. Only exposes the 'simple' field to decouple internal implementation from external API. */
 export interface PostTransactionSendMoneyPurpose {
-  simple?: SimplePurpose | null;
+  simple?: SimplePurpose | null | undefined;
 }
 export interface CreateTransactionRequest {
   accountId: string;
   /** Amount of USD you want to send, must be a positive number. */
   amount: number;
   /** Optional external memo */
-  externalMemo?: string;
+  externalMemo?: string | undefined;
   /** Unique string identifying the transaction */
   idempotencyKey: string;
   /** Optional note */
-  note?: string;
+  note?: string | undefined;
   /** If domesticWire is used, then the purpose field is required. */
   paymentMethod: PostTransactionPaymentMethod | (string & {});
   /** Purpose of payment with category and optional additional info. Required when paymentMethod is 'domesticWire'. */
-  purpose?: PostTransactionSendMoneyPurpose;
+  purpose?: PostTransactionSendMoneyPurpose | undefined;
   /** Recipient ID from the /recipients endpoint. */
   recipientId: string;
 }
@@ -872,9 +872,9 @@ export type ResourceField =
 export type CreateWebhookRequestFilterPathsList = Array<ResourceField | (string & {})>;
 export interface CreateWebhookRequest {
   /** Optional array of event types to subscribe to. Nothing means subscribe to all event types. */
-  eventTypes?: CreateWebhookRequestEventTypesList | null;
+  eventTypes?: CreateWebhookRequestEventTypesList | null | undefined;
   /** Optional array of resource field paths to filter events by. When specified, webhook events will only be sent when one of these fields changes. Nothing means no filtering (all events are sent). */
-  filterPaths?: CreateWebhookRequestFilterPathsList | null;
+  filterPaths?: CreateWebhookRequestFilterPathsList | null | undefined;
   /** The URL to which webhook events will be delivered */
   url: string;
 }
@@ -886,12 +886,12 @@ export type ApiWebhookResponseFilterPathsList = Array<ResourceField>;
 export interface ApiWebhookResponse {
   createdAt: unknown;
   /** Optional array of event types this webhook is subscribed to. Nothing means all events. */
-  eventTypes?: ApiWebhookResponseEventTypesList | null;
+  eventTypes?: ApiWebhookResponseEventTypesList | null | undefined;
   /** Optional array of resource field paths to filter events by. Nothing means no filtering. */
-  filterPaths?: ApiWebhookResponseFilterPathsList | null;
+  filterPaths?: ApiWebhookResponseFilterPathsList | null | undefined;
   id: unknown;
   /** Webhook signing secret. Only returned on creation (POST), not on GET or UPDATE operations. */
-  secret?: string | Redacted.Redacted<string> | null;
+  secret?: string | Redacted.Redacted<string> | null | undefined;
   status: unknown;
   updatedAt: unknown;
   /** The URL that will receive webhook POST requests */
@@ -919,13 +919,13 @@ export interface DeleteWebhookRequest {
 export interface DeleteWebhookResponse {}
 export interface EditCategoryRequest {
   expenseCategoryId: string;
-  name?: unknown | null;
+  name?: unknown | null | undefined;
   /** Whether this category is applicable to card transactions */
-  visibleForCardSpend?: boolean | null;
+  visibleForCardSpend?: boolean | null | undefined;
   /** Whether this category is applicable to all other transaction kinds */
-  visibleForOther?: boolean | null;
+  visibleForOther?: boolean | null | undefined;
   /** Whether this category is applicable to expense reimbursement transactions */
-  visibleForReimbursements?: boolean | null;
+  visibleForReimbursements?: boolean | null | undefined;
 }
 export interface FreezeCardRequest {
   cardId: string;
@@ -946,7 +946,7 @@ export interface AccountCard {
   lastFourDigits: string;
   nameOnCard: string;
   network: CardNetwork;
-  physicalCardStatus?: PhysicalCardStatus | null;
+  physicalCardStatus?: PhysicalCardStatus | null | undefined;
   spendLimit: CardSpendLimit;
   status: CardStatus;
   type: CardType;
@@ -960,17 +960,17 @@ export interface AccountCardsResponse {
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type GetAccountsRequestOrder = "asc" | "desc";
 export interface GetAccountsRequest {
-  limit?: number;
-  order?: GetAccountsRequestOrder | (string & {});
-  start_after?: string;
-  end_before?: string;
+  limit?: number | undefined;
+  order?: GetAccountsRequestOrder | (string & {}) | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
 }
 export type AccountStatus = "active" | "deleted" | "pending" | "archived";
 export type AccountType = "mercury" | "external" | "recipient";
 export interface Account {
   accountNumber: string;
   availableBalance: number;
-  canReceiveTransactions?: boolean | null;
+  canReceiveTransactions?: boolean | null | undefined;
   /** Whether this account's partner bank supports sending real-time payments. Sending one also requires the recipient's routing number to be RTP-eligible. */
   canSendRealTimePayments: boolean;
   createdAt: string;
@@ -980,7 +980,7 @@ export interface Account {
   kind: string;
   legalBusinessName: string;
   name: string;
-  nickname?: string | null;
+  nickname?: string | null | undefined;
   routingNumber: string;
   status: AccountStatus;
   type: AccountType;
@@ -989,8 +989,8 @@ export interface Account {
 export type AccountsPaginatedResponseAccountsList = Array<Account>;
 /** Pagination information including cursors for navigating to next/previous pages */
 export interface AccountsPaginatedResponsePage {
-  nextPage?: string;
-  previousPage?: string;
+  nextPage?: string | undefined;
+  previousPage?: string | undefined;
 }
 /** Paginated response containing a list of accounts. | Use the page cursor information to fetch additional pages of accounts. */
 export interface AccountsPaginatedResponse {
@@ -1003,18 +1003,18 @@ export interface AccountsPaginatedResponse {
 export type GetAccountStatementsRequestOrder = "asc" | "desc";
 export interface GetAccountStatementsRequest {
   accountId: string;
-  limit?: number;
-  order?: GetAccountStatementsRequestOrder | (string & {});
-  start_after?: string;
-  end_before?: string;
-  start?: string;
-  end?: string;
+  limit?: number | undefined;
+  order?: GetAccountStatementsRequestOrder | (string & {}) | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
 }
 export type DepositoryAccountStatementsPaginatedResponsePage = AccountsPaginatedResponsePage;
 export interface AccountStatementTransaction {
   createdAt: string;
   id: string;
-  postedAt?: string | null;
+  postedAt?: string | null | undefined;
 }
 export type DepositoryAccountStatementTransactionsList = Array<AccountStatementTransaction>;
 export interface DepositoryAccountStatement {
@@ -1022,7 +1022,7 @@ export interface DepositoryAccountStatement {
   companyLegalAddress: Address;
   companyLegalName: string;
   downloadUrl: string;
-  ein?: string | null;
+  ein?: string | null | undefined;
   endDate: string;
   endingBalance: number;
   id: string;
@@ -1069,7 +1069,7 @@ export interface ApiEventResponse {
   occurredAt: unknown;
   operationType: unknown;
   /** JSON object containing the fields that were changed and their previous values before the update */
-  previousValues?: unknown | null;
+  previousValues?: unknown | null | undefined;
   resourceId: unknown;
   resourceType: unknown;
   resourceVersion: unknown;
@@ -1084,12 +1084,12 @@ export type GetEventsRequestResourceType =
   | "investmentAccount"
   | "creditAccount";
 export interface GetEventsRequest {
-  limit?: number;
-  start_after?: string;
-  end_before?: string;
-  order?: GetEventsRequestOrder | (string & {});
-  resourceType?: GetEventsRequestResourceType | (string & {});
-  resourceId?: string;
+  limit?: number | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  order?: GetEventsRequestOrder | (string & {}) | undefined;
+  resourceType?: GetEventsRequestResourceType | (string & {}) | undefined;
+  resourceId?: string | undefined;
 }
 /** List of events in the current page */
 export type ApiEventsPaginatedResponseEventsList = Array<ApiEventResponse>;
@@ -1124,7 +1124,7 @@ export interface OrganizationResponseOrganization {
   /** List of DBAs (Doing Business As names) for this organization */
   dbas: OrganizationResponseOrganizationDbasList;
   /** Employer Identification Number (EIN), if available */
-  ein?: string | null;
+  ein?: string | null | undefined;
   id: unknown;
   kind: unknown;
   /** Legal business name as registered */
@@ -1144,10 +1144,10 @@ export interface GetRecipientInviteRequest {
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type GetRecipientsRequestOrder = "asc" | "desc";
 export interface GetRecipientsRequest {
-  limit?: number;
-  start_after?: string;
-  end_before?: string;
-  order?: GetRecipientsRequestOrder | (string & {});
+  limit?: number | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  order?: GetRecipientsRequestOrder | (string & {}) | undefined;
 }
 /** Pagination information including cursors for navigating to next/previous pages */
 export type RecipientsPaginatedResponsePage = AccountsPaginatedResponsePage;
@@ -1169,13 +1169,13 @@ export type SafeRequestInvestorType =
   | "SafeRequestInvestorTypeOther";
 /** Details about the investor buying the equity. */
 export interface APISafeRequestInvestor {
-  additionalBylines?: string | null;
-  address?: string | null;
+  additionalBylines?: string | null | undefined;
+  address?: string | null | undefined;
   investorType: SafeRequestInvestorType;
   legalEntityName: string;
   signatoryEmail: string;
   signatoryName: string;
-  signatoryTitle?: string | null;
+  signatoryTitle?: string | null | undefined;
 }
 /** Details about the organization selling the equity */
 export interface APISafeRequestOrganization {
@@ -1187,11 +1187,11 @@ export interface APISafeRequestOrganization {
 export type ValuationType = "PreMoney" | "PostMoney" | "NoValuation";
 /** A summary of a SAFE request. */
 export interface APISafeRequest {
-  canceledAt?: string | null;
-  discountRate?: number | null;
+  canceledAt?: string | null | undefined;
+  discountRate?: number | null | undefined;
   documentUrl: string;
   expiresAt: string;
-  governingState?: USState | null;
+  governingState?: USState | null | undefined;
   id: string;
   includesMostFavoredNationClause: boolean;
   includesProRataRightsLetter: boolean;
@@ -1199,10 +1199,10 @@ export interface APISafeRequest {
   investmentDate: string;
   investor: APISafeRequestInvestor;
   organization: APISafeRequestOrganization;
-  paidAt?: string | null;
-  signedByInvestorAt?: string | null;
-  signedByOwnerAt?: string | null;
-  valuationCap?: number | null;
+  paidAt?: string | null | undefined;
+  signedByInvestorAt?: string | null | undefined;
+  signedByOwnerAt?: string | null | undefined;
+  valuationCap?: number | null | undefined;
   valuationType: ValuationType;
 }
 export interface GetSafeRequestDocumentRequest {
@@ -1235,18 +1235,18 @@ export interface SendMoneyApprovalRequestResponse {
   accountId: string;
   amount: number;
   createdAt: unknown;
-  memo?: string | null;
+  memo?: string | null | undefined;
   /** Total number of approvals required for this payment to be sent. Omitted for older requests where the requirement is not available. */
-  numberOfApproversRequired?: number | null;
+  numberOfApproversRequired?: number | null | undefined;
   paymentMethod: RequestSendMoneyPaymentMethod;
   recipientId: string;
   requestId: string;
   requestedByUserId: unknown;
   /** True when the approval requirement recorded for this payment names the requester as its approver. Reflects the recorded requirement, not the requester's current standing, so submitting the approval can still be refused. The value persists after the request settles and says only whether the requirement names the requester; whether an approval is still outstanding is carried by numberOfApproversRequired and status. Omitted for older requests where the requirement is not available. */
-  requesterMayApprove?: boolean | null;
+  requesterMayApprove?: boolean | null | undefined;
   /** Approval decisions recorded against this request, ordered from oldest to most recent. */
   reviews: SendMoneyApprovalRequestResponseReviewsList;
-  scheduledSendDate?: unknown | null;
+  scheduledSendDate?: unknown | null | undefined;
   status: ReviewRequestStatus;
 }
 export interface GetStatementPdfRequest {
@@ -1263,10 +1263,10 @@ export interface GetTransactionByTransactionIdRequest {
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type GetTreasuryRequestOrder = "asc" | "desc";
 export interface GetTreasuryRequest {
-  limit?: number;
-  start_after?: string;
-  end_before?: string;
-  order?: GetTreasuryRequestOrder | (string & {});
+  limit?: number | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  order?: GetTreasuryRequestOrder | (string & {}) | undefined;
 }
 /** Dividend information for a specific treasury security */
 export interface TreasuryDividend {
@@ -1329,11 +1329,11 @@ export type GetTreasuryStatementsRequestDocumentType =
   | "SDIRA";
 export interface GetTreasuryStatementsRequest {
   treasuryId: string;
-  limit?: number;
-  order?: GetTreasuryStatementsRequestOrder | (string & {});
-  start_after?: string;
-  end_before?: string;
-  documentType?: GetTreasuryStatementsRequestDocumentType | (string & {});
+  limit?: number | undefined;
+  order?: GetTreasuryStatementsRequestOrder | (string & {}) | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  documentType?: GetTreasuryStatementsRequestDocumentType | (string & {}) | undefined;
 }
 export type TreasuryStatementsPaginatedResponsePage = AccountsPaginatedResponsePage;
 /** Individual treasury statement in the response */
@@ -1361,19 +1361,19 @@ export interface TreasuryStatementsPaginatedResponse {
 export type GetTreasuryTransactionsRequestOrder = "asc" | "desc";
 export interface GetTreasuryTransactionsRequest {
   treasuryId: string;
-  limit?: number;
-  order?: GetTreasuryTransactionsRequestOrder | (string & {});
-  cursor?: number;
+  limit?: number | undefined;
+  order?: GetTreasuryTransactionsRequestOrder | (string & {}) | undefined;
+  cursor?: number | undefined;
 }
 export interface TreasuryTransactionDetails {
-  creditDescription?: string | null;
-  depositCounterpartyId?: string | null;
-  feeDescription?: string | null;
-  manualAmendmentDescription?: string | null;
-  security?: string | null;
-  sweepDirection?: string | null;
-  tradeAction?: string | null;
-  withdrawalCounterpartyId?: string | null;
+  creditDescription?: string | null | undefined;
+  depositCounterpartyId?: string | null | undefined;
+  feeDescription?: string | null | undefined;
+  manualAmendmentDescription?: string | null | undefined;
+  security?: string | null | undefined;
+  sweepDirection?: string | null | undefined;
+  tradeAction?: string | null | undefined;
+  withdrawalCounterpartyId?: string | null | undefined;
 }
 export type TreasuryTransactionType =
   | "depositCanceled"
@@ -1412,21 +1412,21 @@ export type TreasuryTransactionType =
 /** Treasury transaction data for external API consumption */
 export interface TreasuryTxn {
   accountId: string;
-  additionalDetails?: string | null;
+  additionalDetails?: string | null | undefined;
   amount: number;
   balance: number;
   canonicalDay: string;
   description: string;
-  details?: TreasuryTransactionDetails | null;
+  details?: TreasuryTransactionDetails | null | undefined;
   id: string;
-  security?: string | null;
+  security?: string | null | undefined;
   type: TreasuryTransactionType;
 }
 /** List of treasury transactions in the response */
 export type TreasuryTransactionsResponseTransactionsList = Array<TreasuryTxn>;
 /** Response type for treasury transactions API endpoint */
 export interface TreasuryTransactionsResponse {
-  cursor?: unknown | null;
+  cursor?: unknown | null | undefined;
   /** List of treasury transactions in the response */
   transactions: TreasuryTransactionsResponseTransactionsList;
 }
@@ -1447,10 +1447,10 @@ export interface UserDetails {
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type GetUsersRequestOrder = "asc" | "desc";
 export interface GetUsersRequest {
-  limit?: number;
-  start_after?: string;
-  end_before?: string;
-  order?: GetUsersRequestOrder | (string & {});
+  limit?: number | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  order?: GetUsersRequestOrder | (string & {}) | undefined;
 }
 /** Pagination information including cursors for navigating to next/previous pages */
 export type UsersPaginatedResponsePage = AccountsPaginatedResponsePage;
@@ -1471,11 +1471,11 @@ export type GetWebhooksRequestStatusList = Array<GetWebhooksRequestStatusItem | 
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type GetWebhooksRequestOrder = "asc" | "desc";
 export interface GetWebhooksRequest {
-  status?: GetWebhooksRequestStatusList;
-  limit?: number;
-  start_after?: string;
-  end_before?: string;
-  order?: GetWebhooksRequestOrder | (string & {});
+  status?: GetWebhooksRequestStatusList | undefined;
+  limit?: number | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  order?: GetWebhooksRequestOrder | (string & {}) | undefined;
 }
 /** Pagination information including cursors for navigating to next/previous pages */
 export type ApiWebhooksPaginatedResponsePage = AccountsPaginatedResponsePage;
@@ -1499,16 +1499,16 @@ export type ListAccountTransactionsRequestStatus =
 export type ListAccountTransactionsRequestOrder = "asc" | "desc";
 export interface ListAccountTransactionsRequest {
   accountId: string;
-  limit?: number;
-  start?: string;
-  end?: string;
-  search?: string;
-  status?: ListAccountTransactionsRequestStatus | (string & {});
-  offset?: number;
-  order?: ListAccountTransactionsRequestOrder | (string & {});
-  requestId?: string;
-  mercuryCategory?: string;
-  categoryId?: string;
+  limit?: number | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
+  search?: string | undefined;
+  status?: ListAccountTransactionsRequestStatus | (string & {}) | undefined;
+  offset?: number | undefined;
+  order?: ListAccountTransactionsRequestOrder | (string & {}) | undefined;
+  requestId?: string | undefined;
+  mercuryCategory?: string | undefined;
+  categoryId?: string | undefined;
 }
 export type TransactionsResponseTransactionsList = Array<Transaction>;
 export interface TransactionsResponse {
@@ -1535,25 +1535,25 @@ export type ListCardsRequestKindList = Array<ListCardsRequestKindItem | (string 
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListCardsRequestOrder = "asc" | "desc";
 export interface ListCardsRequest {
-  accountId?: ListCardsRequestAccountIdList;
-  status?: ListCardsRequestStatusList;
-  type?: ListCardsRequestTypeList;
-  kind?: ListCardsRequestKindList;
-  userId?: string;
-  isAgentCard?: boolean;
-  limit?: number;
-  order?: ListCardsRequestOrder | (string & {});
-  start_after?: string;
-  end_before?: string;
+  accountId?: ListCardsRequestAccountIdList | undefined;
+  status?: ListCardsRequestStatusList | undefined;
+  type?: ListCardsRequestTypeList | undefined;
+  kind?: ListCardsRequestKindList | undefined;
+  userId?: string | undefined;
+  isAgentCard?: boolean | undefined;
+  limit?: number | undefined;
+  order?: ListCardsRequestOrder | (string & {}) | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
 }
 /** List of cards in the current page. */
 export type CardListResponseCardsList = Array<Card>;
 /** Pagination cursors for navigating to next/previous pages. */
 export interface CardListResponsePage {
   /** Unique identifier for a card */
-  nextPage?: string;
+  nextPage?: string | undefined;
   /** Unique identifier for a card */
-  previousPage?: string;
+  previousPage?: string | undefined;
 }
 export interface CardListResponse {
   /** List of cards in the current page. */
@@ -1564,10 +1564,10 @@ export interface CardListResponse {
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListCategoriesRequestOrder = "asc" | "desc";
 export interface ListCategoriesRequest {
-  limit?: number;
-  order?: ListCategoriesRequestOrder | (string & {});
-  start_after?: string;
-  end_before?: string;
+  limit?: number | undefined;
+  order?: ListCategoriesRequestOrder | (string & {}) | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
 }
 /** List of categories in the current page */
 export type CategoriesPaginatedResponseCategoriesList = Array<CategoryData>;
@@ -1595,10 +1595,10 @@ export interface CreditAccountsResponse {
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListCustomersRequestOrder = "asc" | "desc";
 export interface ListCustomersRequest {
-  limit?: number;
-  start_after?: string;
-  end_before?: string;
-  order?: ListCustomersRequestOrder | (string & {});
+  limit?: number | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  order?: ListCustomersRequestOrder | (string & {}) | undefined;
 }
 /** The list of customers for this page */
 export type ApiV1ArCustomerPaginatedResponseDataCustomersList = Array<ApiV1ArCustomerResponseData>;
@@ -1624,10 +1624,10 @@ export interface ApiV1ArAttachmentsResponseData {
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListInvoicesRequestOrder = "asc" | "desc";
 export interface ListInvoicesRequest {
-  limit?: number;
-  order?: ListInvoicesRequestOrder | (string & {});
-  start_after?: string;
-  end_before?: string;
+  limit?: number | undefined;
+  order?: ListInvoicesRequestOrder | (string & {}) | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
 }
 /** Emails to be CCed on invoice notifications/reminders. */
 export type ApiV1ArInvoicesDataCcEmailsList = Array<string>;
@@ -1637,7 +1637,7 @@ export interface ApiV1ArInvoicesData {
   achDebitEnabled: boolean;
   /** The total amount of the invoice line items plus taxes */
   amount: number;
-  canceledAt?: unknown | null;
+  canceledAt?: unknown | null | undefined;
   /** Emails to be CCed on invoice notifications/reminders. */
   ccEmails: ApiV1ArInvoicesDataCcEmailsList;
   createdAt: unknown;
@@ -1649,14 +1649,14 @@ export interface ApiV1ArInvoicesData {
   dueDate: unknown;
   id: unknown;
   /** Internal note for the invoice, visible by users in the mercury organization but not visible to payers. */
-  internalNote?: string | null;
+  internalNote?: string | null | undefined;
   invoiceDate: unknown;
   /** The payer facing invoice number/identifier. */
   invoiceNumber: string;
   /** Memo for the payer of the invoice. */
-  payerMemo?: string | null;
+  payerMemo?: string | null | undefined;
   /** Purchase order number for the invoice if applicable. */
-  poNumber?: string | null;
+  poNumber?: string | null | undefined;
   /** A unique identifier used to build public URLs for this invoice. Use it to construct the payment page URL (https://app.mercury.com/pay/{slug}) or fetch the invoice PDF via /api/v1/ar/invoices/{slug}/pdf. */
   slug: string;
   status: unknown;
@@ -1678,11 +1678,11 @@ export interface ApiV1ArInvoicesPaginatedResponse {
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListMerchantsRequestOrder = "asc" | "desc";
 export interface ListMerchantsRequest {
-  limit?: number;
-  order?: ListMerchantsRequestOrder | (string & {});
-  start_after?: string;
-  end_before?: string;
-  search?: string;
+  limit?: number | undefined;
+  order?: ListMerchantsRequestOrder | (string & {}) | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  search?: string | undefined;
 }
 /** Information about a merchant that can be used for spend controls like merchant locking. */
 export type MerchantInfo = CardMerchantLock;
@@ -1697,11 +1697,11 @@ export interface MerchantsResponse {
 export type ListRecipientInvitesRequestOrder = "asc" | "desc";
 export type ListRecipientInvitesRequestStatus = "created" | "completed" | "expired";
 export interface ListRecipientInvitesRequest {
-  limit?: number;
-  start_after?: string;
-  end_before?: string;
-  order?: ListRecipientInvitesRequestOrder | (string & {});
-  status?: ListRecipientInvitesRequestStatus | (string & {});
+  limit?: number | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  order?: ListRecipientInvitesRequestOrder | (string & {}) | undefined;
+  status?: ListRecipientInvitesRequestStatus | (string & {}) | undefined;
 }
 /** List of invites in the current page. */
 export type RecipientInviteApiPaginatedResponseInvitesList = Array<RecipientInviteApiResponse>;
@@ -1717,15 +1717,15 @@ export interface RecipientInviteApiPaginatedResponse {
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListRecipientsAttachmentsRequestOrder = "asc" | "desc";
 export interface ListRecipientsAttachmentsRequest {
-  limit?: number;
-  start_after?: string;
-  end_before?: string;
-  order?: ListRecipientsAttachmentsRequestOrder | (string & {});
+  limit?: number | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  order?: ListRecipientsAttachmentsRequestOrder | (string & {}) | undefined;
 }
 export interface RecipientAttachmentWithId {
   /** Name of the uploaded file */
   fileName: string;
-  formType?: unknown | null;
+  formType?: unknown | null | undefined;
   id: unknown;
   recipientId: unknown;
   uploadedAt: unknown;
@@ -1750,11 +1750,11 @@ export type ListSendMoneyApprovalRequestsRequestStatus =
   | "rejected"
   | "cancelled";
 export interface ListSendMoneyApprovalRequestsRequest {
-  accountId?: string;
-  status?: ListSendMoneyApprovalRequestsRequestStatus | (string & {});
-  start_after?: string;
-  end_before?: string;
-  limit?: number;
+  accountId?: string | undefined;
+  status?: ListSendMoneyApprovalRequestsRequestStatus | (string & {}) | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  limit?: number | undefined;
 }
 export type SendMoneyApprovalRequestsPaginatedResponsePage = AccountsPaginatedResponsePage;
 export type SendMoneyApprovalRequestsPaginatedResponseRequestsList =
@@ -1778,21 +1778,21 @@ export type ListTransactionsRequestCardIdList = Array<string>;
 /** Sort order. Can be 'asc' or 'desc'. Defaults to 'asc' */
 export type ListTransactionsRequestOrder = "asc" | "desc";
 export interface ListTransactionsRequest {
-  status?: ListTransactionsRequestStatusList;
-  search?: string;
-  start?: string;
-  end?: string;
-  postedStart?: string;
-  postedEnd?: string;
-  accountId?: ListTransactionsRequestAccountIdList;
-  cardId?: ListTransactionsRequestCardIdList;
-  mercuryCategory?: string;
-  categoryId?: string;
-  start_at?: string;
-  start_after?: string;
-  end_before?: string;
-  limit?: number;
-  order?: ListTransactionsRequestOrder | (string & {});
+  status?: ListTransactionsRequestStatusList | undefined;
+  search?: string | undefined;
+  start?: string | undefined;
+  end?: string | undefined;
+  postedStart?: string | undefined;
+  postedEnd?: string | undefined;
+  accountId?: ListTransactionsRequestAccountIdList | undefined;
+  cardId?: ListTransactionsRequestCardIdList | undefined;
+  mercuryCategory?: string | undefined;
+  categoryId?: string | undefined;
+  start_at?: string | undefined;
+  start_after?: string | undefined;
+  end_before?: string | undefined;
+  limit?: number | undefined;
+  order?: ListTransactionsRequestOrder | (string & {}) | undefined;
 }
 export type TransactionsPaginatedResponsePage = AccountsPaginatedResponsePage;
 export type TransactionsPaginatedResponseTransactionsList = Array<Transaction>;
@@ -1820,11 +1820,11 @@ export interface OAuth2TokenResponse {
   /** The access token issued by the authorization server. */
   access_token: string | Redacted.Redacted<string>;
   /** The lifetime in seconds of the access token. For example, the value "3600" denotes that the access token will expire in one hour from the time the response was generated. */
-  expires_in?: number;
+  expires_in?: number | undefined;
   /** The refresh token, which can be used to obtain new access tokens using the same authorization grant. */
-  refresh_token?: string | Redacted.Redacted<string>;
+  refresh_token?: string | Redacted.Redacted<string> | undefined;
   /** The scope of the access token. A space-separated list of scopes. */
-  scope?: string;
+  scope?: string | undefined;
   /** The type of the token issued. Value is case insensitive and should be "Bearer". */
   token_type: string;
 }
@@ -1835,17 +1835,17 @@ export interface RequestSendMoneyRequest {
   /** Amount of USD you want to send, must be a positive number. */
   amount: number;
   /** Who pays intermediary bank fees on a USD international wire. Pass 'ours' so the recipient receives the full amount (Mercury charges a $15 fee), or 'shared' to split those fees. If omitted on a USD international wire, this defaults to 'ours'. Do not include this field for other payment methods or accounts that are not charged international-wire fees. */
-  chargeType?: RequestSendMoneyRequestChargeType | (string & {});
+  chargeType?: RequestSendMoneyRequestChargeType | (string & {}) | undefined;
   /** Optional external memo */
-  externalMemo?: string;
+  externalMemo?: string | undefined;
   /** Unique string identifying the transaction */
   idempotencyKey: string;
   /** Optional note */
-  note?: string;
+  note?: string | undefined;
   /** Payment method to use. If domesticWire or internationalWire is used, then the purpose field is required. */
   paymentMethod: RequestSendMoneyPaymentMethod | (string & {});
   /** Purpose of payment with category and optional additional info. Required when paymentMethod is 'domesticWire' or 'internationalWire'. */
-  purpose?: PostTransactionSendMoneyPurpose;
+  purpose?: PostTransactionSendMoneyPurpose | undefined;
   /** Recipient ID from the /recipients endpoint. */
   recipientId: string;
 }
@@ -1853,7 +1853,7 @@ export interface RequestTransferMoneyRequest {
   amount: number;
   destinationAccountId: string;
   idempotencyKey: string;
-  note?: string | null;
+  note?: string | null | undefined;
   sourceAccountId: string;
 }
 /** Approval decisions recorded on this request, oldest first. */
@@ -1864,15 +1864,15 @@ export interface TransferMoneyApprovalRequestResponse {
   createdAt: unknown;
   destinationAccountId: unknown;
   /** Memo that appears on the resulting transaction. */
-  memo?: string | null;
+  memo?: string | null | undefined;
   /** Internal note recorded on the request. Not shown to any counterparty. */
-  note?: string | null;
+  note?: string | null | undefined;
   /** Number of approvals required before the transfer is sent. */
-  numberOfApproversRequired?: number | null;
+  numberOfApproversRequired?: number | null | undefined;
   requestId: string;
   requestedByUserId: unknown;
   /** Whether the requester may approve this request. Omitted whenever numberOfApproversRequired is omitted. */
-  requesterMayApprove?: boolean | null;
+  requesterMayApprove?: boolean | null | undefined;
   /** Approval decisions recorded on this request, oldest first. */
   reviews: TransferMoneyApprovalRequestResponseReviewsList;
   sourceAccountId: unknown;
@@ -1898,13 +1898,13 @@ export interface StartOAuth2FlowRequest {
   /** A space-separated list of scopes that your client requests. */
   scope: string;
   /** An unguessable random string, at least 8 characters long, used to protect against cross-site request forgery attacks. */
-  state?: string;
+  state?: string | undefined;
   /** Tells the authorization server which type of grant to execute. Must have value "code". */
   response_type: string;
   /** Required for clients with PKCE flow. Base64-URL-encoded string of the SHA256 hash of the code verifier. */
-  code_challenge?: string;
+  code_challenge?: string | undefined;
   /** Required for clients with PKCE flow. Must have value S256, the SHA256 function used to hash the code challenge. */
-  code_challenge_method?: string;
+  code_challenge_method?: string | undefined;
 }
 export interface StartOAuth2FlowResponse {}
 export interface UnfreezeCardRequest {
@@ -1914,12 +1914,12 @@ export type UpdateCardRequestSpendLimit = CardSpendLimit;
 export interface UpdateCardRequest {
   cardId: string;
   nickname: unknown;
-  spendLimit?: CardSpendLimit | null;
+  spendLimit?: CardSpendLimit | null | undefined;
 }
 export type UpdateCustomerRequestAddress = CreateCustomerRequestAddress;
 export interface UpdateCustomerRequest {
   customerId: string;
-  address?: CreateCustomerRequestAddress | null;
+  address?: CreateCustomerRequestAddress | null | undefined;
   email: unknown;
   /** The name of the customer. */
   name: string;
@@ -1940,18 +1940,18 @@ export interface UpdateInvoiceRequest {
   creditCardEnabled: boolean;
   dueDate: unknown;
   /** Internal note for the invoice, visible by users in the organization but not visible to payers. */
-  internalNote?: string | null;
+  internalNote?: string | null | undefined;
   invoiceDate: unknown;
   /** The invoice number. */
   invoiceNumber: string;
   /** The line items for the invoice */
   lineItems: UpdateInvoiceRequestLineItemsList;
   /** Memo for the payer of the invoice. */
-  payerMemo?: string | null;
+  payerMemo?: string | null | undefined;
   /** The purchase order number for the invoice if applicable. */
-  poNumber?: string | null;
-  servicePeriodEndDate?: unknown | null;
-  servicePeriodStartDate?: unknown | null;
+  poNumber?: string | null | undefined;
+  servicePeriodEndDate?: unknown | null | undefined;
+  servicePeriodStartDate?: unknown | null | undefined;
   /** Whether or not the invoice payment instructions will show the real account and routing number for the destination account or use virtual account numbers instead. */
   useRealAccountNumber: boolean;
 }
@@ -1959,20 +1959,20 @@ export type UpdateRecipientRequestEmailsList = Array<string>;
 export interface UpdateRecipientRequest {
   recipientId: string;
   /** Deprecated. Use checkInfo instead. */
-  address?: AddressData;
+  address?: AddressData | undefined;
   /** Information needed to send a check. */
-  checkInfo?: CheckInfoRaw;
+  checkInfo?: CheckInfoRaw | undefined;
   /** Contact email address of the recipient */
-  contactEmail?: string;
+  contactEmail?: string | undefined;
   /** Information needed to send a domestic wire. */
-  domesticWireRoutingInfo?: DomesticWireRoutingInfoRaw;
+  domesticWireRoutingInfo?: DomesticWireRoutingInfoRaw | undefined;
   /** Information needed to send an ACH. */
-  electronicRoutingInfo?: ElectronicRoutingInfoRaw;
-  emails?: UpdateRecipientRequestEmailsList;
-  name?: string;
-  nickname?: string;
+  electronicRoutingInfo?: ElectronicRoutingInfoRaw | undefined;
+  emails?: UpdateRecipientRequestEmailsList | undefined;
+  name?: string | undefined;
+  nickname?: string | undefined;
   /** Information needed to send a real-time payment. */
-  realTimePaymentRoutingInfo?: RealTimePaymentRoutingInfoRaw;
+  realTimePaymentRoutingInfo?: RealTimePaymentRoutingInfoRaw | undefined;
 }
 export interface UpdateTransactionRequest {
   transactionId: string;
@@ -1986,12 +1986,12 @@ export type UpdateWebhookRequestFilterPathsList = Array<ResourceField | (string 
 export interface UpdateWebhookRequest {
   webhookEndpointId: string;
   /** Event types to subscribe to. Send null to subscribe to all event types. Send an array to subscribe to specific types. Omit to leave unchanged. */
-  eventTypes?: UpdateWebhookRequestEventTypesList | null;
+  eventTypes?: UpdateWebhookRequestEventTypesList | null | undefined;
   /** Resource field paths to filter events by. When specified, webhook events will only be sent when one of these fields changes. Send null for no filtering. Send an array to filter by specific fields. Omit to leave unchanged. */
-  filterPaths?: UpdateWebhookRequestFilterPathsList | null;
-  status?: unknown | null;
+  filterPaths?: UpdateWebhookRequestFilterPathsList | null | undefined;
+  status?: unknown | null | undefined;
   /** The URL to which webhook events will be delivered. Omit to leave unchanged. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface UploadRecipientAttachmentRequest {
   /** ID of the recipient to attach the file to */
@@ -2006,14 +2006,14 @@ export interface UploadTransactionAttachmentRequest {
   /** ID of the transaction to attach the file to */
   transactionId: string;
   /** Type of attachment: 'receipt', 'bill', or 'other'. Defaults to 'other'. */
-  attachmentType?: UploadTransactionAttachmentRequestAttachmentType | (string & {});
+  attachmentType?: UploadTransactionAttachmentRequestAttachmentType | (string & {}) | undefined;
   /** The file to upload */
   file: string;
 }
 export interface UploadTransactionAttachmentResponse {}
 export interface VerifyWebhookRequest {
   webhookEndpointId: string;
-  eventType?: unknown | null;
+  eventType?: unknown | null | undefined;
 }
 export interface VerifyWebhookResponse {}
 export type CancelCardError = NotFound | MercuryOpError;

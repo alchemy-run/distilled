@@ -59,11 +59,11 @@ export type NameAvailabilityReason = "Invalid" | "AlreadyExists";
 /** The CheckNameAvailability operation response. */
 export interface CheckNameAvailabilityResult {
   /** Gets a boolean value that indicates whether the name is available for you to use. If true, the name is available. If false, the name has already been taken or invalid and cannot be used. */
-  nameAvailable?: boolean;
+  nameAvailable?: boolean | undefined;
   /** Gets the reason that a Storage Sync Service name could not be used. The Reason element is only returned if NameAvailable is false. */
-  reason?: NameAvailabilityReason;
+  reason?: NameAvailabilityReason | undefined;
   /** Gets an error message explaining the Reason value in more detail. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -80,16 +80,16 @@ export interface CloudEndpointsAfsShareMetadataCertificatePublicKeysRequest {
 /** Cloud endpoint AFS file share metadata signing certificate public keys. */
 export interface CloudEndpointAfsShareMetadataCertificatePublicKeys {
   /** The first public key. */
-  firstKey?: string;
+  firstKey?: string | undefined;
   /** The second public key. */
-  secondKey?: string;
+  secondKey?: string | undefined;
 }
 /** Restore file spec. */
 export interface RestoreFileSpec {
   /** Restore file spec path */
-  path?: string;
+  path?: string | undefined;
   /** Restore file spec isdir */
-  isdir?: boolean;
+  isdir?: boolean | undefined;
 }
 /** Post Restore restore file spec array. */
 export type CloudEndpointsPostRestoreRequestRestoreFileSpecList = Array<RestoreFileSpec>;
@@ -105,27 +105,27 @@ export interface CloudEndpointsPostRestoreRequest {
   /** Name of Cloud Endpoint object. */
   cloudEndpointName: string;
   /** Post Restore partition. */
-  partition?: string;
+  partition?: string | undefined;
   /** Post Restore replica group. */
-  replicaGroup?: string;
+  replicaGroup?: string | undefined;
   /** Post Restore request id. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Post Restore Azure file share uri. */
-  azureFileShareUri?: string;
+  azureFileShareUri?: string | undefined;
   /** Post Restore Azure status. */
-  status?: string;
+  status?: string | undefined;
   /** Post Restore Azure source azure file share uri. */
-  sourceAzureFileShareUri?: string;
+  sourceAzureFileShareUri?: string | undefined;
   /** Post Restore Azure failed file list. */
-  failedFileList?: string;
+  failedFileList?: string | undefined;
   /** Post Restore restore file spec array. */
-  restoreFileSpec?: CloudEndpointsPostRestoreRequestRestoreFileSpecList;
+  restoreFileSpec?: CloudEndpointsPostRestoreRequestRestoreFileSpecList | undefined;
 }
 export interface CloudEndpointsPostRestoreResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CloudEndpointsPreBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -139,13 +139,13 @@ export interface CloudEndpointsPreBackupRequest {
   /** Name of Cloud Endpoint object. */
   cloudEndpointName: string;
   /** Azure File Share. */
-  azureFileShare?: string;
+  azureFileShare?: string | undefined;
 }
 export interface CloudEndpointsPreBackupResponse {
   /** Operation Status Location URI */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CloudEndpointsRestoreheartbeatRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -163,15 +163,15 @@ export interface CloudEndpointsRestoreheartbeatResponse {}
 /** CloudEndpoint Properties object. */
 export interface CloudEndpointCreateParametersProperties {
   /** Storage Account Resource Id */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Azure file share name */
-  azureFileShareName?: string;
+  azureFileShareName?: string | undefined;
   /** Storage Account Tenant Id */
-  storageAccountTenantId?: string;
+  storageAccountTenantId?: string | undefined;
   /** Friendly Name */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** The interval for enumerating changes on the cloud endpoint. */
-  changeEnumerationIntervalDays?: number;
+  changeEnumerationIntervalDays?: number | undefined;
 }
 export interface CreateCloudEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -185,7 +185,7 @@ export interface CreateCloudEndpointRequest {
   /** Name of Cloud Endpoint object. */
   cloudEndpointName: string;
   /** The parameters used to create the cloud endpoint. */
-  properties?: CloudEndpointCreateParametersProperties;
+  properties?: CloudEndpointCreateParametersProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -194,32 +194,32 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Cloud endpoint change enumeration status object */
 export interface CloudEndpointLastChangeEnumerationStatus {
   /** Timestamp when change enumeration started */
-  startedTimestamp?: string;
+  startedTimestamp?: string | undefined;
   /** Timestamp when change enumeration completed */
-  completedTimestamp?: string;
+  completedTimestamp?: string | undefined;
   /** Count of files in the namespace */
-  namespaceFilesCount?: number;
+  namespaceFilesCount?: number | undefined;
   /** Count of directories in the namespace */
-  namespaceDirectoriesCount?: number;
+  namespaceDirectoriesCount?: number | undefined;
   /** Namespace size in bytes */
-  namespaceSizeBytes?: number;
+  namespaceSizeBytes?: number | undefined;
   /** Timestamp of when change enumeration is expected to run again */
-  nextRunTimestamp?: string;
+  nextRunTimestamp?: string | undefined;
 }
 /** State of change enumeration activity */
 export type CloudEndpointChangeEnumerationActivityState =
@@ -230,83 +230,83 @@ export type CloudEndpointChangeEnumerationTotalCountsState = "Calculating" | "Fi
 /** Cloud endpoint change enumeration activity object */
 export interface CloudEndpointChangeEnumerationActivity {
   /** Last updated timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Change enumeration operation state */
-  operationState?: CloudEndpointChangeEnumerationActivityState;
+  operationState?: CloudEndpointChangeEnumerationActivityState | undefined;
   /** When non-zero, indicates an issue that is delaying change enumeration */
-  statusCode?: number;
+  statusCode?: number | undefined;
   /** Timestamp when change enumeration started */
-  startedTimestamp?: string;
+  startedTimestamp?: string | undefined;
   /** Count of files processed */
-  processedFilesCount?: number;
+  processedFilesCount?: number | undefined;
   /** Count of directories processed */
-  processedDirectoriesCount?: number;
+  processedDirectoriesCount?: number | undefined;
   /** Total count of files enumerated */
-  totalFilesCount?: number;
+  totalFilesCount?: number | undefined;
   /** Total count of directories enumerated */
-  totalDirectoriesCount?: number;
+  totalDirectoriesCount?: number | undefined;
   /** Total enumerated size in bytes */
-  totalSizeBytes?: number;
+  totalSizeBytes?: number | undefined;
   /** Progress percentage for change enumeration run, excluding processing of deletes */
-  progressPercent?: number;
+  progressPercent?: number | undefined;
   /** Estimate of time remaining for the enumeration run */
-  minutesRemaining?: number;
+  minutesRemaining?: number | undefined;
   /** Change enumeration total counts state */
-  totalCountsState?: CloudEndpointChangeEnumerationTotalCountsState;
+  totalCountsState?: CloudEndpointChangeEnumerationTotalCountsState | undefined;
   /** Progress percentage for processing deletes. This is done separately from the rest of the enumeration run */
-  deletesProgressPercent?: number;
+  deletesProgressPercent?: number | undefined;
 }
 /** Cloud endpoint change enumeration status object */
 export interface CloudEndpointChangeEnumerationStatus {
   /** Last updated timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Status of last completed change enumeration */
-  lastEnumerationStatus?: CloudEndpointLastChangeEnumerationStatus;
+  lastEnumerationStatus?: CloudEndpointLastChangeEnumerationStatus | undefined;
   /** Change enumeration activity */
-  activity?: CloudEndpointChangeEnumerationActivity;
+  activity?: CloudEndpointChangeEnumerationActivity | undefined;
 }
 /** CloudEndpoint Properties object. */
 export interface CloudEndpointProperties {
   /** Storage Account Resource Id */
-  storageAccountResourceId?: string;
+  storageAccountResourceId?: string | undefined;
   /** Azure file share name */
-  azureFileShareName?: string;
+  azureFileShareName?: string | undefined;
   /** Storage Account Tenant Id */
-  storageAccountTenantId?: string;
+  storageAccountTenantId?: string | undefined;
   /** Partnership Id */
-  partnershipId?: string;
+  partnershipId?: string | undefined;
   /** Friendly Name */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Backup Enabled */
-  backupEnabled?: string;
+  backupEnabled?: string | undefined;
   /** CloudEndpoint Provisioning State */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** CloudEndpoint lastWorkflowId */
-  lastWorkflowId?: string;
+  lastWorkflowId?: string | undefined;
   /** Resource Last Operation Name */
-  lastOperationName?: string;
+  lastOperationName?: string | undefined;
   /** Cloud endpoint change enumeration status */
-  changeEnumerationStatus?: CloudEndpointChangeEnumerationStatus;
+  changeEnumerationStatus?: CloudEndpointChangeEnumerationStatus | undefined;
   /** The interval for enumerating changes on the cloud endpoint. */
-  changeEnumerationIntervalDays?: number;
+  changeEnumerationIntervalDays?: number | undefined;
 }
 export interface CreateCloudEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Cloud Endpoint properties. */
-  properties?: CloudEndpointProperties;
+  properties?: CloudEndpointProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The private endpoint resource. */
 export interface PrivateEndpointInput {}
@@ -315,16 +315,16 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -338,14 +338,14 @@ export interface CreatePrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -356,56 +356,56 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface CreatePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** RegisteredServer Create Properties object. */
 export interface RegisteredServerCreateParametersProperties {
   /** Registered Server Certificate */
-  serverCertificate?: string;
+  serverCertificate?: string | undefined;
   /** Registered Server Agent Version */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
   /** Registered Server OS Version */
-  serverOSVersion?: string;
+  serverOSVersion?: string | undefined;
   /** Registered Server last heart beat */
-  lastHeartBeat?: string;
+  lastHeartBeat?: string | undefined;
   /** Registered Server serverRole */
-  serverRole?: string;
+  serverRole?: string | undefined;
   /** Registered Server clusterId */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Registered Server clusterName */
-  clusterName?: string;
+  clusterName?: string | undefined;
   /** Registered Server serverId */
-  serverId?: string;
+  serverId?: string | undefined;
   /** Friendly Name */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Server ServicePrincipal Id */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Apply server with newly discovered ApplicationId if available. */
-  identity?: boolean;
+  identity?: boolean | undefined;
 }
 export interface CreateRegisteredServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -417,7 +417,7 @@ export interface CreateRegisteredServerRequest {
   /** GUID identifying the on-premises server. */
   serverId: string;
   /** The parameters used to create the registered server. */
-  properties?: RegisteredServerCreateParametersProperties;
+  properties?: RegisteredServerCreateParametersProperties | undefined;
 }
 /** Type of the registered server agent version status */
 export type RegisteredServerAgentVersionStatus = "Ok" | "NearExpiry" | "Expired" | "Blocked";
@@ -426,77 +426,77 @@ export type ServerAuthType = "Certificate" | "ManagedIdentity";
 /** RegisteredServer Properties object. */
 export interface RegisteredServerProperties {
   /** Registered Server Certificate */
-  serverCertificate?: string;
+  serverCertificate?: string | undefined;
   /** Registered Server Agent Version */
-  agentVersion?: string;
+  agentVersion?: string | undefined;
   /** Registered Server Agent Version Status */
-  agentVersionStatus?: RegisteredServerAgentVersionStatus;
+  agentVersionStatus?: RegisteredServerAgentVersionStatus | undefined;
   /** Registered Server Agent Version Expiration Date */
-  agentVersionExpirationDate?: string;
+  agentVersionExpirationDate?: string | undefined;
   /** Registered Server OS Version */
-  serverOSVersion?: string;
+  serverOSVersion?: string | undefined;
   /** Registered Server Management Error Code */
-  serverManagementErrorCode?: number;
+  serverManagementErrorCode?: number | undefined;
   /** Registered Server last heart beat */
-  lastHeartBeat?: string;
+  lastHeartBeat?: string | undefined;
   /** Registered Server Provisioning State */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Registered Server serverRole */
-  serverRole?: string;
+  serverRole?: string | undefined;
   /** Registered Server clusterId */
-  clusterId?: string;
+  clusterId?: string | undefined;
   /** Registered Server clusterName */
-  clusterName?: string;
+  clusterName?: string | undefined;
   /** Registered Server serverId */
-  serverId?: string;
+  serverId?: string | undefined;
   /** Registered Server storageSyncServiceUid */
-  storageSyncServiceUid?: string;
+  storageSyncServiceUid?: string | undefined;
   /** Registered Server lastWorkflowId */
-  lastWorkflowId?: string;
+  lastWorkflowId?: string | undefined;
   /** Resource Last Operation Name */
-  lastOperationName?: string;
+  lastOperationName?: string | undefined;
   /** Resource discoveryEndpointUri */
-  discoveryEndpointUri?: string;
+  discoveryEndpointUri?: string | undefined;
   /** Resource Location */
-  resourceLocation?: string;
+  resourceLocation?: string | undefined;
   /** Service Location */
-  serviceLocation?: string;
+  serviceLocation?: string | undefined;
   /** Friendly Name */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Management Endpoint Uri */
-  managementEndpointUri?: string;
+  managementEndpointUri?: string | undefined;
   /** Telemetry Endpoint Uri */
-  monitoringEndpointUri?: string;
+  monitoringEndpointUri?: string | undefined;
   /** Monitoring Configuration */
-  monitoringConfiguration?: string;
+  monitoringConfiguration?: string | undefined;
   /** Server name */
-  serverName?: string;
+  serverName?: string | undefined;
   /** Server Application Id */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** Apply server with newly discovered ApplicationId if available. */
-  identity?: boolean;
+  identity?: boolean | undefined;
   /** Latest Server Application Id discovered from the server. It is not yet applied. */
-  latestApplicationId?: string;
+  latestApplicationId?: string | undefined;
   /** Server auth type. */
-  activeAuthType?: ServerAuthType;
+  activeAuthType?: ServerAuthType | undefined;
 }
 export interface CreateRegisteredServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** RegisteredServer properties. */
-  properties?: RegisteredServerProperties;
+  properties?: RegisteredServerProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Type of the Feature Status */
 export type FeatureStatus = "on" | "off";
@@ -516,29 +516,36 @@ export type ServerEndpointCreateParametersPropertiesInitialUploadPolicy =
 /** ServerEndpoint Properties object. */
 export interface ServerEndpointCreateParametersProperties {
   /** Server Local path. */
-  serverLocalPath?: string;
+  serverLocalPath?: string | undefined;
   /** Cloud Tiering. */
-  cloudTiering?: FeatureStatus | (string & {});
+  cloudTiering?: FeatureStatus | (string & {}) | undefined;
   /** Level of free space to be maintained by Cloud Tiering if it is enabled. */
-  volumeFreeSpacePercent?: number;
+  volumeFreeSpacePercent?: number | undefined;
   /** Tier files older than days. */
-  tierFilesOlderThanDays?: number;
+  tierFilesOlderThanDays?: number | undefined;
   /** Friendly Name */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Server Resource Id. */
-  serverResourceId?: string;
+  serverResourceId?: string | undefined;
   /** Offline data transfer */
-  offlineDataTransfer?: FeatureStatus | (string & {});
+  offlineDataTransfer?: FeatureStatus | (string & {}) | undefined;
   /** Offline data transfer share name */
-  offlineDataTransferShareName?: string;
+  offlineDataTransferShareName?: string | undefined;
   /** Policy for how namespace and files are recalled during FastDr. */
   initialDownloadPolicy?:
     | ServerEndpointCreateParametersPropertiesInitialDownloadPolicy
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Policy for enabling follow-the-sun business models: link local cache to cloud behavior to pre-populate before local access. */
-  localCacheMode?: ServerEndpointCreateParametersPropertiesLocalCacheMode | (string & {});
+  localCacheMode?:
+    | ServerEndpointCreateParametersPropertiesLocalCacheMode
+    | (string & {})
+    | undefined;
   /** Policy for how the initial upload sync session is performed. */
-  initialUploadPolicy?: ServerEndpointCreateParametersPropertiesInitialUploadPolicy | (string & {});
+  initialUploadPolicy?:
+    | ServerEndpointCreateParametersPropertiesInitialUploadPolicy
+    | (string & {})
+    | undefined;
 }
 export interface CreateServerEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -552,7 +559,7 @@ export interface CreateServerEndpointRequest {
   /** Name of Server Endpoint object. */
   serverEndpointName: string;
   /** The parameters used to create the server endpoint. */
-  properties?: ServerEndpointCreateParametersProperties;
+  properties?: ServerEndpointCreateParametersProperties | undefined;
 }
 /** Type of the server endpoint health state */
 export type ServerEndpointHealthState = "Unavailable" | "Healthy" | "Error";
@@ -561,11 +568,11 @@ export type ServerEndpointSyncActivityState = "Upload" | "Download" | "UploadAnd
 /** Files not syncing error object */
 export interface ServerEndpointFilesNotSyncingError {
   /** Error code (HResult) */
-  errorCode?: number;
+  errorCode?: number | undefined;
   /** Count of persistent files not syncing with the specified error code */
-  persistentCount?: number;
+  persistentCount?: number | undefined;
   /** Count of transient files not syncing with the specified error code */
-  transientCount?: number;
+  transientCount?: number | undefined;
 }
 /** Array of per-item errors coming from the last sync session. */
 export type ServerEndpointSyncSessionStatusFilesNotSyncingErrorsList =
@@ -580,64 +587,64 @@ export type ServerEndpointSyncMode =
 /** Sync Session status object. */
 export interface ServerEndpointSyncSessionStatus {
   /** Last sync result (HResult) */
-  lastSyncResult?: number;
+  lastSyncResult?: number | undefined;
   /** Last sync timestamp */
-  lastSyncTimestamp?: string;
+  lastSyncTimestamp?: string | undefined;
   /** Last sync success timestamp */
-  lastSyncSuccessTimestamp?: string;
+  lastSyncSuccessTimestamp?: string | undefined;
   /** Last sync per item error count. */
-  lastSyncPerItemErrorCount?: number;
+  lastSyncPerItemErrorCount?: number | undefined;
   /** Count of persistent files not syncing. */
-  persistentFilesNotSyncingCount?: number;
+  persistentFilesNotSyncingCount?: number | undefined;
   /** Count of transient files not syncing. */
-  transientFilesNotSyncingCount?: number;
+  transientFilesNotSyncingCount?: number | undefined;
   /** Array of per-item errors coming from the last sync session. */
-  filesNotSyncingErrors?: ServerEndpointSyncSessionStatusFilesNotSyncingErrorsList;
+  filesNotSyncingErrors?: ServerEndpointSyncSessionStatusFilesNotSyncingErrorsList | undefined;
   /** Sync mode */
-  lastSyncMode?: ServerEndpointSyncMode;
+  lastSyncMode?: ServerEndpointSyncMode | undefined;
 }
 /** Warning types for sync sessions. */
 export type ServerEndpointSyncSessionWarningType = "NoWarning" | "BlockedByLargeFile";
 /** Sync Session status object. */
 export interface ServerEndpointSyncActivityStatus {
   /** Timestamp when properties were updated */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Per item error count */
-  perItemErrorCount?: number;
+  perItemErrorCount?: number | undefined;
   /** Applied item count. */
-  appliedItemCount?: number;
+  appliedItemCount?: number | undefined;
   /** Total item count (if available) */
-  totalItemCount?: number;
+  totalItemCount?: number | undefined;
   /** Applied bytes */
-  appliedBytes?: number;
+  appliedBytes?: number | undefined;
   /** Total bytes (if available) */
-  totalBytes?: number;
+  totalBytes?: number | undefined;
   /** Sync mode */
-  syncMode?: ServerEndpointSyncMode;
+  syncMode?: ServerEndpointSyncMode | undefined;
   /** Session minutes remaining (if available) */
-  sessionMinutesRemaining?: number;
+  sessionMinutesRemaining?: number | undefined;
   /** Remaining file count (if totals are final) */
-  remainingFileCount?: number;
+  remainingFileCount?: number | undefined;
   /** Remaining directory count (if totals are final) */
-  remainingDirectoryCount?: number;
+  remainingDirectoryCount?: number | undefined;
   /** Remaining delete count (if totals are final) */
-  remainingDeleteCount?: number;
+  remainingDeleteCount?: number | undefined;
   /** Remaining logical size in bytes (if totals are final) */
-  remainingLogicalSizeBytes?: number;
+  remainingLogicalSizeBytes?: number | undefined;
   /** Whether the remaining counts are final */
-  isRemainingFinal?: boolean;
+  isRemainingFinal?: boolean | undefined;
   /** Recent throughput in items per second */
-  recentItemsPerSecond?: number;
+  recentItemsPerSecond?: number | undefined;
   /** Recent throughput in megabytes per second */
-  recentMegabytesPerSecond?: number;
+  recentMegabytesPerSecond?: number | undefined;
   /** Path of large file currently in progress */
-  inProgressLargeFilePath?: string;
+  inProgressLargeFilePath?: string | undefined;
   /** Size in bytes of large file currently in progress */
-  inProgressLargeFileSizeBytes?: number;
+  inProgressLargeFileSizeBytes?: number | undefined;
   /** Percent complete (0-100) of large file currently in progress */
-  inProgressLargeFilePercentComplete?: number;
+  inProgressLargeFilePercentComplete?: number | undefined;
   /** Warning type (if any) */
-  warning?: ServerEndpointSyncSessionWarningType;
+  warning?: ServerEndpointSyncSessionWarningType | undefined;
 }
 /** Type of the Health state */
 export type ServerEndpointOfflineDataTransferState =
@@ -648,152 +655,152 @@ export type ServerEndpointOfflineDataTransferState =
 /** Background data download activity object */
 export interface ServerEndpointBackgroundDataDownloadActivity {
   /** Timestamp when properties were updated */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Timestamp when the operation started */
-  startedTimestamp?: string;
+  startedTimestamp?: string | undefined;
   /** Progress percentage */
-  percentProgress?: number;
+  percentProgress?: number | undefined;
   /** Running count of bytes downloaded */
-  downloadedBytes?: number;
+  downloadedBytes?: number | undefined;
 }
 /** Server Endpoint sync status */
 export interface ServerEndpointSyncStatus {
   /** Download Health Status. */
-  downloadHealth?: ServerEndpointHealthState;
+  downloadHealth?: ServerEndpointHealthState | undefined;
   /** Upload Health Status. */
-  uploadHealth?: ServerEndpointHealthState;
+  uploadHealth?: ServerEndpointHealthState | undefined;
   /** Combined Health Status. */
-  combinedHealth?: ServerEndpointHealthState;
+  combinedHealth?: ServerEndpointHealthState | undefined;
   /** Sync activity */
-  syncActivity?: ServerEndpointSyncActivityState;
+  syncActivity?: ServerEndpointSyncActivityState | undefined;
   /** Total count of persistent files not syncing (combined upload + download). */
-  totalPersistentFilesNotSyncingCount?: number;
+  totalPersistentFilesNotSyncingCount?: number | undefined;
   /** Last Updated Timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Upload Status */
-  uploadStatus?: ServerEndpointSyncSessionStatus;
+  uploadStatus?: ServerEndpointSyncSessionStatus | undefined;
   /** Download Status */
-  downloadStatus?: ServerEndpointSyncSessionStatus;
+  downloadStatus?: ServerEndpointSyncSessionStatus | undefined;
   /** Upload sync activity */
-  uploadActivity?: ServerEndpointSyncActivityStatus;
+  uploadActivity?: ServerEndpointSyncActivityStatus | undefined;
   /** Download sync activity */
-  downloadActivity?: ServerEndpointSyncActivityStatus;
+  downloadActivity?: ServerEndpointSyncActivityStatus | undefined;
   /** Offline Data Transfer State */
-  offlineDataTransferStatus?: ServerEndpointOfflineDataTransferState;
+  offlineDataTransferStatus?: ServerEndpointOfflineDataTransferState | undefined;
   /** Background data download activity */
-  backgroundDataDownloadActivity?: ServerEndpointBackgroundDataDownloadActivity;
+  backgroundDataDownloadActivity?: ServerEndpointBackgroundDataDownloadActivity | undefined;
 }
 /** Server endpoint cloud tiering status object. */
 export interface CloudTieringSpaceSavings {
   /** Last updated timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Volume size */
-  volumeSizeBytes?: number;
+  volumeSizeBytes?: number | undefined;
   /** Total size of content in the azure file share */
-  totalSizeCloudBytes?: number;
+  totalSizeCloudBytes?: number | undefined;
   /** Cached content size on the server */
-  cachedSizeBytes?: number;
+  cachedSizeBytes?: number | undefined;
   /** Percentage of cached size over total size */
-  spaceSavingsPercent?: number;
+  spaceSavingsPercent?: number | undefined;
   /** Count of bytes saved on the server */
-  spaceSavingsBytes?: number;
+  spaceSavingsBytes?: number | undefined;
 }
 /** Server endpoint cloud tiering status object. */
 export interface CloudTieringCachePerformance {
   /** Last updated timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Count of bytes that were served from the local server */
-  cacheHitBytes?: number;
+  cacheHitBytes?: number | undefined;
   /** Count of bytes that were served from the cloud */
-  cacheMissBytes?: number;
+  cacheMissBytes?: number | undefined;
   /** Percentage of total bytes (hit + miss) that were served from the local server */
-  cacheHitBytesPercent?: number;
+  cacheHitBytesPercent?: number | undefined;
 }
 /** Files not tiering error object */
 export interface FilesNotTieringError {
   /** Error code (HResult) */
-  errorCode?: number;
+  errorCode?: number | undefined;
   /** Count of files with this error */
-  fileCount?: number;
+  fileCount?: number | undefined;
 }
 /** Array of tiering errors */
 export type CloudTieringFilesNotTieringErrorsList = Array<FilesNotTieringError>;
 /** Server endpoint cloud tiering status object. */
 export interface CloudTieringFilesNotTiering {
   /** Last updated timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Last cloud tiering result (HResult) */
-  totalFileCount?: number;
+  totalFileCount?: number | undefined;
   /** Array of tiering errors */
-  errors?: CloudTieringFilesNotTieringErrorsList;
+  errors?: CloudTieringFilesNotTieringErrorsList | undefined;
 }
 /** Status of the volume free space policy */
 export interface CloudTieringVolumeFreeSpacePolicyStatus {
   /** Last updated timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** In the case where multiple server endpoints are present in a volume, an effective free space policy is applied. */
-  effectiveVolumeFreeSpacePolicy?: number;
+  effectiveVolumeFreeSpacePolicy?: number | undefined;
   /** Current volume free space percentage. */
-  currentVolumeFreeSpacePercent?: number;
+  currentVolumeFreeSpacePercent?: number | undefined;
 }
 /** Status of the date policy */
 export interface CloudTieringDatePolicyStatus {
   /** Last updated timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Most recent access time of tiered files */
-  tieredFilesMostRecentAccessTimestamp?: string;
+  tieredFilesMostRecentAccessTimestamp?: string | undefined;
 }
 /** Type of the cloud tiering low disk mode state */
 export type CloudTieringLowDiskModeState = "Enabled" | "Disabled";
 /** Information regarding the low disk mode state */
 export interface CloudTieringLowDiskMode {
   /** Last updated timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Low disk mode state */
-  state?: CloudTieringLowDiskModeState;
+  state?: CloudTieringLowDiskModeState | undefined;
 }
 /** Server endpoint cloud tiering status object. */
 export interface ServerEndpointCloudTieringStatus {
   /** Last updated timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Cloud tiering health state. */
-  health?: ServerEndpointHealthState;
+  health?: ServerEndpointHealthState | undefined;
   /** The last updated timestamp of health state */
-  healthLastUpdatedTimestamp?: string;
+  healthLastUpdatedTimestamp?: string | undefined;
   /** Last cloud tiering result (HResult) */
-  lastCloudTieringResult?: number;
+  lastCloudTieringResult?: number | undefined;
   /** Last cloud tiering success timestamp */
-  lastSuccessTimestamp?: string;
+  lastSuccessTimestamp?: string | undefined;
   /** Information regarding how much local space cloud tiering is saving. */
-  spaceSavings?: CloudTieringSpaceSavings;
+  spaceSavings?: CloudTieringSpaceSavings | undefined;
   /** Information regarding how well the local cache on the server is performing. */
-  cachePerformance?: CloudTieringCachePerformance;
+  cachePerformance?: CloudTieringCachePerformance | undefined;
   /** Information regarding files that failed to be tiered */
-  filesNotTiering?: CloudTieringFilesNotTiering;
+  filesNotTiering?: CloudTieringFilesNotTiering | undefined;
   /** Status of the volume free space policy */
-  volumeFreeSpacePolicyStatus?: CloudTieringVolumeFreeSpacePolicyStatus;
+  volumeFreeSpacePolicyStatus?: CloudTieringVolumeFreeSpacePolicyStatus | undefined;
   /** Status of the date policy */
-  datePolicyStatus?: CloudTieringDatePolicyStatus;
+  datePolicyStatus?: CloudTieringDatePolicyStatus | undefined;
   /** Information regarding the low disk mode state */
-  lowDiskMode?: CloudTieringLowDiskMode;
+  lowDiskMode?: CloudTieringLowDiskMode | undefined;
 }
 /** Server endpoint recall error object */
 export interface ServerEndpointRecallError {
   /** Error code (HResult) */
-  errorCode?: number;
+  errorCode?: number | undefined;
   /** Count of occurences of the error */
-  count?: number;
+  count?: number | undefined;
 }
 /** Array of recall errors */
 export type ServerEndpointRecallStatusRecallErrorsList = Array<ServerEndpointRecallError>;
 /** Server endpoint recall status object. */
 export interface ServerEndpointRecallStatus {
   /** Last updated timestamp */
-  lastUpdatedTimestamp?: string;
+  lastUpdatedTimestamp?: string | undefined;
   /** Total count of recall errors. */
-  totalRecallErrorsCount?: number;
+  totalRecallErrorsCount?: number | undefined;
   /** Array of recall errors */
-  recallErrors?: ServerEndpointRecallStatusRecallErrorsList;
+  recallErrors?: ServerEndpointRecallStatusRecallErrorsList | undefined;
 }
 /** Policy for how namespace and files are recalled during FastDr. */
 export type ServerEndpointPropertiesInitialDownloadPolicy =
@@ -820,21 +827,21 @@ export type ServerEndpointProvisioningStepStatusAdditionalInformationMap = {
 /** Server endpoint provisioning step status object. */
 export interface ServerEndpointProvisioningStepStatus {
   /** Name of the provisioning step */
-  name?: string;
+  name?: string | undefined;
   /** Status of the provisioning step */
-  status?: string;
+  status?: string | undefined;
   /** Start time of the provisioning step */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Estimated completion time of the provisioning step in minutes */
-  minutesLeft?: number;
+  minutesLeft?: number | undefined;
   /** Estimated progress percentage */
-  progressPercentage?: number;
+  progressPercentage?: number | undefined;
   /** End time of the provisioning step */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Error code (HResult) for the provisioning step */
-  errorCode?: number;
+  errorCode?: number | undefined;
   /** Additional information for the provisioning step */
-  additionalInformation?: ServerEndpointProvisioningStepStatusAdditionalInformationMap;
+  additionalInformation?: ServerEndpointProvisioningStepStatusAdditionalInformationMap | undefined;
 }
 /** Provisioning Step status information for each step in the provisioning process */
 export type ServerEndpointProvisioningStatusProvisioningStepStatusesList =
@@ -842,74 +849,76 @@ export type ServerEndpointProvisioningStatusProvisioningStepStatusesList =
 /** Server endpoint provisioning status information */
 export interface ServerEndpointProvisioningStatus {
   /** Server Endpoint provisioning status */
-  provisioningStatus?: ServerProvisioningStatus;
+  provisioningStatus?: ServerProvisioningStatus | undefined;
   /** Server Endpoint provisioning type */
-  provisioningType?: string;
+  provisioningType?: string | undefined;
   /** Provisioning Step status information for each step in the provisioning process */
-  provisioningStepStatuses?: ServerEndpointProvisioningStatusProvisioningStepStatusesList;
+  provisioningStepStatuses?:
+    | ServerEndpointProvisioningStatusProvisioningStepStatusesList
+    | undefined;
 }
 /** ServerEndpoint Properties object. */
 export interface ServerEndpointProperties {
   /** Server Local path. */
-  serverLocalPath?: string;
+  serverLocalPath?: string | undefined;
   /** Cloud Tiering. */
-  cloudTiering?: FeatureStatus;
+  cloudTiering?: FeatureStatus | undefined;
   /** Level of free space to be maintained by Cloud Tiering if it is enabled. */
-  volumeFreeSpacePercent?: number;
+  volumeFreeSpacePercent?: number | undefined;
   /** Tier files older than days. */
-  tierFilesOlderThanDays?: number;
+  tierFilesOlderThanDays?: number | undefined;
   /** Friendly Name */
-  friendlyName?: string;
+  friendlyName?: string | undefined;
   /** Server Resource Id. */
-  serverResourceId?: string;
+  serverResourceId?: string | undefined;
   /** ServerEndpoint Provisioning State */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** ServerEndpoint lastWorkflowId */
-  lastWorkflowId?: string;
+  lastWorkflowId?: string | undefined;
   /** Resource Last Operation Name */
-  lastOperationName?: string;
+  lastOperationName?: string | undefined;
   /** Server Endpoint sync status */
-  syncStatus?: ServerEndpointSyncStatus;
+  syncStatus?: ServerEndpointSyncStatus | undefined;
   /** Offline data transfer */
-  offlineDataTransfer?: FeatureStatus;
+  offlineDataTransfer?: FeatureStatus | undefined;
   /** Offline data transfer storage account resource ID */
-  offlineDataTransferStorageAccountResourceId?: string;
+  offlineDataTransferStorageAccountResourceId?: string | undefined;
   /** Offline data transfer storage account tenant ID */
-  offlineDataTransferStorageAccountTenantId?: string;
+  offlineDataTransferStorageAccountTenantId?: string | undefined;
   /** Offline data transfer share name */
-  offlineDataTransferShareName?: string;
+  offlineDataTransferShareName?: string | undefined;
   /** Cloud tiering status. Only populated if cloud tiering is enabled. */
-  cloudTieringStatus?: ServerEndpointCloudTieringStatus;
+  cloudTieringStatus?: ServerEndpointCloudTieringStatus | undefined;
   /** Recall status. Only populated if cloud tiering is enabled. */
-  recallStatus?: ServerEndpointRecallStatus;
+  recallStatus?: ServerEndpointRecallStatus | undefined;
   /** Policy for how namespace and files are recalled during FastDr. */
-  initialDownloadPolicy?: ServerEndpointPropertiesInitialDownloadPolicy;
+  initialDownloadPolicy?: ServerEndpointPropertiesInitialDownloadPolicy | undefined;
   /** Policy for enabling follow-the-sun business models: link local cache to cloud behavior to pre-populate before local access. */
-  localCacheMode?: ServerEndpointPropertiesLocalCacheMode;
+  localCacheMode?: ServerEndpointPropertiesLocalCacheMode | undefined;
   /** Policy for how the initial upload sync session is performed. */
-  initialUploadPolicy?: ServerEndpointPropertiesInitialUploadPolicy;
+  initialUploadPolicy?: ServerEndpointPropertiesInitialUploadPolicy | undefined;
   /** Server name */
-  serverName?: string;
+  serverName?: string | undefined;
   /** Server Endpoint provisioning status */
-  serverEndpointProvisioningStatus?: ServerEndpointProvisioningStatus;
+  serverEndpointProvisioningStatus?: ServerEndpointProvisioningStatus | undefined;
 }
 export interface CreateServerEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Server Endpoint properties. */
-  properties?: ServerEndpointProperties;
+  properties?: ServerEndpointProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type CreateStorageSyncServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -928,16 +937,16 @@ export type UserAssignedIdentitiesInput = {
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateStorageSyncServiceRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** Type of the Incoming Traffic Policy */
 export type IncomingTrafficPolicy = "AllowAllTraffic" | "AllowVirtualNetworksOnly";
 /** StorageSyncService Properties object. */
 export interface StorageSyncServiceCreateParametersProperties {
   /** Incoming Traffic Policy */
-  incomingTrafficPolicy?: IncomingTrafficPolicy | (string & {});
+  incomingTrafficPolicy?: IncomingTrafficPolicy | (string & {}) | undefined;
   /** Use Identity authorization when customer have finished setup RBAC permissions. */
-  useIdentity?: boolean;
+  useIdentity?: boolean | undefined;
 }
 export interface CreateStorageSyncServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -947,28 +956,28 @@ export interface CreateStorageSyncServiceRequest {
   /** Name of Storage Sync Service resource. */
   storageSyncServiceName: string;
   /** Resource tags. */
-  tags?: CreateStorageSyncServiceRequestTagsMap;
+  tags?: CreateStorageSyncServiceRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateStorageSyncServiceRequestIdentity;
+  identity?: CreateStorageSyncServiceRequestIdentity | undefined;
   /** The parameters used to create the storage sync service. */
-  properties?: StorageSyncServiceCreateParametersProperties;
+  properties?: StorageSyncServiceCreateParametersProperties | undefined;
 }
 /** Resource tags. */
 export type CreateStorageSyncServiceResponseTagsMap = { [key: string]: string | undefined };
 /** The private endpoint connection resource. */
 export interface StorageSyncServicePropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connection associated with the specified storage sync service */
 export type StorageSyncServicePropertiesPrivateEndpointConnectionsList =
@@ -976,63 +985,65 @@ export type StorageSyncServicePropertiesPrivateEndpointConnectionsList =
 /** Storage Sync Service Properties object. */
 export interface StorageSyncServiceProperties {
   /** Incoming Traffic Policy */
-  incomingTrafficPolicy?: IncomingTrafficPolicy;
+  incomingTrafficPolicy?: IncomingTrafficPolicy | undefined;
   /** Storage Sync service status. */
-  storageSyncServiceStatus?: number;
+  storageSyncServiceStatus?: number | undefined;
   /** Storage Sync service Uid */
-  storageSyncServiceUid?: string;
+  storageSyncServiceUid?: string | undefined;
   /** StorageSyncService Provisioning State */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
   /** Use Identity authorization when customer have finished setup RBAC permissions. */
-  useIdentity?: boolean;
+  useIdentity?: boolean | undefined;
   /** StorageSyncService lastWorkflowId */
-  lastWorkflowId?: string;
+  lastWorkflowId?: string | undefined;
   /** Resource Last Operation Name */
-  lastOperationName?: string;
+  lastOperationName?: string | undefined;
   /** List of private endpoint connection associated with the specified storage sync service */
-  privateEndpointConnections?: StorageSyncServicePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?:
+    | StorageSyncServicePropertiesPrivateEndpointConnectionsList
+    | undefined;
 }
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | null | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateStorageSyncServiceResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface CreateStorageSyncServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateStorageSyncServiceResponseTagsMap;
+  tags?: CreateStorageSyncServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Storage Sync Service properties. */
-  properties?: StorageSyncServiceProperties;
+  properties?: StorageSyncServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateStorageSyncServiceResponseIdentity;
+  identity?: CreateStorageSyncServiceResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CreateSyncGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1044,26 +1055,26 @@ export interface CreateSyncGroupRequest {
   /** Name of Sync Group resource. */
   syncGroupName: string;
   /** The parameters used to create the sync group */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** SyncGroup Properties object. */
 export interface SyncGroupProperties {
   /** Unique Id */
-  uniqueId?: string;
+  uniqueId?: string | undefined;
   /** Sync group status */
-  syncGroupStatus?: string;
+  syncGroupStatus?: string | undefined;
 }
 export interface CreateSyncGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** SyncGroup properties. */
-  properties?: SyncGroupProperties;
+  properties?: SyncGroupProperties | undefined;
 }
 export interface DeleteCloudEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1079,11 +1090,11 @@ export interface DeleteCloudEndpointRequest {
 }
 export interface DeleteCloudEndpointResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1097,11 +1108,11 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteRegisteredServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1115,9 +1126,9 @@ export interface DeleteRegisteredServerRequest {
 }
 export interface DeleteRegisteredServerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteServerEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1133,9 +1144,9 @@ export interface DeleteServerEndpointRequest {
 }
 export interface DeleteServerEndpointResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageSyncServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1147,11 +1158,11 @@ export interface DeleteStorageSyncServiceRequest {
 }
 export interface DeleteStorageSyncServiceResponse {
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSyncGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1178,15 +1189,15 @@ export interface GetCloudEndpointRequest {
 }
 export interface GetCloudEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Cloud Endpoint properties. */
-  properties?: CloudEndpointProperties;
+  properties?: CloudEndpointProperties | undefined;
 }
 export interface GetOperationStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1203,58 +1214,58 @@ export interface GetOperationStatusRequest {
 /** Error Details object. */
 export interface StorageSyncErrorDetails {
   /** Error code of the given entry. */
-  code?: string;
+  code?: string | undefined;
   /** Error message of the given entry. */
-  message?: string;
+  message?: string | undefined;
   /** Target of the given entry. */
-  target?: string;
+  target?: string | undefined;
   /** Request URI of the given entry. */
-  requestUri?: string;
+  requestUri?: string | undefined;
   /** Exception type of the given entry. */
-  exceptionType?: string;
+  exceptionType?: string | undefined;
   /** HTTP method of the given entry. */
-  httpMethod?: string;
+  httpMethod?: string | undefined;
   /** Hashed message of the given entry. */
-  hashedMessage?: string;
+  hashedMessage?: string | undefined;
   /** HTTP error code of the given entry. */
-  httpErrorCode?: string;
+  httpErrorCode?: string | undefined;
 }
 /** Error Details object. */
 export interface StorageSyncInnerErrorDetails {
   /** Call stack of the error. */
-  callStack?: string;
+  callStack?: string | undefined;
   /** Error message of the error. */
-  message?: string;
+  message?: string | undefined;
   /** Exception of the inner error. */
-  innerException?: string;
+  innerException?: string | undefined;
   /** Call stack of the inner error. */
-  innerExceptionCallStack?: string;
+  innerExceptionCallStack?: string | undefined;
 }
 /** Error type */
 export interface StorageSyncApiError {
   /** Error code of the given entry. */
-  code?: string;
+  code?: string | undefined;
   /** Error message of the given entry. */
-  message?: string;
+  message?: string | undefined;
   /** Target of the given error entry. */
-  target?: string;
+  target?: string | undefined;
   /** Error details of the given entry. */
-  details?: StorageSyncErrorDetails;
+  details?: StorageSyncErrorDetails | undefined;
   /** Inner error details of the given entry. */
-  innererror?: StorageSyncInnerErrorDetails;
+  innererror?: StorageSyncInnerErrorDetails | undefined;
 }
 /** Operation status object */
 export interface OperationStatus {
   /** Operation Id */
-  name?: string;
+  name?: string | undefined;
   /** Operation status */
-  status?: string;
+  status?: string | undefined;
   /** Start time of the operation */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the operation */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Error details. */
-  error?: StorageSyncApiError;
+  error?: StorageSyncApiError | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1268,15 +1279,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetRegisteredServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1290,15 +1301,15 @@ export interface GetRegisteredServerRequest {
 }
 export interface GetRegisteredServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** RegisteredServer properties. */
-  properties?: RegisteredServerProperties;
+  properties?: RegisteredServerProperties | undefined;
 }
 export interface GetServerEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1314,15 +1325,15 @@ export interface GetServerEndpointRequest {
 }
 export interface GetServerEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Server Endpoint properties. */
-  properties?: ServerEndpointProperties;
+  properties?: ServerEndpointProperties | undefined;
 }
 export interface GetStorageSyncServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1338,21 +1349,21 @@ export type GetStorageSyncServiceResponseTagsMap = { [key: string]: string | und
 export type GetStorageSyncServiceResponseIdentity = CreateStorageSyncServiceResponseIdentity;
 export interface GetStorageSyncServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetStorageSyncServiceResponseTagsMap;
+  tags?: GetStorageSyncServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Storage Sync Service properties. */
-  properties?: StorageSyncServiceProperties;
+  properties?: StorageSyncServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateStorageSyncServiceResponseIdentity;
+  identity?: CreateStorageSyncServiceResponseIdentity | undefined;
 }
 export interface GetSyncGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1366,15 +1377,15 @@ export interface GetSyncGroupRequest {
 }
 export interface GetSyncGroupResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** SyncGroup properties. */
-  properties?: SyncGroupProperties;
+  properties?: SyncGroupProperties | undefined;
 }
 export interface GetWorkflowRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1393,33 +1404,33 @@ export type OperationDirection = "do" | "undo" | "cancel";
 /** Workflow Properties object. */
 export interface WorkflowProperties {
   /** last step name */
-  lastStepName?: string;
+  lastStepName?: string | undefined;
   /** workflow status. */
-  status?: WorkflowStatus;
+  status?: WorkflowStatus | undefined;
   /** operation direction. */
-  operation?: OperationDirection;
+  operation?: OperationDirection | undefined;
   /** workflow steps */
-  steps?: string;
+  steps?: string | undefined;
   /** workflow last operation identifier. */
-  lastOperationId?: string;
+  lastOperationId?: string | undefined;
   /** workflow command name. */
-  commandName?: string;
+  commandName?: string | undefined;
   /** workflow created timestamp. */
-  createdTimestamp?: string;
+  createdTimestamp?: string | undefined;
   /** workflow last status timestamp. */
-  lastStatusTimestamp?: string;
+  lastStatusTimestamp?: string | undefined;
 }
 export interface GetWorkflowResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Workflow properties. */
-  properties?: WorkflowProperties;
+  properties?: WorkflowProperties | undefined;
 }
 export interface ListCloudEndpointBySyncGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1434,47 +1445,47 @@ export interface ListCloudEndpointBySyncGroupRequest {
 /** Cloud Endpoint object. */
 export interface CloudEndpoint {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Cloud Endpoint properties. */
-  properties?: CloudEndpointProperties;
+  properties?: CloudEndpointProperties | undefined;
 }
 /** Collection of CloudEndpoint. */
 export type CloudEndpointArrayValueList = Array<CloudEndpoint>;
 /** Array of CloudEndpoint */
 export interface CloudEndpointArray {
   /** Collection of CloudEndpoint. */
-  value?: CloudEndpointArrayValueList;
+  value?: CloudEndpointArrayValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The operation supported by storage sync. */
 export interface OperationDisplayInfo {
   /** The description of the operation. */
-  description?: string;
+  description?: string | undefined;
   /** The action that users can perform, based on their permission level. */
-  operation?: string;
+  operation?: string | undefined;
   /** Service provider: Microsoft StorageSync. */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
 }
 /** Supported aggregation types for the metric. */
 export type OperationResourceMetricSpecificationSupportedAggregationTypesList = Array<string>;
 /** OperationResourceMetricSpecificationDimension object. */
 export interface OperationResourceMetricSpecificationDimension {
   /** Name of the dimension. */
-  name?: string;
+  name?: string | undefined;
   /** Display name of the dimensions. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Indicates metric should be exported for Shoebox. */
-  toBeExportedForShoebox?: boolean;
+  toBeExportedForShoebox?: boolean | undefined;
 }
 /** Dimensions for the metric specification. */
 export type OperationResourceMetricSpecificationDimensionsList =
@@ -1482,23 +1493,25 @@ export type OperationResourceMetricSpecificationDimensionsList =
 /** Operation Display Resource object. */
 export interface OperationResourceMetricSpecification {
   /** Name of the metric. */
-  name?: string;
+  name?: string | undefined;
   /** Display name for the metric. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Display description for the metric. */
-  displayDescription?: string;
+  displayDescription?: string | undefined;
   /** Unit for the metric. */
-  unit?: string;
+  unit?: string | undefined;
   /** Aggregation type for the metric. */
-  aggregationType?: string;
+  aggregationType?: string | undefined;
   /** Supported aggregation types for the metric. */
-  supportedAggregationTypes?: OperationResourceMetricSpecificationSupportedAggregationTypesList;
+  supportedAggregationTypes?:
+    | OperationResourceMetricSpecificationSupportedAggregationTypesList
+    | undefined;
   /** Fill gaps in the metric with zero. */
-  fillGapWithZero?: boolean;
+  fillGapWithZero?: boolean | undefined;
   /** Lock Aggregation type for the metric. */
-  lockAggregationType?: string;
+  lockAggregationType?: string | undefined;
   /** Dimensions for the metric specification. */
-  dimensions?: OperationResourceMetricSpecificationDimensionsList;
+  dimensions?: OperationResourceMetricSpecificationDimensionsList | undefined;
 }
 /** List of metric specifications. */
 export type OperationResourceServiceSpecificationMetricSpecificationsList =
@@ -1506,23 +1519,23 @@ export type OperationResourceServiceSpecificationMetricSpecificationsList =
 /** Service specification. */
 export interface OperationResourceServiceSpecification {
   /** List of metric specifications. */
-  metricSpecifications?: OperationResourceServiceSpecificationMetricSpecificationsList;
+  metricSpecifications?: OperationResourceServiceSpecificationMetricSpecificationsList | undefined;
 }
 /** Properties of the operations resource. */
 export interface OperationProperties {
   /** Service specification for the operations resource. */
-  serviceSpecification?: OperationResourceServiceSpecification;
+  serviceSpecification?: OperationResourceServiceSpecification | undefined;
 }
 /** The operation supported by storage sync. */
 export interface OperationEntity {
   /** Operation name: {provider}/{resource}/{operation}. */
-  name?: string;
+  name?: string | undefined;
   /** The operation supported by storage sync. */
-  display?: OperationDisplayInfo;
+  display?: OperationDisplayInfo | undefined;
   /** The origin. */
-  origin?: string;
+  origin?: string | undefined;
   /** Properties of the operations resource. */
-  properties?: OperationProperties;
+  properties?: OperationProperties | undefined;
 }
 /** The OperationEntity items on this page */
 export type OperationEntityListResultValueList = Array<OperationEntity>;
@@ -1531,7 +1544,7 @@ export interface OperationEntityListResult {
   /** The OperationEntity items on this page */
   value: OperationEntityListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionByStorageSyncServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1550,9 +1563,9 @@ export type PrivateEndpointConnectionListResultValueList =
 /** List of private endpoint connections associated with the specified resource. */
 export interface PrivateEndpointConnectionListResult {
   /** List of private endpoint connections associated with the specified resource. */
-  value?: PrivateEndpointConnectionListResultValueList;
+  value?: PrivateEndpointConnectionListResultValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByStorageSyncServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1569,31 +1582,31 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource. */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type ListPrivateLinkResourceByStorageSyncServiceResponseValueList =
   Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourceByStorageSyncServiceResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourceByStorageSyncServiceResponseValueList;
+  value?: ListPrivateLinkResourceByStorageSyncServiceResponseValueList | undefined;
 }
 export interface ListRegisteredServerByStorageSyncServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1606,24 +1619,24 @@ export interface ListRegisteredServerByStorageSyncServiceRequest {
 /** Registered Server resource. */
 export interface RegisteredServer {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** RegisteredServer properties. */
-  properties?: RegisteredServerProperties;
+  properties?: RegisteredServerProperties | undefined;
 }
 /** Collection of Registered Server. */
 export type RegisteredServerArrayValueList = Array<RegisteredServer>;
 /** Array of RegisteredServer */
 export interface RegisteredServerArray {
   /** Collection of Registered Server. */
-  value?: RegisteredServerArrayValueList;
+  value?: RegisteredServerArrayValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListServerEndpointBySyncGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1638,26 +1651,26 @@ export interface ListServerEndpointBySyncGroupRequest {
 /** Server Endpoint object. */
 export interface ServerEndpoint {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Server Endpoint properties. */
-  properties?: ServerEndpointProperties;
+  properties?: ServerEndpointProperties | undefined;
 }
 /** Collection of ServerEndpoint. */
 export type ServerEndpointArrayValueList = Array<ServerEndpoint>;
 /** Array of ServerEndpoint */
 export interface ServerEndpointArray {
   /** Collection of ServerEndpoint. */
-  value?: ServerEndpointArrayValueList;
+  value?: ServerEndpointArrayValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
   /** Operation Status Location URI */
-  location?: string;
+  location?: string | undefined;
 }
 export interface ListStorageSyncServiceByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1672,30 +1685,30 @@ export type StorageSyncServiceIdentity = CreateStorageSyncServiceResponseIdentit
 /** Storage Sync Service object. */
 export interface StorageSyncService {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageSyncServiceTagsMap;
+  tags?: StorageSyncServiceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Storage Sync Service properties. */
-  properties?: StorageSyncServiceProperties;
+  properties?: StorageSyncServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateStorageSyncServiceResponseIdentity;
+  identity?: CreateStorageSyncServiceResponseIdentity | undefined;
 }
 /** Collection of StorageSyncServices. */
 export type StorageSyncServiceArrayValueList = Array<StorageSyncService>;
 /** Array of StorageSyncServices */
 export interface StorageSyncServiceArray {
   /** Collection of StorageSyncServices. */
-  value?: StorageSyncServiceArrayValueList;
+  value?: StorageSyncServiceArrayValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageSyncServiceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1712,24 +1725,24 @@ export interface ListSyncGroupByStorageSyncServiceRequest {
 /** Sync Group object. */
 export interface SyncGroup {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** SyncGroup properties. */
-  properties?: SyncGroupProperties;
+  properties?: SyncGroupProperties | undefined;
 }
 /** Collection of SyncGroup. */
 export type SyncGroupArrayValueList = Array<SyncGroup>;
 /** Array of SyncGroup */
 export interface SyncGroupArray {
   /** Collection of SyncGroup. */
-  value?: SyncGroupArrayValueList;
+  value?: SyncGroupArrayValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkflowByStorageSyncServiceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1742,24 +1755,24 @@ export interface ListWorkflowByStorageSyncServiceRequest {
 /** Workflow resource. */
 export interface Workflow {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Workflow properties. */
-  properties?: WorkflowProperties;
+  properties?: WorkflowProperties | undefined;
 }
 /** Collection of workflow items. */
 export type WorkflowArrayValueList = Array<Workflow>;
 /** Array of Workflow */
 export interface WorkflowArray {
   /** Collection of workflow items. */
-  value?: WorkflowArrayValueList;
+  value?: WorkflowArrayValueList | undefined;
   /** The URL to get the next set of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface LocationOperationStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1772,19 +1785,19 @@ export interface LocationOperationStatusRequest {
 /** Operation status object */
 export interface LocationOperationStatus {
   /** Operation resource Id */
-  id?: string;
+  id?: string | undefined;
   /** Operation Id */
-  name?: string;
+  name?: string | undefined;
   /** Operation status */
-  status?: string;
+  status?: string | undefined;
   /** Start time of the operation */
-  startTime?: string;
+  startTime?: string | undefined;
   /** End time of the operation */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Error details. */
-  error?: StorageSyncApiError;
+  error?: StorageSyncApiError | undefined;
   /** Percent complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
 }
 export interface PostCloudEndpointBackupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1798,21 +1811,21 @@ export interface PostCloudEndpointBackupRequest {
   /** Name of Cloud Endpoint object. */
   cloudEndpointName: string;
   /** Azure File Share. */
-  azureFileShare?: string;
+  azureFileShare?: string | undefined;
 }
 /** Post Backup Response Properties object. */
 export interface PostBackupResponseProperties {
   /** cloud endpoint Name. */
-  cloudEndpointName?: string;
+  cloudEndpointName?: string | undefined;
 }
 /** Post Backup Response */
 export interface PostBackupResponse {
   /** Post Backup Response Properties */
-  backupMetadata?: PostBackupResponseProperties;
+  backupMetadata?: PostBackupResponseProperties | undefined;
   /** Operation Status Location URI */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Pre Restore restore file spec array. */
 export type RestoreCloudEndpointsPreRequestRestoreFileSpecList = Array<RestoreFileSpec>;
@@ -1828,29 +1841,29 @@ export interface RestoreCloudEndpointsPreRequest {
   /** Name of Cloud Endpoint object. */
   cloudEndpointName: string;
   /** Pre Restore partition. */
-  partition?: string;
+  partition?: string | undefined;
   /** Pre Restore replica group. */
-  replicaGroup?: string;
+  replicaGroup?: string | undefined;
   /** Pre Restore request id. */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Pre Restore Azure file share uri. */
-  azureFileShareUri?: string;
+  azureFileShareUri?: string | undefined;
   /** Pre Restore Azure status. */
-  status?: string;
+  status?: string | undefined;
   /** Pre Restore Azure source azure file share uri. */
-  sourceAzureFileShareUri?: string;
+  sourceAzureFileShareUri?: string | undefined;
   /** Pre Restore backup metadata property bag. */
-  backupMetadataPropertyBag?: string;
+  backupMetadataPropertyBag?: string | undefined;
   /** Pre Restore restore file spec array. */
-  restoreFileSpec?: RestoreCloudEndpointsPreRequestRestoreFileSpecList;
+  restoreFileSpec?: RestoreCloudEndpointsPreRequestRestoreFileSpecList | undefined;
   /** Pre Restore pause wait for sync drain time period in seconds. */
-  pauseWaitForSyncDrainTimePeriodInSeconds?: number;
+  pauseWaitForSyncDrainTimePeriodInSeconds?: number | undefined;
 }
 export interface RestoreCloudEndpointsPreResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ServerEndpointsRecallActionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1864,15 +1877,15 @@ export interface ServerEndpointsRecallActionRequest {
   /** Name of Server Endpoint object. */
   serverEndpointName: string;
   /** Pattern of the files. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Recall path. */
-  recallPath?: string;
+  recallPath?: string | undefined;
 }
 export interface ServerEndpointsRecallActionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Change Detection Mode. Applies to a directory specified in directoryPath parameter. */
 export type ChangeDetectionMode = "Default" | "Recursive";
@@ -1890,17 +1903,17 @@ export interface TriggerCloudEndpointChangeDetectionRequest {
   /** Name of Cloud Endpoint object. */
   cloudEndpointName: string;
   /** Relative path to a directory Azure File share for which change detection is to be performed. */
-  directoryPath?: string;
+  directoryPath?: string | undefined;
   /** Change Detection Mode. Applies to a directory specified in directoryPath parameter. */
-  changeDetectionMode?: ChangeDetectionMode | (string & {});
+  changeDetectionMode?: ChangeDetectionMode | (string & {}) | undefined;
   /** Array of relative paths on the Azure File share to be included in the change detection. Can be files and directories. */
-  paths?: TriggerCloudEndpointChangeDetectionRequestPathsList;
+  paths?: TriggerCloudEndpointChangeDetectionRequestPathsList | undefined;
 }
 export interface TriggerCloudEndpointChangeDetectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface TriggerRegisteredServerRolloverRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1912,18 +1925,18 @@ export interface TriggerRegisteredServerRolloverRequest {
   /** GUID identifying the on-premises server. */
   serverId: string;
   /** Certificate Data */
-  serverCertificate?: string;
+  serverCertificate?: string | undefined;
 }
 export interface TriggerRegisteredServerRolloverResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** CloudEndpoint Update Properties object. */
 export interface CloudEndpointUpdateProperties {
   /** The interval for enumerating changes on the cloud endpoint. */
-  changeEnumerationIntervalDays?: number;
+  changeEnumerationIntervalDays?: number | undefined;
 }
 export interface UpdateCloudEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1937,32 +1950,32 @@ export interface UpdateCloudEndpointRequest {
   /** Name of Cloud Endpoint object. */
   cloudEndpointName: string;
   /** The properties of the cloud endpoint. */
-  properties?: CloudEndpointUpdateProperties;
+  properties?: CloudEndpointUpdateProperties | undefined;
 }
 export interface UpdateCloudEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Cloud Endpoint properties. */
-  properties?: CloudEndpointProperties;
+  properties?: CloudEndpointProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** RegisteredServer Update Properties object. */
 export interface RegisteredServerUpdateProperties {
   /** Apply server with newly discovered ApplicationId if available. */
-  identity?: boolean;
+  identity?: boolean | undefined;
   /** Apply server with new ServicePrincipal Id */
-  applicationId?: string;
+  applicationId?: string | undefined;
 }
 export interface UpdateRegisteredServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1974,25 +1987,25 @@ export interface UpdateRegisteredServerRequest {
   /** GUID identifying the on-premises server. */
   serverId: string;
   /** The parameters used to update the registered server. */
-  properties?: RegisteredServerUpdateProperties;
+  properties?: RegisteredServerUpdateProperties | undefined;
 }
 export interface UpdateRegisteredServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** RegisteredServer properties. */
-  properties?: RegisteredServerProperties;
+  properties?: RegisteredServerProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Policy for enabling follow-the-sun business models: link local cache to cloud behavior to pre-populate before local access. */
 export type ServerEndpointUpdatePropertiesLocalCacheMode =
@@ -2001,17 +2014,17 @@ export type ServerEndpointUpdatePropertiesLocalCacheMode =
 /** ServerEndpoint Update Properties object. */
 export interface ServerEndpointUpdateProperties {
   /** Cloud Tiering. */
-  cloudTiering?: FeatureStatus | (string & {});
+  cloudTiering?: FeatureStatus | (string & {}) | undefined;
   /** Level of free space to be maintained by Cloud Tiering if it is enabled. */
-  volumeFreeSpacePercent?: number;
+  volumeFreeSpacePercent?: number | undefined;
   /** Tier files older than days. */
-  tierFilesOlderThanDays?: number;
+  tierFilesOlderThanDays?: number | undefined;
   /** Offline data transfer */
-  offlineDataTransfer?: FeatureStatus | (string & {});
+  offlineDataTransfer?: FeatureStatus | (string & {}) | undefined;
   /** Offline data transfer share name */
-  offlineDataTransferShareName?: string;
+  offlineDataTransferShareName?: string | undefined;
   /** Policy for enabling follow-the-sun business models: link local cache to cloud behavior to pre-populate before local access. */
-  localCacheMode?: ServerEndpointUpdatePropertiesLocalCacheMode | (string & {});
+  localCacheMode?: ServerEndpointUpdatePropertiesLocalCacheMode | (string & {}) | undefined;
 }
 export interface UpdateServerEndpointRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2025,25 +2038,25 @@ export interface UpdateServerEndpointRequest {
   /** Name of Server Endpoint object. */
   serverEndpointName: string;
   /** The properties of the server endpoint. */
-  properties?: ServerEndpointUpdateProperties;
+  properties?: ServerEndpointUpdateProperties | undefined;
 }
 export interface UpdateServerEndpointResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Server Endpoint properties. */
-  properties?: ServerEndpointProperties;
+  properties?: ServerEndpointProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** The user-specified tags associated with the storage sync service. */
 export type UpdateStorageSyncServiceRequestTagsMap = { [key: string]: string | undefined };
@@ -2059,11 +2072,11 @@ export interface UpdateStorageSyncServiceRequest {
   /** Name of Storage Sync Service resource. */
   storageSyncServiceName: string;
   /** The user-specified tags associated with the storage sync service. */
-  tags?: UpdateStorageSyncServiceRequestTagsMap;
+  tags?: UpdateStorageSyncServiceRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateStorageSyncServiceRequestIdentity;
+  identity?: CreateStorageSyncServiceRequestIdentity | undefined;
   /** The properties of the server endpoint. */
-  properties?: StorageSyncServiceCreateParametersProperties;
+  properties?: StorageSyncServiceCreateParametersProperties | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageSyncServiceResponseTagsMap = { [key: string]: string | undefined };
@@ -2071,27 +2084,27 @@ export type UpdateStorageSyncServiceResponseTagsMap = { [key: string]: string | 
 export type UpdateStorageSyncServiceResponseIdentity = CreateStorageSyncServiceResponseIdentity;
 export interface UpdateStorageSyncServiceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateStorageSyncServiceResponseTagsMap;
+  tags?: UpdateStorageSyncServiceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Storage Sync Service properties. */
-  properties?: StorageSyncServiceProperties;
+  properties?: StorageSyncServiceProperties | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateStorageSyncServiceResponseIdentity;
+  identity?: CreateStorageSyncServiceResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type AbortWorkflowError = AzureOpError;
 /** Abort the given workflow. */

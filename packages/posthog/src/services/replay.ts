@@ -59,21 +59,21 @@ export interface CreateSessionRecordingPlaylistRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Human-readable name for the playlist. */
-  name?: string | null;
-  derived_name?: string | null;
+  name?: string | null | undefined;
+  derived_name?: string | null | undefined;
   /** Optional description of the playlist's purpose or contents. */
-  description?: string;
+  description?: string | undefined;
   /** Whether this playlist is pinned to the top of the list. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** Set to true to soft-delete the playlist. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** JSON object with recording filter criteria. Only used when type is 'filters'. Defines which recordings match this saved filter view. When updating a filters-type playlist, you must include the existing filters alongside any other changes -- omitting filters will be treated as removing them. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Playlist type: 'collection' for manually curated recordings, 'filters' for saved filter views. Required on create, cannot be changed after. * `collection` - Collection * `filters` - Filters */
-  type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null;
-  _create_in_folder?: string;
+  type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null | undefined;
+  _create_in_folder?: string | undefined;
   /** How the PostHog app created the playlist, for product analytics. Not stored. * `new` - new * `pin` - pin * `duplicate` - duplicate */
-  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {});
+  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {}) | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -90,15 +90,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 export type SessionRecordingPlaylistOutputRecordingsCountsValueValue = number | boolean;
 export type SessionRecordingPlaylistOutputRecordingsCountsValueMap = {
@@ -108,28 +108,28 @@ export type SessionRecordingPlaylistOutputRecordingsCountsMap = {
   [key: string]: SessionRecordingPlaylistOutputRecordingsCountsValueMap | undefined;
 };
 export interface SessionRecordingPlaylistOutput {
-  id?: number;
-  short_id?: string;
+  id?: number | undefined;
+  short_id?: string | undefined;
   /** Human-readable name for the playlist. */
-  name?: string | null;
-  derived_name?: string | null;
+  name?: string | null | undefined;
+  derived_name?: string | null | undefined;
   /** Optional description of the playlist's purpose or contents. */
-  description?: string;
+  description?: string | undefined;
   /** Whether this playlist is pinned to the top of the list. */
-  pinned?: boolean;
-  created_at?: string;
-  created_by?: UserBasic | null;
+  pinned?: boolean | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
   /** Set to true to soft-delete the playlist. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** JSON object with recording filter criteria. Only used when type is 'filters'. Defines which recordings match this saved filter view. When updating a filters-type playlist, you must include the existing filters alongside any other changes -- omitting filters will be treated as removing them. */
-  filters?: unknown;
-  last_modified_at?: string;
-  last_modified_by?: UserBasic | null;
-  recordings_counts?: SessionRecordingPlaylistOutputRecordingsCountsMap;
+  filters?: unknown | undefined;
+  last_modified_at?: string | undefined;
+  last_modified_by?: UserBasic | null | undefined;
+  recordings_counts?: SessionRecordingPlaylistOutputRecordingsCountsMap | undefined;
   /** Playlist type: 'collection' for manually curated recordings, 'filters' for saved filter views. Required on create, cannot be changed after. * `collection` - Collection * `filters` - Filters */
-  type?: SessionRecordingPlaylistPlaylistTypeEnum | null;
+  type?: SessionRecordingPlaylistPlaylistTypeEnum | null | undefined;
   /** Return whether this is a synthetic playlist */
-  is_synthetic?: boolean;
+  is_synthetic?: boolean | undefined;
 }
 export interface CreateSessionRecordingPlaylistsRecordingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -137,21 +137,21 @@ export interface CreateSessionRecordingPlaylistsRecordingRequest {
   short_id: string;
   session_recording_id: string;
   /** Human-readable name for the playlist. */
-  name?: string | null;
-  derived_name?: string | null;
+  name?: string | null | undefined;
+  derived_name?: string | null | undefined;
   /** Optional description of the playlist's purpose or contents. */
-  description?: string;
+  description?: string | undefined;
   /** Whether this playlist is pinned to the top of the list. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** Set to true to soft-delete the playlist. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** JSON object with recording filter criteria. Only used when type is 'filters'. Defines which recordings match this saved filter view. When updating a filters-type playlist, you must include the existing filters alongside any other changes -- omitting filters will be treated as removing them. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Playlist type: 'collection' for manually curated recordings, 'filters' for saved filter views. Required on create, cannot be changed after. * `collection` - Collection * `filters` - Filters */
-  type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null;
-  _create_in_folder?: string;
+  type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null | undefined;
+  _create_in_folder?: string | undefined;
   /** How the PostHog app created the playlist, for product analytics. Not stored. * `new` - new * `pin` - pin * `duplicate` - duplicate */
-  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {});
+  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {}) | undefined;
 }
 export interface CreateSessionRecordingPlaylistsRecordingResponse {}
 export interface GetSessionRecordingRequest {
@@ -164,56 +164,56 @@ export type SessionRecordingViewersList = Array<string>;
 export type MinimalPersonDistinctIdsList = Array<string>;
 export interface MinimalPerson {
   /** Numeric person ID. */
-  id?: number;
+  id?: number | undefined;
   /** Display name derived from person properties (email, name, or username). */
-  name?: string;
-  distinct_ids?: MinimalPersonDistinctIdsList;
+  name?: string | undefined;
+  distinct_ids?: MinimalPersonDistinctIdsList | undefined;
   /** Key-value map of person properties set via $set and $set_once operations. */
-  properties?: unknown;
+  properties?: unknown | undefined;
   /** When this person was first seen (ISO 8601). */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Unique identifier (UUID) for this person. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** Timestamp of the last event from this person, or null. */
-  last_seen_at?: string | null;
+  last_seen_at?: string | null | undefined;
 }
 export type SessionRecordingExternalReferencesItemMap = { [key: string]: unknown | undefined };
 /** Load external references (linked issues) for this recording */
 export type SessionRecordingExternalReferencesList =
   Array<SessionRecordingExternalReferencesItemMap>;
 export interface SessionRecording {
-  id?: string;
-  distinct_id?: string | null;
-  viewed?: boolean;
-  viewers?: SessionRecordingViewersList;
-  recording_duration?: number;
-  active_seconds?: number | null;
-  inactive_seconds?: number | null;
-  start_time?: string | null;
-  end_time?: string | null;
-  click_count?: number | null;
-  keypress_count?: number | null;
-  mouse_activity_count?: number | null;
-  console_log_count?: number | null;
-  console_warn_count?: number | null;
-  console_error_count?: number | null;
-  start_url?: string | null;
-  person?: MinimalPerson;
-  retention_period_days?: number | null;
-  expiry_time?: string | null;
-  recording_ttl?: number | null;
-  snapshot_source?: string | null;
-  snapshot_library?: string | null;
-  ongoing?: boolean;
-  activity_score?: number | null;
+  id?: string | undefined;
+  distinct_id?: string | null | undefined;
+  viewed?: boolean | undefined;
+  viewers?: SessionRecordingViewersList | undefined;
+  recording_duration?: number | undefined;
+  active_seconds?: number | null | undefined;
+  inactive_seconds?: number | null | undefined;
+  start_time?: string | null | undefined;
+  end_time?: string | null | undefined;
+  click_count?: number | null | undefined;
+  keypress_count?: number | null | undefined;
+  mouse_activity_count?: number | null | undefined;
+  console_log_count?: number | null | undefined;
+  console_warn_count?: number | null | undefined;
+  console_error_count?: number | null | undefined;
+  start_url?: string | null | undefined;
+  person?: MinimalPerson | undefined;
+  retention_period_days?: number | null | undefined;
+  expiry_time?: string | null | undefined;
+  recording_ttl?: number | null | undefined;
+  snapshot_source?: string | null | undefined;
+  snapshot_library?: string | null | undefined;
+  ongoing?: boolean | undefined;
+  activity_score?: number | null | undefined;
   /** Load external references (linked issues) for this recording */
-  external_references?: SessionRecordingExternalReferencesList;
+  external_references?: SessionRecordingExternalReferencesList | undefined;
   /** Whether this recording matched the filters of the listing query that returned it. False only when a recording requested via session_recording_id was included despite not matching the filters. */
-  matches_filters?: boolean;
+  matches_filters?: boolean | undefined;
   /** Total stored size of the recording's snapshot data in bytes. Only populated when the recording's metadata is loaded, e.g. on retrieve; null in list responses. */
-  total_size?: number | null;
+  total_size?: number | null | undefined;
   /** Number of captured rrweb events in the recording. Only populated when the recording's metadata is loaded, e.g. on retrieve; null in list responses. */
-  event_count?: number | null;
+  event_count?: number | null | undefined;
 }
 export interface GetSessionRecordingPlaylistRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -229,35 +229,35 @@ export interface GetSessionRecordingPlaylistsRecordingResponse {}
 export interface ListSessionRecordingPlaylistsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  created_by?: number;
+  created_by?: number | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
-  short_id?: string;
+  offset?: number | undefined;
+  short_id?: string | undefined;
 }
 export type PaginatedSessionRecordingPlaylistListOutputResultsList =
   Array<SessionRecordingPlaylistOutput>;
 export interface PaginatedSessionRecordingPlaylistListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedSessionRecordingPlaylistListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedSessionRecordingPlaylistListOutputResultsList | undefined;
 }
 export interface ListSessionRecordingsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedSessionRecordingListResultsList = Array<SessionRecording>;
 export interface PaginatedSessionRecordingList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedSessionRecordingListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedSessionRecordingListResultsList | undefined;
 }
 export interface SessionRecordingPlaylistsDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -280,7 +280,7 @@ export interface SessionRecordingsBulkDeleteCreateRequest {
   /** Session IDs of the recordings to delete (max 100 per call). */
   session_recording_ids: SessionRecordingsBulkDeleteCreateRequestSessionRecordingIdsList;
   /** Earliest start time of the recordings, as an ISO date or a relative offset like '-30d'. Providing this narrows the lookup and speeds up the request; defaults to the project's recording retention period. */
-  date_from?: string | null;
+  date_from?: string | null | undefined;
 }
 /** Session IDs that were found but could not be deleted. These can be retried. */
 export type SessionRecordingBulkDeleteResponseFailedIdsList = Array<string>;
@@ -303,63 +303,63 @@ export interface SessionRecordingsDestroyRequest {
 export interface SessionRecordingsDestroyResponse {}
 export interface MinimalPersonInput {
   /** Key-value map of person properties set via $set and $set_once operations. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 export interface UpdateSessionRecordingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this session recording. */
   id: string;
-  person?: MinimalPersonInput;
+  person?: MinimalPersonInput | undefined;
 }
 export interface UpdateSessionRecordingPlaylistRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
   /** Human-readable name for the playlist. */
-  name?: string | null;
-  derived_name?: string | null;
+  name?: string | null | undefined;
+  derived_name?: string | null | undefined;
   /** Optional description of the playlist's purpose or contents. */
-  description?: string;
+  description?: string | undefined;
   /** Whether this playlist is pinned to the top of the list. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** Set to true to soft-delete the playlist. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** JSON object with recording filter criteria. Only used when type is 'filters'. Defines which recordings match this saved filter view. When updating a filters-type playlist, you must include the existing filters alongside any other changes -- omitting filters will be treated as removing them. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Playlist type: 'collection' for manually curated recordings, 'filters' for saved filter views. Required on create, cannot be changed after. * `collection` - Collection * `filters` - Filters */
-  type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null;
-  _create_in_folder?: string;
+  type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null | undefined;
+  _create_in_folder?: string | undefined;
   /** How the PostHog app created the playlist, for product analytics. Not stored. * `new` - new * `pin` - pin * `duplicate` - duplicate */
-  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {});
+  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {}) | undefined;
 }
 export interface UpdateSessionRecordingPlaylistsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   short_id: string;
   /** Human-readable name for the playlist. */
-  name?: string | null;
-  derived_name?: string | null;
+  name?: string | null | undefined;
+  derived_name?: string | null | undefined;
   /** Optional description of the playlist's purpose or contents. */
-  description?: string;
+  description?: string | undefined;
   /** Whether this playlist is pinned to the top of the list. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** Set to true to soft-delete the playlist. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** JSON object with recording filter criteria. Only used when type is 'filters'. Defines which recordings match this saved filter view. When updating a filters-type playlist, you must include the existing filters alongside any other changes -- omitting filters will be treated as removing them. */
-  filters?: unknown;
+  filters?: unknown | undefined;
   /** Playlist type: 'collection' for manually curated recordings, 'filters' for saved filter views. Required on create, cannot be changed after. * `collection` - Collection * `filters` - Filters */
-  type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null;
-  _create_in_folder?: string;
+  type?: SessionRecordingPlaylistPlaylistTypeEnum | (string & {}) | null | undefined;
+  _create_in_folder?: string | undefined;
   /** How the PostHog app created the playlist, for product analytics. Not stored. * `new` - new * `pin` - pin * `duplicate` - duplicate */
-  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {});
+  creation_method?: SessionRecordingPlaylistCreationMethodEnum | (string & {}) | undefined;
 }
 export interface UpdateSessionRecordingsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A UUID string identifying this session recording. */
   id: string;
-  person?: MinimalPersonInput;
+  person?: MinimalPersonInput | undefined;
 }
 export type CreateSessionRecordingPlaylistError =
   | BadRequest

@@ -215,7 +215,7 @@ export type LinkId = string;
 export type ClientToken = string;
 export interface AcceptAccountLinkInvitationRequest {
   LinkId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export type AccountLinkStatusEnum =
   | "LINKED"
@@ -226,13 +226,13 @@ export type AccountLinkStatusEnum =
   | (string & {});
 export type AwsAccount = string;
 export interface AccountLink {
-  AccountLinkId?: string;
-  AccountLinkStatus?: AccountLinkStatusEnum;
-  SourceAccountId?: string;
-  TargetAccountId?: string;
+  AccountLinkId?: string | undefined;
+  AccountLinkStatus?: AccountLinkStatusEnum | undefined;
+  SourceAccountId?: string | undefined;
+  TargetAccountId?: string | undefined;
 }
 export interface AcceptAccountLinkInvitationResult {
-  AccountLink?: AccountLink;
+  AccountLink?: AccountLink | undefined;
 }
 export type ConnectionAliasId = string;
 export type NonEmptyString = string;
@@ -242,7 +242,7 @@ export interface AssociateConnectionAliasRequest {
 }
 export type ConnectionIdentifier = string;
 export interface AssociateConnectionAliasResult {
-  ConnectionIdentifier?: string;
+  ConnectionIdentifier?: string | undefined;
 }
 export type DirectoryId = string;
 export type IpGroupId = string;
@@ -280,26 +280,26 @@ export type AssociationErrorCode =
   | (string & {});
 export type String2048 = string;
 export interface AssociationStateReason {
-  ErrorCode?: AssociationErrorCode;
-  ErrorMessage?: string;
+  ErrorCode?: AssociationErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export interface WorkspaceResourceAssociation {
-  AssociatedResourceId?: string;
-  AssociatedResourceType?: WorkSpaceAssociatedResourceType;
-  Created?: Date;
-  LastUpdatedTime?: Date;
-  State?: AssociationState;
-  StateReason?: AssociationStateReason;
-  WorkspaceId?: string;
+  AssociatedResourceId?: string | undefined;
+  AssociatedResourceType?: WorkSpaceAssociatedResourceType | undefined;
+  Created?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  State?: AssociationState | undefined;
+  StateReason?: AssociationStateReason | undefined;
+  WorkspaceId?: string | undefined;
 }
 export interface AssociateWorkspaceApplicationResult {
-  Association?: WorkspaceResourceAssociation;
+  Association?: WorkspaceResourceAssociation | undefined;
 }
 export type IpRule = string;
 export type IpRuleDesc = string;
 export interface IpRuleItem {
-  ipRule?: string;
-  ruleDesc?: string;
+  ipRule?: string | undefined;
+  ruleDesc?: string | undefined;
 }
 export type IpRuleList = IpRuleItem[];
 export interface AuthorizeIpRulesRequest {
@@ -315,25 +315,25 @@ export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
   Key: string;
-  Value?: string;
+  Value?: string | undefined;
 }
 export type TagList = Tag[];
 export interface CopyWorkspaceImageRequest {
   Name: string;
-  Description?: string;
+  Description?: string | undefined;
   SourceImageId: string;
   SourceRegion: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CopyWorkspaceImageResult {
-  ImageId?: string;
+  ImageId?: string | undefined;
 }
 export interface CreateAccountLinkInvitationRequest {
   TargetAccountId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface CreateAccountLinkInvitationResult {
-  AccountLink?: AccountLink;
+  AccountLink?: AccountLink | undefined;
 }
 export type AddInName = string;
 export type AddInUrl = string;
@@ -344,35 +344,35 @@ export interface CreateConnectClientAddInRequest {
 }
 export type AmazonUuid = string;
 export interface CreateConnectClientAddInResult {
-  AddInId?: string;
+  AddInId?: string | undefined;
 }
 export type ConnectionString = string;
 export interface CreateConnectionAliasRequest {
   ConnectionString: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateConnectionAliasResult {
-  AliasId?: string;
+  AliasId?: string | undefined;
 }
 export type IpGroupName = string;
 export type IpGroupDesc = string;
 export interface CreateIpGroupRequest {
   GroupName: string;
-  GroupDesc?: string;
-  UserRules?: IpRuleItem[];
-  Tags?: Tag[];
+  GroupDesc?: string | undefined;
+  UserRules?: IpRuleItem[] | undefined;
+  Tags?: Tag[] | undefined;
 }
 export interface CreateIpGroupResult {
-  GroupId?: string;
+  GroupId?: string | undefined;
 }
 export type VolumeEncryptionKey = string;
 export type DataReplication = "NO_REPLICATION" | "PRIMARY_AS_SOURCE" | (string & {});
 export interface StandbyWorkspace {
   PrimaryWorkspaceId: string;
-  VolumeEncryptionKey?: string;
+  VolumeEncryptionKey?: string | undefined;
   DirectoryId: string;
-  Tags?: Tag[];
-  DataReplication?: DataReplication;
+  Tags?: Tag[] | undefined;
+  DataReplication?: DataReplication | undefined;
 }
 export type StandbyWorkspacesList = StandbyWorkspace[];
 export interface CreateStandbyWorkspacesRequest {
@@ -382,9 +382,9 @@ export interface CreateStandbyWorkspacesRequest {
 export type WorkspaceErrorCode = string;
 export type Description = string;
 export interface FailedCreateStandbyWorkspacesRequest {
-  StandbyWorkspaceRequest?: StandbyWorkspace;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  StandbyWorkspaceRequest?: StandbyWorkspace | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type FailedCreateStandbyWorkspacesRequestList = FailedCreateStandbyWorkspacesRequest[];
 export type UserName = string;
@@ -408,15 +408,15 @@ export type WorkspaceState =
   | "ERROR"
   | (string & {});
 export interface PendingCreateStandbyWorkspacesRequest {
-  UserName?: string;
-  DirectoryId?: string;
-  State?: WorkspaceState;
-  WorkspaceId?: string;
+  UserName?: string | undefined;
+  DirectoryId?: string | undefined;
+  State?: WorkspaceState | undefined;
+  WorkspaceId?: string | undefined;
 }
 export type PendingCreateStandbyWorkspacesRequestList = PendingCreateStandbyWorkspacesRequest[];
 export interface CreateStandbyWorkspacesResult {
-  FailedStandbyRequests?: FailedCreateStandbyWorkspacesRequest[];
-  PendingStandbyRequests?: PendingCreateStandbyWorkspacesRequest[];
+  FailedStandbyRequests?: FailedCreateStandbyWorkspacesRequest[] | undefined;
+  PendingStandbyRequests?: PendingCreateStandbyWorkspacesRequest[] | undefined;
 }
 export interface CreateTagsRequest {
   ResourceId: string;
@@ -427,10 +427,10 @@ export interface CreateUpdatedWorkspaceImageRequest {
   Name: string;
   Description: string;
   SourceImageId: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateUpdatedWorkspaceImageResult {
-  ImageId?: string;
+  ImageId?: string | undefined;
 }
 export type WorkspaceBundleName = string;
 export type WorkspaceBundleDescription = string;
@@ -464,7 +464,7 @@ export type Compute =
   | "GRAPHICS_G7_12XLARGE"
   | (string & {});
 export interface ComputeType {
-  Name?: Compute;
+  Name?: Compute | undefined;
 }
 export interface UserStorage {
   Capacity: string;
@@ -478,51 +478,51 @@ export interface CreateWorkspaceBundleRequest {
   ImageId: string;
   ComputeType: ComputeType;
   UserStorage: UserStorage;
-  RootStorage?: RootStorage;
-  Tags?: Tag[];
+  RootStorage?: RootStorage | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type BundleId = string;
 export type BundleOwner = string;
 export type WorkspaceBundleState = "AVAILABLE" | "PENDING" | "ERROR" | (string & {});
 export type BundleType = "REGULAR" | "STANDBY" | (string & {});
 export interface WorkspaceBundle {
-  BundleId?: string;
-  Name?: string;
-  Owner?: string;
-  Description?: string;
-  ImageId?: string;
-  RootStorage?: RootStorage;
-  UserStorage?: UserStorage;
-  ComputeType?: ComputeType;
-  LastUpdatedTime?: Date;
-  CreationTime?: Date;
-  State?: WorkspaceBundleState;
-  BundleType?: BundleType;
+  BundleId?: string | undefined;
+  Name?: string | undefined;
+  Owner?: string | undefined;
+  Description?: string | undefined;
+  ImageId?: string | undefined;
+  RootStorage?: RootStorage | undefined;
+  UserStorage?: UserStorage | undefined;
+  ComputeType?: ComputeType | undefined;
+  LastUpdatedTime?: Date | undefined;
+  CreationTime?: Date | undefined;
+  State?: WorkspaceBundleState | undefined;
+  BundleType?: BundleType | undefined;
 }
 export interface CreateWorkspaceBundleResult {
-  WorkspaceBundle?: WorkspaceBundle;
+  WorkspaceBundle?: WorkspaceBundle | undefined;
 }
 export interface CreateWorkspaceImageRequest {
   Name: string;
   Description: string;
   WorkspaceId: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type OperatingSystemType = "WINDOWS" | "LINUX" | (string & {});
 export interface OperatingSystem {
-  Type?: OperatingSystemType;
+  Type?: OperatingSystemType | undefined;
 }
 export type WorkspaceImageState = "AVAILABLE" | "PENDING" | "ERROR" | (string & {});
 export type WorkspaceImageRequiredTenancy = "DEFAULT" | "DEDICATED" | (string & {});
 export interface CreateWorkspaceImageResult {
-  ImageId?: string;
-  Name?: string;
-  Description?: string;
-  OperatingSystem?: OperatingSystem;
-  State?: WorkspaceImageState;
-  RequiredTenancy?: WorkspaceImageRequiredTenancy;
-  Created?: Date;
-  OwnerAccountId?: string;
+  ImageId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  State?: WorkspaceImageState | undefined;
+  RequiredTenancy?: WorkspaceImageRequiredTenancy | undefined;
+  Created?: Date | undefined;
+  OwnerAccountId?: string | undefined;
 }
 export type RunningMode = "AUTO_STOP" | "ALWAYS_ON" | "MANUAL" | (string & {});
 export type RunningModeAutoStopTimeoutInMinutes = number;
@@ -550,18 +550,18 @@ export type AGAModeForWorkSpaceEnum = "ENABLED_AUTO" | "DISABLED" | "INHERITED" 
 export type AGAPreferredProtocolForWorkSpace = "TCP" | "NONE" | "INHERITED" | (string & {});
 export interface GlobalAcceleratorForWorkSpace {
   Mode: AGAModeForWorkSpaceEnum;
-  PreferredProtocol?: AGAPreferredProtocolForWorkSpace;
+  PreferredProtocol?: AGAPreferredProtocolForWorkSpace | undefined;
 }
 export interface WorkspaceProperties {
-  RunningMode?: RunningMode;
-  RunningModeAutoStopTimeoutInMinutes?: number;
-  RootVolumeSizeGib?: number;
-  UserVolumeSizeGib?: number;
-  ComputeTypeName?: Compute;
-  Protocols?: Protocol[];
-  OperatingSystemName?: OperatingSystemName;
-  GlobalAccelerator?: GlobalAcceleratorForWorkSpace;
-  NestedVirtualizationEnabled?: boolean;
+  RunningMode?: RunningMode | undefined;
+  RunningModeAutoStopTimeoutInMinutes?: number | undefined;
+  RootVolumeSizeGib?: number | undefined;
+  UserVolumeSizeGib?: number | undefined;
+  ComputeTypeName?: Compute | undefined;
+  Protocols?: Protocol[] | undefined;
+  OperatingSystemName?: OperatingSystemName | undefined;
+  GlobalAccelerator?: GlobalAcceleratorForWorkSpace | undefined;
+  NestedVirtualizationEnabled?: boolean | undefined;
 }
 export type WorkspaceName = string;
 export type Ipv6Address = string;
@@ -569,13 +569,13 @@ export interface WorkspaceRequest {
   DirectoryId: string;
   UserName: string;
   BundleId: string;
-  VolumeEncryptionKey?: string;
-  UserVolumeEncryptionEnabled?: boolean;
-  RootVolumeEncryptionEnabled?: boolean;
-  WorkspaceProperties?: WorkspaceProperties;
-  Tags?: Tag[];
-  WorkspaceName?: string;
-  Ipv6Address?: string;
+  VolumeEncryptionKey?: string | undefined;
+  UserVolumeEncryptionEnabled?: boolean | undefined;
+  RootVolumeEncryptionEnabled?: boolean | undefined;
+  WorkspaceProperties?: WorkspaceProperties | undefined;
+  Tags?: Tag[] | undefined;
+  WorkspaceName?: string | undefined;
+  Ipv6Address?: string | undefined;
 }
 export type WorkspaceRequestList = WorkspaceRequest[];
 export interface CreateWorkspacesRequest {
@@ -583,9 +583,9 @@ export interface CreateWorkspacesRequest {
 }
 export type ErrorType = string;
 export interface FailedCreateWorkspaceRequest {
-  WorkspaceRequest?: WorkspaceRequest;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  WorkspaceRequest?: WorkspaceRequest | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type FailedCreateWorkspaceRequests = FailedCreateWorkspaceRequest[];
 export type IpAddress = string;
@@ -604,54 +604,54 @@ export type ModificationStateEnum =
   | "UPDATE_FAILED"
   | (string & {});
 export interface ModificationState {
-  Resource?: ModificationResourceEnum;
-  State?: ModificationStateEnum;
+  Resource?: ModificationResourceEnum | undefined;
+  State?: ModificationStateEnum | undefined;
 }
 export type ModificationStateList = ModificationState[];
 export type StandbyWorkspaceRelationshipType = "PRIMARY" | "STANDBY" | (string & {});
 export interface RelatedWorkspaceProperties {
-  WorkspaceId?: string;
-  Region?: string;
-  State?: WorkspaceState;
-  Type?: StandbyWorkspaceRelationshipType;
+  WorkspaceId?: string | undefined;
+  Region?: string | undefined;
+  State?: WorkspaceState | undefined;
+  Type?: StandbyWorkspaceRelationshipType | undefined;
 }
 export type RelatedWorkspaces = RelatedWorkspaceProperties[];
 export interface DataReplicationSettings {
-  DataReplication?: DataReplication;
-  RecoverySnapshotTime?: Date;
+  DataReplication?: DataReplication | undefined;
+  RecoverySnapshotTime?: Date | undefined;
 }
 export interface StandbyWorkspacesProperties {
-  StandbyWorkspaceId?: string;
-  DataReplication?: DataReplication;
-  RecoverySnapshotTime?: Date;
+  StandbyWorkspaceId?: string | undefined;
+  DataReplication?: DataReplication | undefined;
+  RecoverySnapshotTime?: Date | undefined;
 }
 export type StandbyWorkspacesPropertiesList = StandbyWorkspacesProperties[];
 export interface Workspace {
-  WorkspaceId?: string;
-  DirectoryId?: string;
-  UserName?: string;
-  IpAddress?: string;
-  Ipv6Address?: string;
-  State?: WorkspaceState;
-  BundleId?: string;
-  SubnetId?: string;
-  ErrorMessage?: string;
-  ErrorCode?: string;
-  ComputerName?: string;
-  VolumeEncryptionKey?: string;
-  UserVolumeEncryptionEnabled?: boolean;
-  RootVolumeEncryptionEnabled?: boolean;
-  WorkspaceName?: string;
-  WorkspaceProperties?: WorkspaceProperties;
-  ModificationStates?: ModificationState[];
-  RelatedWorkspaces?: RelatedWorkspaceProperties[];
-  DataReplicationSettings?: DataReplicationSettings;
-  StandbyWorkspacesProperties?: StandbyWorkspacesProperties[];
+  WorkspaceId?: string | undefined;
+  DirectoryId?: string | undefined;
+  UserName?: string | undefined;
+  IpAddress?: string | undefined;
+  Ipv6Address?: string | undefined;
+  State?: WorkspaceState | undefined;
+  BundleId?: string | undefined;
+  SubnetId?: string | undefined;
+  ErrorMessage?: string | undefined;
+  ErrorCode?: string | undefined;
+  ComputerName?: string | undefined;
+  VolumeEncryptionKey?: string | undefined;
+  UserVolumeEncryptionEnabled?: boolean | undefined;
+  RootVolumeEncryptionEnabled?: boolean | undefined;
+  WorkspaceName?: string | undefined;
+  WorkspaceProperties?: WorkspaceProperties | undefined;
+  ModificationStates?: ModificationState[] | undefined;
+  RelatedWorkspaces?: RelatedWorkspaceProperties[] | undefined;
+  DataReplicationSettings?: DataReplicationSettings | undefined;
+  StandbyWorkspacesProperties?: StandbyWorkspacesProperties[] | undefined;
 }
 export type WorkspaceList = Workspace[];
 export interface CreateWorkspacesResult {
-  FailedRequests?: FailedCreateWorkspaceRequest[];
-  PendingRequests?: Workspace[];
+  FailedRequests?: FailedCreateWorkspaceRequest[] | undefined;
+  PendingRequests?: Workspace[] | undefined;
 }
 export type WorkspacesPoolName = string;
 export type UpdateDescription = string;
@@ -663,15 +663,15 @@ export type ApplicationSettingsStatusEnum = "DISABLED" | "ENABLED" | (string & {
 export type SettingsGroup = string;
 export interface ApplicationSettingsRequest {
   Status: ApplicationSettingsStatusEnum;
-  SettingsGroup?: string;
+  SettingsGroup?: string | undefined;
 }
 export type DisconnectTimeoutInSeconds = number;
 export type IdleDisconnectTimeoutInSeconds = number;
 export type MaxUserDurationInSeconds = number;
 export interface TimeoutSettings {
-  DisconnectTimeoutInSeconds?: number;
-  IdleDisconnectTimeoutInSeconds?: number;
-  MaxUserDurationInSeconds?: number;
+  DisconnectTimeoutInSeconds?: number | undefined;
+  IdleDisconnectTimeoutInSeconds?: number | undefined;
+  MaxUserDurationInSeconds?: number | undefined;
 }
 export type PoolsRunningMode = "AUTO_STOP" | "ALWAYS_ON" | (string & {});
 export interface CreateWorkspacesPoolRequest {
@@ -680,10 +680,10 @@ export interface CreateWorkspacesPoolRequest {
   BundleId: string;
   DirectoryId: string;
   Capacity: Capacity;
-  Tags?: Tag[];
-  ApplicationSettings?: ApplicationSettingsRequest;
-  TimeoutSettings?: TimeoutSettings;
-  RunningMode?: PoolsRunningMode;
+  Tags?: Tag[] | undefined;
+  ApplicationSettings?: ApplicationSettingsRequest | undefined;
+  TimeoutSettings?: TimeoutSettings | undefined;
+  RunningMode?: PoolsRunningMode | undefined;
 }
 export type WorkspacesPoolId = string;
 export type ARN = string;
@@ -749,40 +749,40 @@ export type WorkspacesPoolErrorCode =
   | (string & {});
 export type ErrorMessage = string;
 export interface WorkspacesPoolError {
-  ErrorCode?: WorkspacesPoolErrorCode;
-  ErrorMessage?: string;
+  ErrorCode?: WorkspacesPoolErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type WorkspacesPoolErrors = WorkspacesPoolError[];
 export type S3BucketName = string;
 export interface ApplicationSettingsResponse {
   Status: ApplicationSettingsStatusEnum;
-  SettingsGroup?: string;
-  S3BucketName?: string;
+  SettingsGroup?: string | undefined;
+  S3BucketName?: string | undefined;
 }
 export interface WorkspacesPool {
   PoolId: string;
   PoolArn: string;
   CapacityStatus: CapacityStatus;
   PoolName: string;
-  Description?: string;
+  Description?: string | undefined;
   State: WorkspacesPoolState;
   CreatedAt: Date;
   BundleId: string;
   DirectoryId: string;
-  Errors?: WorkspacesPoolError[];
-  ApplicationSettings?: ApplicationSettingsResponse;
-  TimeoutSettings?: TimeoutSettings;
+  Errors?: WorkspacesPoolError[] | undefined;
+  ApplicationSettings?: ApplicationSettingsResponse | undefined;
+  TimeoutSettings?: TimeoutSettings | undefined;
   RunningMode: PoolsRunningMode;
 }
 export interface CreateWorkspacesPoolResult {
-  WorkspacesPool?: WorkspacesPool;
+  WorkspacesPool?: WorkspacesPool | undefined;
 }
 export interface DeleteAccountLinkInvitationRequest {
   LinkId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface DeleteAccountLinkInvitationResult {
-  AccountLink?: AccountLink;
+  AccountLink?: AccountLink | undefined;
 }
 export type ClientDeviceType =
   | "DeviceTypeWindows"
@@ -818,7 +818,7 @@ export interface DeleteTagsRequest {
 }
 export interface DeleteTagsResult {}
 export interface DeleteWorkspaceBundleRequest {
-  BundleId?: string;
+  BundleId?: string | undefined;
 }
 export interface DeleteWorkspaceBundleResult {}
 export interface DeleteWorkspaceImageRequest {
@@ -827,14 +827,14 @@ export interface DeleteWorkspaceImageRequest {
 export interface DeleteWorkspaceImageResult {}
 export interface DeployWorkspaceApplicationsRequest {
   WorkspaceId: string;
-  Force?: boolean;
+  Force?: boolean | undefined;
 }
 export type WorkspaceResourceAssociationList = WorkspaceResourceAssociation[];
 export interface WorkSpaceApplicationDeployment {
-  Associations?: WorkspaceResourceAssociation[];
+  Associations?: WorkspaceResourceAssociation[] | undefined;
 }
 export interface DeployWorkspaceApplicationsResult {
-  Deployment?: WorkSpaceApplicationDeployment;
+  Deployment?: WorkSpaceApplicationDeployment | undefined;
 }
 export interface DeregisterWorkspaceDirectoryRequest {
   DirectoryId: string;
@@ -846,14 +846,14 @@ export type DedicatedTenancyManagementCidrRange = string;
 export type DedicatedTenancyAccountType = "SOURCE_ACCOUNT" | "TARGET_ACCOUNT" | (string & {});
 export type Message = string;
 export interface DescribeAccountResult {
-  DedicatedTenancySupport?: DedicatedTenancySupportResultEnum;
-  DedicatedTenancyManagementCidrRange?: string;
-  DedicatedTenancyAccountType?: DedicatedTenancyAccountType;
-  Message?: string;
+  DedicatedTenancySupport?: DedicatedTenancySupportResultEnum | undefined;
+  DedicatedTenancyManagementCidrRange?: string | undefined;
+  DedicatedTenancyAccountType?: DedicatedTenancyAccountType | undefined;
+  Message?: string | undefined;
 }
 export type PaginationToken = string;
 export interface DescribeAccountModificationsRequest {
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type DedicatedTenancyModificationStateEnum =
   | "PENDING"
@@ -861,40 +861,40 @@ export type DedicatedTenancyModificationStateEnum =
   | "FAILED"
   | (string & {});
 export interface AccountModification {
-  ModificationState?: DedicatedTenancyModificationStateEnum;
-  DedicatedTenancySupport?: DedicatedTenancySupportResultEnum;
-  DedicatedTenancyManagementCidrRange?: string;
-  StartTime?: Date;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ModificationState?: DedicatedTenancyModificationStateEnum | undefined;
+  DedicatedTenancySupport?: DedicatedTenancySupportResultEnum | undefined;
+  DedicatedTenancyManagementCidrRange?: string | undefined;
+  StartTime?: Date | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type AccountModificationList = AccountModification[];
 export interface DescribeAccountModificationsResult {
-  AccountModifications?: AccountModification[];
-  NextToken?: string;
+  AccountModifications?: AccountModification[] | undefined;
+  NextToken?: string | undefined;
 }
 export type Limit = number;
 export type ApplicationAssociatedResourceType = "WORKSPACE" | "BUNDLE" | "IMAGE" | (string & {});
 export type ApplicationAssociatedResourceTypeList = ApplicationAssociatedResourceType[];
 export interface DescribeApplicationAssociationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
   ApplicationId: string;
   AssociatedResourceTypes: ApplicationAssociatedResourceType[];
 }
 export interface ApplicationResourceAssociation {
-  ApplicationId?: string;
-  AssociatedResourceId?: string;
-  AssociatedResourceType?: ApplicationAssociatedResourceType;
-  Created?: Date;
-  LastUpdatedTime?: Date;
-  State?: AssociationState;
-  StateReason?: AssociationStateReason;
+  ApplicationId?: string | undefined;
+  AssociatedResourceId?: string | undefined;
+  AssociatedResourceType?: ApplicationAssociatedResourceType | undefined;
+  Created?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  State?: AssociationState | undefined;
+  StateReason?: AssociationStateReason | undefined;
 }
 export type ApplicationResourceAssociationList = ApplicationResourceAssociation[];
 export interface DescribeApplicationAssociationsResult {
-  Associations?: ApplicationResourceAssociation[];
-  NextToken?: string;
+  Associations?: ApplicationResourceAssociation[] | undefined;
+  NextToken?: string | undefined;
 }
 export type WorkSpaceApplicationIdList = string[];
 export type ComputeList = Compute[];
@@ -902,13 +902,13 @@ export type WorkSpaceApplicationLicenseType = "LICENSED" | "UNLICENSED" | (strin
 export type OperatingSystemNameList = OperatingSystemName[];
 export type WorkSpaceApplicationOwner = string;
 export interface DescribeApplicationsRequest {
-  ApplicationIds?: string[];
-  ComputeTypeNames?: Compute[];
-  LicenseType?: WorkSpaceApplicationLicenseType;
-  OperatingSystemNames?: OperatingSystemName[];
-  Owner?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  ApplicationIds?: string[] | undefined;
+  ComputeTypeNames?: Compute[] | undefined;
+  LicenseType?: WorkSpaceApplicationLicenseType | undefined;
+  OperatingSystemNames?: OperatingSystemName[] | undefined;
+  Owner?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type WorkSpaceApplicationState =
   | "PENDING"
@@ -917,20 +917,20 @@ export type WorkSpaceApplicationState =
   | "UNINSTALL_ONLY"
   | (string & {});
 export interface WorkSpaceApplication {
-  ApplicationId?: string;
-  Created?: Date;
-  Description?: string;
-  LicenseType?: WorkSpaceApplicationLicenseType;
-  Name?: string;
-  Owner?: string;
-  State?: WorkSpaceApplicationState;
-  SupportedComputeTypeNames?: Compute[];
-  SupportedOperatingSystemNames?: OperatingSystemName[];
+  ApplicationId?: string | undefined;
+  Created?: Date | undefined;
+  Description?: string | undefined;
+  LicenseType?: WorkSpaceApplicationLicenseType | undefined;
+  Name?: string | undefined;
+  Owner?: string | undefined;
+  State?: WorkSpaceApplicationState | undefined;
+  SupportedComputeTypeNames?: Compute[] | undefined;
+  SupportedOperatingSystemNames?: OperatingSystemName[] | undefined;
 }
 export type WorkSpaceApplicationList = WorkSpaceApplication[];
 export interface DescribeApplicationsResult {
-  Applications?: WorkSpaceApplication[];
-  NextToken?: string;
+  Applications?: WorkSpaceApplication[] | undefined;
+  NextToken?: string | undefined;
 }
 export type BundleAssociatedResourceType = "APPLICATION" | (string & {});
 export type BundleAssociatedResourceTypeList = BundleAssociatedResourceType[];
@@ -939,17 +939,17 @@ export interface DescribeBundleAssociationsRequest {
   AssociatedResourceTypes: BundleAssociatedResourceType[];
 }
 export interface BundleResourceAssociation {
-  AssociatedResourceId?: string;
-  AssociatedResourceType?: BundleAssociatedResourceType;
-  BundleId?: string;
-  Created?: Date;
-  LastUpdatedTime?: Date;
-  State?: AssociationState;
-  StateReason?: AssociationStateReason;
+  AssociatedResourceId?: string | undefined;
+  AssociatedResourceType?: BundleAssociatedResourceType | undefined;
+  BundleId?: string | undefined;
+  Created?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  State?: AssociationState | undefined;
+  StateReason?: AssociationStateReason | undefined;
 }
 export type BundleResourceAssociationList = BundleResourceAssociation[];
 export interface DescribeBundleAssociationsResult {
-  Associations?: BundleResourceAssociation[];
+  Associations?: BundleResourceAssociation[] | undefined;
 }
 export interface DescribeClientBrandingRequest {
   ResourceId: string;
@@ -960,28 +960,28 @@ export type ClientLocale = string;
 export type ClientLoginMessage = string;
 export type LoginMessage = { [key: string]: string | undefined };
 export interface DefaultClientBrandingAttributes {
-  LogoUrl?: string;
-  SupportEmail?: string;
-  SupportLink?: string;
-  ForgotPasswordLink?: string;
-  LoginMessage?: { [key: string]: string | undefined };
+  LogoUrl?: string | undefined;
+  SupportEmail?: string | undefined;
+  SupportLink?: string | undefined;
+  ForgotPasswordLink?: string | undefined;
+  LoginMessage?: { [key: string]: string | undefined } | undefined;
 }
 export interface IosClientBrandingAttributes {
-  LogoUrl?: string;
-  Logo2xUrl?: string;
-  Logo3xUrl?: string;
-  SupportEmail?: string;
-  SupportLink?: string;
-  ForgotPasswordLink?: string;
-  LoginMessage?: { [key: string]: string | undefined };
+  LogoUrl?: string | undefined;
+  Logo2xUrl?: string | undefined;
+  Logo3xUrl?: string | undefined;
+  SupportEmail?: string | undefined;
+  SupportLink?: string | undefined;
+  ForgotPasswordLink?: string | undefined;
+  LoginMessage?: { [key: string]: string | undefined } | undefined;
 }
 export interface DescribeClientBrandingResult {
-  DeviceTypeWindows?: DefaultClientBrandingAttributes;
-  DeviceTypeOsx?: DefaultClientBrandingAttributes;
-  DeviceTypeAndroid?: DefaultClientBrandingAttributes;
-  DeviceTypeIos?: IosClientBrandingAttributes;
-  DeviceTypeLinux?: DefaultClientBrandingAttributes;
-  DeviceTypeWeb?: DefaultClientBrandingAttributes;
+  DeviceTypeWindows?: DefaultClientBrandingAttributes | undefined;
+  DeviceTypeOsx?: DefaultClientBrandingAttributes | undefined;
+  DeviceTypeAndroid?: DefaultClientBrandingAttributes | undefined;
+  DeviceTypeIos?: IosClientBrandingAttributes | undefined;
+  DeviceTypeLinux?: DefaultClientBrandingAttributes | undefined;
+  DeviceTypeWeb?: DefaultClientBrandingAttributes | undefined;
 }
 export type ResourceIdList = string[];
 export interface DescribeClientPropertiesRequest {
@@ -991,40 +991,40 @@ export type ReconnectEnum = "ENABLED" | "DISABLED" | (string & {});
 export type LogUploadEnum = "ENABLED" | "DISABLED" | (string & {});
 export type ClientExperiencePolicy = string;
 export interface ClientProperties {
-  ReconnectEnabled?: ReconnectEnum;
-  LogUploadEnabled?: LogUploadEnum;
-  ClientExperiencePolicy?: string;
+  ReconnectEnabled?: ReconnectEnum | undefined;
+  LogUploadEnabled?: LogUploadEnum | undefined;
+  ClientExperiencePolicy?: string | undefined;
 }
 export interface ClientPropertiesResult {
-  ResourceId?: string;
-  ClientProperties?: ClientProperties;
+  ResourceId?: string | undefined;
+  ClientProperties?: ClientProperties | undefined;
 }
 export type ClientPropertiesList = ClientPropertiesResult[];
 export interface DescribeClientPropertiesResult {
-  ClientPropertiesList?: ClientPropertiesResult[];
+  ClientPropertiesList?: ClientPropertiesResult[] | undefined;
 }
 export interface DescribeConnectClientAddInsRequest {
   ResourceId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ConnectClientAddIn {
-  AddInId?: string;
-  ResourceId?: string;
-  Name?: string;
-  URL?: string;
+  AddInId?: string | undefined;
+  ResourceId?: string | undefined;
+  Name?: string | undefined;
+  URL?: string | undefined;
 }
 export type ConnectClientAddInList = ConnectClientAddIn[];
 export interface DescribeConnectClientAddInsResult {
-  AddIns?: ConnectClientAddIn[];
-  NextToken?: string;
+  AddIns?: ConnectClientAddIn[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConnectionAliasIdList = string[];
 export interface DescribeConnectionAliasesRequest {
-  AliasIds?: string[];
-  ResourceId?: string;
-  Limit?: number;
-  NextToken?: string;
+  AliasIds?: string[] | undefined;
+  ResourceId?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ConnectionAliasState = "CREATING" | "CREATED" | "DELETING" | (string & {});
 export type AssociationStatus =
@@ -1035,28 +1035,28 @@ export type AssociationStatus =
   | "PENDING_DISASSOCIATION"
   | (string & {});
 export interface ConnectionAliasAssociation {
-  AssociationStatus?: AssociationStatus;
-  AssociatedAccountId?: string;
-  ResourceId?: string;
-  ConnectionIdentifier?: string;
+  AssociationStatus?: AssociationStatus | undefined;
+  AssociatedAccountId?: string | undefined;
+  ResourceId?: string | undefined;
+  ConnectionIdentifier?: string | undefined;
 }
 export type ConnectionAliasAssociationList = ConnectionAliasAssociation[];
 export interface ConnectionAlias {
-  ConnectionString?: string;
-  AliasId?: string;
-  State?: ConnectionAliasState;
-  OwnerAccountId?: string;
-  Associations?: ConnectionAliasAssociation[];
+  ConnectionString?: string | undefined;
+  AliasId?: string | undefined;
+  State?: ConnectionAliasState | undefined;
+  OwnerAccountId?: string | undefined;
+  Associations?: ConnectionAliasAssociation[] | undefined;
 }
 export type ConnectionAliasList = ConnectionAlias[];
 export interface DescribeConnectionAliasesResult {
-  ConnectionAliases?: ConnectionAlias[];
-  NextToken?: string;
+  ConnectionAliases?: ConnectionAlias[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeConnectionAliasPermissionsRequest {
   AliasId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ConnectionAliasPermission {
   SharedAccountId: string;
@@ -1064,9 +1064,9 @@ export interface ConnectionAliasPermission {
 }
 export type ConnectionAliasPermissions = ConnectionAliasPermission[];
 export interface DescribeConnectionAliasPermissionsResult {
-  AliasId?: string;
-  ConnectionAliasPermissions?: ConnectionAliasPermission[];
-  NextToken?: string;
+  AliasId?: string | undefined;
+  ConnectionAliasPermissions?: ConnectionAliasPermission[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeCustomWorkspaceImageImportRequest {
   ImageId: string;
@@ -1094,27 +1094,27 @@ export type Ec2ImportTaskId = string;
 export type ImageBuildVersionArn = string;
 export type Ec2ImageId = string;
 export type ImageSourceIdentifier =
-  | { Ec2ImportTaskId: string; ImageBuildVersionArn?: never; Ec2ImageId?: never }
-  | { Ec2ImportTaskId?: never; ImageBuildVersionArn: string; Ec2ImageId?: never }
-  | { Ec2ImportTaskId?: never; ImageBuildVersionArn?: never; Ec2ImageId: string };
+  | { Ec2ImportTaskId: string; ImageBuildVersionArn?: undefined; Ec2ImageId?: undefined }
+  | { Ec2ImportTaskId?: undefined; ImageBuildVersionArn: string; Ec2ImageId?: undefined }
+  | { Ec2ImportTaskId?: undefined; ImageBuildVersionArn?: undefined; Ec2ImageId: string };
 export type ErrorCode = string;
 export type ImageErrorMessage = string;
 export interface CustomWorkspaceImageImportErrorDetails {
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type CustomWorkspaceImageImportErrorDetailsList = CustomWorkspaceImageImportErrorDetails[];
 export interface DescribeCustomWorkspaceImageImportResult {
-  ImageId?: string;
-  InfrastructureConfigurationArn?: string;
-  State?: CustomWorkspaceImageImportState;
-  StateMessage?: string;
-  ProgressPercentage?: number;
-  Created?: Date;
-  LastUpdatedTime?: Date;
-  ImageSource?: ImageSourceIdentifier;
-  ImageBuilderInstanceId?: string;
-  ErrorDetails?: CustomWorkspaceImageImportErrorDetails[];
+  ImageId?: string | undefined;
+  InfrastructureConfigurationArn?: string | undefined;
+  State?: CustomWorkspaceImageImportState | undefined;
+  StateMessage?: string | undefined;
+  ProgressPercentage?: number | undefined;
+  Created?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  ImageSource?: ImageSourceIdentifier | undefined;
+  ImageBuilderInstanceId?: string | undefined;
+  ErrorDetails?: CustomWorkspaceImageImportErrorDetails[] | undefined;
 }
 export type ImageAssociatedResourceType = "APPLICATION" | (string & {});
 export type ImageAssociatedResourceTypeList = ImageAssociatedResourceType[];
@@ -1123,39 +1123,39 @@ export interface DescribeImageAssociationsRequest {
   AssociatedResourceTypes: ImageAssociatedResourceType[];
 }
 export interface ImageResourceAssociation {
-  AssociatedResourceId?: string;
-  AssociatedResourceType?: ImageAssociatedResourceType;
-  Created?: Date;
-  LastUpdatedTime?: Date;
-  ImageId?: string;
-  State?: AssociationState;
-  StateReason?: AssociationStateReason;
+  AssociatedResourceId?: string | undefined;
+  AssociatedResourceType?: ImageAssociatedResourceType | undefined;
+  Created?: Date | undefined;
+  LastUpdatedTime?: Date | undefined;
+  ImageId?: string | undefined;
+  State?: AssociationState | undefined;
+  StateReason?: AssociationStateReason | undefined;
 }
 export type ImageResourceAssociationList = ImageResourceAssociation[];
 export interface DescribeImageAssociationsResult {
-  Associations?: ImageResourceAssociation[];
+  Associations?: ImageResourceAssociation[] | undefined;
 }
 export interface DescribeIpGroupsRequest {
-  GroupIds?: string[];
-  NextToken?: string;
-  MaxResults?: number;
+  GroupIds?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface WorkspacesIpGroup {
-  groupId?: string;
-  groupName?: string;
-  groupDesc?: string;
-  userRules?: IpRuleItem[];
+  groupId?: string | undefined;
+  groupName?: string | undefined;
+  groupDesc?: string | undefined;
+  userRules?: IpRuleItem[] | undefined;
 }
 export type WorkspacesIpGroupsList = WorkspacesIpGroup[];
 export interface DescribeIpGroupsResult {
-  Result?: WorkspacesIpGroup[];
-  NextToken?: string;
+  Result?: WorkspacesIpGroup[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeTagsRequest {
   ResourceId: string;
 }
 export interface DescribeTagsResult {
-  TagList?: Tag[];
+  TagList?: Tag[] | undefined;
 }
 export type WorkSpaceAssociatedResourceTypeList = WorkSpaceAssociatedResourceType[];
 export interface DescribeWorkspaceAssociationsRequest {
@@ -1163,18 +1163,18 @@ export interface DescribeWorkspaceAssociationsRequest {
   AssociatedResourceTypes: WorkSpaceAssociatedResourceType[];
 }
 export interface DescribeWorkspaceAssociationsResult {
-  Associations?: WorkspaceResourceAssociation[];
+  Associations?: WorkspaceResourceAssociation[] | undefined;
 }
 export type BundleIdList = string[];
 export interface DescribeWorkspaceBundlesRequest {
-  BundleIds?: string[];
-  Owner?: string;
-  NextToken?: string;
+  BundleIds?: string[] | undefined;
+  Owner?: string | undefined;
+  NextToken?: string | undefined;
 }
 export type BundleList = WorkspaceBundle[];
 export interface DescribeWorkspaceBundlesResult {
-  Bundles?: WorkspaceBundle[];
-  NextToken?: string;
+  Bundles?: WorkspaceBundle[] | undefined;
+  NextToken?: string | undefined;
 }
 export type DirectoryIdList = string[];
 export type WorkspaceDirectoryName = string;
@@ -1191,11 +1191,11 @@ export interface DescribeWorkspaceDirectoriesFilter {
 }
 export type DescribeWorkspaceDirectoriesFilterList = DescribeWorkspaceDirectoriesFilter[];
 export interface DescribeWorkspaceDirectoriesRequest {
-  DirectoryIds?: string[];
-  WorkspaceDirectoryNames?: string[];
-  Limit?: number;
-  NextToken?: string;
-  Filters?: DescribeWorkspaceDirectoriesFilter[];
+  DirectoryIds?: string[] | undefined;
+  WorkspaceDirectoryNames?: string[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: DescribeWorkspaceDirectoriesFilter[] | undefined;
 }
 export type Alias = string;
 export type DirectoryName = string;
@@ -1219,46 +1219,46 @@ export type WorkspaceDirectoryState =
   | (string & {});
 export type DefaultOu = string;
 export interface DefaultWorkspaceCreationProperties {
-  EnableInternetAccess?: boolean;
-  DefaultOu?: string;
-  CustomSecurityGroupId?: string;
-  UserEnabledAsLocalAdministrator?: boolean;
-  EnableMaintenanceMode?: boolean;
-  InstanceIamRoleArn?: string;
+  EnableInternetAccess?: boolean | undefined;
+  DefaultOu?: string | undefined;
+  CustomSecurityGroupId?: string | undefined;
+  UserEnabledAsLocalAdministrator?: boolean | undefined;
+  EnableMaintenanceMode?: boolean | undefined;
+  InstanceIamRoleArn?: string | undefined;
 }
 export type AccessPropertyValue = "ALLOW" | "DENY" | (string & {});
 export type AccessEndpointType = "STREAMING_WSP" | (string & {});
 export type AlphanumericDashUnderscoreNonEmptyString = string;
 export interface AccessEndpoint {
-  AccessEndpointType?: AccessEndpointType;
-  VpcEndpointId?: string;
+  AccessEndpointType?: AccessEndpointType | undefined;
+  VpcEndpointId?: string | undefined;
 }
 export type AccessEndpointList = AccessEndpoint[];
 export type InternetFallbackProtocol = "PCOIP" | (string & {});
 export type InternetFallbackProtocolList = InternetFallbackProtocol[];
 export interface AccessEndpointConfig {
   AccessEndpoints: AccessEndpoint[];
-  InternetFallbackProtocols?: InternetFallbackProtocol[];
+  InternetFallbackProtocols?: InternetFallbackProtocol[] | undefined;
 }
 export interface WorkspaceAccessProperties {
-  DeviceTypeWindows?: AccessPropertyValue;
-  DeviceTypeOsx?: AccessPropertyValue;
-  DeviceTypeWeb?: AccessPropertyValue;
-  DeviceTypeIos?: AccessPropertyValue;
-  DeviceTypeAndroid?: AccessPropertyValue;
-  DeviceTypeChromeOs?: AccessPropertyValue;
-  DeviceTypeZeroClient?: AccessPropertyValue;
-  DeviceTypeLinux?: AccessPropertyValue;
-  DeviceTypeWorkSpacesThinClient?: AccessPropertyValue;
-  AccessEndpointConfig?: AccessEndpointConfig;
+  DeviceTypeWindows?: AccessPropertyValue | undefined;
+  DeviceTypeOsx?: AccessPropertyValue | undefined;
+  DeviceTypeWeb?: AccessPropertyValue | undefined;
+  DeviceTypeIos?: AccessPropertyValue | undefined;
+  DeviceTypeAndroid?: AccessPropertyValue | undefined;
+  DeviceTypeChromeOs?: AccessPropertyValue | undefined;
+  DeviceTypeZeroClient?: AccessPropertyValue | undefined;
+  DeviceTypeLinux?: AccessPropertyValue | undefined;
+  DeviceTypeWorkSpacesThinClient?: AccessPropertyValue | undefined;
+  AccessEndpointConfig?: AccessEndpointConfig | undefined;
 }
 export type Tenancy = "DEDICATED" | "SHARED" | (string & {});
 export interface SelfservicePermissions {
-  RestartWorkspace?: ReconnectEnum;
-  IncreaseVolumeSize?: ReconnectEnum;
-  ChangeComputeType?: ReconnectEnum;
-  SwitchRunningMode?: ReconnectEnum;
-  RebuildWorkspace?: ReconnectEnum;
+  RestartWorkspace?: ReconnectEnum | undefined;
+  IncreaseVolumeSize?: ReconnectEnum | undefined;
+  ChangeComputeType?: ReconnectEnum | undefined;
+  SwitchRunningMode?: ReconnectEnum | undefined;
+  RebuildWorkspace?: ReconnectEnum | undefined;
 }
 export type SamlStatusEnum =
   | "DISABLED"
@@ -1267,22 +1267,22 @@ export type SamlStatusEnum =
   | (string & {});
 export type SamlUserAccessUrl = string;
 export interface SamlProperties {
-  Status?: SamlStatusEnum;
-  UserAccessUrl?: string;
-  RelayStateParameterName?: string;
+  Status?: SamlStatusEnum | undefined;
+  UserAccessUrl?: string | undefined;
+  RelayStateParameterName?: string | undefined;
 }
 export type CertificateBasedAuthStatusEnum = "DISABLED" | "ENABLED" | (string & {});
 export type CertificateAuthorityArn = string;
 export interface CertificateBasedAuthProperties {
-  Status?: CertificateBasedAuthStatusEnum;
-  CertificateAuthorityArn?: string;
+  Status?: CertificateBasedAuthStatusEnum | undefined;
+  CertificateAuthorityArn?: string | undefined;
 }
 export type EndpointEncryptionMode = "STANDARD_TLS" | "FIPS_VALIDATED" | (string & {});
 export type MicrosoftEntraConfigTenantId = string;
 export type SecretsManagerArn = string;
 export interface MicrosoftEntraConfig {
-  TenantId?: string;
-  ApplicationConfigSecretArn?: string;
+  TenantId?: string | undefined;
+  ApplicationConfigSecretArn?: string | undefined;
 }
 export type WorkspaceDirectoryDescription = string;
 export type UserIdentityType =
@@ -1292,8 +1292,8 @@ export type UserIdentityType =
   | (string & {});
 export type WorkspaceType = "PERSONAL" | "POOLS" | (string & {});
 export interface IDCConfig {
-  InstanceArn?: string;
-  ApplicationArn?: string;
+  InstanceArn?: string | undefined;
+  ApplicationArn?: string | undefined;
 }
 export type DomainName = string;
 export interface ActiveDirectoryConfig {
@@ -1312,7 +1312,7 @@ export type MaximumLength = number;
 export interface UserSetting {
   Action: UserSettingActionEnum;
   Permission: UserSettingPermissionEnum;
-  MaximumLength?: number;
+  MaximumLength?: number | undefined;
 }
 export type UserSettings = UserSetting[];
 export type StorageConnectorTypeEnum = "HOME_FOLDER" | (string & {});
@@ -1326,76 +1326,76 @@ export type AGAModeForDirectoryEnum = "ENABLED_AUTO" | "DISABLED" | (string & {}
 export type AGAPreferredProtocolForDirectory = "TCP" | "NONE" | (string & {});
 export interface GlobalAcceleratorForDirectory {
   Mode: AGAModeForDirectoryEnum;
-  PreferredProtocol?: AGAPreferredProtocolForDirectory;
+  PreferredProtocol?: AGAPreferredProtocolForDirectory | undefined;
 }
 export interface StreamingProperties {
-  StreamingExperiencePreferredProtocol?: StreamingExperiencePreferredProtocolEnum;
-  UserSettings?: UserSetting[];
-  StorageConnectors?: StorageConnector[];
-  GlobalAccelerator?: GlobalAcceleratorForDirectory;
+  StreamingExperiencePreferredProtocol?: StreamingExperiencePreferredProtocolEnum | undefined;
+  UserSettings?: UserSetting[] | undefined;
+  StorageConnectors?: StorageConnector[] | undefined;
+  GlobalAccelerator?: GlobalAcceleratorForDirectory | undefined;
 }
 export interface WorkspaceDirectory {
-  DirectoryId?: string;
-  Alias?: string;
-  DirectoryName?: string;
-  RegistrationCode?: string;
-  SubnetIds?: string[];
-  DnsIpAddresses?: string[];
-  DnsIpv6Addresses?: string[];
-  CustomerUserName?: string;
-  IamRoleId?: string;
-  DirectoryType?: WorkspaceDirectoryType;
-  WorkspaceSecurityGroupId?: string;
-  State?: WorkspaceDirectoryState;
-  WorkspaceCreationProperties?: DefaultWorkspaceCreationProperties;
-  ipGroupIds?: string[];
-  WorkspaceAccessProperties?: WorkspaceAccessProperties;
-  Tenancy?: Tenancy;
-  SelfservicePermissions?: SelfservicePermissions;
-  SamlProperties?: SamlProperties;
-  CertificateBasedAuthProperties?: CertificateBasedAuthProperties;
-  EndpointEncryptionMode?: EndpointEncryptionMode;
-  MicrosoftEntraConfig?: MicrosoftEntraConfig;
-  WorkspaceDirectoryName?: string;
-  WorkspaceDirectoryDescription?: string;
-  UserIdentityType?: UserIdentityType;
-  WorkspaceType?: WorkspaceType;
-  IDCConfig?: IDCConfig;
-  ActiveDirectoryConfig?: ActiveDirectoryConfig;
-  StreamingProperties?: StreamingProperties;
-  ErrorMessage?: string;
+  DirectoryId?: string | undefined;
+  Alias?: string | undefined;
+  DirectoryName?: string | undefined;
+  RegistrationCode?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  DnsIpAddresses?: string[] | undefined;
+  DnsIpv6Addresses?: string[] | undefined;
+  CustomerUserName?: string | undefined;
+  IamRoleId?: string | undefined;
+  DirectoryType?: WorkspaceDirectoryType | undefined;
+  WorkspaceSecurityGroupId?: string | undefined;
+  State?: WorkspaceDirectoryState | undefined;
+  WorkspaceCreationProperties?: DefaultWorkspaceCreationProperties | undefined;
+  ipGroupIds?: string[] | undefined;
+  WorkspaceAccessProperties?: WorkspaceAccessProperties | undefined;
+  Tenancy?: Tenancy | undefined;
+  SelfservicePermissions?: SelfservicePermissions | undefined;
+  SamlProperties?: SamlProperties | undefined;
+  CertificateBasedAuthProperties?: CertificateBasedAuthProperties | undefined;
+  EndpointEncryptionMode?: EndpointEncryptionMode | undefined;
+  MicrosoftEntraConfig?: MicrosoftEntraConfig | undefined;
+  WorkspaceDirectoryName?: string | undefined;
+  WorkspaceDirectoryDescription?: string | undefined;
+  UserIdentityType?: UserIdentityType | undefined;
+  WorkspaceType?: WorkspaceType | undefined;
+  IDCConfig?: IDCConfig | undefined;
+  ActiveDirectoryConfig?: ActiveDirectoryConfig | undefined;
+  StreamingProperties?: StreamingProperties | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type DirectoryList = WorkspaceDirectory[];
 export interface DescribeWorkspaceDirectoriesResult {
-  Directories?: WorkspaceDirectory[];
-  NextToken?: string;
+  Directories?: WorkspaceDirectory[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeWorkspaceImagePermissionsRequest {
   ImageId: string;
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export interface ImagePermission {
-  SharedAccountId?: string;
+  SharedAccountId?: string | undefined;
 }
 export type ImagePermissions = ImagePermission[];
 export interface DescribeWorkspaceImagePermissionsResult {
-  ImageId?: string;
-  ImagePermissions?: ImagePermission[];
-  NextToken?: string;
+  ImageId?: string | undefined;
+  ImagePermissions?: ImagePermission[] | undefined;
+  NextToken?: string | undefined;
 }
 export type WorkspaceImageIdList = string[];
 export type ImageType = "OWNED" | "SHARED" | (string & {});
 export interface DescribeWorkspaceImagesRequest {
-  ImageIds?: string[];
-  ImageType?: ImageType;
-  NextToken?: string;
-  MaxResults?: number;
+  ImageIds?: string[] | undefined;
+  ImageType?: ImageType | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type WorkspaceImageErrorCode = string;
 export interface UpdateResult {
-  UpdateAvailable?: boolean;
-  Description?: string;
+  UpdateAvailable?: boolean | undefined;
+  Description?: string | undefined;
 }
 export type WorkspaceImageErrorDetailCode =
   | "OutdatedPowershellVersion"
@@ -1448,69 +1448,69 @@ export type WorkspaceImageErrorDetailCode =
   | "RestrictedDriveLetterInUse"
   | (string & {});
 export interface ErrorDetails {
-  ErrorCode?: WorkspaceImageErrorDetailCode;
-  ErrorMessage?: string;
+  ErrorCode?: WorkspaceImageErrorDetailCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type ErrorDetailsList = ErrorDetails[];
 export interface WorkspaceImage {
-  ImageId?: string;
-  Name?: string;
-  Description?: string;
-  OperatingSystem?: OperatingSystem;
-  State?: WorkspaceImageState;
-  RequiredTenancy?: WorkspaceImageRequiredTenancy;
-  ErrorCode?: string;
-  ErrorMessage?: string;
-  Created?: Date;
-  OwnerAccountId?: string;
-  Updates?: UpdateResult;
-  ErrorDetails?: ErrorDetails[];
+  ImageId?: string | undefined;
+  Name?: string | undefined;
+  Description?: string | undefined;
+  OperatingSystem?: OperatingSystem | undefined;
+  State?: WorkspaceImageState | undefined;
+  RequiredTenancy?: WorkspaceImageRequiredTenancy | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
+  Created?: Date | undefined;
+  OwnerAccountId?: string | undefined;
+  Updates?: UpdateResult | undefined;
+  ErrorDetails?: ErrorDetails[] | undefined;
 }
 export type WorkspaceImageList = WorkspaceImage[];
 export interface DescribeWorkspaceImagesResult {
-  Images?: WorkspaceImage[];
-  NextToken?: string;
+  Images?: WorkspaceImage[] | undefined;
+  NextToken?: string | undefined;
 }
 export type WorkspaceIdList = string[];
 export interface DescribeWorkspacesRequest {
-  WorkspaceIds?: string[];
-  DirectoryId?: string;
-  UserName?: string;
-  BundleId?: string;
-  Limit?: number;
-  NextToken?: string;
-  WorkspaceName?: string;
+  WorkspaceIds?: string[] | undefined;
+  DirectoryId?: string | undefined;
+  UserName?: string | undefined;
+  BundleId?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
+  WorkspaceName?: string | undefined;
 }
 export interface DescribeWorkspacesResult {
-  Workspaces?: Workspace[];
-  NextToken?: string;
+  Workspaces?: Workspace[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeWorkspacesConnectionStatusRequest {
-  WorkspaceIds?: string[];
-  NextToken?: string;
+  WorkspaceIds?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ConnectionState = "CONNECTED" | "DISCONNECTED" | "UNKNOWN" | (string & {});
 export interface WorkspaceConnectionStatus {
-  WorkspaceId?: string;
-  ConnectionState?: ConnectionState;
-  ConnectionStateCheckTimestamp?: Date;
-  LastKnownUserConnectionTimestamp?: Date;
+  WorkspaceId?: string | undefined;
+  ConnectionState?: ConnectionState | undefined;
+  ConnectionStateCheckTimestamp?: Date | undefined;
+  LastKnownUserConnectionTimestamp?: Date | undefined;
 }
 export type WorkspaceConnectionStatusList = WorkspaceConnectionStatus[];
 export interface DescribeWorkspacesConnectionStatusResult {
-  WorkspacesConnectionStatus?: WorkspaceConnectionStatus[];
-  NextToken?: string;
+  WorkspacesConnectionStatus?: WorkspaceConnectionStatus[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeWorkspaceSnapshotsRequest {
   WorkspaceId: string;
 }
 export interface Snapshot {
-  SnapshotTime?: Date;
+  SnapshotTime?: Date | undefined;
 }
 export type SnapshotList = Snapshot[];
 export interface DescribeWorkspaceSnapshotsResult {
-  RebuildSnapshots?: Snapshot[];
-  RestoreSnapshots?: Snapshot[];
+  RebuildSnapshots?: Snapshot[] | undefined;
+  RestoreSnapshots?: Snapshot[] | undefined;
 }
 export type WorkspacesPoolIds = string[];
 export type DescribeWorkspacesPoolsFilterName = "PoolName" | (string & {});
@@ -1529,46 +1529,46 @@ export interface DescribeWorkspacesPoolsFilter {
 }
 export type DescribeWorkspacesPoolsFilters = DescribeWorkspacesPoolsFilter[];
 export interface DescribeWorkspacesPoolsRequest {
-  PoolIds?: string[];
-  Filters?: DescribeWorkspacesPoolsFilter[];
-  Limit?: number;
-  NextToken?: string;
+  PoolIds?: string[] | undefined;
+  Filters?: DescribeWorkspacesPoolsFilter[] | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type WorkspacesPools = WorkspacesPool[];
 export interface DescribeWorkspacesPoolsResult {
-  WorkspacesPools?: WorkspacesPool[];
-  NextToken?: string;
+  WorkspacesPools?: WorkspacesPool[] | undefined;
+  NextToken?: string | undefined;
 }
 export type WorkspacesPoolUserId = string;
 export type Limit50 = number;
 export interface DescribeWorkspacesPoolSessionsRequest {
   PoolId: string;
-  UserId?: string;
-  Limit?: number;
-  NextToken?: string;
+  UserId?: string | undefined;
+  Limit?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type AuthenticationType = "SAML" | (string & {});
 export type SessionConnectionState = "CONNECTED" | "NOT_CONNECTED" | (string & {});
 export type SessionInstanceId = string;
 export interface NetworkAccessConfiguration {
-  EniPrivateIpAddress?: string;
-  EniId?: string;
+  EniPrivateIpAddress?: string | undefined;
+  EniId?: string | undefined;
 }
 export interface WorkspacesPoolSession {
-  AuthenticationType?: AuthenticationType;
-  ConnectionState?: SessionConnectionState;
+  AuthenticationType?: AuthenticationType | undefined;
+  ConnectionState?: SessionConnectionState | undefined;
   SessionId: string;
-  InstanceId?: string;
+  InstanceId?: string | undefined;
   PoolId: string;
-  ExpirationTime?: Date;
-  NetworkAccessConfiguration?: NetworkAccessConfiguration;
-  StartTime?: Date;
+  ExpirationTime?: Date | undefined;
+  NetworkAccessConfiguration?: NetworkAccessConfiguration | undefined;
+  StartTime?: Date | undefined;
   UserId: string;
 }
 export type WorkspacesPoolSessions = WorkspacesPoolSession[];
 export interface DescribeWorkspacesPoolSessionsResult {
-  Sessions?: WorkspacesPoolSession[];
-  NextToken?: string;
+  Sessions?: WorkspacesPoolSession[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DisassociateConnectionAliasRequest {
   AliasId: string;
@@ -1584,51 +1584,51 @@ export interface DisassociateWorkspaceApplicationRequest {
   ApplicationId: string;
 }
 export interface DisassociateWorkspaceApplicationResult {
-  Association?: WorkspaceResourceAssociation;
+  Association?: WorkspaceResourceAssociation | undefined;
 }
 export interface GetAccountLinkRequest {
-  LinkId?: string;
-  LinkedAccountId?: string;
+  LinkId?: string | undefined;
+  LinkedAccountId?: string | undefined;
 }
 export interface GetAccountLinkResult {
-  AccountLink?: AccountLink;
+  AccountLink?: AccountLink | undefined;
 }
 export type DefaultLogo = Uint8Array;
 export interface DefaultImportClientBrandingAttributes {
-  Logo?: Uint8Array;
-  SupportEmail?: string;
-  SupportLink?: string;
-  ForgotPasswordLink?: string;
-  LoginMessage?: { [key: string]: string | undefined };
+  Logo?: Uint8Array | undefined;
+  SupportEmail?: string | undefined;
+  SupportLink?: string | undefined;
+  ForgotPasswordLink?: string | undefined;
+  LoginMessage?: { [key: string]: string | undefined } | undefined;
 }
 export type IosLogo = Uint8Array;
 export type Ios2XLogo = Uint8Array;
 export type Ios3XLogo = Uint8Array;
 export interface IosImportClientBrandingAttributes {
-  Logo?: Uint8Array;
-  Logo2x?: Uint8Array;
-  Logo3x?: Uint8Array;
-  SupportEmail?: string;
-  SupportLink?: string;
-  ForgotPasswordLink?: string;
-  LoginMessage?: { [key: string]: string | undefined };
+  Logo?: Uint8Array | undefined;
+  Logo2x?: Uint8Array | undefined;
+  Logo3x?: Uint8Array | undefined;
+  SupportEmail?: string | undefined;
+  SupportLink?: string | undefined;
+  ForgotPasswordLink?: string | undefined;
+  LoginMessage?: { [key: string]: string | undefined } | undefined;
 }
 export interface ImportClientBrandingRequest {
   ResourceId: string;
-  DeviceTypeWindows?: DefaultImportClientBrandingAttributes;
-  DeviceTypeOsx?: DefaultImportClientBrandingAttributes;
-  DeviceTypeAndroid?: DefaultImportClientBrandingAttributes;
-  DeviceTypeIos?: IosImportClientBrandingAttributes;
-  DeviceTypeLinux?: DefaultImportClientBrandingAttributes;
-  DeviceTypeWeb?: DefaultImportClientBrandingAttributes;
+  DeviceTypeWindows?: DefaultImportClientBrandingAttributes | undefined;
+  DeviceTypeOsx?: DefaultImportClientBrandingAttributes | undefined;
+  DeviceTypeAndroid?: DefaultImportClientBrandingAttributes | undefined;
+  DeviceTypeIos?: IosImportClientBrandingAttributes | undefined;
+  DeviceTypeLinux?: DefaultImportClientBrandingAttributes | undefined;
+  DeviceTypeWeb?: DefaultImportClientBrandingAttributes | undefined;
 }
 export interface ImportClientBrandingResult {
-  DeviceTypeWindows?: DefaultClientBrandingAttributes;
-  DeviceTypeOsx?: DefaultClientBrandingAttributes;
-  DeviceTypeAndroid?: DefaultClientBrandingAttributes;
-  DeviceTypeIos?: IosClientBrandingAttributes;
-  DeviceTypeLinux?: DefaultClientBrandingAttributes;
-  DeviceTypeWeb?: DefaultClientBrandingAttributes;
+  DeviceTypeWindows?: DefaultClientBrandingAttributes | undefined;
+  DeviceTypeOsx?: DefaultClientBrandingAttributes | undefined;
+  DeviceTypeAndroid?: DefaultClientBrandingAttributes | undefined;
+  DeviceTypeIos?: IosClientBrandingAttributes | undefined;
+  DeviceTypeLinux?: DefaultClientBrandingAttributes | undefined;
+  DeviceTypeWeb?: DefaultClientBrandingAttributes | undefined;
 }
 export type ImageComputeType =
   | "BASE"
@@ -1648,11 +1648,11 @@ export interface ImportCustomWorkspaceImageRequest {
   InfrastructureConfigurationArn: string;
   Platform: Platform;
   OsVersion: OSVersion;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface ImportCustomWorkspaceImageResult {
-  ImageId?: string;
-  State?: CustomWorkspaceImageImportState;
+  ImageId?: string | undefined;
+  State?: CustomWorkspaceImageImportState | undefined;
 }
 export type WorkspaceImageIngestionProcess =
   | "BYOL_REGULAR"
@@ -1671,50 +1671,50 @@ export interface ImportWorkspaceImageRequest {
   IngestionProcess: WorkspaceImageIngestionProcess;
   ImageName: string;
   ImageDescription: string;
-  Tags?: Tag[];
-  Applications?: Application[];
+  Tags?: Tag[] | undefined;
+  Applications?: Application[] | undefined;
 }
 export interface ImportWorkspaceImageResult {
-  ImageId?: string;
+  ImageId?: string | undefined;
 }
 export type LinkStatusFilterList = AccountLinkStatusEnum[];
 export interface ListAccountLinksRequest {
-  LinkStatusFilter?: AccountLinkStatusEnum[];
-  NextToken?: string;
-  MaxResults?: number;
+  LinkStatusFilter?: AccountLinkStatusEnum[] | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AccountLinkList = AccountLink[];
 export interface ListAccountLinksResult {
-  AccountLinks?: AccountLink[];
-  NextToken?: string;
+  AccountLinks?: AccountLink[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ManagementCidrRangeConstraint = string;
 export type ManagementCidrRangeMaxResults = number;
 export interface ListAvailableManagementCidrRangesRequest {
   ManagementCidrRangeConstraint: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type DedicatedTenancyCidrRangeList = string[];
 export interface ListAvailableManagementCidrRangesResult {
-  ManagementCidrRanges?: string[];
-  NextToken?: string;
+  ManagementCidrRanges?: string[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface MigrateWorkspaceRequest {
   SourceWorkspaceId: string;
   BundleId: string;
 }
 export interface MigrateWorkspaceResult {
-  SourceWorkspaceId?: string;
-  TargetWorkspaceId?: string;
+  SourceWorkspaceId?: string | undefined;
+  TargetWorkspaceId?: string | undefined;
 }
 export type DedicatedTenancySupportEnum = "ENABLED" | (string & {});
 export interface ModifyAccountRequest {
-  DedicatedTenancySupport?: DedicatedTenancySupportEnum;
-  DedicatedTenancyManagementCidrRange?: string;
+  DedicatedTenancySupport?: DedicatedTenancySupportEnum | undefined;
+  DedicatedTenancyManagementCidrRange?: string | undefined;
 }
 export interface ModifyAccountResult {
-  Message?: string;
+  Message?: string | undefined;
 }
 export type DeletableCertificateBasedAuthProperty =
   | "CERTIFICATE_BASED_AUTH_PROPERTIES_CERTIFICATE_AUTHORITY_ARN"
@@ -1722,8 +1722,8 @@ export type DeletableCertificateBasedAuthProperty =
 export type DeletableCertificateBasedAuthPropertiesList = DeletableCertificateBasedAuthProperty[];
 export interface ModifyCertificateBasedAuthPropertiesRequest {
   ResourceId: string;
-  CertificateBasedAuthProperties?: CertificateBasedAuthProperties;
-  PropertiesToDelete?: DeletableCertificateBasedAuthProperty[];
+  CertificateBasedAuthProperties?: CertificateBasedAuthProperties | undefined;
+  PropertiesToDelete?: DeletableCertificateBasedAuthProperty[] | undefined;
 }
 export interface ModifyCertificateBasedAuthPropertiesResult {}
 export interface ModifyClientPropertiesRequest {
@@ -1743,8 +1743,8 @@ export type DeletableSamlProperty =
 export type DeletableSamlPropertiesList = DeletableSamlProperty[];
 export interface ModifySamlPropertiesRequest {
   ResourceId: string;
-  SamlProperties?: SamlProperties;
-  PropertiesToDelete?: DeletableSamlProperty[];
+  SamlProperties?: SamlProperties | undefined;
+  PropertiesToDelete?: DeletableSamlProperty[] | undefined;
 }
 export interface ModifySamlPropertiesResult {}
 export interface ModifySelfservicePermissionsRequest {
@@ -1754,7 +1754,7 @@ export interface ModifySelfservicePermissionsRequest {
 export interface ModifySelfservicePermissionsResult {}
 export interface ModifyStreamingPropertiesRequest {
   ResourceId: string;
-  StreamingProperties?: StreamingProperties;
+  StreamingProperties?: StreamingProperties | undefined;
 }
 export interface ModifyStreamingPropertiesResult {}
 export interface ModifyWorkspaceAccessPropertiesRequest {
@@ -1763,12 +1763,12 @@ export interface ModifyWorkspaceAccessPropertiesRequest {
 }
 export interface ModifyWorkspaceAccessPropertiesResult {}
 export interface WorkspaceCreationProperties {
-  EnableInternetAccess?: boolean;
-  DefaultOu?: string;
-  CustomSecurityGroupId?: string;
-  UserEnabledAsLocalAdministrator?: boolean;
-  EnableMaintenanceMode?: boolean;
-  InstanceIamRoleArn?: string;
+  EnableInternetAccess?: boolean | undefined;
+  DefaultOu?: string | undefined;
+  CustomSecurityGroupId?: string | undefined;
+  UserEnabledAsLocalAdministrator?: boolean | undefined;
+  EnableMaintenanceMode?: boolean | undefined;
+  InstanceIamRoleArn?: string | undefined;
 }
 export interface ModifyWorkspaceCreationPropertiesRequest {
   ResourceId: string;
@@ -1777,8 +1777,8 @@ export interface ModifyWorkspaceCreationPropertiesRequest {
 export interface ModifyWorkspaceCreationPropertiesResult {}
 export interface ModifyWorkspacePropertiesRequest {
   WorkspaceId: string;
-  WorkspaceProperties?: WorkspaceProperties;
-  DataReplication?: DataReplication;
+  WorkspaceProperties?: WorkspaceProperties | undefined;
+  DataReplication?: DataReplication | undefined;
 }
 export interface ModifyWorkspacePropertiesResult {}
 export type TargetWorkspaceState = "AVAILABLE" | "ADMIN_MAINTENANCE" | (string & {});
@@ -1795,13 +1795,13 @@ export interface RebootWorkspacesRequest {
   RebootWorkspaceRequests: RebootRequest[];
 }
 export interface FailedWorkspaceChangeRequest {
-  WorkspaceId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  WorkspaceId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type FailedRebootWorkspaceRequests = FailedWorkspaceChangeRequest[];
 export interface RebootWorkspacesResult {
-  FailedRequests?: FailedWorkspaceChangeRequest[];
+  FailedRequests?: FailedWorkspaceChangeRequest[] | undefined;
 }
 export interface RebuildRequest {
   WorkspaceId: string;
@@ -1812,32 +1812,32 @@ export interface RebuildWorkspacesRequest {
 }
 export type FailedRebuildWorkspaceRequests = FailedWorkspaceChangeRequest[];
 export interface RebuildWorkspacesResult {
-  FailedRequests?: FailedWorkspaceChangeRequest[];
+  FailedRequests?: FailedWorkspaceChangeRequest[] | undefined;
 }
 export interface RegisterWorkspaceDirectoryRequest {
-  DirectoryId?: string;
-  SubnetIds?: string[];
-  EnableSelfService?: boolean;
-  Tenancy?: Tenancy;
-  Tags?: Tag[];
-  WorkspaceDirectoryName?: string;
-  WorkspaceDirectoryDescription?: string;
-  UserIdentityType?: UserIdentityType;
-  IdcInstanceArn?: string;
-  MicrosoftEntraConfig?: MicrosoftEntraConfig;
-  WorkspaceType?: WorkspaceType;
-  ActiveDirectoryConfig?: ActiveDirectoryConfig;
+  DirectoryId?: string | undefined;
+  SubnetIds?: string[] | undefined;
+  EnableSelfService?: boolean | undefined;
+  Tenancy?: Tenancy | undefined;
+  Tags?: Tag[] | undefined;
+  WorkspaceDirectoryName?: string | undefined;
+  WorkspaceDirectoryDescription?: string | undefined;
+  UserIdentityType?: UserIdentityType | undefined;
+  IdcInstanceArn?: string | undefined;
+  MicrosoftEntraConfig?: MicrosoftEntraConfig | undefined;
+  WorkspaceType?: WorkspaceType | undefined;
+  ActiveDirectoryConfig?: ActiveDirectoryConfig | undefined;
 }
 export interface RegisterWorkspaceDirectoryResult {
-  DirectoryId?: string;
-  State?: WorkspaceDirectoryState;
+  DirectoryId?: string | undefined;
+  State?: WorkspaceDirectoryState | undefined;
 }
 export interface RejectAccountLinkInvitationRequest {
   LinkId: string;
-  ClientToken?: string;
+  ClientToken?: string | undefined;
 }
 export interface RejectAccountLinkInvitationResult {
-  AccountLink?: AccountLink;
+  AccountLink?: AccountLink | undefined;
 }
 export interface RestoreWorkspaceRequest {
   WorkspaceId: string;
@@ -1850,7 +1850,7 @@ export interface RevokeIpRulesRequest {
 }
 export interface RevokeIpRulesResult {}
 export interface StartRequest {
-  WorkspaceId?: string;
+  WorkspaceId?: string | undefined;
 }
 export type StartWorkspaceRequests = StartRequest[];
 export interface StartWorkspacesRequest {
@@ -1858,14 +1858,14 @@ export interface StartWorkspacesRequest {
 }
 export type FailedStartWorkspaceRequests = FailedWorkspaceChangeRequest[];
 export interface StartWorkspacesResult {
-  FailedRequests?: FailedWorkspaceChangeRequest[];
+  FailedRequests?: FailedWorkspaceChangeRequest[] | undefined;
 }
 export interface StartWorkspacesPoolRequest {
   PoolId: string;
 }
 export interface StartWorkspacesPoolResult {}
 export interface StopRequest {
-  WorkspaceId?: string;
+  WorkspaceId?: string | undefined;
 }
 export type StopWorkspaceRequests = StopRequest[];
 export interface StopWorkspacesRequest {
@@ -1873,7 +1873,7 @@ export interface StopWorkspacesRequest {
 }
 export type FailedStopWorkspaceRequests = FailedWorkspaceChangeRequest[];
 export interface StopWorkspacesResult {
-  FailedRequests?: FailedWorkspaceChangeRequest[];
+  FailedRequests?: FailedWorkspaceChangeRequest[] | undefined;
 }
 export interface StopWorkspacesPoolRequest {
   PoolId: string;
@@ -1888,7 +1888,7 @@ export interface TerminateWorkspacesRequest {
 }
 export type FailedTerminateWorkspaceRequests = FailedWorkspaceChangeRequest[];
 export interface TerminateWorkspacesResult {
-  FailedRequests?: FailedWorkspaceChangeRequest[];
+  FailedRequests?: FailedWorkspaceChangeRequest[] | undefined;
 }
 export interface TerminateWorkspacesPoolRequest {
   PoolId: string;
@@ -1901,8 +1901,8 @@ export interface TerminateWorkspacesPoolSessionResult {}
 export interface UpdateConnectClientAddInRequest {
   AddInId: string;
   ResourceId: string;
-  Name?: string;
-  URL?: string;
+  Name?: string | undefined;
+  URL?: string | undefined;
 }
 export interface UpdateConnectClientAddInResult {}
 export interface UpdateConnectionAliasPermissionRequest {
@@ -1916,8 +1916,8 @@ export interface UpdateRulesOfIpGroupRequest {
 }
 export interface UpdateRulesOfIpGroupResult {}
 export interface UpdateWorkspaceBundleRequest {
-  BundleId?: string;
-  ImageId?: string;
+  BundleId?: string | undefined;
+  ImageId?: string | undefined;
 }
 export interface UpdateWorkspaceBundleResult {}
 export interface UpdateWorkspaceImagePermissionRequest {
@@ -1928,16 +1928,16 @@ export interface UpdateWorkspaceImagePermissionRequest {
 export interface UpdateWorkspaceImagePermissionResult {}
 export interface UpdateWorkspacesPoolRequest {
   PoolId: string;
-  Description?: string;
-  BundleId?: string;
-  DirectoryId?: string;
-  Capacity?: Capacity;
-  ApplicationSettings?: ApplicationSettingsRequest;
-  TimeoutSettings?: TimeoutSettings;
-  RunningMode?: PoolsRunningMode;
+  Description?: string | undefined;
+  BundleId?: string | undefined;
+  DirectoryId?: string | undefined;
+  Capacity?: Capacity | undefined;
+  ApplicationSettings?: ApplicationSettingsRequest | undefined;
+  TimeoutSettings?: TimeoutSettings | undefined;
+  RunningMode?: PoolsRunningMode | undefined;
 }
 export interface UpdateWorkspacesPoolResult {
-  WorkspacesPool?: WorkspacesPool;
+  WorkspacesPool?: WorkspacesPool | undefined;
 }
 export type ExceptionMessage = string;
 export type ExceptionErrorCode = string;

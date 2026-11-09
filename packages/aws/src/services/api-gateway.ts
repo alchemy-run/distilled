@@ -152,33 +152,33 @@ export class UnauthorizedException
     /*@__PURE__*/ T.HttpError(401),
   ).pipe(C.withAuthError) {}
 export interface StageKey {
-  restApiId?: string;
-  stageName?: string;
+  restApiId?: string | undefined;
+  stageName?: string | undefined;
 }
 export type ListOfStageKeys = StageKey[];
 export type MapOfStringToString = { [key: string]: string | undefined };
 export interface CreateApiKeyRequest {
-  name?: string;
-  description?: string;
-  enabled?: boolean;
-  generateDistinctId?: boolean;
-  value?: string | redacted.Redacted<string>;
-  stageKeys?: StageKey[];
-  customerId?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  generateDistinctId?: boolean | undefined;
+  value?: string | redacted.Redacted<string> | undefined;
+  stageKeys?: StageKey[] | undefined;
+  customerId?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ListOfString = string[];
 export interface ApiKey {
-  id?: string;
-  value?: string | redacted.Redacted<string>;
-  name?: string;
-  customerId?: string;
-  description?: string;
-  enabled?: boolean;
-  createdDate?: Date;
-  lastUpdatedDate?: Date;
-  stageKeys?: string[];
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  value?: string | redacted.Redacted<string> | undefined;
+  name?: string | undefined;
+  customerId?: string | undefined;
+  description?: string | undefined;
+  enabled?: boolean | undefined;
+  createdDate?: Date | undefined;
+  lastUpdatedDate?: Date | undefined;
+  stageKeys?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AuthorizerType = "TOKEN" | "REQUEST" | "COGNITO_USER_POOLS" | (string & {});
 export type ProviderARN = string;
@@ -187,37 +187,37 @@ export interface CreateAuthorizerRequest {
   restApiId: string;
   name: string;
   type: AuthorizerType;
-  providerARNs?: string[];
-  authType?: string;
-  authorizerUri?: string;
-  authorizerCredentials?: string;
-  identitySource?: string;
-  identityValidationExpression?: string;
-  authorizerResultTtlInSeconds?: number;
+  providerARNs?: string[] | undefined;
+  authType?: string | undefined;
+  authorizerUri?: string | undefined;
+  authorizerCredentials?: string | undefined;
+  identitySource?: string | undefined;
+  identityValidationExpression?: string | undefined;
+  authorizerResultTtlInSeconds?: number | undefined;
 }
 export interface Authorizer {
-  id?: string;
-  name?: string;
-  type?: AuthorizerType;
-  providerARNs?: string[];
-  authType?: string;
-  authorizerUri?: string;
-  authorizerCredentials?: string;
-  identitySource?: string;
-  identityValidationExpression?: string;
-  authorizerResultTtlInSeconds?: number;
+  id?: string | undefined;
+  name?: string | undefined;
+  type?: AuthorizerType | undefined;
+  providerARNs?: string[] | undefined;
+  authType?: string | undefined;
+  authorizerUri?: string | undefined;
+  authorizerCredentials?: string | undefined;
+  identitySource?: string | undefined;
+  identityValidationExpression?: string | undefined;
+  authorizerResultTtlInSeconds?: number | undefined;
 }
 export interface CreateBasePathMappingRequest {
   domainName: string;
-  domainNameId?: string;
-  basePath?: string;
+  domainNameId?: string | undefined;
+  basePath?: string | undefined;
   restApiId: string;
-  stage?: string;
+  stage?: string | undefined;
 }
 export interface BasePathMapping {
-  basePath?: string;
-  restApiId?: string;
-  stage?: string;
+  basePath?: string | undefined;
+  restApiId?: string | undefined;
+  stage?: string | undefined;
 }
 export type CacheClusterSize =
   | "0.5"
@@ -230,34 +230,36 @@ export type CacheClusterSize =
   | "237"
   | (string & {});
 export interface DeploymentCanarySettings {
-  percentTraffic?: number;
-  stageVariableOverrides?: { [key: string]: string | undefined };
-  useStageCache?: boolean;
+  percentTraffic?: number | undefined;
+  stageVariableOverrides?: { [key: string]: string | undefined } | undefined;
+  useStageCache?: boolean | undefined;
 }
 export interface CreateDeploymentRequest {
   restApiId: string;
-  stageName?: string;
-  stageDescription?: string;
-  description?: string;
-  cacheClusterEnabled?: boolean;
-  cacheClusterSize?: CacheClusterSize;
-  variables?: { [key: string]: string | undefined };
-  canarySettings?: DeploymentCanarySettings;
-  tracingEnabled?: boolean;
+  stageName?: string | undefined;
+  stageDescription?: string | undefined;
+  description?: string | undefined;
+  cacheClusterEnabled?: boolean | undefined;
+  cacheClusterSize?: CacheClusterSize | undefined;
+  variables?: { [key: string]: string | undefined } | undefined;
+  canarySettings?: DeploymentCanarySettings | undefined;
+  tracingEnabled?: boolean | undefined;
 }
 export interface MethodSnapshot {
-  authorizationType?: string;
-  apiKeyRequired?: boolean;
+  authorizationType?: string | undefined;
+  apiKeyRequired?: boolean | undefined;
 }
 export type MapOfMethodSnapshot = { [key: string]: MethodSnapshot | undefined };
 export type PathToMapOfMethodSnapshot = {
   [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined;
 };
 export interface Deployment {
-  id?: string;
-  description?: string;
-  createdDate?: Date;
-  apiSummary?: { [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined };
+  id?: string | undefined;
+  description?: string | undefined;
+  createdDate?: Date | undefined;
+  apiSummary?:
+    | { [key: string]: { [key: string]: MethodSnapshot | undefined } | undefined }
+    | undefined;
 }
 export type DocumentationPartType =
   | "API"
@@ -276,10 +278,10 @@ export type DocumentationPartType =
 export type DocumentationPartLocationStatusCode = string;
 export interface DocumentationPartLocation {
   type: DocumentationPartType;
-  path?: string;
-  method?: string;
-  statusCode?: string;
-  name?: string;
+  path?: string | undefined;
+  method?: string | undefined;
+  statusCode?: string | undefined;
+  name?: string | undefined;
 }
 export interface CreateDocumentationPartRequest {
   restApiId: string;
@@ -287,28 +289,28 @@ export interface CreateDocumentationPartRequest {
   properties: string;
 }
 export interface DocumentationPart {
-  id?: string;
-  location?: DocumentationPartLocation;
-  properties?: string;
+  id?: string | undefined;
+  location?: DocumentationPartLocation | undefined;
+  properties?: string | undefined;
 }
 export interface CreateDocumentationVersionRequest {
   restApiId: string;
   documentationVersion: string;
-  stageName?: string;
-  description?: string;
+  stageName?: string | undefined;
+  description?: string | undefined;
 }
 export interface DocumentationVersion {
-  version?: string;
-  createdDate?: Date;
-  description?: string;
+  version?: string | undefined;
+  createdDate?: Date | undefined;
+  description?: string | undefined;
 }
 export type EndpointType = "REGIONAL" | "EDGE" | "PRIVATE" | (string & {});
 export type ListOfEndpointType = EndpointType[];
 export type IpAddressType = "ipv4" | "dualstack" | (string & {});
 export interface EndpointConfiguration {
-  types?: EndpointType[];
-  ipAddressType?: IpAddressType;
-  vpcEndpointIds?: string[];
+  types?: EndpointType[] | undefined;
+  ipAddressType?: IpAddressType | undefined;
+  vpcEndpointIds?: string[] | undefined;
 }
 export type SecurityPolicy =
   | "TLS_1_0"
@@ -328,8 +330,8 @@ export type SecurityPolicy =
   | (string & {});
 export type EndpointAccessMode = "BASIC" | "STRICT" | (string & {});
 export interface MutualTlsAuthenticationInput {
-  truststoreUri?: string;
-  truststoreVersion?: string;
+  truststoreUri?: string | undefined;
+  truststoreVersion?: string | undefined;
 }
 export type RoutingMode =
   | "BASE_PATH_MAPPING_ONLY"
@@ -338,21 +340,21 @@ export type RoutingMode =
   | (string & {});
 export interface CreateDomainNameRequest {
   domainName: string;
-  certificateName?: string;
-  certificateBody?: string;
-  certificatePrivateKey?: string;
-  certificateChain?: string;
-  certificateArn?: string;
-  regionalCertificateName?: string;
-  regionalCertificateArn?: string;
-  endpointConfiguration?: EndpointConfiguration;
-  tags?: { [key: string]: string | undefined };
-  securityPolicy?: SecurityPolicy;
-  endpointAccessMode?: EndpointAccessMode;
-  mutualTlsAuthentication?: MutualTlsAuthenticationInput;
-  ownershipVerificationCertificateArn?: string;
-  policy?: string;
-  routingMode?: RoutingMode;
+  certificateName?: string | undefined;
+  certificateBody?: string | undefined;
+  certificatePrivateKey?: string | undefined;
+  certificateChain?: string | undefined;
+  certificateArn?: string | undefined;
+  regionalCertificateName?: string | undefined;
+  regionalCertificateArn?: string | undefined;
+  endpointConfiguration?: EndpointConfiguration | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  securityPolicy?: SecurityPolicy | undefined;
+  endpointAccessMode?: EndpointAccessMode | undefined;
+  mutualTlsAuthentication?: MutualTlsAuthenticationInput | undefined;
+  ownershipVerificationCertificateArn?: string | undefined;
+  policy?: string | undefined;
+  routingMode?: RoutingMode | undefined;
 }
 export type DomainNameStatus =
   | "AVAILABLE"
@@ -363,74 +365,74 @@ export type DomainNameStatus =
   | "FAILED"
   | (string & {});
 export interface MutualTlsAuthentication {
-  truststoreUri?: string;
-  truststoreVersion?: string;
-  truststoreWarnings?: string[];
+  truststoreUri?: string | undefined;
+  truststoreVersion?: string | undefined;
+  truststoreWarnings?: string[] | undefined;
 }
 export interface DomainName {
-  domainName?: string;
-  domainNameId?: string;
-  domainNameArn?: string;
-  certificateName?: string;
-  certificateArn?: string;
-  certificateUploadDate?: Date;
-  regionalDomainName?: string;
-  regionalHostedZoneId?: string;
-  regionalCertificateName?: string;
-  regionalCertificateArn?: string;
-  distributionDomainName?: string;
-  distributionHostedZoneId?: string;
-  endpointConfiguration?: EndpointConfiguration;
-  domainNameStatus?: DomainNameStatus;
-  domainNameStatusMessage?: string;
-  securityPolicy?: SecurityPolicy;
-  endpointAccessMode?: EndpointAccessMode;
-  tags?: { [key: string]: string | undefined };
-  mutualTlsAuthentication?: MutualTlsAuthentication;
-  ownershipVerificationCertificateArn?: string;
-  managementPolicy?: string;
-  policy?: string;
-  routingMode?: RoutingMode;
+  domainName?: string | undefined;
+  domainNameId?: string | undefined;
+  domainNameArn?: string | undefined;
+  certificateName?: string | undefined;
+  certificateArn?: string | undefined;
+  certificateUploadDate?: Date | undefined;
+  regionalDomainName?: string | undefined;
+  regionalHostedZoneId?: string | undefined;
+  regionalCertificateName?: string | undefined;
+  regionalCertificateArn?: string | undefined;
+  distributionDomainName?: string | undefined;
+  distributionHostedZoneId?: string | undefined;
+  endpointConfiguration?: EndpointConfiguration | undefined;
+  domainNameStatus?: DomainNameStatus | undefined;
+  domainNameStatusMessage?: string | undefined;
+  securityPolicy?: SecurityPolicy | undefined;
+  endpointAccessMode?: EndpointAccessMode | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  mutualTlsAuthentication?: MutualTlsAuthentication | undefined;
+  ownershipVerificationCertificateArn?: string | undefined;
+  managementPolicy?: string | undefined;
+  policy?: string | undefined;
+  routingMode?: RoutingMode | undefined;
 }
 export type AccessAssociationSourceType = "VPCE" | (string & {});
 export interface CreateDomainNameAccessAssociationRequest {
   domainNameArn: string;
   accessAssociationSourceType: AccessAssociationSourceType;
   accessAssociationSource: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DomainNameAccessAssociation {
-  domainNameAccessAssociationArn?: string;
-  domainNameArn?: string;
-  accessAssociationSourceType?: AccessAssociationSourceType;
-  accessAssociationSource?: string;
-  tags?: { [key: string]: string | undefined };
+  domainNameAccessAssociationArn?: string | undefined;
+  domainNameArn?: string | undefined;
+  accessAssociationSourceType?: AccessAssociationSourceType | undefined;
+  accessAssociationSource?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateModelRequest {
   restApiId: string;
   name: string;
-  description?: string;
-  schema?: string;
+  description?: string | undefined;
+  schema?: string | undefined;
   contentType: string;
 }
 export interface Model {
-  id?: string;
-  name?: string;
-  description?: string;
-  schema?: string;
-  contentType?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  schema?: string | undefined;
+  contentType?: string | undefined;
 }
 export interface CreateRequestValidatorRequest {
   restApiId: string;
-  name?: string;
-  validateRequestBody?: boolean;
-  validateRequestParameters?: boolean;
+  name?: string | undefined;
+  validateRequestBody?: boolean | undefined;
+  validateRequestParameters?: boolean | undefined;
 }
 export interface RequestValidator {
-  id?: string;
-  name?: string;
-  validateRequestBody?: boolean;
-  validateRequestParameters?: boolean;
+  id?: string | undefined;
+  name?: string | undefined;
+  validateRequestBody?: boolean | undefined;
+  validateRequestParameters?: boolean | undefined;
 }
 export interface CreateResourceRequest {
   restApiId: string;
@@ -440,121 +442,121 @@ export interface CreateResourceRequest {
 export type MapOfStringToBoolean = { [key: string]: boolean | undefined };
 export type StatusCode = string;
 export interface MethodResponse {
-  statusCode?: string;
-  responseParameters?: { [key: string]: boolean | undefined };
-  responseModels?: { [key: string]: string | undefined };
+  statusCode?: string | undefined;
+  responseParameters?: { [key: string]: boolean | undefined } | undefined;
+  responseModels?: { [key: string]: string | undefined } | undefined;
 }
 export type MapOfMethodResponse = { [key: string]: MethodResponse | undefined };
 export type IntegrationType = "HTTP" | "AWS" | "MOCK" | "HTTP_PROXY" | "AWS_PROXY" | (string & {});
 export type ConnectionType = "INTERNET" | "VPC_LINK" | (string & {});
 export type ContentHandlingStrategy = "CONVERT_TO_BINARY" | "CONVERT_TO_TEXT" | (string & {});
 export interface IntegrationResponse {
-  statusCode?: string;
-  selectionPattern?: string;
-  responseParameters?: { [key: string]: string | undefined };
-  responseTemplates?: { [key: string]: string | undefined };
-  contentHandling?: ContentHandlingStrategy;
+  statusCode?: string | undefined;
+  selectionPattern?: string | undefined;
+  responseParameters?: { [key: string]: string | undefined } | undefined;
+  responseTemplates?: { [key: string]: string | undefined } | undefined;
+  contentHandling?: ContentHandlingStrategy | undefined;
 }
 export type MapOfIntegrationResponse = { [key: string]: IntegrationResponse | undefined };
 export interface TlsConfig {
-  insecureSkipVerification?: boolean;
+  insecureSkipVerification?: boolean | undefined;
 }
 export type ResponseTransferMode = "BUFFERED" | "STREAM" | (string & {});
 export interface Integration {
-  type?: IntegrationType;
-  httpMethod?: string;
-  uri?: string;
-  connectionType?: ConnectionType;
-  connectionId?: string;
-  credentials?: string;
-  requestParameters?: { [key: string]: string | undefined };
-  requestTemplates?: { [key: string]: string | undefined };
-  passthroughBehavior?: string;
-  contentHandling?: ContentHandlingStrategy;
-  timeoutInMillis?: number;
-  cacheNamespace?: string;
-  cacheKeyParameters?: string[];
-  integrationResponses?: { [key: string]: IntegrationResponse | undefined };
-  tlsConfig?: TlsConfig;
-  responseTransferMode?: ResponseTransferMode;
-  integrationTarget?: string;
+  type?: IntegrationType | undefined;
+  httpMethod?: string | undefined;
+  uri?: string | undefined;
+  connectionType?: ConnectionType | undefined;
+  connectionId?: string | undefined;
+  credentials?: string | undefined;
+  requestParameters?: { [key: string]: string | undefined } | undefined;
+  requestTemplates?: { [key: string]: string | undefined } | undefined;
+  passthroughBehavior?: string | undefined;
+  contentHandling?: ContentHandlingStrategy | undefined;
+  timeoutInMillis?: number | undefined;
+  cacheNamespace?: string | undefined;
+  cacheKeyParameters?: string[] | undefined;
+  integrationResponses?: { [key: string]: IntegrationResponse | undefined } | undefined;
+  tlsConfig?: TlsConfig | undefined;
+  responseTransferMode?: ResponseTransferMode | undefined;
+  integrationTarget?: string | undefined;
 }
 export interface Method {
-  httpMethod?: string;
-  authorizationType?: string;
-  authorizerId?: string;
-  apiKeyRequired?: boolean;
-  requestValidatorId?: string;
-  operationName?: string;
-  requestParameters?: { [key: string]: boolean | undefined };
-  requestModels?: { [key: string]: string | undefined };
-  methodResponses?: { [key: string]: MethodResponse | undefined };
-  methodIntegration?: Integration;
-  authorizationScopes?: string[];
+  httpMethod?: string | undefined;
+  authorizationType?: string | undefined;
+  authorizerId?: string | undefined;
+  apiKeyRequired?: boolean | undefined;
+  requestValidatorId?: string | undefined;
+  operationName?: string | undefined;
+  requestParameters?: { [key: string]: boolean | undefined } | undefined;
+  requestModels?: { [key: string]: string | undefined } | undefined;
+  methodResponses?: { [key: string]: MethodResponse | undefined } | undefined;
+  methodIntegration?: Integration | undefined;
+  authorizationScopes?: string[] | undefined;
 }
 export type MapOfMethod = { [key: string]: Method | undefined };
 export interface Resource {
-  id?: string;
-  parentId?: string;
-  pathPart?: string;
-  path?: string;
-  resourceMethods?: { [key: string]: Method | undefined };
+  id?: string | undefined;
+  parentId?: string | undefined;
+  pathPart?: string | undefined;
+  path?: string | undefined;
+  resourceMethods?: { [key: string]: Method | undefined } | undefined;
 }
 export type ApiKeySourceType = "HEADER" | "AUTHORIZER" | (string & {});
 export interface CreateRestApiRequest {
   name: string;
-  description?: string;
-  version?: string;
-  cloneFrom?: string;
-  binaryMediaTypes?: string[];
-  minimumCompressionSize?: number;
-  apiKeySource?: ApiKeySourceType;
-  endpointConfiguration?: EndpointConfiguration;
-  policy?: string;
-  tags?: { [key: string]: string | undefined };
-  disableExecuteApiEndpoint?: boolean;
-  securityPolicy?: SecurityPolicy;
-  endpointAccessMode?: EndpointAccessMode;
+  description?: string | undefined;
+  version?: string | undefined;
+  cloneFrom?: string | undefined;
+  binaryMediaTypes?: string[] | undefined;
+  minimumCompressionSize?: number | undefined;
+  apiKeySource?: ApiKeySourceType | undefined;
+  endpointConfiguration?: EndpointConfiguration | undefined;
+  policy?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  disableExecuteApiEndpoint?: boolean | undefined;
+  securityPolicy?: SecurityPolicy | undefined;
+  endpointAccessMode?: EndpointAccessMode | undefined;
 }
 export type ApiStatus = "UPDATING" | "AVAILABLE" | "PENDING" | "FAILED" | (string & {});
 export interface RestApi {
-  id?: string;
-  name?: string;
-  description?: string;
-  createdDate?: Date;
-  version?: string;
-  warnings?: string[];
-  binaryMediaTypes?: string[];
-  minimumCompressionSize?: number;
-  apiKeySource?: ApiKeySourceType;
-  endpointConfiguration?: EndpointConfiguration;
-  policy?: string;
-  tags?: { [key: string]: string | undefined };
-  disableExecuteApiEndpoint?: boolean;
-  rootResourceId?: string;
-  securityPolicy?: SecurityPolicy;
-  endpointAccessMode?: EndpointAccessMode;
-  apiStatus?: ApiStatus;
-  apiStatusMessage?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  createdDate?: Date | undefined;
+  version?: string | undefined;
+  warnings?: string[] | undefined;
+  binaryMediaTypes?: string[] | undefined;
+  minimumCompressionSize?: number | undefined;
+  apiKeySource?: ApiKeySourceType | undefined;
+  endpointConfiguration?: EndpointConfiguration | undefined;
+  policy?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  disableExecuteApiEndpoint?: boolean | undefined;
+  rootResourceId?: string | undefined;
+  securityPolicy?: SecurityPolicy | undefined;
+  endpointAccessMode?: EndpointAccessMode | undefined;
+  apiStatus?: ApiStatus | undefined;
+  apiStatusMessage?: string | undefined;
 }
 export interface CanarySettings {
-  percentTraffic?: number;
-  deploymentId?: string;
-  stageVariableOverrides?: { [key: string]: string | undefined };
-  useStageCache?: boolean;
+  percentTraffic?: number | undefined;
+  deploymentId?: string | undefined;
+  stageVariableOverrides?: { [key: string]: string | undefined } | undefined;
+  useStageCache?: boolean | undefined;
 }
 export interface CreateStageRequest {
   restApiId: string;
   stageName: string;
   deploymentId: string;
-  description?: string;
-  cacheClusterEnabled?: boolean;
-  cacheClusterSize?: CacheClusterSize;
-  variables?: { [key: string]: string | undefined };
-  documentationVersion?: string;
-  canarySettings?: CanarySettings;
-  tracingEnabled?: boolean;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  cacheClusterEnabled?: boolean | undefined;
+  cacheClusterSize?: CacheClusterSize | undefined;
+  variables?: { [key: string]: string | undefined } | undefined;
+  documentationVersion?: string | undefined;
+  canarySettings?: CanarySettings | undefined;
+  tracingEnabled?: boolean | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type CacheClusterStatus =
   | "CREATE_IN_PROGRESS"
@@ -569,75 +571,75 @@ export type UnauthorizedCacheControlHeaderStrategy =
   | "SUCCEED_WITHOUT_RESPONSE_HEADER"
   | (string & {});
 export interface MethodSetting {
-  metricsEnabled?: boolean;
-  loggingLevel?: string;
-  dataTraceEnabled?: boolean;
-  throttlingBurstLimit?: number;
-  throttlingRateLimit?: number;
-  cachingEnabled?: boolean;
-  cacheTtlInSeconds?: number;
-  cacheDataEncrypted?: boolean;
-  requireAuthorizationForCacheControl?: boolean;
-  unauthorizedCacheControlHeaderStrategy?: UnauthorizedCacheControlHeaderStrategy;
+  metricsEnabled?: boolean | undefined;
+  loggingLevel?: string | undefined;
+  dataTraceEnabled?: boolean | undefined;
+  throttlingBurstLimit?: number | undefined;
+  throttlingRateLimit?: number | undefined;
+  cachingEnabled?: boolean | undefined;
+  cacheTtlInSeconds?: number | undefined;
+  cacheDataEncrypted?: boolean | undefined;
+  requireAuthorizationForCacheControl?: boolean | undefined;
+  unauthorizedCacheControlHeaderStrategy?: UnauthorizedCacheControlHeaderStrategy | undefined;
 }
 export type MapOfMethodSettings = { [key: string]: MethodSetting | undefined };
 export interface AccessLogSettings {
-  format?: string;
-  destinationArn?: string;
+  format?: string | undefined;
+  destinationArn?: string | undefined;
 }
 export interface Stage {
-  deploymentId?: string;
-  clientCertificateId?: string;
-  stageName?: string;
-  description?: string;
-  cacheClusterEnabled?: boolean;
-  cacheClusterSize?: CacheClusterSize;
-  cacheClusterStatus?: CacheClusterStatus;
-  methodSettings?: { [key: string]: MethodSetting | undefined };
-  variables?: { [key: string]: string | undefined };
-  documentationVersion?: string;
-  accessLogSettings?: AccessLogSettings;
-  canarySettings?: CanarySettings;
-  tracingEnabled?: boolean;
-  webAclArn?: string;
-  tags?: { [key: string]: string | undefined };
-  createdDate?: Date;
-  lastUpdatedDate?: Date;
+  deploymentId?: string | undefined;
+  clientCertificateId?: string | undefined;
+  stageName?: string | undefined;
+  description?: string | undefined;
+  cacheClusterEnabled?: boolean | undefined;
+  cacheClusterSize?: CacheClusterSize | undefined;
+  cacheClusterStatus?: CacheClusterStatus | undefined;
+  methodSettings?: { [key: string]: MethodSetting | undefined } | undefined;
+  variables?: { [key: string]: string | undefined } | undefined;
+  documentationVersion?: string | undefined;
+  accessLogSettings?: AccessLogSettings | undefined;
+  canarySettings?: CanarySettings | undefined;
+  tracingEnabled?: boolean | undefined;
+  webAclArn?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  createdDate?: Date | undefined;
+  lastUpdatedDate?: Date | undefined;
 }
 export interface ThrottleSettings {
-  burstLimit?: number;
-  rateLimit?: number;
+  burstLimit?: number | undefined;
+  rateLimit?: number | undefined;
 }
 export type MapOfApiStageThrottleSettings = { [key: string]: ThrottleSettings | undefined };
 export interface ApiStage {
-  apiId?: string;
-  stage?: string;
-  throttle?: { [key: string]: ThrottleSettings | undefined };
+  apiId?: string | undefined;
+  stage?: string | undefined;
+  throttle?: { [key: string]: ThrottleSettings | undefined } | undefined;
 }
 export type ListOfApiStage = ApiStage[];
 export type QuotaPeriodType = "DAY" | "WEEK" | "MONTH" | (string & {});
 export interface QuotaSettings {
-  limit?: number;
-  offset?: number;
-  period?: QuotaPeriodType;
+  limit?: number | undefined;
+  offset?: number | undefined;
+  period?: QuotaPeriodType | undefined;
 }
 export interface CreateUsagePlanRequest {
   name: string;
-  description?: string;
-  apiStages?: ApiStage[];
-  throttle?: ThrottleSettings;
-  quota?: QuotaSettings;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  apiStages?: ApiStage[] | undefined;
+  throttle?: ThrottleSettings | undefined;
+  quota?: QuotaSettings | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UsagePlan {
-  id?: string;
-  name?: string;
-  description?: string;
-  apiStages?: ApiStage[];
-  throttle?: ThrottleSettings;
-  quota?: QuotaSettings;
-  productCode?: string;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  apiStages?: ApiStage[] | undefined;
+  throttle?: ThrottleSettings | undefined;
+  quota?: QuotaSettings | undefined;
+  productCode?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateUsagePlanKeyRequest {
   usagePlanId: string;
@@ -645,26 +647,26 @@ export interface CreateUsagePlanKeyRequest {
   keyType: string;
 }
 export interface UsagePlanKey {
-  id?: string;
-  type?: string;
-  value?: string;
-  name?: string;
+  id?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
+  name?: string | undefined;
 }
 export interface CreateVpcLinkRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   targetArns: string[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VpcLinkStatus = "AVAILABLE" | "PENDING" | "DELETING" | "FAILED" | (string & {});
 export interface VpcLink {
-  id?: string;
-  name?: string;
-  description?: string;
-  targetArns?: string[];
-  status?: VpcLinkStatus;
-  statusMessage?: string;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  targetArns?: string[] | undefined;
+  status?: VpcLinkStatus | undefined;
+  statusMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteApiKeyRequest {
   apiKey: string;
@@ -677,7 +679,7 @@ export interface DeleteAuthorizerRequest {
 export interface DeleteAuthorizerResponse {}
 export interface DeleteBasePathMappingRequest {
   domainName: string;
-  domainNameId?: string;
+  domainNameId?: string | undefined;
   basePath: string;
 }
 export interface DeleteBasePathMappingResponse {}
@@ -702,7 +704,7 @@ export interface DeleteDocumentationVersionRequest {
 export interface DeleteDocumentationVersionResponse {}
 export interface DeleteDomainNameRequest {
   domainName: string;
-  domainNameId?: string;
+  domainNameId?: string | undefined;
 }
 export interface DeleteDomainNameResponse {}
 export interface DeleteDomainNameAccessAssociationRequest {
@@ -811,40 +813,40 @@ export interface FlushStageCacheRequest {
 }
 export interface FlushStageCacheResponse {}
 export interface GenerateClientCertificateRequest {
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface ClientCertificate {
-  clientCertificateId?: string;
-  description?: string;
-  pemEncodedCertificate?: string;
-  createdDate?: Date;
-  expirationDate?: Date;
-  tags?: { [key: string]: string | undefined };
+  clientCertificateId?: string | undefined;
+  description?: string | undefined;
+  pemEncodedCertificate?: string | undefined;
+  createdDate?: Date | undefined;
+  expirationDate?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetAccountRequest {}
 export interface Account {
-  cloudwatchRoleArn?: string;
-  throttleSettings?: ThrottleSettings;
-  features?: string[];
-  apiKeyVersion?: string;
+  cloudwatchRoleArn?: string | undefined;
+  throttleSettings?: ThrottleSettings | undefined;
+  features?: string[] | undefined;
+  apiKeyVersion?: string | undefined;
 }
 export interface GetApiKeyRequest {
   apiKey: string;
-  includeValue?: boolean;
+  includeValue?: boolean | undefined;
 }
 export interface GetApiKeysRequest {
-  position?: string;
-  limit?: number;
-  nameQuery?: string;
-  customerId?: string;
-  includeValues?: boolean;
+  position?: string | undefined;
+  limit?: number | undefined;
+  nameQuery?: string | undefined;
+  customerId?: string | undefined;
+  includeValues?: boolean | undefined;
 }
 export type ListOfApiKey = ApiKey[];
 export interface ApiKeys {
-  warnings?: string[];
-  items?: ApiKey[];
-  position?: string;
+  warnings?: string[] | undefined;
+  items?: ApiKey[] | undefined;
+  position?: string | undefined;
 }
 export interface GetAuthorizerRequest {
   restApiId: string;
@@ -852,56 +854,56 @@ export interface GetAuthorizerRequest {
 }
 export interface GetAuthorizersRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfAuthorizer = Authorizer[];
 export interface Authorizers {
-  items?: Authorizer[];
-  position?: string;
+  items?: Authorizer[] | undefined;
+  position?: string | undefined;
 }
 export interface GetBasePathMappingRequest {
   domainName: string;
-  domainNameId?: string;
+  domainNameId?: string | undefined;
   basePath: string;
 }
 export interface GetBasePathMappingsRequest {
   domainName: string;
-  domainNameId?: string;
-  position?: string;
-  limit?: number;
+  domainNameId?: string | undefined;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfBasePathMapping = BasePathMapping[];
 export interface BasePathMappings {
-  items?: BasePathMapping[];
-  position?: string;
+  items?: BasePathMapping[] | undefined;
+  position?: string | undefined;
 }
 export interface GetClientCertificateRequest {
   clientCertificateId: string;
 }
 export interface GetClientCertificatesRequest {
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfClientCertificate = ClientCertificate[];
 export interface ClientCertificates {
-  items?: ClientCertificate[];
-  position?: string;
+  items?: ClientCertificate[] | undefined;
+  position?: string | undefined;
 }
 export interface GetDeploymentRequest {
   restApiId: string;
   deploymentId: string;
-  embed?: string[];
+  embed?: string[] | undefined;
 }
 export interface GetDeploymentsRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfDeployment = Deployment[];
 export interface Deployments {
-  items?: Deployment[];
-  position?: string;
+  items?: Deployment[] | undefined;
+  position?: string | undefined;
 }
 export interface GetDocumentationPartRequest {
   restApiId: string;
@@ -910,17 +912,17 @@ export interface GetDocumentationPartRequest {
 export type LocationStatusType = "DOCUMENTED" | "UNDOCUMENTED" | (string & {});
 export interface GetDocumentationPartsRequest {
   restApiId: string;
-  type?: DocumentationPartType;
-  nameQuery?: string;
-  path?: string;
-  position?: string;
-  limit?: number;
-  locationStatus?: LocationStatusType;
+  type?: DocumentationPartType | undefined;
+  nameQuery?: string | undefined;
+  path?: string | undefined;
+  position?: string | undefined;
+  limit?: number | undefined;
+  locationStatus?: LocationStatusType | undefined;
 }
 export type ListOfDocumentationPart = DocumentationPart[];
 export interface DocumentationParts {
-  items?: DocumentationPart[];
-  position?: string;
+  items?: DocumentationPart[] | undefined;
+  position?: string | undefined;
 }
 export interface GetDocumentationVersionRequest {
   restApiId: string;
@@ -928,71 +930,71 @@ export interface GetDocumentationVersionRequest {
 }
 export interface GetDocumentationVersionsRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfDocumentationVersion = DocumentationVersion[];
 export interface DocumentationVersions {
-  items?: DocumentationVersion[];
-  position?: string;
+  items?: DocumentationVersion[] | undefined;
+  position?: string | undefined;
 }
 export interface GetDomainNameRequest {
   domainName: string;
-  domainNameId?: string;
+  domainNameId?: string | undefined;
 }
 export type ResourceOwner = "SELF" | "OTHER_ACCOUNTS" | (string & {});
 export interface GetDomainNameAccessAssociationsRequest {
-  position?: string;
-  limit?: number;
-  resourceOwner?: ResourceOwner;
+  position?: string | undefined;
+  limit?: number | undefined;
+  resourceOwner?: ResourceOwner | undefined;
 }
 export type ListOfDomainNameAccessAssociation = DomainNameAccessAssociation[];
 export interface DomainNameAccessAssociations {
-  items?: DomainNameAccessAssociation[];
-  position?: string;
+  items?: DomainNameAccessAssociation[] | undefined;
+  position?: string | undefined;
 }
 export interface GetDomainNamesRequest {
-  position?: string;
-  limit?: number;
-  resourceOwner?: ResourceOwner;
+  position?: string | undefined;
+  limit?: number | undefined;
+  resourceOwner?: ResourceOwner | undefined;
 }
 export type ListOfDomainName = DomainName[];
 export interface DomainNames {
-  items?: DomainName[];
-  position?: string;
+  items?: DomainName[] | undefined;
+  position?: string | undefined;
 }
 export interface GetExportRequest {
   restApiId: string;
   stageName: string;
   exportType: string;
-  parameters?: { [key: string]: string | undefined };
-  accepts?: string;
+  parameters?: { [key: string]: string | undefined } | undefined;
+  accepts?: string | undefined;
 }
 export interface ExportResponse {
-  contentType?: string;
-  contentDisposition?: string;
-  body?: T.StreamingOutputBody;
+  contentType?: string | undefined;
+  contentDisposition?: string | undefined;
+  body?: T.StreamingOutputBody | undefined;
 }
 export interface GetGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
 }
 export interface GatewayResponse {
-  responseType?: GatewayResponseType;
-  statusCode?: string;
-  responseParameters?: { [key: string]: string | undefined };
-  responseTemplates?: { [key: string]: string | undefined };
-  defaultResponse?: boolean;
+  responseType?: GatewayResponseType | undefined;
+  statusCode?: string | undefined;
+  responseParameters?: { [key: string]: string | undefined } | undefined;
+  responseTemplates?: { [key: string]: string | undefined } | undefined;
+  defaultResponse?: boolean | undefined;
 }
 export interface GetGatewayResponsesRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfGatewayResponse = GatewayResponse[];
 export interface GatewayResponses {
-  items?: GatewayResponse[];
-  position?: string;
+  items?: GatewayResponse[] | undefined;
+  position?: string | undefined;
 }
 export interface GetIntegrationRequest {
   restApiId: string;
@@ -1019,24 +1021,24 @@ export interface GetMethodResponseRequest {
 export interface GetModelRequest {
   restApiId: string;
   modelName: string;
-  flatten?: boolean;
+  flatten?: boolean | undefined;
 }
 export interface GetModelsRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfModel = Model[];
 export interface Models {
-  items?: Model[];
-  position?: string;
+  items?: Model[] | undefined;
+  position?: string | undefined;
 }
 export interface GetModelTemplateRequest {
   restApiId: string;
   modelName: string;
 }
 export interface Template {
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetRequestValidatorRequest {
   restApiId: string;
@@ -1044,77 +1046,77 @@ export interface GetRequestValidatorRequest {
 }
 export interface GetRequestValidatorsRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfRequestValidator = RequestValidator[];
 export interface RequestValidators {
-  items?: RequestValidator[];
-  position?: string;
+  items?: RequestValidator[] | undefined;
+  position?: string | undefined;
 }
 export interface GetResourceRequest {
   restApiId: string;
   resourceId: string;
-  embed?: string[];
+  embed?: string[] | undefined;
 }
 export interface GetResourcesRequest {
   restApiId: string;
-  position?: string;
-  limit?: number;
-  embed?: string[];
+  position?: string | undefined;
+  limit?: number | undefined;
+  embed?: string[] | undefined;
 }
 export type ListOfResource = Resource[];
 export interface Resources {
-  items?: Resource[];
-  position?: string;
+  items?: Resource[] | undefined;
+  position?: string | undefined;
 }
 export interface GetRestApiRequest {
   restApiId: string;
 }
 export interface GetRestApisRequest {
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfRestApi = RestApi[];
 export interface RestApis {
-  items?: RestApi[];
-  position?: string;
+  items?: RestApi[] | undefined;
+  position?: string | undefined;
 }
 export interface GetSdkRequest {
   restApiId: string;
   stageName: string;
   sdkType: string;
-  parameters?: { [key: string]: string | undefined };
+  parameters?: { [key: string]: string | undefined } | undefined;
 }
 export interface SdkResponse {
-  contentType?: string;
-  contentDisposition?: string;
-  body?: T.StreamingOutputBody;
+  contentType?: string | undefined;
+  contentDisposition?: string | undefined;
+  body?: T.StreamingOutputBody | undefined;
 }
 export interface GetSdkTypeRequest {
   id: string;
 }
 export interface SdkConfigurationProperty {
-  name?: string;
-  friendlyName?: string;
-  description?: string;
-  required?: boolean;
-  defaultValue?: string;
+  name?: string | undefined;
+  friendlyName?: string | undefined;
+  description?: string | undefined;
+  required?: boolean | undefined;
+  defaultValue?: string | undefined;
 }
 export type ListOfSdkConfigurationProperty = SdkConfigurationProperty[];
 export interface SdkType {
-  id?: string;
-  friendlyName?: string;
-  description?: string;
-  configurationProperties?: SdkConfigurationProperty[];
+  id?: string | undefined;
+  friendlyName?: string | undefined;
+  description?: string | undefined;
+  configurationProperties?: SdkConfigurationProperty[] | undefined;
 }
 export interface GetSdkTypesRequest {
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfSdkType = SdkType[];
 export interface SdkTypes {
-  items?: SdkType[];
+  items?: SdkType[] | undefined;
 }
 export interface GetStageRequest {
   restApiId: string;
@@ -1122,37 +1124,37 @@ export interface GetStageRequest {
 }
 export interface GetStagesRequest {
   restApiId: string;
-  deploymentId?: string;
+  deploymentId?: string | undefined;
 }
 export type ListOfStage = Stage[];
 export interface Stages {
-  item?: Stage[];
+  item?: Stage[] | undefined;
 }
 export interface GetTagsRequest {
   resourceArn: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export interface Tags {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetUsageRequest {
   usagePlanId: string;
-  keyId?: string;
+  keyId?: string | undefined;
   startDate: string;
   endDate: string;
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfLong = number[];
 export type ListOfUsage = number[][];
 export type MapOfKeyUsages = { [key: string]: number[][] | undefined };
 export interface Usage {
-  usagePlanId?: string;
-  startDate?: string;
-  endDate?: string;
-  items?: { [key: string]: number[][] | undefined };
-  position?: string;
+  usagePlanId?: string | undefined;
+  startDate?: string | undefined;
+  endDate?: string | undefined;
+  items?: { [key: string]: number[][] | undefined } | undefined;
+  position?: string | undefined;
 }
 export interface GetUsagePlanRequest {
   usagePlanId: string;
@@ -1163,127 +1165,127 @@ export interface GetUsagePlanKeyRequest {
 }
 export interface GetUsagePlanKeysRequest {
   usagePlanId: string;
-  position?: string;
-  limit?: number;
-  nameQuery?: string;
+  position?: string | undefined;
+  limit?: number | undefined;
+  nameQuery?: string | undefined;
 }
 export type ListOfUsagePlanKey = UsagePlanKey[];
 export interface UsagePlanKeys {
-  items?: UsagePlanKey[];
-  position?: string;
+  items?: UsagePlanKey[] | undefined;
+  position?: string | undefined;
 }
 export interface GetUsagePlansRequest {
-  position?: string;
-  keyId?: string;
-  limit?: number;
+  position?: string | undefined;
+  keyId?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfUsagePlan = UsagePlan[];
 export interface UsagePlans {
-  items?: UsagePlan[];
-  position?: string;
+  items?: UsagePlan[] | undefined;
+  position?: string | undefined;
 }
 export interface GetVpcLinkRequest {
   vpcLinkId: string;
 }
 export interface GetVpcLinksRequest {
-  position?: string;
-  limit?: number;
+  position?: string | undefined;
+  limit?: number | undefined;
 }
 export type ListOfVpcLink = VpcLink[];
 export interface VpcLinks {
-  items?: VpcLink[];
-  position?: string;
+  items?: VpcLink[] | undefined;
+  position?: string | undefined;
 }
 export type ApiKeysFormat = "csv" | (string & {});
 export interface ImportApiKeysRequest {
   body: T.StreamingInputBody;
   format: ApiKeysFormat;
-  failOnWarnings?: boolean;
+  failOnWarnings?: boolean | undefined;
 }
 export interface ApiKeyIds {
-  ids?: string[];
-  warnings?: string[];
+  ids?: string[] | undefined;
+  warnings?: string[] | undefined;
 }
 export type PutMode = "merge" | "overwrite" | (string & {});
 export interface ImportDocumentationPartsRequest {
   restApiId: string;
-  mode?: PutMode;
-  failOnWarnings?: boolean;
+  mode?: PutMode | undefined;
+  failOnWarnings?: boolean | undefined;
   body: T.StreamingInputBody;
 }
 export interface DocumentationPartIds {
-  ids?: string[];
-  warnings?: string[];
+  ids?: string[] | undefined;
+  warnings?: string[] | undefined;
 }
 export interface ImportRestApiRequest {
-  failOnWarnings?: boolean;
-  parameters?: { [key: string]: string | undefined };
+  failOnWarnings?: boolean | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
   body: T.StreamingInputBody;
 }
 export interface PutGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
-  statusCode?: string;
-  responseParameters?: { [key: string]: string | undefined };
-  responseTemplates?: { [key: string]: string | undefined };
+  statusCode?: string | undefined;
+  responseParameters?: { [key: string]: string | undefined } | undefined;
+  responseTemplates?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutIntegrationRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   type: IntegrationType;
-  integrationHttpMethod?: string;
-  uri?: string;
-  connectionType?: ConnectionType;
-  connectionId?: string;
-  credentials?: string;
-  requestParameters?: { [key: string]: string | undefined };
-  requestTemplates?: { [key: string]: string | undefined };
-  passthroughBehavior?: string;
-  cacheNamespace?: string;
-  cacheKeyParameters?: string[];
-  contentHandling?: ContentHandlingStrategy;
-  timeoutInMillis?: number;
-  tlsConfig?: TlsConfig;
-  responseTransferMode?: ResponseTransferMode;
-  integrationTarget?: string;
+  integrationHttpMethod?: string | undefined;
+  uri?: string | undefined;
+  connectionType?: ConnectionType | undefined;
+  connectionId?: string | undefined;
+  credentials?: string | undefined;
+  requestParameters?: { [key: string]: string | undefined } | undefined;
+  requestTemplates?: { [key: string]: string | undefined } | undefined;
+  passthroughBehavior?: string | undefined;
+  cacheNamespace?: string | undefined;
+  cacheKeyParameters?: string[] | undefined;
+  contentHandling?: ContentHandlingStrategy | undefined;
+  timeoutInMillis?: number | undefined;
+  tlsConfig?: TlsConfig | undefined;
+  responseTransferMode?: ResponseTransferMode | undefined;
+  integrationTarget?: string | undefined;
 }
 export interface PutIntegrationResponseRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  selectionPattern?: string;
-  responseParameters?: { [key: string]: string | undefined };
-  responseTemplates?: { [key: string]: string | undefined };
-  contentHandling?: ContentHandlingStrategy;
+  selectionPattern?: string | undefined;
+  responseParameters?: { [key: string]: string | undefined } | undefined;
+  responseTemplates?: { [key: string]: string | undefined } | undefined;
+  contentHandling?: ContentHandlingStrategy | undefined;
 }
 export interface PutMethodRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   authorizationType: string;
-  authorizerId?: string;
-  apiKeyRequired?: boolean;
-  operationName?: string;
-  requestParameters?: { [key: string]: boolean | undefined };
-  requestModels?: { [key: string]: string | undefined };
-  requestValidatorId?: string;
-  authorizationScopes?: string[];
+  authorizerId?: string | undefined;
+  apiKeyRequired?: boolean | undefined;
+  operationName?: string | undefined;
+  requestParameters?: { [key: string]: boolean | undefined } | undefined;
+  requestModels?: { [key: string]: string | undefined } | undefined;
+  requestValidatorId?: string | undefined;
+  authorizationScopes?: string[] | undefined;
 }
 export interface PutMethodResponseRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  responseParameters?: { [key: string]: boolean | undefined };
-  responseModels?: { [key: string]: string | undefined };
+  responseParameters?: { [key: string]: boolean | undefined } | undefined;
+  responseModels?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutRestApiRequest {
   restApiId: string;
-  mode?: PutMode;
-  failOnWarnings?: boolean;
-  parameters?: { [key: string]: string | undefined };
+  mode?: PutMode | undefined;
+  failOnWarnings?: boolean | undefined;
+  parameters?: { [key: string]: string | undefined } | undefined;
   body: T.StreamingInputBody;
 }
 export interface RejectDomainNameAccessAssociationRequest {
@@ -1300,40 +1302,40 @@ export type MapOfStringToList = { [key: string]: string[] | undefined };
 export interface TestInvokeAuthorizerRequest {
   restApiId: string;
   authorizerId: string;
-  headers?: { [key: string]: string | undefined };
-  multiValueHeaders?: { [key: string]: string[] | undefined };
-  pathWithQueryString?: string;
-  body?: string;
-  stageVariables?: { [key: string]: string | undefined };
-  additionalContext?: { [key: string]: string | undefined };
+  headers?: { [key: string]: string | undefined } | undefined;
+  multiValueHeaders?: { [key: string]: string[] | undefined } | undefined;
+  pathWithQueryString?: string | undefined;
+  body?: string | undefined;
+  stageVariables?: { [key: string]: string | undefined } | undefined;
+  additionalContext?: { [key: string]: string | undefined } | undefined;
 }
 export interface TestInvokeAuthorizerResponse {
-  clientStatus?: number;
-  log?: string;
-  latency?: number;
-  principalId?: string;
-  policy?: string;
-  authorization?: { [key: string]: string[] | undefined };
-  claims?: { [key: string]: string | undefined };
+  clientStatus?: number | undefined;
+  log?: string | undefined;
+  latency?: number | undefined;
+  principalId?: string | undefined;
+  policy?: string | undefined;
+  authorization?: { [key: string]: string[] | undefined } | undefined;
+  claims?: { [key: string]: string | undefined } | undefined;
 }
 export interface TestInvokeMethodRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
-  pathWithQueryString?: string;
-  body?: string;
-  headers?: { [key: string]: string | undefined };
-  multiValueHeaders?: { [key: string]: string[] | undefined };
-  clientCertificateId?: string;
-  stageVariables?: { [key: string]: string | undefined };
+  pathWithQueryString?: string | undefined;
+  body?: string | undefined;
+  headers?: { [key: string]: string | undefined } | undefined;
+  multiValueHeaders?: { [key: string]: string[] | undefined } | undefined;
+  clientCertificateId?: string | undefined;
+  stageVariables?: { [key: string]: string | undefined } | undefined;
 }
 export interface TestInvokeMethodResponse {
-  status?: number;
-  body?: string;
-  headers?: { [key: string]: string | undefined };
-  multiValueHeaders?: { [key: string]: string[] | undefined };
-  log?: string;
-  latency?: number;
+  status?: number | undefined;
+  body?: string | undefined;
+  headers?: { [key: string]: string | undefined } | undefined;
+  multiValueHeaders?: { [key: string]: string[] | undefined } | undefined;
+  log?: string | undefined;
+  latency?: number | undefined;
 }
 export interface UntagResourceRequest {
   resourceArn: string;
@@ -1342,121 +1344,121 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export type Op = "add" | "remove" | "replace" | "move" | "copy" | "test" | (string & {});
 export interface PatchOperation {
-  op?: Op;
-  path?: string;
-  value?: string;
-  from?: string;
+  op?: Op | undefined;
+  path?: string | undefined;
+  value?: string | undefined;
+  from?: string | undefined;
 }
 export type ListOfPatchOperation = PatchOperation[];
 export interface UpdateAccountRequest {
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateApiKeyRequest {
   apiKey: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateAuthorizerRequest {
   restApiId: string;
   authorizerId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateBasePathMappingRequest {
   domainName: string;
-  domainNameId?: string;
+  domainNameId?: string | undefined;
   basePath: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateClientCertificateRequest {
   clientCertificateId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateDeploymentRequest {
   restApiId: string;
   deploymentId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateDocumentationPartRequest {
   restApiId: string;
   documentationPartId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateDocumentationVersionRequest {
   restApiId: string;
   documentationVersion: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateDomainNameRequest {
   domainName: string;
-  domainNameId?: string;
-  patchOperations?: PatchOperation[];
+  domainNameId?: string | undefined;
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateGatewayResponseRequest {
   restApiId: string;
   responseType: GatewayResponseType;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateIntegrationRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateIntegrationResponseRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateMethodRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateMethodResponseRequest {
   restApiId: string;
   resourceId: string;
   httpMethod: string;
   statusCode: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateModelRequest {
   restApiId: string;
   modelName: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateRequestValidatorRequest {
   restApiId: string;
   requestValidatorId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateResourceRequest {
   restApiId: string;
   resourceId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateRestApiRequest {
   restApiId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateStageRequest {
   restApiId: string;
   stageName: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateUsageRequest {
   usagePlanId: string;
   keyId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateUsagePlanRequest {
   usagePlanId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export interface UpdateVpcLinkRequest {
   vpcLinkId: string;
-  patchOperations?: PatchOperation[];
+  patchOperations?: PatchOperation[] | undefined;
 }
 export type CreateApiKeyError =
   | BadRequestException

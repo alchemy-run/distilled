@@ -196,8 +196,8 @@ export interface AssociateFirewallRuleGroupRequest {
   VpcId: string;
   Priority: number;
   Name: string;
-  MutationProtection?: MutationProtectionStatus;
-  Tags?: Tag[];
+  MutationProtection?: MutationProtectionStatus | undefined;
+  Tags?: Tag[] | undefined;
 }
 export type Arn = string;
 export type ServicePrinciple = string;
@@ -209,31 +209,31 @@ export type FirewallRuleGroupAssociationStatus =
 export type StatusMessage = string;
 export type Rfc3339TimeString = string;
 export interface FirewallRuleGroupAssociation {
-  Id?: string;
-  Arn?: string;
-  FirewallRuleGroupId?: string;
-  VpcId?: string;
-  Name?: string;
-  Priority?: number;
-  MutationProtection?: MutationProtectionStatus;
-  ManagedOwnerName?: string;
-  Status?: FirewallRuleGroupAssociationStatus;
-  StatusMessage?: string;
-  CreatorRequestId?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  FirewallRuleGroupId?: string | undefined;
+  VpcId?: string | undefined;
+  Name?: string | undefined;
+  Priority?: number | undefined;
+  MutationProtection?: MutationProtectionStatus | undefined;
+  ManagedOwnerName?: string | undefined;
+  Status?: FirewallRuleGroupAssociationStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
 }
 export interface AssociateFirewallRuleGroupResponse {
-  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
+  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation | undefined;
 }
 export type SubnetId = string;
 export type Ip = string;
 export type Ipv6 = string;
 export interface IpAddressUpdate {
-  IpId?: string;
-  SubnetId?: string;
-  Ip?: string;
-  Ipv6?: string;
+  IpId?: string | undefined;
+  SubnetId?: string | undefined;
+  Ip?: string | undefined;
+  Ipv6?: string | undefined;
 }
 export interface AssociateResolverEndpointIpAddressRequest {
   ResolverEndpointId: string;
@@ -264,29 +264,29 @@ export type TargetNameServerMetricsEnabled = boolean;
 export type Dns64Enabled = boolean;
 export type Ipv6InternetAccessEnabled = boolean;
 export interface ResolverEndpoint {
-  Id?: string;
-  CreatorRequestId?: string;
-  Arn?: string;
-  Name?: string;
-  SecurityGroupIds?: string[];
-  Direction?: ResolverEndpointDirection;
-  IpAddressCount?: number;
-  HostVPCId?: string;
-  Status?: ResolverEndpointStatus;
-  StatusMessage?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
-  OutpostArn?: string;
-  PreferredInstanceType?: string;
-  ResolverEndpointType?: ResolverEndpointType;
-  Protocols?: Protocol[];
-  RniEnhancedMetricsEnabled?: boolean;
-  TargetNameServerMetricsEnabled?: boolean;
-  Dns64Enabled?: boolean;
-  Ipv6InternetAccessEnabled?: boolean;
+  Id?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  SecurityGroupIds?: string[] | undefined;
+  Direction?: ResolverEndpointDirection | undefined;
+  IpAddressCount?: number | undefined;
+  HostVPCId?: string | undefined;
+  Status?: ResolverEndpointStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
+  OutpostArn?: string | undefined;
+  PreferredInstanceType?: string | undefined;
+  ResolverEndpointType?: ResolverEndpointType | undefined;
+  Protocols?: Protocol[] | undefined;
+  RniEnhancedMetricsEnabled?: boolean | undefined;
+  TargetNameServerMetricsEnabled?: boolean | undefined;
+  Dns64Enabled?: boolean | undefined;
+  Ipv6InternetAccessEnabled?: boolean | undefined;
 }
 export interface AssociateResolverEndpointIpAddressResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export interface AssociateResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
@@ -307,20 +307,20 @@ export type ResolverQueryLogConfigAssociationError =
   | (string & {});
 export type ResolverQueryLogConfigAssociationErrorMessage = string;
 export interface ResolverQueryLogConfigAssociation {
-  Id?: string;
-  ResolverQueryLogConfigId?: string;
-  ResourceId?: string;
-  Status?: ResolverQueryLogConfigAssociationStatus;
-  Error?: ResolverQueryLogConfigAssociationError;
-  ErrorMessage?: string;
-  CreationTime?: string;
+  Id?: string | undefined;
+  ResolverQueryLogConfigId?: string | undefined;
+  ResourceId?: string | undefined;
+  Status?: ResolverQueryLogConfigAssociationStatus | undefined;
+  Error?: ResolverQueryLogConfigAssociationError | undefined;
+  ErrorMessage?: string | undefined;
+  CreationTime?: string | undefined;
 }
 export interface AssociateResolverQueryLogConfigResponse {
-  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation;
+  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation | undefined;
 }
 export interface AssociateResolverRuleRequest {
   ResolverRuleId: string;
-  Name?: string;
+  Name?: string | undefined;
   VPCId: string;
 }
 export type ResolverRuleAssociationStatus =
@@ -331,15 +331,15 @@ export type ResolverRuleAssociationStatus =
   | "OVERRIDDEN"
   | (string & {});
 export interface ResolverRuleAssociation {
-  Id?: string;
-  ResolverRuleId?: string;
-  Name?: string;
-  VPCId?: string;
-  Status?: ResolverRuleAssociationStatus;
-  StatusMessage?: string;
+  Id?: string | undefined;
+  ResolverRuleId?: string | undefined;
+  Name?: string | undefined;
+  VPCId?: string | undefined;
+  Status?: ResolverRuleAssociationStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface AssociateResolverRuleResponse {
-  ResolverRuleAssociation?: ResolverRuleAssociation;
+  ResolverRuleAssociation?: ResolverRuleAssociation | undefined;
 }
 export type Action = "ALLOW" | "BLOCK" | "ALERT" | (string & {});
 export type BlockResponse = "NODATA" | "NXDOMAIN" | "OVERRIDE" | (string & {});
@@ -371,27 +371,27 @@ export interface DnsThreatProtectionRuleTypeConfig {
   ConfidenceThreshold: ConfidenceThreshold;
 }
 export interface FirewallRuleType {
-  PartnerThreatProtection?: PartnerThreatProtectionConfig;
-  FirewallAdvancedContentCategory?: FirewallAdvancedContentCategoryConfig;
-  FirewallAdvancedThreatCategory?: FirewallAdvancedThreatCategoryConfig;
-  DnsThreatProtection?: DnsThreatProtectionRuleTypeConfig;
+  PartnerThreatProtection?: PartnerThreatProtectionConfig | undefined;
+  FirewallAdvancedContentCategory?: FirewallAdvancedContentCategoryConfig | undefined;
+  FirewallAdvancedThreatCategory?: FirewallAdvancedThreatCategoryConfig | undefined;
+  DnsThreatProtection?: DnsThreatProtectionRuleTypeConfig | undefined;
 }
 export interface CreateFirewallRuleEntry {
   CreatorRequestId: string;
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
+  FirewallDomainListId?: string | undefined;
   Priority: number;
   Action: Action;
-  BlockResponse?: BlockResponse;
-  BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: BlockOverrideDnsType;
-  BlockOverrideTtl?: number;
+  BlockResponse?: BlockResponse | undefined;
+  BlockOverrideDomain?: string | undefined;
+  BlockOverrideDnsType?: BlockOverrideDnsType | undefined;
+  BlockOverrideTtl?: number | undefined;
   Name: string;
-  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
-  Qtype?: string;
-  DnsThreatProtection?: DnsThreatProtection;
-  ConfidenceThreshold?: ConfidenceThreshold;
-  FirewallRuleType?: FirewallRuleType;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction | undefined;
+  Qtype?: string | undefined;
+  DnsThreatProtection?: DnsThreatProtection | undefined;
+  ConfidenceThreshold?: ConfidenceThreshold | undefined;
+  FirewallRuleType?: FirewallRuleType | undefined;
 }
 export type CreateFirewallRuleEntries = CreateFirewallRuleEntry[];
 export interface BatchCreateFirewallRuleRequest {
@@ -401,93 +401,93 @@ export type Unsigned = number;
 export type FirewallRuleStatus = string;
 export type FirewallRuleStatusMessage = string;
 export interface FirewallRule {
-  FirewallRuleGroupId?: string;
-  FirewallDomainListId?: string;
-  FirewallThreatProtectionId?: string;
-  Name?: string;
-  Priority?: number;
-  Action?: Action;
-  BlockResponse?: BlockResponse;
-  BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: BlockOverrideDnsType;
-  BlockOverrideTtl?: number;
-  CreatorRequestId?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
-  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
-  Qtype?: string;
-  DnsThreatProtection?: DnsThreatProtection;
-  ConfidenceThreshold?: ConfidenceThreshold;
-  FirewallRuleType?: FirewallRuleType;
-  Status?: string;
-  StatusMessage?: string;
+  FirewallRuleGroupId?: string | undefined;
+  FirewallDomainListId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Name?: string | undefined;
+  Priority?: number | undefined;
+  Action?: Action | undefined;
+  BlockResponse?: BlockResponse | undefined;
+  BlockOverrideDomain?: string | undefined;
+  BlockOverrideDnsType?: BlockOverrideDnsType | undefined;
+  BlockOverrideTtl?: number | undefined;
+  CreatorRequestId?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction | undefined;
+  Qtype?: string | undefined;
+  DnsThreatProtection?: DnsThreatProtection | undefined;
+  ConfidenceThreshold?: ConfidenceThreshold | undefined;
+  FirewallRuleType?: FirewallRuleType | undefined;
+  Status?: string | undefined;
+  StatusMessage?: string | undefined;
 }
 export type FirewallRules = FirewallRule[];
 export interface BatchCreateFirewallRuleError_ {
-  FirewallRule?: CreateFirewallRuleEntry;
-  Code?: string;
-  Message?: string;
+  FirewallRule?: CreateFirewallRuleEntry | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type BatchCreateFirewallRuleErrors = BatchCreateFirewallRuleError_[];
 export interface BatchCreateFirewallRuleResponse {
-  CreatedFirewallRules?: FirewallRule[];
-  CreateErrors?: BatchCreateFirewallRuleError_[];
+  CreatedFirewallRules?: FirewallRule[] | undefined;
+  CreateErrors?: BatchCreateFirewallRuleError_[] | undefined;
 }
 export interface DeleteFirewallRuleEntry {
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
-  FirewallThreatProtectionId?: string;
-  Qtype?: string;
+  FirewallDomainListId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Qtype?: string | undefined;
 }
 export type DeleteFirewallRuleEntries = DeleteFirewallRuleEntry[];
 export interface BatchDeleteFirewallRuleRequest {
   DeleteFirewallRuleEntries: DeleteFirewallRuleEntry[];
 }
 export interface BatchDeleteFirewallRuleError_ {
-  FirewallRule?: DeleteFirewallRuleEntry;
-  Code?: string;
-  Message?: string;
+  FirewallRule?: DeleteFirewallRuleEntry | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type BatchDeleteFirewallRuleErrors = BatchDeleteFirewallRuleError_[];
 export interface BatchDeleteFirewallRuleResponse {
-  DeletedFirewallRules?: FirewallRule[];
-  DeleteErrors?: BatchDeleteFirewallRuleError_[];
+  DeletedFirewallRules?: FirewallRule[] | undefined;
+  DeleteErrors?: BatchDeleteFirewallRuleError_[] | undefined;
 }
 export interface UpdateFirewallRuleEntry {
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
-  FirewallThreatProtectionId?: string;
-  Priority?: number;
-  Action?: Action;
-  BlockResponse?: BlockResponse;
-  BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: BlockOverrideDnsType;
-  BlockOverrideTtl?: number;
-  Name?: string;
-  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
-  Qtype?: string;
-  DnsThreatProtection?: DnsThreatProtection;
-  ConfidenceThreshold?: ConfidenceThreshold;
-  FirewallRuleType?: FirewallRuleType;
+  FirewallDomainListId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Priority?: number | undefined;
+  Action?: Action | undefined;
+  BlockResponse?: BlockResponse | undefined;
+  BlockOverrideDomain?: string | undefined;
+  BlockOverrideDnsType?: BlockOverrideDnsType | undefined;
+  BlockOverrideTtl?: number | undefined;
+  Name?: string | undefined;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction | undefined;
+  Qtype?: string | undefined;
+  DnsThreatProtection?: DnsThreatProtection | undefined;
+  ConfidenceThreshold?: ConfidenceThreshold | undefined;
+  FirewallRuleType?: FirewallRuleType | undefined;
 }
 export type UpdateFirewallRuleEntries = UpdateFirewallRuleEntry[];
 export interface BatchUpdateFirewallRuleRequest {
   UpdateFirewallRuleEntries: UpdateFirewallRuleEntry[];
 }
 export interface BatchUpdateFirewallRuleError_ {
-  FirewallRule?: UpdateFirewallRuleEntry;
-  Code?: string;
-  Message?: string;
+  FirewallRule?: UpdateFirewallRuleEntry | undefined;
+  Code?: string | undefined;
+  Message?: string | undefined;
 }
 export type BatchUpdateFirewallRuleErrors = BatchUpdateFirewallRuleError_[];
 export interface BatchUpdateFirewallRuleResponse {
-  UpdatedFirewallRules?: FirewallRule[];
-  UpdateErrors?: BatchUpdateFirewallRuleError_[];
+  UpdatedFirewallRules?: FirewallRule[] | undefined;
+  UpdateErrors?: BatchUpdateFirewallRuleError_[] | undefined;
 }
 export interface CreateFirewallDomainListRequest {
   CreatorRequestId: string;
   Name: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type FirewallDomainListStatus =
   | "COMPLETE"
@@ -499,75 +499,75 @@ export type FirewallDomainListStatus =
 export type Category = string;
 export type DomainListType = "THREAT" | "CONTENT" | (string & {});
 export interface FirewallDomainList {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  DomainCount?: number;
-  Status?: FirewallDomainListStatus;
-  StatusMessage?: string;
-  ManagedOwnerName?: string;
-  CreatorRequestId?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
-  Category?: string;
-  ManagedListType?: DomainListType;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DomainCount?: number | undefined;
+  Status?: FirewallDomainListStatus | undefined;
+  StatusMessage?: string | undefined;
+  ManagedOwnerName?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
+  Category?: string | undefined;
+  ManagedListType?: DomainListType | undefined;
 }
 export interface CreateFirewallDomainListResponse {
-  FirewallDomainList?: FirewallDomainList;
+  FirewallDomainList?: FirewallDomainList | undefined;
 }
 export interface CreateFirewallRuleRequest {
   CreatorRequestId: string;
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
+  FirewallDomainListId?: string | undefined;
   Priority: number;
   Action: Action;
-  BlockResponse?: BlockResponse;
-  BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: BlockOverrideDnsType;
-  BlockOverrideTtl?: number;
+  BlockResponse?: BlockResponse | undefined;
+  BlockOverrideDomain?: string | undefined;
+  BlockOverrideDnsType?: BlockOverrideDnsType | undefined;
+  BlockOverrideTtl?: number | undefined;
   Name: string;
-  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
-  Qtype?: string;
-  DnsThreatProtection?: DnsThreatProtection;
-  ConfidenceThreshold?: ConfidenceThreshold;
-  FirewallRuleType?: FirewallRuleType;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction | undefined;
+  Qtype?: string | undefined;
+  DnsThreatProtection?: DnsThreatProtection | undefined;
+  ConfidenceThreshold?: ConfidenceThreshold | undefined;
+  FirewallRuleType?: FirewallRuleType | undefined;
 }
 export interface CreateFirewallRuleResponse {
-  FirewallRule?: FirewallRule;
+  FirewallRule?: FirewallRule | undefined;
 }
 export interface CreateFirewallRuleGroupRequest {
   CreatorRequestId: string;
   Name: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type FirewallRuleGroupStatus = "COMPLETE" | "DELETING" | "UPDATING" | (string & {});
 export type AccountId = string;
 export type ShareStatus = "NOT_SHARED" | "SHARED_WITH_ME" | "SHARED_BY_ME" | (string & {});
 export interface FirewallRuleGroup {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  RuleCount?: number;
-  Status?: FirewallRuleGroupStatus;
-  StatusMessage?: string;
-  OwnerId?: string;
-  CreatorRequestId?: string;
-  ShareStatus?: ShareStatus;
-  CreationTime?: string;
-  ModificationTime?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  RuleCount?: number | undefined;
+  Status?: FirewallRuleGroupStatus | undefined;
+  StatusMessage?: string | undefined;
+  OwnerId?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  ShareStatus?: ShareStatus | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
 }
 export interface CreateFirewallRuleGroupResponse {
-  FirewallRuleGroup?: FirewallRuleGroup;
+  FirewallRuleGroup?: FirewallRuleGroup | undefined;
 }
 export type OutpostResolverName = string;
 export type InstanceCount = number;
 export interface CreateOutpostResolverRequest {
   CreatorRequestId: string;
   Name: string;
-  InstanceCount?: number;
+  InstanceCount?: number | undefined;
   PreferredInstanceType: string;
   OutpostArn: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type OutpostResolverStatus =
   | "CREATING"
@@ -580,45 +580,45 @@ export type OutpostResolverStatus =
   | (string & {});
 export type OutpostResolverStatusMessage = string;
 export interface OutpostResolver {
-  Arn?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
-  CreatorRequestId?: string;
-  Id?: string;
-  InstanceCount?: number;
-  PreferredInstanceType?: string;
-  Name?: string;
-  Status?: OutpostResolverStatus;
-  StatusMessage?: string;
-  OutpostArn?: string;
+  Arn?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  Id?: string | undefined;
+  InstanceCount?: number | undefined;
+  PreferredInstanceType?: string | undefined;
+  Name?: string | undefined;
+  Status?: OutpostResolverStatus | undefined;
+  StatusMessage?: string | undefined;
+  OutpostArn?: string | undefined;
 }
 export interface CreateOutpostResolverResponse {
-  OutpostResolver?: OutpostResolver;
+  OutpostResolver?: OutpostResolver | undefined;
 }
 export interface IpAddressRequest {
   SubnetId: string;
-  Ip?: string;
-  Ipv6?: string;
+  Ip?: string | undefined;
+  Ipv6?: string | undefined;
 }
 export type IpAddressesRequest = IpAddressRequest[];
 export interface CreateResolverEndpointRequest {
   CreatorRequestId: string;
-  Name?: string;
+  Name?: string | undefined;
   SecurityGroupIds: string[];
   Direction: ResolverEndpointDirection;
   IpAddresses: IpAddressRequest[];
-  OutpostArn?: string;
-  PreferredInstanceType?: string;
-  Tags?: Tag[];
-  ResolverEndpointType?: ResolverEndpointType;
-  Protocols?: Protocol[];
-  RniEnhancedMetricsEnabled?: boolean;
-  TargetNameServerMetricsEnabled?: boolean;
-  Dns64Enabled?: boolean;
-  Ipv6InternetAccessEnabled?: boolean;
+  OutpostArn?: string | undefined;
+  PreferredInstanceType?: string | undefined;
+  Tags?: Tag[] | undefined;
+  ResolverEndpointType?: ResolverEndpointType | undefined;
+  Protocols?: Protocol[] | undefined;
+  RniEnhancedMetricsEnabled?: boolean | undefined;
+  TargetNameServerMetricsEnabled?: boolean | undefined;
+  Dns64Enabled?: boolean | undefined;
+  Ipv6InternetAccessEnabled?: boolean | undefined;
 }
 export interface CreateResolverEndpointResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export type ResolverQueryLogConfigName = string;
 export type DestinationArn = string;
@@ -626,7 +626,7 @@ export interface CreateResolverQueryLogConfigRequest {
   Name: string;
   DestinationArn: string;
   CreatorRequestId: string;
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export type ResolverQueryLogConfigStatus =
   | "CREATING"
@@ -636,135 +636,135 @@ export type ResolverQueryLogConfigStatus =
   | (string & {});
 export type Count = number;
 export interface ResolverQueryLogConfig {
-  Id?: string;
-  OwnerId?: string;
-  Status?: ResolverQueryLogConfigStatus;
-  ShareStatus?: ShareStatus;
-  AssociationCount?: number;
-  Arn?: string;
-  Name?: string;
-  DestinationArn?: string;
-  CreatorRequestId?: string;
-  CreationTime?: string;
+  Id?: string | undefined;
+  OwnerId?: string | undefined;
+  Status?: ResolverQueryLogConfigStatus | undefined;
+  ShareStatus?: ShareStatus | undefined;
+  AssociationCount?: number | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  DestinationArn?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  CreationTime?: string | undefined;
 }
 export interface CreateResolverQueryLogConfigResponse {
-  ResolverQueryLogConfig?: ResolverQueryLogConfig;
+  ResolverQueryLogConfig?: ResolverQueryLogConfig | undefined;
 }
 export type RuleTypeOption = "FORWARD" | "SYSTEM" | "RECURSIVE" | "DELEGATE" | (string & {});
 export type DomainName = string;
 export type Port = number;
 export type ServerNameIndication = string;
 export interface TargetAddress {
-  Ip?: string;
-  Port?: number;
-  Ipv6?: string;
-  Protocol?: Protocol;
-  ServerNameIndication?: string;
+  Ip?: string | undefined;
+  Port?: number | undefined;
+  Ipv6?: string | undefined;
+  Protocol?: Protocol | undefined;
+  ServerNameIndication?: string | undefined;
 }
 export type TargetList = TargetAddress[];
 export type DelegationRecord = string;
 export interface CreateResolverRuleRequest {
   CreatorRequestId: string;
-  Name?: string;
+  Name?: string | undefined;
   RuleType: RuleTypeOption;
-  DomainName?: string;
-  TargetIps?: TargetAddress[];
-  ResolverEndpointId?: string;
-  Tags?: Tag[];
-  DelegationRecord?: string;
+  DomainName?: string | undefined;
+  TargetIps?: TargetAddress[] | undefined;
+  ResolverEndpointId?: string | undefined;
+  Tags?: Tag[] | undefined;
+  DelegationRecord?: string | undefined;
 }
 export type ResolverRuleStatus = "COMPLETE" | "DELETING" | "UPDATING" | "FAILED" | (string & {});
 export interface ResolverRule {
-  Id?: string;
-  CreatorRequestId?: string;
-  Arn?: string;
-  DomainName?: string;
-  Status?: ResolverRuleStatus;
-  StatusMessage?: string;
-  RuleType?: RuleTypeOption;
-  Name?: string;
-  TargetIps?: TargetAddress[];
-  ResolverEndpointId?: string;
-  OwnerId?: string;
-  ShareStatus?: ShareStatus;
-  CreationTime?: string;
-  ModificationTime?: string;
-  DelegationRecord?: string;
+  Id?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  Arn?: string | undefined;
+  DomainName?: string | undefined;
+  Status?: ResolverRuleStatus | undefined;
+  StatusMessage?: string | undefined;
+  RuleType?: RuleTypeOption | undefined;
+  Name?: string | undefined;
+  TargetIps?: TargetAddress[] | undefined;
+  ResolverEndpointId?: string | undefined;
+  OwnerId?: string | undefined;
+  ShareStatus?: ShareStatus | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
+  DelegationRecord?: string | undefined;
 }
 export interface CreateResolverRuleResponse {
-  ResolverRule?: ResolverRule;
+  ResolverRule?: ResolverRule | undefined;
 }
 export interface DeleteFirewallDomainListRequest {
   FirewallDomainListId: string;
 }
 export interface DeleteFirewallDomainListResponse {
-  FirewallDomainList?: FirewallDomainList;
+  FirewallDomainList?: FirewallDomainList | undefined;
 }
 export interface DeleteFirewallRuleRequest {
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
-  FirewallThreatProtectionId?: string;
-  Qtype?: string;
+  FirewallDomainListId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Qtype?: string | undefined;
 }
 export interface DeleteFirewallRuleResponse {
-  FirewallRule?: FirewallRule;
+  FirewallRule?: FirewallRule | undefined;
 }
 export interface DeleteFirewallRuleGroupRequest {
   FirewallRuleGroupId: string;
 }
 export interface DeleteFirewallRuleGroupResponse {
-  FirewallRuleGroup?: FirewallRuleGroup;
+  FirewallRuleGroup?: FirewallRuleGroup | undefined;
 }
 export interface DeleteOutpostResolverRequest {
   Id: string;
 }
 export interface DeleteOutpostResolverResponse {
-  OutpostResolver?: OutpostResolver;
+  OutpostResolver?: OutpostResolver | undefined;
 }
 export interface DeleteResolverEndpointRequest {
   ResolverEndpointId: string;
 }
 export interface DeleteResolverEndpointResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export interface DeleteResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
 }
 export interface DeleteResolverQueryLogConfigResponse {
-  ResolverQueryLogConfig?: ResolverQueryLogConfig;
+  ResolverQueryLogConfig?: ResolverQueryLogConfig | undefined;
 }
 export interface DeleteResolverRuleRequest {
   ResolverRuleId: string;
 }
 export interface DeleteResolverRuleResponse {
-  ResolverRule?: ResolverRule;
+  ResolverRule?: ResolverRule | undefined;
 }
 export interface DisassociateFirewallRuleGroupRequest {
   FirewallRuleGroupAssociationId: string;
 }
 export interface DisassociateFirewallRuleGroupResponse {
-  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
+  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation | undefined;
 }
 export interface DisassociateResolverEndpointIpAddressRequest {
   ResolverEndpointId: string;
   IpAddress: IpAddressUpdate;
 }
 export interface DisassociateResolverEndpointIpAddressResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export interface DisassociateResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
   ResourceId: string;
 }
 export interface DisassociateResolverQueryLogConfigResponse {
-  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation;
+  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation | undefined;
 }
 export interface DisassociateResolverRuleRequest {
   VPCId: string;
   ResolverRuleId: string;
 }
 export interface DisassociateResolverRuleResponse {
-  ResolverRuleAssociation?: ResolverRuleAssociation;
+  ResolverRuleAssociation?: ResolverRuleAssociation | undefined;
 }
 export interface GetFirewallConfigRequest {
   ResourceId: string;
@@ -775,44 +775,44 @@ export type FirewallFailOpenStatus =
   | "USE_LOCAL_RESOURCE_SETTING"
   | (string & {});
 export interface FirewallConfig {
-  Id?: string;
-  ResourceId?: string;
-  OwnerId?: string;
-  FirewallFailOpen?: FirewallFailOpenStatus;
+  Id?: string | undefined;
+  ResourceId?: string | undefined;
+  OwnerId?: string | undefined;
+  FirewallFailOpen?: FirewallFailOpenStatus | undefined;
 }
 export interface GetFirewallConfigResponse {
-  FirewallConfig?: FirewallConfig;
+  FirewallConfig?: FirewallConfig | undefined;
 }
 export interface GetFirewallDomainListRequest {
   FirewallDomainListId: string;
 }
 export interface GetFirewallDomainListResponse {
-  FirewallDomainList?: FirewallDomainList;
+  FirewallDomainList?: FirewallDomainList | undefined;
 }
 export interface GetFirewallRuleGroupRequest {
   FirewallRuleGroupId: string;
 }
 export interface GetFirewallRuleGroupResponse {
-  FirewallRuleGroup?: FirewallRuleGroup;
+  FirewallRuleGroup?: FirewallRuleGroup | undefined;
 }
 export interface GetFirewallRuleGroupAssociationRequest {
   FirewallRuleGroupAssociationId: string;
 }
 export interface GetFirewallRuleGroupAssociationResponse {
-  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
+  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation | undefined;
 }
 export interface GetFirewallRuleGroupPolicyRequest {
   Arn: string;
 }
 export type FirewallRuleGroupPolicy = string;
 export interface GetFirewallRuleGroupPolicyResponse {
-  FirewallRuleGroupPolicy?: string;
+  FirewallRuleGroupPolicy?: string | undefined;
 }
 export interface GetOutpostResolverRequest {
   Id: string;
 }
 export interface GetOutpostResolverResponse {
-  OutpostResolver?: OutpostResolver;
+  OutpostResolver?: OutpostResolver | undefined;
 }
 export interface GetResolverConfigRequest {
   ResourceId: string;
@@ -826,13 +826,13 @@ export type ResolverAutodefinedReverseStatus =
   | "USE_LOCAL_RESOURCE_SETTING"
   | (string & {});
 export interface ResolverConfig {
-  Id?: string;
-  ResourceId?: string;
-  OwnerId?: string;
-  AutodefinedReverse?: ResolverAutodefinedReverseStatus;
+  Id?: string | undefined;
+  ResourceId?: string | undefined;
+  OwnerId?: string | undefined;
+  AutodefinedReverse?: ResolverAutodefinedReverseStatus | undefined;
 }
 export interface GetResolverConfigResponse {
-  ResolverConfig?: ResolverConfig;
+  ResolverConfig?: ResolverConfig | undefined;
 }
 export interface GetResolverDnssecConfigRequest {
   ResourceId: string;
@@ -846,57 +846,57 @@ export type ResolverDNSSECValidationStatus =
   | "USE_LOCAL_RESOURCE_SETTING"
   | (string & {});
 export interface ResolverDnssecConfig {
-  Id?: string;
-  OwnerId?: string;
-  ResourceId?: string;
-  ValidationStatus?: ResolverDNSSECValidationStatus;
+  Id?: string | undefined;
+  OwnerId?: string | undefined;
+  ResourceId?: string | undefined;
+  ValidationStatus?: ResolverDNSSECValidationStatus | undefined;
 }
 export interface GetResolverDnssecConfigResponse {
-  ResolverDNSSECConfig?: ResolverDnssecConfig;
+  ResolverDNSSECConfig?: ResolverDnssecConfig | undefined;
 }
 export interface GetResolverEndpointRequest {
   ResolverEndpointId: string;
 }
 export interface GetResolverEndpointResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export interface GetResolverQueryLogConfigRequest {
   ResolverQueryLogConfigId: string;
 }
 export interface GetResolverQueryLogConfigResponse {
-  ResolverQueryLogConfig?: ResolverQueryLogConfig;
+  ResolverQueryLogConfig?: ResolverQueryLogConfig | undefined;
 }
 export interface GetResolverQueryLogConfigAssociationRequest {
   ResolverQueryLogConfigAssociationId: string;
 }
 export interface GetResolverQueryLogConfigAssociationResponse {
-  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation;
+  ResolverQueryLogConfigAssociation?: ResolverQueryLogConfigAssociation | undefined;
 }
 export interface GetResolverQueryLogConfigPolicyRequest {
   Arn: string;
 }
 export type ResolverQueryLogConfigPolicy = string;
 export interface GetResolverQueryLogConfigPolicyResponse {
-  ResolverQueryLogConfigPolicy?: string;
+  ResolverQueryLogConfigPolicy?: string | undefined;
 }
 export interface GetResolverRuleRequest {
   ResolverRuleId: string;
 }
 export interface GetResolverRuleResponse {
-  ResolverRule?: ResolverRule;
+  ResolverRule?: ResolverRule | undefined;
 }
 export interface GetResolverRuleAssociationRequest {
   ResolverRuleAssociationId: string;
 }
 export interface GetResolverRuleAssociationResponse {
-  ResolverRuleAssociation?: ResolverRuleAssociation;
+  ResolverRuleAssociation?: ResolverRuleAssociation | undefined;
 }
 export interface GetResolverRulePolicyRequest {
   Arn: string;
 }
 export type ResolverRulePolicy = string;
 export interface GetResolverRulePolicyResponse {
-  ResolverRulePolicy?: string;
+  ResolverRulePolicy?: string | undefined;
 }
 export type FirewallDomainImportOperation = "REPLACE" | (string & {});
 export type DomainListFileUrl = string;
@@ -906,99 +906,99 @@ export interface ImportFirewallDomainsRequest {
   DomainFileUrl: string;
 }
 export interface ImportFirewallDomainsResponse {
-  Id?: string;
-  Name?: string;
-  Status?: FirewallDomainListStatus;
-  StatusMessage?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Status?: FirewallDomainListStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export type ListFirewallConfigsMaxResult = number;
 export type NextToken = string;
 export interface ListFirewallConfigsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FirewallConfigList = FirewallConfig[];
 export interface ListFirewallConfigsResponse {
-  NextToken?: string;
-  FirewallConfigs?: FirewallConfig[];
+  NextToken?: string | undefined;
+  FirewallConfigs?: FirewallConfig[] | undefined;
 }
 export type MaxResults = number;
 export interface ListFirewallDomainListsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FirewallDomainListMetadata {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  CreatorRequestId?: string;
-  ManagedOwnerName?: string;
-  ManagedListType?: DomainListType;
-  Category?: string;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  ManagedOwnerName?: string | undefined;
+  ManagedListType?: DomainListType | undefined;
+  Category?: string | undefined;
 }
 export type FirewallDomainListMetadataList = FirewallDomainListMetadata[];
 export interface ListFirewallDomainListsResponse {
-  NextToken?: string;
-  FirewallDomainLists?: FirewallDomainListMetadata[];
+  NextToken?: string | undefined;
+  FirewallDomainLists?: FirewallDomainListMetadata[] | undefined;
 }
 export type ListDomainMaxResults = number;
 export interface ListFirewallDomainsRequest {
   FirewallDomainListId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FirewallDomainName = string;
 export type FirewallDomains = string[];
 export interface ListFirewallDomainsResponse {
-  NextToken?: string;
-  Domains?: string[];
+  NextToken?: string | undefined;
+  Domains?: string[] | undefined;
 }
 export interface ListFirewallRuleGroupAssociationsRequest {
-  FirewallRuleGroupId?: string;
-  VpcId?: string;
-  Priority?: number;
-  Status?: FirewallRuleGroupAssociationStatus;
-  MaxResults?: number;
-  NextToken?: string;
+  FirewallRuleGroupId?: string | undefined;
+  VpcId?: string | undefined;
+  Priority?: number | undefined;
+  Status?: FirewallRuleGroupAssociationStatus | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type FirewallRuleGroupAssociations = FirewallRuleGroupAssociation[];
 export interface ListFirewallRuleGroupAssociationsResponse {
-  NextToken?: string;
-  FirewallRuleGroupAssociations?: FirewallRuleGroupAssociation[];
+  NextToken?: string | undefined;
+  FirewallRuleGroupAssociations?: FirewallRuleGroupAssociation[] | undefined;
 }
 export interface ListFirewallRuleGroupsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface FirewallRuleGroupMetadata {
-  Id?: string;
-  Arn?: string;
-  Name?: string;
-  OwnerId?: string;
-  CreatorRequestId?: string;
-  ShareStatus?: ShareStatus;
+  Id?: string | undefined;
+  Arn?: string | undefined;
+  Name?: string | undefined;
+  OwnerId?: string | undefined;
+  CreatorRequestId?: string | undefined;
+  ShareStatus?: ShareStatus | undefined;
 }
 export type FirewallRuleGroupMetadataList = FirewallRuleGroupMetadata[];
 export interface ListFirewallRuleGroupsResponse {
-  NextToken?: string;
-  FirewallRuleGroups?: FirewallRuleGroupMetadata[];
+  NextToken?: string | undefined;
+  FirewallRuleGroups?: FirewallRuleGroupMetadata[] | undefined;
 }
 export interface ListFirewallRulesRequest {
   FirewallRuleGroupId: string;
-  Priority?: number;
-  Action?: Action;
-  MaxResults?: number;
-  NextToken?: string;
+  Priority?: number | undefined;
+  Action?: Action | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListFirewallRulesResponse {
-  NextToken?: string;
-  FirewallRules?: FirewallRule[];
+  NextToken?: string | undefined;
+  FirewallRules?: FirewallRule[] | undefined;
 }
 export type RuleTypeName = string;
 export interface ListFirewallRuleTypesRequest {
-  RuleType?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  RuleType?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RuleTypeValue = string;
 export type DisplayName = string;
@@ -1006,63 +1006,63 @@ export type RuleTypeDescription = string;
 export type VendorName = string;
 export type ProductId = string;
 export interface SubscriptionInfo {
-  VendorName?: string;
-  ProductId?: string;
+  VendorName?: string | undefined;
+  ProductId?: string | undefined;
 }
 export interface FirewallRuleTypeDefinition {
-  RuleType?: string;
-  Value?: string;
-  DisplayName?: string;
-  Description?: string;
-  SubscriptionInfo?: SubscriptionInfo;
+  RuleType?: string | undefined;
+  Value?: string | undefined;
+  DisplayName?: string | undefined;
+  Description?: string | undefined;
+  SubscriptionInfo?: SubscriptionInfo | undefined;
 }
 export type FirewallRuleTypeDefinitions = FirewallRuleTypeDefinition[];
 export interface ListFirewallRuleTypesResponse {
-  FirewallRuleTypes?: FirewallRuleTypeDefinition[];
-  NextToken?: string;
+  FirewallRuleTypes?: FirewallRuleTypeDefinition[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListOutpostResolversRequest {
-  OutpostArn?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  OutpostArn?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type OutpostResolverList = OutpostResolver[];
 export interface ListOutpostResolversResponse {
-  OutpostResolvers?: OutpostResolver[];
-  NextToken?: string;
+  OutpostResolvers?: OutpostResolver[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ListResolverConfigsMaxResult = number;
 export interface ListResolverConfigsRequest {
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResolverConfigList = ResolverConfig[];
 export interface ListResolverConfigsResponse {
-  NextToken?: string;
-  ResolverConfigs?: ResolverConfig[];
+  NextToken?: string | undefined;
+  ResolverConfigs?: ResolverConfig[] | undefined;
 }
 export type FilterName = string;
 export type FilterValue = string;
 export type FilterValues = string[];
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type Filters = Filter[];
 export interface ListResolverDnssecConfigsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type ResolverDnssecConfigList = ResolverDnssecConfig[];
 export interface ListResolverDnssecConfigsResponse {
-  NextToken?: string;
-  ResolverDnssecConfigs?: ResolverDnssecConfig[];
+  NextToken?: string | undefined;
+  ResolverDnssecConfigs?: ResolverDnssecConfig[] | undefined;
 }
 export interface ListResolverEndpointIpAddressesRequest {
   ResolverEndpointId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type IpAddressStatus =
   | "CREATING"
@@ -1081,113 +1081,113 @@ export type IpAddressStatus =
   | "ISOLATED"
   | (string & {});
 export interface IpAddressResponse {
-  IpId?: string;
-  SubnetId?: string;
-  Ip?: string;
-  Ipv6?: string;
-  Status?: IpAddressStatus;
-  StatusMessage?: string;
-  CreationTime?: string;
-  ModificationTime?: string;
+  IpId?: string | undefined;
+  SubnetId?: string | undefined;
+  Ip?: string | undefined;
+  Ipv6?: string | undefined;
+  Status?: IpAddressStatus | undefined;
+  StatusMessage?: string | undefined;
+  CreationTime?: string | undefined;
+  ModificationTime?: string | undefined;
 }
 export type IpAddressesResponse = IpAddressResponse[];
 export interface ListResolverEndpointIpAddressesResponse {
-  NextToken?: string;
-  MaxResults?: number;
-  IpAddresses?: IpAddressResponse[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  IpAddresses?: IpAddressResponse[] | undefined;
 }
 export interface ListResolverEndpointsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type ResolverEndpoints = ResolverEndpoint[];
 export interface ListResolverEndpointsResponse {
-  NextToken?: string;
-  MaxResults?: number;
-  ResolverEndpoints?: ResolverEndpoint[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResolverEndpoints?: ResolverEndpoint[] | undefined;
 }
 export type SortByKey = string;
 export type SortOrder = "ASCENDING" | "DESCENDING" | (string & {});
 export interface ListResolverQueryLogConfigAssociationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
-  SortBy?: string;
-  SortOrder?: SortOrder;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
+  SortBy?: string | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type ResolverQueryLogConfigAssociationList = ResolverQueryLogConfigAssociation[];
 export interface ListResolverQueryLogConfigAssociationsResponse {
-  NextToken?: string;
-  TotalCount?: number;
-  TotalFilteredCount?: number;
-  ResolverQueryLogConfigAssociations?: ResolverQueryLogConfigAssociation[];
+  NextToken?: string | undefined;
+  TotalCount?: number | undefined;
+  TotalFilteredCount?: number | undefined;
+  ResolverQueryLogConfigAssociations?: ResolverQueryLogConfigAssociation[] | undefined;
 }
 export interface ListResolverQueryLogConfigsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
-  SortBy?: string;
-  SortOrder?: SortOrder;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
+  SortBy?: string | undefined;
+  SortOrder?: SortOrder | undefined;
 }
 export type ResolverQueryLogConfigList = ResolverQueryLogConfig[];
 export interface ListResolverQueryLogConfigsResponse {
-  NextToken?: string;
-  TotalCount?: number;
-  TotalFilteredCount?: number;
-  ResolverQueryLogConfigs?: ResolverQueryLogConfig[];
+  NextToken?: string | undefined;
+  TotalCount?: number | undefined;
+  TotalFilteredCount?: number | undefined;
+  ResolverQueryLogConfigs?: ResolverQueryLogConfig[] | undefined;
 }
 export interface ListResolverRuleAssociationsRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type ResolverRuleAssociations = ResolverRuleAssociation[];
 export interface ListResolverRuleAssociationsResponse {
-  NextToken?: string;
-  MaxResults?: number;
-  ResolverRuleAssociations?: ResolverRuleAssociation[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResolverRuleAssociations?: ResolverRuleAssociation[] | undefined;
 }
 export interface ListResolverRulesRequest {
-  MaxResults?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type ResolverRules = ResolverRule[];
 export interface ListResolverRulesResponse {
-  NextToken?: string;
-  MaxResults?: number;
-  ResolverRules?: ResolverRule[];
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
+  ResolverRules?: ResolverRule[] | undefined;
 }
 export interface ListTagsForResourceRequest {
   ResourceArn: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagsForResourceResponse {
-  Tags?: Tag[];
-  NextToken?: string;
+  Tags?: Tag[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutFirewallRuleGroupPolicyRequest {
   Arn: string;
   FirewallRuleGroupPolicy: string;
 }
 export interface PutFirewallRuleGroupPolicyResponse {
-  ReturnValue?: boolean;
+  ReturnValue?: boolean | undefined;
 }
 export interface PutResolverQueryLogConfigPolicyRequest {
   Arn: string;
   ResolverQueryLogConfigPolicy: string;
 }
 export interface PutResolverQueryLogConfigPolicyResponse {
-  ReturnValue?: boolean;
+  ReturnValue?: boolean | undefined;
 }
 export interface PutResolverRulePolicyRequest {
   Arn: string;
   ResolverRulePolicy: string;
 }
 export interface PutResolverRulePolicyResponse {
-  ReturnValue?: boolean;
+  ReturnValue?: boolean | undefined;
 }
 export interface TagResourceRequest {
   ResourceArn: string;
@@ -1205,7 +1205,7 @@ export interface UpdateFirewallConfigRequest {
   FirewallFailOpen: FirewallFailOpenStatus;
 }
 export interface UpdateFirewallConfigResponse {
-  FirewallConfig?: FirewallConfig;
+  FirewallConfig?: FirewallConfig | undefined;
 }
 export type FirewallDomainUpdateOperation = "ADD" | "REMOVE" | "REPLACE" | (string & {});
 export interface UpdateFirewallDomainsRequest {
@@ -1214,48 +1214,48 @@ export interface UpdateFirewallDomainsRequest {
   Domains: string[];
 }
 export interface UpdateFirewallDomainsResponse {
-  Id?: string;
-  Name?: string;
-  Status?: FirewallDomainListStatus;
-  StatusMessage?: string;
+  Id?: string | undefined;
+  Name?: string | undefined;
+  Status?: FirewallDomainListStatus | undefined;
+  StatusMessage?: string | undefined;
 }
 export interface UpdateFirewallRuleRequest {
   FirewallRuleGroupId: string;
-  FirewallDomainListId?: string;
-  FirewallThreatProtectionId?: string;
-  Priority?: number;
-  Action?: Action;
-  BlockResponse?: BlockResponse;
-  BlockOverrideDomain?: string;
-  BlockOverrideDnsType?: BlockOverrideDnsType;
-  BlockOverrideTtl?: number;
-  Name?: string;
-  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction;
-  Qtype?: string;
-  DnsThreatProtection?: DnsThreatProtection;
-  ConfidenceThreshold?: ConfidenceThreshold;
-  FirewallRuleType?: FirewallRuleType;
+  FirewallDomainListId?: string | undefined;
+  FirewallThreatProtectionId?: string | undefined;
+  Priority?: number | undefined;
+  Action?: Action | undefined;
+  BlockResponse?: BlockResponse | undefined;
+  BlockOverrideDomain?: string | undefined;
+  BlockOverrideDnsType?: BlockOverrideDnsType | undefined;
+  BlockOverrideTtl?: number | undefined;
+  Name?: string | undefined;
+  FirewallDomainRedirectionAction?: FirewallDomainRedirectionAction | undefined;
+  Qtype?: string | undefined;
+  DnsThreatProtection?: DnsThreatProtection | undefined;
+  ConfidenceThreshold?: ConfidenceThreshold | undefined;
+  FirewallRuleType?: FirewallRuleType | undefined;
 }
 export interface UpdateFirewallRuleResponse {
-  FirewallRule?: FirewallRule;
+  FirewallRule?: FirewallRule | undefined;
 }
 export interface UpdateFirewallRuleGroupAssociationRequest {
   FirewallRuleGroupAssociationId: string;
-  Priority?: number;
-  MutationProtection?: MutationProtectionStatus;
-  Name?: string;
+  Priority?: number | undefined;
+  MutationProtection?: MutationProtectionStatus | undefined;
+  Name?: string | undefined;
 }
 export interface UpdateFirewallRuleGroupAssociationResponse {
-  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation;
+  FirewallRuleGroupAssociation?: FirewallRuleGroupAssociation | undefined;
 }
 export interface UpdateOutpostResolverRequest {
   Id: string;
-  Name?: string;
-  InstanceCount?: number;
-  PreferredInstanceType?: string;
+  Name?: string | undefined;
+  InstanceCount?: number | undefined;
+  PreferredInstanceType?: string | undefined;
 }
 export interface UpdateOutpostResolverResponse {
-  OutpostResolver?: OutpostResolver;
+  OutpostResolver?: OutpostResolver | undefined;
 }
 export type AutodefinedReverseFlag =
   | "ENABLE"
@@ -1267,7 +1267,7 @@ export interface UpdateResolverConfigRequest {
   AutodefinedReverseFlag: AutodefinedReverseFlag;
 }
 export interface UpdateResolverConfigResponse {
-  ResolverConfig?: ResolverConfig;
+  ResolverConfig?: ResolverConfig | undefined;
 }
 export type Validation = "ENABLE" | "DISABLE" | "USE_LOCAL_RESOURCE_SETTING" | (string & {});
 export interface UpdateResolverDnssecConfigRequest {
@@ -1275,7 +1275,7 @@ export interface UpdateResolverDnssecConfigRequest {
   Validation: Validation;
 }
 export interface UpdateResolverDnssecConfigResponse {
-  ResolverDNSSECConfig?: ResolverDnssecConfig;
+  ResolverDNSSECConfig?: ResolverDnssecConfig | undefined;
 }
 export interface UpdateIpAddress {
   IpId: string;
@@ -1284,29 +1284,29 @@ export interface UpdateIpAddress {
 export type UpdateIpAddresses = UpdateIpAddress[];
 export interface UpdateResolverEndpointRequest {
   ResolverEndpointId: string;
-  Name?: string;
-  ResolverEndpointType?: ResolverEndpointType;
-  UpdateIpAddresses?: UpdateIpAddress[];
-  Protocols?: Protocol[];
-  RniEnhancedMetricsEnabled?: boolean;
-  TargetNameServerMetricsEnabled?: boolean;
-  Dns64Enabled?: boolean;
-  Ipv6InternetAccessEnabled?: boolean;
+  Name?: string | undefined;
+  ResolverEndpointType?: ResolverEndpointType | undefined;
+  UpdateIpAddresses?: UpdateIpAddress[] | undefined;
+  Protocols?: Protocol[] | undefined;
+  RniEnhancedMetricsEnabled?: boolean | undefined;
+  TargetNameServerMetricsEnabled?: boolean | undefined;
+  Dns64Enabled?: boolean | undefined;
+  Ipv6InternetAccessEnabled?: boolean | undefined;
 }
 export interface UpdateResolverEndpointResponse {
-  ResolverEndpoint?: ResolverEndpoint;
+  ResolverEndpoint?: ResolverEndpoint | undefined;
 }
 export interface ResolverRuleConfig {
-  Name?: string;
-  TargetIps?: TargetAddress[];
-  ResolverEndpointId?: string;
+  Name?: string | undefined;
+  TargetIps?: TargetAddress[] | undefined;
+  ResolverEndpointId?: string | undefined;
 }
 export interface UpdateResolverRuleRequest {
   ResolverRuleId: string;
   Config: ResolverRuleConfig;
 }
 export interface UpdateResolverRuleResponse {
-  ResolverRule?: ResolverRule;
+  ResolverRule?: ResolverRule | undefined;
 }
 export type ExceptionMessage = string;
 export type AssociateFirewallRuleGroupError =

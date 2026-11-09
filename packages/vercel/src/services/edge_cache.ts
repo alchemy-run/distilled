@@ -64,10 +64,10 @@ export type DangerouslyDeleteBySrcImagesRequestSrcImagesList = Array<string>;
 export interface DangerouslyDeleteBySrcImagesRequest {
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  revalidationDeadlineSeconds?: number;
+  slug?: string | undefined;
+  revalidationDeadlineSeconds?: number | undefined;
   srcImages: DangerouslyDeleteBySrcImagesRequestSrcImagesList;
 }
 export interface DangerouslyDeleteBySrcImagesResponse {}
@@ -79,21 +79,21 @@ export type DangerouslyDeleteByTagsRequestTarget = "production" | "preview";
 export interface DangerouslyDeleteByTagsRequest {
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
-  revalidationDeadlineSeconds?: number;
+  slug?: string | undefined;
+  revalidationDeadlineSeconds?: number | undefined;
   tags: DangerouslyDeleteByTagsRequestTags;
-  target?: DangerouslyDeleteByTagsRequestTarget | (string & {});
+  target?: DangerouslyDeleteByTagsRequestTarget | (string & {}) | undefined;
 }
 export interface DangerouslyDeleteByTagsResponse {}
 export type InvalidateBySrcImagesRequestSrcImagesList = Array<string>;
 export interface InvalidateBySrcImagesRequest {
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   srcImages: InvalidateBySrcImagesRequestSrcImagesList;
 }
 export interface InvalidateBySrcImagesResponse {}
@@ -103,11 +103,11 @@ export type InvalidateByTagsRequestTarget = "production" | "preview";
 export interface InvalidateByTagsRequest {
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   tags: InvalidateByTagsRequestTags;
-  target?: InvalidateByTagsRequestTarget | (string & {});
+  target?: InvalidateByTagsRequestTarget | (string & {}) | undefined;
 }
 export interface InvalidateByTagsResponse {}
 export type DangerouslyDeleteBySrcImagesError =

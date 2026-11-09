@@ -594,27 +594,27 @@ export type QuickSearchPostRequestRepoTypeCase0 =
 export type QuickSearchPostRequestRepoType = QuickSearchPostRequestRepoTypeCase0 | string;
 export type QuickSearchPostRequestSpacesTagsList = Array<string>;
 export interface QuickSearchPostRequest {
-  q?: string;
-  limit?: number;
-  lang?: QuickSearchPostRequestLang;
-  library?: QuickSearchPostRequestLibrary;
-  type?: QuickSearchPostRequestType;
-  orgsFilter?: QuickSearchPostRequestOrgsFilter;
-  reposFilter?: QuickSearchPostRequestReposFilter;
-  pipelines?: QuickSearchPostRequestPipelines;
-  exclude?: QuickSearchPostRequestExcludeList;
-  namespace?: string;
-  includeInvitees?: unknown;
-  repoName?: string;
-  repoType?: QuickSearchPostRequestRepoType;
-  discussionId?: string;
-  discussionCollectionName?: string;
-  spacesTags?: QuickSearchPostRequestSpacesTagsList;
+  q?: string | undefined;
+  limit?: number | undefined;
+  lang?: QuickSearchPostRequestLang | undefined;
+  library?: QuickSearchPostRequestLibrary | undefined;
+  type?: QuickSearchPostRequestType | undefined;
+  orgsFilter?: QuickSearchPostRequestOrgsFilter | undefined;
+  reposFilter?: QuickSearchPostRequestReposFilter | undefined;
+  pipelines?: QuickSearchPostRequestPipelines | undefined;
+  exclude?: QuickSearchPostRequestExcludeList | undefined;
+  namespace?: string | undefined;
+  includeInvitees?: unknown | undefined;
+  repoName?: string | undefined;
+  repoType?: QuickSearchPostRequestRepoType | undefined;
+  discussionId?: string | undefined;
+  discussionCollectionName?: string | undefined;
+  spacesTags?: QuickSearchPostRequestSpacesTagsList | undefined;
 }
 export interface QuickSearchPostResponseDatasetsItem {
   _id: string;
   id: string;
-  private?: boolean;
+  private?: boolean | undefined;
   trendingWeight: number;
 }
 export type QuickSearchPostResponseDatasetsList = Array<QuickSearchPostResponseDatasetsItem>;
@@ -630,7 +630,7 @@ export type QuickSearchPostResponseOrgsList = Array<QuickSearchPostResponseOrgsI
 export interface QuickSearchPostResponseSpacesItem {
   _id: string;
   id: string;
-  private?: boolean;
+  private?: boolean | undefined;
   emoji: string;
   trendingWeight: number;
 }
@@ -645,13 +645,13 @@ export type QuickSearchPostResponseUsersList = Array<QuickSearchPostResponseUser
 export interface QuickSearchPostResponsePapersItem {
   _id: string;
   id: string;
-  private?: boolean;
+  private?: boolean | undefined;
 }
 export type QuickSearchPostResponsePapersList = Array<QuickSearchPostResponsePapersItem>;
 export interface QuickSearchPostResponseCollectionsItem {
   _id: string;
   title: string;
-  description?: string;
+  description?: string | undefined;
 }
 export type QuickSearchPostResponseCollectionsList = Array<QuickSearchPostResponseCollectionsItem>;
 export type QuickSearchPostResponseBucketsItem = QuickSearchPostResponsePapersItem;
@@ -711,11 +711,11 @@ export type SearchFullTextRequestType =
   | SearchFullTextRequestTypeCase0
   | SearchFullTextRequestTypeCase1List;
 export interface SearchFullTextRequest {
-  q?: string;
-  limit?: number;
-  skip?: number;
-  type?: SearchFullTextRequestType;
-  filter?: string;
+  q?: string | undefined;
+  limit?: number | undefined;
+  skip?: number | undefined;
+  type?: SearchFullTextRequestType | undefined;
+  filter?: string | undefined;
 }
 export interface SearchFullTextResponse {}
 export type SearchQuickRequestLangCase0 =
@@ -1284,22 +1284,22 @@ export type SearchQuickRequestRepoTypeCase0 =
 export type SearchQuickRequestRepoType = SearchQuickRequestRepoTypeCase0 | string;
 export type SearchQuickRequestSpacesTagsList = Array<string>;
 export interface SearchQuickRequest {
-  q?: string;
-  limit?: number;
-  lang?: SearchQuickRequestLang;
-  library?: SearchQuickRequestLibrary;
-  type?: SearchQuickRequestType;
-  orgsFilter?: SearchQuickRequestOrgsFilter;
-  reposFilter?: SearchQuickRequestReposFilter;
-  pipelines?: SearchQuickRequestPipelines;
-  exclude?: SearchQuickRequestExcludeList;
-  namespace?: string;
-  includeInvitees?: unknown;
-  repoName?: string;
-  repoType?: SearchQuickRequestRepoType;
-  discussionId?: string;
-  discussionCollectionName?: string;
-  spacesTags?: SearchQuickRequestSpacesTagsList;
+  q?: string | undefined;
+  limit?: number | undefined;
+  lang?: SearchQuickRequestLang | undefined;
+  library?: SearchQuickRequestLibrary | undefined;
+  type?: SearchQuickRequestType | undefined;
+  orgsFilter?: SearchQuickRequestOrgsFilter | undefined;
+  reposFilter?: SearchQuickRequestReposFilter | undefined;
+  pipelines?: SearchQuickRequestPipelines | undefined;
+  exclude?: SearchQuickRequestExcludeList | undefined;
+  namespace?: string | undefined;
+  includeInvitees?: unknown | undefined;
+  repoName?: string | undefined;
+  repoType?: SearchQuickRequestRepoType | undefined;
+  discussionId?: string | undefined;
+  discussionCollectionName?: string | undefined;
+  spacesTags?: SearchQuickRequestSpacesTagsList | undefined;
 }
 export type SearchQuickResponseDatasetsItem = QuickSearchPostResponseDatasetsItem;
 export type SearchQuickResponseDatasetsList = Array<QuickSearchPostResponseDatasetsItem>;

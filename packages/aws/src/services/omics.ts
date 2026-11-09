@@ -164,7 +164,7 @@ export interface AcceptShareRequest {
 }
 export type ShareStatus = string;
 export interface AcceptShareResponse {
-  status?: string;
+  status?: string | undefined;
 }
 export type ReadSetId = string;
 export type ReadSetIdList = string[];
@@ -179,7 +179,7 @@ export interface ReadSetBatchError {
 }
 export type ReadSetBatchErrorList = ReadSetBatchError[];
 export interface BatchDeleteReadSetResponse {
-  errors?: ReadSetBatchError[];
+  errors?: ReadSetBatchError[] | undefined;
 }
 export type ResourceId = string;
 export interface CancelAnnotationImportRequest {
@@ -226,7 +226,7 @@ export type VersionName = string;
 export type EncryptionType = string;
 export interface SseConfig {
   type: string;
-  keyArn?: string;
+  keyArn?: string | undefined;
 }
 export type StoreFormat = string;
 export type AnnotationType = string;
@@ -236,52 +236,52 @@ export type SchemaValueType = string;
 export type SchemaItem = { [key: string]: string | undefined };
 export type Schema = { [key: string]: string | undefined }[];
 export interface TsvStoreOptions {
-  annotationType?: string;
-  formatToHeader?: { [key: string]: string | undefined };
-  schema?: { [key: string]: string | undefined }[];
+  annotationType?: string | undefined;
+  formatToHeader?: { [key: string]: string | undefined } | undefined;
+  schema?: { [key: string]: string | undefined }[] | undefined;
 }
 export type StoreOptions = { tsvStoreOptions: TsvStoreOptions };
 export interface CreateAnnotationStoreRequest {
-  reference?: ReferenceItem;
-  name?: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  versionName?: string;
-  sseConfig?: SseConfig;
+  reference?: ReferenceItem | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  versionName?: string | undefined;
+  sseConfig?: SseConfig | undefined;
   storeFormat: string;
-  storeOptions?: StoreOptions;
+  storeOptions?: StoreOptions | undefined;
 }
 export type StoreStatus = string;
 export type CreationTime = Date;
 export interface CreateAnnotationStoreResponse {
   id: string;
-  reference?: ReferenceItem;
-  storeFormat?: string;
-  storeOptions?: StoreOptions;
+  reference?: ReferenceItem | undefined;
+  storeFormat?: string | undefined;
+  storeOptions?: StoreOptions | undefined;
   status: string;
   name: string;
   versionName: string;
   creationTime: Date;
 }
 export interface TsvVersionOptions {
-  annotationType?: string;
-  formatToHeader?: { [key: string]: string | undefined };
-  schema?: { [key: string]: string | undefined }[];
+  annotationType?: string | undefined;
+  formatToHeader?: { [key: string]: string | undefined } | undefined;
+  schema?: { [key: string]: string | undefined }[] | undefined;
 }
 export type VersionOptions = { tsvVersionOptions: TsvVersionOptions };
 export interface CreateAnnotationStoreVersionRequest {
   name: string;
   versionName: string;
-  description?: string;
-  versionOptions?: VersionOptions;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  versionOptions?: VersionOptions | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type VersionStatus = string;
 export interface CreateAnnotationStoreVersionResponse {
   id: string;
   versionName: string;
   storeId: string;
-  versionOptions?: VersionOptions;
+  versionOptions?: VersionOptions | undefined;
   name: string;
   status: string;
   creationTime: Date;
@@ -292,43 +292,46 @@ export type SecurityGroupId = string;
 export type SecurityGroupIds = string[];
 export type SubnetId = string;
 export type SubnetIds = string[];
+export type AwsAccountId = string;
 export interface VpcConfig {
-  securityGroupIds?: string[];
-  subnetIds?: string[];
+  securityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  vpcOwnerAccountId?: string | undefined;
 }
 export interface RunConfigurations {
-  vpcConfig?: VpcConfig;
+  vpcConfig?: VpcConfig | undefined;
 }
 export type ConfigurationRequestId = string;
 export interface CreateConfigurationRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
   runConfigurations: RunConfigurations;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
   requestId: string;
 }
 export type ConfigurationArn = string;
 export type ConfigurationUuid = string;
 export type VpcId = string;
 export interface VpcConfigResponse {
-  securityGroupIds?: string[];
-  subnetIds?: string[];
-  vpcId?: string;
+  securityGroupIds?: string[] | undefined;
+  subnetIds?: string[] | undefined;
+  vpcId?: string | undefined;
+  vpcOwnerAccountId?: string | undefined;
 }
 export interface RunConfigurationsResponse {
-  vpcConfig?: VpcConfigResponse;
+  vpcConfig?: VpcConfigResponse | undefined;
 }
 export type ConfigurationStatus = string;
 export type ConfigurationTimestamp = Date;
 export interface CreateConfigurationResponse {
-  arn?: string;
-  uuid?: string;
-  name?: string;
-  description?: string;
-  runConfigurations?: RunConfigurationsResponse;
-  status?: string;
-  creationTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  runConfigurations?: RunConfigurationsResponse | undefined;
+  status?: string | undefined;
+  creationTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ClientToken = string;
 export type FileType = string;
@@ -339,15 +342,15 @@ export type ReadSetName = string;
 export type ReadSetDescription = string;
 export interface CreateMultipartReadSetUploadRequest {
   sequenceStoreId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   sourceFileType: string;
   subjectId: string;
   sampleId: string;
-  generatedFrom?: string;
-  referenceArn?: string;
+  generatedFrom?: string | undefined;
+  referenceArn?: string | undefined;
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface CreateMultipartReadSetUploadResponse {
   sequenceStoreId: string;
@@ -355,30 +358,30 @@ export interface CreateMultipartReadSetUploadResponse {
   sourceFileType: string;
   subjectId: string;
   sampleId: string;
-  generatedFrom?: string;
+  generatedFrom?: string | undefined;
   referenceArn: string;
-  name?: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   creationTime: Date;
 }
 export type ReferenceStoreName = string;
 export type ReferenceStoreDescription = string;
 export interface CreateReferenceStoreRequest {
   name: string;
-  description?: string;
-  sseConfig?: SseConfig;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
+  description?: string | undefined;
+  sseConfig?: SseConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
 }
 export type ReferenceStoreId = string;
 export type ReferenceStoreArn = string;
 export interface CreateReferenceStoreResponse {
   id: string;
   arn: string;
-  name?: string;
-  description?: string;
-  sseConfig?: SseConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  sseConfig?: SseConfig | undefined;
   creationTime: Date;
 }
 export type CacheBehavior = string;
@@ -386,42 +389,41 @@ export type S3UriForBucketOrObject = string;
 export type UserCustomDescription = string;
 export type UserCustomName = string;
 export type RunCacheRequestId = string;
-export type AwsAccountId = string;
 export interface CreateRunCacheRequest {
-  cacheBehavior?: string;
+  cacheBehavior?: string | undefined;
   cacheS3Location: string;
-  description?: string;
-  name?: string;
+  description?: string | undefined;
+  name?: string | undefined;
   requestId: string;
-  tags?: { [key: string]: string | undefined };
-  cacheBucketOwnerId?: string;
+  tags?: { [key: string]: string | undefined } | undefined;
+  cacheBucketOwnerId?: string | undefined;
 }
 export type RunCacheArn = string;
 export type RunCacheId = string;
 export type RunCacheStatus = string;
 export interface CreateRunCacheResponse {
-  arn?: string;
-  id?: string;
-  status?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  status?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type RunGroupName = string;
 export type RunGroupRequestId = string;
 export interface CreateRunGroupRequest {
-  name?: string;
-  maxCpus?: number;
-  maxRuns?: number;
-  maxDuration?: number;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  maxCpus?: number | undefined;
+  maxRuns?: number | undefined;
+  maxDuration?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   requestId: string;
-  maxGpus?: number;
+  maxGpus?: number | undefined;
 }
 export type RunGroupArn = string;
 export type RunGroupId = string;
 export interface CreateRunGroupResponse {
-  arn?: string;
-  id?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type SequenceStoreName = string;
 export type SequenceStoreDescription = string;
@@ -430,18 +432,18 @@ export type ETagAlgorithmFamily = string;
 export type PropagatedSetLevelTags = string[];
 export type AccessLogLocation = string;
 export interface S3AccessConfig {
-  accessLogLocation?: string;
+  accessLogLocation?: string | undefined;
 }
 export interface CreateSequenceStoreRequest {
   name: string;
-  description?: string;
-  sseConfig?: SseConfig;
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
-  fallbackLocation?: string;
-  eTagAlgorithmFamily?: string;
-  propagatedSetLevelTags?: string[];
-  s3AccessConfig?: S3AccessConfig;
+  description?: string | undefined;
+  sseConfig?: SseConfig | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
+  fallbackLocation?: string | undefined;
+  eTagAlgorithmFamily?: string | undefined;
+  propagatedSetLevelTags?: string[] | undefined;
+  s3AccessConfig?: S3AccessConfig | undefined;
 }
 export type SequenceStoreArn = string;
 export type SequenceStoreStatus = string;
@@ -449,45 +451,45 @@ export type SequenceStoreStatusMessage = string;
 export type S3Uri = string;
 export type S3AccessPointArn = string;
 export interface SequenceStoreS3Access {
-  s3Uri?: string;
-  s3AccessPointArn?: string;
-  accessLogLocation?: string;
+  s3Uri?: string | undefined;
+  s3AccessPointArn?: string | undefined;
+  accessLogLocation?: string | undefined;
 }
 export interface CreateSequenceStoreResponse {
   id: string;
   arn: string;
-  name?: string;
-  description?: string;
-  sseConfig?: SseConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  sseConfig?: SseConfig | undefined;
   creationTime: Date;
-  fallbackLocation?: string;
-  eTagAlgorithmFamily?: string;
-  status?: string;
-  statusMessage?: string;
-  propagatedSetLevelTags?: string[];
-  s3Access?: SequenceStoreS3Access;
+  fallbackLocation?: string | undefined;
+  eTagAlgorithmFamily?: string | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  propagatedSetLevelTags?: string[] | undefined;
+  s3Access?: SequenceStoreS3Access | undefined;
 }
 export type ShareName = string;
 export interface CreateShareRequest {
   resourceArn: string;
   principalSubscriber: string;
-  shareName?: string;
+  shareName?: string | undefined;
 }
 export interface CreateShareResponse {
-  shareId?: string;
-  status?: string;
-  shareName?: string;
+  shareId?: string | undefined;
+  status?: string | undefined;
+  shareName?: string | undefined;
 }
 export interface CreateVariantStoreRequest {
   reference: ReferenceItem;
-  name?: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  sseConfig?: SseConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  sseConfig?: SseConfig | undefined;
 }
 export interface CreateVariantStoreResponse {
   id: string;
-  reference?: ReferenceItem;
+  reference?: ReferenceItem | undefined;
   status: string;
   name: string;
   creationTime: Date;
@@ -500,8 +502,8 @@ export type WorkflowMain = string;
 export type WorkflowParameterName = string;
 export type WorkflowParameterDescription = string;
 export interface WorkflowParameter {
-  description?: string;
-  optional?: boolean;
+  description?: string | undefined;
+  optional?: boolean | undefined;
 }
 export type WorkflowParameterTemplate = { [key: string]: WorkflowParameter | undefined };
 export type WorkflowRequestId = string;
@@ -510,21 +512,23 @@ export type StorageType = string;
 export type Uri = string;
 export type EcrRepositoryPrefix = string;
 export type UpstreamRepositoryPrefix = string;
+export type SecretArn = string;
 export interface RegistryMapping {
-  upstreamRegistryUrl?: string;
-  ecrRepositoryPrefix?: string;
-  upstreamRepositoryPrefix?: string;
-  ecrAccountId?: string;
+  upstreamRegistryUrl?: string | undefined;
+  ecrRepositoryPrefix?: string | undefined;
+  upstreamRepositoryPrefix?: string | undefined;
+  ecrAccountId?: string | undefined;
+  credentialArn?: string | undefined;
 }
 export type RegistryMappingsList = RegistryMapping[];
 export interface ImageMapping {
-  sourceImage?: string;
-  destinationImage?: string;
+  sourceImage?: string | undefined;
+  destinationImage?: string | undefined;
 }
 export type ImageMappingsList = ImageMapping[];
 export interface ContainerRegistryMap {
-  registryMappings?: RegistryMapping[];
-  imageMappings?: ImageMapping[];
+  registryMappings?: RegistryMapping[] | undefined;
+  imageMappings?: ImageMapping[] | undefined;
 }
 export type ReadmeMarkdown = string;
 export type ParameterTemplatePath = string;
@@ -541,81 +545,81 @@ export type ExcludeFilePatternList = string[];
 export interface DefinitionRepository {
   connectionArn: string;
   fullRepositoryId: string;
-  sourceReference?: SourceReference;
-  excludeFilePatterns?: string[];
+  sourceReference?: SourceReference | undefined;
+  excludeFilePatterns?: string[] | undefined;
 }
 export type WorkflowBucketOwnerId = string;
 export type S3UriForObject = string;
 export interface CreateWorkflowRequest {
-  name?: string;
-  description?: string;
-  engine?: string;
-  definitionZip?: Uint8Array;
-  definitionUri?: string;
-  main?: string;
-  parameterTemplate?: { [key: string]: WorkflowParameter | undefined };
-  storageCapacity?: number;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  description?: string | undefined;
+  engine?: string | undefined;
+  definitionZip?: Uint8Array | undefined;
+  definitionUri?: string | undefined;
+  main?: string | undefined;
+  parameterTemplate?: { [key: string]: WorkflowParameter | undefined } | undefined;
+  storageCapacity?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   requestId: string;
-  accelerators?: string;
-  storageType?: string;
-  containerRegistryMap?: ContainerRegistryMap;
-  containerRegistryMapUri?: string;
-  readmeMarkdown?: string;
-  parameterTemplatePath?: string;
-  readmePath?: string;
-  definitionRepository?: DefinitionRepository;
-  workflowBucketOwnerId?: string;
-  readmeUri?: string;
+  accelerators?: string | undefined;
+  storageType?: string | undefined;
+  containerRegistryMap?: ContainerRegistryMap | undefined;
+  containerRegistryMapUri?: string | undefined;
+  readmeMarkdown?: string | undefined;
+  parameterTemplatePath?: string | undefined;
+  readmePath?: string | undefined;
+  definitionRepository?: DefinitionRepository | undefined;
+  workflowBucketOwnerId?: string | undefined;
+  readmeUri?: string | undefined;
 }
 export type WorkflowArn = string;
 export type WorkflowId = string;
 export type WorkflowStatus = string;
 export type WorkflowUuid = string;
 export interface CreateWorkflowResponse {
-  arn?: string;
-  id?: string;
-  status?: string;
-  tags?: { [key: string]: string | undefined };
-  uuid?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
+  status?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  uuid?: string | undefined;
 }
 export type WorkflowVersionName = string;
 export type WorkflowVersionDescription = string;
 export interface CreateWorkflowVersionRequest {
   workflowId: string;
   versionName: string;
-  definitionZip?: Uint8Array;
-  definitionUri?: string;
-  accelerators?: string;
-  description?: string;
-  engine?: string;
-  main?: string;
-  parameterTemplate?: { [key: string]: WorkflowParameter | undefined };
+  definitionZip?: Uint8Array | undefined;
+  definitionUri?: string | undefined;
+  accelerators?: string | undefined;
+  description?: string | undefined;
+  engine?: string | undefined;
+  main?: string | undefined;
+  parameterTemplate?: { [key: string]: WorkflowParameter | undefined } | undefined;
   requestId: string;
-  storageType?: string;
-  storageCapacity?: number;
-  tags?: { [key: string]: string | undefined };
-  workflowBucketOwnerId?: string;
-  containerRegistryMap?: ContainerRegistryMap;
-  containerRegistryMapUri?: string;
-  readmeMarkdown?: string;
-  parameterTemplatePath?: string;
-  readmePath?: string;
-  definitionRepository?: DefinitionRepository;
-  readmeUri?: string;
+  storageType?: string | undefined;
+  storageCapacity?: number | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  workflowBucketOwnerId?: string | undefined;
+  containerRegistryMap?: ContainerRegistryMap | undefined;
+  containerRegistryMapUri?: string | undefined;
+  readmeMarkdown?: string | undefined;
+  parameterTemplatePath?: string | undefined;
+  readmePath?: string | undefined;
+  definitionRepository?: DefinitionRepository | undefined;
+  readmeUri?: string | undefined;
 }
 export type WorkflowVersionArn = string;
 export interface CreateWorkflowVersionResponse {
-  arn?: string;
-  workflowId?: string;
-  versionName?: string;
-  status?: string;
-  tags?: { [key: string]: string | undefined };
-  uuid?: string;
+  arn?: string | undefined;
+  workflowId?: string | undefined;
+  versionName?: string | undefined;
+  status?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  uuid?: string | undefined;
 }
 export interface DeleteAnnotationStoreRequest {
   name: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteAnnotationStoreResponse {
   status: string;
@@ -624,7 +628,7 @@ export type VersionList = string[];
 export interface DeleteAnnotationStoreVersionsRequest {
   name: string;
   versions: string[];
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface VersionDeleteError {
   versionName: string;
@@ -632,7 +636,7 @@ export interface VersionDeleteError {
 }
 export type VersionDeleteErrorList = VersionDeleteError[];
 export interface DeleteAnnotationStoreVersionsResponse {
-  errors?: VersionDeleteError[];
+  errors?: VersionDeleteError[] | undefined;
 }
 export interface DeleteBatchRequest {
   batchId: string;
@@ -680,11 +684,11 @@ export interface DeleteShareRequest {
   shareId: string;
 }
 export interface DeleteShareResponse {
-  status?: string;
+  status?: string | undefined;
 }
 export interface DeleteVariantStoreRequest {
   name: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteVariantStoreResponse {
   status: string;
@@ -722,26 +726,26 @@ export type CommentChar = string;
 export type Header = boolean;
 export type LineSep = string;
 export interface ReadOptions {
-  sep?: string;
-  encoding?: string;
-  quote?: string;
-  quoteAll?: boolean;
-  escape?: string;
-  escapeQuotes?: boolean;
-  comment?: string;
-  header?: boolean;
-  lineSep?: string;
+  sep?: string | undefined;
+  encoding?: string | undefined;
+  quote?: string | undefined;
+  quoteAll?: boolean | undefined;
+  escape?: string | undefined;
+  escapeQuotes?: boolean | undefined;
+  comment?: string | undefined;
+  header?: boolean | undefined;
+  lineSep?: string | undefined;
 }
 export interface TsvOptions {
-  readOptions?: ReadOptions;
+  readOptions?: ReadOptions | undefined;
 }
 export interface VcfOptions {
-  ignoreQualField?: boolean;
-  ignoreFilterField?: boolean;
+  ignoreQualField?: boolean | undefined;
+  ignoreFilterField?: boolean | undefined;
 }
 export type FormatOptions =
-  | { tsvOptions: TsvOptions; vcfOptions?: never }
-  | { tsvOptions?: never; vcfOptions: VcfOptions };
+  | { tsvOptions: TsvOptions; vcfOptions?: undefined }
+  | { tsvOptions?: undefined; vcfOptions: VcfOptions };
 export type AnnotationFieldMap = { [key: string]: string | undefined };
 export interface GetAnnotationImportResponse {
   id: string;
@@ -756,7 +760,7 @@ export interface GetAnnotationImportResponse {
   items: AnnotationImportItemDetail[];
   runLeftNormalization: boolean;
   formatOptions: FormatOptions;
-  annotationFields?: { [key: string]: string | undefined };
+  annotationFields?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetAnnotationStoreRequest {
   name: string;
@@ -773,8 +777,8 @@ export interface GetAnnotationStoreResponse {
   creationTime: Date;
   updateTime: Date;
   tags: { [key: string]: string | undefined };
-  storeOptions?: StoreOptions;
-  storeFormat?: string;
+  storeOptions?: StoreOptions | undefined;
+  storeFormat?: string | undefined;
   statusMessage: string;
   storeSizeBytes: number;
   numVersions: number;
@@ -794,7 +798,7 @@ export interface GetAnnotationStoreVersionResponse {
   creationTime: Date;
   updateTime: Date;
   tags: { [key: string]: string | undefined };
-  versionOptions?: VersionOptions;
+  versionOptions?: VersionOptions | undefined;
   statusMessage: string;
   versionSizeBytes: number;
 }
@@ -820,88 +824,88 @@ export type EngineSettings = unknown;
 export type ScratchStorageMode = string;
 export interface DefaultRunSetting {
   workflowId: string;
-  workflowType?: string;
+  workflowType?: string | undefined;
   roleArn: string;
-  name?: string;
-  cacheId?: string;
-  cacheBehavior?: string;
-  runGroupId?: string;
-  priority?: number;
-  parameters?: any;
-  storageCapacity?: number;
-  outputUri?: string;
-  logLevel?: string;
-  runTags?: { [key: string]: string | undefined };
-  retentionMode?: string;
-  storageType?: string;
-  workflowOwnerId?: string;
-  outputBucketOwnerId?: string;
-  workflowVersionName?: string;
-  networkingMode?: string;
-  configurationName?: string;
-  sessionPolicy?: string;
-  engineSettings?: any;
-  scratchStorageMode?: string;
+  name?: string | undefined;
+  cacheId?: string | undefined;
+  cacheBehavior?: string | undefined;
+  runGroupId?: string | undefined;
+  priority?: number | undefined;
+  parameters?: any | undefined;
+  storageCapacity?: number | undefined;
+  outputUri?: string | undefined;
+  logLevel?: string | undefined;
+  runTags?: { [key: string]: string | undefined } | undefined;
+  retentionMode?: string | undefined;
+  storageType?: string | undefined;
+  workflowOwnerId?: string | undefined;
+  outputBucketOwnerId?: string | undefined;
+  workflowVersionName?: string | undefined;
+  networkingMode?: string | undefined;
+  configurationName?: string | undefined;
+  sessionPolicy?: string | undefined;
+  engineSettings?: any | undefined;
+  scratchStorageMode?: string | undefined;
 }
 export interface SubmissionSummary {
-  successfulStartSubmissionCount?: number;
-  failedStartSubmissionCount?: number;
-  pendingStartSubmissionCount?: number;
-  successfulCancelSubmissionCount?: number;
-  failedCancelSubmissionCount?: number;
-  successfulDeleteSubmissionCount?: number;
-  failedDeleteSubmissionCount?: number;
+  successfulStartSubmissionCount?: number | undefined;
+  failedStartSubmissionCount?: number | undefined;
+  pendingStartSubmissionCount?: number | undefined;
+  successfulCancelSubmissionCount?: number | undefined;
+  failedCancelSubmissionCount?: number | undefined;
+  successfulDeleteSubmissionCount?: number | undefined;
+  failedDeleteSubmissionCount?: number | undefined;
 }
 export interface RunSummary {
-  pendingRunCount?: number;
-  startingRunCount?: number;
-  runningRunCount?: number;
-  stoppingRunCount?: number;
-  completedRunCount?: number;
-  deletedRunCount?: number;
-  failedRunCount?: number;
-  cancelledRunCount?: number;
+  pendingRunCount?: number | undefined;
+  startingRunCount?: number | undefined;
+  runningRunCount?: number | undefined;
+  stoppingRunCount?: number | undefined;
+  completedRunCount?: number | undefined;
+  deletedRunCount?: number | undefined;
+  failedRunCount?: number | undefined;
+  cancelledRunCount?: number | undefined;
 }
 export type BatchTimestamp = Date;
 export interface GetBatchResponse {
-  id?: string;
-  arn?: string;
-  uuid?: string;
-  name?: string;
-  status?: string;
-  tags?: { [key: string]: string | undefined };
-  totalRuns?: number;
-  defaultRunSetting?: DefaultRunSetting;
-  submissionSummary?: SubmissionSummary;
-  runSummary?: RunSummary;
-  creationTime?: Date;
-  submittedTime?: Date;
-  processedTime?: Date;
-  failedTime?: Date;
-  failureReason?: string;
+  id?: string | undefined;
+  arn?: string | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  totalRuns?: number | undefined;
+  defaultRunSetting?: DefaultRunSetting | undefined;
+  submissionSummary?: SubmissionSummary | undefined;
+  runSummary?: RunSummary | undefined;
+  creationTime?: Date | undefined;
+  submittedTime?: Date | undefined;
+  processedTime?: Date | undefined;
+  failedTime?: Date | undefined;
+  failureReason?: string | undefined;
 }
 export interface GetConfigurationRequest {
   name: string;
 }
 export interface GetConfigurationResponse {
-  arn?: string;
-  uuid?: string;
-  name?: string;
-  description?: string;
-  runConfigurations?: RunConfigurationsResponse;
-  status?: string;
-  creationTime?: Date;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  uuid?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  runConfigurations?: RunConfigurationsResponse | undefined;
+  status?: string | undefined;
+  creationTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type ReadSetFile = string;
 export interface GetReadSetRequest {
   id: string;
   sequenceStoreId: string;
-  file?: string;
+  file?: string | undefined;
   partNumber: number;
 }
 export interface GetReadSetResponse {
-  payload?: T.StreamingOutputBody;
+  payload?: T.StreamingOutputBody | undefined;
 }
 export type ActivationJobId = string;
 export interface GetReadSetActivationJobRequest {
@@ -914,17 +918,17 @@ export type ReadSetActivationJobItemStatus = string;
 export interface ActivateReadSetSourceItem {
   readSetId: string;
   status: string;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
 }
 export type ActivateReadSetSourceList = ActivateReadSetSourceItem[];
 export interface GetReadSetActivationJobResponse {
   id: string;
   sequenceStoreId: string;
   status: string;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   creationTime: Date;
-  completionTime?: Date;
-  sources?: ActivateReadSetSourceItem[];
+  completionTime?: Date | undefined;
+  sources?: ActivateReadSetSourceItem[] | undefined;
 }
 export type ExportJobId = string;
 export interface GetReadSetExportJobRequest {
@@ -937,7 +941,7 @@ export type ReadSetExportJobItemStatus = string;
 export interface ExportReadSetDetail {
   id: string;
   status: string;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
 }
 export type ExportReadSetDetailList = ExportReadSetDetail[];
 export interface GetReadSetExportJobResponse {
@@ -945,10 +949,10 @@ export interface GetReadSetExportJobResponse {
   sequenceStoreId: string;
   destination: string;
   status: string;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   creationTime: Date;
-  completionTime?: Date;
-  readSets?: ExportReadSetDetail[];
+  completionTime?: Date | undefined;
+  readSets?: ExportReadSetDetail[] | undefined;
 }
 export type ImportJobId = string;
 export interface GetReadSetImportJobRequest {
@@ -959,22 +963,22 @@ export type RoleArn = string;
 export type ReadSetImportJobStatus = string;
 export interface SourceFiles {
   source1: string;
-  source2?: string;
+  source2?: string | undefined;
 }
 export type ReadSetImportJobItemStatus = string;
 export interface ImportReadSetSourceItem {
   sourceFiles: SourceFiles;
   sourceFileType: string;
   status: string;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   subjectId: string;
   sampleId: string;
-  generatedFrom?: string;
-  referenceArn?: string;
-  name?: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  readSetId?: string;
+  generatedFrom?: string | undefined;
+  referenceArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  readSetId?: string | undefined;
 }
 export type ImportReadSetSourceList = ImportReadSetSourceItem[];
 export interface GetReadSetImportJobResponse {
@@ -982,9 +986,9 @@ export interface GetReadSetImportJobResponse {
   sequenceStoreId: string;
   roleArn: string;
   status: string;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   creationTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
   sources: ImportReadSetSourceItem[];
 }
 export interface GetReadSetMetadataRequest {
@@ -994,64 +998,64 @@ export interface GetReadSetMetadataRequest {
 export type ReadSetArn = string;
 export type ReadSetStatus = string;
 export interface SequenceInformation {
-  totalReadCount?: number;
-  totalBaseCount?: number;
-  generatedFrom?: string;
-  alignment?: string;
+  totalReadCount?: number | undefined;
+  totalBaseCount?: number | undefined;
+  generatedFrom?: string | undefined;
+  alignment?: string | undefined;
 }
 export interface ReadSetS3Access {
-  s3Uri?: string;
+  s3Uri?: string | undefined;
 }
 export interface FileInformation {
-  totalParts?: number;
-  partSize?: number;
-  contentLength?: number;
-  s3Access?: ReadSetS3Access;
+  totalParts?: number | undefined;
+  partSize?: number | undefined;
+  contentLength?: number | undefined;
+  s3Access?: ReadSetS3Access | undefined;
 }
 export interface ReadSetFiles {
-  source1?: FileInformation;
-  source2?: FileInformation;
-  index?: FileInformation;
+  source1?: FileInformation | undefined;
+  source2?: FileInformation | undefined;
+  index?: FileInformation | undefined;
 }
 export type ReadSetStatusMessage = string;
 export type CreationType = string;
 export type ETagAlgorithm = string;
 export interface ETag {
-  algorithm?: string;
-  source1?: string;
-  source2?: string;
+  algorithm?: string | undefined;
+  source1?: string | undefined;
+  source2?: string | undefined;
 }
 export type CreationJobId = string;
 export interface GetReadSetMetadataResponse {
   id: string;
   arn: string;
   sequenceStoreId: string;
-  subjectId?: string;
-  sampleId?: string;
+  subjectId?: string | undefined;
+  sampleId?: string | undefined;
   status: string;
-  name?: string;
-  description?: string;
+  name?: string | undefined;
+  description?: string | undefined;
   fileType: string;
   creationTime: Date;
-  sequenceInformation?: SequenceInformation;
-  referenceArn?: string;
-  files?: ReadSetFiles;
-  statusMessage?: string;
-  creationType?: string;
-  etag?: ETag;
-  creationJobId?: string;
+  sequenceInformation?: SequenceInformation | undefined;
+  referenceArn?: string | undefined;
+  files?: ReadSetFiles | undefined;
+  statusMessage?: string | undefined;
+  creationType?: string | undefined;
+  etag?: ETag | undefined;
+  creationJobId?: string | undefined;
 }
 export type Range = string;
 export type ReferenceFile = string;
 export interface GetReferenceRequest {
   id: string;
   referenceStoreId: string;
-  range?: string;
+  range?: string | undefined;
   partNumber: number;
-  file?: string;
+  file?: string | undefined;
 }
 export interface GetReferenceResponse {
-  payload?: T.StreamingOutputBody;
+  payload?: T.StreamingOutputBody | undefined;
 }
 export interface GetReferenceImportJobRequest {
   id: string;
@@ -1062,13 +1066,13 @@ export type ReferenceImportJobItemStatus = string;
 export type ReferenceName = string;
 export type ReferenceDescription = string;
 export interface ImportReferenceSourceItem {
-  sourceFile?: string;
+  sourceFile?: string | undefined;
   status: string;
-  statusMessage?: string;
-  name?: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
-  referenceId?: string;
+  statusMessage?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  referenceId?: string | undefined;
 }
 export type ImportReferenceSourceList = ImportReferenceSourceItem[];
 export interface GetReferenceImportJobResponse {
@@ -1076,9 +1080,9 @@ export interface GetReferenceImportJobResponse {
   referenceStoreId: string;
   roleArn: string;
   status: string;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
   creationTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
   sources: ImportReferenceSourceItem[];
 }
 export interface GetReferenceMetadataRequest {
@@ -1088,8 +1092,8 @@ export interface GetReferenceMetadataRequest {
 export type Md5 = string;
 export type ReferenceStatus = string;
 export interface ReferenceFiles {
-  source?: FileInformation;
-  index?: FileInformation;
+  source?: FileInformation | undefined;
+  index?: FileInformation | undefined;
 }
 export type ReferenceCreationType = string;
 export interface GetReferenceMetadataResponse {
@@ -1097,14 +1101,14 @@ export interface GetReferenceMetadataResponse {
   arn: string;
   referenceStoreId: string;
   md5: string;
-  status?: string;
-  name?: string;
-  description?: string;
+  status?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
   creationTime: Date;
   updateTime: Date;
-  files?: ReferenceFiles;
-  creationType?: string;
-  creationJobId?: string;
+  files?: ReferenceFiles | undefined;
+  creationType?: string | undefined;
+  creationJobId?: string | undefined;
 }
 export interface GetReferenceStoreRequest {
   id: string;
@@ -1112,16 +1116,16 @@ export interface GetReferenceStoreRequest {
 export interface GetReferenceStoreResponse {
   id: string;
   arn: string;
-  name?: string;
-  description?: string;
-  sseConfig?: SseConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  sseConfig?: SseConfig | undefined;
   creationTime: Date;
 }
 export type RunExport = string;
 export type RunExportList = string[];
 export interface GetRunRequest {
   id: string;
-  export?: string[];
+  export?: string[] | undefined;
 }
 export type RunArn = string;
 export type EngineVersion = string;
@@ -1137,90 +1141,90 @@ export type RunFailureReason = string;
 export type EngineLogStream = string;
 export type RunLogStream = string;
 export interface RunLogLocation {
-  engineLogStream?: string;
-  runLogStream?: string;
+  engineLogStream?: string | undefined;
+  runLogStream?: string | undefined;
 }
 export type RunUuid = string;
 export interface ConfigurationDetails {
-  name?: string;
-  arn?: string;
-  uuid?: string;
+  name?: string | undefined;
+  arn?: string | undefined;
+  uuid?: string | undefined;
 }
 export interface GetRunResponse {
-  arn?: string;
-  id?: string;
-  cacheId?: string;
-  cacheBehavior?: string;
-  engineVersion?: string;
-  status?: string;
-  workflowId?: string;
-  workflowType?: string;
-  runId?: string;
-  roleArn?: string;
-  name?: string;
-  runGroupId?: string;
-  batchId?: string;
-  priority?: number;
-  definition?: string;
-  digest?: string;
-  parameters?: any;
-  storageCapacity?: number;
-  outputUri?: string;
-  logLevel?: string;
-  resourceDigests?: { [key: string]: string | undefined };
-  startedBy?: string;
-  creationTime?: Date;
-  startTime?: Date;
-  stopTime?: Date;
-  statusMessage?: string;
-  tags?: { [key: string]: string | undefined };
-  accelerators?: string;
-  retentionMode?: string;
-  failureReason?: string;
-  logLocation?: RunLogLocation;
-  uuid?: string;
-  runOutputUri?: string;
-  storageType?: string;
-  workflowOwnerId?: string;
-  workflowVersionName?: string;
-  workflowUuid?: string;
-  networkingMode?: string;
-  scratchStorageMode?: string;
-  configuration?: ConfigurationDetails;
-  vpcConfig?: VpcConfigResponse;
-  engineSettings?: any;
-  sessionPolicy?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
+  cacheId?: string | undefined;
+  cacheBehavior?: string | undefined;
+  engineVersion?: string | undefined;
+  status?: string | undefined;
+  workflowId?: string | undefined;
+  workflowType?: string | undefined;
+  runId?: string | undefined;
+  roleArn?: string | undefined;
+  name?: string | undefined;
+  runGroupId?: string | undefined;
+  batchId?: string | undefined;
+  priority?: number | undefined;
+  definition?: string | undefined;
+  digest?: string | undefined;
+  parameters?: any | undefined;
+  storageCapacity?: number | undefined;
+  outputUri?: string | undefined;
+  logLevel?: string | undefined;
+  resourceDigests?: { [key: string]: string | undefined } | undefined;
+  startedBy?: string | undefined;
+  creationTime?: Date | undefined;
+  startTime?: Date | undefined;
+  stopTime?: Date | undefined;
+  statusMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  accelerators?: string | undefined;
+  retentionMode?: string | undefined;
+  failureReason?: string | undefined;
+  logLocation?: RunLogLocation | undefined;
+  uuid?: string | undefined;
+  runOutputUri?: string | undefined;
+  storageType?: string | undefined;
+  workflowOwnerId?: string | undefined;
+  workflowVersionName?: string | undefined;
+  workflowUuid?: string | undefined;
+  networkingMode?: string | undefined;
+  scratchStorageMode?: string | undefined;
+  configuration?: ConfigurationDetails | undefined;
+  vpcConfig?: VpcConfigResponse | undefined;
+  engineSettings?: any | undefined;
+  sessionPolicy?: string | undefined;
 }
 export interface GetRunCacheRequest {
   id: string;
 }
 export type RunCacheTimestamp = Date;
 export interface GetRunCacheResponse {
-  arn?: string;
-  cacheBehavior?: string;
-  cacheBucketOwnerId?: string;
-  cacheS3Uri?: string;
-  creationTime?: Date;
-  description?: string;
-  id?: string;
-  name?: string;
-  status?: string;
-  tags?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  cacheBehavior?: string | undefined;
+  cacheBucketOwnerId?: string | undefined;
+  cacheS3Uri?: string | undefined;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetRunGroupRequest {
   id: string;
 }
 export type RunGroupTimestamp = Date;
 export interface GetRunGroupResponse {
-  arn?: string;
-  id?: string;
-  name?: string;
-  maxCpus?: number;
-  maxRuns?: number;
-  maxDuration?: number;
-  creationTime?: Date;
-  tags?: { [key: string]: string | undefined };
-  maxGpus?: number;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  maxCpus?: number | undefined;
+  maxRuns?: number | undefined;
+  maxDuration?: number | undefined;
+  creationTime?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  maxGpus?: number | undefined;
 }
 export type TaskId = string;
 export interface GetRunTaskRequest {
@@ -1236,29 +1240,29 @@ export type TaskInstanceType = string;
 export type TaskFailureReason = string;
 export type TaskImageDigest = string;
 export interface ImageDetails {
-  image?: string;
-  imageDigest?: string;
-  sourceImage?: string;
+  image?: string | undefined;
+  imageDigest?: string | undefined;
+  sourceImage?: string | undefined;
 }
 export type TaskUuid = string;
 export interface GetRunTaskResponse {
-  taskId?: string;
-  status?: string;
-  name?: string;
-  cpus?: number;
-  cacheHit?: boolean;
-  cacheS3Uri?: string;
-  memory?: number;
-  creationTime?: Date;
-  startTime?: Date;
-  stopTime?: Date;
-  statusMessage?: string;
-  logStream?: string;
-  gpus?: number;
-  instanceType?: string;
-  failureReason?: string;
-  imageDetails?: ImageDetails;
-  uuid?: string;
+  taskId?: string | undefined;
+  status?: string | undefined;
+  name?: string | undefined;
+  cpus?: number | undefined;
+  cacheHit?: boolean | undefined;
+  cacheS3Uri?: string | undefined;
+  memory?: number | undefined;
+  creationTime?: Date | undefined;
+  startTime?: Date | undefined;
+  stopTime?: Date | undefined;
+  statusMessage?: string | undefined;
+  logStream?: string | undefined;
+  gpus?: number | undefined;
+  instanceType?: string | undefined;
+  failureReason?: string | undefined;
+  imageDetails?: ImageDetails | undefined;
+  uuid?: string | undefined;
 }
 export interface GetS3AccessPolicyRequest {
   s3AccessPointArn: string;
@@ -1267,10 +1271,10 @@ export type StoreId = string;
 export type StoreType = "SEQUENCE_STORE" | "REFERENCE_STORE" | (string & {});
 export type S3AccessPolicy = string;
 export interface GetS3AccessPolicyResponse {
-  s3AccessPointArn?: string;
-  storeId?: string;
-  storeType?: StoreType;
-  updateTime?: Date;
+  s3AccessPointArn?: string | undefined;
+  storeId?: string | undefined;
+  storeType?: StoreType | undefined;
+  updateTime?: Date | undefined;
   s3AccessPolicy: string;
 }
 export interface GetSequenceStoreRequest {
@@ -1279,35 +1283,35 @@ export interface GetSequenceStoreRequest {
 export interface GetSequenceStoreResponse {
   id: string;
   arn: string;
-  name?: string;
-  description?: string;
-  sseConfig?: SseConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  sseConfig?: SseConfig | undefined;
   creationTime: Date;
-  fallbackLocation?: string;
-  s3Access?: SequenceStoreS3Access;
-  eTagAlgorithmFamily?: string;
-  status?: string;
-  statusMessage?: string;
-  propagatedSetLevelTags?: string[];
-  updateTime?: Date;
+  fallbackLocation?: string | undefined;
+  s3Access?: SequenceStoreS3Access | undefined;
+  eTagAlgorithmFamily?: string | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  propagatedSetLevelTags?: string[] | undefined;
+  updateTime?: Date | undefined;
 }
 export interface GetShareRequest {
   shareId: string;
 }
 export interface ShareDetails {
-  shareId?: string;
-  resourceArn?: string;
-  resourceId?: string;
-  principalSubscriber?: string;
-  ownerId?: string;
-  status?: string;
-  statusMessage?: string;
-  shareName?: string;
-  creationTime?: Date;
-  updateTime?: Date;
+  shareId?: string | undefined;
+  resourceArn?: string | undefined;
+  resourceId?: string | undefined;
+  principalSubscriber?: string | undefined;
+  ownerId?: string | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  shareName?: string | undefined;
+  creationTime?: Date | undefined;
+  updateTime?: Date | undefined;
 }
 export interface GetShareResponse {
-  share?: ShareDetails;
+  share?: ShareDetails | undefined;
 }
 export interface GetVariantImportRequest {
   jobId: string;
@@ -1315,7 +1319,7 @@ export interface GetVariantImportRequest {
 export interface VariantImportItemDetail {
   source: string;
   jobStatus: string;
-  statusMessage?: string;
+  statusMessage?: string | undefined;
 }
 export type VariantImportItemDetails = VariantImportItemDetail[];
 export interface GetVariantImportResponse {
@@ -1326,10 +1330,10 @@ export interface GetVariantImportResponse {
   statusMessage: string;
   creationTime: Date;
   updateTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
   items: VariantImportItemDetail[];
   runLeftNormalization: boolean;
-  annotationFields?: { [key: string]: string | undefined };
+  annotationFields?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetVariantStoreRequest {
   name: string;
@@ -1352,9 +1356,9 @@ export type WorkflowExport = string;
 export type WorkflowExportList = string[];
 export interface GetWorkflowRequest {
   id: string;
-  type?: string;
-  export?: string[];
-  workflowOwnerId?: string;
+  type?: string | undefined;
+  export?: string[] | undefined;
+  workflowOwnerId?: string | undefined;
 }
 export type WorkflowTimestamp = Date;
 export type WorkflowStatusMessage = string;
@@ -1363,11 +1367,11 @@ export type WorkflowMetadataValue = string;
 export type WorkflowMetadata = { [key: string]: string | undefined };
 export type ReadmeS3PresignedUrl = string;
 export interface DefinitionRepositoryDetails {
-  connectionArn?: string;
-  fullRepositoryId?: string;
-  sourceReference?: SourceReference;
-  providerType?: string;
-  providerEndpoint?: string;
+  connectionArn?: string | undefined;
+  fullRepositoryId?: string | undefined;
+  sourceReference?: SourceReference | undefined;
+  providerType?: string | undefined;
+  providerEndpoint?: string | undefined;
 }
 export type WorkflowProfileName = string;
 export type WorkflowProfileList = string[];
@@ -1375,82 +1379,96 @@ export type WorkflowProfileParameterTemplates = {
   [key: string]: { [key: string]: WorkflowParameter | undefined } | undefined;
 };
 export interface GetWorkflowResponse {
-  arn?: string;
-  id?: string;
-  status?: string;
-  type?: string;
-  name?: string;
-  description?: string;
-  engine?: string;
-  definition?: string;
-  main?: string;
-  digest?: string;
-  parameterTemplate?: { [key: string]: WorkflowParameter | undefined };
-  storageCapacity?: number;
-  creationTime?: Date;
-  statusMessage?: string;
-  tags?: { [key: string]: string | undefined };
-  metadata?: { [key: string]: string | undefined };
-  accelerators?: string;
-  storageType?: string;
-  uuid?: string;
-  containerRegistryMap?: ContainerRegistryMap;
-  readme?: string;
-  definitionRepositoryDetails?: DefinitionRepositoryDetails;
-  readmePath?: string;
-  profiles?: string[];
-  profileParameterTemplates?: {
-    [key: string]: { [key: string]: WorkflowParameter | undefined } | undefined;
-  };
+  arn?: string | undefined;
+  id?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  engine?: string | undefined;
+  definition?: string | undefined;
+  main?: string | undefined;
+  digest?: string | undefined;
+  parameterTemplate?: { [key: string]: WorkflowParameter | undefined } | undefined;
+  storageCapacity?: number | undefined;
+  creationTime?: Date | undefined;
+  statusMessage?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  accelerators?: string | undefined;
+  storageType?: string | undefined;
+  uuid?: string | undefined;
+  containerRegistryMap?:
+    | (ContainerRegistryMap & {
+        registryMappings: (RegistryMapping & {
+          upstreamRegistryUrl: Uri;
+          ecrRepositoryPrefix: EcrRepositoryPrefix;
+        })[];
+      })
+    | undefined;
+  readme?: string | undefined;
+  definitionRepositoryDetails?: DefinitionRepositoryDetails | undefined;
+  readmePath?: string | undefined;
+  profiles?: string[] | undefined;
+  profileParameterTemplates?:
+    | { [key: string]: { [key: string]: WorkflowParameter | undefined } | undefined }
+    | undefined;
 }
 export interface GetWorkflowVersionRequest {
   workflowId: string;
   versionName: string;
-  type?: string;
-  export?: string[];
-  workflowOwnerId?: string;
+  type?: string | undefined;
+  export?: string[] | undefined;
+  workflowOwnerId?: string | undefined;
 }
 export interface GetWorkflowVersionResponse {
-  arn?: string;
-  workflowId?: string;
-  versionName?: string;
-  accelerators?: string;
-  creationTime?: Date;
-  description?: string;
-  definition?: string;
-  digest?: string;
-  engine?: string;
-  main?: string;
-  metadata?: { [key: string]: string | undefined };
-  parameterTemplate?: { [key: string]: WorkflowParameter | undefined };
-  status?: string;
-  statusMessage?: string;
-  storageType?: string;
-  storageCapacity?: number;
-  type?: string;
-  tags?: { [key: string]: string | undefined };
-  uuid?: string;
-  workflowBucketOwnerId?: string;
-  containerRegistryMap?: ContainerRegistryMap;
-  readme?: string;
-  definitionRepositoryDetails?: DefinitionRepositoryDetails;
-  readmePath?: string;
-  profiles?: string[];
-  profileParameterTemplates?: {
-    [key: string]: { [key: string]: WorkflowParameter | undefined } | undefined;
-  };
+  arn?: string | undefined;
+  workflowId?: string | undefined;
+  versionName?: string | undefined;
+  accelerators?: string | undefined;
+  creationTime?: Date | undefined;
+  description?: string | undefined;
+  definition?: string | undefined;
+  digest?: string | undefined;
+  engine?: string | undefined;
+  main?: string | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
+  parameterTemplate?: { [key: string]: WorkflowParameter | undefined } | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  storageType?: string | undefined;
+  storageCapacity?: number | undefined;
+  type?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  uuid?: string | undefined;
+  workflowBucketOwnerId?: string | undefined;
+  containerRegistryMap?:
+    | (ContainerRegistryMap & {
+        registryMappings: (RegistryMapping & {
+          upstreamRegistryUrl: Uri;
+          ecrRepositoryPrefix: EcrRepositoryPrefix;
+        })[];
+      })
+    | undefined;
+  readme?: string | undefined;
+  definitionRepositoryDetails?: DefinitionRepositoryDetails | undefined;
+  readmePath?: string | undefined;
+  profiles?: string[] | undefined;
+  profileParameterTemplates?:
+    | { [key: string]: { [key: string]: WorkflowParameter | undefined } | undefined }
+    | undefined;
 }
 export type ResourceIdentifier = string;
 export type IdList = string[];
 export interface ListAnnotationImportJobsFilter {
-  status?: string;
-  storeName?: string;
+  status?: string | undefined;
+  storeName?: string | undefined;
 }
 export interface ListAnnotationImportJobsRequest {
-  maxResults?: number;
-  ids?: string[];
-  nextToken?: string;
-  filter?: ListAnnotationImportJobsFilter;
+  maxResults?: number | undefined;
+  ids?: string[] | undefined;
+  nextToken?: string | undefined;
+  filter?: ListAnnotationImportJobsFilter | undefined;
 }
 export interface AnnotationImportJobItem {
   id: string;
@@ -1460,23 +1478,23 @@ export interface AnnotationImportJobItem {
   status: string;
   creationTime: Date;
   updateTime: Date;
-  completionTime?: Date;
-  runLeftNormalization?: boolean;
-  annotationFields?: { [key: string]: string | undefined };
+  completionTime?: Date | undefined;
+  runLeftNormalization?: boolean | undefined;
+  annotationFields?: { [key: string]: string | undefined } | undefined;
 }
 export type AnnotationImportJobItems = AnnotationImportJobItem[];
 export interface ListAnnotationImportJobsResponse {
-  annotationImportJobs?: AnnotationImportJobItem[];
-  nextToken?: string;
+  annotationImportJobs?: AnnotationImportJobItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAnnotationStoresFilter {
-  status?: string;
+  status?: string | undefined;
 }
 export interface ListAnnotationStoresRequest {
-  ids?: string[];
-  maxResults?: number;
-  nextToken?: string;
-  filter?: ListAnnotationStoresFilter;
+  ids?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filter?: ListAnnotationStoresFilter | undefined;
 }
 export interface AnnotationStoreItem {
   id: string;
@@ -1494,17 +1512,17 @@ export interface AnnotationStoreItem {
 }
 export type AnnotationStoreItems = AnnotationStoreItem[];
 export interface ListAnnotationStoresResponse {
-  annotationStores?: AnnotationStoreItem[];
-  nextToken?: string;
+  annotationStores?: AnnotationStoreItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAnnotationStoreVersionsFilter {
-  status?: string;
+  status?: string | undefined;
 }
 export interface ListAnnotationStoreVersionsRequest {
   name: string;
-  maxResults?: number;
-  nextToken?: string;
-  filter?: ListAnnotationStoreVersionsFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filter?: ListAnnotationStoreVersionsFilter | undefined;
 }
 export interface AnnotationStoreVersionItem {
   storeId: string;
@@ -1521,52 +1539,52 @@ export interface AnnotationStoreVersionItem {
 }
 export type AnnotationStoreVersionItems = AnnotationStoreVersionItem[];
 export interface ListAnnotationStoreVersionsResponse {
-  annotationStoreVersions?: AnnotationStoreVersionItem[];
-  nextToken?: string;
+  annotationStoreVersions?: AnnotationStoreVersionItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ListToken = string;
 export interface ListBatchRequest {
-  maxItems?: number;
-  startingToken?: string;
-  status?: string;
-  name?: string;
-  runGroupId?: string;
+  maxItems?: number | undefined;
+  startingToken?: string | undefined;
+  status?: string | undefined;
+  name?: string | undefined;
+  runGroupId?: string | undefined;
 }
 export interface BatchListItem {
-  id?: string;
-  name?: string;
-  status?: string;
-  createdAt?: Date;
-  totalRuns?: number;
-  workflowId?: string;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  createdAt?: Date | undefined;
+  totalRuns?: number | undefined;
+  workflowId?: string | undefined;
 }
 export type BatchList = BatchListItem[];
 export interface ListBatchResponse {
-  items?: BatchListItem[];
-  nextToken?: string;
+  items?: BatchListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ConfigurationListToken = string;
 export interface ListConfigurationsRequest {
-  maxResults?: number;
-  startingToken?: string;
+  maxResults?: number | undefined;
+  startingToken?: string | undefined;
 }
 export interface ConfigurationListItem {
-  arn?: string;
-  name?: string;
-  description?: string;
-  status?: string;
-  creationTime?: Date;
+  arn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  status?: string | undefined;
+  creationTime?: Date | undefined;
 }
 export type ConfigurationList = ConfigurationListItem[];
 export interface ListConfigurationsResponse {
-  items?: ConfigurationListItem[];
-  nextToken?: string;
+  items?: ConfigurationListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type NextToken = string;
 export interface ListMultipartReadSetUploadsRequest {
   sequenceStoreId: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface MultipartReadSetUploadListItem {
   sequenceStoreId: string;
@@ -1576,49 +1594,49 @@ export interface MultipartReadSetUploadListItem {
   sampleId: string;
   generatedFrom: string;
   referenceArn: string;
-  name?: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  name?: string | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   creationTime: Date;
 }
 export type MultipartReadSetUploadList = MultipartReadSetUploadListItem[];
 export interface ListMultipartReadSetUploadsResponse {
-  nextToken?: string;
-  uploads?: MultipartReadSetUploadListItem[];
+  nextToken?: string | undefined;
+  uploads?: MultipartReadSetUploadListItem[] | undefined;
 }
 export interface ActivateReadSetFilter {
-  status?: string;
-  createdAfter?: Date;
-  createdBefore?: Date;
+  status?: string | undefined;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
 }
 export interface ListReadSetActivationJobsRequest {
   sequenceStoreId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filter?: ActivateReadSetFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filter?: ActivateReadSetFilter | undefined;
 }
 export interface ActivateReadSetJobItem {
   id: string;
   sequenceStoreId: string;
   status: string;
   creationTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
 }
 export type ActivateReadSetJobList = ActivateReadSetJobItem[];
 export interface ListReadSetActivationJobsResponse {
-  nextToken?: string;
-  activationJobs?: ActivateReadSetJobItem[];
+  nextToken?: string | undefined;
+  activationJobs?: ActivateReadSetJobItem[] | undefined;
 }
 export interface ExportReadSetFilter {
-  status?: string;
-  createdAfter?: Date;
-  createdBefore?: Date;
+  status?: string | undefined;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
 }
 export interface ListReadSetExportJobsRequest {
   sequenceStoreId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filter?: ExportReadSetFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filter?: ExportReadSetFilter | undefined;
 }
 export interface ExportReadSetJobDetail {
   id: string;
@@ -1626,23 +1644,23 @@ export interface ExportReadSetJobDetail {
   destination: string;
   status: string;
   creationTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
 }
 export type ExportReadSetJobDetailList = ExportReadSetJobDetail[];
 export interface ListReadSetExportJobsResponse {
-  nextToken?: string;
-  exportJobs?: ExportReadSetJobDetail[];
+  nextToken?: string | undefined;
+  exportJobs?: ExportReadSetJobDetail[] | undefined;
 }
 export interface ImportReadSetFilter {
-  status?: string;
-  createdAfter?: Date;
-  createdBefore?: Date;
+  status?: string | undefined;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
 }
 export interface ListReadSetImportJobsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   sequenceStoreId: string;
-  filter?: ImportReadSetFilter;
+  filter?: ImportReadSetFilter | undefined;
 }
 export interface ImportReadSetJobItem {
   id: string;
@@ -1650,88 +1668,88 @@ export interface ImportReadSetJobItem {
   roleArn: string;
   status: string;
   creationTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
 }
 export type ImportReadSetJobList = ImportReadSetJobItem[];
 export interface ListReadSetImportJobsResponse {
-  nextToken?: string;
-  importJobs?: ImportReadSetJobItem[];
+  nextToken?: string | undefined;
+  importJobs?: ImportReadSetJobItem[] | undefined;
 }
 export type ReferenceArnFilter = string;
 export interface ReadSetFilter {
-  name?: string;
-  status?: string;
-  referenceArn?: string;
-  createdAfter?: Date;
-  createdBefore?: Date;
-  sampleId?: string;
-  subjectId?: string;
-  generatedFrom?: string;
-  creationType?: string;
+  name?: string | undefined;
+  status?: string | undefined;
+  referenceArn?: string | undefined;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
+  sampleId?: string | undefined;
+  subjectId?: string | undefined;
+  generatedFrom?: string | undefined;
+  creationType?: string | undefined;
 }
 export interface ListReadSetsRequest {
   sequenceStoreId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filter?: ReadSetFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filter?: ReadSetFilter | undefined;
 }
 export interface ReadSetListItem {
   id: string;
   arn: string;
   sequenceStoreId: string;
-  subjectId?: string;
-  sampleId?: string;
+  subjectId?: string | undefined;
+  sampleId?: string | undefined;
   status: string;
-  name?: string;
-  description?: string;
-  referenceArn?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  referenceArn?: string | undefined;
   fileType: string;
-  sequenceInformation?: SequenceInformation;
+  sequenceInformation?: SequenceInformation | undefined;
   creationTime: Date;
-  statusMessage?: string;
-  creationType?: string;
-  etag?: ETag;
+  statusMessage?: string | undefined;
+  creationType?: string | undefined;
+  etag?: ETag | undefined;
 }
 export type ReadSetList = ReadSetListItem[];
 export interface ListReadSetsResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   readSets: ReadSetListItem[];
 }
 export interface ReadSetUploadPartListFilter {
-  createdAfter?: Date;
-  createdBefore?: Date;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
 }
 export interface ListReadSetUploadPartsRequest {
   sequenceStoreId: string;
   uploadId: string;
   partSource: string;
-  maxResults?: number;
-  nextToken?: string;
-  filter?: ReadSetUploadPartListFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filter?: ReadSetUploadPartListFilter | undefined;
 }
 export interface ReadSetUploadPartListItem {
   partNumber: number;
   partSize: number;
   partSource: string;
   checksum: string;
-  creationTime?: Date;
-  lastUpdatedTime?: Date;
+  creationTime?: Date | undefined;
+  lastUpdatedTime?: Date | undefined;
 }
 export type ReadSetUploadPartList = ReadSetUploadPartListItem[];
 export interface ListReadSetUploadPartsResponse {
-  nextToken?: string;
-  parts?: ReadSetUploadPartListItem[];
+  nextToken?: string | undefined;
+  parts?: ReadSetUploadPartListItem[] | undefined;
 }
 export interface ImportReferenceFilter {
-  status?: string;
-  createdAfter?: Date;
-  createdBefore?: Date;
+  status?: string | undefined;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
 }
 export interface ListReferenceImportJobsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   referenceStoreId: string;
-  filter?: ImportReferenceFilter;
+  filter?: ImportReferenceFilter | undefined;
 }
 export interface ImportReferenceJobItem {
   id: string;
@@ -1739,215 +1757,215 @@ export interface ImportReferenceJobItem {
   roleArn: string;
   status: string;
   creationTime: Date;
-  completionTime?: Date;
+  completionTime?: Date | undefined;
 }
 export type ImportReferenceJobList = ImportReferenceJobItem[];
 export interface ListReferenceImportJobsResponse {
-  nextToken?: string;
-  importJobs?: ImportReferenceJobItem[];
+  nextToken?: string | undefined;
+  importJobs?: ImportReferenceJobItem[] | undefined;
 }
 export interface ReferenceFilter {
-  name?: string;
-  md5?: string;
-  createdAfter?: Date;
-  createdBefore?: Date;
+  name?: string | undefined;
+  md5?: string | undefined;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
 }
 export interface ListReferencesRequest {
   referenceStoreId: string;
-  maxResults?: number;
-  nextToken?: string;
-  filter?: ReferenceFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filter?: ReferenceFilter | undefined;
 }
 export interface ReferenceListItem {
   id: string;
   arn: string;
   referenceStoreId: string;
   md5: string;
-  status?: string;
-  name?: string;
-  description?: string;
+  status?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
   creationTime: Date;
   updateTime: Date;
 }
 export type ReferenceList = ReferenceListItem[];
 export interface ListReferencesResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   references: ReferenceListItem[];
 }
 export interface ReferenceStoreFilter {
-  name?: string;
-  createdAfter?: Date;
-  createdBefore?: Date;
+  name?: string | undefined;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
 }
 export interface ListReferenceStoresRequest {
-  maxResults?: number;
-  nextToken?: string;
-  filter?: ReferenceStoreFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filter?: ReferenceStoreFilter | undefined;
 }
 export interface ReferenceStoreDetail {
   arn: string;
   id: string;
-  name?: string;
-  description?: string;
-  sseConfig?: SseConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  sseConfig?: SseConfig | undefined;
   creationTime: Date;
 }
 export type ReferenceStoreDetailList = ReferenceStoreDetail[];
 export interface ListReferenceStoresResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   referenceStores: ReferenceStoreDetail[];
 }
 export interface ListRunCachesRequest {
-  maxResults?: number;
-  startingToken?: string;
+  maxResults?: number | undefined;
+  startingToken?: string | undefined;
 }
 export interface RunCacheListItem {
-  arn?: string;
-  cacheBehavior?: string;
-  cacheS3Uri?: string;
-  creationTime?: Date;
-  id?: string;
-  name?: string;
-  status?: string;
+  arn?: string | undefined;
+  cacheBehavior?: string | undefined;
+  cacheS3Uri?: string | undefined;
+  creationTime?: Date | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
 }
 export type RunCacheList = RunCacheListItem[];
 export interface ListRunCachesResponse {
-  items?: RunCacheListItem[];
-  nextToken?: string;
+  items?: RunCacheListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RunGroupListToken = string;
 export interface ListRunGroupsRequest {
-  name?: string;
-  startingToken?: string;
-  maxResults?: number;
+  name?: string | undefined;
+  startingToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface RunGroupListItem {
-  arn?: string;
-  id?: string;
-  name?: string;
-  maxCpus?: number;
-  maxRuns?: number;
-  maxDuration?: number;
-  creationTime?: Date;
-  maxGpus?: number;
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  maxCpus?: number | undefined;
+  maxRuns?: number | undefined;
+  maxDuration?: number | undefined;
+  creationTime?: Date | undefined;
+  maxGpus?: number | undefined;
 }
 export type RunGroupList = RunGroupListItem[];
 export interface ListRunGroupsResponse {
-  items?: RunGroupListItem[];
-  nextToken?: string;
+  items?: RunGroupListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type RunListToken = string;
 export interface ListRunsRequest {
-  name?: string;
-  runGroupId?: string;
-  batchId?: string;
-  startingToken?: string;
-  maxResults?: number;
-  status?: string;
+  name?: string | undefined;
+  runGroupId?: string | undefined;
+  batchId?: string | undefined;
+  startingToken?: string | undefined;
+  maxResults?: number | undefined;
+  status?: string | undefined;
 }
 export interface RunListItem {
-  arn?: string;
-  id?: string;
-  status?: string;
-  workflowId?: string;
-  batchId?: string;
-  name?: string;
-  priority?: number;
-  storageCapacity?: number;
-  creationTime?: Date;
-  startTime?: Date;
-  stopTime?: Date;
-  storageType?: string;
-  workflowVersionName?: string;
-  workflowName?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
+  status?: string | undefined;
+  workflowId?: string | undefined;
+  batchId?: string | undefined;
+  name?: string | undefined;
+  priority?: number | undefined;
+  storageCapacity?: number | undefined;
+  creationTime?: Date | undefined;
+  startTime?: Date | undefined;
+  stopTime?: Date | undefined;
+  storageType?: string | undefined;
+  workflowVersionName?: string | undefined;
+  workflowName?: string | undefined;
 }
 export type RunList = RunListItem[];
 export interface ListRunsResponse {
-  items?: RunListItem[];
-  nextToken?: string;
+  items?: RunListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type SubmissionStatus = string;
 export interface ListRunsInBatchRequest {
   batchId: string;
-  maxItems?: number;
-  startingToken?: string;
-  submissionStatus?: string;
-  runSettingId?: string;
-  runId?: string;
+  maxItems?: number | undefined;
+  startingToken?: string | undefined;
+  submissionStatus?: string | undefined;
+  runSettingId?: string | undefined;
+  runId?: string | undefined;
 }
 export type RunSettingId = string;
 export type SubmissionFailureReason = string;
 export type SubmissionFailureMessage = string;
 export interface RunBatchListItem {
-  runSettingId?: string;
-  runId?: string;
-  runInternalUuid?: string;
-  runArn?: string;
-  submissionStatus?: string;
-  submissionFailureReason?: string;
-  submissionFailureMessage?: string;
+  runSettingId?: string | undefined;
+  runId?: string | undefined;
+  runInternalUuid?: string | undefined;
+  runArn?: string | undefined;
+  submissionStatus?: string | undefined;
+  submissionFailureReason?: string | undefined;
+  submissionFailureMessage?: string | undefined;
 }
 export type RunBatchList = RunBatchListItem[];
 export interface ListRunsInBatchResponse {
-  runs?: RunBatchListItem[];
-  nextToken?: string;
+  runs?: RunBatchListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type TaskListToken = string;
 export interface ListRunTasksRequest {
   id: string;
-  status?: string;
-  startingToken?: string;
-  maxResults?: number;
+  status?: string | undefined;
+  startingToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface TaskListItem {
-  taskId?: string;
-  status?: string;
-  name?: string;
-  cpus?: number;
-  cacheHit?: boolean;
-  cacheS3Uri?: string;
-  memory?: number;
-  creationTime?: Date;
-  startTime?: Date;
-  stopTime?: Date;
-  gpus?: number;
-  instanceType?: string;
-  uuid?: string;
+  taskId?: string | undefined;
+  status?: string | undefined;
+  name?: string | undefined;
+  cpus?: number | undefined;
+  cacheHit?: boolean | undefined;
+  cacheS3Uri?: string | undefined;
+  memory?: number | undefined;
+  creationTime?: Date | undefined;
+  startTime?: Date | undefined;
+  stopTime?: Date | undefined;
+  gpus?: number | undefined;
+  instanceType?: string | undefined;
+  uuid?: string | undefined;
 }
 export type TaskList = TaskListItem[];
 export interface ListRunTasksResponse {
-  items?: TaskListItem[];
-  nextToken?: string;
+  items?: TaskListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface SequenceStoreFilter {
-  name?: string;
-  createdAfter?: Date;
-  createdBefore?: Date;
-  status?: string;
-  updatedAfter?: Date;
-  updatedBefore?: Date;
+  name?: string | undefined;
+  createdAfter?: Date | undefined;
+  createdBefore?: Date | undefined;
+  status?: string | undefined;
+  updatedAfter?: Date | undefined;
+  updatedBefore?: Date | undefined;
 }
 export interface ListSequenceStoresRequest {
-  maxResults?: number;
-  nextToken?: string;
-  filter?: SequenceStoreFilter;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  filter?: SequenceStoreFilter | undefined;
 }
 export interface SequenceStoreDetail {
   arn: string;
   id: string;
-  name?: string;
-  description?: string;
-  sseConfig?: SseConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  sseConfig?: SseConfig | undefined;
   creationTime: Date;
-  fallbackLocation?: string;
-  eTagAlgorithmFamily?: string;
-  status?: string;
-  statusMessage?: string;
-  updateTime?: Date;
+  fallbackLocation?: string | undefined;
+  eTagAlgorithmFamily?: string | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  updateTime?: Date | undefined;
 }
 export type SequenceStoreDetailList = SequenceStoreDetail[];
 export interface ListSequenceStoresResponse {
-  nextToken?: string;
+  nextToken?: string | undefined;
   sequenceStores: SequenceStoreDetail[];
 }
 export type ResourceOwner = string;
@@ -1956,20 +1974,20 @@ export type StatusList = string[];
 export type ShareResourceType = string;
 export type TypeList = string[];
 export interface Filter {
-  resourceArns?: string[];
-  status?: string[];
-  type?: string[];
+  resourceArns?: string[] | undefined;
+  status?: string[] | undefined;
+  type?: string[] | undefined;
 }
 export interface ListSharesRequest {
   resourceOwner: string;
-  filter?: Filter;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: Filter | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ShareDetailsList = ShareDetails[];
 export interface ListSharesResponse {
   shares: ShareDetails[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type TagArn = string;
 export interface ListTagsForResourceRequest {
@@ -1979,14 +1997,14 @@ export interface ListTagsForResourceResponse {
   tags: { [key: string]: string | undefined };
 }
 export interface ListVariantImportJobsFilter {
-  status?: string;
-  storeName?: string;
+  status?: string | undefined;
+  storeName?: string | undefined;
 }
 export interface ListVariantImportJobsRequest {
-  maxResults?: number;
-  ids?: string[];
-  nextToken?: string;
-  filter?: ListVariantImportJobsFilter;
+  maxResults?: number | undefined;
+  ids?: string[] | undefined;
+  nextToken?: string | undefined;
+  filter?: ListVariantImportJobsFilter | undefined;
 }
 export interface VariantImportJobItem {
   id: string;
@@ -1995,23 +2013,23 @@ export interface VariantImportJobItem {
   status: string;
   creationTime: Date;
   updateTime: Date;
-  completionTime?: Date;
-  runLeftNormalization?: boolean;
-  annotationFields?: { [key: string]: string | undefined };
+  completionTime?: Date | undefined;
+  runLeftNormalization?: boolean | undefined;
+  annotationFields?: { [key: string]: string | undefined } | undefined;
 }
 export type VariantImportJobItems = VariantImportJobItem[];
 export interface ListVariantImportJobsResponse {
-  variantImportJobs?: VariantImportJobItem[];
-  nextToken?: string;
+  variantImportJobs?: VariantImportJobItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListVariantStoresFilter {
-  status?: string;
+  status?: string | undefined;
 }
 export interface ListVariantStoresRequest {
-  maxResults?: number;
-  ids?: string[];
-  nextToken?: string;
-  filter?: ListVariantStoresFilter;
+  maxResults?: number | undefined;
+  ids?: string[] | undefined;
+  nextToken?: string | undefined;
+  filter?: ListVariantStoresFilter | undefined;
 }
 export interface VariantStoreItem {
   id: string;
@@ -2028,63 +2046,63 @@ export interface VariantStoreItem {
 }
 export type VariantStoreItems = VariantStoreItem[];
 export interface ListVariantStoresResponse {
-  variantStores?: VariantStoreItem[];
-  nextToken?: string;
+  variantStores?: VariantStoreItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type WorkflowListToken = string;
 export interface ListWorkflowsRequest {
-  type?: string;
-  name?: string;
-  startingToken?: string;
-  maxResults?: number;
+  type?: string | undefined;
+  name?: string | undefined;
+  startingToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkflowListItem {
-  arn?: string;
-  id?: string;
-  name?: string;
-  status?: string;
-  type?: string;
-  digest?: string;
-  creationTime?: Date;
-  metadata?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  id?: string | undefined;
+  name?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  digest?: string | undefined;
+  creationTime?: Date | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type WorkflowList = WorkflowListItem[];
 export interface ListWorkflowsResponse {
-  items?: WorkflowListItem[];
-  nextToken?: string;
+  items?: WorkflowListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export type WorkflowVersionListToken = string;
 export interface ListWorkflowVersionsRequest {
   workflowId: string;
-  type?: string;
-  workflowOwnerId?: string;
-  startingToken?: string;
-  maxResults?: number;
+  type?: string | undefined;
+  workflowOwnerId?: string | undefined;
+  startingToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface WorkflowVersionListItem {
-  arn?: string;
-  workflowId?: string;
-  versionName?: string;
-  description?: string;
-  status?: string;
-  type?: string;
-  digest?: string;
-  creationTime?: Date;
-  metadata?: { [key: string]: string | undefined };
+  arn?: string | undefined;
+  workflowId?: string | undefined;
+  versionName?: string | undefined;
+  description?: string | undefined;
+  status?: string | undefined;
+  type?: string | undefined;
+  digest?: string | undefined;
+  creationTime?: Date | undefined;
+  metadata?: { [key: string]: string | undefined } | undefined;
 }
 export type WorkflowVersionList = WorkflowVersionListItem[];
 export interface ListWorkflowVersionsResponse {
-  items?: WorkflowVersionListItem[];
-  nextToken?: string;
+  items?: WorkflowVersionListItem[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutS3AccessPolicyRequest {
   s3AccessPointArn: string;
   s3AccessPolicy: string;
 }
 export interface PutS3AccessPolicyResponse {
-  s3AccessPointArn?: string;
-  storeId?: string;
-  storeType?: StoreType;
+  s3AccessPointArn?: string | undefined;
+  storeId?: string | undefined;
+  storeType?: StoreType | undefined;
 }
 export interface AnnotationImportItemSource {
   source: string;
@@ -2094,10 +2112,10 @@ export interface StartAnnotationImportRequest {
   destinationName: string;
   roleArn: string;
   items: AnnotationImportItemSource[];
-  versionName?: string;
-  formatOptions?: FormatOptions;
-  runLeftNormalization?: boolean;
-  annotationFields?: { [key: string]: string | undefined };
+  versionName?: string | undefined;
+  formatOptions?: FormatOptions | undefined;
+  runLeftNormalization?: boolean | undefined;
+  annotationFields?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartAnnotationImportResponse {
   jobId: string;
@@ -2108,7 +2126,7 @@ export interface StartReadSetActivationJobSourceItem {
 export type StartReadSetActivationJobSourceList = StartReadSetActivationJobSourceItem[];
 export interface StartReadSetActivationJobRequest {
   sequenceStoreId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   sources: StartReadSetActivationJobSourceItem[];
 }
 export interface StartReadSetActivationJobResponse {
@@ -2125,7 +2143,7 @@ export interface StartReadSetExportJobRequest {
   sequenceStoreId: string;
   destination: string;
   roleArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   sources: ExportReadSet[];
 }
 export interface StartReadSetExportJobResponse {
@@ -2140,17 +2158,17 @@ export interface StartReadSetImportJobSourceItem {
   sourceFileType: string;
   subjectId: string;
   sampleId: string;
-  generatedFrom?: string;
-  referenceArn?: string;
-  name?: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  generatedFrom?: string | undefined;
+  referenceArn?: string | undefined;
+  name?: string | undefined;
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StartReadSetImportJobSourceList = StartReadSetImportJobSourceItem[];
 export interface StartReadSetImportJobRequest {
   sequenceStoreId: string;
   roleArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   sources: StartReadSetImportJobSourceItem[];
 }
 export interface StartReadSetImportJobResponse {
@@ -2163,14 +2181,14 @@ export interface StartReadSetImportJobResponse {
 export interface StartReferenceImportJobSourceItem {
   sourceFile: string;
   name: string;
-  description?: string;
-  tags?: { [key: string]: string | undefined };
+  description?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StartReferenceImportJobSourceList = StartReferenceImportJobSourceItem[];
 export interface StartReferenceImportJobRequest {
   referenceStoreId: string;
   roleArn: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
   sources: StartReferenceImportJobSourceItem[];
 }
 export interface StartReferenceImportJobResponse {
@@ -2182,70 +2200,70 @@ export interface StartReferenceImportJobResponse {
 }
 export type RunRequestId = string;
 export interface StartRunRequest {
-  workflowId?: string;
-  workflowType?: string;
-  runId?: string;
+  workflowId?: string | undefined;
+  workflowType?: string | undefined;
+  runId?: string | undefined;
   roleArn: string;
-  name?: string;
-  cacheId?: string;
-  cacheBehavior?: string;
-  runGroupId?: string;
-  priority?: number;
-  parameters?: any;
-  storageCapacity?: number;
+  name?: string | undefined;
+  cacheId?: string | undefined;
+  cacheBehavior?: string | undefined;
+  runGroupId?: string | undefined;
+  priority?: number | undefined;
+  parameters?: any | undefined;
+  storageCapacity?: number | undefined;
   outputUri: string;
-  logLevel?: string;
-  tags?: { [key: string]: string | undefined };
+  logLevel?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   requestId: string;
-  retentionMode?: string;
-  storageType?: string;
-  workflowOwnerId?: string;
-  workflowVersionName?: string;
-  networkingMode?: string;
-  scratchStorageMode?: string;
-  configurationName?: string;
-  sessionPolicy?: string;
-  engineSettings?: any;
+  retentionMode?: string | undefined;
+  storageType?: string | undefined;
+  workflowOwnerId?: string | undefined;
+  workflowVersionName?: string | undefined;
+  networkingMode?: string | undefined;
+  scratchStorageMode?: string | undefined;
+  configurationName?: string | undefined;
+  sessionPolicy?: string | undefined;
+  engineSettings?: any | undefined;
 }
 export interface StartRunResponse {
-  arn?: string;
-  id?: string;
-  status?: string;
-  tags?: { [key: string]: string | undefined };
-  uuid?: string;
-  runOutputUri?: string;
-  configuration?: ConfigurationDetails;
-  networkingMode?: string;
+  arn?: string | undefined;
+  id?: string | undefined;
+  status?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  uuid?: string | undefined;
+  runOutputUri?: string | undefined;
+  configuration?: ConfigurationDetails | undefined;
+  networkingMode?: string | undefined;
 }
 export type BatchRequestId = string;
 export interface InlineSetting {
   runSettingId: string;
-  name?: string;
-  outputUri?: string;
-  priority?: number;
-  parameters?: any;
-  outputBucketOwnerId?: string;
-  runTags?: { [key: string]: string | undefined };
-  engineSettings?: any;
+  name?: string | undefined;
+  outputUri?: string | undefined;
+  priority?: number | undefined;
+  parameters?: any | undefined;
+  outputBucketOwnerId?: string | undefined;
+  runTags?: { [key: string]: string | undefined } | undefined;
+  engineSettings?: any | undefined;
 }
 export type InlineSettings = InlineSetting[];
 export type S3UriSettings = string;
 export type BatchRunSettings =
-  | { inlineSettings: InlineSetting[]; s3UriSettings?: never }
-  | { inlineSettings?: never; s3UriSettings: string };
+  | { inlineSettings: InlineSetting[]; s3UriSettings?: undefined }
+  | { inlineSettings?: undefined; s3UriSettings: string };
 export interface StartRunBatchRequest {
-  batchName?: string;
+  batchName?: string | undefined;
   requestId: string;
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
   defaultRunSetting: DefaultRunSetting;
   batchRunSettings: BatchRunSettings;
 }
 export interface StartRunBatchResponse {
-  id?: string;
-  arn?: string;
-  status?: string;
-  uuid?: string;
-  tags?: { [key: string]: string | undefined };
+  id?: string | undefined;
+  arn?: string | undefined;
+  status?: string | undefined;
+  uuid?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface VariantImportItemSource {
   source: string;
@@ -2255,8 +2273,8 @@ export interface StartVariantImportRequest {
   destinationName: string;
   roleArn: string;
   items: VariantImportItemSource[];
-  runLeftNormalization?: boolean;
-  annotationFields?: { [key: string]: string | undefined };
+  runLeftNormalization?: boolean | undefined;
+  annotationFields?: { [key: string]: string | undefined } | undefined;
 }
 export interface StartVariantImportResponse {
   jobId: string;
@@ -2274,7 +2292,7 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAnnotationStoreRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateAnnotationStoreResponse {
   id: string;
@@ -2284,13 +2302,13 @@ export interface UpdateAnnotationStoreResponse {
   description: string;
   creationTime: Date;
   updateTime: Date;
-  storeOptions?: StoreOptions;
-  storeFormat?: string;
+  storeOptions?: StoreOptions | undefined;
+  storeFormat?: string | undefined;
 }
 export interface UpdateAnnotationStoreVersionRequest {
   name: string;
   versionName: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateAnnotationStoreVersionResponse {
   storeId: string;
@@ -2303,48 +2321,48 @@ export interface UpdateAnnotationStoreVersionResponse {
   updateTime: Date;
 }
 export interface UpdateRunCacheRequest {
-  cacheBehavior?: string;
-  description?: string;
+  cacheBehavior?: string | undefined;
+  description?: string | undefined;
   id: string;
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateRunCacheResponse {}
 export interface UpdateRunGroupRequest {
   id: string;
-  name?: string;
-  maxCpus?: number;
-  maxRuns?: number;
-  maxDuration?: number;
-  maxGpus?: number;
+  name?: string | undefined;
+  maxCpus?: number | undefined;
+  maxRuns?: number | undefined;
+  maxDuration?: number | undefined;
+  maxGpus?: number | undefined;
 }
 export interface UpdateRunGroupResponse {}
 export interface UpdateSequenceStoreRequest {
   id: string;
-  name?: string;
-  description?: string;
-  clientToken?: string;
-  fallbackLocation?: string;
-  propagatedSetLevelTags?: string[];
-  s3AccessConfig?: S3AccessConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  clientToken?: string | undefined;
+  fallbackLocation?: string | undefined;
+  propagatedSetLevelTags?: string[] | undefined;
+  s3AccessConfig?: S3AccessConfig | undefined;
 }
 export interface UpdateSequenceStoreResponse {
   id: string;
   arn: string;
-  name?: string;
-  description?: string;
-  sseConfig?: SseConfig;
+  name?: string | undefined;
+  description?: string | undefined;
+  sseConfig?: SseConfig | undefined;
   creationTime: Date;
-  updateTime?: Date;
-  propagatedSetLevelTags?: string[];
-  status?: string;
-  statusMessage?: string;
-  fallbackLocation?: string;
-  s3Access?: SequenceStoreS3Access;
-  eTagAlgorithmFamily?: string;
+  updateTime?: Date | undefined;
+  propagatedSetLevelTags?: string[] | undefined;
+  status?: string | undefined;
+  statusMessage?: string | undefined;
+  fallbackLocation?: string | undefined;
+  s3Access?: SequenceStoreS3Access | undefined;
+  eTagAlgorithmFamily?: string | undefined;
 }
 export interface UpdateVariantStoreRequest {
   name: string;
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateVariantStoreResponse {
   id: string;
@@ -2357,20 +2375,20 @@ export interface UpdateVariantStoreResponse {
 }
 export interface UpdateWorkflowRequest {
   id: string;
-  name?: string;
-  description?: string;
-  storageType?: string;
-  storageCapacity?: number;
-  readmeMarkdown?: string;
+  name?: string | undefined;
+  description?: string | undefined;
+  storageType?: string | undefined;
+  storageCapacity?: number | undefined;
+  readmeMarkdown?: string | undefined;
 }
 export interface UpdateWorkflowResponse {}
 export interface UpdateWorkflowVersionRequest {
   workflowId: string;
   versionName: string;
-  description?: string;
-  storageType?: string;
-  storageCapacity?: number;
-  readmeMarkdown?: string;
+  description?: string | undefined;
+  storageType?: string | undefined;
+  storageCapacity?: number | undefined;
+  readmeMarkdown?: string | undefined;
 }
 export interface UpdateWorkflowVersionResponse {}
 export interface UploadReadSetPartRequest {
@@ -7566,6 +7584,7 @@ function __c39(j: number): any {
         S.Struct({
           securityGroupIds: S.optional(__S(192, __c24, 0)),
           subnetIds: S.optional(__S(192, __c24, 0)),
+          vpcOwnerAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcConfig" });
     case 1:
@@ -7615,6 +7634,7 @@ function __c41(j: number): any {
           securityGroupIds: S.optional(__S(192, __c24, 0)),
           subnetIds: S.optional(__S(192, __c24, 0)),
           vpcId: S.optional(S.String),
+          vpcOwnerAccountId: S.optional(S.String),
         }),
       ).annotate({ identifier: "VpcConfigResponse" });
   }
@@ -7913,6 +7933,7 @@ function __c54(j: number): any {
           ecrRepositoryPrefix: S.optional(S.String),
           upstreamRepositoryPrefix: S.optional(S.String),
           ecrAccountId: S.optional(S.String),
+          credentialArn: S.optional(S.String),
         }),
       ).annotate({ identifier: "RegistryMapping" });
     case 3:

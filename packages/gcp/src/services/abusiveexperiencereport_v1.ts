@@ -66,26 +66,26 @@ export type SiteSummaryResponseFilterStatusEnum = "UNKNOWN" | "ON" | "OFF" | "PA
 /** Response message for GetSiteSummary. */
 export interface SiteSummaryResponse {
   /** A link to the full Abusive Experience Report for the site. Not set in ViolatingSitesResponse. Note that you must complete the [Search Console verification process](https://support.google.com/webmasters/answer/9008080) for the site before you can access the full report. */
-  reportUrl?: string;
+  reportUrl?: string | undefined;
   /** The time at which [enforcement](https://support.google.com/webtools/answer/7538608) against the site began or will begin. Not set when the filter_status is OFF. */
-  enforcementTime?: string;
+  enforcementTime?: string | undefined;
   /** The time at which the site's status last changed. */
-  lastChangeTime?: string;
+  lastChangeTime?: string | undefined;
   /** The site's Abusive Experience Report status. */
-  abusiveStatus?: SiteSummaryResponseAbusiveStatusEnum;
+  abusiveStatus?: SiteSummaryResponseAbusiveStatusEnum | undefined;
   /** The name of the reviewed site, e.g. `google.com`. */
-  reviewedSite?: string;
+  reviewedSite?: string | undefined;
   /** The site's [enforcement status](https://support.google.com/webtools/answer/7538608). */
-  filterStatus?: SiteSummaryResponseFilterStatusEnum;
+  filterStatus?: SiteSummaryResponseFilterStatusEnum | undefined;
   /** Whether the site is currently under review. */
-  underReview?: boolean;
+  underReview?: boolean | undefined;
 }
 export interface ListViolatingSitesRequest {}
 export type SiteSummaryResponseList = Array<SiteSummaryResponse>;
 /** Response message for ListViolatingSites. */
 export interface ViolatingSitesResponse {
   /** The list of violating sites. */
-  violatingSites?: SiteSummaryResponseList;
+  violatingSites?: SiteSummaryResponseList | undefined;
 }
 export type GetSitesError = NotFound | Forbidden | GcpOpError;
 /** Gets a site's Abusive Experience Report summary. */

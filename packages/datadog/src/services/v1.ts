@@ -75,15 +75,15 @@ export interface AddSecurityMonitoringSignalToIncidentRequest {
   /** The ID of the signal. */
   signal_id: string;
   /** Whether to post the signal on the incident timeline. */
-  add_to_signal_timeline?: boolean;
+  add_to_signal_timeline?: boolean | undefined;
   /** Public ID attribute of the incident to which the signal will be added. */
   incident_id: number;
-  version?: number;
+  version?: number | undefined;
 }
 /** Updated signal data following a successfully performed update. */
 export interface SuccessfulSignalUpdateResponse {
   /** Status of the response. */
-  status?: string;
+  status?: string | undefined;
 }
 export type CheckCanDeleteMonitorRequestMonitorIdsList = Array<number>;
 export interface CheckCanDeleteMonitorRequest {
@@ -95,7 +95,7 @@ export type CheckCanDeleteMonitorResponseDataOkList = Array<number>;
 /** Wrapper object with the list of monitor IDs. */
 export interface CheckCanDeleteMonitorResponseData {
   /** An array of Monitor IDs that can be safely deleted. */
-  ok?: CheckCanDeleteMonitorResponseDataOkList;
+  ok?: CheckCanDeleteMonitorResponseDataOkList | undefined;
 }
 /** Strings denoting where a monitor is used. */
 export type CheckCanDeleteMonitorResponseErrorsValueList = Array<string>;
@@ -107,7 +107,7 @@ export type CheckCanDeleteMonitorResponseErrorsMap = {
 export interface CheckCanDeleteMonitorResponse {
   data: CheckCanDeleteMonitorResponseData;
   /** A mapping of Monitor ID to strings denoting where it's used. */
-  errors?: CheckCanDeleteMonitorResponseErrorsMap | null;
+  errors?: CheckCanDeleteMonitorResponseErrorsMap | null | undefined;
 }
 export interface CheckCanDeleteSLORequest {
   /** A comma separated list of the IDs of the service level objectives objects. */
@@ -118,123 +118,123 @@ export type CheckCanDeleteSLOResponseDataOkList = Array<string>;
 /** An array of service level objective objects. */
 export interface CheckCanDeleteSLOResponseData {
   /** An array of SLO IDs that can be safely deleted. */
-  ok?: CheckCanDeleteSLOResponseDataOkList;
+  ok?: CheckCanDeleteSLOResponseDataOkList | undefined;
 }
 /** A mapping of SLO id to it's current usages. */
 export type CheckCanDeleteSLOResponseErrorsMap = { [key: string]: string | undefined };
 /** A service level objective response containing the requested object. */
 export interface CheckCanDeleteSLOResponse {
-  data?: CheckCanDeleteSLOResponseData;
+  data?: CheckCanDeleteSLOResponseData | undefined;
   /** A mapping of SLO id to it's current usages. */
-  errors?: CheckCanDeleteSLOResponseErrorsMap;
+  errors?: CheckCanDeleteSLOResponseErrorsMap | undefined;
 }
 export interface CreateAPIKeyRequest {
   /** Name of your API key. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Datadog API key. */
 export interface ApiKey {
   /** Date of creation of the API key. */
-  created?: string;
+  created?: string | undefined;
   /** Datadog user handle that created the API key. */
-  created_by?: string;
+  created_by?: string | undefined;
   /** API key. */
-  key?: string;
+  key?: string | undefined;
   /** Name of your API key. */
-  name?: string;
+  name?: string | undefined;
 }
 /** An API key with its associated metadata. */
 export interface ApiKeyResponse {
-  api_key?: ApiKey;
+  api_key?: ApiKey | undefined;
 }
 export interface CreateApplicationKeyRequest {
   /** Name of an application key. */
-  name?: string;
+  name?: string | undefined;
 }
 /** An application key with its associated metadata. */
 export interface ApplicationKey {
   /** Hash of an application key. */
-  hash?: string;
+  hash?: string | undefined;
   /** Name of an application key. */
-  name?: string;
+  name?: string | undefined;
   /** Owner of an application key. */
-  owner?: string;
+  owner?: string | undefined;
 }
 /** An application key response. */
 export interface ApplicationKeyResponse {
-  application_key?: ApplicationKey;
+  application_key?: ApplicationKey | undefined;
 }
 /** Errors in your configuration. */
 export type CreateAzureIntegrationRequestErrorsList = Array<string>;
 /** Configuration settings applied to resources from the specified Azure resource provider. */
 export interface ResourceProviderConfig {
   /** Collect metrics for resources from this provider. */
-  metrics_enabled?: boolean;
+  metrics_enabled?: boolean | undefined;
   /** The provider namespace to apply this configuration to. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 /** Configuration settings applied to resources from the specified Azure resource providers. */
 export type CreateAzureIntegrationRequestResourceProviderConfigsList =
   Array<ResourceProviderConfig>;
 export interface CreateAzureIntegrationRequest {
   /** Limit the Azure app service plans that are pulled into Datadog using tags. Only app service plans that match one of the defined tags are imported into Datadog. */
-  app_service_plan_filters?: string;
+  app_service_plan_filters?: string | undefined;
   /** Silence monitors for expected Azure VM shutdowns. */
-  automute?: boolean;
+  automute?: boolean | undefined;
   /** Your Azure web application ID. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Your Azure web application secret key. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Limit the Azure container apps that are pulled into Datadog using tags. Only container apps that match one of the defined tags are imported into Datadog. */
-  container_app_filters?: string;
+  container_app_filters?: string | undefined;
   /** When enabled, Datadog's Cloud Security Management product scans resource configurations monitored by this app registration. Note: This requires resource_collection_enabled to be set to true. */
-  cspm_enabled?: boolean;
+  cspm_enabled?: boolean | undefined;
   /** Enable custom metrics for your organization. */
-  custom_metrics_enabled?: boolean;
+  custom_metrics_enabled?: boolean | undefined;
   /** Errors in your configuration. */
-  errors?: CreateAzureIntegrationRequestErrorsList;
+  errors?: CreateAzureIntegrationRequestErrorsList | undefined;
   /** Limit the Azure instances that are pulled into Datadog by using tags. Only hosts that match one of the defined tags are imported into Datadog. */
-  host_filters?: string;
+  host_filters?: string | undefined;
   /** Enable Azure metrics for your organization. */
-  metrics_enabled?: boolean;
+  metrics_enabled?: boolean | undefined;
   /** Enable Azure metrics for your organization for resource providers where no resource provider config is specified. */
-  metrics_enabled_default?: boolean;
+  metrics_enabled_default?: boolean | undefined;
   /** Your New Azure web application ID. */
-  new_client_id?: string;
+  new_client_id?: string | undefined;
   /** Your New Azure Active Directory ID. */
-  new_tenant_name?: string;
+  new_tenant_name?: string | undefined;
   /** When enabled, Datadog collects metadata and configuration info from cloud resources (compute instances, databases, load balancers, etc.) monitored by this app registration. */
-  resource_collection_enabled?: boolean;
+  resource_collection_enabled?: boolean | undefined;
   /** Configuration settings applied to resources from the specified Azure resource providers. */
-  resource_provider_configs?: CreateAzureIntegrationRequestResourceProviderConfigsList;
+  resource_provider_configs?: CreateAzureIntegrationRequestResourceProviderConfigsList | undefined;
   /** (Preview) When enabled, Datadog authenticates with this app registration using federated workload identity credentials instead of a client secret. */
-  secretless_auth_enabled?: boolean;
+  secretless_auth_enabled?: boolean | undefined;
   /** Your Azure Active Directory ID. */
-  tenant_name?: string;
+  tenant_name?: string | undefined;
   /** Enable azure.usage metrics for your organization. */
-  usage_metrics_enabled?: boolean;
+  usage_metrics_enabled?: boolean | undefined;
 }
 export type CreateAzureIntegrationResponse = unknown;
 /** A JSON array of billing type. */
 export interface OrganizationBilling {
   /** The type of billing. Only `parent_billing` is supported. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Subscription definition. */
 export interface OrganizationSubscription {
   /** The subscription type. Types available are `trial`, `free`, and `pro`. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface CreateChildOrgRequest {
-  billing?: OrganizationBilling;
+  billing?: OrganizationBilling | undefined;
   /** The name of the new child-organization, limited to 32 characters. */
   name: string;
-  subscription?: OrganizationSubscription;
+  subscription?: OrganizationSubscription | undefined;
 }
 /** Set the boolean property enabled to enable or disable single sign on with SAML. See the SAML documentation for more information about all SAML settings. */
 export interface OrganizationSettingsSaml {
   /** Whether or not SAML is enabled for this organization. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** The access role of the user. Options are **st** (standard user), **adm** (admin user), or **ro** (read-only user). */
 export type AccessRole = "st" | "adm" | "ro" | "ERROR";
@@ -243,76 +243,76 @@ export type OrganizationSettingsSamlAutocreateUsersDomainsDomainsList = Array<st
 /** Has two properties, `enabled` (boolean) and `domains`, which is a list of domains without the @ symbol. */
 export interface OrganizationSettingsSamlAutocreateUsersDomains {
   /** List of domains where the SAML automated user creation is enabled. */
-  domains?: OrganizationSettingsSamlAutocreateUsersDomainsDomainsList;
+  domains?: OrganizationSettingsSamlAutocreateUsersDomainsDomainsList | undefined;
   /** Whether or not the automated user creation based on SAML domain is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Has one property enabled (boolean). */
 export interface OrganizationSettingsSamlIdpInitiatedLogin {
   /** Whether SAML IdP initiated login is enabled, learn more in the [SAML documentation](https://docs.datadoghq.com/account_management/saml/#idp-initiated-login). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Has one property enabled (boolean). */
 export interface OrganizationSettingsSamlStrictMode {
   /** Whether or not the SAML strict mode is enabled. If true, all users must log in with SAML. Learn more on the [SAML Strict documentation](https://docs.datadoghq.com/account_management/saml/#saml-strict). */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** A JSON array of settings. */
 export interface OrganizationSettings {
   /** Whether or not the organization users can share widgets outside of Datadog. */
-  private_widget_share?: boolean;
-  saml?: OrganizationSettingsSaml;
-  saml_autocreate_access_role?: AccessRole | (string & {}) | null;
-  saml_autocreate_users_domains?: OrganizationSettingsSamlAutocreateUsersDomains;
+  private_widget_share?: boolean | undefined;
+  saml?: OrganizationSettingsSaml | undefined;
+  saml_autocreate_access_role?: AccessRole | (string & {}) | null | undefined;
+  saml_autocreate_users_domains?: OrganizationSettingsSamlAutocreateUsersDomains | undefined;
   /** Whether or not SAML can be enabled for this organization. */
-  saml_can_be_enabled?: boolean;
+  saml_can_be_enabled?: boolean | undefined;
   /** Identity provider endpoint for SAML authentication. */
-  saml_idp_endpoint?: string;
-  saml_idp_initiated_login?: OrganizationSettingsSamlIdpInitiatedLogin;
+  saml_idp_endpoint?: string | undefined;
+  saml_idp_initiated_login?: OrganizationSettingsSamlIdpInitiatedLogin | undefined;
   /** Whether or not a SAML identity provider metadata file was provided to the Datadog organization. */
-  saml_idp_metadata_uploaded?: boolean;
+  saml_idp_metadata_uploaded?: boolean | undefined;
   /** URL for SAML logging. */
-  saml_login_url?: string;
-  saml_strict_mode?: OrganizationSettingsSamlStrictMode;
+  saml_login_url?: string | undefined;
+  saml_strict_mode?: OrganizationSettingsSamlStrictMode | undefined;
 }
 /** Create, edit, and manage organizations. */
 export interface Organization {
-  billing?: OrganizationBilling;
+  billing?: OrganizationBilling | undefined;
   /** Date of the organization creation. */
-  created?: string;
+  created?: string | undefined;
   /** Description of the organization. */
-  description?: string;
+  description?: string | undefined;
   /** The name of the child organization, limited to 32 characters. */
-  name?: string;
+  name?: string | undefined;
   /** The `public_id` of the organization you are operating within. */
-  public_id?: string;
-  settings?: OrganizationSettings;
-  subscription?: OrganizationSubscription;
+  public_id?: string | undefined;
+  settings?: OrganizationSettings | undefined;
+  subscription?: OrganizationSubscription | undefined;
   /** Only available for MSP customers. Allows child organizations to be created on a trial plan. */
-  trial?: boolean;
+  trial?: boolean | undefined;
 }
 /** Create, edit, and disable users. */
 export interface User {
-  access_role?: AccessRole | null;
+  access_role?: AccessRole | null | undefined;
   /** The new disabled status of the user. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The new email of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The user handle, must be a valid email. */
-  handle?: string;
+  handle?: string | undefined;
   /** Gravatar icon associated to the user. */
-  icon?: string;
+  icon?: string | undefined;
   /** The name of the user. */
-  name?: string;
+  name?: string | undefined;
   /** Whether or not the user logged in Datadog at least once. */
-  verified?: boolean;
+  verified?: boolean | undefined;
 }
 /** Response object for an organization creation. */
 export interface OrganizationCreateResponse {
-  api_key?: ApiKey;
-  application_key?: ApplicationKey;
-  org?: Organization;
-  user?: User;
+  api_key?: ApiKey | undefined;
+  application_key?: ApplicationKey | undefined;
+  org?: Organization | undefined;
+  user?: User | undefined;
 }
 /** Type of live timeframe. */
 export type DashboardLiveTimeframeType = "live";
@@ -365,11 +365,11 @@ export type DashboardTemplateVariablePresetValueValuesList = Array<string>;
 /** Template variables saved views. */
 export interface DashboardTemplateVariablePresetValue {
   /** The name of the variable. */
-  name?: string;
+  name?: string | undefined;
   /** (deprecated) The value of the template variable within the saved view. Cannot be used in conjunction with `values`. */
-  value?: string;
+  value?: string | undefined;
   /** One or many template variable values within the saved view, which will be unioned together using `OR` if more than one is specified. Cannot be used in conjunction with `value`. */
-  values?: DashboardTemplateVariablePresetValueValuesList;
+  values?: DashboardTemplateVariablePresetValueValuesList | undefined;
 }
 /** List of variables. */
 export type DashboardTemplateVariablePresetTemplateVariablesList =
@@ -377,9 +377,9 @@ export type DashboardTemplateVariablePresetTemplateVariablesList =
 /** Template variables saved views. */
 export interface DashboardTemplateVariablePreset {
   /** The name of the variable. */
-  name?: string;
+  name?: string | undefined;
   /** List of variables. */
-  template_variables?: DashboardTemplateVariablePresetTemplateVariablesList;
+  template_variables?: DashboardTemplateVariablePresetTemplateVariablesList | undefined;
 }
 /** Array of template variables saved views. */
 export type CreateDashboardRequestTemplateVariablePresetsList =
@@ -391,17 +391,17 @@ export type DashboardTemplateVariableDefaultsList = Array<string>;
 /** Template variable. */
 export interface DashboardTemplateVariable {
   /** The list of values that the template variable drop-down is limited to. */
-  available_values?: DashboardTemplateVariableAvailableValuesList | null;
+  available_values?: DashboardTemplateVariableAvailableValuesList | null | undefined;
   /** (deprecated) The default value for the template variable on dashboard load. Cannot be used in conjunction with `defaults`. */
-  default?: string | null;
+  default?: string | null | undefined;
   /** One or many default values for template variables on load. If more than one default is specified, they will be unioned together with `OR`. Cannot be used in conjunction with `default`. */
-  defaults?: DashboardTemplateVariableDefaultsList;
+  defaults?: DashboardTemplateVariableDefaultsList | undefined;
   /** The name of the variable. */
   name: string;
   /** The tag prefix associated with the variable. Only tags with this prefix appear in the variable drop-down. */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** The type of variable. This is to differentiate between filter variables (interpolated in query) and group by variables (interpolated into group by). */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 /** List of template variables for this dashboard. */
 export type CreateDashboardRequestTemplateVariablesList = Array<DashboardTemplateVariable>;
@@ -427,15 +427,15 @@ export type WidgetLiveSpan =
 /** Wrapper for live span */
 export interface WidgetLegacyLiveSpan {
   /** Whether to hide incomplete cost data in the widget. */
-  hide_incomplete_cost_data?: boolean;
-  live_span?: WidgetLiveSpan | (string & {});
+  hide_incomplete_cost_data?: boolean | undefined;
+  live_span?: WidgetLiveSpan | (string & {}) | undefined;
 }
 /** Type "live" denotes a live span in the new format. */
 export type WidgetNewLiveSpanType = "live";
 /** Used for arbitrary live span times, such as 17 minutes or 6 hours. */
 export interface WidgetNewLiveSpan {
   /** Whether to hide incomplete cost data in the widget. */
-  hide_incomplete_cost_data?: boolean;
+  hide_incomplete_cost_data?: boolean | undefined;
   type: WidgetNewLiveSpanType;
   unit: WidgetLiveSpanUnit | (string & {});
   /** Value of the time span. */
@@ -448,7 +448,7 @@ export interface WidgetNewFixedSpan {
   /** Start time in milliseconds since epoch. */
   from: number;
   /** Whether to hide incomplete cost data in the widget. */
-  hide_incomplete_cost_data?: boolean;
+  hide_incomplete_cost_data?: boolean | undefined;
   /** End time in milliseconds since epoch. */
   to: number;
   type: WidgetNewFixedSpanType;
@@ -466,13 +466,13 @@ export interface AlertGraphWidgetDefinition {
   /** ID of the alert to use in the widget. */
   alert_id: string;
   /** The description of the widget. */
-  description?: string;
-  time?: WidgetTime;
+  description?: string | undefined;
+  time?: WidgetTime | undefined;
   /** The title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: AlertGraphWidgetDefinitionType;
   viz_type: WidgetVizType | (string & {});
 }
@@ -483,29 +483,29 @@ export interface AlertValueWidgetDefinition {
   /** ID of the alert to use in the widget. */
   alert_id: string;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Number of decimal to show. If not defined, will use the raw value. */
-  precision?: number;
-  text_align?: WidgetTextAlign | (string & {});
+  precision?: number | undefined;
+  text_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of value in the widget. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: AlertValueWidgetDefinitionType;
   /** Unit to display with the value. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** Custom links help you connect a data value to a URL, like a Datadog page or your AWS console. */
 export interface WidgetCustomLink {
   /** The flag for toggling context menu link visibility. */
-  is_hidden?: boolean;
+  is_hidden?: boolean | undefined;
   /** The label for the custom link URL. Keep the label short and descriptive. Use metrics and tags as variables. */
-  label?: string;
+  label?: string | undefined;
   /** The URL of the custom link. URL must include `http` or `https`. A relative URL must start with `/`. */
-  link?: string;
+  link?: string | undefined;
   /** The label ID that refers to a context menu link. Can be `logs`, `hosts`, `traces`, `profiles`, `processes`, `containers`, or `rum`. */
-  override_label?: string;
+  override_label?: string | undefined;
 }
 /** List of custom links. */
 export type BarChartWidgetDefinitionCustomLinksList = Array<WidgetCustomLink>;
@@ -514,9 +514,9 @@ export interface LogsQueryCompute {
   /** The aggregation method. */
   aggregation: string;
   /** Facet name. */
-  facet?: string;
+  facet?: string | undefined;
   /** Define a time interval in seconds. */
-  interval?: number;
+  interval?: number | undefined;
 }
 /** Widget sorting methods. */
 export type WidgetSort = "asc" | "desc";
@@ -525,7 +525,7 @@ export interface LogQueryDefinitionGroupBySort {
   /** The aggregation method. */
   aggregation: string;
   /** Facet name. */
-  facet?: string;
+  facet?: string | undefined;
   order: WidgetSort | (string & {});
 }
 /** Defined items in the group. */
@@ -533,8 +533,8 @@ export interface LogQueryDefinitionGroupBy {
   /** Facet name. */
   facet: string;
   /** Maximum number of items in the group. */
-  limit?: number;
-  sort?: LogQueryDefinitionGroupBySort;
+  limit?: number | undefined;
+  sort?: LogQueryDefinitionGroupBySort | undefined;
 }
 /** List of tag prefixes to group by in the case of a cluster check. */
 export type LogQueryDefinitionGroupByList = Array<LogQueryDefinitionGroupBy>;
@@ -547,14 +547,14 @@ export interface LogQueryDefinitionSearch {
 }
 /** The log query. */
 export interface LogQueryDefinition {
-  compute?: LogsQueryCompute;
+  compute?: LogsQueryCompute | undefined;
   /** List of tag prefixes to group by in the case of a cluster check. */
-  group_by?: LogQueryDefinitionGroupByList;
+  group_by?: LogQueryDefinitionGroupByList | undefined;
   /** A coma separated-list of index names. Use "*" query all indexes at once. [Multiple Indexes](https://docs.datadoghq.com/logs/indexes/#multiple-indexes) */
-  index?: string;
+  index?: string | undefined;
   /** This field is mutually exclusive with `compute`. */
-  multi_compute?: LogQueryDefinitionMultiComputeList;
-  search?: LogQueryDefinitionSearch;
+  multi_compute?: LogQueryDefinitionMultiComputeList | undefined;
+  search?: LogQueryDefinitionSearch | undefined;
 }
 /** Comparator to apply. */
 export type WidgetComparator = "=" | ">" | ">=" | "<" | "<=";
@@ -583,18 +583,18 @@ export type WidgetPalette =
 export interface WidgetConditionalFormat {
   comparator: WidgetComparator | (string & {});
   /** Color palette to apply to the background, same values available as palette. */
-  custom_bg_color?: string;
+  custom_bg_color?: string | undefined;
   /** Color palette to apply to the foreground, same values available as palette. */
-  custom_fg_color?: string;
+  custom_fg_color?: string | undefined;
   /** True hides values. */
-  hide_value?: boolean;
+  hide_value?: boolean | undefined;
   /** Displays an image as the background. */
-  image_url?: string;
+  image_url?: string | undefined;
   /** Metric from the request to correlate this conditional format with. */
-  metric?: string;
+  metric?: string | undefined;
   palette: WidgetPalette | (string & {});
   /** Defines the displayed timeframe. */
-  timeframe?: string;
+  timeframe?: string | undefined;
   /** Value for the comparator. */
   value: number;
 }
@@ -608,8 +608,8 @@ export type WidgetFormulaCellDisplayModeOptionsTrendType = "area" | "line" | "ba
 export type WidgetFormulaCellDisplayModeOptionsYScale = "shared" | "independent";
 /** Cell display mode options for the widget formula. (only if `cell_display_mode` is set to `trend`). */
 export interface WidgetFormulaCellDisplayModeOptions {
-  trend_type?: WidgetFormulaCellDisplayModeOptionsTrendType | (string & {});
-  y_scale?: WidgetFormulaCellDisplayModeOptionsYScale | (string & {});
+  trend_type?: WidgetFormulaCellDisplayModeOptionsTrendType | (string & {}) | undefined;
+  y_scale?: WidgetFormulaCellDisplayModeOptionsYScale | (string & {}) | undefined;
 }
 /** List of conditional formats. */
 export type WidgetFormulaConditionalFormatsList = Array<WidgetConditionalFormat>;
@@ -618,60 +618,60 @@ export type QuerySortOrder = "asc" | "desc";
 /** Options for limiting results returned. */
 export interface WidgetFormulaLimit {
   /** Number of results to return. */
-  count?: number;
-  order?: QuerySortOrder | (string & {});
+  count?: number | undefined;
+  order?: QuerySortOrder | (string & {}) | undefined;
 }
 /** The type of unit scale. */
 export type NumberFormatUnitScaleType = "canonical_unit";
 /** Canonical unit. */
 export interface NumberFormatUnitCanonical {
   /** The name of the unit per item. */
-  per_unit_name?: string;
-  type?: NumberFormatUnitScaleType | (string & {});
+  per_unit_name?: string | undefined;
+  type?: NumberFormatUnitScaleType | (string & {}) | undefined;
   /** The name of the unit. */
-  unit_name?: string;
+  unit_name?: string | undefined;
 }
 /** The type of custom unit. */
 export type NumberFormatUnitCustomType = "custom_unit_label";
 /** Custom unit. */
 export interface NumberFormatUnitCustom {
   /** The label for the custom unit. */
-  label?: string;
-  type?: NumberFormatUnitCustomType | (string & {});
+  label?: string | undefined;
+  type?: NumberFormatUnitCustomType | (string & {}) | undefined;
 }
 /** Number format unit. */
 export type NumberFormatUnit = NumberFormatUnitCanonical | NumberFormatUnitCustom;
 /** The definition of `NumberFormatUnitScale` object. */
 export interface NumberFormatUnitScale {
-  type?: NumberFormatUnitScaleType | (string & {});
+  type?: NumberFormatUnitScaleType | (string & {}) | undefined;
   /** The name of the unit. */
-  unit_name?: string;
+  unit_name?: string | undefined;
 }
 /** Number format options for the widget. */
 export interface WidgetNumberFormat {
-  unit?: NumberFormatUnit;
-  unit_scale?: NumberFormatUnitScale | null;
+  unit?: NumberFormatUnit | undefined;
+  unit_scale?: NumberFormatUnitScale | null | undefined;
 }
 /** Styling options for widget formulas. */
 export interface WidgetFormulaStyle {
   /** The color palette used to display the formula. A guide to the available color palettes can be found at https://docs.datadoghq.com/dashboards/guide/widget_colors */
-  palette?: string;
+  palette?: string | undefined;
   /** Index specifying which color to use within the palette. */
-  palette_index?: number;
+  palette_index?: number | undefined;
 }
 /** Formula to be used in a widget query. */
 export interface WidgetFormula {
   /** Expression alias. */
-  alias?: string;
-  cell_display_mode?: TableWidgetCellDisplayMode | (string & {});
-  cell_display_mode_options?: WidgetFormulaCellDisplayModeOptions;
+  alias?: string | undefined;
+  cell_display_mode?: TableWidgetCellDisplayMode | (string & {}) | undefined;
+  cell_display_mode_options?: WidgetFormulaCellDisplayModeOptions | undefined;
   /** List of conditional formats. */
-  conditional_formats?: WidgetFormulaConditionalFormatsList;
+  conditional_formats?: WidgetFormulaConditionalFormatsList | undefined;
   /** String expression built from queries, formulas, and functions. */
   formula: string;
-  limit?: WidgetFormulaLimit;
-  number_format?: WidgetNumberFormat;
-  style?: WidgetFormulaStyle;
+  limit?: WidgetFormulaLimit | undefined;
+  number_format?: WidgetNumberFormat | undefined;
+  style?: WidgetFormulaStyle | undefined;
 }
 /** List of formulas that operate on queries. */
 export type BarChartWidgetRequestFormulasList = Array<WidgetFormula>;
@@ -680,13 +680,13 @@ export type ProcessQueryDefinitionFilterByList = Array<string>;
 /** The process query to use in the widget. */
 export interface ProcessQueryDefinition {
   /** List of processes. */
-  filter_by?: ProcessQueryDefinitionFilterByList;
+  filter_by?: ProcessQueryDefinitionFilterByList | undefined;
   /** Max number of items in the filter list. */
-  limit?: number;
+  limit?: number | undefined;
   /** Your chosen metric. */
   metric: string;
   /** Your chosen search term. */
-  search_by?: string;
+  search_by?: string | undefined;
 }
 /** The aggregation methods available for metrics queries. */
 export type FormulaAndFunctionMetricAggregation =
@@ -706,14 +706,14 @@ export type FormulaAndFunctionMetricDataSource = "metrics";
 export type FormulaAndFunctionMetricSemanticMode = "combined" | "native";
 /** A formula and functions metrics query. */
 export interface FormulaAndFunctionMetricQueryDefinition {
-  aggregator?: FormulaAndFunctionMetricAggregation | (string & {});
-  cross_org_uuids?: CrossOrgUuids;
+  aggregator?: FormulaAndFunctionMetricAggregation | (string & {}) | undefined;
+  cross_org_uuids?: CrossOrgUuids | undefined;
   data_source: FormulaAndFunctionMetricDataSource;
   /** Name of the query for use in formulas. */
   name: string;
   /** Metrics query definition. */
   query: string;
-  semantic_mode?: FormulaAndFunctionMetricSemanticMode | (string & {});
+  semantic_mode?: FormulaAndFunctionMetricSemanticMode | (string & {}) | undefined;
 }
 /** Aggregation methods for event platform queries. */
 export type FormulaAndFunctionEventAggregation =
@@ -733,9 +733,9 @@ export type FormulaAndFunctionEventAggregation =
 export interface FormulaAndFunctionEventQueryDefinitionCompute {
   aggregation: FormulaAndFunctionEventAggregation | (string & {});
   /** A time interval in milliseconds. */
-  interval?: number;
+  interval?: number | undefined;
   /** Measurable attribute to compute. */
-  metric?: string;
+  metric?: string | undefined;
 }
 /** Data source for event platform-based queries. */
 export type FormulaAndFunctionEventsDataSource =
@@ -758,16 +758,16 @@ export type FormulaAndFunctionEventsDataSource =
 export interface FormulaAndFunctionEventQueryGroupBySort {
   aggregation: FormulaAndFunctionEventAggregation | (string & {});
   /** Metric used for sorting group by results. */
-  metric?: string;
-  order?: QuerySortOrder | (string & {});
+  metric?: string | undefined;
+  order?: QuerySortOrder | (string & {}) | undefined;
 }
 /** List of objects used to group by. */
 export interface FormulaAndFunctionEventQueryGroupBy {
   /** Event facet. */
   facet: string;
   /** Number of groups to return. */
-  limit?: number;
-  sort?: FormulaAndFunctionEventQueryGroupBySort;
+  limit?: number | undefined;
+  sort?: FormulaAndFunctionEventQueryGroupBySort | undefined;
 }
 /** List of objects used to group by. */
 export type FormulaAndFunctionEventQueryGroupByList = Array<FormulaAndFunctionEventQueryGroupBy>;
@@ -778,8 +778,8 @@ export interface FormulaAndFunctionEventQueryGroupByFields {
   /** List of event facets to group by. */
   fields: FormulaAndFunctionEventQueryGroupByFieldsFieldsList;
   /** Number of groups to return. */
-  limit?: number;
-  sort?: FormulaAndFunctionEventQueryGroupBySort;
+  limit?: number | undefined;
+  sort?: FormulaAndFunctionEventQueryGroupBySort | undefined;
 }
 /** Group by configuration for a formula and functions events query. Accepts either a list of facet objects or a flat object that specifies a list of facet fields. */
 export type FormulaAndFunctionEventQueryGroupByConfig =
@@ -795,16 +795,16 @@ export interface FormulaAndFunctionEventQueryDefinitionSearch {
 /** A formula and functions events query. */
 export interface FormulaAndFunctionEventQueryDefinition {
   compute: FormulaAndFunctionEventQueryDefinitionCompute;
-  cross_org_uuids?: CrossOrgUuids;
+  cross_org_uuids?: CrossOrgUuids | undefined;
   data_source: FormulaAndFunctionEventsDataSource | (string & {});
-  group_by?: FormulaAndFunctionEventQueryGroupByConfig;
+  group_by?: FormulaAndFunctionEventQueryGroupByConfig | undefined;
   /** An array of index names to query in the stream. Omit or use `[]` to query all indexes at once. */
-  indexes?: FormulaAndFunctionEventQueryDefinitionIndexesList;
+  indexes?: FormulaAndFunctionEventQueryDefinitionIndexesList | undefined;
   /** Name of the query for use in formulas. */
   name: string;
-  search?: FormulaAndFunctionEventQueryDefinitionSearch;
+  search?: FormulaAndFunctionEventQueryDefinitionSearch | undefined;
   /** Option for storage location. Feature in Private Beta. */
-  storage?: string;
+  storage?: string | undefined;
 }
 /** Data sources that rely on the process backend. */
 export type FormulaAndFunctionProcessQueryDataSource = "process" | "container";
@@ -812,22 +812,22 @@ export type FormulaAndFunctionProcessQueryDataSource = "process" | "container";
 export type FormulaAndFunctionProcessQueryDefinitionTagFiltersList = Array<string>;
 /** Process query using formulas and functions. */
 export interface FormulaAndFunctionProcessQueryDefinition {
-  aggregator?: FormulaAndFunctionMetricAggregation | (string & {});
-  cross_org_uuids?: CrossOrgUuids;
+  aggregator?: FormulaAndFunctionMetricAggregation | (string & {}) | undefined;
+  cross_org_uuids?: CrossOrgUuids | undefined;
   data_source: FormulaAndFunctionProcessQueryDataSource | (string & {});
   /** Whether to normalize the CPU percentages. */
-  is_normalized_cpu?: boolean;
+  is_normalized_cpu?: boolean | undefined;
   /** Number of hits to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Process metric name. */
   metric: string;
   /** Name of query for use in formulas. */
   name: string;
-  sort?: QuerySortOrder | (string & {});
+  sort?: QuerySortOrder | (string & {}) | undefined;
   /** An array of tags to filter by. */
-  tag_filters?: FormulaAndFunctionProcessQueryDefinitionTagFiltersList;
+  tag_filters?: FormulaAndFunctionProcessQueryDefinitionTagFiltersList | undefined;
   /** Text to use as filter. */
-  text_filter?: string;
+  text_filter?: string | undefined;
 }
 /** Data source for APM dependency stats queries. */
 export type FormulaAndFunctionApmDependencyStatsDataSource = "apm_dependency_stats";
@@ -842,20 +842,20 @@ export type FormulaAndFunctionApmDependencyStatName =
   | "total_traces_count";
 /** A formula and functions APM dependency stats query. */
 export interface FormulaAndFunctionApmDependencyStatsQueryDefinition {
-  cross_org_uuids?: CrossOrgUuids;
+  cross_org_uuids?: CrossOrgUuids | undefined;
   data_source: FormulaAndFunctionApmDependencyStatsDataSource;
   /** APM environment. */
   env: string;
   /** Determines whether stats for upstream or downstream dependencies should be queried. */
-  is_upstream?: boolean;
+  is_upstream?: boolean | undefined;
   /** Name of query to use in formulas. */
   name: string;
   /** Name of operation on service. */
   operation_name: string;
   /** The name of the second primary tag used within APM; required when `primary_tag_value` is specified. See https://docs.datadoghq.com/tracing/guide/setting_primary_tags_to_scope/#add-a-second-primary-tag-in-datadog. */
-  primary_tag_name?: string;
+  primary_tag_name?: string | undefined;
   /** Filter APM data by the second primary tag. `primary_tag_name` must also be specified. */
-  primary_tag_value?: string;
+  primary_tag_value?: string | undefined;
   /** APM resource. */
   resource_name: string;
   /** APM service. */
@@ -881,22 +881,22 @@ export type FormulaAndFunctionApmResourceStatName =
   | "latency_p99";
 /** APM resource stats query using formulas and functions. Deprecated - Use `apm_metrics` query type instead. */
 export interface FormulaAndFunctionApmResourceStatsQueryDefinition {
-  cross_org_uuids?: CrossOrgUuids;
+  cross_org_uuids?: CrossOrgUuids | undefined;
   data_source: FormulaAndFunctionApmResourceStatsDataSource;
   /** APM environment. */
   env: string;
   /** Array of fields to group results by. */
-  group_by?: FormulaAndFunctionApmResourceStatsQueryDefinitionGroupByList;
+  group_by?: FormulaAndFunctionApmResourceStatsQueryDefinitionGroupByList | undefined;
   /** Name of this query to use in formulas. */
   name: string;
   /** Name of operation on service. */
-  operation_name?: string;
+  operation_name?: string | undefined;
   /** Name of the second primary tag used within APM. Required when `primary_tag_value` is specified. See https://docs.datadoghq.com/tracing/guide/setting_primary_tags_to_scope/#add-a-second-primary-tag-in-datadog */
-  primary_tag_name?: string;
+  primary_tag_name?: string | undefined;
   /** Value of the second primary tag by which to filter APM data. `primary_tag_name` must also be specified. */
-  primary_tag_value?: string;
+  primary_tag_value?: string | undefined;
   /** APM resource name. */
-  resource_name?: string;
+  resource_name?: string | undefined;
   /** APM service name. */
   service: string;
   stat: FormulaAndFunctionApmResourceStatName | (string & {});
@@ -936,24 +936,24 @@ export type FormulaAndFunctionApmMetricStatName =
 export interface FormulaAndFunctionApmMetricsQueryDefinition {
   data_source: FormulaAndFunctionApmMetricsDataSource;
   /** Optional fields to group the query results by. */
-  group_by?: FormulaAndFunctionApmMetricsQueryDefinitionGroupByList;
+  group_by?: FormulaAndFunctionApmMetricsQueryDefinitionGroupByList | undefined;
   /** Name of this query to use in formulas. */
   name: string;
   /** Optional operation mode to aggregate across operation names. */
-  operation_mode?: string;
+  operation_mode?: string | undefined;
   /** Name of operation on service. If not provided, the primary operation name is used. */
-  operation_name?: string;
+  operation_name?: string | undefined;
   /** Tags to query for a specific downstream entity (peer.service, peer.db_instance, peer.s3, peer.s3.bucket, etc.). */
-  peer_tags?: FormulaAndFunctionApmMetricsQueryDefinitionPeerTagsList;
+  peer_tags?: FormulaAndFunctionApmMetricsQueryDefinitionPeerTagsList | undefined;
   /** Additional filters for the query using metrics query syntax (e.g., env, primary_tag). */
-  query_filter?: string;
+  query_filter?: string | undefined;
   /** The hash of a specific resource to filter by. */
-  resource_hash?: string;
+  resource_hash?: string | undefined;
   /** The full name of a specific resource to filter by. */
-  resource_name?: string;
+  resource_name?: string | undefined;
   /** APM service name. */
-  service?: string;
-  span_kind?: FormulaAndFunctionApmMetricsSpanKind | (string & {});
+  service?: string | undefined;
+  span_kind?: FormulaAndFunctionApmMetricsSpanKind | (string & {}) | undefined;
   stat: FormulaAndFunctionApmMetricStatName | (string & {});
 }
 /** Data source for SLO measures queries. */
@@ -975,16 +975,16 @@ export type FormulaAndFunctionSLOQueryType = "metric" | "monitor" | "time_slice"
 /** A formula and functions metrics query. */
 export interface FormulaAndFunctionSLOQueryDefinition {
   /** Additional filters applied to the SLO query. */
-  additional_query_filters?: string;
-  cross_org_uuids?: CrossOrgUuids;
+  additional_query_filters?: string | undefined;
+  cross_org_uuids?: CrossOrgUuids | undefined;
   data_source: FormulaAndFunctionSLODataSource;
-  group_mode?: FormulaAndFunctionSLOGroupMode | (string & {});
+  group_mode?: FormulaAndFunctionSLOGroupMode | (string & {}) | undefined;
   measure: FormulaAndFunctionSLOMeasure | (string & {});
   /** Name of the query for use in formulas. */
-  name?: string;
+  name?: string | undefined;
   /** ID of an SLO to query measures. */
   slo_id: string;
-  slo_query_type?: FormulaAndFunctionSLOQueryType | (string & {});
+  slo_query_type?: FormulaAndFunctionSLOQueryType | (string & {}) | undefined;
 }
 /** Aggregator used for the request. */
 export type WidgetAggregator = "avg" | "last" | "max" | "min" | "sum" | "percentile";
@@ -992,8 +992,8 @@ export type WidgetAggregator = "avg" | "last" | "max" | "min" | "sum" | "percent
 export type FormulaAndFunctionCloudCostDataSource = "cloud_cost";
 /** A formula and functions Cloud Cost query. */
 export interface FormulaAndFunctionCloudCostQueryDefinition {
-  aggregator?: WidgetAggregator | (string & {});
-  cross_org_uuids?: CrossOrgUuids;
+  aggregator?: WidgetAggregator | (string & {}) | undefined;
+  cross_org_uuids?: CrossOrgUuids | undefined;
   data_source: FormulaAndFunctionCloudCostDataSource;
   /** Name of the query for use in formulas. */
   name: string;
@@ -1003,36 +1003,36 @@ export interface FormulaAndFunctionCloudCostQueryDefinition {
 /** Product Analytics audience account subquery. */
 export interface ProductAnalyticsAudienceAccountSubquery {
   /** The name of the account subquery. */
-  name?: string;
+  name?: string | undefined;
   /** The query string for the account subquery. */
-  query?: string;
+  query?: string | undefined;
 }
 export type ProductAnalyticsAudienceFiltersAccountsList =
   Array<ProductAnalyticsAudienceAccountSubquery>;
 /** Product Analytics audience segment subquery. */
 export interface ProductAnalyticsAudienceSegmentSubquery {
   /** The name of the segment subquery. */
-  name?: string;
+  name?: string | undefined;
   /** The unique identifier of the segment. */
-  segment_id?: string;
+  segment_id?: string | undefined;
 }
 export type ProductAnalyticsAudienceFiltersSegmentsList =
   Array<ProductAnalyticsAudienceSegmentSubquery>;
 /** Product Analytics audience user subquery. */
 export interface ProductAnalyticsAudienceUserSubquery {
   /** The name of the user subquery. */
-  name?: string;
+  name?: string | undefined;
   /** The query string for the user subquery. */
-  query?: string;
+  query?: string | undefined;
 }
 export type ProductAnalyticsAudienceFiltersUsersList = Array<ProductAnalyticsAudienceUserSubquery>;
 /** Product Analytics/RUM audience filters. */
 export interface ProductAnalyticsAudienceFilters {
-  accounts?: ProductAnalyticsAudienceFiltersAccountsList;
+  accounts?: ProductAnalyticsAudienceFiltersAccountsList | undefined;
   /** An optional filter condition applied to the audience subquery. */
-  filter_condition?: string;
-  segments?: ProductAnalyticsAudienceFiltersSegmentsList;
-  users?: ProductAnalyticsAudienceFiltersUsersList;
+  filter_condition?: string | undefined;
+  segments?: ProductAnalyticsAudienceFiltersSegmentsList | undefined;
+  users?: ProductAnalyticsAudienceFiltersUsersList | undefined;
 }
 /** Type of calendar interval. */
 export type CalendarIntervalType =
@@ -1046,24 +1046,24 @@ export type CalendarIntervalType =
 /** Calendar interval definition. */
 export interface CalendarInterval {
   /** Alignment of the interval. Valid values depend on the interval type. For `day`, use hours (for example, `1am`, `2pm`, or `14`). For `week`, use day names (for example, `monday`). For `month`, use day-of-month ordinals (for example, `1st`, `15th`). For `year` or `quarter`, use month names (for example, `january`). */
-  alignment?: string;
+  alignment?: string | undefined;
   /** Quantity of the interval. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Timezone for the interval. */
-  timezone?: string;
+  timezone?: string | undefined;
   type: CalendarIntervalType | (string & {});
 }
 /** Compute configuration for Product Analytics Extended queries. */
 export interface ProductAnalyticsExtendedCompute {
   aggregation: FormulaAndFunctionEventAggregation | (string & {});
   /** Fixed-width time bucket interval in milliseconds for time series queries. Mutually exclusive with `rollup`. */
-  interval?: number;
+  interval?: number | undefined;
   /** Measurable attribute to compute. */
-  metric?: string;
+  metric?: string | undefined;
   /** Name of the compute for use in formulas. */
-  name?: string;
+  name?: string | undefined;
   /** Calendar-aligned time bucket for time series queries (for example, day, week, or month boundaries). Mutually exclusive with `interval`. */
-  rollup?: CalendarInterval;
+  rollup?: CalendarInterval | undefined;
 }
 /** Data source for Product Analytics Extended queries. */
 export type FormulaAndFunctionProductAnalyticsExtendedDataSource = "product_analytics_extended";
@@ -1072,10 +1072,10 @@ export interface ProductAnalyticsExtendedGroupBy {
   /** Facet name to group by. */
   facet: string;
   /** Maximum number of groups to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Whether to exclude events missing the group-by facet. */
-  should_exclude_missing?: boolean;
-  sort?: FormulaAndFunctionEventQueryGroupBySort;
+  should_exclude_missing?: boolean | undefined;
+  sort?: FormulaAndFunctionEventQueryGroupBySort | undefined;
 }
 /** Group by configuration. */
 export type FormulaAndFunctionProductAnalyticsExtendedQueryDefinitionGroupByList =
@@ -1100,13 +1100,13 @@ export interface ProductAnalyticsEventQuery {
 }
 /** A formula and functions Product Analytics Extended query for advanced analytics features. */
 export interface FormulaAndFunctionProductAnalyticsExtendedQueryDefinition {
-  audience_filters?: ProductAnalyticsAudienceFilters;
+  audience_filters?: ProductAnalyticsAudienceFilters | undefined;
   compute: ProductAnalyticsExtendedCompute;
   data_source: FormulaAndFunctionProductAnalyticsExtendedDataSource;
   /** Group by configuration. */
-  group_by?: FormulaAndFunctionProductAnalyticsExtendedQueryDefinitionGroupByList;
+  group_by?: FormulaAndFunctionProductAnalyticsExtendedQueryDefinitionGroupByList | undefined;
   /** Event indexes to query. */
-  indexes?: FormulaAndFunctionProductAnalyticsExtendedQueryDefinitionIndexesList;
+  indexes?: FormulaAndFunctionProductAnalyticsExtendedQueryDefinitionIndexesList | undefined;
   /** Name of the query for use in formulas. */
   name: string;
   query: ProductAnalyticsEventQuery;
@@ -1119,21 +1119,21 @@ export type UserJourneyFormulaComputeMetric =
 /** Target for user journey search. */
 export interface UserJourneySearchTarget {
   /** End value. */
-  end?: string;
+  end?: string | undefined;
   /** Start value. */
-  start?: string;
+  start?: string | undefined;
   /** Target type. */
   type: string;
   /** Target value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Compute configuration for User Journey formula queries. */
 export interface UserJourneyFormulaCompute {
   aggregation: FormulaAndFunctionEventAggregation | (string & {});
   /** Time bucket interval in milliseconds for time series queries. */
-  interval?: number;
-  metric?: UserJourneyFormulaComputeMetric | (string & {});
-  target?: UserJourneySearchTarget;
+  interval?: number | undefined;
+  metric?: UserJourneyFormulaComputeMetric | (string & {}) | undefined;
+  target?: UserJourneySearchTarget | undefined;
 }
 /** Data source for user journey funnel queries. */
 export type ProductAnalyticsFunnelDataSource = "product_analytics_journey";
@@ -1142,11 +1142,11 @@ export interface UserJourneyFormulaGroupBy {
   /** Facet name to group by. */
   facet: string;
   /** Maximum number of groups to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Whether to exclude events missing the group-by facet. */
-  should_exclude_missing?: boolean;
-  sort?: FormulaAndFunctionEventQueryGroupBySort;
-  target?: UserJourneySearchTarget;
+  should_exclude_missing?: boolean | undefined;
+  sort?: FormulaAndFunctionEventQueryGroupBySort | undefined;
+  target?: UserJourneySearchTarget | undefined;
 }
 /** Group by configuration. */
 export type FormulaAndFunctionUserJourneyQueryDefinitionGroupByList =
@@ -1154,22 +1154,22 @@ export type FormulaAndFunctionUserJourneyQueryDefinitionGroupByList =
 /** Graph filter for user journey search. */
 export interface UserJourneySearchGraphFilter {
   /** Filter name. */
-  name?: string;
+  name?: string | undefined;
   /** Filter operator. */
-  operator?: string;
-  target?: UserJourneySearchTarget;
+  operator?: string | undefined;
+  target?: UserJourneySearchTarget | undefined;
   /** Filter value. */
-  value?: number;
+  value?: number | undefined;
 }
 /** Graph filters. */
 export type UserJourneySearchFiltersGraphFiltersList = Array<UserJourneySearchGraphFilter>;
 /** Filters for user journey search. */
 export interface UserJourneySearchFilters {
-  audience_filters?: ProductAnalyticsAudienceFilters;
+  audience_filters?: ProductAnalyticsAudienceFilters | undefined;
   /** Graph filters. */
-  graph_filters?: UserJourneySearchFiltersGraphFiltersList;
+  graph_filters?: UserJourneySearchFiltersGraphFiltersList | undefined;
   /** String filter. */
-  string_filter?: string;
+  string_filter?: string | undefined;
 }
 /** Secondary join keys. */
 export type UserJourneyJoinKeysSecondaryList = Array<string>;
@@ -1178,7 +1178,7 @@ export interface UserJourneyJoinKeys {
   /** Primary join key. */
   primary: string;
   /** Secondary join keys. */
-  secondary?: UserJourneyJoinKeysSecondaryList;
+  secondary?: UserJourneyJoinKeysSecondaryList | undefined;
 }
 /** Node objects mapping. */
 export type UserJourneySearchNodeObjectsMap = {
@@ -1190,19 +1190,19 @@ export type UserJourneySearchStepAliasesMap = { [key: string]: string | undefine
 export interface UserJourneySearch {
   /** Expression string. */
   expression: string;
-  filters?: UserJourneySearchFilters;
-  join_keys?: UserJourneyJoinKeys;
+  filters?: UserJourneySearchFilters | undefined;
+  join_keys?: UserJourneyJoinKeys | undefined;
   /** Node objects mapping. */
   node_objects: UserJourneySearchNodeObjectsMap;
   /** Step aliases mapping. */
-  step_aliases?: UserJourneySearchStepAliasesMap;
+  step_aliases?: UserJourneySearchStepAliasesMap | undefined;
 }
 /** A formula and functions User Journey query for defining funnel, timeseries, and scalar visualizations over journey data. */
 export interface FormulaAndFunctionUserJourneyQueryDefinition {
   compute: UserJourneyFormulaCompute;
   data_source: ProductAnalyticsFunnelDataSource;
   /** Group by configuration. */
-  group_by?: FormulaAndFunctionUserJourneyQueryDefinitionGroupByList;
+  group_by?: FormulaAndFunctionUserJourneyQueryDefinitionGroupByList | undefined;
   /** Name of the query for use in formulas. */
   name: string;
   search: UserJourneySearch;
@@ -1233,7 +1233,7 @@ export interface RetentionCompute {
 export type RetentionDataSource = "product_analytics_retention";
 /** Sort configuration for retention group by. */
 export interface RetentionGroupBySort {
-  order?: WidgetSort | (string & {});
+  order?: WidgetSort | (string & {}) | undefined;
 }
 /** Target for retention group by. */
 export type RetentionGroupByTarget = "cohort" | "return_period";
@@ -1242,12 +1242,12 @@ export interface RetentionGroupBy {
   /** Facet to group by. */
   facet: string;
   /** Maximum number of groups. */
-  limit?: number;
+  limit?: number | undefined;
   /** Whether to exclude missing values. */
-  should_exclude_missing?: boolean;
-  sort?: RetentionGroupBySort;
+  should_exclude_missing?: boolean | undefined;
+  sort?: RetentionGroupBySort | undefined;
   /** Source field. */
-  source?: string;
+  source?: string | undefined;
   target: RetentionGroupByTarget | (string & {});
 }
 /** Group by configuration. */
@@ -1266,9 +1266,9 @@ export interface RetentionCohortCriteria {
 }
 /** Filters for retention queries. */
 export interface RetentionFilters {
-  audience_filters?: ProductAnalyticsAudienceFilters;
+  audience_filters?: ProductAnalyticsAudienceFilters | undefined;
   /** String filter. */
-  string_filter?: string;
+  string_filter?: string | undefined;
 }
 /** Entity to track for retention. */
 export type RetentionEntity = "@usr.id" | "@account.id";
@@ -1288,22 +1288,22 @@ export interface RetentionReturnCriteriaTimeInterval {
 /** Return criteria for retention queries. */
 export interface RetentionReturnCriteria {
   base_query: ProductAnalyticsEventQuery;
-  time_interval?: RetentionReturnCriteriaTimeInterval;
+  time_interval?: RetentionReturnCriteriaTimeInterval | undefined;
 }
 /** Search configuration for retention queries. */
 export interface RetentionSearch {
   cohort_criteria: RetentionCohortCriteria;
-  filters?: RetentionFilters;
+  filters?: RetentionFilters | undefined;
   retention_entity: RetentionEntity | (string & {});
   return_condition: RetentionReturnCondition | (string & {});
-  return_criteria?: RetentionReturnCriteria;
+  return_criteria?: RetentionReturnCriteria | undefined;
 }
 /** A formula and functions Retention query for defining timeseries and scalar visualizations. */
 export interface FormulaAndFunctionRetentionQueryDefinition {
   compute: RetentionCompute;
   data_source: RetentionDataSource;
   /** Group by configuration. */
-  group_by?: FormulaAndFunctionRetentionQueryDefinitionGroupByList;
+  group_by?: FormulaAndFunctionRetentionQueryDefinitionGroupByList | undefined;
   /** Name of the query for use in formulas. */
   name: string;
   search: RetentionSearch;
@@ -1350,9 +1350,9 @@ export type WidgetSortByOrderByList = Array<WidgetSortOrderBy>;
 /** The controls for sorting the widget. */
 export interface WidgetSortBy {
   /** The number of items to limit the widget to. */
-  count?: number;
+  count?: number | undefined;
   /** The array of items to sort the widget by in order. */
-  order_by?: WidgetSortByOrderByList;
+  order_by?: WidgetSortByOrderByList | undefined;
 }
 /** Type of lines displayed. */
 export type WidgetLineType = "dashed" | "dotted" | "solid";
@@ -1362,43 +1362,43 @@ export type WidgetLineWidth = "normal" | "thick" | "thin";
 export type WidgetStyleOrderBy = "tags" | "values";
 /** Define request widget style. */
 export interface WidgetRequestStyle {
-  line_type?: WidgetLineType | (string & {});
-  line_width?: WidgetLineWidth | (string & {});
-  order_by?: WidgetStyleOrderBy | (string & {});
+  line_type?: WidgetLineType | (string & {}) | undefined;
+  line_width?: WidgetLineWidth | (string & {}) | undefined;
+  order_by?: WidgetStyleOrderBy | (string & {}) | undefined;
   /** Color palette to apply to the widget. */
-  palette?: string;
+  palette?: string | undefined;
 }
 /** Updated bar chart widget. */
 export interface BarChartWidgetRequest {
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
+  apm_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  audit_query?: LogQueryDefinition;
+  audit_query?: LogQueryDefinition | undefined;
   /** List of conditional formats. */
-  conditional_formats?: BarChartWidgetRequestConditionalFormatsList;
+  conditional_formats?: BarChartWidgetRequestConditionalFormatsList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: LogQueryDefinition;
+  event_query?: LogQueryDefinition | undefined;
   /** List of formulas that operate on queries. */
-  formulas?: BarChartWidgetRequestFormulasList;
+  formulas?: BarChartWidgetRequestFormulasList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
+  network_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Widget query. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: BarChartWidgetRequestQueriesList;
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  queries?: BarChartWidgetRequestQueriesList | undefined;
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
-  sort?: WidgetSortBy;
-  style?: WidgetRequestStyle;
+  security_query?: LogQueryDefinition | undefined;
+  sort?: WidgetSortBy | undefined;
+  style?: WidgetRequestStyle | undefined;
 }
 /** List of bar chart widget requests. */
 export type BarChartWidgetDefinitionRequestsList = Array<BarChartWidgetRequest>;
@@ -1408,7 +1408,7 @@ export type BarChartWidgetLegend = "automatic" | "inline" | "none";
 export type BarChartWidgetStackedType = "stacked";
 /** Bar chart widget stacked display options. */
 export interface BarChartWidgetStacked {
-  legend?: BarChartWidgetLegend | (string & {});
+  legend?: BarChartWidgetLegend | (string & {}) | undefined;
   type: BarChartWidgetStackedType;
 }
 /** Bar chart widget flat display type. */
@@ -1423,28 +1423,28 @@ export type BarChartWidgetDisplay = BarChartWidgetStacked | BarChartWidgetFlat;
 export type BarChartWidgetScaling = "absolute" | "relative";
 /** Style customization for a bar chart widget. */
 export interface BarChartWidgetStyle {
-  display?: BarChartWidgetDisplay;
+  display?: BarChartWidgetDisplay | undefined;
   /** Color palette to apply to the widget. */
-  palette?: string;
-  scaling?: BarChartWidgetScaling | (string & {});
+  palette?: string | undefined;
+  scaling?: BarChartWidgetScaling | (string & {}) | undefined;
 }
 /** Type of the bar chart widget. */
 export type BarChartWidgetDefinitionType = "bar_chart";
 /** The bar chart visualization displays categorical data using vertical bars, allowing you to compare values across different groups. */
 export interface BarChartWidgetDefinition {
   /** List of custom links. */
-  custom_links?: BarChartWidgetDefinitionCustomLinksList;
+  custom_links?: BarChartWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** List of bar chart widget requests. */
   requests: BarChartWidgetDefinitionRequestsList;
-  style?: BarChartWidgetStyle;
-  time?: WidgetTime;
+  style?: BarChartWidgetStyle | undefined;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: BarChartWidgetDefinitionType;
 }
 /** List of custom links. */
@@ -1462,36 +1462,36 @@ export type ChangeWidgetRequestQueriesList = Array<FormulaAndFunctionQueryDefini
 /** Updated change widget. */
 export interface ChangeWidgetRequest {
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
-  change_type?: WidgetChangeType | (string & {});
-  compare_to?: WidgetCompareTo | (string & {});
+  apm_query?: LogQueryDefinition | undefined;
+  change_type?: WidgetChangeType | (string & {}) | undefined;
+  compare_to?: WidgetCompareTo | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: LogQueryDefinition;
+  event_query?: LogQueryDefinition | undefined;
   /** List of formulas that operate on queries. */
-  formulas?: ChangeWidgetRequestFormulasList;
+  formulas?: ChangeWidgetRequestFormulasList | undefined;
   /** Whether to show increase as good. */
-  increase_good?: boolean;
+  increase_good?: boolean | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
-  order_by?: WidgetOrderBy | (string & {});
-  order_dir?: WidgetSort | (string & {});
+  network_query?: LogQueryDefinition | undefined;
+  order_by?: WidgetOrderBy | (string & {}) | undefined;
+  order_dir?: WidgetSort | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Query definition. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: ChangeWidgetRequestQueriesList;
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  queries?: ChangeWidgetRequestQueriesList | undefined;
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
+  security_query?: LogQueryDefinition | undefined;
   /** Whether to show the present value. */
-  show_present?: boolean;
+  show_present?: boolean | undefined;
 }
 /** Array of one request object to display in the widget. See the dedicated [Request JSON schema documentation](https://docs.datadoghq.com/dashboards/graphing_json/request_json) to learn how to build the `REQUEST_SCHEMA`. */
 export type ChangeWidgetDefinitionRequestsList = Array<ChangeWidgetRequest>;
@@ -1500,17 +1500,17 @@ export type ChangeWidgetDefinitionType = "change";
 /** The Change graph shows you the change in a value over the time period chosen. */
 export interface ChangeWidgetDefinition {
   /** List of custom links. */
-  custom_links?: ChangeWidgetDefinitionCustomLinksList;
+  custom_links?: ChangeWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Array of one request object to display in the widget. See the dedicated [Request JSON schema documentation](https://docs.datadoghq.com/dashboards/graphing_json/request_json) to learn how to build the `REQUEST_SCHEMA`. */
   requests: ChangeWidgetDefinitionRequestsList;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: ChangeWidgetDefinitionType;
 }
 /** List of tag prefixes to group by in the case of a cluster check. */
@@ -1526,20 +1526,20 @@ export interface CheckStatusWidgetDefinition {
   /** Name of the check to use in the widget. */
   check: string;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Group reporting a single check. */
-  group?: string;
+  group?: string | undefined;
   /** List of tag prefixes to group by in the case of a cluster check. */
-  group_by?: CheckStatusWidgetDefinitionGroupByList;
+  group_by?: CheckStatusWidgetDefinitionGroupByList | undefined;
   grouping: WidgetGrouping | (string & {});
   /** List of tags used to filter the groups reporting a cluster check. */
-  tags?: CheckStatusWidgetDefinitionTagsList;
-  time?: WidgetTime;
+  tags?: CheckStatusWidgetDefinitionTagsList | undefined;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: CheckStatusWidgetDefinitionType;
 }
 /** Group by configuration. */
@@ -1548,11 +1548,11 @@ export type RetentionQueryGroupByList = Array<RetentionGroupBy>;
 export interface RetentionQuery {
   compute: RetentionCompute;
   data_source: RetentionDataSource;
-  filters?: RetentionFilters;
+  filters?: RetentionFilters | undefined;
   /** Group by configuration. */
-  group_by?: RetentionQueryGroupByList;
+  group_by?: RetentionQueryGroupByList | undefined;
   /** Name of the query. */
-  name?: string;
+  name?: string | undefined;
   search: RetentionSearch;
 }
 /** Request type for retention grid widget. */
@@ -1569,15 +1569,15 @@ export type CohortWidgetDefinitionType = "cohort";
 /** The cohort widget visualizes user retention over time. */
 export interface CohortWidgetDefinition {
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** List of Cohort widget requests. */
   requests: CohortWidgetDefinitionRequestsList;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: CohortWidgetDefinitionType;
 }
 /** A list of custom links. */
@@ -1585,11 +1585,11 @@ export type DistributionWidgetDefinitionCustomLinksList = Array<WidgetCustomLink
 /** Markers allow you to add visual conditional formatting for your graphs. */
 export interface WidgetMarker {
   /** Combination of: - A severity error, warning, ok, or info - A line type: dashed, solid, or bold In this case of a Distribution widget, this can be set to be `percentile`. */
-  display_type?: string;
+  display_type?: string | undefined;
   /** Label to display over the marker. */
-  label?: string;
+  label?: string | undefined;
   /** Timestamp for the widget. */
-  time?: string;
+  time?: string | undefined;
   /** Value to apply. Can be a single value y = 15 or a range of values 0 < y < 10. For Distribution widgets with `display_type` set to `percentile`, this should be a numeric percentile value (for example, "90" for P90). */
   value: string;
 }
@@ -1598,11 +1598,11 @@ export type DistributionWidgetDefinitionMarkersList = Array<WidgetMarker>;
 /** Column properties. */
 export interface ApmStatsQueryColumnType {
   /** A user-assigned alias for the column. */
-  alias?: string;
-  cell_display_mode?: TableWidgetCellDisplayMode | (string & {});
+  alias?: string | undefined;
+  cell_display_mode?: TableWidgetCellDisplayMode | (string & {}) | undefined;
   /** Column name. */
   name: string;
-  order?: WidgetSort | (string & {});
+  order?: WidgetSort | (string & {}) | undefined;
 }
 /** Column properties used by the front end for display. */
 export type ApmStatsQueryDefinitionColumnsList = Array<ApmStatsQueryColumnType>;
@@ -1611,7 +1611,7 @@ export type ApmStatsQueryRowType = "service" | "resource" | "span";
 /** The APM stats query for table and distributions widgets. */
 export interface ApmStatsQueryDefinition {
   /** Column properties used by the front end for display. */
-  columns?: ApmStatsQueryDefinitionColumnsList;
+  columns?: ApmStatsQueryDefinitionColumnsList | undefined;
   /** Environment name. */
   env: string;
   /** Operation name associated with service. */
@@ -1619,7 +1619,7 @@ export interface ApmStatsQueryDefinition {
   /** The organization's host group name and value. */
   primary_tag: string;
   /** Resource name. */
-  resource?: string;
+  resource?: string | undefined;
   row_type: ApmStatsQueryRowType | (string & {});
   /** Service name. */
   service: string;
@@ -1639,39 +1639,39 @@ export type WidgetHistogramRequestType = "histogram";
 /** Widget style definition. */
 export interface WidgetStyle {
   /** Color palette to apply to the widget. */
-  palette?: string;
+  palette?: string | undefined;
 }
 /** Updated distribution widget. */
 export interface DistributionWidgetRequest {
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
-  apm_stats_query?: ApmStatsQueryDefinition;
+  apm_query?: LogQueryDefinition | undefined;
+  apm_stats_query?: ApmStatsQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: LogQueryDefinition;
+  event_query?: LogQueryDefinition | undefined;
   /** List of formulas that operate on queries. */
-  formulas?: DistributionWidgetRequestFormulasList;
+  formulas?: DistributionWidgetRequestFormulasList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
+  network_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Widget query. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: DistributionWidgetRequestQueriesList;
-  query?: DistributionWidgetHistogramRequestQuery;
+  queries?: DistributionWidgetRequestQueriesList | undefined;
+  query?: DistributionWidgetHistogramRequestQuery | undefined;
   /** Distribution of point values for distribution metrics. Renders a histogram of raw metric data points. */
-  request_type?: WidgetHistogramRequestType | (string & {});
+  request_type?: WidgetHistogramRequestType | (string & {}) | undefined;
   /** Distribution of aggregated grouped queries. Use `request_type` instead for distribution of point values from distribution metrics. */
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
-  style?: WidgetStyle;
+  security_query?: LogQueryDefinition | undefined;
+  style?: WidgetStyle | undefined;
 }
 /** Array of one request object to display in the widget. See the dedicated [Request JSON schema documentation](https://docs.datadoghq.com/dashboards/graphing_json/request_json) to learn how to build the `REQUEST_SCHEMA`. */
 export type DistributionWidgetDefinitionRequestsList = Array<DistributionWidgetRequest>;
@@ -1680,52 +1680,52 @@ export type DistributionWidgetDefinitionType = "distribution";
 /** X Axis controls for the distribution widget. */
 export interface DistributionWidgetXAxis {
   /** True includes zero. */
-  include_zero?: boolean;
+  include_zero?: boolean | undefined;
   /** Specifies maximum value to show on the x-axis. It takes a number, percentile (p90 === 90th percentile), or auto for default behavior. */
-  max?: string;
+  max?: string | undefined;
   /** Specifies minimum value to show on the x-axis. It takes a number, percentile (p90 === 90th percentile), or auto for default behavior. */
-  min?: string;
+  min?: string | undefined;
   /** Number of value buckets to target, also known as the resolution of the value bins. */
-  num_buckets?: number;
+  num_buckets?: number | undefined;
   /** Specifies the scale type. Possible values are `linear`. */
-  scale?: string;
+  scale?: string | undefined;
 }
 /** Y Axis controls for the distribution widget. */
 export interface DistributionWidgetYAxis {
   /** True includes zero. */
-  include_zero?: boolean;
+  include_zero?: boolean | undefined;
   /** The label of the axis to display on the graph. */
-  label?: string;
+  label?: string | undefined;
   /** Specifies the maximum value to show on the y-axis. It takes a number, or auto for default behavior. */
-  max?: string;
+  max?: string | undefined;
   /** Specifies minimum value to show on the y-axis. It takes a number, or auto for default behavior. */
-  min?: string;
+  min?: string | undefined;
   /** Specifies the scale type. Possible values are `linear` or `log`. */
-  scale?: string;
+  scale?: string | undefined;
 }
 /** The Distribution visualization is another way of showing metrics aggregated across one or several tags, such as hosts. Unlike the heat map, a distribution graph's x-axis is quantity rather than time. */
 export interface DistributionWidgetDefinition {
   /** A list of custom links. */
-  custom_links?: DistributionWidgetDefinitionCustomLinksList;
+  custom_links?: DistributionWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** (Deprecated) The widget legend was replaced by a tooltip and sidebar. */
-  legend_size?: string;
+  legend_size?: string | undefined;
   /** List of markers. */
-  markers?: DistributionWidgetDefinitionMarkersList;
+  markers?: DistributionWidgetDefinitionMarkersList | undefined;
   /** Array of one request object to display in the widget. See the dedicated [Request JSON schema documentation](https://docs.datadoghq.com/dashboards/graphing_json/request_json) to learn how to build the `REQUEST_SCHEMA`. */
   requests: DistributionWidgetDefinitionRequestsList;
   /** (Deprecated) The widget legend was replaced by a tooltip and sidebar. */
-  show_legend?: boolean;
-  time?: WidgetTime;
+  show_legend?: boolean | undefined;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: DistributionWidgetDefinitionType;
-  xaxis?: DistributionWidgetXAxis;
-  yaxis?: DistributionWidgetYAxis;
+  xaxis?: DistributionWidgetXAxis | undefined;
+  yaxis?: DistributionWidgetYAxis | undefined;
 }
 /** List of custom links. */
 export type EmbeddedAppWidgetDefinitionCustomLinksList = Array<WidgetCustomLink>;
@@ -1743,21 +1743,21 @@ export type EmbeddedAppWidgetDefinitionType = "embedded_app";
 /** The embedded app widget displays an App Builder app on a dashboard. Exactly one of `app_id` or `template_id` must be provided; they cannot be provided together. */
 export interface EmbeddedAppWidgetDefinition {
   /** UUID of the App Builder app to embed. */
-  app_id?: string;
+  app_id?: string | undefined;
   /** List of custom links. */
-  custom_links?: EmbeddedAppWidgetDefinitionCustomLinksList;
+  custom_links?: EmbeddedAppWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Inputs passed to the embedded app. */
-  inputs?: EmbeddedAppWidgetDefinitionInputsList;
+  inputs?: EmbeddedAppWidgetDefinitionInputsList | undefined;
   /** ID of the built-in app template to embed. */
-  template_id?: string;
-  time?: WidgetTime;
+  template_id?: string | undefined;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: EmbeddedAppWidgetDefinitionType;
 }
 /** Size to use to display an event. */
@@ -1767,18 +1767,18 @@ export type EventStreamWidgetDefinitionType = "event_stream";
 /** The event stream is a widget version of the stream of events on the Event Stream view. Only available on FREE layout dashboards. */
 export interface EventStreamWidgetDefinition {
   /** The description of the widget. */
-  description?: string;
-  event_size?: WidgetEventSize | (string & {});
+  description?: string | undefined;
+  event_size?: WidgetEventSize | (string & {}) | undefined;
   /** Query to filter the event stream with. */
   query: string;
   /** The execution method for multi-value filters. Can be either and or or. */
-  tags_execution?: string;
-  time?: WidgetTime;
+  tags_execution?: string | undefined;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: EventStreamWidgetDefinitionType;
 }
 /** Type of the event timeline widget. */
@@ -1786,31 +1786,31 @@ export type EventTimelineWidgetDefinitionType = "event_timeline";
 /** The event timeline is a widget version of the timeline that appears at the top of the Event Stream view. Only available on FREE layout dashboards. */
 export interface EventTimelineWidgetDefinition {
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Query to filter the event timeline with. */
   query: string;
   /** The execution method for multi-value filters. Can be either and or or. */
-  tags_execution?: string;
-  time?: WidgetTime;
+  tags_execution?: string | undefined;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: EventTimelineWidgetDefinitionType;
 }
 /** Type of the free text widget. */
 export type FreeTextWidgetDefinitionType = "free_text";
 /** Free text is a widget that allows you to add headings to your dashboard. Commonly used to state the overall purpose of the dashboard. */
 export interface FreeTextWidgetDefinition {
-  background_color?: string;
+  background_color?: string | undefined;
   /** Color of the text. */
-  color?: string;
+  color?: string | undefined;
   /** Size of the text. */
-  font_size?: string;
+  font_size?: string | undefined;
   /** Text to display. */
   text: string;
-  text_align?: WidgetTextAlign | (string & {});
+  text_align?: WidgetTextAlign | (string & {}) | undefined;
   type: FreeTextWidgetDefinitionType;
 }
 /** Display mode for grouped funnel results. */
@@ -1848,16 +1848,16 @@ export type FunnelWidgetDefinitionType = "funnel";
 /** The funnel visualization displays a funnel of user sessions that maps a sequence of view navigation and user interaction in your application. */
 export interface FunnelWidgetDefinition {
   /** The description of the widget. */
-  description?: string;
-  grouped_display?: FunnelGroupedDisplay | (string & {});
+  description?: string | undefined;
+  grouped_display?: FunnelGroupedDisplay | (string & {}) | undefined;
   /** Request payload used to query items. */
   requests: FunnelWidgetDefinitionRequestsList;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** The title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** The size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: FunnelWidgetDefinitionType;
 }
 /** Comparison segments. */
@@ -1878,7 +1878,7 @@ export type FunnelComparisonDurationType =
   | "previous_month";
 /** Comparison time configuration for funnel widgets. */
 export interface FunnelComparisonDuration {
-  custom_timeframe?: FunnelComparisonCustomTimeframe;
+  custom_timeframe?: FunnelComparisonCustomTimeframe | undefined;
   type: FunnelComparisonDurationType | (string & {});
 }
 /** Aggregation type for user journey funnel compute. */
@@ -1895,39 +1895,39 @@ export interface ProductAnalyticsFunnelGroupBySort {
   /** Aggregation type. */
   aggregation: string;
   /** Metric to sort by. */
-  metric?: string;
-  order?: WidgetSort | (string & {});
+  metric?: string | undefined;
+  order?: WidgetSort | (string & {}) | undefined;
 }
 /** Group by configuration for user journey funnel. */
 export interface ProductAnalyticsFunnelGroupBy {
   /** Facet to group by. */
   facet: string;
   /** Maximum number of groups. */
-  limit?: number;
+  limit?: number | undefined;
   /** Whether to exclude missing values. */
-  should_exclude_missing?: boolean;
-  sort?: ProductAnalyticsFunnelGroupBySort;
-  target?: UserJourneySearchTarget;
+  should_exclude_missing?: boolean | undefined;
+  sort?: ProductAnalyticsFunnelGroupBySort | undefined;
+  target?: UserJourneySearchTarget | undefined;
 }
 /** Group by configuration. */
 export type ProductAnalyticsFunnelQueryGroupByList = Array<ProductAnalyticsFunnelGroupBy>;
 /** User journey funnel query definition. */
 export interface ProductAnalyticsFunnelQuery {
-  compute?: ProductAnalyticsFunnelCompute;
+  compute?: ProductAnalyticsFunnelCompute | undefined;
   data_source: ProductAnalyticsFunnelDataSource;
   /** Group by configuration. */
-  group_by?: ProductAnalyticsFunnelQueryGroupByList;
+  group_by?: ProductAnalyticsFunnelQueryGroupByList | undefined;
   search: UserJourneySearch;
   /** Subquery ID. */
-  subquery_id?: string;
+  subquery_id?: string | undefined;
 }
 /** Request type for user journey funnel widget. */
 export type ProductAnalyticsFunnelRequestType = "user_journey_funnel";
 /** User journey funnel widget request. */
 export interface ProductAnalyticsFunnelRequest {
   /** Comparison segments. */
-  comparison_segments?: ProductAnalyticsFunnelRequestComparisonSegmentsList;
-  comparison_time?: FunnelComparisonDuration;
+  comparison_segments?: ProductAnalyticsFunnelRequestComparisonSegmentsList | undefined;
+  comparison_time?: FunnelComparisonDuration | undefined;
   query: ProductAnalyticsFunnelQuery;
   request_type: ProductAnalyticsFunnelRequestType | (string & {});
 }
@@ -1937,16 +1937,16 @@ export type ProductAnalyticsFunnelWidgetDefinitionRequestsList =
 /** The user journey funnel visualization displays conversion funnels based on user journey data from Product Analytics. */
 export interface ProductAnalyticsFunnelWidgetDefinition {
   /** The description of the widget. */
-  description?: string;
-  grouped_display?: FunnelGroupedDisplay | (string & {});
+  description?: string | undefined;
+  grouped_display?: FunnelGroupedDisplay | (string & {}) | undefined;
   /** Request payload used to query items. */
   requests: ProductAnalyticsFunnelWidgetDefinitionRequestsList;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** The title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** The size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: FunnelWidgetDefinitionType;
 }
 /** A list of custom links. */
@@ -1990,7 +1990,7 @@ export type ListStreamComputeAggregation =
 export interface ListStreamComputeItems {
   aggregation: ListStreamComputeAggregation | (string & {});
   /** Facet name. */
-  facet?: string;
+  facet?: string | undefined;
 }
 /** Compute configuration for the List Stream Widget. Compute can be used only with the logs_transaction_stream (from 1 to 5 items) list stream source. */
 export type ListStreamQueryComputeList = Array<ListStreamComputeItems>;
@@ -2044,35 +2044,35 @@ export type ListStreamQueryVersion = "sequential_query";
 /** Updated list stream widget. */
 export interface ListStreamQuery {
   /** Filter by assignee UUIDs. Usable only with `issue_stream`. */
-  assignee_uuids?: ListStreamQueryAssigneeUuidsList;
+  assignee_uuids?: ListStreamQueryAssigneeUuidsList | undefined;
   /** Specifies the field for logs pattern clustering. Usable only with logs_pattern_stream. */
-  clustering_pattern_field_path?: string;
+  clustering_pattern_field_path?: string | undefined;
   /** Compute configuration for the List Stream Widget. Compute can be used only with the logs_transaction_stream (from 1 to 5 items) list stream source. */
-  compute?: ListStreamQueryComputeList;
+  compute?: ListStreamQueryComputeList | undefined;
   data_source: ListStreamSource | (string & {});
-  event_size?: WidgetEventSize | (string & {});
+  event_size?: WidgetEventSize | (string & {}) | undefined;
   /** Group by configuration for the List Stream Widget. Group by can be used only with logs_pattern_stream (up to 4 items) or logs_transaction_stream (one group by item is required) list stream source. */
-  group_by?: ListStreamQueryGroupByList;
+  group_by?: ListStreamQueryGroupByList | undefined;
   /** List of indexes. */
-  indexes?: ListStreamQueryIndexesList;
-  persona?: ListStreamIssuePersona | (string & {});
+  indexes?: ListStreamQueryIndexesList | undefined;
+  persona?: ListStreamIssuePersona | (string & {}) | undefined;
   /** Widget query. */
   query_string: string;
-  sort?: WidgetFieldSort;
+  sort?: WidgetFieldSort | undefined;
   /** Filter by issue states. Usable only with `issue_stream`. */
-  states?: ListStreamQueryStatesList;
+  states?: ListStreamQueryStatesList | undefined;
   /** Option for storage location. Feature in Private Beta. */
-  storage?: string;
+  storage?: string | undefined;
   /** Filter by suspected causes. Usable only with `issue_stream`. */
-  suspected_causes?: ListStreamQuerySuspectedCausesList;
+  suspected_causes?: ListStreamQuerySuspectedCausesList | undefined;
   /** Filter by team handles. Usable only with `issue_stream`. */
-  team_handles?: ListStreamQueryTeamHandlesList;
-  version?: ListStreamQueryVersion | (string & {});
+  team_handles?: ListStreamQueryTeamHandlesList | undefined;
+  version?: ListStreamQueryVersion | (string & {}) | undefined;
 }
 /** The style to apply to the request for points layer. */
 export interface GeomapWidgetRequestStyle {
   /** The category to color the points by. */
-  color_by?: string;
+  color_by?: string | undefined;
 }
 /** Match or compare option. */
 export type TableWidgetTextFormatMatchType =
@@ -2126,39 +2126,39 @@ export type TableWidgetTextFormatReplace =
 /** Text format rules. */
 export interface TableWidgetTextFormatRule {
   /** Hex representation of the custom background color. Used with custom background palette option. */
-  custom_bg_color?: string;
+  custom_bg_color?: string | undefined;
   /** Hex representation of the custom text color. Used with custom text palette option. */
-  custom_fg_color?: string;
+  custom_fg_color?: string | undefined;
   match: TableWidgetTextFormatMatch;
-  palette?: TableWidgetTextFormatPalette | (string & {});
-  replace?: TableWidgetTextFormatReplace;
+  palette?: TableWidgetTextFormatPalette | (string & {}) | undefined;
+  replace?: TableWidgetTextFormatReplace | undefined;
 }
 /** Text formatting rules may be used by a points layer. */
 export type GeomapWidgetRequestTextFormatsList = Array<TableWidgetTextFormatRule>;
 /** An updated geomap widget. */
 export interface GeomapWidgetRequest {
   /** Widget columns. */
-  columns?: GeomapWidgetRequestColumnsList;
+  columns?: GeomapWidgetRequestColumnsList | undefined;
   /** Threshold (numeric) conditional formatting rules may be used by a regions layer. */
-  conditional_formats?: GeomapWidgetRequestConditionalFormatsList;
+  conditional_formats?: GeomapWidgetRequestConditionalFormatsList | undefined;
   /** List of formulas that operate on queries. */
-  formulas?: GeomapWidgetRequestFormulasList;
+  formulas?: GeomapWidgetRequestFormulasList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** The widget metrics query. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: GeomapWidgetRequestQueriesList;
-  query?: ListStreamQuery;
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  queries?: GeomapWidgetRequestQueriesList | undefined;
+  query?: ListStreamQuery | undefined;
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
-  sort?: WidgetSortBy;
-  style?: GeomapWidgetRequestStyle;
+  security_query?: LogQueryDefinition | undefined;
+  sort?: WidgetSortBy | undefined;
+  style?: GeomapWidgetRequestStyle | undefined;
   /** Text formatting rules may be used by a points layer. */
-  text_formats?: GeomapWidgetRequestTextFormatsList;
+  text_formats?: GeomapWidgetRequestTextFormatsList | undefined;
 }
 /** Array of request objects to display in the widget. May include an optional request for the region layer and/or an optional request for the points layer. Region layer requests must contain a `group-by` tag whose value is a country ISO code. See the [Request JSON schema documentation](https://docs.datadoghq.com/dashboards/graphing_json/request_json) for information about building the `REQUEST_SCHEMA`. */
 export type GeomapWidgetDefinitionRequestsList = Array<GeomapWidgetRequest>;
@@ -2179,18 +2179,18 @@ export interface GeomapWidgetDefinitionView {
 /** This visualization displays a series of values by country on a world map. */
 export interface GeomapWidgetDefinition {
   /** A list of custom links. */
-  custom_links?: GeomapWidgetDefinitionCustomLinksList;
+  custom_links?: GeomapWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Array of request objects to display in the widget. May include an optional request for the region layer and/or an optional request for the points layer. Region layer requests must contain a `group-by` tag whose value is a country ISO code. See the [Request JSON schema documentation](https://docs.datadoghq.com/dashboards/graphing_json/request_json) for information about building the `REQUEST_SCHEMA`. */
   requests: GeomapWidgetDefinitionRequestsList;
   style: GeomapWidgetDefinitionStyle;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** The title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** The size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: GeomapWidgetDefinitionType;
   view: GeomapWidgetDefinitionView;
 }
@@ -2202,15 +2202,15 @@ export type GroupWidgetDefinitionType = "group";
 export type GroupWidgetDefinitionWidgetsList = Array<Widget>;
 /** The group widget allows you to keep similar graphs together on your dashboard. Each group has a custom header, can hold one to many graphs, and is collapsible. */
 export interface GroupWidgetDefinition {
-  background_color?: string;
+  background_color?: string | undefined;
   /** URL of image to display as a banner for the group. */
-  banner_img?: string;
+  banner_img?: string | undefined;
   layout_type: WidgetLayoutType;
   /** Whether to show the title or not. */
-  show_title?: boolean;
+  show_title?: boolean | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   type: GroupWidgetDefinitionType;
   /** List of widget groups. */
   widgets: GroupWidgetDefinitionWidgetsList;
@@ -2222,7 +2222,7 @@ export interface WidgetEvent {
   /** Query definition. */
   q: string;
   /** The execution method for multi-value filters. */
-  tags_execution?: string;
+  tags_execution?: string | undefined;
 }
 /** List of widget events. Deprecated - Use `overlay` request type instead. */
 export type HeatMapWidgetDefinitionEventsList = Array<WidgetEvent>;
@@ -2242,33 +2242,33 @@ export type HeatMapWidgetRequestQueriesList = Array<FormulaAndFunctionQueryDefin
 /** Updated heat map widget. */
 export interface HeatMapWidgetRequest {
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
+  apm_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: EventQueryDefinition;
+  event_query?: EventQueryDefinition | undefined;
   /** List of formulas that operate on queries. */
-  formulas?: HeatMapWidgetRequestFormulasList;
+  formulas?: HeatMapWidgetRequestFormulasList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
+  network_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Widget query. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: HeatMapWidgetRequestQueriesList;
-  query?: FormulaAndFunctionMetricQueryDefinition;
+  queries?: HeatMapWidgetRequestQueriesList | undefined;
+  query?: FormulaAndFunctionMetricQueryDefinition | undefined;
   /** Applicable only for distribution of point values for distribution metrics. */
-  request_type?: WidgetHistogramRequestType | (string & {});
+  request_type?: WidgetHistogramRequestType | (string & {}) | undefined;
   /** Applicable only for distribution of aggregated grouped queries. */
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
-  style?: WidgetStyle;
+  security_query?: LogQueryDefinition | undefined;
+  style?: WidgetStyle | undefined;
 }
 /** List of widget types. */
 export type HeatMapWidgetDefinitionRequestsList = Array<HeatMapWidgetRequest>;
@@ -2277,45 +2277,45 @@ export type HeatMapWidgetDefinitionType = "heatmap";
 /** X Axis controls for the heat map widget. */
 export interface HeatMapWidgetXAxis {
   /** Number of time buckets to target, also known as the resolution of the time bins. This is only applicable for distribution of points (group distributions use the roll-up modifier). */
-  num_buckets?: number;
+  num_buckets?: number | undefined;
 }
 /** Axis controls for the widget. */
 export interface WidgetAxis {
   /** Set to `true` to include zero. */
-  include_zero?: boolean;
+  include_zero?: boolean | undefined;
   /** The label of the axis to display on the graph. Only usable on Scatterplot Widgets. */
-  label?: string;
+  label?: string | undefined;
   /** Specifies maximum numeric value to show on the axis. Defaults to `auto`. */
-  max?: string;
+  max?: string | undefined;
   /** Specifies minimum numeric value to show on the axis. Defaults to `auto`. */
-  min?: string;
+  min?: string | undefined;
   /** Specifies the scale type. Possible values are `linear`, `log`, `sqrt`, and `pow##` (for example `pow2` or `pow0.5`). */
-  scale?: string;
+  scale?: string | undefined;
 }
 /** The heat map visualization shows metrics aggregated across many tags, such as hosts. The more hosts that have a particular value, the darker that square is. */
 export interface HeatMapWidgetDefinition {
   /** List of custom links. */
-  custom_links?: HeatMapWidgetDefinitionCustomLinksList;
+  custom_links?: HeatMapWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** List of widget events. Deprecated - Use `overlay` request type instead. */
-  events?: HeatMapWidgetDefinitionEventsList;
-  legend_size?: string;
+  events?: HeatMapWidgetDefinitionEventsList | undefined;
+  legend_size?: string | undefined;
   /** List of markers. */
-  markers?: HeatMapWidgetDefinitionMarkersList;
+  markers?: HeatMapWidgetDefinitionMarkersList | undefined;
   /** List of widget types. */
   requests: HeatMapWidgetDefinitionRequestsList;
   /** Whether or not to display the legend on this widget. */
-  show_legend?: boolean;
-  time?: WidgetTime;
+  show_legend?: boolean | undefined;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: HeatMapWidgetDefinitionType;
-  xaxis?: HeatMapWidgetXAxis;
-  yaxis?: WidgetAxis;
+  xaxis?: HeatMapWidgetXAxis | undefined;
+  yaxis?: WidgetAxis | undefined;
 }
 /** List of custom links. */
 export type HostMapWidgetDefinitionCustomLinksList = Array<WidgetCustomLink>;
@@ -2331,11 +2331,11 @@ export type HostMapWidgetDimension = "node" | "fill" | "size" | "group";
 /** Formula for the infrastructure host map widget that specifies both the expression and the visual dimension it populates. */
 export interface HostMapWidgetFormula {
   /** Expression alias. */
-  alias?: string;
+  alias?: string | undefined;
   dimension: HostMapWidgetDimension | (string & {});
   /** String expression built from queries, formulas, and functions. */
   formula: string;
-  number_format?: WidgetNumberFormat;
+  number_format?: WidgetNumberFormat | undefined;
 }
 /** List of formulas that operate on queries, each assigned to a visual dimension. */
 export type HostMapWidgetScalarRequestFormulasList = Array<HostMapWidgetFormula>;
@@ -2359,7 +2359,7 @@ export interface HostMapWidgetGroupBy {
   /** Column name from the entity table (for example, `cloud_provider`, `tags`, `labels`). */
   column: string;
   /** Key within the column for nested attribute types (for example, `service` within `tags`). */
-  key?: string;
+  key?: string | undefined;
 }
 /** Defines how entities are grouped into tiles. The ordering of entries implies the grouping hierarchy. */
 export type HostMapWidgetInfrastructureRequestLeafGroupByList = Array<HostMapWidgetGroupBy>;
@@ -2370,31 +2370,31 @@ export type HostMapWidgetInfrastructureRequestRequestType = "infrastructure_host
 /** Style configuration for the infrastructure host map. */
 export interface HostMapWidgetInfrastructureStyle {
   /** Maximum value for the fill color scale. Omit to use automatic scaling. */
-  fill_max?: number;
+  fill_max?: number | undefined;
   /** Minimum value for the fill color scale. Omit to use automatic scaling. */
-  fill_min?: number;
+  fill_min?: number | undefined;
   /** Color palette name or alias. */
-  palette?: string;
+  palette?: string | undefined;
   /** Whether to invert the color palette. */
-  palette_flip?: boolean;
+  palette_flip?: boolean | undefined;
 }
 /** Infrastructure-backed host map child request (leaf node, no further nesting supported). */
 export interface HostMapWidgetInfrastructureRequestLeaf {
   /** List of conditional formatting rules applied to fill values. */
-  conditional_formats?: HostMapWidgetInfrastructureRequestLeafConditionalFormatsList;
+  conditional_formats?: HostMapWidgetInfrastructureRequestLeafConditionalFormatsList | undefined;
   /** Metric or event queries joined to the entity set. Each formula specifies a visual dimension. */
   enrichments: HostMapWidgetInfrastructureRequestLeafEnrichmentsList;
   /** Filter string for the entity set in tag format (for example, `env:prod`). */
-  filter?: string;
+  filter?: string | undefined;
   /** Defines how entities are grouped into tiles. The ordering of entries implies the grouping hierarchy. */
-  group_by?: HostMapWidgetInfrastructureRequestLeafGroupByList;
+  group_by?: HostMapWidgetInfrastructureRequestLeafGroupByList | undefined;
   /** Whether to hide entities that have no group assignment. */
-  no_group_hosts?: boolean;
+  no_group_hosts?: boolean | undefined;
   /** Whether to hide entities that have no enrichment data. */
-  no_metric_hosts?: boolean;
+  no_metric_hosts?: boolean | undefined;
   node_type: HostMapWidgetNodeType | (string & {});
   request_type: HostMapWidgetInfrastructureRequestRequestType | (string & {});
-  style?: HostMapWidgetInfrastructureStyle;
+  style?: HostMapWidgetInfrastructureStyle | undefined;
 }
 /** List of conditional formatting rules applied to fill values. */
 export type HostMapWidgetInfrastructureRequestConditionalFormatsList =
@@ -2406,22 +2406,22 @@ export type HostMapWidgetInfrastructureRequestGroupByList = Array<HostMapWidgetG
 /** Infrastructure-backed request for the host map widget. Supports entity-based visualization with metric query enrichments, tag-based filtering, flexible grouping, and hierarchical views. */
 export interface HostMapWidgetInfrastructureRequest {
   /** Optional child request for hierarchical visualization (for example, hosts containing containers). Maximum one level of nesting. */
-  child?: HostMapWidgetInfrastructureRequestLeaf;
+  child?: HostMapWidgetInfrastructureRequestLeaf | undefined;
   /** List of conditional formatting rules applied to fill values. */
-  conditional_formats?: HostMapWidgetInfrastructureRequestConditionalFormatsList;
+  conditional_formats?: HostMapWidgetInfrastructureRequestConditionalFormatsList | undefined;
   /** Metric or event queries joined to the entity set. Each formula specifies a visual dimension. */
   enrichments: HostMapWidgetInfrastructureRequestEnrichmentsList;
   /** Filter string for the entity set in tag format (for example, `env:prod`). */
-  filter?: string;
+  filter?: string | undefined;
   /** Defines how entities are grouped into tiles. The ordering of entries implies the grouping hierarchy. */
-  group_by?: HostMapWidgetInfrastructureRequestGroupByList;
+  group_by?: HostMapWidgetInfrastructureRequestGroupByList | undefined;
   /** Whether to hide entities that have no group assignment. */
-  no_group_hosts?: boolean;
+  no_group_hosts?: boolean | undefined;
   /** Whether to hide entities that have no enrichment data. */
-  no_metric_hosts?: boolean;
+  no_metric_hosts?: boolean | undefined;
   node_type: HostMapWidgetNodeType | (string & {});
   request_type: HostMapWidgetInfrastructureRequestRequestType | (string & {});
-  style?: HostMapWidgetInfrastructureStyle;
+  style?: HostMapWidgetInfrastructureStyle | undefined;
 }
 /** List of conditional formatting rules applied to fill values. */
 export type HostMapWidgetDefinitionRequestsConditionalFormatsList = Array<WidgetConditionalFormat>;
@@ -2430,34 +2430,34 @@ export type HostMapWidgetDefinitionRequestsEnrichmentsList = Array<HostMapWidget
 /** Deprecated - Legacy metric-based host map request. Use the infrastructure-backed (`request_type: infrastructure_hostmap`) or DDSQL (`request_type: data_projection`) format instead. */
 export interface HostMapRequest {
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
+  apm_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: LogQueryDefinition;
+  event_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
+  network_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Query definition. */
-  q?: string;
+  q?: string | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
+  security_query?: LogQueryDefinition | undefined;
 }
 /** Defines how entities are grouped into tiles. The ordering of entries implies the grouping hierarchy. Only used by the infrastructure-backed format. */
 export type HostMapWidgetDefinitionRequestsGroupByList = Array<HostMapWidgetGroupBy>;
 /** Maps a dataset column to a host map visual dimension. */
 export interface HostMapWidgetProjectionDimensionMapping {
   /** Alias used to label the column instead of its name. */
-  alias?: string;
+  alias?: string | undefined;
   /** Source column name from the dataset. */
   column: string;
   dimension: HostMapWidgetDimension | (string & {});
-  number_format?: WidgetNumberFormat;
+  number_format?: WidgetNumberFormat | undefined;
 }
 /** List of column-to-dimension mappings for the projection. */
 export type HostMapWidgetProjectionDimensionsList = Array<HostMapWidgetProjectionDimensionMapping>;
@@ -2493,85 +2493,85 @@ export interface DatasetListQuery {
   dataset_id: string;
   dataset_provider: PublishedDatasetProvider | (string & {});
   /** Filter applied to the dataset's rows, using events-style search syntax. */
-  filter?: string;
+  filter?: string | undefined;
   /** Maximum number of rows to return from the dataset query. */
-  limit?: number;
-  sort?: DatasetListQuerySort;
+  limit?: number | undefined;
+  sort?: DatasetListQuerySort | undefined;
 }
 /** Identifies which host map request format the sibling fields on `HostMapWidgetDefinitionRequests` describe: an infrastructure-backed request or a DDSQL published-dataset request. */
 export type HostMapWidgetDefinitionRequestType = "infrastructure_hostmap" | "data_projection";
 /** Query definition for the host map widget. Supports three mutually exclusive formats distinguished by `request_type`: the deprecated legacy metric-based format (`fill`/`size`, no `request_type`), the infrastructure-backed format (`request_type: infrastructure_hostmap`), and the DDSQL published-dataset format (`request_type: data_projection`). */
 export interface HostMapWidgetDefinitionRequests {
   /** Optional child entities for hierarchical visualization (for example, host -> container). Only used by the infrastructure-backed format. */
-  child?: HostMapWidgetInfrastructureRequest;
+  child?: HostMapWidgetInfrastructureRequest | undefined;
   /** List of conditional formatting rules applied to fill values. */
-  conditional_formats?: HostMapWidgetDefinitionRequestsConditionalFormatsList;
+  conditional_formats?: HostMapWidgetDefinitionRequestsConditionalFormatsList | undefined;
   /** Metric or event queries joined to the entity set. Each formula specifies a visual dimension. Only used by the infrastructure-backed format. */
-  enrichments?: HostMapWidgetDefinitionRequestsEnrichmentsList;
+  enrichments?: HostMapWidgetDefinitionRequestsEnrichmentsList | undefined;
   /** Deprecated - Legacy metric-based format. Use the infrastructure-backed (`request_type: infrastructure_hostmap`) or DDSQL (`request_type: data_projection`) format instead. */
-  fill?: HostMapRequest;
+  fill?: HostMapRequest | undefined;
   /** Filter string for the entity set in tag format (for example, `env:prod`). Only used by the infrastructure-backed format. */
-  filter?: string;
+  filter?: string | undefined;
   /** Defines how entities are grouped into tiles. The ordering of entries implies the grouping hierarchy. Only used by the infrastructure-backed format. */
-  group_by?: HostMapWidgetDefinitionRequestsGroupByList;
+  group_by?: HostMapWidgetDefinitionRequestsGroupByList | undefined;
   /** Maximum number of rows to return from the dataset query. Only used by the DDSQL format. */
-  limit?: number;
+  limit?: number | undefined;
   /** Whether to hide entities that have no group assignment. */
-  no_group_hosts?: boolean;
+  no_group_hosts?: boolean | undefined;
   /** Whether to hide entities that have no enrichment data. */
-  no_metric_hosts?: boolean;
+  no_metric_hosts?: boolean | undefined;
   /** Entity type to visualize. Only used by the infrastructure-backed format. */
-  node_type?: HostMapWidgetNodeType | (string & {});
+  node_type?: HostMapWidgetNodeType | (string & {}) | undefined;
   /** Maps dataset columns to map dimensions (entity, optional parent for grouping, fill, size). Only used by the DDSQL format. */
-  projection?: HostMapWidgetProjection;
+  projection?: HostMapWidgetProjection | undefined;
   /** Published-dataset query. Only used by the DDSQL format. */
-  query?: DatasetListQuery;
-  request_type?: HostMapWidgetDefinitionRequestType | (string & {});
+  query?: DatasetListQuery | undefined;
+  request_type?: HostMapWidgetDefinitionRequestType | (string & {}) | undefined;
   /** Deprecated - Legacy metric-based format. Use the infrastructure-backed (`request_type: infrastructure_hostmap`) or DDSQL (`request_type: data_projection`) format instead. */
-  size?: HostMapRequest;
-  style?: HostMapWidgetInfrastructureStyle;
+  size?: HostMapRequest | undefined;
+  style?: HostMapWidgetInfrastructureStyle | undefined;
 }
 /** Deprecated - Only used by the legacy metric-based format. Use `filter` inside `requests` instead. */
 export type HostMapWidgetDefinitionScopeList = Array<string>;
 /** Deprecated - The style to apply to the legacy metric-based host map widget. Use `HostMapWidgetInfrastructureStyle` instead. */
 export interface HostMapWidgetDefinitionStyle {
   /** Max value to use to color the map. */
-  fill_max?: string;
+  fill_max?: string | undefined;
   /** Min value to use to color the map. */
-  fill_min?: string;
+  fill_min?: string | undefined;
   /** Color palette to apply to the widget. */
-  palette?: string;
+  palette?: string | undefined;
   /** Whether to flip the palette tones. */
-  palette_flip?: boolean;
+  palette_flip?: boolean | undefined;
 }
 /** Type of the host map widget. */
 export type HostMapWidgetDefinitionType = "hostmap";
 /** The host map widget graphs any metric across your hosts using the same visualization available from the main Host Map page. */
 export interface HostMapWidgetDefinition {
   /** List of custom links. */
-  custom_links?: HostMapWidgetDefinitionCustomLinksList;
+  custom_links?: HostMapWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Deprecated - Only used by the legacy metric-based format. Use `group_by` (infrastructure) or a `group` dimension (DDSQL) inside `requests` instead. */
-  group?: HostMapWidgetDefinitionGroupList;
+  group?: HostMapWidgetDefinitionGroupList | undefined;
   /** Deprecated - Only used by the legacy metric-based format. Use `no_group_hosts` inside `requests` instead. */
-  no_group_hosts?: boolean;
+  no_group_hosts?: boolean | undefined;
   /** Deprecated - Only used by the legacy metric-based format. Use `no_metric_hosts` inside `requests` instead. */
-  no_metric_hosts?: boolean;
+  no_metric_hosts?: boolean | undefined;
   /** Deprecated - Only used by the legacy metric-based format. Use `node_type` inside `requests` instead. */
-  node_type?: WidgetNodeType | (string & {});
+  node_type?: WidgetNodeType | (string & {}) | undefined;
   /** Notes on the title. */
-  notes?: string;
+  notes?: string | undefined;
   requests: HostMapWidgetDefinitionRequests;
   /** Deprecated - Only used by the legacy metric-based format. Use `filter` inside `requests` instead. */
-  scope?: HostMapWidgetDefinitionScopeList;
+  scope?: HostMapWidgetDefinitionScopeList | undefined;
   /** Deprecated - Only used by the legacy metric-based format. Use `style` inside `requests` instead. */
-  style?: HostMapWidgetDefinitionStyle;
+  style?: HostMapWidgetDefinitionStyle | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: HostMapWidgetDefinitionType;
 }
 /** Type of the iframe widget. */
@@ -2603,18 +2603,18 @@ export type WidgetVerticalAlign = "center" | "top" | "bottom";
 /** The image widget allows you to embed an image on your dashboard. An image can be a PNG, JPG, or animated GIF. */
 export interface ImageWidgetDefinition {
   /** Whether to display a background or not. */
-  has_background?: boolean;
+  has_background?: boolean | undefined;
   /** Whether to display a border or not. */
-  has_border?: boolean;
-  horizontal_align?: WidgetHorizontalAlign | (string & {});
-  margin?: WidgetMargin | (string & {});
-  sizing?: WidgetImageSizing | (string & {});
+  has_border?: boolean | undefined;
+  horizontal_align?: WidgetHorizontalAlign | (string & {}) | undefined;
+  margin?: WidgetMargin | (string & {}) | undefined;
+  sizing?: WidgetImageSizing | (string & {}) | undefined;
   type: ImageWidgetDefinitionType;
   /** URL of the image. */
   url: string;
   /** URL of the image in dark mode. */
-  url_dark_theme?: string;
-  vertical_align?: WidgetVerticalAlign | (string & {});
+  url_dark_theme?: string | undefined;
+  vertical_align?: WidgetVerticalAlign | (string & {}) | undefined;
 }
 /** Widget columns. */
 export type ListStreamWidgetRequestColumnsList = Array<ListStreamColumn>;
@@ -2634,18 +2634,18 @@ export type ListStreamWidgetDefinitionType = "list_stream";
 /** The list stream visualization displays a table of recent events in your application that match a search criteria using user-defined columns. */
 export interface ListStreamWidgetDefinition {
   /** The description of the widget. */
-  description?: string;
-  legend_size?: string;
+  description?: string | undefined;
+  legend_size?: string | undefined;
   /** Request payload used to query items. */
   requests: ListStreamWidgetDefinitionRequestsList;
   /** Whether or not to display the legend on this widget. */
-  show_legend?: boolean;
-  time?: WidgetTime;
+  show_legend?: boolean | undefined;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: ListStreamWidgetDefinitionType;
 }
 /** Which columns to display on the widget. */
@@ -2659,27 +2659,27 @@ export type LogStreamWidgetDefinitionType = "log_stream";
 /** The Log Stream displays a log flow matching the defined query. */
 export interface LogStreamWidgetDefinition {
   /** Which columns to display on the widget. */
-  columns?: LogStreamWidgetDefinitionColumnsList;
+  columns?: LogStreamWidgetDefinitionColumnsList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** An array of index names to query in the stream. Use [] to query all indexes at once. */
-  indexes?: LogStreamWidgetDefinitionIndexesList;
+  indexes?: LogStreamWidgetDefinitionIndexesList | undefined;
   /** ID of the log set to use. */
-  logset?: string;
-  message_display?: WidgetMessageDisplay | (string & {});
+  logset?: string | undefined;
+  message_display?: WidgetMessageDisplay | (string & {}) | undefined;
   /** Query to filter the log stream with. */
-  query?: string;
+  query?: string | undefined;
   /** Whether to show the date column or not */
-  show_date_column?: boolean;
+  show_date_column?: boolean | undefined;
   /** Whether to show the message column or not */
-  show_message_column?: boolean;
-  sort?: WidgetFieldSort;
-  time?: WidgetTime;
+  show_message_column?: boolean | undefined;
+  sort?: WidgetFieldSort | undefined;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: LogStreamWidgetDefinitionType;
 }
 /** Which color to use on the widget. */
@@ -2711,29 +2711,29 @@ export type WidgetSummaryType = "monitors" | "groups" | "combined";
 export type MonitorSummaryWidgetDefinitionType = "manage_status";
 /** The monitor summary widget displays a summary view of all your Datadog monitors, or a subset based on a query. */
 export interface MonitorSummaryWidgetDefinition {
-  color_preference?: WidgetColorPreference | (string & {});
+  color_preference?: WidgetColorPreference | (string & {}) | undefined;
   /** The number of monitors to display. */
-  count?: number;
+  count?: number | undefined;
   /** The description of the widget. */
-  description?: string;
-  display_format?: WidgetMonitorSummaryDisplayFormat | (string & {});
+  description?: string | undefined;
+  display_format?: WidgetMonitorSummaryDisplayFormat | (string & {}) | undefined;
   /** Whether to show counts of 0 or not. */
-  hide_zero_counts?: boolean;
+  hide_zero_counts?: boolean | undefined;
   /** Query to filter the monitors with. */
   query: string;
   /** Whether to show the time that has elapsed since the monitor/group triggered. */
-  show_last_triggered?: boolean;
+  show_last_triggered?: boolean | undefined;
   /** Whether to show the priorities column. */
-  show_priority?: boolean;
-  sort?: WidgetMonitorSummarySort | (string & {});
+  show_priority?: boolean | undefined;
+  sort?: WidgetMonitorSummarySort | (string & {}) | undefined;
   /** The start of the list. Typically 0. */
-  start?: number;
-  summary_type?: WidgetSummaryType | (string & {});
+  start?: number | undefined;
+  summary_type?: WidgetSummaryType | (string & {}) | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: MonitorSummaryWidgetDefinitionType;
 }
 /** Define how you want to align the text on the widget. */
@@ -2743,21 +2743,21 @@ export type NoteWidgetDefinitionType = "note";
 /** The notes and links widget is similar to free text widget, but allows for more formatting options. */
 export interface NoteWidgetDefinition {
   /** Background color of the note. */
-  background_color?: string;
+  background_color?: string | undefined;
   /** Content of the note. */
   content: string;
   /** Size of the text. */
-  font_size?: string;
+  font_size?: string | undefined;
   /** Whether to add padding or not. */
-  has_padding?: boolean;
+  has_padding?: boolean | undefined;
   /** Whether to show a tick or not. */
-  show_tick?: boolean;
-  text_align?: WidgetTextAlign | (string & {});
-  tick_edge?: WidgetTickEdge | (string & {});
+  show_tick?: boolean | undefined;
+  text_align?: WidgetTextAlign | (string & {}) | undefined;
+  tick_edge?: WidgetTickEdge | (string & {}) | undefined;
   /** Where to position the tick on an edge. */
-  tick_pos?: string;
+  tick_pos?: string | undefined;
   type: NoteWidgetDefinitionType;
-  vertical_align?: WidgetVerticalAlign | (string & {});
+  vertical_align?: WidgetVerticalAlign | (string & {}) | undefined;
 }
 /** One or many template variable values within the saved view, which will be unioned together using `OR` if more than one is specified. */
 export type PowerpackTemplateVariableContentsValuesList = Array<string>;
@@ -2766,7 +2766,7 @@ export interface PowerpackTemplateVariableContents {
   /** The name of the variable. */
   name: string;
   /** The tag prefix associated with the variable. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** One or many template variable values within the saved view, which will be unioned together using `OR` if more than one is specified. */
   values: PowerpackTemplateVariableContentsValuesList;
 }
@@ -2779,25 +2779,25 @@ export type PowerpackTemplateVariablesControlledExternallyList =
 /** Powerpack template variables. */
 export interface PowerpackTemplateVariables {
   /** Template variables controlled at the powerpack level. */
-  controlled_by_powerpack?: PowerpackTemplateVariablesControlledByPowerpackList;
+  controlled_by_powerpack?: PowerpackTemplateVariablesControlledByPowerpackList | undefined;
   /** Template variables controlled by the external resource, such as the dashboard this powerpack is on. */
-  controlled_externally?: PowerpackTemplateVariablesControlledExternallyList;
+  controlled_externally?: PowerpackTemplateVariablesControlledExternallyList | undefined;
 }
 /** Type of the powerpack widget. */
 export type PowerpackWidgetDefinitionType = "powerpack";
 /** The powerpack widget allows you to keep similar graphs together on your timeboard. Each group has a custom header, can hold one to many graphs, and is collapsible. */
 export interface PowerpackWidgetDefinition {
   /** Background color of the powerpack title. */
-  background_color?: string;
+  background_color?: string | undefined;
   /** URL of image to display as a banner for the powerpack. */
-  banner_img?: string;
+  banner_img?: string | undefined;
   /** UUID of the associated powerpack. */
   powerpack_id: string;
   /** Whether to show the title or not. */
-  show_title?: boolean;
-  template_variables?: PowerpackTemplateVariables;
+  show_title?: boolean | undefined;
+  template_variables?: PowerpackTemplateVariables | undefined;
   /** Title of the widget. */
-  title?: string;
+  title?: string | undefined;
   type: PowerpackWidgetDefinitionType;
 }
 /** List of custom links. */
@@ -2815,7 +2815,7 @@ export type PointPlotDimension = "group" | "time" | "y" | "radius";
 /** Dimension mapping for the point plot projection. */
 export interface PointPlotProjectionDimension {
   /** Alias for the column. */
-  alias?: string;
+  alias?: string | undefined;
   /** Source column name from the dataset. */
   column: string;
   dimension: PointPlotDimension | (string & {});
@@ -2831,7 +2831,7 @@ export interface PointPlotProjection {
   /** List of dimension mappings for the projection. */
   dimensions: PointPlotProjectionDimensionsList;
   /** Additional columns to include in the projection. */
-  extra_columns?: PointPlotProjectionExtraColumnsList;
+  extra_columns?: PointPlotProjectionExtraColumnsList | undefined;
   type: PointPlotProjectionType | (string & {});
 }
 /** List of indexes to query. */
@@ -2841,18 +2841,18 @@ export interface DataProjectionQuery {
   /** Data source for the query. */
   data_source: string;
   /** List of indexes to query. */
-  indexes?: DataProjectionQueryIndexesList;
+  indexes?: DataProjectionQueryIndexesList | undefined;
   /** The query string to filter events. */
   query_string: string;
   /** Storage location for the query. */
-  storage?: string;
+  storage?: string | undefined;
 }
 /** Type of a data projection request. */
 export type DataProjectionRequestType = "data_projection";
 /** Request configuration for the point plot widget. */
 export interface PointPlotWidgetRequest {
   /** Maximum number of data points to return. */
-  limit?: number;
+  limit?: number | undefined;
   projection: PointPlotProjection;
   query: DataProjectionQuery;
   request_type: DataProjectionRequestType | (string & {});
@@ -2864,22 +2864,22 @@ export type PointPlotWidgetDefinitionType = "point_plot";
 /** The point plot displays individual data points over time. */
 export interface PointPlotWidgetDefinition {
   /** List of custom links. */
-  custom_links?: PointPlotWidgetDefinitionCustomLinksList;
+  custom_links?: PointPlotWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
-  legend?: PointPlotWidgetLegend;
+  description?: string | undefined;
+  legend?: PointPlotWidgetLegend | undefined;
   /** List of markers for the widget. */
-  markers?: PointPlotWidgetDefinitionMarkersList;
+  markers?: PointPlotWidgetDefinitionMarkersList | undefined;
   /** List of request configurations for the widget. */
   requests: PointPlotWidgetDefinitionRequestsList;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: PointPlotWidgetDefinitionType;
-  yaxis?: WidgetAxis;
+  yaxis?: WidgetAxis | undefined;
 }
 /** List of custom links. */
 export type QueryValueWidgetDefinitionCustomLinksList = Array<WidgetCustomLink>;
@@ -2905,7 +2905,7 @@ export type ComparisonDurationType =
 /** The comparison period. Use a preset `type` value or set `type` to `custom_timeframe` and provide `custom_timeframe` with explicit millisecond epoch bounds. */
 export interface ComparisonDuration {
   /** Required when `type` is `custom_timeframe`. Fixed time range to compare against. */
-  custom_timeframe?: ComparisonCustomTimeframe;
+  custom_timeframe?: ComparisonCustomTimeframe | undefined;
   type: ComparisonDurationType | (string & {});
 }
 /** How the delta is expressed: `absolute` (raw difference), `relative` (percentage), or `both`. */
@@ -2913,9 +2913,9 @@ export type QueryValueWidgetComparisonType = "absolute" | "relative" | "both";
 /** A change indicator that compares the current value to a historical period. */
 export interface QueryValueWidgetComparison {
   /** Which direction of change is considered an improvement, determining the indicator color. */
-  directionality?: QueryValueWidgetComparisonDirectionality | (string & {});
+  directionality?: QueryValueWidgetComparisonDirectionality | (string & {}) | undefined;
   duration: ComparisonDuration;
-  type?: QueryValueWidgetComparisonType | (string & {});
+  type?: QueryValueWidgetComparisonType | (string & {}) | undefined;
 }
 /** List of conditional formats. */
 export type QueryValueWidgetRequestConditionalFormatsList = Array<WidgetConditionalFormat>;
@@ -2925,36 +2925,36 @@ export type QueryValueWidgetRequestFormulasList = Array<WidgetFormula>;
 export type QueryValueWidgetRequestQueriesList = Array<FormulaAndFunctionQueryDefinition>;
 /** Updated query value widget. */
 export interface QueryValueWidgetRequest {
-  aggregator?: WidgetAggregator | (string & {});
+  aggregator?: WidgetAggregator | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
+  apm_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  audit_query?: LogQueryDefinition;
+  audit_query?: LogQueryDefinition | undefined;
   /** Displays a change indicator showing a delta against a historical baseline. */
-  comparison?: QueryValueWidgetComparison;
+  comparison?: QueryValueWidgetComparison | undefined;
   /** List of conditional formats. */
-  conditional_formats?: QueryValueWidgetRequestConditionalFormatsList;
+  conditional_formats?: QueryValueWidgetRequestConditionalFormatsList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: LogQueryDefinition;
+  event_query?: LogQueryDefinition | undefined;
   /** List of formulas that operate on queries. */
-  formulas?: QueryValueWidgetRequestFormulasList;
+  formulas?: QueryValueWidgetRequestFormulasList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
+  network_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Widget query. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: QueryValueWidgetRequestQueriesList;
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  queries?: QueryValueWidgetRequestQueriesList | undefined;
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
+  security_query?: LogQueryDefinition | undefined;
 }
 /** Widget definition. */
 export type QueryValueWidgetDefinitionRequestsList = Array<QueryValueWidgetRequest>;
@@ -2963,32 +2963,32 @@ export type TimeseriesBackgroundType = "bars" | "area";
 /** Set a timeseries on the widget background. */
 export interface TimeseriesBackground {
   type: TimeseriesBackgroundType | (string & {});
-  yaxis?: WidgetAxis;
+  yaxis?: WidgetAxis | undefined;
 }
 /** Type of the query value widget. */
 export type QueryValueWidgetDefinitionType = "query_value";
 /** Query values display the current value of a given metric, APM, or log query. */
 export interface QueryValueWidgetDefinition {
   /** Whether to use auto-scaling or not. */
-  autoscale?: boolean;
+  autoscale?: boolean | undefined;
   /** List of custom links. */
-  custom_links?: QueryValueWidgetDefinitionCustomLinksList;
+  custom_links?: QueryValueWidgetDefinitionCustomLinksList | undefined;
   /** Display a unit of your choice on the widget. */
-  custom_unit?: string;
+  custom_unit?: string | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Number of decimals to show. If not defined, the widget uses the raw value. */
-  precision?: number;
+  precision?: number | undefined;
   /** Widget definition. */
   requests: QueryValueWidgetDefinitionRequestsList;
-  text_align?: WidgetTextAlign | (string & {});
-  time?: WidgetTime;
-  timeseries_background?: TimeseriesBackground;
+  text_align?: WidgetTextAlign | (string & {}) | undefined;
+  time?: WidgetTime | undefined;
+  timeseries_background?: TimeseriesBackground | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: QueryValueWidgetDefinitionType;
 }
 /** Request type for retention curve widget. */
@@ -2996,13 +2996,13 @@ export type RetentionCurveRequestType = "retention_curve";
 /** Style configuration for retention curve. */
 export interface RetentionCurveStyle {
   /** Color palette for the retention curve. */
-  palette?: string;
+  palette?: string | undefined;
 }
 /** Retention curve widget request. */
 export interface RetentionCurveWidgetRequest {
   query: RetentionQuery;
   request_type: RetentionCurveRequestType | (string & {});
-  style?: RetentionCurveStyle;
+  style?: RetentionCurveStyle | undefined;
 }
 /** List of Retention Curve widget requests. */
 export type RetentionCurveWidgetDefinitionRequestsList = Array<RetentionCurveWidgetRequest>;
@@ -3011,15 +3011,15 @@ export type RetentionCurveWidgetDefinitionType = "retention_curve";
 /** The retention curve widget visualizes user retention rates over time. */
 export interface RetentionCurveWidgetDefinition {
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** List of Retention Curve widget requests. */
   requests: RetentionCurveWidgetDefinitionRequestsList;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: RetentionCurveWidgetDefinitionType;
 }
 /** List of custom links. */
@@ -3038,17 +3038,17 @@ export type RunWorkflowWidgetDefinitionType = "run_workflow";
 /** Run workflow is widget that allows you to run a workflow from a dashboard. */
 export interface RunWorkflowWidgetDefinition {
   /** List of custom links. */
-  custom_links?: RunWorkflowWidgetDefinitionCustomLinksList;
+  custom_links?: RunWorkflowWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Array of workflow inputs to map to dashboard template variables. */
-  inputs?: RunWorkflowWidgetDefinitionInputsList;
-  time?: WidgetTime;
+  inputs?: RunWorkflowWidgetDefinitionInputsList | undefined;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: RunWorkflowWidgetDefinitionType;
   /** Workflow id. */
   workflow_id: string;
@@ -3058,11 +3058,11 @@ export type SLOListWidgetQuerySortList = Array<WidgetFieldSort>;
 /** Updated SLO List widget. */
 export interface SLOListWidgetQuery {
   /** Maximum number of results to display in the table. */
-  limit?: number;
+  limit?: number | undefined;
   /** Widget query. */
   query_string: string;
   /** Options for sorting results. */
-  sort?: SLOListWidgetQuerySortList;
+  sort?: SLOListWidgetQuerySortList | undefined;
 }
 /** Widget request type. */
 export type SLOListWidgetRequestType = "slo_list";
@@ -3078,14 +3078,14 @@ export type SLOListWidgetDefinitionType = "slo_list";
 /** Use the SLO List widget to track your SLOs (Service Level Objectives) on dashboards. */
 export interface SLOListWidgetDefinition {
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Array of one request object to display in the widget. */
   requests: SLOListWidgetDefinitionRequestsList;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: SLOListWidgetDefinitionType;
 }
 /** Define a time window. */
@@ -3107,24 +3107,24 @@ export type WidgetViewMode = "overall" | "component" | "both";
 /** Use the SLO and uptime widget to track your SLOs (Service Level Objectives) and uptime on dashboards. */
 export interface SLOWidgetDefinition {
   /** Additional filters applied to the SLO query. */
-  additional_query_filters?: string;
+  additional_query_filters?: string | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Defined global time target. */
-  global_time_target?: string;
+  global_time_target?: string | undefined;
   /** Defined error budget. */
-  show_error_budget?: boolean;
+  show_error_budget?: boolean | undefined;
   /** ID of the SLO displayed. */
-  slo_id?: string;
+  slo_id?: string | undefined;
   /** Times being monitored. */
-  time_windows?: SLOWidgetDefinitionTimeWindowsList;
+  time_windows?: SLOWidgetDefinitionTimeWindowsList | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: SLOWidgetDefinitionType;
-  view_mode?: WidgetViewMode | (string & {});
+  view_mode?: WidgetViewMode | (string & {}) | undefined;
   /** Type of view displayed by the widget. */
   view_type: string;
 }
@@ -3137,7 +3137,7 @@ export type ScatterplotDimension = "x" | "y" | "radius" | "color";
 /** Formula to be used in a Scatterplot widget query. */
 export interface ScatterplotWidgetFormula {
   /** Expression alias. */
-  alias?: string;
+  alias?: string | undefined;
   dimension: ScatterplotDimension | (string & {});
   /** String expression built from queries, formulas, and functions. */
   formula: string;
@@ -3149,61 +3149,61 @@ export type ScatterplotTableRequestQueriesList = Array<FormulaAndFunctionQueryDe
 /** Scatterplot request containing formulas and functions. */
 export interface ScatterplotTableRequest {
   /** List of Scatterplot formulas that operate on queries. */
-  formulas?: ScatterplotTableRequestFormulasList;
+  formulas?: ScatterplotTableRequestFormulasList | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: ScatterplotTableRequestQueriesList;
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  queries?: ScatterplotTableRequestQueriesList | undefined;
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
 }
 /** Aggregator used for the request. */
 export type ScatterplotWidgetAggregator = "avg" | "last" | "max" | "min" | "sum";
 /** Updated scatter plot. */
 export interface ScatterPlotRequest {
-  aggregator?: ScatterplotWidgetAggregator | (string & {});
+  aggregator?: ScatterplotWidgetAggregator | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
+  apm_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: LogQueryDefinition;
+  event_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
+  network_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Query definition. */
-  q?: string;
+  q?: string | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
+  security_query?: LogQueryDefinition | undefined;
 }
 /** Widget definition. */
 export interface ScatterPlotWidgetDefinitionRequests {
-  table?: ScatterplotTableRequest;
-  x?: ScatterPlotRequest;
-  y?: ScatterPlotRequest;
+  table?: ScatterplotTableRequest | undefined;
+  x?: ScatterPlotRequest | undefined;
+  y?: ScatterPlotRequest | undefined;
 }
 /** Type of the scatter plot widget. */
 export type ScatterPlotWidgetDefinitionType = "scatterplot";
 /** The scatter plot visualization allows you to graph a chosen scope over two different metrics with their respective aggregation. */
 export interface ScatterPlotWidgetDefinition {
   /** List of groups used for colors. */
-  color_by_groups?: ScatterPlotWidgetDefinitionColorByGroupsList;
+  color_by_groups?: ScatterPlotWidgetDefinitionColorByGroupsList | undefined;
   /** List of custom links. */
-  custom_links?: ScatterPlotWidgetDefinitionCustomLinksList;
+  custom_links?: ScatterPlotWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   requests: ScatterPlotWidgetDefinitionRequests;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: ScatterPlotWidgetDefinitionType;
-  xaxis?: WidgetAxis;
-  yaxis?: WidgetAxis;
+  xaxis?: WidgetAxis | undefined;
+  yaxis?: WidgetAxis | undefined;
 }
 /** Product Analytics or RUM data source type. */
 export type SankeyRumDataSource = "rum" | "product_analytics";
@@ -3214,36 +3214,36 @@ export interface SankeyJoinKeys {
   /** Primary join key. */
   primary: string;
   /** Secondary join keys. */
-  secondary?: SankeyJoinKeysSecondaryList;
+  secondary?: SankeyJoinKeysSecondaryList | undefined;
 }
 /** Sankey mode for Product Analytics or RUM queries. */
 export type SankeyRumQueryMode = "source" | "target";
 /** Filter applied to occurrence counts when building a Product Analytics audience. */
 export interface ProductAnalyticsAudienceOccurrenceFilter {
   /** The comparison operator used for the occurrence filter (for example: `gt`, `lt`, `eq`). */
-  operator?: string;
+  operator?: string | undefined;
   /** The threshold value to compare occurrence counts against. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Query configuration for Product Analytics or RUM Sankey widget. */
 export interface SankeyRumQuery {
-  audience_filters?: ProductAnalyticsAudienceFilters;
+  audience_filters?: ProductAnalyticsAudienceFilters | undefined;
   data_source: SankeyRumDataSource | (string & {});
   /** Entries per step. */
-  entries_per_step?: number;
-  join_keys?: SankeyJoinKeys;
+  entries_per_step?: number | undefined;
+  join_keys?: SankeyJoinKeys | undefined;
   mode: SankeyRumQueryMode | (string & {});
   /** Number of steps. */
-  number_of_steps?: number;
-  occurrences?: ProductAnalyticsAudienceOccurrenceFilter;
+  number_of_steps?: number | undefined;
+  occurrences?: ProductAnalyticsAudienceOccurrenceFilter | undefined;
   /** RUM event search query used to filter views or actions. */
   query_string: string;
   /** Source. */
-  source?: string;
+  source?: string | undefined;
   /** Subquery ID. */
-  subquery_id?: string;
+  subquery_id?: string | undefined;
   /** Target. */
-  target?: string;
+  target?: string | undefined;
 }
 /** Type of the Sankey widget. */
 export type SankeyWidgetDefinitionType = "sankey";
@@ -3267,23 +3267,23 @@ export type SankeyNetworkQueryMode = "target";
 /** Sort configuration for network queries. */
 export interface SankeyNetworkQuerySort {
   /** Field to sort by. */
-  field?: string;
-  order?: WidgetSort | (string & {});
+  field?: string | undefined;
+  order?: WidgetSort | (string & {}) | undefined;
 }
 /** Query configuration for Sankey network widget. */
 export interface SankeyNetworkQuery {
-  compute?: SankeyNetworkQueryCompute;
+  compute?: SankeyNetworkQueryCompute | undefined;
   data_source: SankeyNetworkDataSource | (string & {});
   /** Fields to group by. */
   group_by: SankeyNetworkQueryGroupByList;
   /** Maximum number of results. */
   limit: number;
-  mode?: SankeyNetworkQueryMode | (string & {});
+  mode?: SankeyNetworkQueryMode | (string & {}) | undefined;
   /** Query string for filtering network data. */
   query_string: string;
   /** Whether to exclude missing values. */
-  should_exclude_missing?: boolean;
-  sort?: SankeyNetworkQuerySort;
+  should_exclude_missing?: boolean | undefined;
+  sort?: SankeyNetworkQuerySort | undefined;
 }
 /** Type of request for network Sankey widget. */
 export type SankeyNetworkRequestType = "netflow_sankey";
@@ -3301,15 +3301,15 @@ export interface SankeyWidgetDefinition {
   /** List of Sankey widget requests. */
   requests: SankeyWidgetDefinitionRequestsList;
   /** Whether to show links for "other" category. */
-  show_other_links?: boolean;
+  show_other_links?: boolean | undefined;
   /** Whether to sort nodes in the Sankey diagram. */
-  sort_nodes?: boolean;
-  time?: WidgetTime;
+  sort_nodes?: boolean | undefined;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: SankeyWidgetDefinitionType;
 }
 /** List of custom links. */
@@ -3321,18 +3321,18 @@ export type ServiceMapWidgetDefinitionType = "servicemap";
 /** This widget displays a map of a service to all of the services that call it, and all of the services that it calls. */
 export interface ServiceMapWidgetDefinition {
   /** List of custom links. */
-  custom_links?: ServiceMapWidgetDefinitionCustomLinksList;
+  custom_links?: ServiceMapWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Your environment and primary tag (or * if enabled for your account). */
   filters: ServiceMapWidgetDefinitionFiltersList;
   /** The ID of the service you want to map. */
   service: string;
   /** The title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: ServiceMapWidgetDefinitionType;
 }
 /** Number of columns to display. */
@@ -3344,33 +3344,33 @@ export type ServiceSummaryWidgetDefinitionType = "trace_service";
 /** The service summary displays the graphs of a chosen service in your dashboard. */
 export interface ServiceSummaryWidgetDefinition {
   /** The description of the widget. */
-  description?: string;
-  display_format?: WidgetServiceSummaryDisplayFormat | (string & {});
+  description?: string | undefined;
+  display_format?: WidgetServiceSummaryDisplayFormat | (string & {}) | undefined;
   /** APM environment. */
   env: string;
   /** APM service. */
   service: string;
   /** Whether to show the latency breakdown or not. */
-  show_breakdown?: boolean;
+  show_breakdown?: boolean | undefined;
   /** Whether to show the latency distribution or not. */
-  show_distribution?: boolean;
+  show_distribution?: boolean | undefined;
   /** Whether to show the error metrics or not. */
-  show_errors?: boolean;
+  show_errors?: boolean | undefined;
   /** Whether to show the hits metrics or not. */
-  show_hits?: boolean;
+  show_hits?: boolean | undefined;
   /** Whether to show the latency metrics or not. */
-  show_latency?: boolean;
+  show_latency?: boolean | undefined;
   /** Whether to show the resource list or not. */
-  show_resource_list?: boolean;
-  size_format?: WidgetSizeFormat | (string & {});
+  show_resource_list?: boolean | undefined;
+  size_format?: WidgetSizeFormat | (string & {}) | undefined;
   /** APM span name. */
   span_name: string;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: ServiceSummaryWidgetDefinitionType;
 }
 /** Size of the individual graphs in the split. */
@@ -3388,9 +3388,9 @@ export type SunburstWidgetLegendInlineAutomaticType = "inline" | "automatic";
 /** Configuration of inline or automatic legends. */
 export interface SunburstWidgetLegendInlineAutomatic {
   /** Whether to hide the percentages of the groups. */
-  hide_percent?: boolean;
+  hide_percent?: boolean | undefined;
   /** Whether to hide the values of the groups. */
-  hide_value?: boolean;
+  hide_value?: boolean | undefined;
   type: SunburstWidgetLegendInlineAutomaticType | (string & {});
 }
 /** Configuration of the legend. */
@@ -3402,32 +3402,32 @@ export type SunburstWidgetRequestQueriesList = Array<FormulaAndFunctionQueryDefi
 /** Request definition of sunburst widget. */
 export interface SunburstWidgetRequest {
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
+  apm_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  audit_query?: LogQueryDefinition;
+  audit_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: LogQueryDefinition;
+  event_query?: LogQueryDefinition | undefined;
   /** List of formulas that operate on queries. */
-  formulas?: SunburstWidgetRequestFormulasList;
+  formulas?: SunburstWidgetRequestFormulasList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
+  network_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Widget query. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: SunburstWidgetRequestQueriesList;
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  queries?: SunburstWidgetRequestQueriesList | undefined;
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
-  sort?: WidgetSortBy;
-  style?: WidgetStyle;
+  security_query?: LogQueryDefinition | undefined;
+  sort?: WidgetSortBy | undefined;
+  style?: WidgetStyle | undefined;
 }
 /** List of sunburst widget requests. */
 export type SunburstWidgetDefinitionRequestsList = Array<SunburstWidgetRequest>;
@@ -3436,20 +3436,20 @@ export type SunburstWidgetDefinitionType = "sunburst";
 /** Sunbursts are spot on to highlight how groups contribute to the total of a query. */
 export interface SunburstWidgetDefinition {
   /** List of custom links. */
-  custom_links?: SunburstWidgetDefinitionCustomLinksList;
+  custom_links?: SunburstWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** Show the total value in this widget. */
-  hide_total?: boolean;
-  legend?: SunburstWidgetLegend;
+  hide_total?: boolean | undefined;
+  legend?: SunburstWidgetLegend | undefined;
   /** List of sunburst widget requests. */
   requests: SunburstWidgetDefinitionRequestsList;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: SunburstWidgetDefinitionType;
 }
 /** List of custom links. */
@@ -3472,43 +3472,43 @@ export type TableWidgetTextFormat = Array<TableWidgetTextFormatRule>;
 export type TableWidgetRequestTextFormatsList = Array<TableWidgetTextFormat>;
 /** Updated table widget. */
 export interface TableWidgetRequest {
-  aggregator?: WidgetAggregator | (string & {});
+  aggregator?: WidgetAggregator | (string & {}) | undefined;
   /** The column name (defaults to the metric name). */
-  alias?: string;
+  alias?: string | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
-  apm_stats_query?: ApmStatsQueryDefinition;
+  apm_query?: LogQueryDefinition | undefined;
+  apm_stats_query?: ApmStatsQueryDefinition | undefined;
   /** A list of display modes for each table cell. */
-  cell_display_mode?: TableWidgetRequestCellDisplayModeList;
+  cell_display_mode?: TableWidgetRequestCellDisplayModeList | undefined;
   /** List of conditional formats. */
-  conditional_formats?: TableWidgetRequestConditionalFormatsList;
+  conditional_formats?: TableWidgetRequestConditionalFormatsList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: LogQueryDefinition;
+  event_query?: LogQueryDefinition | undefined;
   /** List of formulas that operate on queries. */
-  formulas?: TableWidgetRequestFormulasList;
+  formulas?: TableWidgetRequestFormulasList | undefined;
   /** For metric queries, the number of lines to show in the table. Only one request should have this property. */
-  limit?: number;
+  limit?: number | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
-  order?: WidgetSort | (string & {});
+  network_query?: LogQueryDefinition | undefined;
+  order?: WidgetSort | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Query definition. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: TableWidgetRequestQueriesList;
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  queries?: TableWidgetRequestQueriesList | undefined;
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
-  sort?: WidgetSortBy;
+  security_query?: LogQueryDefinition | undefined;
+  sort?: WidgetSortBy | undefined;
   /** List of text formats for columns produced by tags. */
-  text_formats?: TableWidgetRequestTextFormatsList;
+  text_formats?: TableWidgetRequestTextFormatsList | undefined;
 }
 /** Widget definition. */
 export type TableWidgetDefinitionRequestsList = Array<TableWidgetRequest>;
@@ -3517,18 +3517,18 @@ export type TableWidgetDefinitionType = "query_table";
 /** The table visualization is available on dashboards. It displays columns of metrics grouped by tag key. */
 export interface TableWidgetDefinition {
   /** List of custom links. */
-  custom_links?: TableWidgetDefinitionCustomLinksList;
+  custom_links?: TableWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
-  has_search_bar?: TableWidgetHasSearchBar | (string & {});
+  description?: string | undefined;
+  has_search_bar?: TableWidgetHasSearchBar | (string & {}) | undefined;
   /** Widget definition. */
   requests: TableWidgetDefinitionRequestsList;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: TableWidgetDefinitionType;
 }
 /** List of custom links. */
@@ -3552,7 +3552,7 @@ export type TimeseriesWidgetRequestFormulasList = Array<WidgetFormula>;
 /** Define an expression alias. */
 export interface TimeseriesWidgetExpressionAlias {
   /** Expression alias. */
-  alias_name?: string;
+  alias_name?: string | undefined;
   /** Expression name. */
   expression: string;
 }
@@ -3563,46 +3563,46 @@ export type TimeseriesWidgetRequestQueriesList = Array<FormulaAndFunctionQueryDe
 /** Define request widget style for timeseries widgets. */
 export interface TimeseriesRequestStyle {
   /** If true, the value is displayed as a label relative to the data point. */
-  has_value_labels?: boolean;
-  line_type?: WidgetLineType | (string & {});
-  line_width?: WidgetLineWidth | (string & {});
-  order_by?: WidgetStyleOrderBy | (string & {});
+  has_value_labels?: boolean | undefined;
+  line_type?: WidgetLineType | (string & {}) | undefined;
+  line_width?: WidgetLineWidth | (string & {}) | undefined;
+  order_by?: WidgetStyleOrderBy | (string & {}) | undefined;
   /** Color palette to apply to the widget. */
-  palette?: string;
+  palette?: string | undefined;
 }
 /** Updated timeseries widget. */
 export interface TimeseriesWidgetRequest {
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
+  apm_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  audit_query?: LogQueryDefinition;
-  display_type?: WidgetDisplayType | (string & {});
+  audit_query?: LogQueryDefinition | undefined;
+  display_type?: WidgetDisplayType | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: LogQueryDefinition;
+  event_query?: LogQueryDefinition | undefined;
   /** List of formulas that operate on queries. */
-  formulas?: TimeseriesWidgetRequestFormulasList;
+  formulas?: TimeseriesWidgetRequestFormulasList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Used to define expression aliases. */
-  metadata?: TimeseriesWidgetRequestMetadataList;
+  metadata?: TimeseriesWidgetRequestMetadataList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
+  network_query?: LogQueryDefinition | undefined;
   /** Whether or not to display a second y-axis on the right. */
-  on_right_yaxis?: boolean;
+  on_right_yaxis?: boolean | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Widget query. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: TimeseriesWidgetRequestQueriesList;
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  queries?: TimeseriesWidgetRequestQueriesList | undefined;
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
-  style?: TimeseriesRequestStyle;
+  security_query?: LogQueryDefinition | undefined;
+  style?: TimeseriesRequestStyle | undefined;
 }
 /** List of timeseries widget requests. */
 export type TimeseriesWidgetDefinitionRequestsList = Array<TimeseriesWidgetRequest>;
@@ -3611,30 +3611,30 @@ export type TimeseriesWidgetDefinitionType = "timeseries";
 /** The timeseries visualization allows you to display the evolution of one or more metrics, log events, or Indexed Spans over time. */
 export interface TimeseriesWidgetDefinition {
   /** List of custom links. */
-  custom_links?: TimeseriesWidgetDefinitionCustomLinksList;
+  custom_links?: TimeseriesWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** List of widget events. Deprecated - Use `overlay` request type instead. */
-  events?: TimeseriesWidgetDefinitionEventsList;
+  events?: TimeseriesWidgetDefinitionEventsList | undefined;
   /** Columns displayed in the legend. */
-  legend_columns?: TimeseriesWidgetDefinitionLegendColumnsList;
-  legend_layout?: TimeseriesWidgetLegendLayout | (string & {});
-  legend_size?: string;
+  legend_columns?: TimeseriesWidgetDefinitionLegendColumnsList | undefined;
+  legend_layout?: TimeseriesWidgetLegendLayout | (string & {}) | undefined;
+  legend_size?: string | undefined;
   /** List of markers. */
-  markers?: TimeseriesWidgetDefinitionMarkersList;
+  markers?: TimeseriesWidgetDefinitionMarkersList | undefined;
   /** List of timeseries widget requests. */
   requests: TimeseriesWidgetDefinitionRequestsList;
-  right_yaxis?: WidgetAxis;
+  right_yaxis?: WidgetAxis | undefined;
   /** (screenboard only) Show the legend for this widget. */
-  show_legend?: boolean;
-  time?: WidgetTime;
+  show_legend?: boolean | undefined;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: TimeseriesWidgetDefinitionType;
-  yaxis?: WidgetAxis;
+  yaxis?: WidgetAxis | undefined;
 }
 /** List of custom links. */
 export type ToplistWidgetDefinitionCustomLinksList = Array<WidgetCustomLink>;
@@ -3647,34 +3647,34 @@ export type ToplistWidgetRequestQueriesList = Array<FormulaAndFunctionQueryDefin
 /** Updated top list widget. */
 export interface ToplistWidgetRequest {
   /** Deprecated - Use `queries` and `formulas` instead. */
-  apm_query?: LogQueryDefinition;
+  apm_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  audit_query?: LogQueryDefinition;
+  audit_query?: LogQueryDefinition | undefined;
   /** List of conditional formats. */
-  conditional_formats?: ToplistWidgetRequestConditionalFormatsList;
+  conditional_formats?: ToplistWidgetRequestConditionalFormatsList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  event_query?: LogQueryDefinition;
+  event_query?: LogQueryDefinition | undefined;
   /** List of formulas that operate on queries. */
-  formulas?: ToplistWidgetRequestFormulasList;
+  formulas?: ToplistWidgetRequestFormulasList | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  log_query?: LogQueryDefinition;
+  log_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  network_query?: LogQueryDefinition;
+  network_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  process_query?: ProcessQueryDefinition;
+  process_query?: ProcessQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  profile_metrics_query?: LogQueryDefinition;
+  profile_metrics_query?: LogQueryDefinition | undefined;
   /** Widget query. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: ToplistWidgetRequestQueriesList;
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
+  queries?: ToplistWidgetRequestQueriesList | undefined;
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  rum_query?: LogQueryDefinition;
+  rum_query?: LogQueryDefinition | undefined;
   /** Deprecated - Use `queries` and `formulas` instead. */
-  security_query?: LogQueryDefinition;
-  sort?: WidgetSortBy;
-  style?: WidgetRequestStyle;
+  security_query?: LogQueryDefinition | undefined;
+  sort?: WidgetSortBy | undefined;
+  style?: WidgetRequestStyle | undefined;
 }
 /** List of top list widget requests. */
 export type ToplistWidgetDefinitionRequestsList = Array<ToplistWidgetRequest>;
@@ -3684,7 +3684,7 @@ export type ToplistWidgetLegend = "automatic" | "inline" | "none";
 export type ToplistWidgetStackedType = "stacked";
 /** Top list widget stacked display options. */
 export interface ToplistWidgetStacked {
-  legend?: ToplistWidgetLegend | (string & {});
+  legend?: ToplistWidgetLegend | (string & {}) | undefined;
   type: ToplistWidgetStackedType;
 }
 /** Top list widget flat display type. */
@@ -3699,28 +3699,28 @@ export type ToplistWidgetDisplay = ToplistWidgetStacked | ToplistWidgetFlat;
 export type ToplistWidgetScaling = "absolute" | "relative";
 /** Style customization for a top list widget. */
 export interface ToplistWidgetStyle {
-  display?: ToplistWidgetDisplay;
+  display?: ToplistWidgetDisplay | undefined;
   /** Color palette to apply to the widget. */
-  palette?: string;
-  scaling?: ToplistWidgetScaling | (string & {});
+  palette?: string | undefined;
+  scaling?: ToplistWidgetScaling | (string & {}) | undefined;
 }
 /** Type of the top list widget. */
 export type ToplistWidgetDefinitionType = "toplist";
 /** The top list visualization enables you to display a list of Tag value like hostname or service with the most or least of any metric value, such as highest consumers of CPU, hosts with the least disk space, etc. */
 export interface ToplistWidgetDefinition {
   /** List of custom links. */
-  custom_links?: ToplistWidgetDefinitionCustomLinksList;
+  custom_links?: ToplistWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** List of top list widget requests. */
   requests: ToplistWidgetDefinitionRequestsList;
-  style?: ToplistWidgetStyle;
-  time?: WidgetTime;
+  style?: ToplistWidgetStyle | undefined;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: ToplistWidgetDefinitionType;
 }
 /** (deprecated) The attribute formerly used to determine color in the widget. */
@@ -3736,14 +3736,14 @@ export type TreeMapWidgetRequestQueriesList = Array<FormulaAndFunctionQueryDefin
 /** An updated treemap widget. */
 export interface TreeMapWidgetRequest {
   /** List of formulas that operate on queries. */
-  formulas?: TreeMapWidgetRequestFormulasList;
+  formulas?: TreeMapWidgetRequestFormulasList | undefined;
   /** The widget metrics query. Deprecated - Use `queries` and `formulas` instead. */
-  q?: string;
+  q?: string | undefined;
   /** List of queries that can be returned directly or used in formulas. */
-  queries?: TreeMapWidgetRequestQueriesList;
-  response_format?: FormulaAndFunctionResponseFormat | (string & {});
-  sort?: WidgetSortBy;
-  style?: WidgetRequestStyle;
+  queries?: TreeMapWidgetRequestQueriesList | undefined;
+  response_format?: FormulaAndFunctionResponseFormat | (string & {}) | undefined;
+  sort?: WidgetSortBy | undefined;
+  style?: WidgetRequestStyle | undefined;
 }
 /** List of treemap widget requests. */
 export type TreeMapWidgetDefinitionRequestsList = Array<TreeMapWidgetRequest>;
@@ -3753,18 +3753,18 @@ export type TreeMapSizeBy = "pct_cpu" | "pct_mem";
 export type TreeMapWidgetDefinitionType = "treemap";
 /** The treemap visualization enables you to display hierarchical and nested data. It is well suited for queries that describe part-whole relationships, such as resource usage by availability zone, data center, or team. */
 export interface TreeMapWidgetDefinition {
-  color_by?: TreeMapColorBy | (string & {});
+  color_by?: TreeMapColorBy | (string & {}) | undefined;
   /** List of custom links. */
-  custom_links?: TreeMapWidgetDefinitionCustomLinksList;
+  custom_links?: TreeMapWidgetDefinitionCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
-  group_by?: TreeMapGroupBy | (string & {});
+  description?: string | undefined;
+  group_by?: TreeMapGroupBy | (string & {}) | undefined;
   /** List of treemap widget requests. */
   requests: TreeMapWidgetDefinitionRequestsList;
-  size_by?: TreeMapSizeBy | (string & {});
-  time?: WidgetTime;
+  size_by?: TreeMapSizeBy | (string & {}) | undefined;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
+  title?: string | undefined;
   type: TreeMapWidgetDefinitionType;
 }
 /** The original widget we are splitting on. */
@@ -3788,7 +3788,7 @@ export interface SplitConfigSortCompute {
 }
 /** Controls the order in which graphs appear in the split. */
 export interface SplitSort {
-  compute?: SplitConfigSortCompute;
+  compute?: SplitConfigSortCompute | undefined;
   order: WidgetSort | (string & {});
 }
 /** The property by which the graph splits */
@@ -3819,20 +3819,20 @@ export interface SplitConfig {
   /** The dimension(s) on which to split the graph */
   split_dimensions: SplitConfigSplitDimensionsList;
   /** Manual selection of tags making split graph widget static */
-  static_splits?: SplitConfigStaticSplitsList;
+  static_splits?: SplitConfigStaticSplitsList | undefined;
 }
 /** Type of the split graph widget */
 export type SplitGraphWidgetDefinitionType = "split_group";
 /** The split graph widget allows you to create repeating units of a graph - one for each value in a group (for example: one per service) */
 export interface SplitGraphWidgetDefinition {
   /** Normalize y axes across graphs */
-  has_uniform_y_axes?: boolean;
+  has_uniform_y_axes?: boolean | undefined;
   size: SplitGraphVizSize | (string & {});
   source_widget_definition: SplitGraphSourceWidgetDefinition;
   split_config: SplitConfig;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
+  title?: string | undefined;
   type: SplitGraphWidgetDefinitionType;
 }
 /** List of custom links. */
@@ -3847,7 +3847,7 @@ export interface TopologyQueryDataStreams {
   /** Your environment and primary tag (or * if enabled for your account). */
   filters: TopologyQueryDataStreamsFiltersList;
   /** A search string for filtering services. When set, this replaces the `service` field. */
-  query_string?: string;
+  query_string?: string | undefined;
   /** (deprecated) Name of the service. Leave this empty and use query_string instead. */
   service: string;
 }
@@ -3855,8 +3855,8 @@ export interface TopologyQueryDataStreams {
 export type TopologyRequestType = "topology";
 /** Request that returns nodes and edges from the data streams data source. */
 export interface TopologyRequestDataStreams {
-  query?: TopologyQueryDataStreams;
-  request_type?: TopologyRequestType | (string & {});
+  query?: TopologyQueryDataStreams | undefined;
+  request_type?: TopologyRequestType | (string & {}) | undefined;
 }
 /** One Topology request. */
 export type TopologyMapWidgetDefinitionDataStreamsRequestsList = Array<TopologyRequestDataStreams>;
@@ -3865,17 +3865,17 @@ export type TopologyMapWidgetDefinitionType = "topology_map";
 /** Topology map widget backed by the data streams data source. */
 export interface TopologyMapWidgetDefinitionDataStreams {
   /** List of custom links. */
-  custom_links?: TopologyMapWidgetDefinitionDataStreamsCustomLinksList;
+  custom_links?: TopologyMapWidgetDefinitionDataStreamsCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** One Topology request. */
   requests: TopologyMapWidgetDefinitionDataStreamsRequestsList;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: TopologyMapWidgetDefinitionType;
 }
 /** List of custom links. */
@@ -3890,31 +3890,31 @@ export interface TopologyQueryServiceMap {
   /** Your environment and primary tag (or * if enabled for your account). */
   filters: TopologyQueryServiceMapFiltersList;
   /** A search string for filtering services. When set, this replaces the `service` field. */
-  query_string?: string;
+  query_string?: string | undefined;
   /** (deprecated) Name of the service. Leave this empty and use query_string instead. */
   service: string;
 }
 /** Request that returns nodes and edges from the service map data source. */
 export interface TopologyRequestServiceMap {
-  query?: TopologyQueryServiceMap;
-  request_type?: TopologyRequestType | (string & {});
+  query?: TopologyQueryServiceMap | undefined;
+  request_type?: TopologyRequestType | (string & {}) | undefined;
 }
 /** One Topology request. */
 export type TopologyMapWidgetDefinitionServiceMapRequestsList = Array<TopologyRequestServiceMap>;
 /** Topology map widget backed by the service map data source. */
 export interface TopologyMapWidgetDefinitionServiceMap {
   /** List of custom links. */
-  custom_links?: TopologyMapWidgetDefinitionServiceMapCustomLinksList;
+  custom_links?: TopologyMapWidgetDefinitionServiceMapCustomLinksList | undefined;
   /** The description of the widget. */
-  description?: string;
+  description?: string | undefined;
   /** One Topology request. */
   requests: TopologyMapWidgetDefinitionServiceMapRequestsList;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of your widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: TopologyMapWidgetDefinitionType;
 }
 /** This widget displays a topology of nodes and edges for different data sources. It replaces the service map widget. */
@@ -3944,16 +3944,16 @@ export type WildcardWidgetDefinitionType = "wildcard";
 /** Custom visualization widget using Vega or Vega-Lite specifications. Combines standard Datadog data requests with a Vega or Vega-Lite JSON specification for flexible, custom visualizations. */
 export interface WildcardWidgetDefinition {
   /** List of custom links. */
-  custom_links?: WildcardWidgetDefinitionCustomLinksList;
+  custom_links?: WildcardWidgetDefinitionCustomLinksList | undefined;
   /** List of data requests for the wildcard widget. */
   requests: WildcardWidgetDefinitionRequestsList;
   specification: WildcardWidgetSpecification;
-  time?: WidgetTime;
+  time?: WidgetTime | undefined;
   /** Title of the widget. */
-  title?: string;
-  title_align?: WidgetTextAlign | (string & {});
+  title?: string | undefined;
+  title_align?: WidgetTextAlign | (string & {}) | undefined;
   /** Size of the title. */
-  title_size?: string;
+  title_size?: string | undefined;
   type: WildcardWidgetDefinitionType;
 }
 /** [Definition of the widget](https://docs.datadoghq.com/dashboards/widgets/). */
@@ -4005,7 +4005,7 @@ export interface WidgetLayout {
   /** The height of the widget. Should be a non-negative integer. */
   height: number;
   /** Whether the widget should be the first one on the second column in high density or not. **Note**: Only for the **new dashboard layout** and only one widget in the dashboard should have this property set to `true`. */
-  is_column_break?: boolean;
+  is_column_break?: boolean | undefined;
   /** The width of the widget. Should be a non-negative integer. */
   width: number;
   /** The position of the widget on the x (horizontal) axis. Should be a non-negative integer. */
@@ -4017,32 +4017,32 @@ export interface WidgetLayout {
 export interface Widget {
   definition: WidgetDefinition;
   /** ID of the widget. */
-  id?: number;
-  layout?: WidgetLayout;
+  id?: number | undefined;
+  layout?: WidgetLayout | undefined;
 }
 /** List of widgets to display on the dashboard. */
 export type CreateDashboardRequestWidgetsList = Array<Widget>;
 export interface CreateDashboardRequest {
   /** The default timeframe applied when opening the dashboard. Set to `null` to clear. */
-  default_timeframe?: DashboardDefaultTimeframeSetting | null;
+  default_timeframe?: DashboardDefaultTimeframeSetting | null | undefined;
   /** Description of the dashboard. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether this dashboard is read-only. If True, only the author and admins can make changes to it. This property is deprecated; please use the [Restriction Policies API](https://docs.datadoghq.com/api/latest/restriction-policies/) instead to manage write authorization for individual dashboards. */
-  is_read_only?: boolean;
+  is_read_only?: boolean | undefined;
   layout_type: DashboardLayoutType | (string & {});
   /** List of handles of users to notify when changes are made to this dashboard. */
-  notify_list?: CreateDashboardRequestNotifyListList | null;
-  reflow_type?: DashboardReflowType | (string & {});
+  notify_list?: CreateDashboardRequestNotifyListList | null | undefined;
+  reflow_type?: DashboardReflowType | (string & {}) | undefined;
   /** A list of role identifiers. Only the author and users associated with at least one of these roles can edit this dashboard. */
-  restricted_roles?: CreateDashboardRequestRestrictedRolesList;
+  restricted_roles?: CreateDashboardRequestRestrictedRolesList | undefined;
   /** List of tabs for organizing dashboard widgets into groups. */
-  tabs?: CreateDashboardRequestTabsList | null;
+  tabs?: CreateDashboardRequestTabsList | null | undefined;
   /** List of team names representing ownership of a dashboard. */
-  tags?: CreateDashboardRequestTagsList | null;
+  tags?: CreateDashboardRequestTagsList | null | undefined;
   /** Array of template variables saved views. */
-  template_variable_presets?: CreateDashboardRequestTemplateVariablePresetsList | null;
+  template_variable_presets?: CreateDashboardRequestTemplateVariablePresetsList | null | undefined;
   /** List of template variables for this dashboard. */
-  template_variables?: CreateDashboardRequestTemplateVariablesList | null;
+  template_variables?: CreateDashboardRequestTemplateVariablesList | null | undefined;
   /** Title of the dashboard. */
   title: string;
   /** List of widgets to display on the dashboard. */
@@ -4067,40 +4067,40 @@ export type DashboardWidgetsList = Array<Widget>;
 /** A dashboard is Datadog's tool for visually tracking, analyzing, and displaying key performance metrics, which enable you to monitor the health of your infrastructure. */
 export interface Dashboard {
   /** Identifier of the dashboard author. */
-  author_handle?: string;
+  author_handle?: string | undefined;
   /** Name of the dashboard author. */
-  author_name?: string | null;
+  author_name?: string | null | undefined;
   /** Creation date of the dashboard. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** The default timeframe applied when opening the dashboard. Set to `null` to clear. */
-  default_timeframe?: DashboardDefaultTimeframeSetting | null;
+  default_timeframe?: DashboardDefaultTimeframeSetting | null | undefined;
   /** Description of the dashboard. */
-  description?: string | null;
-  experience_type?: DashboardExperienceType;
+  description?: string | null | undefined;
+  experience_type?: DashboardExperienceType | undefined;
   /** ID of the dashboard. */
-  id?: string;
+  id?: string | undefined;
   /** Whether this dashboard is read-only. If True, only the author and admins can make changes to it. This property is deprecated; please use the [Restriction Policies API](https://docs.datadoghq.com/api/latest/restriction-policies/) instead to manage write authorization for individual dashboards. */
-  is_read_only?: boolean;
+  is_read_only?: boolean | undefined;
   layout_type: DashboardLayoutType;
   /** Modification date of the dashboard. */
-  modified_at?: string;
+  modified_at?: string | undefined;
   /** List of handles of users to notify when changes are made to this dashboard. */
-  notify_list?: DashboardNotifyListList | null;
-  reflow_type?: DashboardReflowType;
+  notify_list?: DashboardNotifyListList | null | undefined;
+  reflow_type?: DashboardReflowType | undefined;
   /** A list of role identifiers. Only the author and users associated with at least one of these roles can edit this dashboard. */
-  restricted_roles?: DashboardRestrictedRolesList;
+  restricted_roles?: DashboardRestrictedRolesList | undefined;
   /** List of tabs for organizing dashboard widgets into groups. */
-  tabs?: DashboardTabsList | null;
+  tabs?: DashboardTabsList | null | undefined;
   /** List of team names representing ownership of a dashboard. */
-  tags?: DashboardTagsList | null;
+  tags?: DashboardTagsList | null | undefined;
   /** Array of template variables saved views. */
-  template_variable_presets?: DashboardTemplateVariablePresetsList | null;
+  template_variable_presets?: DashboardTemplateVariablePresetsList | null | undefined;
   /** List of template variables for this dashboard. */
-  template_variables?: DashboardTemplateVariablesList | null;
+  template_variables?: DashboardTemplateVariablesList | null | undefined;
   /** Title of the dashboard. */
   title: string;
   /** The URL of the dashboard. */
-  url?: string;
+  url?: string | undefined;
   /** List of widgets to display on the dashboard. */
   widgets: DashboardWidgetsList;
 }
@@ -4111,29 +4111,29 @@ export interface CreateDashboardListRequest {
 /** Object describing the creator of the shared element. */
 export interface Creator {
   /** Email of the creator. */
-  email?: string;
+  email?: string | undefined;
   /** Handle of the creator. */
-  handle?: string;
+  handle?: string | undefined;
   /** Name of the creator. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** Your Datadog Dashboards. */
 export interface DashboardList {
-  author?: Creator;
+  author?: Creator | undefined;
   /** Date of creation of the dashboard list. */
-  created?: string;
+  created?: string | undefined;
   /** The number of dashboards in the list. */
-  dashboard_count?: number;
+  dashboard_count?: number | undefined;
   /** The ID of the dashboard list. */
-  id?: number;
+  id?: number | undefined;
   /** Whether or not the list is in the favorites. */
-  is_favorite?: boolean;
+  is_favorite?: boolean | undefined;
   /** Date of last edition of the dashboard list. */
-  modified?: string;
+  modified?: string | undefined;
   /** The name of the dashboard list. */
   name: string;
   /** The type of dashboard list. */
-  type?: string;
+  type?: string | undefined;
 }
 /** If an alert event is enabled, set its type. For example, `error`, `warning`, `info`, `success`, `user_update`, `recommendation`, and `snapshot`. */
 export type EventAlertType =
@@ -4150,21 +4150,21 @@ export type EventPriority = "normal" | "low";
 export type CreateEventRequestTagsList = Array<string>;
 export interface CreateEventRequest {
   /** An arbitrary string to use for aggregation. Limited to 100 characters. If you specify a key, all events using that key are grouped together in the Event Stream. */
-  aggregation_key?: string;
-  alert_type?: EventAlertType | (string & {});
+  aggregation_key?: string | undefined;
+  alert_type?: EventAlertType | (string & {}) | undefined;
   /** POSIX timestamp of the event. Must be sent as an integer (that is no quotes). Limited to events no older than 18 hours */
-  date_happened?: number;
+  date_happened?: number | undefined;
   /** A device name. */
-  device_name?: string;
+  device_name?: string | undefined;
   /** Host name to associate with the event. Any tags associated with the host are also applied to this event. */
-  host?: string;
-  priority?: EventPriority | (string & {}) | null;
+  host?: string | undefined;
+  priority?: EventPriority | (string & {}) | null | undefined;
   /** ID of the parent event. Must be sent as an integer (that is no quotes). */
-  related_event_id?: number;
+  related_event_id?: number | undefined;
   /** The type of event being posted. Option examples include nagios, hudson, jenkins, my_apps, chef, puppet, git, bitbucket, etc. A complete list of source attribute values [available here](https://docs.datadoghq.com/integrations/faq/list-of-api-source-attribute-value). */
-  source_type_name?: string;
+  source_type_name?: string | undefined;
   /** A list of tags to apply to the event. */
-  tags?: CreateEventRequestTagsList;
+  tags?: CreateEventRequestTagsList | undefined;
   /** The body of the event. Limited to 4000 characters. The text supports markdown. To use markdown in the event text, start the text block with `%%% \n` and end the text block with `\n %%%`. Use `msg_text` with the Datadog Ruby library. */
   text: string;
   /** The event title. */
@@ -4175,7 +4175,7 @@ export interface CreateEventResponse {}
 export type SyntheticsRestrictedRoles = Array<string>;
 /** Attributes of the global variable. */
 export interface SyntheticsGlobalVariableAttributes {
-  restricted_roles?: SyntheticsRestrictedRoles;
+  restricted_roles?: SyntheticsRestrictedRoles | undefined;
 }
 /** Type of parser for a Synthetic global variable from a synthetics test. */
 export type SyntheticsGlobalVariableParserType = "raw" | "json_path" | "regex" | "x_path";
@@ -4183,7 +4183,7 @@ export type SyntheticsGlobalVariableParserType = "raw" | "json_path" | "regex" |
 export interface SyntheticsVariableParser {
   type: SyntheticsGlobalVariableParserType | (string & {});
   /** Regex or JSON path used for the parser. Not used with type `raw`. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Type of value to extract from a test for a Synthetic global variable. */
 export type SyntheticsGlobalVariableParseTestOptionsType =
@@ -4194,10 +4194,10 @@ export type SyntheticsGlobalVariableParseTestOptionsType =
 /** Parser options to use for retrieving a Synthetic global variable from a Synthetic test. Used in conjunction with `parse_test_public_id`. */
 export interface SyntheticsGlobalVariableParseTestOptions {
   /** When type is `http_header`, name of the header to use to extract the value. */
-  field?: string;
+  field?: string | undefined;
   /** When type is `local_variable`, name of the local variable to use to extract the value. */
-  localVariableName?: string;
-  parser?: SyntheticsVariableParser;
+  localVariableName?: string | undefined;
+  parser?: SyntheticsVariableParser | undefined;
   type: SyntheticsGlobalVariableParseTestOptionsType | (string & {});
 }
 /** Tags of the global variable. */
@@ -4205,57 +4205,57 @@ export type CreateGlobalVariableRequestTagsList = Array<string>;
 /** Parameters for the TOTP/MFA variable */
 export interface SyntheticsGlobalVariableTOTPParameters {
   /** Number of digits for the OTP code. */
-  digits?: number;
+  digits?: number | undefined;
   /** Interval for which to refresh the token (in seconds). */
-  refresh_interval?: number;
+  refresh_interval?: number | undefined;
 }
 /** Options for the Global Variable for MFA. */
 export interface SyntheticsGlobalVariableOptions {
-  totp_parameters?: SyntheticsGlobalVariableTOTPParameters;
+  totp_parameters?: SyntheticsGlobalVariableTOTPParameters | undefined;
 }
 /** Value of the global variable. */
 export interface SyntheticsGlobalVariableValue {
-  options?: SyntheticsGlobalVariableOptions;
+  options?: SyntheticsGlobalVariableOptions | undefined;
   /** Determines if the value of the variable is hidden. */
-  secure?: boolean;
+  secure?: boolean | undefined;
   /** Value of the global variable. When reading a global variable, the value will not be present if the variable is hidden with the `secure` property. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface CreateGlobalVariableRequest {
-  attributes?: SyntheticsGlobalVariableAttributes;
+  attributes?: SyntheticsGlobalVariableAttributes | undefined;
   /** Description of the global variable. */
   description: string;
   /** Determines if the global variable is a FIDO variable. */
-  is_fido?: boolean;
+  is_fido?: boolean | undefined;
   /** Determines if the global variable is a TOTP/MFA variable. */
-  is_totp?: boolean;
+  is_totp?: boolean | undefined;
   /** Name of the global variable. Unique across Synthetic global variables. */
   name: string;
-  parse_test_options?: SyntheticsGlobalVariableParseTestOptions;
+  parse_test_options?: SyntheticsGlobalVariableParseTestOptions | undefined;
   /** A Synthetic test ID to use as a test to generate the variable value. */
-  parse_test_public_id?: string;
+  parse_test_public_id?: string | undefined;
   /** Tags of the global variable. */
   tags: CreateGlobalVariableRequestTagsList;
-  value?: SyntheticsGlobalVariableValue;
+  value?: SyntheticsGlobalVariableValue | undefined;
 }
 /** Tags of the global variable. */
 export type SyntheticsGlobalVariableTagsList = Array<string>;
 /** Synthetic global variable. */
 export interface SyntheticsGlobalVariable {
-  attributes?: SyntheticsGlobalVariableAttributes;
+  attributes?: SyntheticsGlobalVariableAttributes | undefined;
   /** Description of the global variable. */
   description: string;
   /** Unique identifier of the global variable. */
-  id?: string;
+  id?: string | undefined;
   /** Determines if the global variable is a FIDO variable. */
-  is_fido?: boolean;
+  is_fido?: boolean | undefined;
   /** Determines if the global variable is a TOTP/MFA variable. */
-  is_totp?: boolean;
+  is_totp?: boolean | undefined;
   /** Name of the global variable. Unique across Synthetic global variables. */
   name: string;
-  parse_test_options?: SyntheticsGlobalVariableParseTestOptions;
+  parse_test_options?: SyntheticsGlobalVariableParseTestOptions | undefined;
   /** A Synthetic test ID to use as a test to generate the variable value. */
-  parse_test_public_id?: string;
+  parse_test_public_id?: string | undefined;
   /** Tags of the global variable. */
   tags: SyntheticsGlobalVariableTagsList;
   value: SyntheticsGlobalVariableValue;
@@ -4266,42 +4266,42 @@ export interface CreateHostTagsRequest {
   /** Specified host name to add new tags */
   host_name: string;
   /** Source to add tags. [Complete list of source attribute values](https://docs.datadoghq.com/integrations/faq/list-of-api-source-attribute-value). Use "user" source for custom-defined tags. If no source is specified, defaults to "user". */
-  source?: string;
+  source?: string | undefined;
   /** Your host name. */
-  host?: string;
+  host?: string | undefined;
   /** A list of tags associated with a host. */
-  tags?: CreateHostTagsRequestTagsList;
+  tags?: CreateHostTagsRequestTagsList | undefined;
 }
 /** A list of tags associated with a host. */
 export type HostTagsTagsList = Array<string>;
 /** Host name and an array of its tags */
 export interface HostTags {
   /** Your host name. */
-  host?: string;
+  host?: string | undefined;
   /** A list of tags associated with a host. */
-  tags?: HostTagsTagsList;
+  tags?: HostTagsTagsList | undefined;
 }
 /** Object containing options to override the default daily limit reset time. */
 export interface LogsDailyLimitReset {
   /** String in `HH:00` format representing the time of day the daily limit should be reset. The hours must be between 00 and 23 (inclusive). */
-  reset_time?: string;
+  reset_time?: string | undefined;
   /** String in `(-|+)HH:00` format representing the UTC offset to apply to the given reset time. The hours must be between -12 and +14 (inclusive). */
-  reset_utc_offset?: string;
+  reset_utc_offset?: string | undefined;
 }
 /** Exclusion filter is defined by a query, a sampling rule, and a active/inactive toggle. */
 export interface LogsExclusionFilter {
   /** Default query is `*`, meaning all logs flowing in the index would be excluded. Scope down exclusion filter to only a subset of logs with a log query. */
-  query?: string;
+  query?: string | undefined;
   /** Sample attribute to use for the sampling of logs going through this exclusion filter. When set, only the logs with the specified attribute are sampled. */
-  sample_attribute?: string;
+  sample_attribute?: string | undefined;
   /** Sample rate to apply to logs going through this exclusion filter, a value of 1.0 excludes all logs matching the query. */
   sample_rate: number;
 }
 /** Represents the index exclusion filter object from configuration API. */
 export interface LogsExclusion {
-  filter?: LogsExclusionFilter;
+  filter?: LogsExclusionFilter | undefined;
   /** Whether or not the exclusion filter is active. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the index exclusion filter. */
   name: string;
 }
@@ -4310,27 +4310,27 @@ export type CreateLogsIndexRequestExclusionFiltersList = Array<LogsExclusion>;
 /** Filter for logs. */
 export interface LogsFilter {
   /** The filter query. */
-  query?: string;
+  query?: string | undefined;
 }
 /** A list of tags associated with the index. Tags must be in `key:value` format. */
 export type CreateLogsIndexRequestTagsList = Array<string>;
 export interface CreateLogsIndexRequest {
   /** The number of log events you can send in this index per day before you are rate-limited. */
-  daily_limit?: number;
-  daily_limit_reset?: LogsDailyLimitReset;
+  daily_limit?: number | undefined;
+  daily_limit_reset?: LogsDailyLimitReset | undefined;
   /** A percentage threshold of the daily quota at which a Datadog warning event is generated. */
-  daily_limit_warning_threshold_percentage?: number;
+  daily_limit_warning_threshold_percentage?: number | undefined;
   /** An array of exclusion objects. The logs are tested against the query of each filter, following the order of the array. Only the first matching active exclusion matters, others (if any) are ignored. */
-  exclusion_filters?: CreateLogsIndexRequestExclusionFiltersList;
+  exclusion_filters?: CreateLogsIndexRequestExclusionFiltersList | undefined;
   filter: LogsFilter;
   /** The name of the index. */
   name: string;
   /** The total number of days logs are stored in Standard and Flex Tier before being deleted from the index. If Standard Tier is enabled on this index, logs are first retained in Standard Tier for the number of days specified through `num_retention_days`, and then stored in Flex Tier until the number of days specified in `num_flex_logs_retention_days` is reached. The available values depend on retention plans specified in your organization's contract/subscriptions. */
-  num_flex_logs_retention_days?: number;
+  num_flex_logs_retention_days?: number | undefined;
   /** The number of days logs are stored in Standard Tier before aging into the Flex Tier or being deleted from the index. The available values depend on retention plans specified in your organization's contract/subscriptions. */
-  num_retention_days?: number;
+  num_retention_days?: number | undefined;
   /** A list of tags associated with the index. Tags must be in `key:value` format. */
-  tags?: CreateLogsIndexRequestTagsList;
+  tags?: CreateLogsIndexRequestTagsList | undefined;
 }
 /** An array of exclusion objects. The logs are tested against the query of each filter, following the order of the array. Only the first matching active exclusion matters, others (if any) are ignored. */
 export type LogsIndexExclusionFiltersList = Array<LogsExclusion>;
@@ -4339,30 +4339,30 @@ export type LogsIndexTagsList = Array<string>;
 /** Object describing a Datadog Log index. */
 export interface LogsIndex {
   /** The number of log events you can send in this index per day before you are rate-limited. */
-  daily_limit?: number;
-  daily_limit_reset?: LogsDailyLimitReset;
+  daily_limit?: number | undefined;
+  daily_limit_reset?: LogsDailyLimitReset | undefined;
   /** A percentage threshold of the daily quota at which a Datadog warning event is generated. */
-  daily_limit_warning_threshold_percentage?: number;
+  daily_limit_warning_threshold_percentage?: number | undefined;
   /** An array of exclusion objects. The logs are tested against the query of each filter, following the order of the array. Only the first matching active exclusion matters, others (if any) are ignored. */
-  exclusion_filters?: LogsIndexExclusionFiltersList;
+  exclusion_filters?: LogsIndexExclusionFiltersList | undefined;
   filter: LogsFilter;
   /** A boolean stating if the index is rate limited, meaning more logs than the daily limit have been sent. Rate limit is reset every-day at 2pm UTC. */
-  is_rate_limited?: boolean;
+  is_rate_limited?: boolean | undefined;
   /** The name of the index. */
   name: string;
   /** The total number of days logs are stored in Standard and Flex Tier before being deleted from the index. If Standard Tier is enabled on this index, logs are first retained in Standard Tier for the number of days specified through `num_retention_days`, and then stored in Flex Tier until the number of days specified in `num_flex_logs_retention_days` is reached. The available values depend on retention plans specified in your organization's contract/subscriptions. */
-  num_flex_logs_retention_days?: number;
+  num_flex_logs_retention_days?: number | undefined;
   /** The number of days logs are stored in Standard Tier before aging into the Flex Tier or being deleted from the index. The available values depend on retention plans specified in your organization's contract/subscriptions. */
-  num_retention_days?: number;
+  num_retention_days?: number | undefined;
   /** A list of tags associated with the index. Tags must be in `key:value` format. */
-  tags?: LogsIndexTagsList;
+  tags?: LogsIndexTagsList | undefined;
 }
 /** Set of rules for the grok parser. */
 export interface LogsGrokParserRules {
   /** List of match rules for the grok parser, separated by a new line. */
   match_rules: string;
   /** List of support rules for the grok parser, separated by a new line. */
-  support_rules?: string;
+  support_rules?: string | undefined;
 }
 /** List of sample logs to test this grok parser. */
 export type LogsGrokParserSamplesList = Array<string>;
@@ -4372,11 +4372,11 @@ export type LogsGrokParserType = "grok-parser";
 export interface LogsGrokParser {
   grok: LogsGrokParserRules;
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** List of sample logs to test this grok parser. */
-  samples?: LogsGrokParserSamplesList;
+  samples?: LogsGrokParserSamplesList | undefined;
   /** Name of the log attribute to parse. */
   source: string;
   type: LogsGrokParserType;
@@ -4388,9 +4388,9 @@ export type LogsDateRemapperType = "date-remapper";
 /** As Datadog receives logs, it timestamps them using the value(s) from any of these default attributes. - `timestamp` - `date` - `_timestamp` - `Timestamp` - `eventTime` - `published_date` If your logs put their dates in an attribute not in this list, use the log date Remapper Processor to define their date attribute as the official log timestamp. The recognized date formats are ISO8601, UNIX (the milliseconds EPOCH format), and RFC3164. **Note:** If your logs don't contain any of the default attributes and you haven't defined your own date attribute, Datadog timestamps the logs with the date it received them. If multiple log date remapper processors can be applied to a given log, only the first one (according to the pipelines order) is taken into account. */
 export interface LogsDateRemapper {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Array of source attributes. */
   sources: LogsDateRemapperSourcesList;
   type: LogsDateRemapperType;
@@ -4402,9 +4402,9 @@ export type LogsStatusRemapperType = "status-remapper";
 /** Use this Processor if you want to assign some attributes as the official status. Each incoming status value is mapped as follows. - Integers from 0 to 7 map to the Syslog severity standards - Strings beginning with `emerg` or f (case-insensitive) map to `emerg` (0) - Strings beginning with `a` (case-insensitive) map to `alert` (1) - Strings beginning with `c` (case-insensitive) map to `critical` (2) - Strings beginning with `err` (case-insensitive) map to `error` (3) - Strings beginning with `w` (case-insensitive) map to `warning` (4) - Strings beginning with `n` (case-insensitive) map to `notice` (5) - Strings beginning with `i` (case-insensitive) map to `info` (6) - Strings beginning with `d`, `trace` or `verbose` (case-insensitive) map to `debug` (7) - Strings beginning with `o` or matching `OK` or `Success` (case-insensitive) map to OK - All others map to `info` (6) **Note:** If multiple log status remapper processors can be applied to a given log, only the first one (according to the pipelines order) is taken into account. */
 export interface LogsStatusRemapper {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Array of source attributes. */
   sources: LogsStatusRemapperSourcesList;
   type: LogsStatusRemapperType;
@@ -4416,9 +4416,9 @@ export type LogsServiceRemapperType = "service-remapper";
 /** Use this processor if you want to assign one or more attributes as the official service. **Note:** If multiple service remapper processors can be applied to a given log, only the first one (according to the pipeline order) is taken into account. */
 export interface LogsServiceRemapper {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Array of source attributes. */
   sources: LogsServiceRemapperSourcesList;
   type: LogsServiceRemapperType;
@@ -4430,9 +4430,9 @@ export type LogsMessageRemapperType = "message-remapper";
 /** The message is a key attribute in Datadog. It is displayed in the message column of the Log Explorer and you can do full string search on it. Use this Processor to define one or more attributes as the official log message. **Note:** If multiple log message remapper processors can be applied to a given log, only the first one (according to the pipeline order) is taken into account. */
 export interface LogsMessageRemapper {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Array of source attributes. */
   sources: LogsMessageRemapperSourcesList;
   type: LogsMessageRemapperType;
@@ -4446,22 +4446,22 @@ export type LogsAttributeRemapperType = "attribute-remapper";
 /** The remapper processor remaps any source attribute(s) or tag to another target attribute or tag. Constraints on the tag/attribute name are explained in the [Tag Best Practice documentation](https://docs.datadoghq.com/logs/guide/log-parsing-best-practice). Some additional constraints are applied as `:` or `,` are not allowed in the target tag/attribute name. */
 export interface LogsAttributeRemapper {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Whether to override the target element if it's already set. */
-  override_on_conflict?: boolean;
+  override_on_conflict?: boolean | undefined;
   /** Remove or preserve the remapped source element. */
-  preserve_source?: boolean;
+  preserve_source?: boolean | undefined;
   /** Defines if the sources are from log `attribute` or `tag`. */
-  source_type?: string;
+  source_type?: string | undefined;
   /** Array of source attributes. */
   sources: LogsAttributeRemapperSourcesList;
   /** Final attribute or tag name to remap the sources to. */
   target: string;
-  target_format?: TargetFormatType | (string & {});
+  target_format?: TargetFormatType | (string & {}) | undefined;
   /** Defines if the final attribute or tag name is from log `attribute` or `tag`. */
-  target_type?: string;
+  target_type?: string | undefined;
   type: LogsAttributeRemapperType;
 }
 /** Array of source attributes. */
@@ -4471,11 +4471,11 @@ export type LogsURLParserType = "url-parser";
 /** This processor extracts query parameters and other important parameters from a URL. */
 export interface LogsURLParser {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Normalize the ending slashes or not. */
-  normalize_ending_slashes?: boolean | null;
+  normalize_ending_slashes?: boolean | null | undefined;
   /** Array of source attributes. */
   sources: LogsURLParserSourcesList;
   /** Name of the parent attribute that contains all the extracted details from the `sources`. */
@@ -4489,11 +4489,11 @@ export type LogsUserAgentParserType = "user-agent-parser";
 /** The User-Agent parser takes a User-Agent attribute and extracts the OS, browser, device, and other user data. It recognizes major bots like the Google Bot, Yahoo Slurp, and Bing. */
 export interface LogsUserAgentParser {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Define if the source attribute is URL encoded or not. */
-  is_encoded?: boolean;
+  is_encoded?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Array of source attributes. */
   sources: LogsUserAgentParserSourcesList;
   /** Name of the parent attribute that contains all the extracted details from the `sources`. */
@@ -4502,9 +4502,9 @@ export interface LogsUserAgentParser {
 }
 /** Object describing the logs filter. */
 export interface LogsCategoryProcessorCategory {
-  filter?: LogsFilter;
+  filter?: LogsFilter | undefined;
   /** Value to assign to the target attribute. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Array of filters to match or not a log and their corresponding `name` to assign a custom value to the log. */
 export type LogsCategoryProcessorCategoriesList = Array<LogsCategoryProcessorCategory>;
@@ -4515,9 +4515,9 @@ export interface LogsCategoryProcessor {
   /** Array of filters to match or not a log and their corresponding `name` to assign a custom value to the log. */
   categories: LogsCategoryProcessorCategoriesList;
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Name of the target attribute which value is defined by the matching category. */
   target: string;
   type: LogsCategoryProcessorType;
@@ -4529,11 +4529,11 @@ export interface LogsArithmeticProcessor {
   /** Arithmetic operation between one or more log attributes. */
   expression: string;
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** If `true`, it replaces all missing attributes of expression by `0`, `false` skip the operation if an attribute is missing. */
-  is_replace_missing?: boolean;
+  is_replace_missing?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Name of the attribute that contains the result of the arithmetic operation. */
   target: string;
   type: LogsArithmeticProcessorType;
@@ -4543,11 +4543,11 @@ export type LogsStringBuilderProcessorType = "string-builder-processor";
 /** Use the string builder processor to add a new attribute (without spaces or special characters) to a log with the result of the provided template. This enables aggregation of different attributes or raw strings into a single attribute. The template is defined by both raw text and blocks with the syntax `%{attribute_path}`. **Notes**: - The processor only accepts attributes with values or an array of values in the blocks. - If an attribute cannot be used (object or array of object), it is replaced by an empty string or the entire operation is skipped depending on your selection. - If the target attribute already exists, it is overwritten by the result of the template. - Results of the template cannot exceed 256 characters. */
 export interface LogsStringBuilderProcessor {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** If true, it replaces all missing attributes of `template` by an empty string. If `false` (default), skips the operation for missing attributes. */
-  is_replace_missing?: boolean;
+  is_replace_missing?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** The name of the attribute that contains the result of the template. */
   target: string;
   /** A formula with one or more attributes and raw text. */
@@ -4563,16 +4563,16 @@ export type LogsPipelineProcessorType = "pipeline";
 /** Nested Pipelines are pipelines within a pipeline. Use Nested Pipelines to split the processing into two steps. For example, first use a high-level filtering such as team and then a second level of filtering based on the integration, service, or any other tag or attribute. A pipeline can contain Nested Pipelines and Processors whereas a Nested Pipeline can only contain Processors. */
 export interface LogsPipelineProcessor {
   /** A description of the pipeline. */
-  description?: string;
-  filter?: LogsFilter;
+  description?: string | undefined;
+  filter?: LogsFilter | undefined;
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Ordered list of processors in this pipeline. */
-  processors?: LogsPipelineProcessorProcessorsList;
+  processors?: LogsPipelineProcessorProcessorsList | undefined;
   /** A list of tags associated with the pipeline. */
-  tags?: LogsPipelineProcessorTagsList;
+  tags?: LogsPipelineProcessorTagsList | undefined;
   type: LogsPipelineProcessorType;
 }
 /** Array of source attributes. */
@@ -4582,9 +4582,9 @@ export type LogsGeoIPParserType = "geo-ip-parser";
 /** The GeoIP parser takes an IP address attribute and extracts if available the Continent, Country, Subdivision, and City information in the target attribute path. */
 export interface LogsGeoIPParser {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Array of source attributes. */
   sources: LogsGeoIPParserSourcesList;
   /** Name of the parent attribute that contains all the extracted details from the `sources`. */
@@ -4598,13 +4598,13 @@ export type LogsLookupProcessorType = "lookup-processor";
 /** Use the Lookup Processor to define a mapping between a log attribute and a human readable value saved in the processors mapping table. For example, you can use the Lookup Processor to map an internal service ID into a human readable service name. Alternatively, you could also use it to check if the MAC address that just attempted to connect to the production environment belongs to your list of stolen machines. */
 export interface LogsLookupProcessor {
   /** Value to set the target attribute if the source value is not found in the list. */
-  default_lookup?: string;
+  default_lookup?: string | undefined;
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Mapping table of values for the source attribute and their associated target attribute values, formatted as `["source_key1,target_value1", "source_key2,target_value2"]` */
   lookup_table: LogsLookupProcessorLookupTableList;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Source attribute used to perform the lookup. */
   source: string;
   /** Name of the attribute that contains the corresponding value in the mapping list or the `default_lookup` if not found in the mapping list. */
@@ -4614,11 +4614,11 @@ export interface LogsLookupProcessor {
 /** **Note**: Reference Tables are in public beta. Use the Lookup Processor to define a mapping between a log attribute and a human readable value saved in a Reference Table. For example, you can use the Lookup Processor to map an internal service ID into a human readable service name. Alternatively, you could also use it to check if the MAC address that just attempted to connect to the production environment belongs to your list of stolen machines. */
 export interface ReferenceTableLogsLookupProcessor {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the Reference Table for the source attribute and their associated target attribute values. */
   lookup_enrichment_table: string;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Source attribute used to perform the lookup. */
   source: string;
   /** Name of the attribute that contains the corresponding value in the mapping list. */
@@ -4632,11 +4632,11 @@ export type LogsTraceRemapperType = "trace-id-remapper";
 /** There are two ways to improve correlation between application traces and logs. 1. Follow the documentation on [how to inject a trace ID in the application logs](https://docs.datadoghq.com/tracing/connect_logs_and_traces) and by default log integrations take care of all the rest of the setup. 2. Use the Trace remapper processor to define a log attribute as its associated trace ID. */
 export interface LogsTraceRemapper {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Array of source attributes. */
-  sources?: LogsTraceRemapperSourcesList;
+  sources?: LogsTraceRemapperSourcesList | undefined;
   type: LogsTraceRemapperType;
 }
 /** Array of source attributes. */
@@ -4646,11 +4646,11 @@ export type LogsSpanRemapperType = "span-id-remapper";
 /** There are two ways to define correlation between application spans and logs: 1. Follow the documentation on [how to inject a span ID in the application logs](https://docs.datadoghq.com/tracing/connect_logs_and_traces). Log integrations automatically handle all remaining setup steps by default. 2. Use the span remapper processor to define a log attribute as its associated span ID. */
 export interface LogsSpanRemapper {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Array of source attributes. */
-  sources?: LogsSpanRemapperSourcesList;
+  sources?: LogsSpanRemapperSourcesList | undefined;
   type: LogsSpanRemapperType;
 }
 /** Operation type. */
@@ -4658,7 +4658,7 @@ export type LogsArrayProcessorOperationAppendType = "append";
 /** Operation that appends a value to a target array attribute. */
 export interface LogsArrayProcessorOperationAppend {
   /** Remove or preserve the remapped source element. */
-  preserve_source?: boolean;
+  preserve_source?: boolean | undefined;
   /** Attribute path containing the value to append. */
   source: string;
   /** Attribute path of the array to append to. */
@@ -4696,11 +4696,11 @@ export interface LogsArrayProcessorOperationExtractKeyValue {
   /** Key of the attribute in each array element that holds the name to use for the extracted attribute. */
   key_to_extract: string;
   /** Whether to override the target element if it's already set. */
-  override_on_conflict?: boolean;
+  override_on_conflict?: boolean | undefined;
   /** Attribute path of the array to extract key-value pairs from. */
   source: string;
   /** Attribute that receives the extracted key-value pairs. If not specified, the extracted attributes are added at the root level of the log. */
-  target?: string;
+  target?: string | undefined;
   type: LogsArrayProcessorOperationExtractKeyValueType;
   /** Key of the attribute in each array element that holds the value to use for the extracted attribute. */
   value_to_extract: string;
@@ -4716,9 +4716,9 @@ export type LogsArrayProcessorType = "array-processor";
 /** A processor for extracting, aggregating, or transforming values from JSON arrays within your logs. Supported operations are: - Select value from matching element - Compute array length - Append a value to an array - Extract key-value pairs from an array */
 export interface LogsArrayProcessor {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   operation: LogsArrayProcessorOperation;
   type: LogsArrayProcessorType;
 }
@@ -4733,9 +4733,9 @@ export interface LogsDecoderProcessor {
   binary_to_text_encoding: LogsDecoderProcessorBinaryToTextEncoding | (string & {});
   input_representation: LogsDecoderProcessorInputRepresentation | (string & {});
   /** Whether the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** Name of the log attribute with the encoded data. */
   source: string;
   /** Name of the log attribute that contains the decoded data. */
@@ -4751,14 +4751,14 @@ export interface LogsSchemaRemapper {
   /** Name of the logs schema remapper. */
   name: string;
   /** Whether to override the target element if it's already set. */
-  override_on_conflict?: boolean;
+  override_on_conflict?: boolean | undefined;
   /** Remove or preserve the remapped source element. */
-  preserve_source?: boolean;
+  preserve_source?: boolean | undefined;
   /** Array of source attributes. */
   sources: LogsSchemaRemapperSourcesList;
   /** Target field to map log source field to. */
   target: string;
-  target_format?: TargetFormatType | (string & {});
+  target_format?: TargetFormatType | (string & {}) | undefined;
   type: LogsSchemaRemapperType;
 }
 /** Object describing the logs filter with corresponding category ID and name assignment. */
@@ -4781,16 +4781,16 @@ export type LogsSchemaCategoryMapperFallbackValuesMap = { [key: string]: string 
 /** Used to override hardcoded category values with a value pulled from a source attribute on the log. */
 export interface LogsSchemaCategoryMapperFallback {
   /** Fallback sources used to populate value of field. */
-  sources?: LogsSchemaCategoryMapperFallbackSourcesMap;
+  sources?: LogsSchemaCategoryMapperFallbackSourcesMap | undefined;
   /** Values that define when the fallback is used. */
-  values?: LogsSchemaCategoryMapperFallbackValuesMap;
+  values?: LogsSchemaCategoryMapperFallbackValuesMap | undefined;
 }
 /** Name of the target attributes which value is defined by the matching category. */
 export interface LogsSchemaCategoryMapperTargets {
   /** ID of the field to map log attributes to. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the field to map log attributes to. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Type of logs schema category mapper. */
 export type LogsSchemaCategoryMapperType = "schema-category-mapper";
@@ -4798,7 +4798,7 @@ export type LogsSchemaCategoryMapperType = "schema-category-mapper";
 export interface LogsSchemaCategoryMapper {
   /** Array of filters to match or not a log and their corresponding `name` to assign a custom value to the log. */
   categories: LogsSchemaCategoryMapperCategoriesList;
-  fallback?: LogsSchemaCategoryMapperFallback;
+  fallback?: LogsSchemaCategoryMapperFallback | undefined;
   /** Name of the logs schema category mapper. */
   name: string;
   targets: LogsSchemaCategoryMapperTargets;
@@ -4817,7 +4817,7 @@ export interface LogsSchemaData {
   /** Class UID of the schema to use. */
   class_uid: number;
   /** Optional list of profiles to modify the schema. */
-  profiles?: LogsSchemaDataProfilesList;
+  profiles?: LogsSchemaDataProfilesList | undefined;
   /** Type of schema to use. */
   schema_type: string;
   /** Version of the schema to use. */
@@ -4828,7 +4828,7 @@ export type LogsSchemaProcessorType = "schema-processor";
 /** A processor that has additional validations and checks for a given schema. Currently supported schema types include OCSF. */
 export interface LogsSchemaProcessor {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** The `LogsSchemaProcessor` `mappers`. */
   mappers: LogsSchemaProcessorMappersList;
   /** Name of the processor. */
@@ -4843,9 +4843,9 @@ export interface LogsExcludeAttributeProcessor {
   /** Name of the log attribute to remove from the log event. */
   attribute_to_exclude: string;
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   type: LogsExcludeAttributeProcessorType;
 }
 /** Array of source attribute paths. */
@@ -4853,16 +4853,16 @@ export type LogsArrayMapAttributeRemapperSourcesList = Array<string>;
 /** An attribute remapper sub-processor for use inside an array-map processor. Unlike the top-level attribute remapper, `is_enabled`, `source_type`, and `target_type` are not supported. */
 export interface LogsArrayMapAttributeRemapper {
   /** Name of the sub-processor. */
-  name?: string;
+  name?: string | undefined;
   /** Override the target element if already set. */
-  override_on_conflict?: boolean;
+  override_on_conflict?: boolean | undefined;
   /** Remove or preserve the remapped source element. */
-  preserve_source?: boolean;
+  preserve_source?: boolean | undefined;
   /** Array of source attribute paths. */
   sources: LogsArrayMapAttributeRemapperSourcesList;
   /** Target attribute path. */
   target: string;
-  target_format?: TargetFormatType | (string & {});
+  target_format?: TargetFormatType | (string & {}) | undefined;
   type: LogsAttributeRemapperType;
 }
 /** An arithmetic sub-processor for use inside an array-map processor. Unlike the top-level arithmetic processor, `is_enabled` is not supported. */
@@ -4870,9 +4870,9 @@ export interface LogsArrayMapArithmeticSubProcessor {
   /** Arithmetic operation to perform. */
   expression: string;
   /** Replace missing attribute values with 0. */
-  is_replace_missing?: boolean;
+  is_replace_missing?: boolean | undefined;
   /** Name of the sub-processor. */
-  name?: string;
+  name?: string | undefined;
   /** Target attribute path for the result. */
   target: string;
   type: LogsArithmeticProcessorType;
@@ -4880,9 +4880,9 @@ export interface LogsArrayMapArithmeticSubProcessor {
 /** A string builder sub-processor for use inside an array-map processor. Unlike the top-level string builder processor, `is_enabled` is not supported. */
 export interface LogsArrayMapStringBuilderSubProcessor {
   /** Replace missing attribute values with an empty string. */
-  is_replace_missing?: boolean;
+  is_replace_missing?: boolean | undefined;
   /** Name of the sub-processor. */
-  name?: string;
+  name?: string | undefined;
   /** Target attribute path for the result. */
   target: string;
   /** Formula with one or more attributes and raw text. */
@@ -4896,7 +4896,7 @@ export interface LogsArrayMapCategorySubProcessor {
   /** Array of filters to match against a log and the corresponding value to assign. */
   categories: LogsArrayMapCategorySubProcessorCategoriesList;
   /** Name of the sub-processor. */
-  name?: string;
+  name?: string | undefined;
   /** Target attribute path for the category value. */
   target: string;
   type: LogsCategoryProcessorType;
@@ -4914,11 +4914,11 @@ export type LogsArrayMapProcessorType = "array-map-processor";
 /** The array-map processor transforms each element of a source array by applying sub-processors in order and collecting the results into a target array. Results can be written to a new array, to the source array (in-place), or to an existing target array. Sub-processors can read from `$sourceElem.<field>` (object element field), bare `$sourceElem` (primitive element), or any parent log attribute path. Sub-processors write to `$targetElem.<field>` (object output field) or bare `$targetElem` (primitive output). */
 export interface LogsArrayMapProcessor {
   /** Whether or not the processor is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the processor. */
-  name?: string;
+  name?: string | undefined;
   /** When `false` and `source != target`, the source attribute is removed after processing. Cannot be `false` when `source == target`. */
-  preserve_source?: boolean;
+  preserve_source?: boolean | undefined;
   /** Sub-processors applied to each element. Allowed types: `attribute-remapper`, `string-builder-processor`, `arithmetic-processor`, `category-processor`. */
   processors: LogsArrayMapProcessorProcessorsList;
   /** Attribute path of the source array. Elements are read-only via `$sourceElem` inside sub-processors. */
@@ -4957,16 +4957,16 @@ export type CreateLogsPipelineRequestProcessorsList = Array<LogsProcessor>;
 export type CreateLogsPipelineRequestTagsList = Array<string>;
 export interface CreateLogsPipelineRequest {
   /** A description of the pipeline. */
-  description?: string;
-  filter?: LogsFilter;
+  description?: string | undefined;
+  filter?: LogsFilter | undefined;
   /** Whether or not the pipeline is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the pipeline. */
   name: string;
   /** Ordered list of processors in this pipeline. */
-  processors?: CreateLogsPipelineRequestProcessorsList;
+  processors?: CreateLogsPipelineRequestProcessorsList | undefined;
   /** A list of tags associated with the pipeline. */
-  tags?: CreateLogsPipelineRequestTagsList;
+  tags?: CreateLogsPipelineRequestTagsList | undefined;
 }
 /** Ordered list of processors in this pipeline. */
 export type LogsPipelineProcessorsList = Array<LogsProcessor>;
@@ -4975,22 +4975,22 @@ export type LogsPipelineTagsList = Array<string>;
 /** Pipelines and processors operate on incoming logs, parsing and transforming them into structured attributes for easier querying. **Note**: These endpoints are only available for admin users. Make sure to use an application key created by an admin. */
 export interface LogsPipeline {
   /** A description of the pipeline. */
-  description?: string;
-  filter?: LogsFilter;
+  description?: string | undefined;
+  filter?: LogsFilter | undefined;
   /** ID of the pipeline. */
-  id?: string;
+  id?: string | undefined;
   /** Whether or not the pipeline is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Whether or not the pipeline can be edited. */
-  is_read_only?: boolean;
+  is_read_only?: boolean | undefined;
   /** Name of the pipeline. */
   name: string;
   /** Ordered list of processors in this pipeline. */
-  processors?: LogsPipelineProcessorsList;
+  processors?: LogsPipelineProcessorsList | undefined;
   /** A list of tags associated with the pipeline. */
-  tags?: LogsPipelineTagsList;
+  tags?: LogsPipelineTagsList | undefined;
   /** Type of pipeline. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Indicates the type of asset this entity represents on a monitor. */
 export type MonitorAssetCategory = "runbook";
@@ -5002,8 +5002,8 @@ export interface MonitorAsset {
   /** Name for the monitor asset */
   name: string;
   /** Represents the identifier of the internal Datadog resource that this asset represents. IDs in this field should be passed in as strings. */
-  resource_key?: string;
-  resource_type?: MonitorAssetResourceType | (string & {});
+  resource_key?: string | undefined;
+  resource_type?: MonitorAssetResourceType | (string & {}) | undefined;
   /** URL link for the asset. For links with an internal resource type set, this should be the relative path to where the Datadog domain is appended internally. For external links, this should be the full URL path. */
   url: string;
 }
@@ -5016,11 +5016,11 @@ export type MatchingDowntimeInputScopeList = Array<string>;
 /** Object describing a downtime that matches this monitor. */
 export interface MatchingDowntimeInput {
   /** POSIX timestamp to end the downtime. */
-  end?: number | null;
+  end?: number | null | undefined;
   /** The scope(s) to which the downtime applies. Must be in `key:value` format. For example, `host:app2`. Provide multiple scopes as a comma-separated list like `env:dev,env:prod`. The resulting downtime applies to sources that matches ALL provided scopes (`env:dev` **AND** `env:prod`). */
-  scope?: MatchingDowntimeInputScopeList;
+  scope?: MatchingDowntimeInputScopeList | undefined;
   /** POSIX timestamp to start the downtime. */
-  start?: number;
+  start?: number | undefined;
 }
 /** A list of active v1 downtimes that match this monitor. */
 export type CreateMonitorRequestMatchingDowntimesList = Array<MatchingDowntimeInput>;
@@ -5050,11 +5050,11 @@ export type MonitorOptionsInputRenotifyStatusesList = Array<
 /** Configuration for a recurrence set on the monitor options for custom schedule. */
 export interface MonitorOptionsCustomScheduleRecurrence {
   /** Defines the recurrence rule (RRULE) for a given schedule. */
-  rrule?: string;
+  rrule?: string | undefined;
   /** Defines the start date and time of the recurring schedule. */
-  start?: string;
+  start?: string | undefined;
   /** Defines the timezone the schedule runs on. */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 /** Array of custom schedule recurrences. */
 export type MonitorOptionsCustomScheduleRecurrencesList =
@@ -5062,51 +5062,51 @@ export type MonitorOptionsCustomScheduleRecurrencesList =
 /** Configuration options for the custom schedule. **This feature is in private beta.** */
 export interface MonitorOptionsCustomSchedule {
   /** Array of custom schedule recurrences. */
-  recurrences?: MonitorOptionsCustomScheduleRecurrencesList;
+  recurrences?: MonitorOptionsCustomScheduleRecurrencesList | undefined;
 }
 /** Configuration options for the evaluation window. If `hour_starts` is set, no other fields may be set. Otherwise, `day_starts` and `month_starts` must be set together. */
 export interface MonitorOptionsSchedulingOptionsEvaluationWindow {
   /** The time of the day at which a one day cumulative evaluation window starts. */
-  day_starts?: string;
+  day_starts?: string | undefined;
   /** The minute of the hour at which a one hour cumulative evaluation window starts. */
-  hour_starts?: number;
+  hour_starts?: number | undefined;
   /** The day of the month at which a one month cumulative evaluation window starts. */
-  month_starts?: number;
+  month_starts?: number | undefined;
   /** The timezone of the time of the day of the cumulative evaluation window start. */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 /** Configuration options for scheduling. */
 export interface MonitorOptionsSchedulingOptions {
-  custom_schedule?: MonitorOptionsCustomSchedule;
-  evaluation_window?: MonitorOptionsSchedulingOptionsEvaluationWindow;
+  custom_schedule?: MonitorOptionsCustomSchedule | undefined;
+  evaluation_window?: MonitorOptionsSchedulingOptionsEvaluationWindow | undefined;
 }
 /** Information about the downtime applied to the monitor. Only shows v1 downtimes. */
 export type MonitorOptionsInputSilencedMap = { [key: string]: number | null | undefined };
 /** Alerting time window options. */
 export interface MonitorThresholdWindowOptions {
   /** Describes how long an anomalous metric must be normal before the alert recovers. */
-  recovery_window?: string | null;
+  recovery_window?: string | null | undefined;
   /** Describes how long a metric must be anomalous before an alert triggers. */
-  trigger_window?: string | null;
+  trigger_window?: string | null | undefined;
 }
 /** List of the different monitor threshold available. */
 export interface MonitorThresholds {
   /** The monitor `CRITICAL` threshold. */
-  critical?: number;
+  critical?: number | undefined;
   /** Query evaluated as a dynamic `CRITICAL` threshold. Only supported on metric monitors with a formula query and options['variables']. Cannot be combined with static thresholds. This field is in preview. */
-  critical_query?: string;
+  critical_query?: string | undefined;
   /** The monitor `CRITICAL` recovery threshold. */
-  critical_recovery?: number | null;
+  critical_recovery?: number | null | undefined;
   /** Query evaluated as a dynamic `CRITICAL` recovery threshold. Only supported on metric monitors with a formula query and options['variables']. Cannot be combined with static thresholds. This field is in preview. */
-  critical_recovery_query?: string;
+  critical_recovery_query?: string | undefined;
   /** The monitor `OK` threshold. */
-  ok?: number | null;
+  ok?: number | null | undefined;
   /** The monitor UNKNOWN threshold. */
-  unknown?: number | null;
+  unknown?: number | null | undefined;
   /** The monitor `WARNING` threshold. */
-  warning?: number | null;
+  warning?: number | null | undefined;
   /** The monitor `WARNING` recovery threshold. */
-  warning_recovery?: number | null;
+  warning_recovery?: number | null | undefined;
 }
 /** Aggregation methods for event platform queries. */
 export type MonitorFormulaAndFunctionEventAggregation =
@@ -5126,13 +5126,13 @@ export type MonitorFormulaAndFunctionEventAggregation =
 export interface MonitorFormulaAndFunctionEventQueryDefinitionCompute {
   aggregation: MonitorFormulaAndFunctionEventAggregation | (string & {});
   /** A time interval in milliseconds. */
-  interval?: number;
+  interval?: number | undefined;
   /** Measurable attribute to compute. */
-  metric?: string;
+  metric?: string | undefined;
   /** The name assigned to this aggregation, when multiple aggregations are defined for a query. */
-  name?: string;
+  name?: string | undefined;
   /** Source reference for composite query payloads. */
-  source?: string;
+  source?: string | undefined;
 }
 /** Data source for event platform-based queries. */
 export type MonitorFormulaAndFunctionEventsDataSource =
@@ -5150,18 +5150,18 @@ export type MonitorFormulaAndFunctionEventsDataSource =
 export interface MonitorFormulaAndFunctionEventQueryGroupBySort {
   aggregation: MonitorFormulaAndFunctionEventAggregation | (string & {});
   /** Metric used for sorting group by results. */
-  metric?: string;
-  order?: QuerySortOrder | (string & {});
+  metric?: string | undefined;
+  order?: QuerySortOrder | (string & {}) | undefined;
 }
 /** List of objects used to group by. */
 export interface MonitorFormulaAndFunctionEventQueryGroupBy {
   /** Event facet. */
   facet: string;
   /** Number of groups to return. */
-  limit?: number;
-  sort?: MonitorFormulaAndFunctionEventQueryGroupBySort;
+  limit?: number | undefined;
+  sort?: MonitorFormulaAndFunctionEventQueryGroupBySort | undefined;
   /** Source reference for composite query payloads. */
-  source?: string;
+  source?: string | undefined;
 }
 /** Group by options. */
 export type MonitorFormulaAndFunctionEventQueryDefinitionGroupByList =
@@ -5176,12 +5176,12 @@ export interface MonitorFormulaAndFunctionEventQueryDefinition {
   compute: MonitorFormulaAndFunctionEventQueryDefinitionCompute;
   data_source: MonitorFormulaAndFunctionEventsDataSource | (string & {});
   /** Group by options. */
-  group_by?: MonitorFormulaAndFunctionEventQueryDefinitionGroupByList;
+  group_by?: MonitorFormulaAndFunctionEventQueryDefinitionGroupByList | undefined;
   /** An array of index names to query in the stream. Omit or use `[]` to query all indexes at once. */
-  indexes?: MonitorFormulaAndFunctionEventQueryDefinitionIndexesList;
+  indexes?: MonitorFormulaAndFunctionEventQueryDefinitionIndexesList | undefined;
   /** Name of the query for use in formulas. */
   name: string;
-  search?: FormulaAndFunctionEventQueryDefinitionSearch;
+  search?: FormulaAndFunctionEventQueryDefinitionSearch | undefined;
 }
 /** Aggregation methods for metric queries. */
 export type MonitorFormulaAndFunctionCostAggregator =
@@ -5198,7 +5198,7 @@ export type MonitorFormulaAndFunctionCostAggregator =
 export type MonitorFormulaAndFunctionCostDataSource = "metrics" | "cloud_cost" | "datadog_usage";
 /** A formula and functions cost query. */
 export interface MonitorFormulaAndFunctionCostQueryDefinition {
-  aggregator?: MonitorFormulaAndFunctionCostAggregator | (string & {});
+  aggregator?: MonitorFormulaAndFunctionCostAggregator | (string & {}) | undefined;
   data_source: MonitorFormulaAndFunctionCostDataSource | (string & {});
   /** Name of the query for use in formulas. */
   name: string;
@@ -5218,15 +5218,18 @@ export type MonitorFormulaAndFunctionDataQualityModelBoundsOverride = "UPPER_ONL
 /** Tuning options for the anomaly detection model used by the monitor. */
 export interface MonitorFormulaAndFunctionDataQualityModelConfiguration {
   /** Number of days after which an open alert is automatically resolved. When unset, alerts stay open until the measure returns within bounds. */
-  auto_resolve_days?: number;
+  auto_resolve_days?: number | undefined;
   /** Whether to alert when the measure stops changing entirely. Defaults to `true`. */
-  enable_flatline_detection?: boolean;
-  function?: MonitorFormulaAndFunctionDataQualityDiffFunction | (string & {});
+  enable_flatline_detection?: boolean | undefined;
+  function?: MonitorFormulaAndFunctionDataQualityDiffFunction | (string & {}) | undefined;
   /** Minimum distance between the predicted value and the lower bound. Widening the lower bound to at least this size suppresses alerts on small downward deviations. When unset, no minimum is enforced. */
-  min_lower_bound_size?: number;
+  min_lower_bound_size?: number | undefined;
   /** Minimum distance between the predicted value and the upper bound. Widening the upper bound to at least this size suppresses alerts on small upward deviations. When unset, no minimum is enforced. */
-  min_upper_bound_size?: number;
-  model_bounds_override?: MonitorFormulaAndFunctionDataQualityModelBoundsOverride | (string & {});
+  min_upper_bound_size?: number | undefined;
+  model_bounds_override?:
+    | MonitorFormulaAndFunctionDataQualityModelBoundsOverride
+    | (string & {})
+    | undefined;
 }
 /** Override for the model type used in anomaly detection. */
 export type MonitorFormulaAndFunctionDataQualityModelTypeOverride =
@@ -5241,15 +5244,17 @@ export type MonitorFormulaAndFunctionDataQualityEntityMetricConfigGroupByColumns
 /** Measure configuration for one side of a source to target comparison. */
 export interface MonitorFormulaAndFunctionDataQualityEntityMetricConfig {
   /** Custom SQL query used to compute the measure for this entity. */
-  custom_sql?: string;
+  custom_sql?: string | undefined;
   /** Custom WHERE clause applied when computing the measure for this entity. */
-  custom_where?: string;
+  custom_where?: string | undefined;
   /** Identifier of the data entity to measure. */
   entity_id: string;
   /** Type of the data entity to measure. */
   entity_type: string;
   /** Columns to group results by when computing the measure for this entity. */
-  group_by_columns?: MonitorFormulaAndFunctionDataQualityEntityMetricConfigGroupByColumnsList;
+  group_by_columns?:
+    | MonitorFormulaAndFunctionDataQualityEntityMetricConfigGroupByColumnsList
+    | undefined;
 }
 /** Configuration for a source to target monitor, which compares the same measure across two data entities and alerts on the difference between them. */
 export interface MonitorFormulaAndFunctionDataQualitySourceToTargetConfig {
@@ -5262,18 +5267,23 @@ export interface MonitorFormulaAndFunctionDataQualitySourceToTargetConfig {
 /** Monitor configuration options for data quality queries. */
 export interface MonitorFormulaAndFunctionDataQualityMonitorOptions {
   /** Crontab expression to override the default schedule. */
-  crontab_override?: string;
+  crontab_override?: string | undefined;
   /** Custom SQL query for the monitor. */
-  custom_sql?: string;
+  custom_sql?: string | undefined;
   /** Custom WHERE clause for the query. */
-  custom_where?: string;
+  custom_where?: string | undefined;
   /** Columns to group results by. */
-  group_by_columns?: MonitorFormulaAndFunctionDataQualityMonitorOptionsGroupByColumnsList;
-  model_configuration?: MonitorFormulaAndFunctionDataQualityModelConfiguration;
-  model_type_override?: MonitorFormulaAndFunctionDataQualityModelTypeOverride | (string & {});
+  group_by_columns?:
+    | MonitorFormulaAndFunctionDataQualityMonitorOptionsGroupByColumnsList
+    | undefined;
+  model_configuration?: MonitorFormulaAndFunctionDataQualityModelConfiguration | undefined;
+  model_type_override?:
+    | MonitorFormulaAndFunctionDataQualityModelTypeOverride
+    | (string & {})
+    | undefined;
   /** Sensitivity of the anomaly detection model, expressed as a multiplier on the width of the predicted bounds. Higher values widen the bounds and produce fewer alerts; lower values tighten them and produce more alerts. Defaults to `3.0`. */
-  sensitivity?: number;
-  source_to_target_config?: MonitorFormulaAndFunctionDataQualitySourceToTargetConfig;
+  sensitivity?: number | undefined;
+  source_to_target_config?: MonitorFormulaAndFunctionDataQualitySourceToTargetConfig | undefined;
 }
 /** A formula and functions data quality query. */
 export interface MonitorFormulaAndFunctionDataQualityQueryDefinition {
@@ -5281,15 +5291,15 @@ export interface MonitorFormulaAndFunctionDataQualityQueryDefinition {
   /** Filter expression used to match on data entities. Uses Aastra query syntax. */
   filter: string;
   /** Optional grouping fields for aggregation. */
-  group_by?: MonitorFormulaAndFunctionDataQualityQueryDefinitionGroupByList;
+  group_by?: MonitorFormulaAndFunctionDataQualityQueryDefinitionGroupByList | undefined;
   measure: string;
-  monitor_options?: MonitorFormulaAndFunctionDataQualityMonitorOptions;
+  monitor_options?: MonitorFormulaAndFunctionDataQualityMonitorOptions | undefined;
   /** Name of the query for use in formulas. */
   name: string;
   /** Schema version for the data quality query. */
-  schema_version?: string;
+  schema_version?: string | undefined;
   /** Optional scoping expression to further filter metrics. Uses metrics filter syntax. This is useful when an entity has been configured to emit metrics with additional tags. */
-  scope?: string;
+  scope?: string | undefined;
 }
 /** A formula and functions data jobs query. */
 export interface MonitorFormulaAndFunctionDataJobsQueryDefinition {
@@ -5305,7 +5315,7 @@ export interface MonitorFormulaAndFunctionDataJobsQueryDefinition {
 /** A column definition for reference table queries. */
 export interface MonitorFormulaAndFunctionReferenceTableColumn {
   /** Optional alias for the column. */
-  alias?: string;
+  alias?: string | undefined;
   /** Name of the column. */
   name: string;
 }
@@ -5317,12 +5327,12 @@ export type MonitorFormulaAndFunctionReferenceTableDataSource = "reference_table
 /** A reference table query for use in aggregate queries. */
 export interface MonitorFormulaAndFunctionReferenceTableQueryDefinition {
   /** List of columns to retrieve from the reference table. */
-  columns?: MonitorFormulaAndFunctionReferenceTableQueryDefinitionColumnsList;
+  columns?: MonitorFormulaAndFunctionReferenceTableQueryDefinitionColumnsList | undefined;
   data_source: MonitorFormulaAndFunctionReferenceTableDataSource;
   /** Name of the query. */
-  name?: string;
+  name?: string | undefined;
   /** Optional filter expression for the reference table query. */
-  query_filter?: string;
+  query_filter?: string | undefined;
   /** Name of the reference table. */
   table_name: string;
 }
@@ -5347,10 +5357,10 @@ export type MonitorFormulaAndFunctionMetricsAggregator =
 export type MonitorFormulaAndFunctionMetricsDataSource = "metrics" | "cloud_cost" | "datadog_usage";
 /** A formula and functions metrics query for use in aggregate queries. */
 export interface MonitorFormulaAndFunctionMetricsQueryDefinition {
-  aggregator?: MonitorFormulaAndFunctionMetricsAggregator | (string & {});
+  aggregator?: MonitorFormulaAndFunctionMetricsAggregator | (string & {}) | undefined;
   data_source: MonitorFormulaAndFunctionMetricsDataSource | (string & {});
   /** Name of the query for use in formulas. */
-  name?: string;
+  name?: string | undefined;
   /** The metrics query definition. */
   query: string;
 }
@@ -5387,7 +5397,7 @@ export interface MonitorFormulaAndFunctionAggregateAugmentedQueryDefinition {
   group_by: MonitorFormulaAndFunctionAggregateAugmentedQueryDefinitionGroupByList;
   join_condition: MonitorFormulaAndFunctionAggregateQueryJoinCondition;
   /** Name of the query for use in formulas. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Compute options for the query. */
 export type MonitorFormulaAndFunctionAggregateFilteredQueryDefinitionComputeList =
@@ -5403,7 +5413,7 @@ export interface MonitorFormulaAndFunctionAggregateQueryFilter {
   /** Attribute from the base query to filter on. */
   base_attribute: string;
   /** Whether to exclude matching records instead of including them. */
-  exclude?: boolean;
+  exclude?: boolean | undefined;
   /** Attribute from the filter query to match against. */
   filter_attribute: string;
 }
@@ -5417,15 +5427,15 @@ export type MonitorFormulaAndFunctionAggregateFilteredQueryDefinitionGroupByList
 export interface MonitorFormulaAndFunctionAggregateFilteredQueryDefinition {
   base_query: MonitorFormulaAndFunctionAggregateBaseQuery;
   /** Compute options for the query. */
-  compute?: MonitorFormulaAndFunctionAggregateFilteredQueryDefinitionComputeList;
+  compute?: MonitorFormulaAndFunctionAggregateFilteredQueryDefinitionComputeList | undefined;
   data_source: MonitorFormulaAndFunctionAggregateFilteredDataSource;
   filter_query: MonitorFormulaAndFunctionAggregateFilterQuery;
   /** Filter conditions for the query. */
   filters: MonitorFormulaAndFunctionAggregateFilteredQueryDefinitionFiltersList;
   /** Group by options for the query. */
-  group_by?: MonitorFormulaAndFunctionAggregateFilteredQueryDefinitionGroupByList;
+  group_by?: MonitorFormulaAndFunctionAggregateFilteredQueryDefinitionGroupByList | undefined;
   /** Name of the query for use in formulas. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A formula and function query. */
 export type MonitorFormulaAndFunctionQueryDefinition =
@@ -5440,58 +5450,58 @@ export type MonitorOptionsInputVariablesList = Array<MonitorFormulaAndFunctionQu
 /** List of options associated with your monitor. */
 export interface MonitorOptionsInput {
   /** Whether or not to send a log sample when the log monitor triggers. */
-  enable_logs_sample?: boolean;
+  enable_logs_sample?: boolean | undefined;
   /** Whether or not to send a list of samples when the monitor triggers. This is only used by CI Test and Pipeline monitors. */
-  enable_samples?: boolean;
+  enable_samples?: boolean | undefined;
   /** We recommend using the [is_renotify](https://docs.datadoghq.com/monitors/notify/?tab=is_alert#renotify), block in the original message instead. A message to include with a re-notification. Supports the `@username` notification we allow elsewhere. Not applicable if `renotify_interval` is `None`. */
-  escalation_message?: string;
+  escalation_message?: string | undefined;
   /** Time (in seconds) to delay evaluation, as a non-negative integer. For example, if the value is set to `300` (5min), the timeframe is set to `last_5m` and the time is 7:00, the monitor evaluates data from 6:50 to 6:55. This is useful for AWS CloudWatch and other backfilled metrics to ensure the monitor always has data during evaluation. */
-  evaluation_delay?: number | null;
+  evaluation_delay?: number | null | undefined;
   /** The time span after which groups with missing data are dropped from the monitor state. The minimum value is one hour, and the maximum value is 72 hours. Example values are: "60m", "1h", and "2d". This option is only available for APM Trace Analytics, Audit Trail, CI, Error Tracking, Event, Logs, and RUM monitors. */
-  group_retention_duration?: string;
+  group_retention_duration?: string | undefined;
   /** Whether the log alert monitor triggers a single alert or multiple alerts when any group breaches a threshold. Use `notify_by` instead. */
-  groupby_simple_monitor?: boolean;
+  groupby_simple_monitor?: boolean | undefined;
   /** A Boolean indicating whether notifications from this monitor automatically inserts its triggering tags into the title. **Examples** - If `True`, `[Triggered on {host:h1}] Monitor Title` - If `False`, `[Triggered] Monitor Title` */
-  include_tags?: boolean;
+  include_tags?: boolean | undefined;
   /** Whether or not the monitor is locked (only editable by creator and admins). Use `restricted_roles` instead. */
-  locked?: boolean;
+  locked?: boolean | undefined;
   /** How long the test should be in failure before alerting (integer, number of seconds, max 7200). */
-  min_failure_duration?: number | null;
+  min_failure_duration?: number | null | undefined;
   /** The minimum number of locations in failure at the same time during at least one moment in the `min_failure_duration` period (`min_location_failed` and `min_failure_duration` are part of the advanced alerting rules - integer, >= 1). */
-  min_location_failed?: number | null;
+  min_location_failed?: number | null | undefined;
   /** Time (in seconds) to skip evaluations for new groups. For example, this option can be used to skip evaluations for new hosts while they initialize. Must be a non negative integer. */
-  new_group_delay?: number | null;
+  new_group_delay?: number | null | undefined;
   /** Time (in seconds) to allow a host to boot and applications to fully start before starting the evaluation of monitor results. Should be a non negative integer. Use new_group_delay instead. */
-  new_host_delay?: number | null;
+  new_host_delay?: number | null | undefined;
   /** The number of minutes before a monitor notifies after data stops reporting. Datadog recommends at least 2x the monitor timeframe for query alerts or 2 minutes for service checks. If omitted, 2x the evaluation timeframe is used for query alerts, and 24 hours is used for service checks. */
-  no_data_timeframe?: number | null;
-  notification_preset_name?: MonitorOptionsNotificationPresets | (string & {});
+  no_data_timeframe?: number | null | undefined;
+  notification_preset_name?: MonitorOptionsNotificationPresets | (string & {}) | undefined;
   /** A Boolean indicating whether tagged users is notified on changes to this monitor. */
-  notify_audit?: boolean;
+  notify_audit?: boolean | undefined;
   /** Controls what granularity a monitor alerts on. Only available for monitors with groupings. For instance, a monitor grouped by `cluster`, `namespace`, and `pod` can be configured to only notify on each new `cluster` violating the alert conditions by setting `notify_by` to `["cluster"]`. Tags mentioned in `notify_by` must be a subset of the grouping tags in the query. For example, a query grouped by `cluster` and `namespace` cannot notify on `region`. Setting `notify_by` to `["*"]` configures the monitor to notify as a simple-alert. */
-  notify_by?: MonitorOptionsInputNotifyByList;
+  notify_by?: MonitorOptionsInputNotifyByList | undefined;
   /** A Boolean indicating whether this monitor notifies when data stops reporting. Defaults to `false`. */
-  notify_no_data?: boolean;
-  on_missing_data?: OnMissingDataOption | (string & {});
+  notify_no_data?: boolean | undefined;
+  on_missing_data?: OnMissingDataOption | (string & {}) | undefined;
   /** The number of minutes after the last notification before a monitor re-notifies on the current status. It only re-notifies if it's not resolved. */
-  renotify_interval?: number | null;
+  renotify_interval?: number | null | undefined;
   /** The number of times re-notification messages should be sent on the current status at the provided re-notification interval. */
-  renotify_occurrences?: number | null;
+  renotify_occurrences?: number | null | undefined;
   /** The types of monitor statuses for which re-notification messages are sent. Default: **null** if `renotify_interval` is **null**. If `renotify_interval` is set, defaults to renotify on `Alert` and `No Data`. */
-  renotify_statuses?: MonitorOptionsInputRenotifyStatusesList | null;
+  renotify_statuses?: MonitorOptionsInputRenotifyStatusesList | null | undefined;
   /** A Boolean indicating whether this monitor needs a full window of data before it's evaluated. We highly recommend you set this to `false` for sparse metrics, otherwise some evaluations are skipped. Default is false. This setting only applies to metric monitors. */
-  require_full_window?: boolean;
-  scheduling_options?: MonitorOptionsSchedulingOptions;
+  require_full_window?: boolean | undefined;
+  scheduling_options?: MonitorOptionsSchedulingOptions | undefined;
   /** Information about the downtime applied to the monitor. Only shows v1 downtimes. */
-  silenced?: MonitorOptionsInputSilencedMap;
+  silenced?: MonitorOptionsInputSilencedMap | undefined;
   /** ID of the corresponding Synthetic check. */
-  synthetics_check_id?: string | null;
-  threshold_windows?: MonitorThresholdWindowOptions;
-  thresholds?: MonitorThresholds;
+  synthetics_check_id?: string | null | undefined;
+  threshold_windows?: MonitorThresholdWindowOptions | undefined;
+  thresholds?: MonitorThresholds | undefined;
   /** The number of hours of the monitor not reporting data before it automatically resolves from a triggered state. The minimum allowed value is 0 hours. The maximum allowed value is 24 hours. */
-  timeout_h?: number | null;
+  timeout_h?: number | null | undefined;
   /** List of requests that can be used in the monitor query. **This feature is currently in beta.** */
-  variables?: MonitorOptionsInputVariablesList;
+  variables?: MonitorOptionsInputVariablesList | undefined;
 }
 /** A list of unique role identifiers to define which roles are allowed to edit the monitor. The unique identifiers for all roles can be pulled from the [Roles API](https://docs.datadoghq.com/api/latest/roles/#list-roles) and are located in the `data.id` field. Editing a monitor includes any updates to the monitor configuration, monitor deletion, and muting of the monitor for any amount of time. You can use the [Restriction Policies API](https://docs.datadoghq.com/api/latest/restriction-policies/) to manage write authorization for individual monitors by teams and users, in addition to roles. */
 export type CreateMonitorRequestRestrictedRolesList = Array<string>;
@@ -5524,23 +5534,23 @@ export type MonitorType =
   | "llm-observability alert";
 export interface CreateMonitorRequest {
   /** The list of monitor assets tied to a monitor, which represents key links for users to take action on monitor alerts (for example, runbooks). */
-  assets?: CreateMonitorRequestAssetsList;
-  draft_status?: MonitorDraftStatus | (string & {});
+  assets?: CreateMonitorRequestAssetsList | undefined;
+  draft_status?: MonitorDraftStatus | (string & {}) | undefined;
   /** A list of active v1 downtimes that match this monitor. */
-  matching_downtimes?: CreateMonitorRequestMatchingDowntimesList;
+  matching_downtimes?: CreateMonitorRequestMatchingDowntimesList | undefined;
   /** A message to include with notifications for this monitor. */
-  message?: string;
+  message?: string | undefined;
   /** The monitor name. */
-  name?: string;
-  options?: MonitorOptionsInput;
+  name?: string | undefined;
+  options?: MonitorOptionsInput | undefined;
   /** Integer from 1 (high) to 5 (low) indicating alert severity. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The monitor query. */
   query: string;
   /** A list of unique role identifiers to define which roles are allowed to edit the monitor. The unique identifiers for all roles can be pulled from the [Roles API](https://docs.datadoghq.com/api/latest/roles/#list-roles) and are located in the `data.id` field. Editing a monitor includes any updates to the monitor configuration, monitor deletion, and muting of the monitor for any amount of time. You can use the [Restriction Policies API](https://docs.datadoghq.com/api/latest/restriction-policies/) to manage write authorization for individual monitors by teams and users, in addition to roles. */
-  restricted_roles?: CreateMonitorRequestRestrictedRolesList | null;
+  restricted_roles?: CreateMonitorRequestRestrictedRolesList | null | undefined;
   /** Tags associated to your monitor. */
-  tags?: CreateMonitorRequestTagsList;
+  tags?: CreateMonitorRequestTagsList | undefined;
   type: MonitorType | (string & {});
 }
 /** The list of monitor assets tied to a monitor, which represents key links for users to take action on monitor alerts (for example, runbooks). */
@@ -5550,24 +5560,24 @@ export type MatchingDowntimeScopeList = Array<string>;
 /** Object describing a downtime that matches this monitor. */
 export interface MatchingDowntime {
   /** POSIX timestamp to end the downtime. */
-  end?: number | null;
+  end?: number | null | undefined;
   /** The downtime ID. */
   id: number;
   /** The scope(s) to which the downtime applies. Must be in `key:value` format. For example, `host:app2`. Provide multiple scopes as a comma-separated list like `env:dev,env:prod`. The resulting downtime applies to sources that matches ALL provided scopes (`env:dev` **AND** `env:prod`). */
-  scope?: MatchingDowntimeScopeList;
+  scope?: MatchingDowntimeScopeList | undefined;
   /** POSIX timestamp to start the downtime. */
-  start?: number;
+  start?: number | undefined;
 }
 /** A list of active v1 downtimes that match this monitor. */
 export type MonitorMatchingDowntimesList = Array<MatchingDowntime>;
 /** Type of aggregation performed in the monitor query. */
 export interface MonitorOptionsAggregation {
   /** Group to break down the monitor on. */
-  group_by?: string;
+  group_by?: string | undefined;
   /** Metric name used in the monitor. */
-  metric?: string;
+  metric?: string | undefined;
   /** Metric type used in the monitor. */
-  type?: string;
+  type?: string | undefined;
 }
 /** ID of the device the Synthetics monitor is running on. Same as `SyntheticsDeviceID`. */
 export type MonitorDeviceID =
@@ -5592,62 +5602,62 @@ export type MonitorOptionsSilencedMap = { [key: string]: number | null | undefin
 export type MonitorOptionsVariablesList = Array<MonitorFormulaAndFunctionQueryDefinition>;
 /** List of options associated with your monitor. */
 export interface MonitorOptions {
-  aggregation?: MonitorOptionsAggregation;
+  aggregation?: MonitorOptionsAggregation | undefined;
   /** IDs of the device the Synthetics monitor is running on. */
-  device_ids?: MonitorOptionsDeviceIdsList;
+  device_ids?: MonitorOptionsDeviceIdsList | undefined;
   /** Whether or not to send a log sample when the log monitor triggers. */
-  enable_logs_sample?: boolean;
+  enable_logs_sample?: boolean | undefined;
   /** Whether or not to send a list of samples when the monitor triggers. This is only used by CI Test and Pipeline monitors. */
-  enable_samples?: boolean;
+  enable_samples?: boolean | undefined;
   /** We recommend using the [is_renotify](https://docs.datadoghq.com/monitors/notify/?tab=is_alert#renotify), block in the original message instead. A message to include with a re-notification. Supports the `@username` notification we allow elsewhere. Not applicable if `renotify_interval` is `None`. */
-  escalation_message?: string;
+  escalation_message?: string | undefined;
   /** Time (in seconds) to delay evaluation, as a non-negative integer. For example, if the value is set to `300` (5min), the timeframe is set to `last_5m` and the time is 7:00, the monitor evaluates data from 6:50 to 6:55. This is useful for AWS CloudWatch and other backfilled metrics to ensure the monitor always has data during evaluation. */
-  evaluation_delay?: number | null;
+  evaluation_delay?: number | null | undefined;
   /** The time span after which groups with missing data are dropped from the monitor state. The minimum value is one hour, and the maximum value is 72 hours. Example values are: "60m", "1h", and "2d". This option is only available for APM Trace Analytics, Audit Trail, CI, Error Tracking, Event, Logs, and RUM monitors. */
-  group_retention_duration?: string;
+  group_retention_duration?: string | undefined;
   /** Whether the log alert monitor triggers a single alert or multiple alerts when any group breaches a threshold. Use `notify_by` instead. */
-  groupby_simple_monitor?: boolean;
+  groupby_simple_monitor?: boolean | undefined;
   /** A Boolean indicating whether notifications from this monitor automatically inserts its triggering tags into the title. **Examples** - If `True`, `[Triggered on {host:h1}] Monitor Title` - If `False`, `[Triggered] Monitor Title` */
-  include_tags?: boolean;
+  include_tags?: boolean | undefined;
   /** Whether or not the monitor is locked (only editable by creator and admins). Use `restricted_roles` instead. */
-  locked?: boolean;
+  locked?: boolean | undefined;
   /** How long the test should be in failure before alerting (integer, number of seconds, max 7200). */
-  min_failure_duration?: number | null;
+  min_failure_duration?: number | null | undefined;
   /** The minimum number of locations in failure at the same time during at least one moment in the `min_failure_duration` period (`min_location_failed` and `min_failure_duration` are part of the advanced alerting rules - integer, >= 1). */
-  min_location_failed?: number | null;
+  min_location_failed?: number | null | undefined;
   /** Time (in seconds) to skip evaluations for new groups. For example, this option can be used to skip evaluations for new hosts while they initialize. Must be a non negative integer. */
-  new_group_delay?: number | null;
+  new_group_delay?: number | null | undefined;
   /** Time (in seconds) to allow a host to boot and applications to fully start before starting the evaluation of monitor results. Should be a non negative integer. Use new_group_delay instead. */
-  new_host_delay?: number | null;
+  new_host_delay?: number | null | undefined;
   /** The number of minutes before a monitor notifies after data stops reporting. Datadog recommends at least 2x the monitor timeframe for query alerts or 2 minutes for service checks. If omitted, 2x the evaluation timeframe is used for query alerts, and 24 hours is used for service checks. */
-  no_data_timeframe?: number | null;
-  notification_preset_name?: MonitorOptionsNotificationPresets;
+  no_data_timeframe?: number | null | undefined;
+  notification_preset_name?: MonitorOptionsNotificationPresets | undefined;
   /** A Boolean indicating whether tagged users is notified on changes to this monitor. */
-  notify_audit?: boolean;
+  notify_audit?: boolean | undefined;
   /** Controls what granularity a monitor alerts on. Only available for monitors with groupings. For instance, a monitor grouped by `cluster`, `namespace`, and `pod` can be configured to only notify on each new `cluster` violating the alert conditions by setting `notify_by` to `["cluster"]`. Tags mentioned in `notify_by` must be a subset of the grouping tags in the query. For example, a query grouped by `cluster` and `namespace` cannot notify on `region`. Setting `notify_by` to `["*"]` configures the monitor to notify as a simple-alert. */
-  notify_by?: MonitorOptionsNotifyByList;
+  notify_by?: MonitorOptionsNotifyByList | undefined;
   /** A Boolean indicating whether this monitor notifies when data stops reporting. Defaults to `false`. */
-  notify_no_data?: boolean;
-  on_missing_data?: OnMissingDataOption;
+  notify_no_data?: boolean | undefined;
+  on_missing_data?: OnMissingDataOption | undefined;
   /** The number of minutes after the last notification before a monitor re-notifies on the current status. It only re-notifies if it's not resolved. */
-  renotify_interval?: number | null;
+  renotify_interval?: number | null | undefined;
   /** The number of times re-notification messages should be sent on the current status at the provided re-notification interval. */
-  renotify_occurrences?: number | null;
+  renotify_occurrences?: number | null | undefined;
   /** The types of monitor statuses for which re-notification messages are sent. Default: **null** if `renotify_interval` is **null**. If `renotify_interval` is set, defaults to renotify on `Alert` and `No Data`. */
-  renotify_statuses?: MonitorOptionsRenotifyStatusesList | null;
+  renotify_statuses?: MonitorOptionsRenotifyStatusesList | null | undefined;
   /** A Boolean indicating whether this monitor needs a full window of data before it's evaluated. We highly recommend you set this to `false` for sparse metrics, otherwise some evaluations are skipped. Default is false. This setting only applies to metric monitors. */
-  require_full_window?: boolean;
-  scheduling_options?: MonitorOptionsSchedulingOptions;
+  require_full_window?: boolean | undefined;
+  scheduling_options?: MonitorOptionsSchedulingOptions | undefined;
   /** Information about the downtime applied to the monitor. Only shows v1 downtimes. */
-  silenced?: MonitorOptionsSilencedMap;
+  silenced?: MonitorOptionsSilencedMap | undefined;
   /** ID of the corresponding Synthetic check. */
-  synthetics_check_id?: string | null;
-  threshold_windows?: MonitorThresholdWindowOptions;
-  thresholds?: MonitorThresholds;
+  synthetics_check_id?: string | null | undefined;
+  threshold_windows?: MonitorThresholdWindowOptions | undefined;
+  thresholds?: MonitorThresholds | undefined;
   /** The number of hours of the monitor not reporting data before it automatically resolves from a triggered state. The minimum allowed value is 0 hours. The maximum allowed value is 24 hours. */
-  timeout_h?: number | null;
+  timeout_h?: number | null | undefined;
   /** List of requests that can be used in the monitor query. **This feature is currently in beta.** */
-  variables?: MonitorOptionsVariablesList;
+  variables?: MonitorOptionsVariablesList | undefined;
 }
 /** The different states your monitor can be in. */
 export type MonitorOverallStates =
@@ -5663,59 +5673,59 @@ export type MonitorRestrictedRolesList = Array<string>;
 /** Monitor state for a single group. */
 export interface MonitorStateGroup {
   /** Latest timestamp the monitor was in NO_DATA state. */
-  last_nodata_ts?: number;
+  last_nodata_ts?: number | undefined;
   /** Latest timestamp of the notification sent for this monitor group. */
-  last_notified_ts?: number;
+  last_notified_ts?: number | undefined;
   /** Latest timestamp the monitor group was resolved. */
-  last_resolved_ts?: number;
+  last_resolved_ts?: number | undefined;
   /** Latest timestamp the monitor group triggered. */
-  last_triggered_ts?: number;
+  last_triggered_ts?: number | undefined;
   /** The name of the monitor. */
-  name?: string;
-  status?: MonitorOverallStates;
+  name?: string | undefined;
+  status?: MonitorOverallStates | undefined;
 }
 /** Dictionary where the keys are groups (comma separated lists of tags) and the values are the list of groups your monitor is broken down on. */
 export type MonitorStateGroupsMap = { [key: string]: MonitorStateGroup | undefined };
 /** Wrapper object with the different monitor states. */
 export interface MonitorState {
   /** Dictionary where the keys are groups (comma separated lists of tags) and the values are the list of groups your monitor is broken down on. */
-  groups?: MonitorStateGroupsMap;
+  groups?: MonitorStateGroupsMap | undefined;
 }
 /** Tags associated to your monitor. */
 export type MonitorTagsList = Array<string>;
 /** Object describing a monitor. */
 export interface Monitor {
   /** The list of monitor assets tied to a monitor, which represents key links for users to take action on monitor alerts (for example, runbooks). */
-  assets?: MonitorAssetsList;
+  assets?: MonitorAssetsList | undefined;
   /** Timestamp of the monitor creation. */
-  created?: string;
-  creator?: Creator;
+  created?: string | undefined;
+  creator?: Creator | undefined;
   /** Whether or not the monitor is deleted. (Always `null`) */
-  deleted?: string | null;
-  draft_status?: MonitorDraftStatus;
+  deleted?: string | null | undefined;
+  draft_status?: MonitorDraftStatus | undefined;
   /** ID of this monitor. */
-  id?: number;
+  id?: number | undefined;
   /** A list of active v1 downtimes that match this monitor. */
-  matching_downtimes?: MonitorMatchingDowntimesList;
+  matching_downtimes?: MonitorMatchingDowntimesList | undefined;
   /** A message to include with notifications for this monitor. */
-  message?: string;
+  message?: string | undefined;
   /** Last timestamp when the monitor was edited. */
-  modified?: string;
+  modified?: string | undefined;
   /** Whether or not the monitor is broken down on different groups. */
-  multi?: boolean;
+  multi?: boolean | undefined;
   /** The monitor name. */
-  name?: string;
-  options?: MonitorOptions;
-  overall_state?: MonitorOverallStates;
+  name?: string | undefined;
+  options?: MonitorOptions | undefined;
+  overall_state?: MonitorOverallStates | undefined;
   /** Integer from 1 (high) to 5 (low) indicating alert severity. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The monitor query. */
   query: string;
   /** A list of unique role identifiers to define which roles are allowed to edit the monitor. The unique identifiers for all roles can be pulled from the [Roles API](https://docs.datadoghq.com/api/latest/roles/#list-roles) and are located in the `data.id` field. Editing a monitor includes any updates to the monitor configuration, monitor deletion, and muting of the monitor for any amount of time. You can use the [Restriction Policies API](https://docs.datadoghq.com/api/latest/restriction-policies/) to manage write authorization for individual monitors by teams and users, in addition to roles. */
-  restricted_roles?: MonitorRestrictedRolesList | null;
-  state?: MonitorState;
+  restricted_roles?: MonitorRestrictedRolesList | null | undefined;
+  state?: MonitorState | undefined;
   /** Tags associated to your monitor. */
-  tags?: MonitorTagsList;
+  tags?: MonitorTagsList | undefined;
   type: MonitorType;
 }
 /** Type of the markdown cell. */
@@ -5752,7 +5762,7 @@ export interface NotebookAbsoluteTime {
   /** The end time. */
   end: string;
   /** Indicates whether the timeframe should be shifted to end at the current time. */
-  live?: boolean;
+  live?: boolean | undefined;
   /** The start time. */
   start: string;
 }
@@ -5761,36 +5771,36 @@ export type NotebookCellTime = NotebookRelativeTime | NotebookAbsoluteTime;
 /** The attributes of a notebook `timeseries` cell. */
 export interface NotebookTimeseriesCellAttributes {
   definition: TimeseriesWidgetDefinition;
-  graph_size?: NotebookGraphSize | (string & {});
-  split_by?: NotebookSplitBy;
-  time?: NotebookCellTime | null;
+  graph_size?: NotebookGraphSize | (string & {}) | undefined;
+  split_by?: NotebookSplitBy | undefined;
+  time?: NotebookCellTime | null | undefined;
 }
 /** The attributes of a notebook `toplist` cell. */
 export interface NotebookToplistCellAttributes {
   definition: ToplistWidgetDefinition;
-  graph_size?: NotebookGraphSize | (string & {});
-  split_by?: NotebookSplitBy;
-  time?: NotebookCellTime | null;
+  graph_size?: NotebookGraphSize | (string & {}) | undefined;
+  split_by?: NotebookSplitBy | undefined;
+  time?: NotebookCellTime | null | undefined;
 }
 /** The attributes of a notebook `heatmap` cell. */
 export interface NotebookHeatMapCellAttributes {
   definition: HeatMapWidgetDefinition;
-  graph_size?: NotebookGraphSize | (string & {});
-  split_by?: NotebookSplitBy;
-  time?: NotebookCellTime | null;
+  graph_size?: NotebookGraphSize | (string & {}) | undefined;
+  split_by?: NotebookSplitBy | undefined;
+  time?: NotebookCellTime | null | undefined;
 }
 /** The attributes of a notebook `distribution` cell. */
 export interface NotebookDistributionCellAttributes {
   definition: DistributionWidgetDefinition;
-  graph_size?: NotebookGraphSize | (string & {});
-  split_by?: NotebookSplitBy;
-  time?: NotebookCellTime | null;
+  graph_size?: NotebookGraphSize | (string & {}) | undefined;
+  split_by?: NotebookSplitBy | undefined;
+  time?: NotebookCellTime | null | undefined;
 }
 /** The attributes of a notebook `log_stream` cell. */
 export interface NotebookLogStreamCellAttributes {
   definition: LogStreamWidgetDefinition;
-  graph_size?: NotebookGraphSize | (string & {});
-  time?: NotebookCellTime | null;
+  graph_size?: NotebookGraphSize | (string & {}) | undefined;
+  time?: NotebookCellTime | null | undefined;
 }
 /** The attributes of a notebook cell in create cell request. Valid cell types are `markdown`, `timeseries`, `toplist`, `heatmap`, `distribution`, `log_stream`. [More information on each graph visualization type.](https://docs.datadoghq.com/dashboards/widgets/) */
 export type NotebookCellCreateRequestAttributes =
@@ -5819,10 +5829,10 @@ export type NotebookMetadataType =
 /** Metadata associated with the notebook. */
 export interface NotebookMetadata {
   /** Whether or not the notebook is a template. */
-  is_template?: boolean;
+  is_template?: boolean | undefined;
   /** Whether or not the notebook takes snapshot image backups of the notebook's fixed-time graphs. */
-  take_snapshots?: boolean;
-  type?: NotebookMetadataType | (string & {}) | null;
+  take_snapshots?: boolean | undefined;
+  type?: NotebookMetadataType | (string & {}) | null | undefined;
 }
 /** Publication status of the notebook. For now, always "published". */
 export type NotebookStatus = "published";
@@ -5867,22 +5877,22 @@ export type NotebookTemplateVariableDefaultsList = Array<string>;
 /** Notebook template variable. */
 export interface NotebookTemplateVariable {
   /** The list of values that the template variable drop-down is limited to. */
-  available_values?: NotebookTemplateVariableAvailableValuesList | null;
-  available_values_query?: NotebookTemplateVariableAvailableValuesQuery;
+  available_values?: NotebookTemplateVariableAvailableValuesList | null | undefined;
+  available_values_query?: NotebookTemplateVariableAvailableValuesQuery | undefined;
   /** Mapping of data source names to template variable values. */
-  data_source_mappings?: NotebookTemplateVariableDataSourceMappingsMap;
+  data_source_mappings?: NotebookTemplateVariableDataSourceMappingsMap | undefined;
   /** (deprecated) The default value for the template variable on notebook load. Cannot be used in conjunction with `defaults`. */
-  default?: string | null;
+  default?: string | null | undefined;
   /** One or many default values for the template variable. Cannot be used in conjunction with `default`. */
-  defaults?: NotebookTemplateVariableDefaultsList;
+  defaults?: NotebookTemplateVariableDefaultsList | undefined;
   /** The name of the variable. */
   name: string;
   /** The placement of the template variable in the notebook. */
-  placement?: string;
+  placement?: string | undefined;
   /** The tag prefix associated with the variable. Only tags with this prefix appear in the variable drop-down. */
-  prefix?: string | null;
+  prefix?: string | null | undefined;
   /** The type of the template variable. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of template variables for this notebook. */
 export type NotebookCreateDataAttributesTemplateVariablesList = Array<NotebookTemplateVariable>;
@@ -5892,12 +5902,12 @@ export type NotebookGlobalTime = NotebookRelativeTime | NotebookAbsoluteTime;
 export interface NotebookCreateDataAttributes {
   /** List of cells to display in the notebook. */
   cells: NotebookCreateDataAttributesCellsList;
-  metadata?: NotebookMetadata;
+  metadata?: NotebookMetadata | undefined;
   /** The name of the notebook. */
   name: string;
-  status?: NotebookStatus | (string & {});
+  status?: NotebookStatus | (string & {}) | undefined;
   /** List of template variables for this notebook. */
-  template_variables?: NotebookCreateDataAttributesTemplateVariablesList | null;
+  template_variables?: NotebookCreateDataAttributesTemplateVariablesList | null | undefined;
   time: NotebookGlobalTime;
 }
 /** Type of the Notebook resource. */
@@ -5913,23 +5923,23 @@ export interface CreateNotebookRequest {
 /** Attributes of user object returned by the API. */
 export interface NotebookAuthor {
   /** Creation time of the user. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Whether the user is disabled. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** Email of the user. */
-  email?: string;
+  email?: string | undefined;
   /** Handle of the user. */
-  handle?: string;
+  handle?: string | undefined;
   /** URL of the user's icon. */
-  icon?: string;
+  icon?: string | undefined;
   /** Name of the user. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Status of the user. */
-  status?: string;
+  status?: string | undefined;
   /** Title of the user. */
-  title?: string | null;
+  title?: string | null | undefined;
   /** Whether the user is verified. */
-  verified?: boolean;
+  verified?: boolean | undefined;
 }
 /** The attributes of a notebook cell response. Valid cell types are `markdown`, `timeseries`, `toplist`, `heatmap`, `distribution`, `log_stream`. [More information on each graph visualization type.](https://docs.datadoghq.com/dashboards/widgets/) */
 export type NotebookCellResponseAttributes =
@@ -5952,19 +5962,19 @@ export type NotebookResponseDataAttributesCellsList = Array<NotebookCellResponse
 export type NotebookResponseDataAttributesTemplateVariablesList = Array<NotebookTemplateVariable>;
 /** The attributes of a notebook. */
 export interface NotebookResponseDataAttributes {
-  author?: NotebookAuthor;
+  author?: NotebookAuthor | undefined;
   /** List of cells to display in the notebook. */
   cells: NotebookResponseDataAttributesCellsList;
   /** UTC time stamp for when the notebook was created. */
-  created?: string;
-  metadata?: NotebookMetadata;
+  created?: string | undefined;
+  metadata?: NotebookMetadata | undefined;
   /** UTC time stamp for when the notebook was last modified. */
-  modified?: string;
+  modified?: string | undefined;
   /** The name of the notebook. */
   name: string;
-  status?: NotebookStatus;
+  status?: NotebookStatus | undefined;
   /** List of template variables for this notebook. */
-  template_variables?: NotebookResponseDataAttributesTemplateVariablesList | null;
+  template_variables?: NotebookResponseDataAttributesTemplateVariablesList | null | undefined;
   time: NotebookGlobalTime;
 }
 /** The data for a notebook. */
@@ -5976,7 +5986,7 @@ export interface NotebookResponseData {
 }
 /** The description of a notebook response. */
 export interface NotebookResponse {
-  data?: NotebookResponseData;
+  data?: NotebookResponseData | undefined;
 }
 export interface CreatePagerDutyIntegrationServiceRequest {
   /** Your service key in PagerDuty. */
@@ -5996,7 +6006,7 @@ export type CreatePrivateLocationRequestTagsList = Array<string>;
 export interface CreatePrivateLocationRequest {
   /** Description of the private location. */
   description: string;
-  metadata?: SyntheticsGlobalVariableAttributes;
+  metadata?: SyntheticsGlobalVariableAttributes | undefined;
   /** Name of the private location. */
   name: string;
   /** Array of tags attached to the private location. */
@@ -6005,19 +6015,19 @@ export interface CreatePrivateLocationRequest {
 /** Authentication part of the secrets. */
 export interface SyntheticsPrivateLocationSecretsAuthentication {
   /** Access key for the private location. */
-  id?: string;
+  id?: string | undefined;
   /** Secret access key for the private location. */
-  key?: string;
+  key?: string | undefined;
 }
 /** Private key for the private location. */
 export interface SyntheticsPrivateLocationSecretsConfigDecryption {
   /** Private key for the private location. */
-  key?: string;
+  key?: string | undefined;
 }
 /** Secrets for the private location. Only present in the response when creating the private location. */
 export interface SyntheticsPrivateLocationSecrets {
-  authentication?: SyntheticsPrivateLocationSecretsAuthentication;
-  config_decryption?: SyntheticsPrivateLocationSecretsConfigDecryption;
+  authentication?: SyntheticsPrivateLocationSecretsAuthentication | undefined;
+  config_decryption?: SyntheticsPrivateLocationSecretsConfigDecryption | undefined;
 }
 /** Array of tags attached to the private location. */
 export type SyntheticsPrivateLocationTagsList = Array<string>;
@@ -6026,27 +6036,27 @@ export interface SyntheticsPrivateLocation {
   /** Description of the private location. */
   description: string;
   /** Unique identifier of the private location. */
-  id?: string;
-  metadata?: SyntheticsGlobalVariableAttributes;
+  id?: string | undefined;
+  metadata?: SyntheticsGlobalVariableAttributes | undefined;
   /** Name of the private location. */
   name: string;
-  secrets?: SyntheticsPrivateLocationSecrets;
+  secrets?: SyntheticsPrivateLocationSecrets | undefined;
   /** Array of tags attached to the private location. */
   tags: SyntheticsPrivateLocationTagsList;
 }
 /** Public key for the result encryption. */
 export interface SyntheticsPrivateLocationCreationResponseResultEncryption {
   /** Fingerprint for the encryption key. */
-  id?: string;
+  id?: string | undefined;
   /** Public key for result encryption. */
-  key?: string;
+  key?: string | undefined;
 }
 /** Object that contains the new private location, the public key for result encryption, and the configuration skeleton. */
 export interface SyntheticsPrivateLocationCreationResponse {
   /** Configuration skeleton for the private location. See installation instructions of the private location on how to use this configuration. */
-  config?: unknown;
-  private_location?: SyntheticsPrivateLocation;
-  result_encryption?: SyntheticsPrivateLocationCreationResponseResultEncryption;
+  config?: unknown | undefined;
+  private_location?: SyntheticsPrivateLocation | undefined;
+  result_encryption?: SyntheticsPrivateLocationCreationResponseResultEncryption | undefined;
 }
 /** The type of the associated private dashboard. */
 export type DashboardType = "custom_timeboard" | "custom_screenboard";
@@ -6056,12 +6066,12 @@ export type CreatePublicDashboardRequestEmbeddableDomainsList = Array<string>;
 export type DashboardGlobalTimeLiveSpan = "15m" | "1h" | "4h" | "1d" | "2d" | "1w" | "1mo" | "3mo";
 /** Object containing the live span selection for the dashboard. */
 export interface DashboardGlobalTime {
-  live_span?: DashboardGlobalTimeLiveSpan | (string & {});
+  live_span?: DashboardGlobalTimeLiveSpan | (string & {}) | undefined;
 }
 /** The allowlisted invitees for an INVITE-only shared dashboard. */
 export interface SharedDashboardInviteesItemsInput {
   /** Time of the invitee expiration. Null means the invite will not expire. */
-  access_expiration?: string | null;
+  access_expiration?: string | null | undefined;
   /** Email of the invitee. */
   email: string;
 }
@@ -6072,15 +6082,15 @@ export type SelectableTemplateVariableItemsVisibleTagsList = Array<string>;
 /** Object containing the template variable's name, associated tag/attribute, default value and selectable values. */
 export interface SelectableTemplateVariableItems {
   /** The default value of the template variable. */
-  default_value?: string;
+  default_value?: string | undefined;
   /** Name of the template variable. */
-  name?: string;
+  name?: string | undefined;
   /** The tag/attribute key associated with the template variable. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** The type of variable. This is to differentiate between filter variables (interpolated in query) and group by variables (interpolated into group by). */
-  type?: string | null;
+  type?: string | null | undefined;
   /** List of visible tag values on the shared dashboard. */
-  visible_tags?: SelectableTemplateVariableItemsVisibleTagsList | null;
+  visible_tags?: SelectableTemplateVariableItemsVisibleTagsList | null | undefined;
 }
 /** List of objects representing template variables on the shared dashboard which can have selectable values. */
 export type CreatePublicDashboardRequestSelectableTemplateVarsList =
@@ -6096,47 +6106,50 @@ export type ViewingPreferencesTheme = "system" | "light" | "dark";
 /** The viewing preferences for a shared dashboard. */
 export interface ViewingPreferences {
   /** Whether the widgets on the shared dashboard should be displayed with high density. */
-  high_density?: boolean;
-  theme?: ViewingPreferencesTheme | (string & {});
+  high_density?: boolean | undefined;
+  theme?: ViewingPreferencesTheme | (string & {}) | undefined;
 }
 export interface CreatePublicDashboardRequest {
   /** ID of the dashboard to share. */
   dashboard_id: string;
   dashboard_type: DashboardType | (string & {});
   /** The `SharedDashboard` `embeddable_domains`. */
-  embeddable_domains?: CreatePublicDashboardRequestEmbeddableDomainsList;
+  embeddable_domains?: CreatePublicDashboardRequestEmbeddableDomainsList | undefined;
   /** The time when an OPEN shared dashboard becomes publicly unavailable. */
-  expiration?: string | null;
-  global_time?: DashboardGlobalTime;
+  expiration?: string | null | undefined;
+  global_time?: DashboardGlobalTime | undefined;
   /** Whether to allow viewers to select a different global time setting for the shared dashboard. */
-  global_time_selectable_enabled?: boolean | null;
+  global_time_selectable_enabled?: boolean | null | undefined;
   /** The `SharedDashboard` `invitees`. */
-  invitees?: CreatePublicDashboardRequestInviteesList;
+  invitees?: CreatePublicDashboardRequestInviteesList | undefined;
   /** List of objects representing template variables on the shared dashboard which can have selectable values. */
-  selectable_template_vars?: CreatePublicDashboardRequestSelectableTemplateVarsList | null;
+  selectable_template_vars?:
+    | CreatePublicDashboardRequestSelectableTemplateVarsList
+    | null
+    | undefined;
   /** List of email addresses that can receive an invitation to access to the shared dashboard. */
-  share_list?: CreatePublicDashboardRequestShareListList | null;
-  share_type?: DashboardShareType | (string & {}) | null;
-  status?: SharedDashboardStatus | (string & {});
+  share_list?: CreatePublicDashboardRequestShareListList | null | undefined;
+  share_type?: DashboardShareType | (string & {}) | null | undefined;
+  status?: SharedDashboardStatus | (string & {}) | undefined;
   /** Title of the shared dashboard. */
-  title?: string;
-  viewing_preferences?: ViewingPreferences;
+  title?: string | undefined;
+  viewing_preferences?: ViewingPreferences | undefined;
 }
 /** User who shared the dashboard. */
 export interface SharedDashboardAuthor {
   /** Identifier of the user who shared the dashboard. */
-  handle?: string;
+  handle?: string | undefined;
   /** Name of the user who shared the dashboard. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** The `SharedDashboard` `embeddable_domains`. */
 export type SharedDashboardEmbeddableDomainsList = Array<string>;
 /** The allowlisted invitees for an INVITE-only shared dashboard. */
 export interface SharedDashboardInviteesItems {
   /** Time of the invitee expiration. Null means the invite will not expire. */
-  access_expiration?: string | null;
+  access_expiration?: string | null | undefined;
   /** Time that the invitee was created. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Email of the invitee. */
   email: string;
 }
@@ -6148,62 +6161,62 @@ export type SharedDashboardSelectableTemplateVarsList = Array<SelectableTemplate
 export type SharedDashboardShareListList = Array<string>;
 /** The metadata object associated with how a dashboard has been/will be shared. */
 export interface SharedDashboard {
-  author?: SharedDashboardAuthor;
+  author?: SharedDashboardAuthor | undefined;
   /** Date the dashboard was shared. */
-  created?: string;
+  created?: string | undefined;
   /** ID of the dashboard to share. */
   dashboard_id: string;
   dashboard_type: DashboardType;
   /** The `SharedDashboard` `embeddable_domains`. */
-  embeddable_domains?: SharedDashboardEmbeddableDomainsList;
+  embeddable_domains?: SharedDashboardEmbeddableDomainsList | undefined;
   /** The time when an OPEN shared dashboard becomes publicly unavailable. */
-  expiration?: string | null;
-  global_time?: DashboardGlobalTime;
+  expiration?: string | null | undefined;
+  global_time?: DashboardGlobalTime | undefined;
   /** Whether to allow viewers to select a different global time setting for the shared dashboard. */
-  global_time_selectable_enabled?: boolean | null;
+  global_time_selectable_enabled?: boolean | null | undefined;
   /** The `SharedDashboard` `invitees`. */
-  invitees?: SharedDashboardInviteesList;
+  invitees?: SharedDashboardInviteesList | undefined;
   /** The last time the shared dashboard was accessed. Null if never accessed. */
-  last_accessed?: string | null;
+  last_accessed?: string | null | undefined;
   /** URL of the shared dashboard. */
-  public_url?: string;
+  public_url?: string | undefined;
   /** List of objects representing template variables on the shared dashboard which can have selectable values. */
-  selectable_template_vars?: SharedDashboardSelectableTemplateVarsList | null;
+  selectable_template_vars?: SharedDashboardSelectableTemplateVarsList | null | undefined;
   /** List of email addresses that can receive an invitation to access to the shared dashboard. */
-  share_list?: SharedDashboardShareListList | null;
-  share_type?: DashboardShareType | null;
-  status?: SharedDashboardStatus;
+  share_list?: SharedDashboardShareListList | null | undefined;
+  share_type?: DashboardShareType | null | undefined;
+  status?: SharedDashboardStatus | undefined;
   /** Title of the shared dashboard. */
-  title?: string;
+  title?: string | undefined;
   /** A unique token assigned to the shared dashboard. */
-  token?: string;
-  viewing_preferences?: ViewingPreferences;
+  token?: string | undefined;
+  viewing_preferences?: ViewingPreferences | undefined;
 }
 /** Configuration options for what is shown in an alert event message. */
 export interface SlackIntegrationChannelDisplay {
   /** Show the main body of the alert event. */
-  message?: boolean;
+  message?: boolean | undefined;
   /** Show interactive buttons to mute the alerting monitor. */
-  mute_buttons?: boolean;
+  mute_buttons?: boolean | undefined;
   /** Show the list of @-handles in the alert event. */
-  notified?: boolean;
+  notified?: boolean | undefined;
   /** Show the alert event's snapshot image. */
-  snapshot?: boolean;
+  snapshot?: boolean | undefined;
   /** Show the scopes on which the monitor alerted. */
-  tags?: boolean;
+  tags?: boolean | undefined;
 }
 export interface CreateSlackIntegrationChannelRequest {
   /** Your Slack account name. */
   account_name: string;
-  display?: SlackIntegrationChannelDisplay;
+  display?: SlackIntegrationChannelDisplay | undefined;
   /** Your channel name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The Slack channel configuration. */
 export interface SlackIntegrationChannel {
-  display?: SlackIntegrationChannelDisplay;
+  display?: SlackIntegrationChannelDisplay | undefined;
   /** Your channel name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A list of (up to 100) monitor groups that narrow the scope of a monitor service level objective. Included in service level objective responses if it is not empty. Optional in create/update requests for monitor service level objectives, but may only be used when then length of the `monitor_ids` field is one. */
 export type CreateSLORequestGroupsList = Array<string>;
@@ -6240,7 +6253,7 @@ export type SLOTimeSliceInterval = 60 | 300;
 export interface SLOTimeSliceCondition {
   comparator: SLOTimeSliceComparator | (string & {});
   query: SLOTimeSliceQuery;
-  query_interval_seconds?: SLOTimeSliceInterval | (number & {});
+  query_interval_seconds?: SLOTimeSliceInterval | (number & {}) | undefined;
   /** The threshold value to which each SLI value will be compared. */
   threshold: number;
 }
@@ -6285,12 +6298,12 @@ export interface SLOThreshold {
   /** The target value for the service level indicator within the corresponding timeframe. */
   target: number;
   /** A string representation of the target that indicates its precision. It uses trailing zeros to show significant decimal places (for example `98.00`). Always included in service level objective responses. Ignored in create/update requests. */
-  target_display?: string;
+  target_display?: string | undefined;
   timeframe: SLOTimeframe | (string & {});
   /** The warning value for the service level objective. */
-  warning?: number;
+  warning?: number | undefined;
   /** A string representation of the warning target (see the description of the `target_display` field for details). Included in service level objective responses if a warning target exists. Ignored in create/update requests. */
-  warning_display?: string;
+  warning_display?: string | undefined;
 }
 /** The thresholds (timeframes and associated targets) for this service level objective object. */
 export type CreateSLORequestThresholdsList = Array<SLOThreshold>;
@@ -6298,25 +6311,25 @@ export type CreateSLORequestThresholdsList = Array<SLOThreshold>;
 export type SLOType = "metric" | "monitor" | "time_slice";
 export interface CreateSLORequest {
   /** A user-defined description of the service level objective. Always included in service level objective responses (but may be `null`). Optional in create/update requests. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** A list of (up to 100) monitor groups that narrow the scope of a monitor service level objective. Included in service level objective responses if it is not empty. Optional in create/update requests for monitor service level objectives, but may only be used when then length of the `monitor_ids` field is one. */
-  groups?: CreateSLORequestGroupsList;
+  groups?: CreateSLORequestGroupsList | undefined;
   /** A list of monitor IDs that defines the scope of a monitor service level objective. **Required if type is `monitor`**. */
-  monitor_ids?: CreateSLORequestMonitorIdsList;
+  monitor_ids?: CreateSLORequestMonitorIdsList | undefined;
   /** The name of the service level objective object. */
   name: string;
-  query?: ServiceLevelObjectiveQuery;
-  sli_specification?: SLOSliSpec;
+  query?: ServiceLevelObjectiveQuery | undefined;
+  sli_specification?: SLOSliSpec | undefined;
   /** A list of tags associated with this service level objective. Always included in service level objective responses (but may be empty). Optional in create/update requests. */
-  tags?: CreateSLORequestTagsList;
+  tags?: CreateSLORequestTagsList | undefined;
   /** The target threshold such that when the service level indicator is above this threshold over the given timeframe, the objective is being met. */
-  target_threshold?: number;
+  target_threshold?: number | undefined;
   /** The thresholds (timeframes and associated targets) for this service level objective object. */
   thresholds: CreateSLORequestThresholdsList;
-  timeframe?: SLOTimeframe | (string & {});
+  timeframe?: SLOTimeframe | (string & {}) | undefined;
   type: SLOType | (string & {});
   /** The optional warning threshold such that when the service level indicator is below this value for the given threshold, but above the target threshold, the objective appears in a "warning" state. This value must be greater than the target threshold. */
-  warning_threshold?: number;
+  warning_threshold?: number | undefined;
 }
 /** A list of (up to 100) monitor groups that narrow the scope of a monitor service level objective. Included in service level objective responses if it is not empty. Optional in create/update requests for monitor service level objectives, but may only be used when then length of the `monitor_ids` field is one. */
 export type ServiceLevelObjectiveGroupsList = Array<string>;
@@ -6331,34 +6344,34 @@ export type ServiceLevelObjectiveThresholdsList = Array<SLOThreshold>;
 /** A service level objective object includes a service level indicator, thresholds for one or more timeframes, and metadata (`name`, `description`, `tags`, etc.). */
 export interface ServiceLevelObjective {
   /** Creation timestamp (UNIX time in seconds) Always included in service level objective responses. */
-  created_at?: number;
-  creator?: Creator;
+  created_at?: number | undefined;
+  creator?: Creator | undefined;
   /** A user-defined description of the service level objective. Always included in service level objective responses (but may be `null`). Optional in create/update requests. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** A list of (up to 100) monitor groups that narrow the scope of a monitor service level objective. Included in service level objective responses if it is not empty. Optional in create/update requests for monitor service level objectives, but may only be used when then length of the `monitor_ids` field is one. */
-  groups?: ServiceLevelObjectiveGroupsList;
+  groups?: ServiceLevelObjectiveGroupsList | undefined;
   /** A unique identifier for the service level objective object. Always included in service level objective responses. */
-  id?: string;
+  id?: string | undefined;
   /** Modification timestamp (UNIX time in seconds) Always included in service level objective responses. */
-  modified_at?: number;
+  modified_at?: number | undefined;
   /** A list of monitor ids that defines the scope of a monitor service level objective. **Required if type is `monitor`**. */
-  monitor_ids?: ServiceLevelObjectiveMonitorIdsList;
+  monitor_ids?: ServiceLevelObjectiveMonitorIdsList | undefined;
   /** The union of monitor tags for all monitors referenced by the `monitor_ids` field. Always included in service level objective responses for monitor-based service level objectives (but may be empty). Ignored in create/update requests. Does not affect which monitors are included in the service level objective (that is determined entirely by the `monitor_ids` field). */
-  monitor_tags?: ServiceLevelObjectiveMonitorTagsList;
+  monitor_tags?: ServiceLevelObjectiveMonitorTagsList | undefined;
   /** The name of the service level objective object. */
   name: string;
-  query?: ServiceLevelObjectiveQuery;
-  sli_specification?: SLOSliSpec;
+  query?: ServiceLevelObjectiveQuery | undefined;
+  sli_specification?: SLOSliSpec | undefined;
   /** A list of tags associated with this service level objective. Always included in service level objective responses (but may be empty). Optional in create/update requests. */
-  tags?: ServiceLevelObjectiveTagsList;
+  tags?: ServiceLevelObjectiveTagsList | undefined;
   /** The target threshold such that when the service level indicator is above this threshold over the given timeframe, the objective is being met. */
-  target_threshold?: number;
+  target_threshold?: number | undefined;
   /** The thresholds (timeframes and associated targets) for this service level objective object. */
   thresholds: ServiceLevelObjectiveThresholdsList;
-  timeframe?: SLOTimeframe;
+  timeframe?: SLOTimeframe | undefined;
   type: SLOType;
   /** The optional warning threshold such that when the service level indicator is below this value for the given threshold, but above the target threshold, the objective appears in a "warning" state. This value must be greater than the target threshold. */
-  warning_threshold?: number;
+  warning_threshold?: number | undefined;
 }
 /** An array of service level objective objects. */
 export type SLOListResponseDataList = Array<ServiceLevelObjective>;
@@ -6367,21 +6380,21 @@ export type SLOListResponseErrorsList = Array<string>;
 /** The object containing information about the pages of the list of SLOs. */
 export interface SLOListResponseMetadataPage {
   /** The total number of resources that could be retrieved ignoring the parameters and filters in the request. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of resources that match the parameters and filters in the request. This attribute can be used by a client to determine the total number of pages. */
-  total_filtered_count?: number;
+  total_filtered_count?: number | undefined;
 }
 /** The metadata object containing additional information about the list of SLOs. */
 export interface SLOListResponseMetadata {
-  page?: SLOListResponseMetadataPage;
+  page?: SLOListResponseMetadataPage | undefined;
 }
 /** A response with one or more service level objective. */
 export interface SLOListResponse {
   /** An array of service level objective objects. */
-  data?: SLOListResponseDataList;
+  data?: SLOListResponseDataList | undefined;
   /** An array of error messages. Each endpoint documents how/whether this field is used. */
-  errors?: SLOListResponseErrorsList;
-  metadata?: SLOListResponseMetadata;
+  errors?: SLOListResponseErrorsList | undefined;
+  metadata?: SLOListResponseMetadata | undefined;
 }
 /** Category the SLO correction belongs to. */
 export type SLOCorrectionCategory =
@@ -6393,77 +6406,77 @@ export type SLOCorrectionCategory =
 export interface SLOCorrectionCreateRequestAttributes {
   category: SLOCorrectionCategory | (string & {});
   /** Description of the correction being made. */
-  description?: string;
+  description?: string | undefined;
   /** Length of time (in seconds) for a specified `rrule` recurring SLO correction. */
-  duration?: number;
+  duration?: number | undefined;
   /** Ending time of the correction in epoch seconds. */
-  end?: number;
+  end?: number | undefined;
   /** The recurrence rules as defined in the iCalendar RFC 5545. The supported rules for SLO corrections are `FREQ`, `INTERVAL`, `COUNT`, `UNTIL` and `BYDAY`. */
-  rrule?: string;
+  rrule?: string | undefined;
   /** ID of the single SLO that this correction applies to. */
-  slo_id?: string;
+  slo_id?: string | undefined;
   /** Query that matches the SLOs this correction applies to. The query uses the [Events search syntax](https://docs.datadoghq.com/events/explorer/searching/) and can filter SLOs by SLO tags. */
-  slo_query?: string;
+  slo_query?: string | undefined;
   /** Starting time of the correction in epoch seconds. */
   start: number;
   /** The timezone to display in the UI for the correction times (defaults to "UTC"). */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 /** SLO correction resource type. */
 export type SLOCorrectionType = "correction";
 /** The data object associated with the SLO correction to be created. */
 export interface SLOCorrectionCreateData {
-  attributes?: SLOCorrectionCreateRequestAttributes;
+  attributes?: SLOCorrectionCreateRequestAttributes | undefined;
   type: SLOCorrectionType | (string & {});
 }
 export interface CreateSLOCorrectionRequest {
-  data?: SLOCorrectionCreateData;
+  data?: SLOCorrectionCreateData | undefined;
 }
 /** Modifier of the object. */
 export interface SLOCorrectionResponseAttributesModifier {
   /** Email of the Modifier. */
-  email?: string;
+  email?: string | undefined;
   /** Handle of the Modifier. */
-  handle?: string;
+  handle?: string | undefined;
   /** Name of the Modifier. */
-  name?: string;
+  name?: string | undefined;
 }
 /** The attribute object associated with the SLO correction. */
 export interface SLOCorrectionResponseAttributes {
-  category?: SLOCorrectionCategory;
+  category?: SLOCorrectionCategory | undefined;
   /** The epoch timestamp of when the correction was created at. */
-  created_at?: number | null;
-  creator?: Creator;
+  created_at?: number | null | undefined;
+  creator?: Creator | undefined;
   /** Description of the correction being made. */
-  description?: string;
+  description?: string | undefined;
   /** Length of time (in seconds) for a specified `rrule` recurring SLO correction. */
-  duration?: number | null;
+  duration?: number | null | undefined;
   /** Ending time of the correction in epoch seconds. */
-  end?: number | null;
+  end?: number | null | undefined;
   /** The epoch timestamp of when the correction was modified at. */
-  modified_at?: number | null;
-  modifier?: SLOCorrectionResponseAttributesModifier | null;
+  modified_at?: number | null | undefined;
+  modifier?: SLOCorrectionResponseAttributesModifier | null | undefined;
   /** The recurrence rules as defined in the iCalendar RFC 5545. The supported rules for SLO corrections are `FREQ`, `INTERVAL`, `COUNT`, `UNTIL` and `BYDAY`. */
-  rrule?: string | null;
+  rrule?: string | null | undefined;
   /** ID of the single SLO that this correction applies to. */
-  slo_id?: string | null;
+  slo_id?: string | null | undefined;
   /** Query that matches the SLOs this correction applies to. */
-  slo_query?: string | null;
+  slo_query?: string | null | undefined;
   /** Starting time of the correction in epoch seconds. */
-  start?: number;
+  start?: number | undefined;
   /** The timezone to display in the UI for the correction times (defaults to "UTC"). */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 /** The response object of a list of SLO corrections. */
 export interface SLOCorrection {
-  attributes?: SLOCorrectionResponseAttributes;
+  attributes?: SLOCorrectionResponseAttributes | undefined;
   /** The ID of the SLO correction. */
-  id?: string;
-  type?: SLOCorrectionType;
+  id?: string | undefined;
+  type?: SLOCorrectionType | undefined;
 }
 /** The response object of an SLO correction. */
 export interface SLOCorrectionResponse {
-  data?: SLOCorrection;
+  data?: SLOCorrection | undefined;
 }
 /** Assertion operator to apply. */
 export type SyntheticsAssertionOperator =
@@ -6515,10 +6528,10 @@ export type SyntheticsAssertionType =
 export interface SyntheticsAssertionTarget {
   operator: SyntheticsAssertionOperator | (string & {});
   /** The associated assertion property. */
-  property?: string;
+  property?: string | undefined;
   /** Value used by the operator. */
   target: SyntheticsAssertionTargetValue;
-  timingsScope?: SyntheticsAssertionTimingsScope | (string & {});
+  timingsScope?: SyntheticsAssertionTimingsScope | (string & {}) | undefined;
   type: SyntheticsAssertionType | (string & {});
 }
 /** Assertion operator to apply. */
@@ -6537,20 +6550,20 @@ export type SyntheticsAssertionJSONPathOperator = "validatesJSONPath";
 /** Composed target for `validatesJSONPath` operator. */
 export interface SyntheticsAssertionJSONPathTargetTarget {
   /** The element from the list of results to assert on. To choose from the first element in the list `firstElementMatches`, every element in the list `everyElementMatches`, at least one element in the list `atLeastOneElementMatches` or the serialized value of the list `serializationMatches`. */
-  elementsOperator?: string;
+  elementsOperator?: string | undefined;
   /** The JSON path to assert. */
-  jsonPath?: string;
+  jsonPath?: string | undefined;
   /** The specific operator to use on the path. */
-  operator?: string;
+  operator?: string | undefined;
   /** The path target value to compare to. */
-  targetValue?: SyntheticsAssertionTargetValue;
+  targetValue?: SyntheticsAssertionTargetValue | undefined;
 }
 /** An assertion for the `validatesJSONPath` operator. */
 export interface SyntheticsAssertionJSONPathTarget {
   operator: SyntheticsAssertionJSONPathOperator;
   /** The associated assertion property. */
-  property?: string;
-  target?: SyntheticsAssertionJSONPathTargetTarget;
+  property?: string | undefined;
+  target?: SyntheticsAssertionJSONPathTargetTarget | undefined;
   type: SyntheticsAssertionType | (string & {});
 }
 /** Assertion operator to apply. */
@@ -6560,13 +6573,13 @@ export type SyntheticsAssertionJSONSchemaMetaSchema = "draft-07" | "draft-06";
 /** Composed target for `validatesJSONSchema` operator. */
 export interface SyntheticsAssertionJSONSchemaTargetTarget {
   /** The JSON Schema to assert. */
-  jsonSchema?: string;
-  metaSchema?: SyntheticsAssertionJSONSchemaMetaSchema | (string & {});
+  jsonSchema?: string | undefined;
+  metaSchema?: SyntheticsAssertionJSONSchemaMetaSchema | (string & {}) | undefined;
 }
 /** An assertion for the `validatesJSONSchema` operator. */
 export interface SyntheticsAssertionJSONSchemaTarget {
   operator: SyntheticsAssertionJSONSchemaOperator;
-  target?: SyntheticsAssertionJSONSchemaTargetTarget;
+  target?: SyntheticsAssertionJSONSchemaTargetTarget | undefined;
   type: SyntheticsAssertionType | (string & {});
 }
 /** Assertion operator to apply. */
@@ -6574,18 +6587,18 @@ export type SyntheticsAssertionXPathOperator = "validatesXPath";
 /** Composed target for `validatesXPath` operator. */
 export interface SyntheticsAssertionXPathTargetTarget {
   /** The specific operator to use on the path. */
-  operator?: string;
+  operator?: string | undefined;
   /** The path target value to compare to. */
-  targetValue?: SyntheticsAssertionTargetValue;
+  targetValue?: SyntheticsAssertionTargetValue | undefined;
   /** The X path to assert. */
-  xPath?: string;
+  xPath?: string | undefined;
 }
 /** An assertion for the `validatesXPath` operator. */
 export interface SyntheticsAssertionXPathTarget {
   operator: SyntheticsAssertionXPathOperator;
   /** The associated assertion property. */
-  property?: string;
-  target?: SyntheticsAssertionXPathTargetTarget;
+  property?: string | undefined;
+  target?: SyntheticsAssertionXPathTargetTarget | undefined;
   type: SyntheticsAssertionType | (string & {});
 }
 /** Type of the assertion. */
@@ -6640,15 +6653,15 @@ export type SyntheticsConfigVariableType = "global" | "text" | "email";
 /** Object defining a variable that can be used in your test configuration. */
 export interface SyntheticsConfigVariable {
   /** Example for the variable. */
-  example?: string;
+  example?: string | undefined;
   /** ID of the variable for global variables. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the variable. */
   name: string;
   /** Pattern of the variable. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Whether the value of this variable will be obfuscated in test results. Only for config variables of type `text`. */
-  secure?: boolean;
+  secure?: boolean | undefined;
   type: SyntheticsConfigVariableType | (string & {});
 }
 /** Array of variables used for the test. */
@@ -6658,10 +6671,10 @@ export type SyntheticsBasicAuthWebType = "web";
 /** Object to handle basic authentication when performing the test. */
 export interface SyntheticsBasicAuthWeb {
   /** Password to use for the basic authentication. */
-  password?: string | Redacted.Redacted<string>;
-  type?: SyntheticsBasicAuthWebType | (string & {});
+  password?: string | Redacted.Redacted<string> | undefined;
+  type?: SyntheticsBasicAuthWebType | (string & {}) | undefined;
   /** Username to use for the basic authentication. */
-  username?: string;
+  username?: string | undefined;
 }
 /** The type of authentication to use when performing the test. */
 export type SyntheticsBasicAuthSigv4Type = "sigv4";
@@ -6670,13 +6683,13 @@ export interface SyntheticsBasicAuthSigv4 {
   /** Access key for the `SIGV4` authentication. */
   accessKey: string;
   /** Region for the `SIGV4` authentication. */
-  region?: string;
+  region?: string | undefined;
   /** Secret key for the `SIGV4` authentication. */
   secretKey: string | Redacted.Redacted<string>;
   /** Service name for the `SIGV4` authentication. */
-  serviceName?: string;
+  serviceName?: string | undefined;
   /** Session token for the `SIGV4` authentication. */
-  sessionToken?: string | Redacted.Redacted<string>;
+  sessionToken?: string | Redacted.Redacted<string> | undefined;
   type: SyntheticsBasicAuthSigv4Type;
 }
 /** The type of authentication to use when performing the test. */
@@ -6684,14 +6697,14 @@ export type SyntheticsBasicAuthNTLMType = "ntlm";
 /** Object to handle `NTLM` authentication when performing the test. */
 export interface SyntheticsBasicAuthNTLM {
   /** Domain for the authentication to use when performing the test. */
-  domain?: string;
+  domain?: string | undefined;
   /** Password for the authentication to use when performing the test. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   type: SyntheticsBasicAuthNTLMType;
   /** Username for the authentication to use when performing the test. */
-  username?: string;
+  username?: string | undefined;
   /** Workstation for the authentication to use when performing the test. */
-  workstation?: string;
+  workstation?: string | undefined;
 }
 /** The type of basic authentication to use when performing the test. */
 export type SyntheticsBasicAuthDigestType = "digest";
@@ -6712,15 +6725,15 @@ export interface SyntheticsBasicAuthOauthClient {
   /** Access token URL to use when performing the authentication. */
   accessTokenUrl: string;
   /** Audience to use when performing the authentication. */
-  audience?: string;
+  audience?: string | undefined;
   /** Client ID to use when performing the authentication. */
   clientId: string;
   /** Client secret to use when performing the authentication. */
   clientSecret: string | Redacted.Redacted<string>;
   /** Resource to use when performing the authentication. */
-  resource?: string;
+  resource?: string | undefined;
   /** Scope to use when performing the authentication. */
-  scope?: string;
+  scope?: string | undefined;
   tokenApiAuthentication: SyntheticsBasicAuthOauthTokenApiAuthentication | (string & {});
   type: SyntheticsBasicAuthOauthClientType;
 }
@@ -6731,17 +6744,17 @@ export interface SyntheticsBasicAuthOauthROP {
   /** Access token URL to use when performing the authentication. */
   accessTokenUrl: string;
   /** Audience to use when performing the authentication. */
-  audience?: string;
+  audience?: string | undefined;
   /** Client ID to use when performing the authentication. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Client secret to use when performing the authentication. */
-  clientSecret?: string | Redacted.Redacted<string>;
+  clientSecret?: string | Redacted.Redacted<string> | undefined;
   /** Password to use when performing the authentication. */
   password: string | Redacted.Redacted<string>;
   /** Resource to use when performing the authentication. */
-  resource?: string;
+  resource?: string | undefined;
   /** Scope to use when performing the authentication. */
-  scope?: string;
+  scope?: string | undefined;
   tokenApiAuthentication: SyntheticsBasicAuthOauthTokenApiAuthentication | (string & {});
   type: SyntheticsBasicAuthOauthROPType;
   /** Username to use when performing the authentication. */
@@ -6750,9 +6763,9 @@ export interface SyntheticsBasicAuthOauthROP {
 /** Standard JWT claims to automatically inject. */
 export interface SyntheticsBasicAuthJWTAddClaims {
   /** Whether to inject the `exp` (expiration) claim. */
-  exp?: boolean;
+  exp?: boolean | undefined;
   /** Whether to inject the `iat` (issued at) claim. */
-  iat?: boolean;
+  iat?: boolean | undefined;
 }
 /** Algorithm to use for the JWT authentication. */
 export type SyntheticsBasicAuthJWTAlgorithm = "HS256" | "RS256" | "ES256";
@@ -6760,18 +6773,18 @@ export type SyntheticsBasicAuthJWTAlgorithm = "HS256" | "RS256" | "ES256";
 export type SyntheticsBasicAuthJWTType = "jwt";
 /** Object to handle JWT authentication when performing the test. */
 export interface SyntheticsBasicAuthJWT {
-  addClaims?: SyntheticsBasicAuthJWTAddClaims;
+  addClaims?: SyntheticsBasicAuthJWTAddClaims | undefined;
   algorithm: SyntheticsBasicAuthJWTAlgorithm | (string & {});
   /** Token time-to-live in seconds. */
-  expiresIn?: number;
+  expiresIn?: number | undefined;
   /** Custom JWT header as a JSON string. */
-  header?: string;
+  header?: string | undefined;
   /** JWT claims as a JSON string. */
   payload: string;
   /** Signing key for the JWT authentication. Use the shared secret for `HS256` or the private key (PEM format) for `RS256` and `ES256`. */
   secret: string | Redacted.Redacted<string>;
   /** Prefix added before the token in the `Authorization` header. Defaults to `Bearer`. */
-  tokenPrefix?: string;
+  tokenPrefix?: string | undefined;
   type: SyntheticsBasicAuthJWTType;
 }
 /** Object to handle basic authentication when performing the test. */
@@ -6798,16 +6811,16 @@ export type SyntheticsTestCallType = "healthcheck" | "unary" | "init" | "tool_li
 /** Define a request certificate. */
 export interface SyntheticsTestRequestCertificateItem {
   /** Content of the certificate or key. */
-  content?: string;
+  content?: string | undefined;
   /** File name for the certificate or key. */
-  filename?: string;
+  filename?: string | undefined;
   /** Date of update of the certificate or key, ISO format. */
-  updatedAt?: string;
+  updatedAt?: string | undefined;
 }
 /** Client certificate to use when performing the test request. */
 export interface SyntheticsTestRequestCertificate {
-  cert?: SyntheticsTestRequestCertificateItem;
-  key?: SyntheticsTestRequestCertificateItem;
+  cert?: SyntheticsTestRequestCertificateItem | undefined;
+  key?: SyntheticsTestRequestCertificateItem | undefined;
 }
 /** By default, the client certificate is applied on the domain of the starting URL for browser tests. If you want your client certificate to be applied on other domains instead, add them in `certificateDomains`. */
 export type SyntheticsTestRequestCertificateDomainsList = Array<string>;
@@ -6816,19 +6829,19 @@ export type SyntheticsTestRequestDNSServerPort = number | string;
 /** Object describing a file to be used as part of the request in the test. */
 export interface SyntheticsTestRequestBodyFile {
   /** Bucket key of the file. */
-  bucketKey?: string;
+  bucketKey?: string | undefined;
   /** Content of the file. */
-  content?: string;
+  content?: string | undefined;
   /** Encoding of the file content. The only supported value is `base64`, indicating the `content` field contains base64-encoded data. */
-  encoding?: string;
+  encoding?: string | undefined;
   /** Name of the file. */
-  name?: string;
+  name?: string | undefined;
   /** Original name of the file. */
-  originalFileName?: string;
+  originalFileName?: string | undefined;
   /** Size of the file. */
-  size?: number;
+  size?: number | undefined;
   /** Type of the file. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Files to be used as part of the request in the test. Only valid if `bodyType` is `multipart/form-data`. */
 export type SyntheticsTestRequestFilesList = Array<SyntheticsTestRequestBodyFile>;
@@ -6846,7 +6859,7 @@ export type SyntheticsTestMetadata = { [key: string]: string | undefined };
 export type SyntheticsTestRequestPort = number | string;
 /** The proxy to perform the test. */
 export interface SyntheticsTestRequestProxy {
-  headers?: SyntheticsTestHeaders;
+  headers?: SyntheticsTestHeaders | undefined;
   /** URL of the proxy to perform the test. */
   url: string;
 }
@@ -6855,71 +6868,71 @@ export type SyntheticsTestRequestToolArgsMap = { [key: string]: unknown | undefi
 /** Object describing the Synthetic test request. */
 export interface SyntheticsTestRequest {
   /** Allows loading insecure content for an HTTP request in a multistep test step. */
-  allow_insecure?: boolean;
-  basicAuth?: SyntheticsBasicAuth;
+  allow_insecure?: boolean | undefined;
+  basicAuth?: SyntheticsBasicAuth | undefined;
   /** Body to include in the test. */
-  body?: string;
-  bodyType?: SyntheticsTestRequestBodyType | (string & {});
-  callType?: SyntheticsTestCallType | (string & {});
-  certificate?: SyntheticsTestRequestCertificate;
+  body?: string | undefined;
+  bodyType?: SyntheticsTestRequestBodyType | (string & {}) | undefined;
+  callType?: SyntheticsTestCallType | (string & {}) | undefined;
+  certificate?: SyntheticsTestRequestCertificate | undefined;
   /** By default, the client certificate is applied on the domain of the starting URL for browser tests. If you want your client certificate to be applied on other domains instead, add them in `certificateDomains`. */
-  certificateDomains?: SyntheticsTestRequestCertificateDomainsList;
+  certificateDomains?: SyntheticsTestRequestCertificateDomainsList | undefined;
   /** Check for certificate revocation. */
-  checkCertificateRevocation?: boolean;
+  checkCertificateRevocation?: boolean | undefined;
   /** A protobuf JSON descriptor that needs to be gzipped first then base64 encoded. */
-  compressedJsonDescriptor?: string;
+  compressedJsonDescriptor?: string | undefined;
   /** A protobuf file that needs to be gzipped first then base64 encoded. */
-  compressedProtoFile?: string;
+  compressedProtoFile?: string | undefined;
   /** Disable fetching intermediate certificates from AIA. */
-  disableAiaIntermediateFetching?: boolean;
+  disableAiaIntermediateFetching?: boolean | undefined;
   /** DNS server to use for DNS tests. */
-  dnsServer?: string;
+  dnsServer?: string | undefined;
   /** DNS server port to use for DNS tests. */
-  dnsServerPort?: SyntheticsTestRequestDNSServerPort;
+  dnsServerPort?: SyntheticsTestRequestDNSServerPort | undefined;
   /** Files to be used as part of the request in the test. Only valid if `bodyType` is `multipart/form-data`. */
-  files?: SyntheticsTestRequestFilesList;
+  files?: SyntheticsTestRequestFilesList | undefined;
   /** Specifies whether or not the request follows redirects. */
-  follow_redirects?: boolean;
+  follow_redirects?: boolean | undefined;
   /** Form to be used as part of the request in the test. Only valid if `bodyType` is `multipart/form-data`. */
-  form?: SyntheticsTestRequestFormMap;
-  headers?: SyntheticsTestHeaders;
+  form?: SyntheticsTestRequestFormMap | undefined;
+  headers?: SyntheticsTestHeaders | undefined;
   /** Host name to perform the test with. */
-  host?: string;
-  httpVersion?: SyntheticsTestOptionsHTTPVersion | (string & {});
+  host?: string | undefined;
+  httpVersion?: SyntheticsTestOptionsHTTPVersion | (string & {}) | undefined;
   /** For SSL tests, whether the test should ignore certificate validation. */
-  ignore_certificate_validation?: boolean;
+  ignore_certificate_validation?: boolean | undefined;
   /** Whether the message is base64 encoded. */
-  isMessageBase64Encoded?: boolean;
-  mcpProtocolVersion?: SyntheticsMCPProtocolVersion | (string & {});
+  isMessageBase64Encoded?: boolean | undefined;
+  mcpProtocolVersion?: SyntheticsMCPProtocolVersion | (string & {}) | undefined;
   /** Message to send for UDP or WebSocket tests. */
-  message?: string;
-  metadata?: SyntheticsTestMetadata;
+  message?: string | undefined;
+  metadata?: SyntheticsTestMetadata | undefined;
   /** Either the HTTP method/verb to use or a gRPC method available on the service set in the `service` field. Required if `subtype` is `HTTP` or if `subtype` is `grpc` and `callType` is `unary`. */
-  method?: string;
+  method?: string | undefined;
   /** Determines whether or not to save the response body. */
-  noSavingResponseBody?: boolean;
+  noSavingResponseBody?: boolean | undefined;
   /** Number of pings to use per test. */
-  numberOfPackets?: number;
+  numberOfPackets?: number | undefined;
   /** Persist cookies across redirects. */
-  persistCookies?: boolean;
-  port?: SyntheticsTestRequestPort;
-  proxy?: SyntheticsTestRequestProxy;
+  persistCookies?: boolean | undefined;
+  port?: SyntheticsTestRequestPort | undefined;
+  proxy?: SyntheticsTestRequestProxy | undefined;
   /** Query to use for the test. */
-  query?: unknown;
+  query?: unknown | undefined;
   /** For SSL tests, it specifies on which server you want to initiate the TLS handshake, allowing the server to present one of multiple possible certificates on the same IP address and TCP port number. */
-  servername?: string;
+  servername?: string | undefined;
   /** The gRPC service on which you want to perform the gRPC call. */
-  service?: string;
+  service?: string | undefined;
   /** Turns on a traceroute probe to discover all gateways along the path to the host destination. */
-  shouldTrackHops?: boolean;
+  shouldTrackHops?: boolean | undefined;
   /** Timeout in seconds for the test. */
-  timeout?: number;
+  timeout?: number | undefined;
   /** Arguments to pass to the MCP tool. Free-form object whose shape depends on the tool. Used when `callType` is `tool_call`. */
-  toolArgs?: SyntheticsTestRequestToolArgsMap;
+  toolArgs?: SyntheticsTestRequestToolArgsMap | undefined;
   /** The name of the MCP tool to call. Required when `callType` is `tool_call`. */
-  toolName?: string;
+  toolName?: string | undefined;
   /** URL to perform the test with. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Array of assertions used for the test. */
 export type SyntheticsAPITestStepInputAssertionsList = Array<SyntheticsAssertion>;
@@ -6933,22 +6946,22 @@ export type SyntheticsLocalVariableParsingOptionsType =
 /** Parsing options for variables to extract. */
 export interface SyntheticsParsingOptions {
   /** When type is `http_header` or `grpc_metadata`, name of the header or metadatum to extract. */
-  field?: string;
+  field?: string | undefined;
   /** Name of the variable to extract. */
-  name?: string;
-  parser?: SyntheticsVariableParser;
+  name?: string | undefined;
+  parser?: SyntheticsVariableParser | undefined;
   /** Determines whether or not the extracted value will be obfuscated. */
-  secure?: boolean;
-  type?: SyntheticsLocalVariableParsingOptionsType | (string & {});
+  secure?: boolean | undefined;
+  type?: SyntheticsLocalVariableParsingOptionsType | (string & {}) | undefined;
 }
 /** Array of values to parse and save as variables from the response. */
 export type SyntheticsAPITestStepInputExtractedValuesList = Array<SyntheticsParsingOptions>;
 /** Object describing the retry strategy to apply to a Synthetic test. */
 export interface SyntheticsTestOptionsRetry {
   /** Number of times a test needs to be retried before marking a location as failed. Defaults to 0. */
-  count?: number;
+  count?: number | undefined;
   /** Time interval between retries (in milliseconds). Defaults to 300ms. */
-  interval?: number;
+  interval?: number | undefined;
 }
 /** The subtype of the Synthetic multi-step API test step. */
 export type SyntheticsAPITestStepSubtype =
@@ -6964,21 +6977,21 @@ export type SyntheticsAPITestStepSubtype =
 /** The Test step used in a Synthetic multi-step API test. */
 export interface SyntheticsAPITestStepInput {
   /** Determines whether or not to continue with test if this step fails. */
-  allowFailure?: boolean;
+  allowFailure?: boolean | undefined;
   /** Array of assertions used for the test. */
   assertions: SyntheticsAPITestStepInputAssertionsList;
   /** Determines whether or not to exit the test if the step succeeds. */
-  exitIfSucceed?: boolean;
+  exitIfSucceed?: boolean | undefined;
   /** Array of values to parse and save as variables from the response. */
-  extractedValues?: SyntheticsAPITestStepInputExtractedValuesList;
+  extractedValues?: SyntheticsAPITestStepInputExtractedValuesList | undefined;
   /** Generate variables using JavaScript. */
-  extractedValuesFromScript?: string;
+  extractedValuesFromScript?: string | undefined;
   /** Determines whether or not to consider the entire test as failed if this step fails. Can be used only if `allowFailure` is `true`. */
-  isCritical?: boolean;
+  isCritical?: boolean | undefined;
   /** The name of the step. */
   name: string;
   request: SyntheticsTestRequest;
-  retry?: SyntheticsTestOptionsRetry;
+  retry?: SyntheticsTestOptionsRetry | undefined;
   subtype: SyntheticsAPITestStepSubtype | (string & {});
 }
 /** The subtype of the Synthetic multi-step API wait step. */
@@ -6996,18 +7009,18 @@ export type SyntheticsAPISubtestStepSubtype = "playSubTest";
 /** The subtest step used in a Synthetics multi-step API test. */
 export interface SyntheticsAPISubtestStepInput {
   /** Determines whether or not to continue with test if this step fails. */
-  allowFailure?: boolean;
+  allowFailure?: boolean | undefined;
   /** A boolean set to always execute this step even if the previous step failed or was skipped. */
-  alwaysExecute?: boolean;
+  alwaysExecute?: boolean | undefined;
   /** Determines whether or not to exit the test if the step succeeds. */
-  exitIfSucceed?: boolean;
+  exitIfSucceed?: boolean | undefined;
   /** Generate variables using JavaScript. */
-  extractedValuesFromScript?: string;
+  extractedValuesFromScript?: string | undefined;
   /** Determines whether or not to consider the entire test as failed if this step fails. Can be used only if `allowFailure` is `true`. */
-  isCritical?: boolean;
+  isCritical?: boolean | undefined;
   /** The name of the step. */
   name: string;
-  retry?: SyntheticsTestOptionsRetry;
+  retry?: SyntheticsTestOptionsRetry | undefined;
   /** Public ID of the test to be played as part of a `playSubTest` step type. */
   subtestPublicId: string;
   subtype: SyntheticsAPISubtestStepSubtype;
@@ -7022,14 +7035,14 @@ export type SyntheticsAPITestConfigInputStepsList = Array<SyntheticsAPIStepInput
 /** Configuration object for a Synthetic API test. */
 export interface SyntheticsAPITestConfigInput {
   /** Array of assertions used for the test. Required for single API tests. */
-  assertions?: SyntheticsAPITestConfigInputAssertionsList;
+  assertions?: SyntheticsAPITestConfigInputAssertionsList | undefined;
   /** Array of variables used for the test. */
-  configVariables?: SyntheticsAPITestConfigInputConfigVariablesList;
-  request?: SyntheticsTestRequest;
+  configVariables?: SyntheticsAPITestConfigInputConfigVariablesList | undefined;
+  request?: SyntheticsTestRequest | undefined;
   /** When the test subtype is `multi`, the steps of the test. */
-  steps?: SyntheticsAPITestConfigInputStepsList;
+  steps?: SyntheticsAPITestConfigInputStepsList | undefined;
   /** Variables defined from JavaScript code. */
-  variablesFromScript?: string;
+  variablesFromScript?: string | undefined;
 }
 /** Array of locations used to run the test. */
 export type CreateSyntheticsAPITestRequestLocationsList = Array<string>;
@@ -7055,21 +7068,22 @@ export type SyntheticsTestOptionsMonitorOptionsNotificationPresetName =
 /** Object containing the options for a Synthetic test as a monitor (for example, renotification). */
 export interface SyntheticsTestOptionsMonitorOptions {
   /** Message to include in the escalation notification. */
-  escalation_message?: string;
+  escalation_message?: string | undefined;
   notification_preset_name?:
     | SyntheticsTestOptionsMonitorOptionsNotificationPresetName
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Time interval before renotifying if the test is still failing (in minutes). */
-  renotify_interval?: number;
+  renotify_interval?: number | undefined;
   /** The number of times to renotify if the test is still failing. */
-  renotify_occurrences?: number;
+  renotify_occurrences?: number | undefined;
 }
 /** The RUM data collection settings for the Synthetic browser test. **Note:** There are 3 ways to format RUM settings: `{ isEnabled: false }` RUM data is not collected. `{ isEnabled: true }` RUM data is collected from the Synthetic test's default application. `{ isEnabled: true, applicationId: "xxxxxxxx-xxxx-xxxx-xxxx-xxxxxxxxxxxx", clientTokenId: 12345 }` RUM data is collected using the specified application. */
 export interface SyntheticsBrowserTestRumSettings {
   /** RUM application ID used to collect RUM data for the browser test. */
-  applicationId?: string;
+  applicationId?: string | undefined;
   /** RUM application API key ID used to collect RUM data for the browser test. */
-  clientTokenId?: number;
+  clientTokenId?: number | undefined;
   /** Determines whether RUM data is collected during test runs. */
   isEnabled: boolean;
 }
@@ -7095,56 +7109,56 @@ export interface SyntheticsTestOptionsScheduling {
 /** Object describing the extra options for a Synthetic test. */
 export interface SyntheticsTestOptions {
   /** For SSL tests, whether or not the test should allow self signed certificates. */
-  accept_self_signed?: boolean;
+  accept_self_signed?: boolean | undefined;
   /** Allows loading insecure content for an HTTP request in an API test. */
-  allow_insecure?: boolean;
+  allow_insecure?: boolean | undefined;
   /** Whether Bits AI automatically investigates alerts from the test monitor. */
-  bits_ai_auto_investigate?: boolean;
+  bits_ai_auto_investigate?: boolean | undefined;
   /** Array of URL patterns to block. */
-  blockedRequestPatterns?: SyntheticsTestOptionsBlockedRequestPatternsList;
+  blockedRequestPatterns?: SyntheticsTestOptionsBlockedRequestPatternsList | undefined;
   /** Capture HTTP request/response headers and bodies for Fetch/XHR calls made during browser tests. */
-  captureNetworkPayloads?: boolean;
+  captureNetworkPayloads?: boolean | undefined;
   /** For SSL tests, whether or not the test should fail on revoked certificate in stapled OCSP. */
-  checkCertificateRevocation?: boolean;
-  ci?: SyntheticsTestCiOptions;
+  checkCertificateRevocation?: boolean | undefined;
+  ci?: SyntheticsTestCiOptions | undefined;
   /** For browser test, array with the different device IDs used to run the test. */
-  device_ids?: SyntheticsTestOptionsDeviceIdsList;
+  device_ids?: SyntheticsTestOptionsDeviceIdsList | undefined;
   /** For SSL tests, whether or not the test should disable fetching intermediate certificates from AIA. */
-  disableAiaIntermediateFetching?: boolean;
+  disableAiaIntermediateFetching?: boolean | undefined;
   /** Whether or not to disable CORS mechanism. */
-  disableCors?: boolean;
+  disableCors?: boolean | undefined;
   /** Disable Content Security Policy for browser tests. */
-  disableCsp?: boolean;
+  disableCsp?: boolean | undefined;
   /** Enable profiling for browser tests. */
-  enableProfiling?: boolean;
+  enableProfiling?: boolean | undefined;
   /** Enable security testing for browser tests. Security testing is not available anymore. This field is deprecated and won't be used. */
-  enableSecurityTesting?: boolean;
+  enableSecurityTesting?: boolean | undefined;
   /** For API HTTP test, whether or not the test should follow redirects. */
-  follow_redirects?: boolean;
-  httpVersion?: SyntheticsTestOptionsHTTPVersion | (string & {});
+  follow_redirects?: boolean | undefined;
+  httpVersion?: SyntheticsTestOptionsHTTPVersion | (string & {}) | undefined;
   /** Ignore server certificate error for browser tests. */
-  ignoreServerCertificateError?: boolean;
+  ignoreServerCertificateError?: boolean | undefined;
   /** For SSL tests, whether the test should ignore certificate validation. */
-  ignore_certificate_validation?: boolean;
+  ignore_certificate_validation?: boolean | undefined;
   /** Timeout before declaring the initial step as failed (in seconds) for browser tests. */
-  initialNavigationTimeout?: number;
+  initialNavigationTimeout?: number | undefined;
   /** Minimum amount of time in failure required to trigger an alert. */
-  min_failure_duration?: number;
+  min_failure_duration?: number | undefined;
   /** Minimum number of locations in failure required to trigger an alert. */
-  min_location_failed?: number;
+  min_location_failed?: number | undefined;
   /** The monitor name is used for the alert title as well as for all monitor dashboard widgets and SLOs. */
-  monitor_name?: string;
-  monitor_options?: SyntheticsTestOptionsMonitorOptions;
+  monitor_name?: string | undefined;
+  monitor_options?: SyntheticsTestOptionsMonitorOptions | undefined;
   /** Integer from 1 (high) to 5 (low) indicating alert severity. */
-  monitor_priority?: number;
+  monitor_priority?: number | undefined;
   /** Prevents saving screenshots of the steps. */
-  noScreenshot?: boolean;
-  restricted_roles?: SyntheticsRestrictedRoles;
-  retry?: SyntheticsTestOptionsRetry;
-  rumSettings?: SyntheticsBrowserTestRumSettings;
-  scheduling?: SyntheticsTestOptionsScheduling;
+  noScreenshot?: boolean | undefined;
+  restricted_roles?: SyntheticsRestrictedRoles | undefined;
+  retry?: SyntheticsTestOptionsRetry | undefined;
+  rumSettings?: SyntheticsBrowserTestRumSettings | undefined;
+  scheduling?: SyntheticsTestOptionsScheduling | undefined;
   /** The frequency at which to run the Synthetic test (in seconds). */
-  tick_every?: number;
+  tick_every?: number | undefined;
 }
 /** Define whether you want to start (`live`) or pause (`paused`) a Synthetic test. */
 export type SyntheticsTestPauseStatus = "live" | "paused";
@@ -7172,10 +7186,10 @@ export interface CreateSyntheticsAPITestRequest {
   /** Name of the test. */
   name: string;
   options: SyntheticsTestOptions;
-  status?: SyntheticsTestPauseStatus | (string & {});
-  subtype?: SyntheticsTestDetailsSubType | (string & {});
+  status?: SyntheticsTestPauseStatus | (string & {}) | undefined;
+  subtype?: SyntheticsTestDetailsSubType | (string & {}) | undefined;
   /** Array of tags attached to the test. */
-  tags?: CreateSyntheticsAPITestRequestTagsList;
+  tags?: CreateSyntheticsAPITestRequestTagsList | undefined;
   type: SyntheticsAPITestType | (string & {});
 }
 /** Array of assertions used for the test. Required for single API tests. */
@@ -7189,29 +7203,29 @@ export type SyntheticsAPITestStepExtractedValuesList = Array<SyntheticsParsingOp
 /** The Test step used in a Synthetic multi-step API test. */
 export interface SyntheticsAPITestStep {
   /** Determines whether or not to continue with test if this step fails. */
-  allowFailure?: boolean;
+  allowFailure?: boolean | undefined;
   /** Array of assertions used for the test. */
   assertions: SyntheticsAPITestStepAssertionsList;
   /** Determines whether or not to exit the test if the step succeeds. */
-  exitIfSucceed?: boolean;
+  exitIfSucceed?: boolean | undefined;
   /** Array of values to parse and save as variables from the response. */
-  extractedValues?: SyntheticsAPITestStepExtractedValuesList;
+  extractedValues?: SyntheticsAPITestStepExtractedValuesList | undefined;
   /** Generate variables using JavaScript. */
-  extractedValuesFromScript?: string;
+  extractedValuesFromScript?: string | undefined;
   /** ID of the step. */
-  id?: string;
+  id?: string | undefined;
   /** Determines whether or not to consider the entire test as failed if this step fails. Can be used only if `allowFailure` is `true`. */
-  isCritical?: boolean;
+  isCritical?: boolean | undefined;
   /** The name of the step. */
   name: string;
   request: SyntheticsTestRequest;
-  retry?: SyntheticsTestOptionsRetry;
+  retry?: SyntheticsTestOptionsRetry | undefined;
   subtype: SyntheticsAPITestStepSubtype;
 }
 /** The Wait step used in a Synthetic multi-step API test. */
 export interface SyntheticsAPIWaitStep {
   /** ID of the step. */
-  id?: string;
+  id?: string | undefined;
   /** The name of the step. */
   name: string;
   subtype: SyntheticsAPIWaitStepSubtype;
@@ -7221,20 +7235,20 @@ export interface SyntheticsAPIWaitStep {
 /** The subtest step used in a Synthetics multi-step API test. */
 export interface SyntheticsAPISubtestStep {
   /** Determines whether or not to continue with test if this step fails. */
-  allowFailure?: boolean;
+  allowFailure?: boolean | undefined;
   /** A boolean set to always execute this step even if the previous step failed or was skipped. */
-  alwaysExecute?: boolean;
+  alwaysExecute?: boolean | undefined;
   /** Determines whether or not to exit the test if the step succeeds. */
-  exitIfSucceed?: boolean;
+  exitIfSucceed?: boolean | undefined;
   /** Generate variables using JavaScript. */
-  extractedValuesFromScript?: string;
+  extractedValuesFromScript?: string | undefined;
   /** ID of the step. */
-  id?: string;
+  id?: string | undefined;
   /** Determines whether or not to consider the entire test as failed if this step fails. Can be used only if `allowFailure` is `true`. */
-  isCritical?: boolean;
+  isCritical?: boolean | undefined;
   /** The name of the step. */
   name: string;
-  retry?: SyntheticsTestOptionsRetry;
+  retry?: SyntheticsTestOptionsRetry | undefined;
   /** Public ID of the test to be played as part of a `playSubTest` step type. */
   subtestPublicId: string;
   subtype: SyntheticsAPISubtestStepSubtype;
@@ -7249,14 +7263,14 @@ export type SyntheticsAPITestConfigStepsList = Array<SyntheticsAPIStep>;
 /** Configuration object for a Synthetic API test. */
 export interface SyntheticsAPITestConfig {
   /** Array of assertions used for the test. Required for single API tests. */
-  assertions?: SyntheticsAPITestConfigAssertionsList;
+  assertions?: SyntheticsAPITestConfigAssertionsList | undefined;
   /** Array of variables used for the test. */
-  configVariables?: SyntheticsAPITestConfigConfigVariablesList;
-  request?: SyntheticsTestRequest;
+  configVariables?: SyntheticsAPITestConfigConfigVariablesList | undefined;
+  request?: SyntheticsTestRequest | undefined;
   /** When the test subtype is `multi`, the steps of the test. */
-  steps?: SyntheticsAPITestConfigStepsList;
+  steps?: SyntheticsAPITestConfigStepsList | undefined;
   /** Variables defined from JavaScript code. */
-  variablesFromScript?: string;
+  variablesFromScript?: string | undefined;
 }
 /** Array of locations used to run the test. */
 export type SyntheticsAPITestLocationsList = Array<string>;
@@ -7270,16 +7284,16 @@ export interface SyntheticsAPITest {
   /** Notification message associated with the test. */
   message: string;
   /** The associated monitor ID. */
-  monitor_id?: number;
+  monitor_id?: number | undefined;
   /** Name of the test. */
   name: string;
   options: SyntheticsTestOptions;
   /** The public ID for the test. */
-  public_id?: string;
-  status?: SyntheticsTestPauseStatus;
-  subtype?: SyntheticsTestDetailsSubType;
+  public_id?: string | undefined;
+  status?: SyntheticsTestPauseStatus | undefined;
+  subtype?: SyntheticsTestDetailsSubType | undefined;
   /** Array of tags attached to the test. */
-  tags?: SyntheticsAPITestTagsList;
+  tags?: SyntheticsAPITestTagsList | undefined;
   type: SyntheticsAPITestType;
 }
 /** Array of assertions used for the test. */
@@ -7291,15 +7305,15 @@ export type SyntheticsBrowserVariableType = "element" | "email" | "global" | "te
 /** Object defining a variable that can be used in your browser test. See the [Recording Steps documentation](https://docs.datadoghq.com/synthetics/browser_tests/actions/?tab=testanelementontheactivepage#variables). */
 export interface SyntheticsBrowserVariable {
   /** Example for the variable. */
-  example?: string;
+  example?: string | undefined;
   /** ID for the variable. Global variables require an ID. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the variable. */
   name: string;
   /** Pattern of the variable. */
-  pattern?: string;
+  pattern?: string | undefined;
   /** Determines whether or not the browser test variable is obfuscated. Can only be used with browser variables of type `text`. */
-  secure?: boolean;
+  secure?: boolean | undefined;
   type: SyntheticsBrowserVariableType | (string & {});
 }
 /** Array of variables used for the test steps. */
@@ -7309,12 +7323,12 @@ export interface SyntheticsBrowserTestConfig {
   /** Array of assertions used for the test. */
   assertions: SyntheticsBrowserTestConfigAssertionsList;
   /** Array of variables used for the test. */
-  configVariables?: SyntheticsBrowserTestConfigConfigVariablesList;
+  configVariables?: SyntheticsBrowserTestConfigConfigVariablesList | undefined;
   request: SyntheticsTestRequest;
   /** Cookies to be used for the request, using the [Set-Cookie](https://developer.mozilla.org/en-US/docs/Web/HTTP/Headers/Set-Cookie) syntax. */
-  setCookie?: string;
+  setCookie?: string | undefined;
   /** Array of variables used for the test steps. */
-  variables?: SyntheticsBrowserTestConfigVariablesList;
+  variables?: SyntheticsBrowserTestConfigVariablesList | undefined;
 }
 /** Array of locations used to run the test. */
 export type CreateSyntheticsBrowserTestRequestLocationsList = Array<string>;
@@ -7352,24 +7366,24 @@ export type SyntheticsStepType =
 /** The steps used in a Synthetic browser test. */
 export interface SyntheticsStep {
   /** A boolean set to allow this step to fail. */
-  allowFailure?: boolean;
+  allowFailure?: boolean | undefined;
   /** A boolean set to always execute this step even if the previous step failed or was skipped. */
-  alwaysExecute?: boolean;
+  alwaysExecute?: boolean | undefined;
   /** A boolean set to exit the test if the step succeeds. */
-  exitIfSucceed?: boolean;
+  exitIfSucceed?: boolean | undefined;
   /** A boolean to use in addition to `allowFailure` to determine if the test should be marked as failed when the step fails. */
-  isCritical?: boolean;
+  isCritical?: boolean | undefined;
   /** The name of the step. */
-  name?: string;
+  name?: string | undefined;
   /** A boolean set to skip taking a screenshot for the step. */
-  noScreenshot?: boolean;
+  noScreenshot?: boolean | undefined;
   /** The parameters of the step. */
-  params?: unknown;
+  params?: unknown | undefined;
   /** The public ID of the step. */
-  public_id?: string;
+  public_id?: string | undefined;
   /** The time before declaring a step failed. */
-  timeout?: number;
-  type?: SyntheticsStepType | (string & {});
+  timeout?: number | undefined;
+  type?: SyntheticsStepType | (string & {}) | undefined;
 }
 /** Array of steps for the test. */
 export type CreateSyntheticsBrowserTestRequestStepsList = Array<SyntheticsStep>;
@@ -7386,11 +7400,11 @@ export interface CreateSyntheticsBrowserTestRequest {
   /** Name of the test. */
   name: string;
   options: SyntheticsTestOptions;
-  status?: SyntheticsTestPauseStatus | (string & {});
+  status?: SyntheticsTestPauseStatus | (string & {}) | undefined;
   /** Array of steps for the test. */
-  steps?: CreateSyntheticsBrowserTestRequestStepsList;
+  steps?: CreateSyntheticsBrowserTestRequestStepsList | undefined;
   /** Array of tags attached to the test. */
-  tags?: CreateSyntheticsBrowserTestRequestTagsList;
+  tags?: CreateSyntheticsBrowserTestRequestTagsList | undefined;
   type: SyntheticsBrowserTestType | (string & {});
 }
 /** Array of locations used to run the test. */
@@ -7407,17 +7421,17 @@ export interface SyntheticsBrowserTest {
   /** Notification message associated with the test. Message can either be text or an empty string. */
   message: string;
   /** The associated monitor ID. */
-  monitor_id?: number;
+  monitor_id?: number | undefined;
   /** Name of the test. */
   name: string;
   options: SyntheticsTestOptions;
   /** The public ID of the test. */
-  public_id?: string;
-  status?: SyntheticsTestPauseStatus;
+  public_id?: string | undefined;
+  status?: SyntheticsTestPauseStatus | undefined;
   /** Array of steps for the test. */
-  steps?: SyntheticsBrowserTestStepsList;
+  steps?: SyntheticsBrowserTestStepsList | undefined;
   /** Array of tags attached to the test. */
-  tags?: SyntheticsBrowserTestTagsList;
+  tags?: SyntheticsBrowserTestTagsList | undefined;
   type: SyntheticsBrowserTestType;
 }
 /** Initial application arguments for a mobile test. */
@@ -7426,9 +7440,9 @@ export type SyntheticsMobileTestInitialApplicationArguments = { [key: string]: s
 export type SyntheticsMobileTestConfigVariablesList = Array<SyntheticsConfigVariable>;
 /** Configuration object for a Synthetic mobile test. */
 export interface SyntheticsMobileTestConfig {
-  initialApplicationArguments?: SyntheticsMobileTestInitialApplicationArguments;
+  initialApplicationArguments?: SyntheticsMobileTestInitialApplicationArguments | undefined;
   /** Array of variables used for the test steps. */
-  variables?: SyntheticsMobileTestConfigVariablesList;
+  variables?: SyntheticsMobileTestConfigVariablesList | undefined;
 }
 /** Array with the different device IDs used to run the test. */
 export type CreateSyntheticsMobileTestRequestDeviceIdsList = Array<string>;
@@ -7438,8 +7452,8 @@ export type SyntheticsTestRestrictionPolicyBindingPrincipals = Array<string>;
 export type SyntheticsTestRestrictionPolicyBindingRelation = "editor" | "viewer";
 /** Objects describing the binding used for a mobile test. */
 export interface SyntheticsTestRestrictionPolicyBinding {
-  principals?: SyntheticsTestRestrictionPolicyBindingPrincipals;
-  relation?: SyntheticsTestRestrictionPolicyBindingRelation | (string & {});
+  principals?: SyntheticsTestRestrictionPolicyBindingPrincipals | undefined;
+  relation?: SyntheticsTestRestrictionPolicyBindingRelation | (string & {}) | undefined;
 }
 /** Array of bindings used for the mobile test. */
 export type SyntheticsMobileTestOptionsBindingsList = Array<SyntheticsTestRestrictionPolicyBinding>;
@@ -7458,35 +7472,35 @@ export interface SyntheticsMobileTestsMobileApplication {
 /** Object describing the extra options for a Synthetic test. */
 export interface SyntheticsMobileTestOptions {
   /** A boolean to set if an application crash would mark the test as failed. */
-  allowApplicationCrash?: boolean;
+  allowApplicationCrash?: boolean | undefined;
   /** Array of bindings used for the mobile test. */
-  bindings?: SyntheticsMobileTestOptionsBindingsList;
+  bindings?: SyntheticsMobileTestOptionsBindingsList | undefined;
   /** Whether Bits AI automatically investigates alerts from the test monitor. */
-  bits_ai_auto_investigate?: boolean;
-  ci?: SyntheticsTestCiOptions;
+  bits_ai_auto_investigate?: boolean | undefined;
+  ci?: SyntheticsTestCiOptions | undefined;
   /** The default timeout for steps in the test (in seconds). */
-  defaultStepTimeout?: number;
+  defaultStepTimeout?: number | undefined;
   /** For mobile test, array with the different device IDs used to run the test. */
   device_ids: SyntheticsMobileTestOptionsDeviceIdsList;
   /** A boolean to disable auto accepting alerts. */
-  disableAutoAcceptAlert?: boolean;
+  disableAutoAcceptAlert?: boolean | undefined;
   /** Minimum amount of time in failure required to trigger an alert. */
-  min_failure_duration?: number;
+  min_failure_duration?: number | undefined;
   mobileApplication: SyntheticsMobileTestsMobileApplication;
   /** The monitor name is used for the alert title as well as for all monitor dashboard widgets and SLOs. */
-  monitor_name?: string;
-  monitor_options?: SyntheticsTestOptionsMonitorOptions;
+  monitor_name?: string | undefined;
+  monitor_options?: SyntheticsTestOptionsMonitorOptions | undefined;
   /** Integer from 1 (high) to 5 (low) indicating alert severity. */
-  monitor_priority?: number;
+  monitor_priority?: number | undefined;
   /** A boolean set to not take a screenshot for the step. */
-  noScreenshot?: boolean;
-  restricted_roles?: SyntheticsRestrictedRoles;
-  retry?: SyntheticsTestOptionsRetry;
-  scheduling?: SyntheticsTestOptionsScheduling;
+  noScreenshot?: boolean | undefined;
+  restricted_roles?: SyntheticsRestrictedRoles | undefined;
+  retry?: SyntheticsTestOptionsRetry | undefined;
+  scheduling?: SyntheticsTestOptionsScheduling | undefined;
   /** The frequency at which to run the Synthetic test (in seconds). */
   tick_every: number;
   /** The level of verbosity for the mobile test. This field can not be set by a user. */
-  verbosity?: number;
+  verbosity?: number | undefined;
 }
 /** Type of assertion to apply in an API test. */
 export type SyntheticsCheckType =
@@ -7511,9 +7525,9 @@ export type SyntheticsMobileStepParamsElementContextType = "native" | "web";
 /** Position of the action relative to the element. */
 export interface SyntheticsMobileStepParamsElementRelativePosition {
   /** The `relativePosition` on the `x` axis for the element. */
-  x?: number;
+  x?: number | undefined;
   /** The `relativePosition` on the `y` axis for the element. */
-  y?: number;
+  y?: number | undefined;
 }
 /** Type of a user locator. */
 export type SyntheticsMobileStepParamsElementUserLocatorValuesItemsType =
@@ -7524,9 +7538,9 @@ export type SyntheticsMobileStepParamsElementUserLocatorValuesItemsType =
   | "xpath";
 /** A single user locator object. */
 export interface SyntheticsMobileStepParamsElementUserLocatorValuesItems {
-  type?: SyntheticsMobileStepParamsElementUserLocatorValuesItemsType | (string & {});
+  type?: SyntheticsMobileStepParamsElementUserLocatorValuesItemsType | (string & {}) | undefined;
   /** Value of a user locator. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Values of the user locator. */
 export type SyntheticsMobileStepParamsElementUserLocatorValuesList =
@@ -7534,32 +7548,32 @@ export type SyntheticsMobileStepParamsElementUserLocatorValuesList =
 /** User locator to find the element. */
 export interface SyntheticsMobileStepParamsElementUserLocator {
   /** Whether if the test should fail if the element cannot be found. */
-  failTestOnCannotLocate?: boolean;
+  failTestOnCannotLocate?: boolean | undefined;
   /** Values of the user locator. */
-  values?: SyntheticsMobileStepParamsElementUserLocatorValuesList;
+  values?: SyntheticsMobileStepParamsElementUserLocatorValuesList | undefined;
 }
 /** Information about the element used for a step. */
 export interface SyntheticsMobileStepParamsElement {
   /** Context of the element. */
-  context?: string;
-  contextType?: SyntheticsMobileStepParamsElementContextType | (string & {});
+  context?: string | undefined;
+  contextType?: SyntheticsMobileStepParamsElementContextType | (string & {}) | undefined;
   /** Description of the element. */
-  elementDescription?: string;
+  elementDescription?: string | undefined;
   /** Multi-locator to find the element. */
-  multiLocator?: unknown;
-  relativePosition?: SyntheticsMobileStepParamsElementRelativePosition;
+  multiLocator?: unknown | undefined;
+  relativePosition?: SyntheticsMobileStepParamsElementRelativePosition | undefined;
   /** Text content of the element. */
-  textContent?: string;
-  userLocator?: SyntheticsMobileStepParamsElementUserLocator;
+  textContent?: string | undefined;
+  userLocator?: SyntheticsMobileStepParamsElementUserLocator | undefined;
   /** Name of the view of the element. */
-  viewName?: string;
+  viewName?: string | undefined;
 }
 /** A description of a single position for a `flick` step type. */
 export interface SyntheticsMobileStepParamsPositionsItems {
   /** The `x` position for the flick. */
-  x?: number;
+  x?: number | undefined;
   /** The `y` position for the flick. */
-  y?: number;
+  y?: number | undefined;
 }
 /** List of positions for the `flick` step type. The maximum is 10 flicks per step */
 export type SyntheticsMobileStepParamsPositions = Array<SyntheticsMobileStepParamsPositionsItems>;
@@ -7574,26 +7588,26 @@ export interface SyntheticsMobileStepParamsVariable {
 }
 /** The parameters of a mobile step. */
 export interface SyntheticsMobileStepParams {
-  check?: SyntheticsCheckType | (string & {});
+  check?: SyntheticsCheckType | (string & {}) | undefined;
   /** Number of milliseconds to wait between inputs in a `typeText` step type. */
-  delay?: number;
-  direction?: SyntheticsMobileStepParamsDirection | (string & {});
-  element?: SyntheticsMobileStepParamsElement;
+  delay?: number | undefined;
+  direction?: SyntheticsMobileStepParamsDirection | (string & {}) | undefined;
+  element?: SyntheticsMobileStepParamsElement | undefined;
   /** Boolean to change the state of the wifi for a `toggleWiFi` step type. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Maximum number of scrolls to do for a `scrollToElement` step type. */
-  maxScrolls?: number;
-  positions?: SyntheticsMobileStepParamsPositions;
+  maxScrolls?: number | undefined;
+  positions?: SyntheticsMobileStepParamsPositions | undefined;
   /** Public ID of the test to be played as part of a `playSubTest` step type. */
-  subtestPublicId?: string;
-  value?: SyntheticsMobileStepParamsValue;
-  variable?: SyntheticsMobileStepParamsVariable;
+  subtestPublicId?: string | undefined;
+  value?: SyntheticsMobileStepParamsValue | undefined;
+  variable?: SyntheticsMobileStepParamsVariable | undefined;
   /** Boolean to indicate if `Enter` should be pressed at the end of the `typeText` step type. */
-  withEnter?: boolean;
+  withEnter?: boolean | undefined;
   /** Amount to scroll by on the `x` axis for a `scroll` step type. */
-  x?: number;
+  x?: number | undefined;
   /** Amount to scroll by on the `y` axis for a `scroll` step type. */
-  y?: number;
+  y?: number | undefined;
 }
 /** Step type used in your mobile Synthetic test. */
 export type SyntheticsMobileStepType =
@@ -7617,20 +7631,20 @@ export type SyntheticsMobileStepType =
 /** The steps used in a Synthetic mobile test. */
 export interface SyntheticsMobileStep {
   /** A boolean set to allow this step to fail. */
-  allowFailure?: boolean;
+  allowFailure?: boolean | undefined;
   /** A boolean set to determine if the step has a new step element. */
-  hasNewStepElement?: boolean;
+  hasNewStepElement?: boolean | undefined;
   /** A boolean to use in addition to `allowFailure` to determine if the test should be marked as failed when the step fails. */
-  isCritical?: boolean;
+  isCritical?: boolean | undefined;
   /** The name of the step. */
   name: string;
   /** A boolean set to not take a screenshot for the step. */
-  noScreenshot?: boolean;
+  noScreenshot?: boolean | undefined;
   params: SyntheticsMobileStepParams;
   /** The public ID of the step. */
-  publicId?: string;
+  publicId?: string | undefined;
   /** The time before declaring a step failed. */
-  timeout?: number;
+  timeout?: number | undefined;
   type: SyntheticsMobileStepType | (string & {});
 }
 /** Array of steps for the test. */
@@ -7642,17 +7656,17 @@ export type SyntheticsMobileTestType = "mobile";
 export interface CreateSyntheticsMobileTestRequest {
   config: SyntheticsMobileTestConfig;
   /** Array with the different device IDs used to run the test. */
-  device_ids?: CreateSyntheticsMobileTestRequestDeviceIdsList;
+  device_ids?: CreateSyntheticsMobileTestRequestDeviceIdsList | undefined;
   /** Notification message associated with the test. */
   message: string;
   /** Name of the test. */
   name: string;
   options: SyntheticsMobileTestOptions;
-  status?: SyntheticsTestPauseStatus | (string & {});
+  status?: SyntheticsTestPauseStatus | (string & {}) | undefined;
   /** Array of steps for the test. */
-  steps?: CreateSyntheticsMobileTestRequestStepsList;
+  steps?: CreateSyntheticsMobileTestRequestStepsList | undefined;
   /** Array of tags attached to the test. */
-  tags?: CreateSyntheticsMobileTestRequestTagsList;
+  tags?: CreateSyntheticsMobileTestRequestTagsList | undefined;
   type: SyntheticsMobileTestType | (string & {});
 }
 /** Array with the different device IDs used to run the test. */
@@ -7665,60 +7679,60 @@ export type SyntheticsMobileTestTagsList = Array<string>;
 export interface SyntheticsMobileTest {
   config: SyntheticsMobileTestConfig;
   /** Array with the different device IDs used to run the test. */
-  device_ids?: SyntheticsMobileTestDeviceIdsList;
+  device_ids?: SyntheticsMobileTestDeviceIdsList | undefined;
   /** Notification message associated with the test. */
   message: string;
   /** The associated monitor ID. */
-  monitor_id?: number;
+  monitor_id?: number | undefined;
   /** Name of the test. */
   name: string;
   options: SyntheticsMobileTestOptions;
   /** The public ID of the test. */
-  public_id?: string;
-  status?: SyntheticsTestPauseStatus;
+  public_id?: string | undefined;
+  status?: SyntheticsTestPauseStatus | undefined;
   /** Array of steps for the test. */
-  steps?: SyntheticsMobileTestStepsList;
+  steps?: SyntheticsMobileTestStepsList | undefined;
   /** Array of tags attached to the test. */
-  tags?: SyntheticsMobileTestTagsList;
+  tags?: SyntheticsMobileTestTagsList | undefined;
   type: SyntheticsMobileTestType;
 }
 export interface CreateUserRequest {
-  access_role?: AccessRole | (string & {}) | null;
+  access_role?: AccessRole | (string & {}) | null | undefined;
   /** The new disabled status of the user. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The new email of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The user handle, must be a valid email. */
-  handle?: string;
+  handle?: string | undefined;
   /** The name of the user. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A Datadog User. */
 export interface UserResponse {
-  user?: User;
+  user?: User | undefined;
 }
 /** Encoding type. Can be given either `json` or `form`. */
 export type WebhooksIntegrationEncoding = "json" | "form";
 export interface CreateWebhooksIntegrationRequest {
   /** If `null`, uses no header. If given a JSON payload, these will be headers attached to your webhook. */
-  custom_headers?: string | null;
-  encode_as?: WebhooksIntegrationEncoding | (string & {});
+  custom_headers?: string | null | undefined;
+  encode_as?: WebhooksIntegrationEncoding | (string & {}) | undefined;
   /** The name of the webhook. It corresponds with `<WEBHOOK_NAME>`. Learn more on how to use it in [monitor notifications](https://docs.datadoghq.com/monitors/notify). */
   name: string;
   /** If `null`, uses the default payload. If given a JSON payload, the webhook returns the payload specified by the given payload. [Webhooks variable usage](https://docs.datadoghq.com/integrations/webhooks/#usage). */
-  payload?: string | null;
+  payload?: string | null | undefined;
   /** URL of the webhook. */
   url: string;
 }
 /** Datadog-Webhooks integration. */
 export interface WebhooksIntegration {
   /** If `null`, uses no header. If given a JSON payload, these will be headers attached to your webhook. */
-  custom_headers?: string | null;
-  encode_as?: WebhooksIntegrationEncoding;
+  custom_headers?: string | null | undefined;
+  encode_as?: WebhooksIntegrationEncoding | undefined;
   /** The name of the webhook. It corresponds with `<WEBHOOK_NAME>`. Learn more on how to use it in [monitor notifications](https://docs.datadoghq.com/monitors/notify). */
   name: string;
   /** If `null`, uses the default payload. If given a JSON payload, the webhook returns the payload specified by the given payload. [Webhooks variable usage](https://docs.datadoghq.com/integrations/webhooks/#usage). */
-  payload?: string | null;
+  payload?: string | null | undefined;
   /** URL of the webhook. */
   url: string;
 }
@@ -7737,7 +7751,7 @@ export interface WebhooksIntegrationCustomVariableResponse {
   /** The name of the variable. It corresponds with `<CUSTOM_VARIABLE_NAME>`. It must only contains upper-case characters, integers or underscores. */
   name: string;
   /** Value of the custom variable. It won't be returned if the variable is secret. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface DeleteAPIKeyRequest {
   /** The specific API key you are working with. */
@@ -7754,41 +7768,41 @@ export type DeleteAzureIntegrationRequestResourceProviderConfigsList =
   Array<ResourceProviderConfig>;
 export interface DeleteAzureIntegrationRequest {
   /** Limit the Azure app service plans that are pulled into Datadog using tags. Only app service plans that match one of the defined tags are imported into Datadog. */
-  app_service_plan_filters?: string;
+  app_service_plan_filters?: string | undefined;
   /** Silence monitors for expected Azure VM shutdowns. */
-  automute?: boolean;
+  automute?: boolean | undefined;
   /** Your Azure web application ID. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Your Azure web application secret key. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Limit the Azure container apps that are pulled into Datadog using tags. Only container apps that match one of the defined tags are imported into Datadog. */
-  container_app_filters?: string;
+  container_app_filters?: string | undefined;
   /** When enabled, Datadog's Cloud Security Management product scans resource configurations monitored by this app registration. Note: This requires resource_collection_enabled to be set to true. */
-  cspm_enabled?: boolean;
+  cspm_enabled?: boolean | undefined;
   /** Enable custom metrics for your organization. */
-  custom_metrics_enabled?: boolean;
+  custom_metrics_enabled?: boolean | undefined;
   /** Errors in your configuration. */
-  errors?: DeleteAzureIntegrationRequestErrorsList;
+  errors?: DeleteAzureIntegrationRequestErrorsList | undefined;
   /** Limit the Azure instances that are pulled into Datadog by using tags. Only hosts that match one of the defined tags are imported into Datadog. */
-  host_filters?: string;
+  host_filters?: string | undefined;
   /** Enable Azure metrics for your organization. */
-  metrics_enabled?: boolean;
+  metrics_enabled?: boolean | undefined;
   /** Enable Azure metrics for your organization for resource providers where no resource provider config is specified. */
-  metrics_enabled_default?: boolean;
+  metrics_enabled_default?: boolean | undefined;
   /** Your New Azure web application ID. */
-  new_client_id?: string;
+  new_client_id?: string | undefined;
   /** Your New Azure Active Directory ID. */
-  new_tenant_name?: string;
+  new_tenant_name?: string | undefined;
   /** When enabled, Datadog collects metadata and configuration info from cloud resources (compute instances, databases, load balancers, etc.) monitored by this app registration. */
-  resource_collection_enabled?: boolean;
+  resource_collection_enabled?: boolean | undefined;
   /** Configuration settings applied to resources from the specified Azure resource providers. */
-  resource_provider_configs?: DeleteAzureIntegrationRequestResourceProviderConfigsList;
+  resource_provider_configs?: DeleteAzureIntegrationRequestResourceProviderConfigsList | undefined;
   /** (Preview) When enabled, Datadog authenticates with this app registration using federated workload identity credentials instead of a client secret. */
-  secretless_auth_enabled?: boolean;
+  secretless_auth_enabled?: boolean | undefined;
   /** Your Azure Active Directory ID. */
-  tenant_name?: string;
+  tenant_name?: string | undefined;
   /** Enable azure.usage metrics for your organization. */
-  usage_metrics_enabled?: boolean;
+  usage_metrics_enabled?: boolean | undefined;
 }
 export type DeleteAzureIntegrationResponse = unknown;
 export interface DeleteDashboardRequest {
@@ -7798,7 +7812,7 @@ export interface DeleteDashboardRequest {
 /** Response from the delete dashboard call. */
 export interface DashboardDeleteResponse {
   /** ID of the deleted dashboard. */
-  deleted_dashboard_id?: string;
+  deleted_dashboard_id?: string | undefined;
 }
 export interface DeleteDashboardListRequest {
   /** ID of the dashboard list to delete. */
@@ -7807,7 +7821,7 @@ export interface DeleteDashboardListRequest {
 /** Deleted dashboard details. */
 export interface DashboardListDeleteResponse {
   /** ID of the deleted dashboard list. */
-  deleted_dashboard_list_id?: number;
+  deleted_dashboard_list_id?: number | undefined;
 }
 /** Dashboard resource type. */
 export type DashboardResourceType = "dashboard";
@@ -7831,7 +7845,7 @@ export interface DeleteHostTagsRequest {
   /** Specified host name to delete tags */
   host_name: string;
   /** Source of the tags to be deleted. [Complete list of source attribute values](https://docs.datadoghq.com/integrations/faq/list-of-api-source-attribute-value). Use "user" source for custom-defined tags. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface DeleteHostTagsResponse {}
 export interface DeleteLogsIndexRequest {
@@ -7848,12 +7862,12 @@ export interface DeleteMonitorRequest {
   /** The ID of the monitor. */
   monitor_id: number;
   /** Delete the monitor even if it's referenced by other resources (for example SLO, composite monitor). */
-  force?: string;
+  force?: string | undefined;
 }
 /** Response from the delete monitor call. */
 export interface DeletedMonitor {
   /** ID of the deleted monitor. */
-  deleted_monitor_id?: number;
+  deleted_monitor_id?: number | undefined;
 }
 export interface DeleteNotebookRequest {
   /** Unique ID, assigned when you create the notebook. */
@@ -7877,12 +7891,12 @@ export interface DeletePublicDashboardRequest {
 /** Response containing token of deleted shared dashboard. */
 export interface DeleteSharedDashboardResponse {
   /** Token associated with the shared dashboard that was revoked. */
-  deleted_public_dashboard_token?: string;
+  deleted_public_dashboard_token?: string | undefined;
 }
 /** Attributes of the shared dashboard invitation */
 export interface SharedDashboardInvitesDataObjectAttributesInput {
   /** An email address that an invitation has been (or if used in invitation request, will be) sent to. */
-  email?: string;
+  email?: string | undefined;
 }
 /** Type for shared dashboard invitation request body. */
 export type DashboardInviteType = "public_dashboard_invitation";
@@ -7907,7 +7921,7 @@ export interface DeleteSLORequest {
   /** The ID of the service level objective. */
   slo_id: string;
   /** Delete the monitor even if it's referenced by other resources (for example SLO, composite monitor). */
-  force?: string;
+  force?: string | undefined;
 }
 /** An array containing the ID of the deleted service level objective object. */
 export type SLODeleteResponseDataList = Array<string>;
@@ -7916,9 +7930,9 @@ export type SLODeleteResponseErrorsMap = { [key: string]: string | undefined };
 /** A response list of all service level objective deleted. */
 export interface SLODeleteResponse {
   /** An array containing the ID of the deleted service level objective object. */
-  data?: SLODeleteResponseDataList;
+  data?: SLODeleteResponseDataList | undefined;
   /** An dictionary containing the ID of the SLO as key and a deletion error as value. */
-  errors?: SLODeleteResponseErrorsMap;
+  errors?: SLODeleteResponseErrorsMap | undefined;
 }
 export interface DeleteSLOCorrectionRequest {
   /** The ID of the SLO correction object. */
@@ -7939,9 +7953,9 @@ export type SLOBulkDeleteResponseDataUpdatedList = Array<string>;
 /** An array of service level objective objects. */
 export interface SLOBulkDeleteResponseData {
   /** An array of service level objective object IDs that indicates which objects that were completely deleted. */
-  deleted?: SLOBulkDeleteResponseDataDeletedList;
+  deleted?: SLOBulkDeleteResponseDataDeletedList | undefined;
   /** An array of service level objective object IDs that indicates which objects that were modified (objects for which at least one threshold was deleted, but that were not completely deleted). */
-  updated?: SLOBulkDeleteResponseDataUpdatedList;
+  updated?: SLOBulkDeleteResponseDataUpdatedList | undefined;
 }
 /** The timeframe of the threshold associated with this error or "all" if all thresholds are affected. */
 export type SLOErrorTimeframe = "7d" | "30d" | "90d" | "all";
@@ -7957,31 +7971,31 @@ export interface SLOBulkDeleteError {
 export type SLOBulkDeleteResponseErrorsList = Array<SLOBulkDeleteError>;
 /** The bulk partial delete service level objective object endpoint response. This endpoint operates on multiple service level objective objects, so it may be partially successful. In such cases, the "data" and "error" fields in this response indicate which deletions succeeded and failed. */
 export interface SLOBulkDeleteResponse {
-  data?: SLOBulkDeleteResponseData;
+  data?: SLOBulkDeleteResponseData | undefined;
   /** Array of errors object returned. */
-  errors?: SLOBulkDeleteResponseErrorsList;
+  errors?: SLOBulkDeleteResponseErrorsList | undefined;
 }
 /** An array of Synthetic test IDs you want to delete. */
 export type DeleteTestsRequestPublicIdsList = Array<string>;
 export interface DeleteTestsRequest {
   /** Delete the Synthetic test even if it's referenced by other resources (for example, SLOs and composite monitors). */
-  force_delete_dependencies?: boolean;
+  force_delete_dependencies?: boolean | undefined;
   /** An array of Synthetic test IDs you want to delete. */
-  public_ids?: DeleteTestsRequestPublicIdsList;
+  public_ids?: DeleteTestsRequestPublicIdsList | undefined;
 }
 /** Object containing a deleted Synthetic test ID with the associated deletion timestamp. */
 export interface SyntheticsDeletedTest {
   /** Deletion timestamp of the Synthetic test ID. */
-  deleted_at?: string;
+  deleted_at?: string | undefined;
   /** The Synthetic test ID deleted. */
-  public_id?: string;
+  public_id?: string | undefined;
 }
 /** Array of objects containing a deleted Synthetic test ID with the associated deletion timestamp. */
 export type SyntheticsDeleteTestsResponseDeletedTestsList = Array<SyntheticsDeletedTest>;
 /** Response object for deleting Synthetic tests. */
 export interface SyntheticsDeleteTestsResponse {
   /** Array of objects containing a deleted Synthetic test ID with the associated deletion timestamp. */
-  deleted_tests?: SyntheticsDeleteTestsResponseDeletedTestsList;
+  deleted_tests?: SyntheticsDeleteTestsResponseDeletedTestsList | undefined;
 }
 export interface DeleteWebhooksIntegrationRequest {
   /** The name of the webhook. */
@@ -8000,7 +8014,7 @@ export interface DisableUserRequest {
 /** Array of user disabled for a given organization. */
 export interface UserDisableResponse {
   /** Information pertaining to a user disabled for a given organization. */
-  message?: string;
+  message?: string | undefined;
 }
 export interface DowngradeOrgRequest {
   /** The `public_id` of the organization you are operating within. */
@@ -8009,28 +8023,28 @@ export interface DowngradeOrgRequest {
 /** Status of downgrade */
 export interface OrgDowngradedResponse {
   /** Information pertaining to the downgraded child organization. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Tags of the global variable. */
 export type EditGlobalVariableRequestTagsList = Array<string>;
 export interface EditGlobalVariableRequest {
   /** The ID of the global variable. */
   variable_id: string;
-  attributes?: SyntheticsGlobalVariableAttributes;
+  attributes?: SyntheticsGlobalVariableAttributes | undefined;
   /** Description of the global variable. */
   description: string;
   /** Determines if the global variable is a FIDO variable. */
-  is_fido?: boolean;
+  is_fido?: boolean | undefined;
   /** Determines if the global variable is a TOTP/MFA variable. */
-  is_totp?: boolean;
+  is_totp?: boolean | undefined;
   /** Name of the global variable. Unique across Synthetic global variables. */
   name: string;
-  parse_test_options?: SyntheticsGlobalVariableParseTestOptions;
+  parse_test_options?: SyntheticsGlobalVariableParseTestOptions | undefined;
   /** A Synthetic test ID to use as a test to generate the variable value. */
-  parse_test_public_id?: string;
+  parse_test_public_id?: string | undefined;
   /** Tags of the global variable. */
   tags: EditGlobalVariableRequestTagsList;
-  value?: SyntheticsGlobalVariableValue;
+  value?: SyntheticsGlobalVariableValue | undefined;
 }
 /** An array of Synthetic test IDs you want uptimes for. */
 export type FetchUptimesRequestPublicIdsList = Array<string>;
@@ -8058,25 +8072,25 @@ export type SyntheticsUptimeHistoryList = Array<SyntheticsUptimeHistoryItemList>
 /** Object containing the uptime information. */
 export interface SyntheticsUptime {
   /** An array of error objects returned while querying the history data for the service level objective. */
-  errors?: SyntheticsUptimeErrorsList | null;
+  errors?: SyntheticsUptimeErrorsList | null | undefined;
   /** The location name */
-  group?: string;
+  group?: string | undefined;
   /** The state transition history for the monitor, represented as an array of pairs. Each pair is an array where the first element is the transition timestamp in Unix epoch format (integer) and the second element is the state (integer). For the state, an integer value of `0` indicates uptime, `1` indicates downtime, and `2` indicates no data. */
-  history?: SyntheticsUptimeHistoryList;
+  history?: SyntheticsUptimeHistoryList | undefined;
   /** The number of decimal places to which the SLI value is accurate for the given from-to timestamps. */
-  span_precision?: number;
+  span_precision?: number | undefined;
   /** The overall uptime. */
-  uptime?: number;
+  uptime?: number | undefined;
 }
 /** Object containing the uptime for a Synthetic test ID. */
 export interface SyntheticsTestUptime {
   /** Timestamp in seconds for the start of uptime. */
-  from_ts?: number;
-  overall?: SyntheticsUptime;
+  from_ts?: number | undefined;
+  overall?: SyntheticsUptime | undefined;
   /** A Synthetic test ID. */
-  public_id?: string;
+  public_id?: string | undefined;
   /** Timestamp in seconds for the end of uptime. */
-  to_ts?: number;
+  to_ts?: number | undefined;
 }
 export type FetchUptimesResponseBodyList = Array<SyntheticsTestUptime>;
 export type FetchUptimesResponse = FetchUptimesResponseBodyList;
@@ -8093,51 +8107,51 @@ export interface GetAPITestLatestResultsRequest {
   /** The public ID of the test for which to search results for. */
   public_id: string;
   /** Timestamp in milliseconds from which to start querying results. */
-  from_ts?: number;
+  from_ts?: number | undefined;
   /** Timestamp in milliseconds up to which to query results. */
-  to_ts?: number;
+  to_ts?: number | undefined;
   /** Locations for which to query results. */
-  probe_dc?: GetAPITestLatestResultsRequestProbeDcList;
+  probe_dc?: GetAPITestLatestResultsRequestProbeDcList | undefined;
 }
 /** Object containing all metrics and their values collected for a Synthetic API test. See the [Synthetic Monitoring Metrics documentation](https://docs.datadoghq.com/synthetics/metrics/). */
 export interface SyntheticsTiming {
   /** The duration in millisecond of the DNS lookup. */
-  dns?: number;
+  dns?: number | undefined;
   /** The time in millisecond to download the response. */
-  download?: number;
+  download?: number | undefined;
   /** The time in millisecond to first byte. */
-  firstByte?: number;
+  firstByte?: number | undefined;
   /** The duration in millisecond of the TLS handshake. */
-  handshake?: number;
+  handshake?: number | undefined;
   /** The time in millisecond spent during redirections. */
-  redirect?: number;
+  redirect?: number | undefined;
   /** The duration in millisecond of the TLS handshake. */
-  ssl?: number;
+  ssl?: number | undefined;
   /** Time in millisecond to establish the TCP connection. */
-  tcp?: number;
+  tcp?: number | undefined;
   /** The overall time in millisecond the request took to be processed. */
-  total?: number;
+  total?: number | undefined;
   /** Time spent in millisecond waiting for a response. */
-  wait?: number;
+  wait?: number | undefined;
 }
 /** Result of the last API test run. */
 export interface SyntheticsAPITestResultShortResult {
   /** Describes if the test run has passed or failed. */
-  passed?: boolean;
-  timings?: SyntheticsTiming;
+  passed?: boolean | undefined;
+  timings?: SyntheticsTiming | undefined;
 }
 /** The status of your Synthetic monitor. * `O` for not triggered * `1` for triggered * `2` for no data */
 export type SyntheticsTestMonitorStatus = 0 | 1 | 2;
 /** Object with the results of a single Synthetic API test. */
 export interface SyntheticsAPITestResultShort {
   /** Last time the API test was performed. */
-  check_time?: number;
+  check_time?: number | undefined;
   /** Location from which the API test was performed. */
-  probe_dc?: string;
-  result?: SyntheticsAPITestResultShortResult;
+  probe_dc?: string | undefined;
+  result?: SyntheticsAPITestResultShortResult | undefined;
   /** ID of the API test result. */
-  result_id?: string;
-  status?: SyntheticsTestMonitorStatus;
+  result_id?: string | undefined;
+  status?: SyntheticsTestMonitorStatus | undefined;
 }
 /** Result of the latest API test run. */
 export type SyntheticsGetAPITestLatestResultsResponseResultsList =
@@ -8145,9 +8159,9 @@ export type SyntheticsGetAPITestLatestResultsResponseResultsList =
 /** Object with the latest Synthetic API test run. */
 export interface SyntheticsGetAPITestLatestResultsResponse {
   /** Timestamp of the latest API test run. */
-  last_timestamp_fetched?: number;
+  last_timestamp_fetched?: number | undefined;
   /** Result of the latest API test run. */
-  results?: SyntheticsGetAPITestLatestResultsResponseResultsList;
+  results?: SyntheticsGetAPITestLatestResultsResponseResultsList | undefined;
 }
 export interface GetAPITestResultRequest {
   /** The public ID of the API test to which the target result belongs. */
@@ -8164,12 +8178,12 @@ export type SyntheticsTestConfigVariablesList = Array<SyntheticsBrowserVariable>
 /** Configuration object for a Synthetic test. */
 export interface SyntheticsTestConfig {
   /** Array of assertions used for the test. Required for single API tests. */
-  assertions?: SyntheticsTestConfigAssertionsList;
+  assertions?: SyntheticsTestConfigAssertionsList | undefined;
   /** Array of variables used for the test. */
-  configVariables?: SyntheticsTestConfigConfigVariablesList;
-  request?: SyntheticsTestRequest;
+  configVariables?: SyntheticsTestConfigConfigVariablesList | undefined;
+  request?: SyntheticsTestRequest | undefined;
   /** Browser tests only - array of variables used for the test steps. */
-  variables?: SyntheticsTestConfigVariablesList;
+  variables?: SyntheticsTestConfigVariablesList | undefined;
 }
 /** Object describing the API test configuration. */
 export interface SyntheticsAPITestResultFullCheck {
@@ -8180,59 +8194,59 @@ export type SyntheticsSSLCertificateExtKeyUsageList = Array<string>;
 /** Object describing the issuer of a SSL certificate. */
 export interface SyntheticsSSLCertificateIssuer {
   /** Country Name that issued the certificate. */
-  C?: string;
+  C?: string | undefined;
   /** Common Name that issued certificate. */
-  CN?: string;
+  CN?: string | undefined;
   /** Locality that issued the certificate. */
-  L?: string;
+  L?: string | undefined;
   /** Organization that issued the certificate. */
-  O?: string;
+  O?: string | undefined;
   /** Organizational Unit that issued the certificate. */
-  OU?: string;
+  OU?: string | undefined;
   /** State Or Province Name that issued the certificate. */
-  ST?: string;
+  ST?: string | undefined;
 }
 /** Object describing the SSL certificate used for the test. */
 export interface SyntheticsSSLCertificateSubject {
   /** Country Name associated with the certificate. */
-  C?: string;
+  C?: string | undefined;
   /** Common Name that associated with the certificate. */
-  CN?: string;
+  CN?: string | undefined;
   /** Locality associated with the certificate. */
-  L?: string;
+  L?: string | undefined;
   /** Organization associated with the certificate. */
-  O?: string;
+  O?: string | undefined;
   /** Organizational Unit associated with the certificate. */
-  OU?: string;
+  OU?: string | undefined;
   /** State Or Province Name associated with the certificate. */
-  ST?: string;
+  ST?: string | undefined;
   /** Subject Alternative Name associated with the certificate. */
-  altName?: string;
+  altName?: string | undefined;
 }
 /** Object describing the SSL certificate used for a Synthetic test. */
 export interface SyntheticsSSLCertificate {
   /** Cipher used for the connection. */
-  cipher?: string;
+  cipher?: string | undefined;
   /** Exponent associated to the certificate. */
-  exponent?: number;
+  exponent?: number | undefined;
   /** Array of extensions and details used for the certificate. */
-  extKeyUsage?: SyntheticsSSLCertificateExtKeyUsageList;
+  extKeyUsage?: SyntheticsSSLCertificateExtKeyUsageList | undefined;
   /** MD5 digest of the DER-encoded Certificate information. */
-  fingerprint?: string;
+  fingerprint?: string | undefined;
   /** SHA-1 digest of the DER-encoded Certificate information. */
-  fingerprint256?: string;
-  issuer?: SyntheticsSSLCertificateIssuer;
+  fingerprint256?: string | undefined;
+  issuer?: SyntheticsSSLCertificateIssuer | undefined;
   /** Modulus associated to the SSL certificate private key. */
-  modulus?: string;
+  modulus?: string | undefined;
   /** TLS protocol used for the test. */
-  protocol?: string;
+  protocol?: string | undefined;
   /** Serial Number assigned by Symantec to the SSL certificate. */
-  serialNumber?: string;
-  subject?: SyntheticsSSLCertificateSubject;
+  serialNumber?: string | undefined;
+  subject?: SyntheticsSSLCertificateSubject | undefined;
   /** Date from which the SSL certificate is valid. */
-  validFrom?: string;
+  validFrom?: string | undefined;
   /** Date until which the SSL certificate is valid. */
-  validTo?: string;
+  validTo?: string | undefined;
 }
 /** Status of a Synthetic test. */
 export type SyntheticsTestProcessStatus =
@@ -8270,9 +8284,9 @@ export type SyntheticsApiTestFailureCode =
   | "INTERNAL_ERROR";
 /** The API test failure details. */
 export interface SyntheticsApiTestResultFailure {
-  code?: SyntheticsApiTestFailureCode;
+  code?: SyntheticsApiTestFailureCode | undefined;
   /** The API test error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Request header object used for the API test. */
 export type SyntheticsAPITestResultDataRequestHeadersMap = { [key: string]: unknown | undefined };
@@ -8280,34 +8294,34 @@ export type SyntheticsAPITestResultDataRequestHeadersMap = { [key: string]: unkn
 export type SyntheticsAPITestResultDataResponseHeadersMap = { [key: string]: unknown | undefined };
 /** Object containing results for your Synthetic API test. */
 export interface SyntheticsAPITestResultData {
-  cert?: SyntheticsSSLCertificate;
-  eventType?: SyntheticsTestProcessStatus;
-  failure?: SyntheticsApiTestResultFailure;
+  cert?: SyntheticsSSLCertificate | undefined;
+  eventType?: SyntheticsTestProcessStatus | undefined;
+  failure?: SyntheticsApiTestResultFailure | undefined;
   /** The API test HTTP status code. */
-  httpStatusCode?: number;
+  httpStatusCode?: number | undefined;
   /** Request header object used for the API test. */
-  requestHeaders?: SyntheticsAPITestResultDataRequestHeadersMap;
+  requestHeaders?: SyntheticsAPITestResultDataRequestHeadersMap | undefined;
   /** Response body returned for the API test. */
-  responseBody?: string;
+  responseBody?: string | undefined;
   /** Response headers returned for the API test. */
-  responseHeaders?: SyntheticsAPITestResultDataResponseHeadersMap;
+  responseHeaders?: SyntheticsAPITestResultDataResponseHeadersMap | undefined;
   /** Global size in byte of the API test response. */
-  responseSize?: number;
-  timings?: SyntheticsTiming;
+  responseSize?: number | undefined;
+  timings?: SyntheticsTiming | undefined;
 }
 /** Object returned describing a API test result. */
 export interface SyntheticsAPITestResultFull {
-  check?: SyntheticsAPITestResultFullCheck;
+  check?: SyntheticsAPITestResultFullCheck | undefined;
   /** When the API test was conducted. */
-  check_time?: number;
+  check_time?: number | undefined;
   /** Version of the API test used. */
-  check_version?: number;
+  check_version?: number | undefined;
   /** Locations for which to query the API test results. */
-  probe_dc?: string;
-  result?: SyntheticsAPITestResultData;
+  probe_dc?: string | undefined;
+  result?: SyntheticsAPITestResultData | undefined;
   /** ID of the API test result. */
-  result_id?: string;
-  status?: SyntheticsTestMonitorStatus;
+  result_id?: string | undefined;
+  status?: SyntheticsTestMonitorStatus | undefined;
 }
 export interface GetApplicationKeyRequest {
   /** The specific APP key you are working with. */
@@ -8322,11 +8336,11 @@ export interface GetBrowserTestLatestResultsRequest {
   /** The public ID of the browser test for which to search results for. */
   public_id: string;
   /** Timestamp in milliseconds from which to start querying results. */
-  from_ts?: number;
+  from_ts?: number | undefined;
   /** Timestamp in milliseconds up to which to query results. */
-  to_ts?: number;
+  to_ts?: number | undefined;
   /** Locations for which to query results. */
-  probe_dc?: GetBrowserTestLatestResultsRequestProbeDcList;
+  probe_dc?: GetBrowserTestLatestResultsRequestProbeDcList | undefined;
 }
 /** Object describing the device used to perform the Synthetic test. */
 export interface SyntheticsDevice {
@@ -8334,7 +8348,7 @@ export interface SyntheticsDevice {
   height: number;
   id: string;
   /** Whether or not the device is a mobile. */
-  isMobile?: boolean;
+  isMobile?: boolean | undefined;
   /** The device name. */
   name: string;
   /** Screen width of the device. */
@@ -8342,26 +8356,26 @@ export interface SyntheticsDevice {
 }
 /** Object with the result of the last browser test run. */
 export interface SyntheticsBrowserTestResultShortResult {
-  device?: SyntheticsDevice;
+  device?: SyntheticsDevice | undefined;
   /** Length in milliseconds of the browser test run. */
-  duration?: number;
+  duration?: number | undefined;
   /** Amount of errors collected for a single browser test run. */
-  errorCount?: number;
+  errorCount?: number | undefined;
   /** Amount of browser test steps completed before failing. */
-  stepCountCompleted?: number;
+  stepCountCompleted?: number | undefined;
   /** Total amount of browser test steps. */
-  stepCountTotal?: number;
+  stepCountTotal?: number | undefined;
 }
 /** Object with the results of a single Synthetic browser test. */
 export interface SyntheticsBrowserTestResultShort {
   /** Last time the browser test was performed. */
-  check_time?: number;
+  check_time?: number | undefined;
   /** Location from which the Browser test was performed. */
-  probe_dc?: string;
-  result?: SyntheticsBrowserTestResultShortResult;
+  probe_dc?: string | undefined;
+  result?: SyntheticsBrowserTestResultShortResult | undefined;
   /** ID of the browser test result. */
-  result_id?: string;
-  status?: SyntheticsTestMonitorStatus;
+  result_id?: string | undefined;
+  status?: SyntheticsTestMonitorStatus | undefined;
 }
 /** Result of the latest browser test run. */
 export type SyntheticsGetBrowserTestLatestResultsResponseResultsList =
@@ -8369,9 +8383,9 @@ export type SyntheticsGetBrowserTestLatestResultsResponseResultsList =
 /** Object with the latest Synthetic browser test run. */
 export interface SyntheticsGetBrowserTestLatestResultsResponse {
   /** Timestamp of the latest browser test run. */
-  last_timestamp_fetched?: number;
+  last_timestamp_fetched?: number | undefined;
   /** Result of the latest browser test run. */
-  results?: SyntheticsGetBrowserTestLatestResultsResponseResultsList;
+  results?: SyntheticsGetBrowserTestLatestResultsResponseResultsList | undefined;
 }
 export interface GetBrowserTestResultRequest {
   /** The public ID of the browser test to which the target result belongs. */
@@ -8418,9 +8432,9 @@ export type SyntheticsBrowserTestFailureCode =
   | "UPLOAD_FILES_NAME";
 /** The browser test failure details. */
 export interface SyntheticsBrowserTestResultFailure {
-  code?: SyntheticsBrowserTestFailureCode;
+  code?: SyntheticsBrowserTestFailureCode | undefined;
   /** The browser test error message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Error type returned by a browser test. */
 export type SyntheticsBrowserErrorType = "network" | "js";
@@ -8431,7 +8445,7 @@ export interface SyntheticsBrowserError {
   /** Name of the error. */
   name: string;
   /** Status Code of the error. */
-  status?: number;
+  status?: number | undefined;
   type: SyntheticsBrowserErrorType;
 }
 /** Array of errors collected for a browser test. */
@@ -8443,11 +8457,11 @@ export type SyntheticsStepDetailSubTestStepDetailsList = Array<SyntheticsStepDet
 /** Core Web Vitals attached to a browser test step. */
 export interface SyntheticsCoreWebVitals {
   /** Cumulative Layout Shift. */
-  cls?: number;
+  cls?: number | undefined;
   /** Largest Contentful Paint in milliseconds. */
-  lcp?: number;
+  lcp?: number | undefined;
   /** URL attached to the metrics. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Array of Core Web Vitals metrics for the step. */
 export type SyntheticsStepDetailVitalsMetricsList = Array<SyntheticsCoreWebVitals>;
@@ -8464,80 +8478,80 @@ export type SyntheticsStepDetailWarningsList = Array<SyntheticsStepDetailWarning
 /** Object describing a step for a Synthetic test. */
 export interface SyntheticsStepDetail {
   /** Whether or not the step was allowed to fail. */
-  allowFailure?: boolean;
+  allowFailure?: boolean | undefined;
   /** Array of errors collected for a browser test. */
-  browserErrors?: SyntheticsStepDetailBrowserErrorsList;
-  checkType?: SyntheticsCheckType;
+  browserErrors?: SyntheticsStepDetailBrowserErrorsList | undefined;
+  checkType?: SyntheticsCheckType | undefined;
   /** Description of the test. */
-  description?: string;
+  description?: string | undefined;
   /** Total duration in millisecond of the test. */
-  duration?: number;
+  duration?: number | undefined;
   /** Error returned by the test. */
-  error?: string;
-  failure?: SyntheticsBrowserTestResultFailure;
-  playingTab?: SyntheticsPlayingTab;
+  error?: string | undefined;
+  failure?: SyntheticsBrowserTestResultFailure | undefined;
+  playingTab?: SyntheticsPlayingTab | undefined;
   /** Whether or not screenshots where collected by the test. */
-  screenshotBucketKey?: boolean;
+  screenshotBucketKey?: boolean | undefined;
   /** Whether or not to skip this step. */
-  skipped?: boolean;
+  skipped?: boolean | undefined;
   /** Whether or not snapshots where collected by the test. */
-  snapshotBucketKey?: boolean;
+  snapshotBucketKey?: boolean | undefined;
   /** The step ID. */
-  stepId?: number;
+  stepId?: number | undefined;
   /** If this step includes a sub-test. [Subtests documentation](https://docs.datadoghq.com/synthetics/browser_tests/advanced_options/#subtests). */
-  subTestStepDetails?: SyntheticsStepDetailSubTestStepDetailsList;
+  subTestStepDetails?: SyntheticsStepDetailSubTestStepDetailsList | undefined;
   /** Time before starting the step. */
-  timeToInteractive?: number;
-  type?: SyntheticsStepType;
+  timeToInteractive?: number | undefined;
+  type?: SyntheticsStepType | undefined;
   /** URL to perform the step against. */
-  url?: string;
+  url?: string | undefined;
   /** Value for the step. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** Array of Core Web Vitals metrics for the step. */
-  vitalsMetrics?: SyntheticsStepDetailVitalsMetricsList;
+  vitalsMetrics?: SyntheticsStepDetailVitalsMetricsList | undefined;
   /** Warning collected that didn't failed the step. */
-  warnings?: SyntheticsStepDetailWarningsList;
+  warnings?: SyntheticsStepDetailWarningsList | undefined;
 }
 /** Array containing the different browser test steps. */
 export type SyntheticsBrowserTestResultDataStepDetailsList = Array<SyntheticsStepDetail>;
 /** Object containing results for your Synthetic browser test. */
 export interface SyntheticsBrowserTestResultData {
   /** Type of browser device used for the browser test. */
-  browserType?: string;
+  browserType?: string | undefined;
   /** Browser version used for the browser test. */
-  browserVersion?: string;
-  device?: SyntheticsDevice;
+  browserVersion?: string | undefined;
+  device?: SyntheticsDevice | undefined;
   /** Global duration in second of the browser test. */
-  duration?: number;
+  duration?: number | undefined;
   /** Error returned for the browser test. */
-  error?: string;
-  failure?: SyntheticsBrowserTestResultFailure;
+  error?: string | undefined;
+  failure?: SyntheticsBrowserTestResultFailure | undefined;
   /** Whether or not the browser test was conducted. */
-  passed?: boolean;
+  passed?: boolean | undefined;
   /** The amount of email received during the browser test. */
-  receivedEmailCount?: number;
+  receivedEmailCount?: number | undefined;
   /** Starting URL for the browser test. */
-  startUrl?: string;
+  startUrl?: string | undefined;
   /** Array containing the different browser test steps. */
-  stepDetails?: SyntheticsBrowserTestResultDataStepDetailsList;
+  stepDetails?: SyntheticsBrowserTestResultDataStepDetailsList | undefined;
   /** Whether or not a thumbnail is associated with the browser test. */
-  thumbnailsBucketKey?: boolean;
+  thumbnailsBucketKey?: boolean | undefined;
   /** Time in second to wait before the browser test starts after reaching the start URL. */
-  timeToInteractive?: number;
+  timeToInteractive?: number | undefined;
 }
 /** Object returned describing a browser test result. */
 export interface SyntheticsBrowserTestResultFull {
-  check?: SyntheticsAPITestResultFullCheck;
+  check?: SyntheticsAPITestResultFullCheck | undefined;
   /** When the browser test was conducted. */
-  check_time?: number;
+  check_time?: number | undefined;
   /** Version of the browser test used. */
-  check_version?: number;
+  check_version?: number | undefined;
   /** Location from which the browser test was performed. */
-  probe_dc?: string;
-  result?: SyntheticsBrowserTestResultData;
+  probe_dc?: string | undefined;
+  result?: SyntheticsBrowserTestResultData | undefined;
   /** ID of the browser test result. */
-  result_id?: string;
-  status?: SyntheticsTestMonitorStatus;
+  result_id?: string | undefined;
+  status?: SyntheticsTestMonitorStatus | undefined;
 }
 export interface GetDashboardRequest {
   /** The ID of the dashboard. */
@@ -8555,36 +8569,36 @@ export interface GetEventRequest {
 export type EventTagsList = Array<string>;
 /** Object representing an event. */
 export interface Event {
-  alert_type?: EventAlertType;
+  alert_type?: EventAlertType | undefined;
   /** POSIX timestamp of the event. Must be sent as an integer (that is no quotes). Limited to events up to 18 hours in the past and two hours in the future. */
-  date_happened?: number;
+  date_happened?: number | undefined;
   /** A device name. */
-  device_name?: string;
+  device_name?: string | undefined;
   /** Host name to associate with the event. Any tags associated with the host are also applied to this event. */
-  host?: string;
+  host?: string | undefined;
   /** Integer ID of the event. */
-  id?: number;
+  id?: number | undefined;
   /** Handling IDs as large 64-bit numbers can cause loss of accuracy issues with some programming languages. Instead, use the string representation of the Event ID to avoid losing accuracy. */
-  id_str?: string;
+  id_str?: string | undefined;
   /** Payload of the event. */
-  payload?: string;
-  priority?: EventPriority | null;
+  payload?: string | undefined;
+  priority?: EventPriority | null | undefined;
   /** The type of event being posted. Option examples include nagios, hudson, jenkins, my_apps, chef, puppet, git, bitbucket, etc. The list of standard source attribute values [available here](https://docs.datadoghq.com/integrations/faq/list-of-api-source-attribute-value). */
-  source_type_name?: string;
+  source_type_name?: string | undefined;
   /** A list of tags to apply to the event. */
-  tags?: EventTagsList;
+  tags?: EventTagsList | undefined;
   /** The body of the event. Limited to 4000 characters. The text supports markdown. To use markdown in the event text, start the text block with `%%% \n` and end the text block with `\n %%%`. Use `msg_text` with the Datadog Ruby library. */
-  text?: string;
+  text?: string | undefined;
   /** The event title. */
-  title?: string;
+  title?: string | undefined;
   /** URL of the event. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Object containing an event response. */
 export interface EventResponse {
-  event?: Event;
+  event?: Event | undefined;
   /** A status. */
-  status?: string;
+  status?: string | undefined;
 }
 export interface GetGlobalVariableRequest {
   /** The ID of the global variable. */
@@ -8592,47 +8606,47 @@ export interface GetGlobalVariableRequest {
 }
 export interface GetGraphSnapshotRequest {
   /** The metric query. */
-  metric_query?: string;
+  metric_query?: string | undefined;
   /** The POSIX timestamp of the start of the query in seconds. */
   start: number;
   /** The POSIX timestamp of the end of the query in seconds. */
   end: number;
   /** A query that adds event bands to the graph. */
-  event_query?: string;
+  event_query?: string | undefined;
   /** A JSON document defining the graph. `graph_def` can be used instead of `metric_query`. The JSON document uses the [grammar defined here](https://docs.datadoghq.com/graphing/graphing_json/#grammar) and should be formatted to a single line then URL encoded. */
-  graph_def?: string;
+  graph_def?: string | undefined;
   /** A title for the graph. If no title is specified, the graph does not have a title. */
-  title?: string;
+  title?: string | undefined;
   /** The height of the graph. If no height is specified, the graph's original height is used. */
-  height?: number;
+  height?: number | undefined;
   /** The width of the graph. If no width is specified, the graph's original width is used. */
-  width?: number;
+  width?: number | undefined;
 }
 /** Object representing a graph snapshot. */
 export interface GraphSnapshot {
   /** A JSON document defining the graph. `graph_def` can be used instead of `metric_query`. The JSON document uses the [grammar defined here](https://docs.datadoghq.com/graphing/graphing_json/#grammar) and should be formatted to a single line then URL encoded. */
-  graph_def?: string;
+  graph_def?: string | undefined;
   /** The metric query. One of `metric_query` or `graph_def` is required. */
-  metric_query?: string;
+  metric_query?: string | undefined;
   /** URL of your [graph snapshot](https://docs.datadoghq.com/metrics/explorer/#snapshot). */
-  snapshot_url?: string;
+  snapshot_url?: string | undefined;
 }
 export interface GetHostTagsRequest {
   /** Name of the host to retrieve tags for */
   host_name: string;
   /** Source to filter. [Complete list of source attribute values](https://docs.datadoghq.com/integrations/faq/list-of-api-source-attribute-value). Use "user" source for custom-defined tags. */
-  source?: string;
+  source?: string | undefined;
 }
 export interface GetHostTotalsRequest {
   /** Number of seconds from which you want to get total number of active hosts. */
-  from?: number;
+  from?: number | undefined;
 }
 /** Total number of host currently monitored by Datadog. */
 export interface HostTotals {
   /** Total number of active host (UP and ???) reporting to Datadog. */
-  total_active?: number;
+  total_active?: number | undefined;
   /** Number of host that are UP and reporting to Datadog. */
-  total_up?: number;
+  total_up?: number | undefined;
 }
 /** Supported products for hourly usage attribution requests. Usage types are in the format `<usage_type>_usage`. To obtain the complete list of valid usage types, make a request to the [Get usage attribution types API](https://docs.datadoghq.com/api/latest/usage-metering/#get-usage-attribution-types). */
 export type HourlyUsageAttributionUsageType =
@@ -8729,15 +8743,15 @@ export interface GetHourlyUsageAttributionRequest {
   /** Datetime in ISO-8601 format, UTC, precise to hour: `[YYYY-MM-DDThh]` for usage beginning at this hour. */
   start_hr: string;
   /** Datetime in ISO-8601 format, UTC, precise to hour: `[YYYY-MM-DDThh]` for usage ending **before** this hour. */
-  end_hr?: string;
+  end_hr?: string | undefined;
   /** Usage type to retrieve. Usage types are in the format `<usage_type>_usage`. Example: `infra_host_usage` To obtain the complete list of active usage types that can be used to replace `<usage_type>` in the field names, make a request to the [Get usage attribution types API](https://docs.datadoghq.com/api/latest/usage-metering/#get-usage-attribution-types). */
   usage_type: HourlyUsageAttributionUsageType | (string & {});
   /** List following results with a next_record_id provided in the previous query. */
-  next_record_id?: string;
+  next_record_id?: string | undefined;
   /** Comma separated list of tags used to group usage. If no value is provided the usage will not be broken down by tags. To see which tags are available, look for the value of `tag_config_source` in the API response. */
-  tag_breakdown_keys?: string;
+  tag_breakdown_keys?: string | undefined;
   /** Include child org usage in the response. Defaults to `true`. */
-  include_descendants?: boolean;
+  include_descendants?: boolean | undefined;
 }
 export interface GetHourlyUsageAttributionResponse {}
 export interface GetIPRangesRequest {}
@@ -8748,9 +8762,9 @@ export type IPPrefixesAgentsPrefixesIpv6List = Array<string>;
 /** Available prefix information for the Agent endpoints. */
 export interface IPPrefixesAgents {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesAgentsPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesAgentsPrefixesIpv4List | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesAgentsPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesAgentsPrefixesIpv6List | undefined;
 }
 /** List of IPv4 prefixes. */
 export type IPPrefixesAPIPrefixesIpv4List = Array<string>;
@@ -8759,9 +8773,9 @@ export type IPPrefixesAPIPrefixesIpv6List = Array<string>;
 /** Available prefix information for the API endpoints. */
 export interface IPPrefixesAPI {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesAPIPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesAPIPrefixesIpv4List | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesAPIPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesAPIPrefixesIpv6List | undefined;
 }
 /** List of IPv4 prefixes. */
 export type IPPrefixesAPMPrefixesIpv4List = Array<string>;
@@ -8770,9 +8784,9 @@ export type IPPrefixesAPMPrefixesIpv6List = Array<string>;
 /** Available prefix information for the APM endpoints. */
 export interface IPPrefixesAPM {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesAPMPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesAPMPrefixesIpv4List | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesAPMPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesAPMPrefixesIpv6List | undefined;
 }
 /** List of IPv4 prefixes. */
 export type IPPrefixesGlobalPrefixesIpv4List = Array<string>;
@@ -8781,9 +8795,9 @@ export type IPPrefixesGlobalPrefixesIpv6List = Array<string>;
 /** Available prefix information for all Datadog endpoints. */
 export interface IPPrefixesGlobal {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesGlobalPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesGlobalPrefixesIpv4List | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesGlobalPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesGlobalPrefixesIpv6List | undefined;
 }
 /** List of IPv4 prefixes. */
 export type IPPrefixesLogsPrefixesIpv4List = Array<string>;
@@ -8792,9 +8806,9 @@ export type IPPrefixesLogsPrefixesIpv6List = Array<string>;
 /** Available prefix information for the Logs endpoints. */
 export interface IPPrefixesLogs {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesLogsPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesLogsPrefixesIpv4List | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesLogsPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesLogsPrefixesIpv6List | undefined;
 }
 /** List of IPv4 prefixes. */
 export type IPPrefixesOrchestratorPrefixesIpv4List = Array<string>;
@@ -8803,9 +8817,9 @@ export type IPPrefixesOrchestratorPrefixesIpv6List = Array<string>;
 /** Available prefix information for the Orchestrator endpoints. */
 export interface IPPrefixesOrchestrator {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesOrchestratorPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesOrchestratorPrefixesIpv4List | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesOrchestratorPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesOrchestratorPrefixesIpv6List | undefined;
 }
 /** List of IPv4 prefixes. */
 export type IPPrefixesProcessPrefixesIpv4List = Array<string>;
@@ -8814,9 +8828,9 @@ export type IPPrefixesProcessPrefixesIpv6List = Array<string>;
 /** Available prefix information for the Process endpoints. */
 export interface IPPrefixesProcess {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesProcessPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesProcessPrefixesIpv4List | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesProcessPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesProcessPrefixesIpv6List | undefined;
 }
 /** List of IPv4 prefixes. */
 export type IPPrefixesRemoteConfigurationPrefixesIpv4List = Array<string>;
@@ -8825,9 +8839,9 @@ export type IPPrefixesRemoteConfigurationPrefixesIpv6List = Array<string>;
 /** Available prefix information for the Remote Configuration endpoints. */
 export interface IPPrefixesRemoteConfiguration {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesRemoteConfigurationPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesRemoteConfigurationPrefixesIpv4List | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesRemoteConfigurationPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesRemoteConfigurationPrefixesIpv6List | undefined;
 }
 /** List of IPv4 prefixes. */
 export type IPPrefixesSyntheticsPrefixesIpv4List = Array<string>;
@@ -8848,13 +8862,13 @@ export type IPPrefixesSyntheticsPrefixesIpv6ByLocationMap = {
 /** Available prefix information for the Synthetics endpoints. */
 export interface IPPrefixesSynthetics {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesSyntheticsPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesSyntheticsPrefixesIpv4List | undefined;
   /** List of IPv4 prefixes by location. */
-  prefixes_ipv4_by_location?: IPPrefixesSyntheticsPrefixesIpv4ByLocationMap;
+  prefixes_ipv4_by_location?: IPPrefixesSyntheticsPrefixesIpv4ByLocationMap | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesSyntheticsPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesSyntheticsPrefixesIpv6List | undefined;
   /** List of IPv6 prefixes by location. */
-  prefixes_ipv6_by_location?: IPPrefixesSyntheticsPrefixesIpv6ByLocationMap;
+  prefixes_ipv6_by_location?: IPPrefixesSyntheticsPrefixesIpv6ByLocationMap | undefined;
 }
 /** List of IPv4 prefixes. */
 export type IPPrefixesSyntheticsPrivateLocationsPrefixesIpv4List = Array<string>;
@@ -8863,9 +8877,9 @@ export type IPPrefixesSyntheticsPrivateLocationsPrefixesIpv6List = Array<string>
 /** Available prefix information for the Synthetics Private Locations endpoints. */
 export interface IPPrefixesSyntheticsPrivateLocations {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesSyntheticsPrivateLocationsPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesSyntheticsPrivateLocationsPrefixesIpv4List | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesSyntheticsPrivateLocationsPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesSyntheticsPrivateLocationsPrefixesIpv6List | undefined;
 }
 /** List of IPv4 prefixes. */
 export type IPPrefixesWebhooksPrefixesIpv4List = Array<string>;
@@ -8874,27 +8888,27 @@ export type IPPrefixesWebhooksPrefixesIpv6List = Array<string>;
 /** Available prefix information for the Webhook endpoints. */
 export interface IPPrefixesWebhooks {
   /** List of IPv4 prefixes. */
-  prefixes_ipv4?: IPPrefixesWebhooksPrefixesIpv4List;
+  prefixes_ipv4?: IPPrefixesWebhooksPrefixesIpv4List | undefined;
   /** List of IPv6 prefixes. */
-  prefixes_ipv6?: IPPrefixesWebhooksPrefixesIpv6List;
+  prefixes_ipv6?: IPPrefixesWebhooksPrefixesIpv6List | undefined;
 }
 /** IP ranges. */
 export interface IPRanges {
-  agents?: IPPrefixesAgents;
-  api?: IPPrefixesAPI;
-  apm?: IPPrefixesAPM;
-  global?: IPPrefixesGlobal;
-  logs?: IPPrefixesLogs;
+  agents?: IPPrefixesAgents | undefined;
+  api?: IPPrefixesAPI | undefined;
+  apm?: IPPrefixesAPM | undefined;
+  global?: IPPrefixesGlobal | undefined;
+  logs?: IPPrefixesLogs | undefined;
   /** Date when last updated, in the form `YYYY-MM-DD-hh-mm-ss`. */
-  modified?: string;
-  orchestrator?: IPPrefixesOrchestrator;
-  process?: IPPrefixesProcess;
-  remote_configuration?: IPPrefixesRemoteConfiguration;
-  synthetics?: IPPrefixesSynthetics;
-  synthetics_private_locations?: IPPrefixesSyntheticsPrivateLocations;
+  modified?: string | undefined;
+  orchestrator?: IPPrefixesOrchestrator | undefined;
+  process?: IPPrefixesProcess | undefined;
+  remote_configuration?: IPPrefixesRemoteConfiguration | undefined;
+  synthetics?: IPPrefixesSynthetics | undefined;
+  synthetics_private_locations?: IPPrefixesSyntheticsPrivateLocations | undefined;
   /** Version of the IP list. */
-  version?: number;
-  webhooks?: IPPrefixesWebhooks;
+  version?: number | undefined;
+  webhooks?: IPPrefixesWebhooks | undefined;
 }
 export interface GetLogsIndexRequest {
   /** Name of the log index. */
@@ -8927,19 +8941,19 @@ export interface GetMetricMetadataRequest {
 /** Object with all metric related metadata. */
 export interface MetricMetadata {
   /** Metric description. */
-  description?: string;
+  description?: string | undefined;
   /** Name of the integration that sent the metric if applicable. */
-  integration?: string;
+  integration?: string | undefined;
   /** Per unit of the metric such as `second` in `bytes per second`. */
-  per_unit?: string;
+  per_unit?: string | undefined;
   /** A more human-readable and abbreviated version of the metric name. */
-  short_name?: string;
+  short_name?: string | undefined;
   /** StatsD flush interval of the metric in seconds if applicable. */
-  statsd_interval?: number;
+  statsd_interval?: number | undefined;
   /** Metric type such as `gauge` or `rate`. */
-  type?: string;
+  type?: string | undefined;
   /** Primary unit of the metric such as `byte` or `operation`. */
-  unit?: string;
+  unit?: string | undefined;
 }
 export interface GetMobileTestRequest {
   /** The public ID of the test to get details from. */
@@ -8949,11 +8963,11 @@ export interface GetMonitorRequest {
   /** The ID of the monitor */
   monitor_id: number;
   /** When specified, shows additional information about the group states. Choose one or more from `all`, `alert`, `warn`, and `no data`. */
-  group_states?: string;
+  group_states?: string | undefined;
   /** If this argument is set to true, then the returned data includes all current active downtimes for the monitor. */
-  with_downtimes?: boolean;
+  with_downtimes?: boolean | undefined;
   /** If this argument is set to `true`, the returned data includes all assets tied to this monitor. */
-  with_assets?: boolean;
+  with_assets?: boolean | undefined;
 }
 /** Supported metrics for monthly usage attribution requests. Usage types are in the format `<usage_type>_usage`. To obtain the complete list of valid usage types, make a request to the [Get usage attribution types API](https://docs.datadoghq.com/api/latest/usage-metering/#get-usage-attribution-types). */
 export type MonthlyUsageAttributionSupportedMetrics =
@@ -9134,19 +9148,19 @@ export interface GetMonthlyUsageAttributionRequest {
   /** Datetime in ISO-8601 format, UTC, precise to month: `[YYYY-MM]` for usage beginning in this month. Maximum of 15 months ago. */
   start_month: string;
   /** Datetime in ISO-8601 format, UTC, precise to month: `[YYYY-MM]` for usage ending this month. */
-  end_month?: string;
+  end_month?: string | undefined;
   /** Comma-separated list of usage types to return, or `*` for all usage types. Usage types are in the format `<usage_type>_usage` and `<usage_type>_percentage`. Example: `infra_host_usage,infra_host_percentage` To obtain the complete list of usage attribution types that can be used to replace `<usage_type>` in the field names, make a request to the [Get usage attribution types API](https://docs.datadoghq.com/api/latest/usage-metering/#get-usage-attribution-types). */
   fields: MonthlyUsageAttributionSupportedMetrics | (string & {});
   /** The direction to sort by: `[desc, asc]`. */
-  sort_direction?: UsageSortDirection | (string & {});
+  sort_direction?: UsageSortDirection | (string & {}) | undefined;
   /** The field to sort by. Sort fields are in the format `<usage_type>_usage`. Example: `infra_host_usage` To obtain the complete list of usage attribution types that can be used to replace `<usage_type>` in the field names, make a request to the [Get usage attribution types API](https://docs.datadoghq.com/api/latest/usage-metering/#get-usage-attribution-types). */
-  sort_name?: MonthlyUsageAttributionSupportedMetrics | (string & {});
+  sort_name?: MonthlyUsageAttributionSupportedMetrics | (string & {}) | undefined;
   /** Comma separated list of tag keys used to group usage. If no value is provided the usage will not be broken down by tags. To see which tags are available, look for the value of `tag_config_source` in the API response. */
-  tag_breakdown_keys?: string;
+  tag_breakdown_keys?: string | undefined;
   /** List following results with a next_record_id provided in the previous query. */
-  next_record_id?: string;
+  next_record_id?: string | undefined;
   /** Include child org usage in the response. Defaults to `true`. */
-  include_descendants?: boolean;
+  include_descendants?: boolean | undefined;
 }
 export interface GetMonthlyUsageAttributionResponse {}
 export interface GetNotebookRequest {
@@ -9159,7 +9173,7 @@ export interface GetOrgRequest {
 }
 /** Response with an organization. */
 export interface OrganizationResponse {
-  org?: Organization;
+  org?: Organization | undefined;
 }
 export interface GetPagerDutyIntegrationServiceRequest {
   /** The service name. */
@@ -9177,24 +9191,24 @@ export interface GetPublicDashboardInvitationsRequest {
   /** Token of the shared dashboard for which to fetch invitations. */
   token: string;
   /** The number of records to return in a single request. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** The page to access (base 0). */
-  page_number?: number;
+  page_number?: number | undefined;
 }
 /** Attributes of the shared dashboard invitation */
 export interface SharedDashboardInvitesDataObjectAttributes {
   /** When the invitation was sent. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** An email address that an invitation has been (or if used in invitation request, will be) sent to. */
-  email?: string;
+  email?: string | undefined;
   /** Indicates whether an active session exists for the invitation (produced when a user clicks the link in the email). */
-  has_session?: boolean;
+  has_session?: boolean | undefined;
   /** When the invitation expires. */
-  invitation_expiry?: string;
+  invitation_expiry?: string | undefined;
   /** When the invited user's session expires. null if the invitation has no associated session. */
-  session_expiry?: string | null;
+  session_expiry?: string | null | undefined;
   /** The unique token of the shared dashboard that was (or is to be) shared. */
-  share_token?: string;
+  share_token?: string | undefined;
 }
 /** Object containing the information for an invitation to a shared dashboard. */
 export interface SharedDashboardInvitesDataObject {
@@ -9210,16 +9224,16 @@ export type SharedDashboardInvitesData =
 /** Object containing the total count of invitations across all pages */
 export interface SharedDashboardInvitesMetaPage {
   /** The total number of invitations on this shared board, across all pages. */
-  total_count?: number;
+  total_count?: number | undefined;
 }
 /** Pagination metadata returned by the API. */
 export interface SharedDashboardInvitesMeta {
-  page?: SharedDashboardInvitesMetaPage;
+  page?: SharedDashboardInvitesMetaPage | undefined;
 }
 /** Invitations data and metadata that exists for a shared dashboard returned by the API. */
 export interface SharedDashboardInvites {
   data: SharedDashboardInvitesData;
-  meta?: SharedDashboardInvitesMeta;
+  meta?: SharedDashboardInvitesMeta | undefined;
 }
 export interface GetSlackIntegrationChannelRequest {
   /** Your Slack account name. */
@@ -9238,7 +9252,7 @@ export interface GetSLORequest {
   /** The ID of the service level objective object. */
   slo_id: string;
   /** Get the IDs of SLO monitors that reference this SLO. */
-  with_configured_alert_ids?: boolean;
+  with_configured_alert_ids?: boolean | undefined;
 }
 /** A list of SLO monitors IDs that reference this SLO. This field is returned only when `with_configured_alert_ids` parameter is true in query. */
 export type SLOResponseDataConfiguredAlertIdsList = Array<number>;
@@ -9255,46 +9269,46 @@ export type SLOResponseDataThresholdsList = Array<SLOThreshold>;
 /** A service level objective object includes a service level indicator, thresholds for one or more timeframes, and metadata (`name`, `description`, `tags`, etc.). */
 export interface SLOResponseData {
   /** A list of SLO monitors IDs that reference this SLO. This field is returned only when `with_configured_alert_ids` parameter is true in query. */
-  configured_alert_ids?: SLOResponseDataConfiguredAlertIdsList;
+  configured_alert_ids?: SLOResponseDataConfiguredAlertIdsList | undefined;
   /** Creation timestamp (UNIX time in seconds) Always included in service level objective responses. */
-  created_at?: number;
-  creator?: Creator;
+  created_at?: number | undefined;
+  creator?: Creator | undefined;
   /** A user-defined description of the service level objective. Always included in service level objective responses (but may be `null`). Optional in create/update requests. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** A list of (up to 20) monitor groups that narrow the scope of a monitor service level objective. Included in service level objective responses if it is not empty. Optional in create/update requests for monitor service level objectives, but may only be used when then length of the `monitor_ids` field is one. */
-  groups?: SLOResponseDataGroupsList;
+  groups?: SLOResponseDataGroupsList | undefined;
   /** A unique identifier for the service level objective object. Always included in service level objective responses. */
-  id?: string;
+  id?: string | undefined;
   /** Modification timestamp (UNIX time in seconds) Always included in service level objective responses. */
-  modified_at?: number;
+  modified_at?: number | undefined;
   /** A list of monitor ids that defines the scope of a monitor service level objective. **Required if type is `monitor`**. */
-  monitor_ids?: SLOResponseDataMonitorIdsList;
+  monitor_ids?: SLOResponseDataMonitorIdsList | undefined;
   /** The union of monitor tags for all monitors referenced by the `monitor_ids` field. Always included in service level objective responses for monitor service level objectives (but may be empty). Ignored in create/update requests. Does not affect which monitors are included in the service level objective (that is determined entirely by the `monitor_ids` field). */
-  monitor_tags?: SLOResponseDataMonitorTagsList;
+  monitor_tags?: SLOResponseDataMonitorTagsList | undefined;
   /** The name of the service level objective object. */
-  name?: string;
+  name?: string | undefined;
   /** The metric query used to define a count-based SLO as the ratio of good events to total events. */
-  query?: ServiceLevelObjectiveQuery;
+  query?: ServiceLevelObjectiveQuery | undefined;
   /** A generic SLI specification. This is currently used for time-slice and count-based (metric) SLOs only. */
-  sli_specification?: SLOSliSpec;
+  sli_specification?: SLOSliSpec | undefined;
   /** A list of tags associated with this service level objective. Always included in service level objective responses (but may be empty). Optional in create/update requests. */
-  tags?: SLOResponseDataTagsList;
+  tags?: SLOResponseDataTagsList | undefined;
   /** The target threshold such that when the service level indicator is above this threshold over the given timeframe, the objective is being met. */
-  target_threshold?: number;
+  target_threshold?: number | undefined;
   /** The thresholds (timeframes and associated targets) for this service level objective object. */
-  thresholds?: SLOResponseDataThresholdsList;
-  timeframe?: SLOTimeframe;
-  type?: SLOType;
+  thresholds?: SLOResponseDataThresholdsList | undefined;
+  timeframe?: SLOTimeframe | undefined;
+  type?: SLOType | undefined;
   /** The optional warning threshold such that when the service level indicator is below this value for the given threshold, but above the target threshold, the objective appears in a "warning" state. This value must be greater than the target threshold. */
-  warning_threshold?: number;
+  warning_threshold?: number | undefined;
 }
 /** An array of error messages. Each endpoint documents how/whether this field is used. */
 export type SLOResponseErrorsList = Array<string>;
 /** A service level objective response containing a single service level objective. */
 export interface SLOResponse {
-  data?: SLOResponseData;
+  data?: SLOResponseData | undefined;
   /** An array of error messages. Each endpoint documents how/whether this field is used. */
-  errors?: SLOResponseErrorsList;
+  errors?: SLOResponseErrorsList | undefined;
 }
 export interface GetSLOCorrectionRequest {
   /** The ID of the SLO correction object. */
@@ -9309,19 +9323,19 @@ export type SLOCorrectionListResponseDataList = Array<SLOCorrection>;
 /** Pagination object. */
 export interface Pagination {
   /** Total count. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** Total count of elements matched by the filter. */
-  total_filtered_count?: number;
+  total_filtered_count?: number | undefined;
 }
 /** Object describing meta attributes of response. */
 export interface ResponseMetaAttributes {
-  page?: Pagination;
+  page?: Pagination | undefined;
 }
 /** A list of SLO correction objects. */
 export interface SLOCorrectionListResponse {
   /** The list of SLO corrections objects. */
-  data?: SLOCorrectionListResponseDataList;
-  meta?: ResponseMetaAttributes;
+  data?: SLOCorrectionListResponseDataList | undefined;
+  meta?: ResponseMetaAttributes | undefined;
 }
 export interface GetSLOHistoryRequest {
   /** The ID of the service level objective object. */
@@ -9331,9 +9345,9 @@ export interface GetSLOHistoryRequest {
   /** The `to` timestamp for the query window in epoch seconds. */
   to_ts: number;
   /** The SLO target. If `target` is passed in, the response will include the remaining error budget and a timeframe value of `custom`. */
-  target?: number;
+  target?: number | undefined;
   /** Defaults to `true`. If any SLO corrections are applied and this parameter is set to `false`, then the corrections will not be applied and the SLI values will not be affected. */
-  apply_correction?: boolean;
+  apply_correction?: boolean | undefined;
 }
 /** For `metric` based SLOs where the query includes a group-by clause, this represents the list of grouping parameters. This is not included in responses for `monitor` based SLOs. */
 export type SLOHistoryResponseDataGroupByList = Array<string>;
@@ -9347,29 +9361,29 @@ export type SLOHistoryMonitorHistoryItemList = Array<number>;
 export type SLOHistoryMonitorHistoryList = Array<SLOHistoryMonitorHistoryItemList>;
 /** An object that holds an SLI value and its associated data. It can represent an SLO's overall SLI value. This can also represent the SLI value for a specific monitor in multi-monitor SLOs, or a group in grouped SLOs. */
 export interface SLOHistoryMonitor {
-  error_budget_remaining?: SLOErrorBudgetRemainingData;
+  error_budget_remaining?: SLOErrorBudgetRemainingData | undefined;
   /** An array of error objects returned while querying the history data for the service level objective. */
-  errors?: SLOHistoryMonitorErrorsList;
+  errors?: SLOHistoryMonitorErrorsList | undefined;
   /** For groups in a grouped SLO, this is the group name. */
-  group?: string;
+  group?: string | undefined;
   /** The state transition history for the monitor. It is represented as an array of pairs. Each pair is an array containing the timestamp of the transition as an integer in Unix epoch format in the first element, and the state as an integer in the second element. An integer value of `0` for state means uptime, `1` means downtime, and `2` means no data. Periods of no data are counted either as uptime or downtime depending on monitor settings. See [SLO documentation](https://docs.datadoghq.com/service_management/service_level_objectives/monitor/#missing-data) for detailed information. */
-  history?: SLOHistoryMonitorHistoryList;
+  history?: SLOHistoryMonitorHistoryList | undefined;
   /** For `monitor` based SLOs, this is the last modified timestamp in epoch seconds of the monitor. */
-  monitor_modified?: number;
+  monitor_modified?: number | undefined;
   /** For `monitor` based SLOs, this describes the type of monitor. */
-  monitor_type?: string;
+  monitor_type?: string | undefined;
   /** For groups in a grouped SLO, this is the group name. For monitors in a multi-monitor SLO, this is the monitor name. */
-  name?: string;
+  name?: string | undefined;
   /** The amount of decimal places the SLI value is accurate to for the given from `&&` to timestamp. Use `span_precision` instead. */
-  precision?: number;
+  precision?: number | undefined;
   /** For `monitor` based SLOs, when `true` this indicates that a replay is in progress to give an accurate uptime calculation. */
-  preview?: boolean;
+  preview?: boolean | undefined;
   /** The current SLI value of the SLO over the history window. */
-  sli_value?: number | null;
+  sli_value?: number | null | undefined;
   /** The amount of decimal places the SLI value is accurate to for the given from `&&` to timestamp. */
-  span_precision?: number;
+  span_precision?: number | undefined;
   /** Use `sli_value` instead. */
-  uptime?: number;
+  uptime?: number | undefined;
 }
 /** For grouped SLOs, this represents SLI data for specific groups. This is not included in the responses for `metric` based SLOs. */
 export type SLOHistoryResponseDataGroupsList = Array<SLOHistoryMonitor>;
@@ -9385,44 +9399,44 @@ export type SLOHistorySLIDataHistoryList = Array<SLOHistorySLIDataHistoryItemLis
 export type SLOHistorySLIDataPrecisionMap = { [key: string]: number | undefined };
 /** An object that holds an SLI value and its associated data. It can represent an SLO's overall SLI value. This can also represent the SLI value for a specific monitor in multi-monitor SLOs, or a group in grouped SLOs. */
 export interface SLOHistorySLIData {
-  error_budget_remaining?: SLOErrorBudgetRemainingData;
+  error_budget_remaining?: SLOErrorBudgetRemainingData | undefined;
   /** An array of error objects returned while querying the history data for the service level objective. */
-  errors?: SLOHistorySLIDataErrorsList;
+  errors?: SLOHistorySLIDataErrorsList | undefined;
   /** For groups in a grouped SLO, this is the group name. */
-  group?: string;
+  group?: string | undefined;
   /** The state transition history for `monitor` or `time-slice` SLOs. It is represented as an array of pairs. Each pair is an array containing the timestamp of the transition as an integer in Unix epoch format in the first element, and the state as an integer in the second element. An integer value of `0` for state means uptime, `1` means downtime, and `2` means no data. Periods of no data count as uptime in time-slice SLOs, while for monitor SLOs, no data is counted either as uptime or downtime depending on monitor settings. See [SLO documentation](https://docs.datadoghq.com/service_management/service_level_objectives/monitor/#missing-data) for detailed information. */
-  history?: SLOHistorySLIDataHistoryList;
+  history?: SLOHistorySLIDataHistoryList | undefined;
   /** For `monitor` based SLOs, this is the last modified timestamp in epoch seconds of the monitor. */
-  monitor_modified?: number;
+  monitor_modified?: number | undefined;
   /** For `monitor` based SLOs, this describes the type of monitor. */
-  monitor_type?: string;
+  monitor_type?: string | undefined;
   /** For groups in a grouped SLO, this is the group name. For monitors in a multi-monitor SLO, this is the monitor name. */
-  name?: string;
+  name?: string | undefined;
   /** A mapping of threshold `timeframe` to number of accurate decimals, regardless of the from && to timestamp. */
-  precision?: SLOHistorySLIDataPrecisionMap;
+  precision?: SLOHistorySLIDataPrecisionMap | undefined;
   /** For `monitor` based SLOs, when `true` this indicates that a replay is in progress to give an accurate uptime calculation. */
-  preview?: boolean;
+  preview?: boolean | undefined;
   /** The current SLI value of the SLO over the history window. */
-  sli_value?: number | null;
+  sli_value?: number | null | undefined;
   /** The amount of decimal places the SLI value is accurate to for the given from `&&` to timestamp. */
-  span_precision?: number;
+  span_precision?: number | undefined;
   /** Use `sli_value` instead. */
-  uptime?: number | null;
+  uptime?: number | null | undefined;
 }
 /** An Object of metric units. */
 export interface SLOHistoryMetricsSeriesMetadataUnit {
   /** The family of metric unit, for example `bytes` is the family for `kibibyte`, `byte`, and `bit` units. */
-  family?: string;
+  family?: string | undefined;
   /** The ID of the metric unit. */
-  id?: number;
+  id?: number | undefined;
   /** The unit of the metric, for instance `byte`. */
-  name?: string;
+  name?: string | undefined;
   /** The plural Unit of metric, for instance `bytes`. */
-  plural?: string | null;
+  plural?: string | null | undefined;
   /** The scale factor of metric unit, for instance `1.0`. */
-  scale_factor?: number;
+  scale_factor?: number | undefined;
   /** A shorter and abbreviated version of the metric unit, for instance `B`. */
-  short_name?: string | null;
+  short_name?: string | null | undefined;
 }
 /** An array of metric units that contains up to two unit objects. For example, bytes represents one unit object and bytes per second represents two unit objects. If a metric query only has one unit object, the second array element is null. */
 export type SLOHistoryMetricsSeriesMetadataUnitList =
@@ -9430,17 +9444,17 @@ export type SLOHistoryMetricsSeriesMetadataUnitList =
 /** Query metadata. */
 export interface SLOHistoryMetricsSeriesMetadata {
   /** Query aggregator function. */
-  aggr?: string;
+  aggr?: string | undefined;
   /** Query expression. */
-  expression?: string;
+  expression?: string | undefined;
   /** Query metric used. */
-  metric?: string;
+  metric?: string | undefined;
   /** Query index from original combined query. */
-  query_index?: number;
+  query_index?: number | undefined;
   /** Query scope. */
-  scope?: string;
+  scope?: string | undefined;
   /** An array of metric units that contains up to two unit objects. For example, bytes represents one unit object and bytes per second represents two unit objects. If a metric query only has one unit object, the second array element is null. */
-  unit?: SLOHistoryMetricsSeriesMetadataUnitList | null;
+  unit?: SLOHistoryMetricsSeriesMetadataUnitList | null | undefined;
 }
 /** The query values for each metric. */
 export type SLOHistoryMetricsSeriesValuesList = Array<number>;
@@ -9448,7 +9462,7 @@ export type SLOHistoryMetricsSeriesValuesList = Array<number>;
 export interface SLOHistoryMetricsSeries {
   /** Count of submitted metrics. */
   count: number;
-  metadata?: SLOHistoryMetricsSeriesMetadata;
+  metadata?: SLOHistoryMetricsSeriesMetadata | undefined;
   /** Total sum of the query. */
   sum: number;
   /** The query values for each metric. */
@@ -9462,7 +9476,7 @@ export interface SLOHistoryMetrics {
   /** The aggregated query interval for the series data. It's implicit based on the query time window. */
   interval: number;
   /** Optional message if there are specific query issues/warnings. */
-  message?: string;
+  message?: string | undefined;
   numerator: SLOHistoryMetricsSeries;
   /** The combined numerator and denominator query CSV. */
   query: string;
@@ -9480,34 +9494,34 @@ export type SLOTypeNumeric = 0 | 1 | 2;
 /** An array of service level objective objects. */
 export interface SLOHistoryResponseData {
   /** The `from` timestamp in epoch seconds. */
-  from_ts?: number;
+  from_ts?: number | undefined;
   /** For `metric` based SLOs where the query includes a group-by clause, this represents the list of grouping parameters. This is not included in responses for `monitor` based SLOs. */
-  group_by?: SLOHistoryResponseDataGroupByList;
+  group_by?: SLOHistoryResponseDataGroupByList | undefined;
   /** For grouped SLOs, this represents SLI data for specific groups. This is not included in the responses for `metric` based SLOs. */
-  groups?: SLOHistoryResponseDataGroupsList;
+  groups?: SLOHistoryResponseDataGroupsList | undefined;
   /** For multi-monitor SLOs, this represents SLI data for specific monitors. This is not included in the responses for `metric` based SLOs. */
-  monitors?: SLOHistoryResponseDataMonitorsList;
-  overall?: SLOHistorySLIData;
-  series?: SLOHistoryMetrics;
+  monitors?: SLOHistoryResponseDataMonitorsList | undefined;
+  overall?: SLOHistorySLIData | undefined;
+  series?: SLOHistoryMetrics | undefined;
   /** mapping of string timeframe to the SLO threshold. */
-  thresholds?: SLOHistoryResponseDataThresholdsMap;
+  thresholds?: SLOHistoryResponseDataThresholdsMap | undefined;
   /** The `to` timestamp in epoch seconds. */
-  to_ts?: number;
-  type?: SLOType;
-  type_id?: SLOTypeNumeric;
+  to_ts?: number | undefined;
+  type?: SLOType | undefined;
+  type_id?: SLOTypeNumeric | undefined;
 }
 /** A list of errors while querying the history data for the service level objective. */
 export interface SLOHistoryResponseError {
   /** Human readable error. */
-  error?: string;
+  error?: string | undefined;
 }
 /** A list of errors while querying the history data for the service level objective. */
 export type SLOHistoryResponseErrorsList = Array<SLOHistoryResponseError>;
 /** A service level objective history response. */
 export interface SLOHistoryResponse {
-  data?: SLOHistoryResponseData;
+  data?: SLOHistoryResponseData | undefined;
   /** A list of errors while querying the history data for the service level objective. */
-  errors?: SLOHistoryResponseErrorsList | null;
+  errors?: SLOHistoryResponseErrorsList | null | undefined;
 }
 export interface GetSyntheticsCIBatchRequest {
   /** The ID of the batch. */
@@ -9516,29 +9530,29 @@ export interface GetSyntheticsCIBatchRequest {
 /** Description of the CI pipeline. */
 export interface SyntheticsCIBatchMetadataPipeline {
   /** URL of the pipeline. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Description of the CI provider. */
 export interface SyntheticsCIBatchMetadataProvider {
   /** Name of the CI provider. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Description of the CI provider. */
 export interface SyntheticsCIBatchMetadataCI {
-  pipeline?: SyntheticsCIBatchMetadataPipeline;
-  provider?: SyntheticsCIBatchMetadataProvider;
+  pipeline?: SyntheticsCIBatchMetadataPipeline | undefined;
+  provider?: SyntheticsCIBatchMetadataProvider | undefined;
 }
 /** Git information. */
 export interface SyntheticsCIBatchMetadataGit {
   /** Branch name. */
-  branch?: string;
+  branch?: string | undefined;
   /** The commit SHA. */
-  commitSha?: string;
+  commitSha?: string | undefined;
 }
 /** Metadata for the Synthetic tests run. */
 export interface SyntheticsCIBatchMetadata {
-  ci?: SyntheticsCIBatchMetadataCI;
-  git?: SyntheticsCIBatchMetadataGit;
+  ci?: SyntheticsCIBatchMetadataCI | undefined;
+  git?: SyntheticsCIBatchMetadataGit | undefined;
 }
 /** Determines whether the batch has passed, failed, or is in progress. */
 export type SyntheticsBatchStatus = "passed" | "skipped" | "failed";
@@ -9546,35 +9560,35 @@ export type SyntheticsBatchStatus = "passed" | "skipped" | "failed";
 export type SyntheticsTestDetailsType = "api" | "browser" | "mobile" | "network";
 /** Object with the results of a Synthetic batch. */
 export interface SyntheticsBatchResult {
-  device?: string;
+  device?: string | undefined;
   /** Total duration in millisecond of the test. */
-  duration?: number;
-  execution_rule?: SyntheticsTestExecutionRule;
+  duration?: number | undefined;
+  execution_rule?: SyntheticsTestExecutionRule | undefined;
   /** Name of the location. */
-  location?: string;
+  location?: string | undefined;
   /** The ID of the result to get. */
-  result_id?: string;
+  result_id?: string | undefined;
   /** Number of times this result has been retried. */
-  retries?: number;
-  status?: SyntheticsBatchStatus;
+  retries?: number | undefined;
+  status?: SyntheticsBatchStatus | undefined;
   /** Name of the test. */
-  test_name?: string;
+  test_name?: string | undefined;
   /** The public ID of the Synthetic test. */
-  test_public_id?: string;
-  test_type?: SyntheticsTestDetailsType;
+  test_public_id?: string | undefined;
+  test_type?: SyntheticsTestDetailsType | undefined;
 }
 /** List of results for the batch. */
 export type SyntheticsBatchDetailsDataResultsList = Array<SyntheticsBatchResult>;
 /** Wrapper object that contains the details of a batch. */
 export interface SyntheticsBatchDetailsData {
-  metadata?: SyntheticsCIBatchMetadata;
+  metadata?: SyntheticsCIBatchMetadata | undefined;
   /** List of results for the batch. */
-  results?: SyntheticsBatchDetailsDataResultsList;
-  status?: SyntheticsBatchStatus;
+  results?: SyntheticsBatchDetailsDataResultsList | undefined;
+  status?: SyntheticsBatchStatus | undefined;
 }
 /** Details about a batch response. */
 export interface SyntheticsBatchDetails {
-  data?: SyntheticsBatchDetailsData;
+  data?: SyntheticsBatchDetailsData | undefined;
 }
 export interface GetSyntheticsDefaultLocationsRequest {}
 /** List of Synthetics default locations settings. */
@@ -9590,30 +9604,30 @@ export type SyntheticsTestDetailsWithoutStepsLocationsList = Array<string>;
 export type SyntheticsTestDetailsWithoutStepsTagsList = Array<string>;
 /** Object containing details about your Synthetic test, without test steps. */
 export interface SyntheticsTestDetailsWithoutSteps {
-  config?: SyntheticsTestConfig;
-  creator?: Creator;
+  config?: SyntheticsTestConfig | undefined;
+  creator?: Creator | undefined;
   /** Array of locations used to run the test. */
-  locations?: SyntheticsTestDetailsWithoutStepsLocationsList;
+  locations?: SyntheticsTestDetailsWithoutStepsLocationsList | undefined;
   /** Notification message associated with the test. */
-  message?: string;
+  message?: string | undefined;
   /** The associated monitor ID. */
-  monitor_id?: number;
+  monitor_id?: number | undefined;
   /** Name of the test. */
-  name?: string;
-  options?: SyntheticsTestOptions;
+  name?: string | undefined;
+  options?: SyntheticsTestOptions | undefined;
   /** The test public ID. */
-  public_id?: string;
-  status?: SyntheticsTestPauseStatus;
-  subtype?: SyntheticsTestDetailsSubType;
+  public_id?: string | undefined;
+  status?: SyntheticsTestPauseStatus | undefined;
+  subtype?: SyntheticsTestDetailsSubType | undefined;
   /** Array of tags attached to the test. */
-  tags?: SyntheticsTestDetailsWithoutStepsTagsList;
-  type?: SyntheticsTestDetailsType;
+  tags?: SyntheticsTestDetailsWithoutStepsTagsList | undefined;
+  type?: SyntheticsTestDetailsType | undefined;
 }
 export interface GetUsageBillableSummaryRequest {
   /** Datetime in ISO-8601 format, UTC, precise to month: `[YYYY-MM]` for usage starting this month. */
-  month?: string;
+  month?: string | undefined;
   /** Boolean to specify whether to include accounts connected to the current account as partner customers in the Datadog partner network program. Defaults to `false`. */
-  include_connected_accounts?: boolean;
+  include_connected_accounts?: boolean | undefined;
 }
 export interface GetUsageBillableSummaryResponse {}
 export type GetUsageLogsByIndexRequestIndexNameList = Array<string>;
@@ -9621,34 +9635,34 @@ export interface GetUsageLogsByIndexRequest {
   /** Datetime in ISO-8601 format, UTC, precise to hour: [YYYY-MM-DDThh] for usage beginning at this hour. */
   start_hr: string;
   /** Datetime in ISO-8601 format, UTC, precise to hour: [YYYY-MM-DDThh] for usage ending **before** this hour. */
-  end_hr?: string;
+  end_hr?: string | undefined;
   /** Comma-separated list of log index names. */
-  index_name?: GetUsageLogsByIndexRequestIndexNameList;
+  index_name?: GetUsageLogsByIndexRequestIndexNameList | undefined;
 }
 export interface GetUsageLogsByIndexResponse {}
 export interface GetUsageSummaryRequest {
   /** Datetime in ISO-8601 format, UTC, precise to month: `[YYYY-MM]` for usage beginning in this month. Maximum of 15 months ago. */
   start_month: string;
   /** Datetime in ISO-8601 format, UTC, precise to month: `[YYYY-MM]` for usage ending this month. */
-  end_month?: string;
+  end_month?: string | undefined;
   /** Include usage summaries for each sub-org. */
-  include_org_details?: boolean;
+  include_org_details?: boolean | undefined;
   /** Boolean to specify whether to include accounts connected to the current account as partner customers in the Datadog partner network program. Defaults to `false`. */
-  include_connected_accounts?: boolean;
+  include_connected_accounts?: boolean | undefined;
 }
 export interface GetUsageSummaryResponse {}
 export type GetUsageTopAvgMetricsRequestNamesList = Array<string>;
 export interface GetUsageTopAvgMetricsRequest {
   /** Datetime in ISO-8601 format, UTC, precise to month: [YYYY-MM] for usage beginning at this hour. (Either month or day should be specified, but not both) */
-  month?: string;
+  month?: string | undefined;
   /** Datetime in ISO-8601 format, UTC, precise to day: [YYYY-MM-DD] for usage beginning at this hour. (Either month or day should be specified, but not both) */
-  day?: string;
+  day?: string | undefined;
   /** Comma-separated list of metric names. */
-  names?: GetUsageTopAvgMetricsRequestNamesList;
+  names?: GetUsageTopAvgMetricsRequestNamesList | undefined;
   /** Maximum number of results to return (between 1 and 5000) - defaults to 500 results if limit not specified. */
-  limit?: number;
+  limit?: number | undefined;
   /** List following results with a next_record_id provided in the previous query. */
-  next_record_id?: string;
+  next_record_id?: string | undefined;
 }
 export interface GetUsageTopAvgMetricsResponse {}
 export interface GetUserRequest {
@@ -9667,18 +9681,18 @@ export interface ListActiveMetricsRequest {
   /** Seconds since the Unix epoch. */
   from: number;
   /** Hostname for filtering the list of metrics returned. If set, metrics retrieved are those with the corresponding hostname tag. */
-  host?: string;
+  host?: string | undefined;
   /** Filter metrics that have been submitted with the given tags. Supports boolean and wildcard expressions. Cannot be combined with other filters. */
-  tag_filter?: string;
+  tag_filter?: string | undefined;
 }
 /** List of metric names. */
 export type MetricsListResponseMetricsList = Array<string>;
 /** Object listing all metric names stored by Datadog since a given time. */
 export interface MetricsListResponse {
   /** Time when the metrics were active, seconds since the Unix epoch. */
-  from?: string;
+  from?: string | undefined;
   /** List of metric names. */
-  metrics?: MetricsListResponseMetricsList;
+  metrics?: MetricsListResponseMetricsList | undefined;
 }
 export interface ListAPIKeysRequest {}
 /** Array of API keys. */
@@ -9686,7 +9700,7 @@ export type ApiKeyListResponseApiKeysList = Array<ApiKey>;
 /** List of API and application keys available for a given organization. */
 export interface ApiKeyListResponse {
   /** Array of API keys. */
-  api_keys?: ApiKeyListResponseApiKeysList;
+  api_keys?: ApiKeyListResponseApiKeysList | undefined;
 }
 export interface ListApplicationKeysRequest {}
 /** Array of application keys. */
@@ -9694,7 +9708,7 @@ export type ApplicationKeyListResponseApplicationKeysList = Array<ApplicationKey
 /** An application key response. */
 export interface ApplicationKeyListResponse {
   /** Array of application keys. */
-  application_keys?: ApplicationKeyListResponseApplicationKeysList;
+  application_keys?: ApplicationKeyListResponseApplicationKeysList | undefined;
 }
 export interface ListAzureIntegrationRequest {}
 /** Errors in your configuration. */
@@ -9704,41 +9718,41 @@ export type AzureAccountResourceProviderConfigsList = Array<ResourceProviderConf
 /** Datadog-Azure integrations configured for your organization. */
 export interface AzureAccount {
   /** Limit the Azure app service plans that are pulled into Datadog using tags. Only app service plans that match one of the defined tags are imported into Datadog. */
-  app_service_plan_filters?: string;
+  app_service_plan_filters?: string | undefined;
   /** Silence monitors for expected Azure VM shutdowns. */
-  automute?: boolean;
+  automute?: boolean | undefined;
   /** Your Azure web application ID. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Your Azure web application secret key. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Limit the Azure container apps that are pulled into Datadog using tags. Only container apps that match one of the defined tags are imported into Datadog. */
-  container_app_filters?: string;
+  container_app_filters?: string | undefined;
   /** When enabled, Datadog's Cloud Security Management product scans resource configurations monitored by this app registration. Note: This requires resource_collection_enabled to be set to true. */
-  cspm_enabled?: boolean;
+  cspm_enabled?: boolean | undefined;
   /** Enable custom metrics for your organization. */
-  custom_metrics_enabled?: boolean;
+  custom_metrics_enabled?: boolean | undefined;
   /** Errors in your configuration. */
-  errors?: AzureAccountErrorsList;
+  errors?: AzureAccountErrorsList | undefined;
   /** Limit the Azure instances that are pulled into Datadog by using tags. Only hosts that match one of the defined tags are imported into Datadog. */
-  host_filters?: string;
+  host_filters?: string | undefined;
   /** Enable Azure metrics for your organization. */
-  metrics_enabled?: boolean;
+  metrics_enabled?: boolean | undefined;
   /** Enable Azure metrics for your organization for resource providers where no resource provider config is specified. */
-  metrics_enabled_default?: boolean;
+  metrics_enabled_default?: boolean | undefined;
   /** Your New Azure web application ID. */
-  new_client_id?: string;
+  new_client_id?: string | undefined;
   /** Your New Azure Active Directory ID. */
-  new_tenant_name?: string;
+  new_tenant_name?: string | undefined;
   /** When enabled, Datadog collects metadata and configuration info from cloud resources (compute instances, databases, load balancers, etc.) monitored by this app registration. */
-  resource_collection_enabled?: boolean;
+  resource_collection_enabled?: boolean | undefined;
   /** Configuration settings applied to resources from the specified Azure resource providers. */
-  resource_provider_configs?: AzureAccountResourceProviderConfigsList;
+  resource_provider_configs?: AzureAccountResourceProviderConfigsList | undefined;
   /** (Preview) When enabled, Datadog authenticates with this app registration using federated workload identity credentials instead of a client secret. */
-  secretless_auth_enabled?: boolean;
+  secretless_auth_enabled?: boolean | undefined;
   /** Your Azure Active Directory ID. */
-  tenant_name?: string;
+  tenant_name?: string | undefined;
   /** Enable azure.usage metrics for your organization. */
-  usage_metrics_enabled?: boolean;
+  usage_metrics_enabled?: boolean | undefined;
 }
 /** Accounts configured for your organization. */
 export type AzureAccountListResponse = Array<AzureAccount>;
@@ -9749,44 +9763,44 @@ export type DashboardListListResponseDashboardListsList = Array<DashboardList>;
 /** Information on your dashboard lists. */
 export interface DashboardListListResponse {
   /** List of all your dashboard lists. */
-  dashboard_lists?: DashboardListListResponseDashboardListsList;
+  dashboard_lists?: DashboardListListResponseDashboardListsList | undefined;
 }
 export interface ListDashboardsRequest {
   /** When `true`, this query only returns shared custom created or cloned dashboards. */
-  filter_shared_?: boolean;
+  filter_shared_?: boolean | undefined;
   /** When `true`, this query returns only deleted custom-created or cloned dashboards. This parameter is incompatible with `filter[shared]`. */
-  filter_deleted_?: boolean;
+  filter_deleted_?: boolean | undefined;
   /** The maximum number of dashboards returned in the list. */
-  count?: number;
+  count?: number | undefined;
   /** The specific offset to use as the beginning of the returned response. */
-  start?: number;
+  start?: number | undefined;
 }
 /** Dashboard definition. */
 export interface DashboardSummaryDefinition {
   /** Identifier of the dashboard author. */
-  author_handle?: string;
+  author_handle?: string | undefined;
   /** Creation date of the dashboard. */
-  created_at?: string;
+  created_at?: string | undefined;
   /** Description of the dashboard. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Dashboard identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Whether this dashboard is read-only. If True, only the author and admins can make changes to it. This property is deprecated; please use the [Restriction Policies API](https://docs.datadoghq.com/api/latest/restriction-policies/) instead to manage write authorization for individual dashboards. */
-  is_read_only?: boolean;
-  layout_type?: DashboardLayoutType;
+  is_read_only?: boolean | undefined;
+  layout_type?: DashboardLayoutType | undefined;
   /** Modification date of the dashboard. */
-  modified_at?: string;
+  modified_at?: string | undefined;
   /** Title of the dashboard. */
-  title?: string;
+  title?: string | undefined;
   /** URL of the dashboard. */
-  url?: string;
+  url?: string | undefined;
 }
 /** List of dashboard definitions. */
 export type DashboardSummaryDashboardsList = Array<DashboardSummaryDefinition>;
 /** Dashboard summary response. */
 export interface DashboardSummary {
   /** List of dashboard definitions. */
-  dashboards?: DashboardSummaryDashboardsList;
+  dashboards?: DashboardSummaryDashboardsList | undefined;
 }
 export interface ListEventsRequest {
   /** POSIX timestamp. */
@@ -9794,26 +9808,26 @@ export interface ListEventsRequest {
   /** POSIX timestamp. */
   end: number;
   /** Priority of your events, either `low` or `normal`. */
-  priority?: EventPriority | (string & {});
+  priority?: EventPriority | (string & {}) | undefined;
   /** A comma separated string of sources. */
-  sources?: string;
+  sources?: string | undefined;
   /** A comma separated list indicating what tags, if any, should be used to filter the list of events. */
-  tags?: string;
+  tags?: string | undefined;
   /** Set unaggregated to `true` to return all events within the specified [`start`,`end`] timeframe. Otherwise if an event is aggregated to a parent event with a timestamp outside of the timeframe, it won't be available in the output. Aggregated events with `is_aggregate=true` in the response will still be returned unless exclude_aggregate is set to `true.` */
-  unaggregated?: boolean;
+  unaggregated?: boolean | undefined;
   /** Set `exclude_aggregate` to `true` to only return unaggregated events where `is_aggregate=false` in the response. If the `exclude_aggregate` parameter is set to `true`, then the unaggregated parameter is ignored and will be `true` by default. */
-  exclude_aggregate?: boolean;
+  exclude_aggregate?: boolean | undefined;
   /** By default 1000 results are returned per request. Set page to the number of the page to return with `0` being the first page. The page parameter can only be used when either unaggregated or exclude_aggregate is set to `true.` */
-  page?: number;
+  page?: number | undefined;
 }
 /** An array of events. */
 export type EventListResponseEventsList = Array<Event>;
 /** An event list response. */
 export interface EventListResponse {
   /** An array of events. */
-  events?: EventListResponseEventsList;
+  events?: EventListResponseEventsList | undefined;
   /** A status. */
-  status?: string;
+  status?: string | undefined;
 }
 export interface ListGlobalVariablesRequest {}
 /** Array of Synthetic global variables. */
@@ -9821,25 +9835,25 @@ export type SyntheticsListGlobalVariablesResponseVariablesList = Array<Synthetic
 /** Object containing an array of Synthetic global variables. */
 export interface SyntheticsListGlobalVariablesResponse {
   /** Array of Synthetic global variables. */
-  variables?: SyntheticsListGlobalVariablesResponseVariablesList;
+  variables?: SyntheticsListGlobalVariablesResponseVariablesList | undefined;
 }
 export interface ListHostsRequest {
   /** String to filter search results. */
-  filter?: string;
+  filter?: string | undefined;
   /** Sort hosts by this field. */
-  sort_field?: string;
+  sort_field?: string | undefined;
   /** Direction of sort. Options include `asc` and `desc`. */
-  sort_dir?: string;
+  sort_dir?: string | undefined;
   /** Specify the starting point for the host search results. For example, if you set `count` to 100 and the first 100 results have already been returned, you can set `start` to `101` to get the next 100 results. */
-  start?: number;
+  start?: number | undefined;
   /** Number of hosts to return. Max 1000. */
-  count?: number;
+  count?: number | undefined;
   /** Number of seconds since UNIX epoch from which you want to search your hosts. */
-  from?: number;
+  from?: number | undefined;
   /** Include information on the muted status of hosts and when the mute expires. */
-  include_muted_hosts_data?: boolean;
+  include_muted_hosts_data?: boolean | undefined;
   /** Include additional metadata about the hosts (agent_version, machine, platform, processor, etc.). */
-  include_hosts_metadata?: boolean;
+  include_hosts_metadata?: boolean | undefined;
 }
 /** Host aliases collected by Datadog. */
 export type HostAliasesList = Array<string>;
@@ -9854,11 +9868,11 @@ export type HostMetaFbsdVList = Array<unknown>;
 /** Agent install method. */
 export interface HostMetaInstallMethod {
   /** The installer version. */
-  installer_version?: string;
+  installer_version?: string | undefined;
   /** Tool used to install the agent. */
-  tool?: string;
+  tool?: string | undefined;
   /** The tool version. */
-  tool_version?: string;
+  tool_version?: string | undefined;
 }
 /** An array of Mac versions. */
 export type HostMetaMacVList = Array<unknown>;
@@ -9869,43 +9883,43 @@ export type HostMetaWinVList = Array<unknown>;
 /** Metadata associated with your host. */
 export interface HostMeta {
   /** A list of Agent checks running on the host. */
-  agent_checks?: HostMetaAgentChecksList;
+  agent_checks?: HostMetaAgentChecksList | undefined;
   /** The Datadog Agent version. */
-  agent_version?: string;
+  agent_version?: string | undefined;
   /** The number of cores. */
-  cpuCores?: number;
+  cpuCores?: number | undefined;
   /** An array of Mac versions. */
-  fbsdV?: HostMetaFbsdVList;
+  fbsdV?: HostMetaFbsdVList | undefined;
   /** JSON string containing system information. */
-  gohai?: string;
-  install_method?: HostMetaInstallMethod;
+  gohai?: string | undefined;
+  install_method?: HostMetaInstallMethod | undefined;
   /** An array of Mac versions. */
-  macV?: HostMetaMacVList;
+  macV?: HostMetaMacVList | undefined;
   /** The machine architecture. */
-  machine?: string;
+  machine?: string | undefined;
   /** Array of Unix versions. */
-  nixV?: HostMetaNixVList;
+  nixV?: HostMetaNixVList | undefined;
   /** The OS platform. */
-  platform?: string;
+  platform?: string | undefined;
   /** The processor. */
-  processor?: string;
+  processor?: string | undefined;
   /** The Python version. */
-  pythonV?: string;
+  pythonV?: string | undefined;
   /** The socket fqdn. */
-  socket_fqdn?: string;
+  socket_fqdn?: string | undefined;
   /** The socket hostname. */
-  socket_hostname?: string;
+  socket_hostname?: string | undefined;
   /** An array of Windows versions. */
-  winV?: HostMetaWinVList;
+  winV?: HostMetaWinVList | undefined;
 }
 /** Host Metrics collected. */
 export interface HostMetrics {
   /** The percent of CPU used (everything but idle). */
-  cpu?: number;
+  cpu?: number | undefined;
   /** The percent of CPU spent waiting on the IO (not reported for all platforms). */
-  iowait?: number;
+  iowait?: number | undefined;
   /** The system load over the last 15 minutes. */
-  load?: number;
+  load?: number | undefined;
 }
 /** Source or cloud provider associated with your host. */
 export type HostSourcesList = Array<string>;
@@ -9916,46 +9930,46 @@ export type HostTagsBySourceMap = { [key: string]: HostTagsBySourceValueList | u
 /** Object representing a host. */
 export interface Host {
   /** Host aliases collected by Datadog. */
-  aliases?: HostAliasesList;
+  aliases?: HostAliasesList | undefined;
   /** The Datadog integrations reporting metrics for the host. */
-  apps?: HostAppsList;
+  apps?: HostAppsList | undefined;
   /** AWS name of your host. */
-  aws_name?: string;
+  aws_name?: string | undefined;
   /** The host name. */
-  host_name?: string;
+  host_name?: string | undefined;
   /** The host ID. */
-  id?: number;
+  id?: number | undefined;
   /** If a host is muted or unmuted. */
-  is_muted?: boolean;
+  is_muted?: boolean | undefined;
   /** Last time the host reported a metric data point. */
-  last_reported_time?: number;
-  meta?: HostMeta;
-  metrics?: HostMetrics;
+  last_reported_time?: number | undefined;
+  meta?: HostMeta | undefined;
+  metrics?: HostMetrics | undefined;
   /** Timeout of the mute applied to your host. */
-  mute_timeout?: number | null;
+  mute_timeout?: number | null | undefined;
   /** The host name. */
-  name?: string;
+  name?: string | undefined;
   /** Source or cloud provider associated with your host. */
-  sources?: HostSourcesList;
+  sources?: HostSourcesList | undefined;
   /** List of tags for each source (AWS, Datadog Agent, Chef..). */
-  tags_by_source?: HostTagsBySourceMap;
+  tags_by_source?: HostTagsBySourceMap | undefined;
   /** Displays UP when the expected metrics are received and displays `???` if no metrics are received. */
-  up?: boolean;
+  up?: boolean | undefined;
 }
 /** Array of hosts. */
 export type HostListResponseHostListList = Array<Host>;
 /** Response with Host information from Datadog. */
 export interface HostListResponse {
   /** Array of hosts. */
-  host_list?: HostListResponseHostListList;
+  host_list?: HostListResponseHostListList | undefined;
   /** Number of host matching the query. */
-  total_matching?: number;
+  total_matching?: number | undefined;
   /** Number of host returned. */
-  total_returned?: number;
+  total_returned?: number | undefined;
 }
 export interface ListHostTagsRequest {
   /** Source to filter. [Complete list of source attribute values](https://docs.datadoghq.com/integrations/faq/list-of-api-source-attribute-value). Use "user" source for custom-defined tags. */
-  source?: string;
+  source?: string | undefined;
 }
 /** A list of host names which contain this tag */
 export type TagToHostsTagsValueList = Array<string>;
@@ -9964,22 +9978,22 @@ export type TagToHostsTagsMap = { [key: string]: TagToHostsTagsValueList | undef
 /** In this object, the key is the tag, and the value is a list of host names that are reporting that tag. */
 export interface TagToHosts {
   /** A mapping of tags to host names */
-  tags?: TagToHostsTagsMap;
+  tags?: TagToHostsTagsMap | undefined;
 }
 export interface ListLocationsRequest {}
 /** Synthetic location that can be used when creating or editing a test. */
 export interface SyntheticsLocation {
   /** Unique identifier of the location. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the location. */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of Synthetic locations. */
 export type SyntheticsLocationsLocationsList = Array<SyntheticsLocation>;
 /** List of Synthetic locations. */
 export interface SyntheticsLocations {
   /** List of Synthetic locations. */
-  locations?: SyntheticsLocationsLocationsList;
+  locations?: SyntheticsLocationsLocationsList | undefined;
 }
 export interface ListLogIndexesRequest {}
 /** Array of Log index configurations. */
@@ -9987,7 +10001,7 @@ export type LogsIndexListResponseIndexesList = Array<LogsIndex>;
 /** Object with all Index configurations for a given organization. */
 export interface LogsIndexListResponse {
   /** Array of Log index configurations. */
-  indexes?: LogsIndexListResponseIndexesList;
+  indexes?: LogsIndexListResponseIndexesList | undefined;
 }
 /** Time-ascending `asc` or time-descending `desc` results. */
 export type LogsSort = "asc" | "desc";
@@ -9996,20 +10010,20 @@ export interface LogsListRequestTime {
   /** Minimum timestamp for requested logs. */
   from: string;
   /** Timezone can be specified both as an offset (for example "UTC+03:00") or a regional zone (for example "Europe/Paris"). */
-  timezone?: string;
+  timezone?: string | undefined;
   /** Maximum timestamp for requested logs. */
   to: string;
 }
 export interface ListLogsRequest {
   /** The log index on which the request is performed. For multi-index organizations, the default is all live indexes. Historical indexes of rehydrated logs must be specified. */
-  index?: string;
+  index?: string | undefined;
   /** Number of logs return in the response. */
-  limit?: number;
+  limit?: number | undefined;
   /** The search query - following the log search syntax. */
-  query?: string;
-  sort?: LogsSort | (string & {});
+  query?: string | undefined;
+  sort?: LogsSort | (string & {}) | undefined;
   /** Hash identifier of the first log to return in the list, available in a log `id` attribute. This parameter is used for the pagination feature. **Note**: This parameter is ignored if the corresponding log is out of the scope of the specified time window. */
-  startAt?: string;
+  startAt?: string | undefined;
   time: LogsListRequestTime;
 }
 /** JSON object of attributes from your log. */
@@ -10019,34 +10033,34 @@ export type LogContentTagsList = Array<string>;
 /** JSON object containing all log attributes and their associated values. */
 export interface LogContent {
   /** JSON object of attributes from your log. */
-  attributes?: LogContentAttributesMap;
+  attributes?: LogContentAttributesMap | undefined;
   /** Name of the machine from where the logs are being sent. */
-  host?: string;
+  host?: string | undefined;
   /** The message [reserved attribute](https://docs.datadoghq.com/logs/log_collection/#reserved-attributes) of your log. By default, Datadog ingests the value of the message attribute as the body of the log entry. That value is then highlighted and displayed in the Logstream, where it is indexed for full text search. */
-  message?: string;
+  message?: string | undefined;
   /** The name of the application or service generating the log events. It is used to switch from Logs to APM, so make sure you define the same value when you use both products. */
-  service?: string;
+  service?: string | undefined;
   /** Array of tags associated with your log. */
-  tags?: LogContentTagsList;
+  tags?: LogContentTagsList | undefined;
   /** Timestamp of your log. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 /** Object describing a log after being processed and stored by Datadog. */
 export interface Log {
-  content?: LogContent;
+  content?: LogContent | undefined;
   /** ID of the Log. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Array of logs matching the request and the `nextLogId` if sent. */
 export type LogsListResponseLogsList = Array<Log>;
 /** Response object with all logs matching the request and pagination information. */
 export interface LogsListResponse {
   /** Array of logs matching the request and the `nextLogId` if sent. */
-  logs?: LogsListResponseLogsList;
+  logs?: LogsListResponseLogsList | undefined;
   /** Hash identifier of the next log to return in the list. This parameter is used for the pagination feature. */
-  nextLogId?: string | null;
+  nextLogId?: string | null | undefined;
   /** Status of the response. */
-  status?: string;
+  status?: string | undefined;
 }
 export interface ListLogsPipelinesRequest {}
 /** Array of all log pipeline objects configured for the organization. */
@@ -10054,46 +10068,46 @@ export type LogsPipelineList = Array<LogsPipeline>;
 export type ListLogsPipelinesResponse = LogsPipelineList;
 export interface ListMonitorsRequest {
   /** When specified, shows additional information about the group states. Choose one or more from `all`, `alert`, `warn`, and `no data`. */
-  group_states?: string;
+  group_states?: string | undefined;
   /** A string to filter monitors by name. */
-  name?: string;
+  name?: string | undefined;
   /** A comma separated list indicating what tags, if any, should be used to filter the list of monitors by scope. For example, `host:host0`. */
-  tags?: string;
+  tags?: string | undefined;
   /** A comma separated list indicating what service and/or custom tags, if any, should be used to filter the list of monitors. Tags created in the Datadog UI automatically have the service key prepended. For example, `service:my-app`. */
-  monitor_tags?: string;
+  monitor_tags?: string | undefined;
   /** If this argument is set to true, then the returned data includes all current active downtimes for each monitor. */
-  with_downtimes?: boolean;
+  with_downtimes?: boolean | undefined;
   /** Use this parameter for paginating through large sets of monitors. Start with a value of zero, make a request, set the value to the last ID of result set, and then repeat until the response is empty. */
-  id_offset?: number;
+  id_offset?: number | undefined;
   /** The page to start paginating from. If this argument is not specified, the request returns all monitors without pagination. */
-  page?: number;
+  page?: number | undefined;
   /** The number of monitors to return per page. If the page argument is not specified, the default behavior returns all monitors without a `page_size` limit. However, if page is specified and `page_size` is not, the argument defaults to 100. */
-  page_size?: number;
+  page_size?: number | undefined;
 }
 /** An array of monitor objects. */
 export type ListMonitorsResponseBodyList = Array<Monitor>;
 export type ListMonitorsResponse = ListMonitorsResponseBodyList;
 export interface ListNotebooksRequest {
   /** Return notebooks created by the given `author_handle`. */
-  author_handle?: string;
+  author_handle?: string | undefined;
   /** Return notebooks not created by the given `author_handle`. */
-  exclude_author_handle?: string;
+  exclude_author_handle?: string | undefined;
   /** The index of the first notebook you want returned. */
-  start?: number;
+  start?: number | undefined;
   /** The number of notebooks to be returned. */
-  count?: number;
+  count?: number | undefined;
   /** Sort by field `modified`, `name`, or `created`. */
-  sort_field?: string;
+  sort_field?: string | undefined;
   /** Sort by direction `asc` or `desc`. */
-  sort_dir?: string;
+  sort_dir?: string | undefined;
   /** Return only notebooks with `query` string in notebook name or author handle. */
-  query?: string;
+  query?: string | undefined;
   /** Value of `false` excludes the `cells` and global `time` for each notebook. */
-  include_cells?: boolean;
+  include_cells?: boolean | undefined;
   /** True value returns only template notebooks. Default is false (returns only non-template notebooks). */
-  is_template?: boolean;
+  is_template?: boolean | undefined;
   /** If type is provided, returns only notebooks with that metadata type. Default does not have type filtering. */
-  type?: string;
+  type?: string | undefined;
 }
 /** List of cells to display in the notebook. */
 export type NotebooksResponseDataAttributesCellsList = Array<NotebookCellResponse>;
@@ -10101,20 +10115,20 @@ export type NotebooksResponseDataAttributesCellsList = Array<NotebookCellRespons
 export type NotebooksResponseDataAttributesTemplateVariablesList = Array<NotebookTemplateVariable>;
 /** The attributes of a notebook in get all response. */
 export interface NotebooksResponseDataAttributes {
-  author?: NotebookAuthor;
+  author?: NotebookAuthor | undefined;
   /** List of cells to display in the notebook. */
-  cells?: NotebooksResponseDataAttributesCellsList;
+  cells?: NotebooksResponseDataAttributesCellsList | undefined;
   /** UTC time stamp for when the notebook was created. */
-  created?: string;
-  metadata?: NotebookMetadata;
+  created?: string | undefined;
+  metadata?: NotebookMetadata | undefined;
   /** UTC time stamp for when the notebook was last modified. */
-  modified?: string;
+  modified?: string | undefined;
   /** The name of the notebook. */
   name: string;
-  status?: NotebookStatus;
+  status?: NotebookStatus | undefined;
   /** List of template variables for this notebook. */
-  template_variables?: NotebooksResponseDataAttributesTemplateVariablesList | null;
-  time?: NotebookGlobalTime;
+  template_variables?: NotebooksResponseDataAttributesTemplateVariablesList | null | undefined;
+  time?: NotebookGlobalTime | undefined;
 }
 /** The data for a notebook in get all response. */
 export interface NotebooksResponseData {
@@ -10128,19 +10142,19 @@ export type NotebooksResponseDataList = Array<NotebooksResponseData>;
 /** Pagination metadata returned by the API. */
 export interface NotebooksResponsePage {
   /** The total number of notebooks that would be returned if the request was not filtered by `start` and `count` parameters. */
-  total_count?: number;
+  total_count?: number | undefined;
   /** The total number of notebooks returned. */
-  total_filtered_count?: number;
+  total_filtered_count?: number | undefined;
 }
 /** Searches metadata returned by the API. */
 export interface NotebooksResponseMeta {
-  page?: NotebooksResponsePage;
+  page?: NotebooksResponsePage | undefined;
 }
 /** Notebooks get all response. */
 export interface NotebooksResponse {
   /** List of notebook definitions. */
-  data?: NotebooksResponseDataList;
-  meta?: NotebooksResponseMeta;
+  data?: NotebooksResponseDataList | undefined;
+  meta?: NotebooksResponseMeta | undefined;
 }
 export interface ListOrgsRequest {}
 /** Array of organization objects. */
@@ -10148,42 +10162,42 @@ export type OrganizationListResponseOrgsList = Array<Organization>;
 /** Response with the list of organizations. */
 export interface OrganizationListResponse {
   /** Array of organization objects. */
-  orgs?: OrganizationListResponseOrgsList;
+  orgs?: OrganizationListResponseOrgsList | undefined;
 }
 export interface ListSLOCorrectionRequest {
   /** The specific offset to use as the beginning of the returned response. */
-  offset?: number;
+  offset?: number | undefined;
   /** The number of SLO corrections to return in the response. Default is 25. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface ListSLOsRequest {
   /** A comma separated list of the IDs of the service level objectives objects. */
-  ids?: string;
+  ids?: string | undefined;
   /** The query string to filter results based on SLO names. */
-  query?: string;
+  query?: string | undefined;
   /** The query string to filter results based on a single SLO tag. */
-  tags_query?: string;
+  tags_query?: string | undefined;
   /** The query string to filter results based on SLO numerator and denominator. */
-  metrics_query?: string;
+  metrics_query?: string | undefined;
   /** The number of SLOs to return in the response. */
-  limit?: number;
+  limit?: number | undefined;
   /** The specific offset to use as the beginning of the returned response. */
-  offset?: number;
+  offset?: number | undefined;
   /** Whether to return only deleted service level objective objects. */
-  is_deleted?: boolean;
+  is_deleted?: boolean | undefined;
 }
 export interface ListTestsRequest {
   /** Used for pagination. The number of tests returned in the page. */
-  page_size?: number;
+  page_size?: number | undefined;
   /** Used for pagination. Which page you want to retrieve. Starts at zero. */
-  page_number?: number;
+  page_number?: number | undefined;
 }
 /** Array of Synthetic tests configuration. */
 export type SyntheticsListTestsResponseTestsList = Array<SyntheticsTestDetailsWithoutSteps>;
 /** Object containing an array of Synthetic tests configuration. */
 export interface SyntheticsListTestsResponse {
   /** Array of Synthetic tests configuration. */
-  tests?: SyntheticsListTestsResponseTestsList;
+  tests?: SyntheticsListTestsResponseTestsList | undefined;
 }
 export interface ListUsersRequest {}
 /** Array of users. */
@@ -10191,28 +10205,28 @@ export type UserListResponseUsersList = Array<User>;
 /** Array of Datadog users for a given organization. */
 export interface UserListResponse {
   /** Array of users. */
-  users?: UserListResponseUsersList;
+  users?: UserListResponseUsersList | undefined;
 }
 export interface MuteHostRequest {
   /** Name of the host to mute. */
   host_name: string;
   /** POSIX timestamp in seconds when the host is unmuted. If omitted, the host remains muted until explicitly unmuted. */
-  end?: number;
+  end?: number | undefined;
   /** Message to associate with the muting of this host. */
-  message?: string;
+  message?: string | undefined;
   /** If true and the host is already muted, replaces existing host mute settings. */
-  override?: boolean;
+  override?: boolean | undefined;
 }
 /** Response with the list of muted host for your organization. */
 export interface HostMuteResponse {
   /** Action applied to the hosts. */
-  action?: string;
+  action?: string | undefined;
   /** POSIX timestamp in seconds when the host is unmuted. */
-  end?: number;
+  end?: number | undefined;
   /** The host name. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Message associated with the mute. */
-  message?: string;
+  message?: string | undefined;
 }
 /** The operation to perform */
 export type SyntheticsPatchTestOperationName =
@@ -10224,11 +10238,11 @@ export type SyntheticsPatchTestOperationName =
   | "test";
 /** A single [JSON Patch](https://jsonpatch.com) operation to perform on the test */
 export interface SyntheticsPatchTestOperation {
-  op?: SyntheticsPatchTestOperationName | (string & {});
+  op?: SyntheticsPatchTestOperationName | (string & {}) | undefined;
   /** The path to the value to modify */
-  path?: string;
+  path?: string | undefined;
   /** A value to use in a [JSON Patch](https://jsonpatch.com) operation */
-  value?: unknown;
+  value?: unknown | undefined;
 }
 /** Array of [JSON Patch](https://jsonpatch.com) operations to perform on the test */
 export type PatchTestRequestDataList = Array<SyntheticsPatchTestOperation>;
@@ -10236,7 +10250,7 @@ export interface PatchTestRequest {
   /** The public ID of the test to patch. */
   public_id: string;
   /** Array of [JSON Patch](https://jsonpatch.com) operations to perform on the test */
-  data?: PatchTestRequestDataList;
+  data?: PatchTestRequestDataList | undefined;
 }
 /** Array of locations used to run the test. */
 export type SyntheticsTestDetailsLocationsList = Array<string>;
@@ -10246,26 +10260,26 @@ export type SyntheticsTestDetailsStepsList = Array<SyntheticsStep>;
 export type SyntheticsTestDetailsTagsList = Array<string>;
 /** Object containing details about your Synthetic test. */
 export interface SyntheticsTestDetails {
-  config?: SyntheticsTestConfig;
-  creator?: Creator;
+  config?: SyntheticsTestConfig | undefined;
+  creator?: Creator | undefined;
   /** Array of locations used to run the test. */
-  locations?: SyntheticsTestDetailsLocationsList;
+  locations?: SyntheticsTestDetailsLocationsList | undefined;
   /** Notification message associated with the test. */
-  message?: string;
+  message?: string | undefined;
   /** The associated monitor ID. */
-  monitor_id?: number;
+  monitor_id?: number | undefined;
   /** Name of the test. */
-  name?: string;
-  options?: SyntheticsTestOptions;
+  name?: string | undefined;
+  options?: SyntheticsTestOptions | undefined;
   /** The test public ID. */
-  public_id?: string;
-  status?: SyntheticsTestPauseStatus;
+  public_id?: string | undefined;
+  status?: SyntheticsTestPauseStatus | undefined;
   /** The steps of the test if they exist. */
-  steps?: SyntheticsTestDetailsStepsList;
-  subtype?: SyntheticsTestDetailsSubType;
+  steps?: SyntheticsTestDetailsStepsList | undefined;
+  subtype?: SyntheticsTestDetailsSubType | undefined;
   /** Array of tags attached to the test. */
-  tags?: SyntheticsTestDetailsTagsList;
-  type?: SyntheticsTestDetailsType;
+  tags?: SyntheticsTestDetailsTagsList | undefined;
+  type?: SyntheticsTestDetailsType | undefined;
 }
 export interface QueryMetricsRequest {
   /** Start of the queried time period, seconds since the Unix epoch. */
@@ -10286,69 +10300,69 @@ export type MetricsQueryMetadataTagSetList = Array<string>;
 /** Object containing the metric unit family, scale factor, name, and short name. */
 export interface MetricsQueryUnit {
   /** Unit family, allows for conversion between units of the same family, for scaling. */
-  family?: string;
+  family?: string | undefined;
   /** Unit name */
-  name?: string;
+  name?: string | undefined;
   /** Plural form of the unit name. */
-  plural?: string;
+  plural?: string | undefined;
   /** Factor for scaling between units of the same family. */
-  scale_factor?: number;
+  scale_factor?: number | undefined;
   /** Abbreviation of the unit. */
-  short_name?: string;
+  short_name?: string | undefined;
 }
 /** Detailed information about the metric unit. The first element describes the "primary unit" (for example, `bytes` in `bytes per second`). The second element describes the "per unit" (for example, `second` in `bytes per second`). If the second element is not present, the API returns null. */
 export type MetricsQueryMetadataUnitList = Array<MetricsQueryUnit | null>;
 /** Object containing all metric names returned and their associated metadata. */
 export interface MetricsQueryMetadata {
   /** Aggregation type. */
-  aggr?: string | null;
+  aggr?: string | null | undefined;
   /** Display name of the metric. */
-  display_name?: string;
+  display_name?: string | undefined;
   /** End of the time window, milliseconds since Unix epoch. */
-  end?: number;
+  end?: number | undefined;
   /** Metric expression. */
-  expression?: string;
+  expression?: string | undefined;
   /** Number of milliseconds between data samples. */
-  interval?: number;
+  interval?: number | undefined;
   /** Number of data samples. */
-  length?: number;
+  length?: number | undefined;
   /** Metric name. */
-  metric?: string;
+  metric?: string | undefined;
   /** List of points of the timeseries in milliseconds. */
-  pointlist?: MetricsQueryMetadataPointlistList;
+  pointlist?: MetricsQueryMetadataPointlistList | undefined;
   /** The index of the series' query within the request. */
-  query_index?: number;
+  query_index?: number | undefined;
   /** Metric scope, comma separated list of tags. */
-  scope?: string;
+  scope?: string | undefined;
   /** Start of the time window, milliseconds since Unix epoch. */
-  start?: number;
+  start?: number | undefined;
   /** Unique tags identifying this series. */
-  tag_set?: MetricsQueryMetadataTagSetList;
+  tag_set?: MetricsQueryMetadataTagSetList | undefined;
   /** Detailed information about the metric unit. The first element describes the "primary unit" (for example, `bytes` in `bytes per second`). The second element describes the "per unit" (for example, `second` in `bytes per second`). If the second element is not present, the API returns null. */
-  unit?: MetricsQueryMetadataUnitList;
+  unit?: MetricsQueryMetadataUnitList | undefined;
 }
 /** List of timeseries queried. */
 export type MetricsQueryResponseSeriesList = Array<MetricsQueryMetadata>;
 /** Response Object that includes your query and the list of metrics retrieved. */
 export interface MetricsQueryResponse {
   /** Message indicating the errors if status is not `ok`. */
-  error?: string;
+  error?: string | undefined;
   /** Start of requested time window, milliseconds since Unix epoch. */
-  from_date?: number;
+  from_date?: number | undefined;
   /** List of tag keys on which to group. */
-  group_by?: MetricsQueryResponseGroupByList;
+  group_by?: MetricsQueryResponseGroupByList | undefined;
   /** Message indicating `success` if status is `ok`. */
-  message?: string;
+  message?: string | undefined;
   /** Query string */
-  query?: string;
+  query?: string | undefined;
   /** Type of response. */
-  res_type?: string;
+  res_type?: string | undefined;
   /** List of timeseries queried. */
-  series?: MetricsQueryResponseSeriesList;
+  series?: MetricsQueryResponseSeriesList | undefined;
   /** Status of the query. */
-  status?: string;
+  status?: string | undefined;
   /** End of requested time window, milliseconds since Unix epoch. */
-  to_date?: number;
+  to_date?: number | undefined;
 }
 export interface RemoveSlackIntegrationChannelRequest {
   /** Your Slack account name. */
@@ -10363,91 +10377,91 @@ export interface RestoreDashboardsRequest {
 export interface RestoreDashboardsResponse {}
 export interface SearchMonitorGroupsRequest {
   /** After entering a search query on the [Triggered Monitors page][1], use the query parameter value in the URL of the page as a value for this parameter. For more information, see the [Manage Monitors documentation][2]. The query can contain any number of space-separated monitor attributes, for instance: `query="type:metric group_status:alert"`. [1]: https://app.datadoghq.com/monitors/triggered [2]: /monitors/manage/#triggered-monitors */
-  query?: string;
+  query?: string | undefined;
   /** Page to start paginating from. */
-  page?: number;
+  page?: number | undefined;
   /** Number of monitors to return per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** String for sort order, composed of field and sort order separate by a comma, for example `name,asc`. Supported sort directions: `asc`, `desc`. Supported fields: * `name` * `status` * `tags` */
-  sort?: string;
+  sort?: string | undefined;
 }
 /** A facet item. */
 export interface MonitorSearchCountItem {
   /** The number of found monitors with the listed value. */
-  count?: number;
+  count?: number | undefined;
   /** The facet value. */
-  name?: unknown;
+  name?: unknown | undefined;
 }
 /** Search facets. */
 export type MonitorSearchCount = Array<MonitorSearchCountItem>;
 /** The counts of monitor groups per different criteria. */
 export interface MonitorGroupSearchResponseCounts {
-  status?: MonitorSearchCount;
-  type?: MonitorSearchCount;
+  status?: MonitorSearchCount | undefined;
+  type?: MonitorSearchCount | undefined;
 }
 /** The list of tags of the monitor group. */
 export type MonitorGroupSearchResultGroupTagsList = Array<string>;
 /** A single monitor group search result. */
 export interface MonitorGroupSearchResult {
   /** The name of the group. */
-  group?: string;
+  group?: string | undefined;
   /** The list of tags of the monitor group. */
-  group_tags?: MonitorGroupSearchResultGroupTagsList;
+  group_tags?: MonitorGroupSearchResultGroupTagsList | undefined;
   /** Latest timestamp the monitor group was in NO_DATA state. */
-  last_nodata_ts?: number;
+  last_nodata_ts?: number | undefined;
   /** Latest timestamp the monitor group triggered. */
-  last_triggered_ts?: number | null;
+  last_triggered_ts?: number | null | undefined;
   /** The ID of the monitor. */
-  monitor_id?: number;
+  monitor_id?: number | undefined;
   /** The name of the monitor. */
-  monitor_name?: string;
-  status?: MonitorOverallStates;
+  monitor_name?: string | undefined;
+  status?: MonitorOverallStates | undefined;
 }
 /** The list of found monitor groups. */
 export type MonitorGroupSearchResponseGroupsList = Array<MonitorGroupSearchResult>;
 /** Metadata about the response. */
 export interface MonitorSearchResponseMetadata {
   /** The page to start paginating from. */
-  page?: number;
+  page?: number | undefined;
   /** The number of pages. */
-  page_count?: number;
+  page_count?: number | undefined;
   /** The number of monitors to return per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** The total number of monitors. */
-  total_count?: number;
+  total_count?: number | undefined;
 }
 /** The response of a monitor group search. */
 export interface MonitorGroupSearchResponse {
-  counts?: MonitorGroupSearchResponseCounts;
+  counts?: MonitorGroupSearchResponseCounts | undefined;
   /** The list of found monitor groups. */
-  groups?: MonitorGroupSearchResponseGroupsList;
-  metadata?: MonitorSearchResponseMetadata;
+  groups?: MonitorGroupSearchResponseGroupsList | undefined;
+  metadata?: MonitorSearchResponseMetadata | undefined;
 }
 export interface SearchMonitorsRequest {
   /** After entering a search query in your [Manage Monitor page][1] use the query parameter value in the URL of the page as value for this parameter. Consult the dedicated [manage monitor documentation][2] page to learn more. The query can contain any number of space-separated monitor attributes, for instance `query="type:metric status:alert"`. [1]: https://app.datadoghq.com/monitors/manage [2]: /monitors/manage/#find-the-monitors */
-  query?: string;
+  query?: string | undefined;
   /** Page to start paginating from. */
-  page?: number;
+  page?: number | undefined;
   /** Number of monitors to return per page. */
-  per_page?: number;
+  per_page?: number | undefined;
   /** String for sort order, composed of field and sort order separate by a comma, for example `name,asc`. Supported sort directions: `asc`, `desc`. Supported fields: * `name` * `status` * `tags` */
-  sort?: string;
+  sort?: string | undefined;
 }
 /** The counts of monitors per different criteria. */
 export interface MonitorSearchResponseCounts {
-  muted?: MonitorSearchCount;
-  status?: MonitorSearchCount;
-  tag?: MonitorSearchCount;
-  type?: MonitorSearchCount;
+  muted?: MonitorSearchCount | undefined;
+  status?: MonitorSearchCount | undefined;
+  tag?: MonitorSearchCount | undefined;
+  type?: MonitorSearchCount | undefined;
 }
 /** Metrics used by the monitor. */
 export type MonitorSearchResultMetricsList = Array<string>;
 /** A notification triggered by the monitor. */
 export interface MonitorSearchResultNotification {
   /** The email address that received the notification. */
-  handle?: string;
+  handle?: string | undefined;
   /** The username receiving the notification */
-  name?: string;
+  name?: string | undefined;
 }
 /** The notification triggered by the monitor. */
 export type MonitorSearchResultNotificationsList = Array<MonitorSearchResultNotification>;
@@ -10460,56 +10474,56 @@ export type MonitorSearchResultTagsList = Array<string>;
 /** Holds search results. */
 export interface MonitorSearchResult {
   /** Classification of the monitor. */
-  classification?: string;
-  creator?: Creator;
+  classification?: string | undefined;
+  creator?: Creator | undefined;
   /** ID of the monitor. */
-  id?: number;
+  id?: number | undefined;
   /** Latest timestamp the monitor triggered. */
-  last_triggered_ts?: number | null;
+  last_triggered_ts?: number | null | undefined;
   /** Metrics used by the monitor. */
-  metrics?: MonitorSearchResultMetricsList;
+  metrics?: MonitorSearchResultMetricsList | undefined;
   /** The monitor name. */
-  name?: string;
+  name?: string | undefined;
   /** The notification triggered by the monitor. */
-  notifications?: MonitorSearchResultNotificationsList;
+  notifications?: MonitorSearchResultNotificationsList | undefined;
   /** The ID of the organization. */
-  org_id?: number;
+  org_id?: number | undefined;
   /** Quality issues detected with the monitor. */
-  quality_issues?: MonitorSearchResultQualityIssuesList;
+  quality_issues?: MonitorSearchResultQualityIssuesList | undefined;
   /** The monitor query. */
-  query?: string;
+  query?: string | undefined;
   /** The scope(s) to which the downtime applies, for example `host:app2`. Provide multiple scopes as a comma-separated list, for example `env:dev,env:prod`. The resulting downtime applies to sources that matches ALL provided scopes (that is `env:dev AND env:prod`), NOT any of them. */
-  scopes?: MonitorSearchResultScopesList;
-  status?: MonitorOverallStates;
+  scopes?: MonitorSearchResultScopesList | undefined;
+  status?: MonitorOverallStates | undefined;
   /** Tags associated with the monitor. */
-  tags?: MonitorSearchResultTagsList;
-  type?: MonitorType;
+  tags?: MonitorSearchResultTagsList | undefined;
+  type?: MonitorType | undefined;
 }
 /** The list of found monitors. */
 export type MonitorSearchResponseMonitorsList = Array<MonitorSearchResult>;
 /** The response from a monitor search. */
 export interface MonitorSearchResponse {
-  counts?: MonitorSearchResponseCounts;
-  metadata?: MonitorSearchResponseMetadata;
+  counts?: MonitorSearchResponseCounts | undefined;
+  metadata?: MonitorSearchResponseMetadata | undefined;
   /** The list of found monitors. */
-  monitors?: MonitorSearchResponseMonitorsList;
+  monitors?: MonitorSearchResponseMonitorsList | undefined;
 }
 export interface SearchSLORequest {
   /** The query string to filter results based on SLO names. Some examples of queries include `service:<service-name>` and `<slo-name>`. */
-  query?: string;
+  query?: string | undefined;
   /** The number of files to return in the response `[default=10]`. */
-  page_size_?: number;
+  page_size_?: number | undefined;
   /** The identifier of the first page to return. This parameter is used for the pagination feature `[default=0]`. */
-  page_number_?: number;
+  page_number_?: number | undefined;
   /** Whether or not to return facet information in the response `[default=false]`. */
-  include_facets?: boolean;
+  include_facets?: boolean | undefined;
 }
 /** Facet */
 export interface SearchSLOResponseDataAttributesFacetsObjectString {
   /** Count */
-  count?: number;
+  count?: number | undefined;
   /** Facet */
-  name?: string;
+  name?: string | undefined;
 }
 /** All tags associated with an SLO. */
 export type SearchSLOResponseDataAttributesFacetsAllTagsList =
@@ -10526,9 +10540,9 @@ export type SearchSLOResponseDataAttributesFacetsServiceTagsList =
 /** Facet */
 export interface SearchSLOResponseDataAttributesFacetsObjectInt {
   /** Count */
-  count?: number;
+  count?: number | undefined;
   /** Facet */
-  name?: number;
+  name?: number | undefined;
 }
 /** Type of SLO. */
 export type SearchSLOResponseDataAttributesFacetsSloTypeList =
@@ -10545,32 +10559,32 @@ export type SearchSLOResponseDataAttributesFacetsTimeframeList =
 /** Facets */
 export interface SearchSLOResponseDataAttributesFacets {
   /** All tags associated with an SLO. */
-  all_tags?: SearchSLOResponseDataAttributesFacetsAllTagsList;
+  all_tags?: SearchSLOResponseDataAttributesFacetsAllTagsList | undefined;
   /** Creator of an SLO. */
-  creator_name?: SearchSLOResponseDataAttributesFacetsCreatorNameList;
+  creator_name?: SearchSLOResponseDataAttributesFacetsCreatorNameList | undefined;
   /** Tags with the `env` tag key. */
-  env_tags?: SearchSLOResponseDataAttributesFacetsEnvTagsList;
+  env_tags?: SearchSLOResponseDataAttributesFacetsEnvTagsList | undefined;
   /** Tags with the `service` tag key. */
-  service_tags?: SearchSLOResponseDataAttributesFacetsServiceTagsList;
+  service_tags?: SearchSLOResponseDataAttributesFacetsServiceTagsList | undefined;
   /** Type of SLO. */
-  slo_type?: SearchSLOResponseDataAttributesFacetsSloTypeList;
+  slo_type?: SearchSLOResponseDataAttributesFacetsSloTypeList | undefined;
   /** SLO Target */
-  target?: SearchSLOResponseDataAttributesFacetsTargetList;
+  target?: SearchSLOResponseDataAttributesFacetsTargetList | undefined;
   /** Tags with the `team` tag key. */
-  team_tags?: SearchSLOResponseDataAttributesFacetsTeamTagsList;
+  team_tags?: SearchSLOResponseDataAttributesFacetsTeamTagsList | undefined;
   /** Timeframes of SLOs. */
-  timeframe?: SearchSLOResponseDataAttributesFacetsTimeframeList;
+  timeframe?: SearchSLOResponseDataAttributesFacetsTimeframeList | undefined;
 }
 /** A list of tags associated with this service level objective. Always included in service level objective responses (but may be empty). */
 export type SearchServiceLevelObjectiveAttributesAllTagsList = Array<string>;
 /** The creator of the SLO */
 export interface SLOCreator {
   /** Email of the creator. */
-  email?: string;
+  email?: string | undefined;
   /** User ID of the creator. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the creator. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 /** Tags with the `env` tag key. */
 export type SearchServiceLevelObjectiveAttributesEnvTagsList = Array<string>;
@@ -10581,29 +10595,29 @@ export type SearchServiceLevelObjectiveAttributesMonitorIdsList = Array<number>;
 /** Error budget remaining for an SLO. */
 export interface SLORawErrorBudgetRemaining {
   /** Error budget remaining unit. */
-  unit?: string;
+  unit?: string | undefined;
   /** Error budget remaining value. */
-  value?: number;
+  value?: number | undefined;
 }
 /** State of the SLO. */
 export type SLOState = "breached" | "warning" | "ok" | "no_data";
 /** Overall status of the SLO by timeframes. */
 export interface SLOOverallStatuses {
   /** Error message if SLO status or error budget could not be calculated. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Remaining error budget of the SLO in percentage. */
-  error_budget_remaining?: number | null;
+  error_budget_remaining?: number | null | undefined;
   /** timestamp (UNIX time in seconds) of when the SLO status and error budget were calculated. */
-  indexed_at?: number;
-  raw_error_budget_remaining?: SLORawErrorBudgetRemaining | null;
+  indexed_at?: number | undefined;
+  raw_error_budget_remaining?: SLORawErrorBudgetRemaining | null | undefined;
   /** The amount of decimal places the SLI value is accurate to. */
-  span_precision?: number | null;
-  state?: SLOState;
+  span_precision?: number | null | undefined;
+  state?: SLOState | undefined;
   /** The status of the SLO. */
-  status?: number | null;
+  status?: number | null | undefined;
   /** The target of the SLO. */
-  target?: number;
-  timeframe?: SLOTimeframe;
+  target?: number | undefined;
+  timeframe?: SLOTimeframe | undefined;
 }
 /** calculated status and error budget remaining. */
 export type SearchServiceLevelObjectiveAttributesOverallStatusList = Array<SLOOverallStatuses>;
@@ -10612,28 +10626,28 @@ export type SearchSLOQueryMetricsList = Array<string>;
 /** A metric-based SLO. **Required if type is `metric`**. Note that Datadog only allows the sum by aggregator to be used because this will sum up all request counts instead of averaging them, or taking the max or min of all of those requests. */
 export interface SearchSLOQuery {
   /** A Datadog metric query for total (valid) events. */
-  denominator?: string;
+  denominator?: string | undefined;
   /** Metric names used in the query's numerator and denominator. This field will return null and will be implemented in the next version of this endpoint. */
-  metrics?: SearchSLOQueryMetricsList | null;
+  metrics?: SearchSLOQueryMetricsList | null | undefined;
   /** A Datadog metric query for good events. */
-  numerator?: string;
+  numerator?: string | undefined;
 }
 /** Tags with the `service` tag key. */
 export type SearchServiceLevelObjectiveAttributesServiceTagsList = Array<string>;
 /** Status of the SLO's primary timeframe. */
 export interface SLOStatus {
   /** Error message if SLO status or error budget could not be calculated. */
-  calculation_error?: string | null;
+  calculation_error?: string | null | undefined;
   /** Remaining error budget of the SLO in percentage. */
-  error_budget_remaining?: number | null;
+  error_budget_remaining?: number | null | undefined;
   /** timestamp (UNIX time in seconds) of when the SLO status and error budget were calculated. */
-  indexed_at?: number;
-  raw_error_budget_remaining?: SLORawErrorBudgetRemaining | null;
+  indexed_at?: number | undefined;
+  raw_error_budget_remaining?: SLORawErrorBudgetRemaining | null | undefined;
   /** The current service level indicator (SLI) of the SLO, also known as 'status'. This is a percentage value from 0-100 (inclusive). */
-  sli?: number | null;
+  sli?: number | null | undefined;
   /** The number of decimal places the SLI value is accurate to. */
-  span_precision?: number | null;
-  state?: SLOState;
+  span_precision?: number | null | undefined;
+  state?: SLOState | undefined;
 }
 /** Tags with the `team` tag key. */
 export type SearchServiceLevelObjectiveAttributesTeamTagsList = Array<string>;
@@ -10644,127 +10658,127 @@ export interface SearchSLOThreshold {
   /** The target value for the service level indicator within the corresponding timeframe. */
   target: number;
   /** A string representation of the target that indicates its precision. It uses trailing zeros to show significant decimal places (for example `98.00`). Always included in service level objective responses. Ignored in create/update requests. */
-  target_display?: string;
+  target_display?: string | undefined;
   timeframe: SearchSLOTimeframe;
   /** The warning value for the service level objective. */
-  warning?: number | null;
+  warning?: number | null | undefined;
   /** A string representation of the warning target (see the description of the `target_display` field for details). Included in service level objective responses if a warning target exists. Ignored in create/update requests. */
-  warning_display?: string | null;
+  warning_display?: string | null | undefined;
 }
 /** The thresholds (timeframes and associated targets) for this service level objective object. */
 export type SearchServiceLevelObjectiveAttributesThresholdsList = Array<SearchSLOThreshold>;
 /** A service level objective object includes a service level indicator, thresholds for one or more timeframes, and metadata (`name`, `description`, and `tags`). */
 export interface SearchServiceLevelObjectiveAttributes {
   /** A list of tags associated with this service level objective. Always included in service level objective responses (but may be empty). */
-  all_tags?: SearchServiceLevelObjectiveAttributesAllTagsList;
+  all_tags?: SearchServiceLevelObjectiveAttributesAllTagsList | undefined;
   /** Creation timestamp (UNIX time in seconds) Always included in service level objective responses. */
-  created_at?: number;
-  creator?: SLOCreator | null;
+  created_at?: number | undefined;
+  creator?: SLOCreator | null | undefined;
   /** A user-defined description of the service level objective. Always included in service level objective responses (but may be `null`). Optional in create/update requests. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Tags with the `env` tag key. */
-  env_tags?: SearchServiceLevelObjectiveAttributesEnvTagsList;
+  env_tags?: SearchServiceLevelObjectiveAttributesEnvTagsList | undefined;
   /** A list of (up to 100) monitor groups that narrow the scope of a monitor service level objective. Included in service level objective responses if it is not empty. */
-  groups?: SearchServiceLevelObjectiveAttributesGroupsList | null;
+  groups?: SearchServiceLevelObjectiveAttributesGroupsList | null | undefined;
   /** Modification timestamp (UNIX time in seconds) Always included in service level objective responses. */
-  modified_at?: number;
+  modified_at?: number | undefined;
   /** A list of monitor ids that defines the scope of a monitor service level objective. */
-  monitor_ids?: SearchServiceLevelObjectiveAttributesMonitorIdsList | null;
+  monitor_ids?: SearchServiceLevelObjectiveAttributesMonitorIdsList | null | undefined;
   /** The name of the service level objective object. */
-  name?: string;
+  name?: string | undefined;
   /** calculated status and error budget remaining. */
-  overall_status?: SearchServiceLevelObjectiveAttributesOverallStatusList;
-  query?: SearchSLOQuery | null;
+  overall_status?: SearchServiceLevelObjectiveAttributesOverallStatusList | undefined;
+  query?: SearchSLOQuery | null | undefined;
   /** Tags with the `service` tag key. */
-  service_tags?: SearchServiceLevelObjectiveAttributesServiceTagsList;
-  slo_type?: SLOType;
-  status?: SLOStatus;
+  service_tags?: SearchServiceLevelObjectiveAttributesServiceTagsList | undefined;
+  slo_type?: SLOType | undefined;
+  status?: SLOStatus | undefined;
   /** Tags with the `team` tag key. */
-  team_tags?: SearchServiceLevelObjectiveAttributesTeamTagsList;
+  team_tags?: SearchServiceLevelObjectiveAttributesTeamTagsList | undefined;
   /** The thresholds (timeframes and associated targets) for this service level objective object. */
-  thresholds?: SearchServiceLevelObjectiveAttributesThresholdsList;
+  thresholds?: SearchServiceLevelObjectiveAttributesThresholdsList | undefined;
 }
 /** A service level objective ID and attributes. */
 export interface SearchServiceLevelObjectiveData {
-  attributes?: SearchServiceLevelObjectiveAttributes;
+  attributes?: SearchServiceLevelObjectiveAttributes | undefined;
   /** A unique identifier for the service level objective object. Always included in service level objective responses. */
-  id?: string;
+  id?: string | undefined;
   /** The type of the object, must be `slo`. */
-  type?: string;
+  type?: string | undefined;
 }
 /** A service level objective data container. */
 export interface SearchServiceLevelObjective {
-  data?: SearchServiceLevelObjectiveData;
+  data?: SearchServiceLevelObjectiveData | undefined;
 }
 /** SLOs */
 export type SearchSLOResponseDataAttributesSlosList = Array<SearchServiceLevelObjective>;
 /** Attributes */
 export interface SearchSLOResponseDataAttributes {
-  facets?: SearchSLOResponseDataAttributesFacets;
+  facets?: SearchSLOResponseDataAttributesFacets | undefined;
   /** SLOs */
-  slos?: SearchSLOResponseDataAttributesSlosList;
+  slos?: SearchSLOResponseDataAttributesSlosList | undefined;
 }
 /** Data from search SLO response. */
 export interface SearchSLOResponseData {
-  attributes?: SearchSLOResponseDataAttributes;
+  attributes?: SearchSLOResponseDataAttributes | undefined;
   /** Type of service level objective result. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Pagination links. */
 export interface SearchSLOResponseLinks {
   /** Link to last page. */
-  first?: string;
+  first?: string | undefined;
   /** Link to first page. */
-  last?: string | null;
+  last?: string | null | undefined;
   /** Link to the next page. */
-  next?: string;
+  next?: string | undefined;
   /** Link to previous page. */
-  prev?: string | null;
+  prev?: string | null | undefined;
   /** Link to current page. */
-  self?: string;
+  self?: string | undefined;
 }
 /** Pagination metadata returned by the API. */
 export interface SearchSLOResponseMetaPage {
   /** The first number. */
-  first_number?: number;
+  first_number?: number | undefined;
   /** The last number. */
-  last_number?: number;
+  last_number?: number | undefined;
   /** The next number. */
-  next_number?: number;
+  next_number?: number | undefined;
   /** The page number. */
-  number?: number;
+  number?: number | undefined;
   /** The previous page number. */
-  prev_number?: number;
+  prev_number?: number | undefined;
   /** The size of the response. */
-  size?: number;
+  size?: number | undefined;
   /** The total number of SLOs in the response. */
-  total?: number;
+  total?: number | undefined;
   /** Type of pagination. */
-  type?: string;
+  type?: string | undefined;
 }
 /** Searches metadata returned by the API. */
 export interface SearchSLOResponseMeta {
-  pagination?: SearchSLOResponseMetaPage;
+  pagination?: SearchSLOResponseMetaPage | undefined;
 }
 /** A search SLO response containing results from the search query. */
 export interface SearchSLOResponse {
-  data?: SearchSLOResponseData;
-  links?: SearchSLOResponseLinks;
-  meta?: SearchSLOResponseMeta;
+  data?: SearchSLOResponseData | undefined;
+  links?: SearchSLOResponseLinks | undefined;
+  meta?: SearchSLOResponseMeta | undefined;
 }
 export interface SearchTestsRequest {
   /** The search query. */
-  text?: string;
+  text?: string | undefined;
   /** If true, include the full configuration for each test in the response. */
-  include_full_config?: boolean;
+  include_full_config?: boolean | undefined;
   /** If true, return only facets instead of full test details. */
-  facets_only?: boolean;
+  facets_only?: boolean | undefined;
   /** The offset from which to start returning results. */
-  start?: number;
+  start?: number | undefined;
   /** The maximum number of results to return. */
-  count?: number;
+  count?: number | undefined;
   /** The sort order for the results (e.g., `name,asc` or `name,desc`). */
-  sort?: string;
+  sort?: string | undefined;
 }
 export interface SendPublicDashboardInvitationRequest {
   /** The token of the shared dashboard. */
@@ -10786,12 +10800,12 @@ export interface ServiceCheck {
   /** The host name correlated with the check. */
   host_name: string;
   /** Message containing check status. */
-  message?: string;
+  message?: string | undefined;
   status: ServiceCheckStatus | (number & {});
   /** Tags related to a check. */
   tags: ServiceCheckTagsList;
   /** Time of check. */
-  timestamp?: number;
+  timestamp?: number | undefined;
 }
 /** The service checks. */
 export type ServiceChecks = Array<ServiceCheck>;
@@ -10808,56 +10822,56 @@ export type SyntheticsCITestVariablesMap = { [key: string]: string | undefined }
 /** Configuration for Continuous Testing. */
 export interface SyntheticsCITest {
   /** Disable certificate checks in API tests. */
-  allowInsecureCertificates?: boolean;
-  basicAuth?: SyntheticsBasicAuth;
+  allowInsecureCertificates?: boolean | undefined;
+  basicAuth?: SyntheticsBasicAuth | undefined;
   /** Body to include in the test. */
-  body?: string;
+  body?: string | undefined;
   /** Type of the data sent in a Synthetic API test. */
-  bodyType?: string;
+  bodyType?: string | undefined;
   /** Cookies for the request. */
-  cookies?: string;
+  cookies?: string | undefined;
   /** For browser test, array with the different device IDs used to run the test. */
-  deviceIds?: SyntheticsCITestDeviceIdsList;
+  deviceIds?: SyntheticsCITestDeviceIdsList | undefined;
   /** For API HTTP test, whether or not the test should follow redirects. */
-  followRedirects?: boolean;
-  headers?: SyntheticsTestHeaders;
+  followRedirects?: boolean | undefined;
+  headers?: SyntheticsTestHeaders | undefined;
   /** Array of locations used to run the test. */
-  locations?: SyntheticsCITestLocationsList;
-  metadata?: SyntheticsCIBatchMetadata;
+  locations?: SyntheticsCITestLocationsList | undefined;
+  metadata?: SyntheticsCIBatchMetadata | undefined;
   /** The public ID of the Synthetic test to trigger. */
   public_id: string;
-  retry?: SyntheticsTestOptionsRetry;
+  retry?: SyntheticsTestOptionsRetry | undefined;
   /** Starting URL for the browser test. */
-  startUrl?: string;
+  startUrl?: string | undefined;
   /** Variables to replace in the test. */
-  variables?: SyntheticsCITestVariablesMap;
+  variables?: SyntheticsCITestVariablesMap | undefined;
   /** The version number of the Synthetic test version to trigger. */
-  version?: number;
+  version?: number | undefined;
 }
 /** List of Synthetic tests with overrides. */
 export type TriggerCITestsRequestTestsList = Array<SyntheticsCITest>;
 export interface TriggerCITestsRequest {
   /** List of Synthetic tests with overrides. */
-  tests?: TriggerCITestsRequestTestsList;
+  tests?: TriggerCITestsRequestTestsList | undefined;
 }
 /** Synthetic location. */
 export interface SyntheticsTriggerCITestLocation {
   /** Unique identifier of the location. */
-  id?: number;
+  id?: number | undefined;
   /** Name of the location. */
-  name?: string;
+  name?: string | undefined;
 }
 /** List of Synthetic locations. */
 export type SyntheticsTriggerCITestsResponseLocationsList = Array<SyntheticsTriggerCITestLocation>;
 /** Information about a single test run. */
 export interface SyntheticsTriggerCITestRunResult {
-  device?: string;
+  device?: string | undefined;
   /** The location ID of the test run. */
-  location?: number;
+  location?: number | undefined;
   /** The public ID of the Synthetic test. */
-  public_id?: string;
+  public_id?: string | undefined;
   /** ID of the result. */
-  result_id?: string;
+  result_id?: string | undefined;
 }
 /** Information about the tests runs. */
 export type SyntheticsTriggerCITestsResponseResultsList = Array<SyntheticsTriggerCITestRunResult>;
@@ -10866,17 +10880,17 @@ export type SyntheticsTriggerCITestsResponseTriggeredCheckIdsList = Array<string
 /** Object containing information about the tests triggered. */
 export interface SyntheticsTriggerCITestsResponse {
   /** The public ID of the batch triggered. */
-  batch_id?: string | null;
+  batch_id?: string | null | undefined;
   /** List of Synthetic locations. */
-  locations?: SyntheticsTriggerCITestsResponseLocationsList;
+  locations?: SyntheticsTriggerCITestsResponseLocationsList | undefined;
   /** Information about the tests runs. */
-  results?: SyntheticsTriggerCITestsResponseResultsList;
+  results?: SyntheticsTriggerCITestsResponseResultsList | undefined;
   /** The public IDs of the Synthetic test triggered. */
-  triggered_check_ids?: SyntheticsTriggerCITestsResponseTriggeredCheckIdsList;
+  triggered_check_ids?: SyntheticsTriggerCITestsResponseTriggeredCheckIdsList | undefined;
 }
 /** Test configuration for Synthetics */
 export interface SyntheticsTriggerTest {
-  metadata?: SyntheticsCIBatchMetadata;
+  metadata?: SyntheticsCIBatchMetadata | undefined;
   /** The public ID of the Synthetic test to trigger. */
   public_id: string;
 }
@@ -10894,7 +10908,7 @@ export interface UpdateAPIKeyRequest {
   /** The specific API key you are working with. */
   key: string;
   /** Name of your API key. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Array of locations used to run the test. */
 export type UpdateAPITestRequestLocationsList = Array<string>;
@@ -10911,17 +10925,17 @@ export interface UpdateAPITestRequest {
   /** Name of the test. */
   name: string;
   options: SyntheticsTestOptions;
-  status?: SyntheticsTestPauseStatus | (string & {});
-  subtype?: SyntheticsTestDetailsSubType | (string & {});
+  status?: SyntheticsTestPauseStatus | (string & {}) | undefined;
+  subtype?: SyntheticsTestDetailsSubType | (string & {}) | undefined;
   /** Array of tags attached to the test. */
-  tags?: UpdateAPITestRequestTagsList;
+  tags?: UpdateAPITestRequestTagsList | undefined;
   type: SyntheticsAPITestType | (string & {});
 }
 export interface UpdateApplicationKeyRequest {
   /** The specific APP key you are working with. */
   key: string;
   /** Name of an application key. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Errors in your configuration. */
 export type UpdateAzureHostFiltersRequestErrorsList = Array<string>;
@@ -10930,41 +10944,41 @@ export type UpdateAzureHostFiltersRequestResourceProviderConfigsList =
   Array<ResourceProviderConfig>;
 export interface UpdateAzureHostFiltersRequest {
   /** Limit the Azure app service plans that are pulled into Datadog using tags. Only app service plans that match one of the defined tags are imported into Datadog. */
-  app_service_plan_filters?: string;
+  app_service_plan_filters?: string | undefined;
   /** Silence monitors for expected Azure VM shutdowns. */
-  automute?: boolean;
+  automute?: boolean | undefined;
   /** Your Azure web application ID. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Your Azure web application secret key. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Limit the Azure container apps that are pulled into Datadog using tags. Only container apps that match one of the defined tags are imported into Datadog. */
-  container_app_filters?: string;
+  container_app_filters?: string | undefined;
   /** When enabled, Datadog's Cloud Security Management product scans resource configurations monitored by this app registration. Note: This requires resource_collection_enabled to be set to true. */
-  cspm_enabled?: boolean;
+  cspm_enabled?: boolean | undefined;
   /** Enable custom metrics for your organization. */
-  custom_metrics_enabled?: boolean;
+  custom_metrics_enabled?: boolean | undefined;
   /** Errors in your configuration. */
-  errors?: UpdateAzureHostFiltersRequestErrorsList;
+  errors?: UpdateAzureHostFiltersRequestErrorsList | undefined;
   /** Limit the Azure instances that are pulled into Datadog by using tags. Only hosts that match one of the defined tags are imported into Datadog. */
-  host_filters?: string;
+  host_filters?: string | undefined;
   /** Enable Azure metrics for your organization. */
-  metrics_enabled?: boolean;
+  metrics_enabled?: boolean | undefined;
   /** Enable Azure metrics for your organization for resource providers where no resource provider config is specified. */
-  metrics_enabled_default?: boolean;
+  metrics_enabled_default?: boolean | undefined;
   /** Your New Azure web application ID. */
-  new_client_id?: string;
+  new_client_id?: string | undefined;
   /** Your New Azure Active Directory ID. */
-  new_tenant_name?: string;
+  new_tenant_name?: string | undefined;
   /** When enabled, Datadog collects metadata and configuration info from cloud resources (compute instances, databases, load balancers, etc.) monitored by this app registration. */
-  resource_collection_enabled?: boolean;
+  resource_collection_enabled?: boolean | undefined;
   /** Configuration settings applied to resources from the specified Azure resource providers. */
-  resource_provider_configs?: UpdateAzureHostFiltersRequestResourceProviderConfigsList;
+  resource_provider_configs?: UpdateAzureHostFiltersRequestResourceProviderConfigsList | undefined;
   /** (Preview) When enabled, Datadog authenticates with this app registration using federated workload identity credentials instead of a client secret. */
-  secretless_auth_enabled?: boolean;
+  secretless_auth_enabled?: boolean | undefined;
   /** Your Azure Active Directory ID. */
-  tenant_name?: string;
+  tenant_name?: string | undefined;
   /** Enable azure.usage metrics for your organization. */
-  usage_metrics_enabled?: boolean;
+  usage_metrics_enabled?: boolean | undefined;
 }
 export type UpdateAzureHostFiltersResponse = unknown;
 /** Errors in your configuration. */
@@ -10974,41 +10988,41 @@ export type UpdateAzureIntegrationRequestResourceProviderConfigsList =
   Array<ResourceProviderConfig>;
 export interface UpdateAzureIntegrationRequest {
   /** Limit the Azure app service plans that are pulled into Datadog using tags. Only app service plans that match one of the defined tags are imported into Datadog. */
-  app_service_plan_filters?: string;
+  app_service_plan_filters?: string | undefined;
   /** Silence monitors for expected Azure VM shutdowns. */
-  automute?: boolean;
+  automute?: boolean | undefined;
   /** Your Azure web application ID. */
-  client_id?: string;
+  client_id?: string | undefined;
   /** Your Azure web application secret key. */
-  client_secret?: string | Redacted.Redacted<string>;
+  client_secret?: string | Redacted.Redacted<string> | undefined;
   /** Limit the Azure container apps that are pulled into Datadog using tags. Only container apps that match one of the defined tags are imported into Datadog. */
-  container_app_filters?: string;
+  container_app_filters?: string | undefined;
   /** When enabled, Datadog's Cloud Security Management product scans resource configurations monitored by this app registration. Note: This requires resource_collection_enabled to be set to true. */
-  cspm_enabled?: boolean;
+  cspm_enabled?: boolean | undefined;
   /** Enable custom metrics for your organization. */
-  custom_metrics_enabled?: boolean;
+  custom_metrics_enabled?: boolean | undefined;
   /** Errors in your configuration. */
-  errors?: UpdateAzureIntegrationRequestErrorsList;
+  errors?: UpdateAzureIntegrationRequestErrorsList | undefined;
   /** Limit the Azure instances that are pulled into Datadog by using tags. Only hosts that match one of the defined tags are imported into Datadog. */
-  host_filters?: string;
+  host_filters?: string | undefined;
   /** Enable Azure metrics for your organization. */
-  metrics_enabled?: boolean;
+  metrics_enabled?: boolean | undefined;
   /** Enable Azure metrics for your organization for resource providers where no resource provider config is specified. */
-  metrics_enabled_default?: boolean;
+  metrics_enabled_default?: boolean | undefined;
   /** Your New Azure web application ID. */
-  new_client_id?: string;
+  new_client_id?: string | undefined;
   /** Your New Azure Active Directory ID. */
-  new_tenant_name?: string;
+  new_tenant_name?: string | undefined;
   /** When enabled, Datadog collects metadata and configuration info from cloud resources (compute instances, databases, load balancers, etc.) monitored by this app registration. */
-  resource_collection_enabled?: boolean;
+  resource_collection_enabled?: boolean | undefined;
   /** Configuration settings applied to resources from the specified Azure resource providers. */
-  resource_provider_configs?: UpdateAzureIntegrationRequestResourceProviderConfigsList;
+  resource_provider_configs?: UpdateAzureIntegrationRequestResourceProviderConfigsList | undefined;
   /** (Preview) When enabled, Datadog authenticates with this app registration using federated workload identity credentials instead of a client secret. */
-  secretless_auth_enabled?: boolean;
+  secretless_auth_enabled?: boolean | undefined;
   /** Your Azure Active Directory ID. */
-  tenant_name?: string;
+  tenant_name?: string | undefined;
   /** Enable azure.usage metrics for your organization. */
-  usage_metrics_enabled?: boolean;
+  usage_metrics_enabled?: boolean | undefined;
 }
 export type UpdateAzureIntegrationResponse = unknown;
 /** Array of locations used to run the test. */
@@ -11028,11 +11042,11 @@ export interface UpdateBrowserTestRequest {
   /** Name of the test. */
   name: string;
   options: SyntheticsTestOptions;
-  status?: SyntheticsTestPauseStatus | (string & {});
+  status?: SyntheticsTestPauseStatus | (string & {}) | undefined;
   /** Array of steps for the test. */
-  steps?: UpdateBrowserTestRequestStepsList;
+  steps?: UpdateBrowserTestRequestStepsList | undefined;
   /** Array of tags attached to the test. */
-  tags?: UpdateBrowserTestRequestTagsList;
+  tags?: UpdateBrowserTestRequestTagsList | undefined;
   type: SyntheticsBrowserTestType | (string & {});
 }
 /** List of handles of users to notify when changes are made to this dashboard. */
@@ -11054,25 +11068,25 @@ export interface UpdateDashboardRequest {
   /** The ID of the dashboard. */
   dashboard_id: string;
   /** The default timeframe applied when opening the dashboard. Set to `null` to clear. */
-  default_timeframe?: DashboardDefaultTimeframeSetting | null;
+  default_timeframe?: DashboardDefaultTimeframeSetting | null | undefined;
   /** Description of the dashboard. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether this dashboard is read-only. If True, only the author and admins can make changes to it. This property is deprecated; please use the [Restriction Policies API](https://docs.datadoghq.com/api/latest/restriction-policies/) instead to manage write authorization for individual dashboards. */
-  is_read_only?: boolean;
+  is_read_only?: boolean | undefined;
   layout_type: DashboardLayoutType | (string & {});
   /** List of handles of users to notify when changes are made to this dashboard. */
-  notify_list?: UpdateDashboardRequestNotifyListList | null;
-  reflow_type?: DashboardReflowType | (string & {});
+  notify_list?: UpdateDashboardRequestNotifyListList | null | undefined;
+  reflow_type?: DashboardReflowType | (string & {}) | undefined;
   /** A list of role identifiers. Only the author and users associated with at least one of these roles can edit this dashboard. */
-  restricted_roles?: UpdateDashboardRequestRestrictedRolesList;
+  restricted_roles?: UpdateDashboardRequestRestrictedRolesList | undefined;
   /** List of tabs for organizing dashboard widgets into groups. */
-  tabs?: UpdateDashboardRequestTabsList | null;
+  tabs?: UpdateDashboardRequestTabsList | null | undefined;
   /** List of team names representing ownership of a dashboard. */
-  tags?: UpdateDashboardRequestTagsList | null;
+  tags?: UpdateDashboardRequestTagsList | null | undefined;
   /** Array of template variables saved views. */
-  template_variable_presets?: UpdateDashboardRequestTemplateVariablePresetsList | null;
+  template_variable_presets?: UpdateDashboardRequestTemplateVariablePresetsList | null | undefined;
   /** List of template variables for this dashboard. */
-  template_variables?: UpdateDashboardRequestTemplateVariablesList | null;
+  template_variables?: UpdateDashboardRequestTemplateVariablesList | null | undefined;
   /** Title of the dashboard. */
   title: string;
   /** List of widgets to display on the dashboard. */
@@ -11090,11 +11104,11 @@ export interface UpdateHostTagsRequest {
   /** Specified host name to change tags */
   host_name: string;
   /** Source to update tags. [Complete list of source attribute values](https://docs.datadoghq.com/integrations/faq/list-of-api-source-attribute-value). Use "user" source for custom-defined tags. If no source specified, defaults to "user". */
-  source?: string;
+  source?: string | undefined;
   /** Your host name. */
-  host?: string;
+  host?: string | undefined;
   /** A list of tags associated with a host. */
-  tags?: UpdateHostTagsRequestTagsList;
+  tags?: UpdateHostTagsRequestTagsList | undefined;
 }
 /** An array of exclusion objects. The logs are tested against the query of each filter, following the order of the array. Only the first matching active exclusion matters, others (if any) are ignored. */
 export type UpdateLogsIndexRequestExclusionFiltersList = Array<LogsExclusion>;
@@ -11104,21 +11118,21 @@ export interface UpdateLogsIndexRequest {
   /** Name of the log index. */
   name: string;
   /** The number of log events you can send in this index per day before you are rate-limited. */
-  daily_limit?: number;
-  daily_limit_reset?: LogsDailyLimitReset;
+  daily_limit?: number | undefined;
+  daily_limit_reset?: LogsDailyLimitReset | undefined;
   /** A percentage threshold of the daily quota at which a Datadog warning event is generated. */
-  daily_limit_warning_threshold_percentage?: number;
+  daily_limit_warning_threshold_percentage?: number | undefined;
   /** If true, sets the `daily_limit` value to null and the index is not limited on a daily basis (any specified `daily_limit` value in the request is ignored). If false or omitted, the index's current `daily_limit` is maintained. */
-  disable_daily_limit?: boolean;
+  disable_daily_limit?: boolean | undefined;
   /** An array of exclusion objects. The logs are tested against the query of each filter, following the order of the array. Only the first matching active exclusion matters, others (if any) are ignored. */
-  exclusion_filters?: UpdateLogsIndexRequestExclusionFiltersList;
+  exclusion_filters?: UpdateLogsIndexRequestExclusionFiltersList | undefined;
   filter: LogsFilter;
   /** The total number of days logs are stored in Standard and Flex Tier before being deleted from the index. If Standard Tier is enabled on this index, logs are first retained in Standard Tier for the number of days specified through `num_retention_days`, and then stored in Flex Tier until the number of days specified in `num_flex_logs_retention_days` is reached. The available values depend on retention plans specified in your organization's contract/subscriptions. **Note**: Changing this value affects all logs already in this index. It may also affect billing. */
-  num_flex_logs_retention_days?: number;
+  num_flex_logs_retention_days?: number | undefined;
   /** The number of days logs are stored in Standard Tier before aging into the Flex Tier or being deleted from the index. The available values depend on retention plans specified in your organization's contract/subscriptions. **Note**: Changing this value affects all logs already in this index. It may also affect billing. */
-  num_retention_days?: number;
+  num_retention_days?: number | undefined;
   /** A list of tags associated with the index. Tags must be in `key:value` format. */
-  tags?: UpdateLogsIndexRequestTagsList;
+  tags?: UpdateLogsIndexRequestTagsList | undefined;
 }
 /** Array of strings identifying by their name(s) the index(es) of your organization. Logs are tested against the query filter of each index one by one, following the order of the array. Logs are eventually stored in the first matching index. */
 export type UpdateLogsIndexOrderRequestIndexNamesList = Array<string>;
@@ -11134,16 +11148,16 @@ export interface UpdateLogsPipelineRequest {
   /** ID of the pipeline to delete. */
   pipeline_id: string;
   /** A description of the pipeline. */
-  description?: string;
-  filter?: LogsFilter;
+  description?: string | undefined;
+  filter?: LogsFilter | undefined;
   /** Whether or not the pipeline is enabled. */
-  is_enabled?: boolean;
+  is_enabled?: boolean | undefined;
   /** Name of the pipeline. */
   name: string;
   /** Ordered list of processors in this pipeline. */
-  processors?: UpdateLogsPipelineRequestProcessorsList;
+  processors?: UpdateLogsPipelineRequestProcessorsList | undefined;
   /** A list of tags associated with the pipeline. */
-  tags?: UpdateLogsPipelineRequestTagsList;
+  tags?: UpdateLogsPipelineRequestTagsList | undefined;
 }
 /** Ordered Array of `<PIPELINE_ID>` strings, the order of pipeline IDs in the array define the overall Pipelines order for Datadog. */
 export type UpdateLogsPipelineOrderRequestPipelineIdsList = Array<string>;
@@ -11155,17 +11169,17 @@ export interface UpdateMetricMetadataRequest {
   /** Name of the metric for which to edit metadata. */
   metric_name: string;
   /** Metric description. */
-  description?: string;
+  description?: string | undefined;
   /** Per unit of the metric such as `second` in `bytes per second`. */
-  per_unit?: string;
+  per_unit?: string | undefined;
   /** A more human-readable and abbreviated version of the metric name. */
-  short_name?: string;
+  short_name?: string | undefined;
   /** StatsD flush interval of the metric in seconds if applicable. */
-  statsd_interval?: number;
+  statsd_interval?: number | undefined;
   /** Metric type such as `gauge` or `rate`. */
-  type?: string;
+  type?: string | undefined;
   /** Primary unit of the metric such as `byte` or `operation`. */
-  unit?: string;
+  unit?: string | undefined;
 }
 /** Array with the different device IDs used to run the test. */
 export type UpdateMobileTestRequestDeviceIdsList = Array<string>;
@@ -11178,17 +11192,17 @@ export interface UpdateMobileTestRequest {
   public_id: string;
   config: SyntheticsMobileTestConfig;
   /** Array with the different device IDs used to run the test. */
-  device_ids?: UpdateMobileTestRequestDeviceIdsList;
+  device_ids?: UpdateMobileTestRequestDeviceIdsList | undefined;
   /** Notification message associated with the test. */
   message: string;
   /** Name of the test. */
   name: string;
   options: SyntheticsMobileTestOptions;
-  status?: SyntheticsTestPauseStatus | (string & {});
+  status?: SyntheticsTestPauseStatus | (string & {}) | undefined;
   /** Array of steps for the test. */
-  steps?: UpdateMobileTestRequestStepsList;
+  steps?: UpdateMobileTestRequestStepsList | undefined;
   /** Array of tags attached to the test. */
-  tags?: UpdateMobileTestRequestTagsList;
+  tags?: UpdateMobileTestRequestTagsList | undefined;
   type: SyntheticsMobileTestType | (string & {});
 }
 /** The list of monitor assets tied to a monitor, which represents key links for users to take action on monitor alerts (for example, runbooks). */
@@ -11201,22 +11215,22 @@ export interface UpdateMonitorRequest {
   /** The ID of the monitor. */
   monitor_id: number;
   /** The list of monitor assets tied to a monitor, which represents key links for users to take action on monitor alerts (for example, runbooks). */
-  assets?: UpdateMonitorRequestAssetsList | null;
-  draft_status?: MonitorDraftStatus | (string & {});
+  assets?: UpdateMonitorRequestAssetsList | null | undefined;
+  draft_status?: MonitorDraftStatus | (string & {}) | undefined;
   /** A message to include with notifications for this monitor. */
-  message?: string;
+  message?: string | undefined;
   /** The monitor name. */
-  name?: string;
-  options?: MonitorOptionsInput;
+  name?: string | undefined;
+  options?: MonitorOptionsInput | undefined;
   /** Integer from 1 (high) to 5 (low) indicating alert severity. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The monitor query. */
-  query?: string;
+  query?: string | undefined;
   /** A list of unique role identifiers to define which roles are allowed to edit the monitor. The unique identifiers for all roles can be pulled from the [Roles API](https://docs.datadoghq.com/api/latest/roles/#list-roles) and are located in the `data.id` field. Editing a monitor includes any updates to the monitor configuration, monitor deletion, and muting of the monitor for any amount of time. You can use the [Restriction Policies API](https://docs.datadoghq.com/api/latest/restriction-policies/) to manage write authorization for individual monitors by teams and users, in addition to roles. */
-  restricted_roles?: UpdateMonitorRequestRestrictedRolesList | null;
+  restricted_roles?: UpdateMonitorRequestRestrictedRolesList | null | undefined;
   /** Tags associated to your monitor. */
-  tags?: UpdateMonitorRequestTagsList;
-  type?: MonitorType | (string & {});
+  tags?: UpdateMonitorRequestTagsList | undefined;
+  type?: MonitorType | (string & {}) | undefined;
 }
 /** The attributes of a notebook cell in update cell request. Valid cell types are `markdown`, `timeseries`, `toplist`, `heatmap`, `distribution`, `log_stream`. [More information on each graph visualization type.](https://docs.datadoghq.com/dashboards/widgets/) */
 export type NotebookCellUpdateRequestAttributes =
@@ -11243,12 +11257,12 @@ export type NotebookUpdateDataAttributesTemplateVariablesList = Array<NotebookTe
 export interface NotebookUpdateDataAttributes {
   /** List of cells to display in the notebook. */
   cells: NotebookUpdateDataAttributesCellsList;
-  metadata?: NotebookMetadata;
+  metadata?: NotebookMetadata | undefined;
   /** The name of the notebook. */
   name: string;
-  status?: NotebookStatus | (string & {});
+  status?: NotebookStatus | (string & {}) | undefined;
   /** List of template variables for this notebook. */
-  template_variables?: NotebookUpdateDataAttributesTemplateVariablesList | null;
+  template_variables?: NotebookUpdateDataAttributesTemplateVariablesList | null | undefined;
   time: NotebookGlobalTime;
 }
 /** The data for a notebook update request. */
@@ -11264,15 +11278,15 @@ export interface UpdateNotebookRequest {
 export interface UpdateOrgRequest {
   /** The `public_id` of the organization you are operating within. */
   public_id: string;
-  billing?: OrganizationBilling;
+  billing?: OrganizationBilling | undefined;
   /** Description of the organization. */
-  description?: string;
+  description?: string | undefined;
   /** The name of the child organization, limited to 32 characters. */
-  name?: string;
-  settings?: OrganizationSettings;
-  subscription?: OrganizationSubscription;
+  name?: string | undefined;
+  settings?: OrganizationSettings | undefined;
+  subscription?: OrganizationSubscription | undefined;
   /** Only available for MSP customers. Allows child organizations to be created on a trial plan. */
-  trial?: boolean;
+  trial?: boolean | undefined;
 }
 export interface UpdatePagerDutyIntegrationServiceRequest {
   /** The service name */
@@ -11288,7 +11302,7 @@ export interface UpdatePrivateLocationRequest {
   location_id: string;
   /** Description of the private location. */
   description: string;
-  metadata?: SyntheticsGlobalVariableAttributes;
+  metadata?: SyntheticsGlobalVariableAttributes | undefined;
   /** Name of the private location. */
   name: string;
   /** Array of tags attached to the private location. */
@@ -11309,32 +11323,35 @@ export interface UpdatePublicDashboardRequest {
   /** The token of the shared dashboard. */
   token: string;
   /** The `SharedDashboard` `embeddable_domains`. */
-  embeddable_domains?: UpdatePublicDashboardRequestEmbeddableDomainsList;
+  embeddable_domains?: UpdatePublicDashboardRequestEmbeddableDomainsList | undefined;
   /** The time when an OPEN shared dashboard becomes publicly unavailable. */
-  expiration?: string | null;
-  global_time?: DashboardGlobalTime | null;
+  expiration?: string | null | undefined;
+  global_time?: DashboardGlobalTime | null | undefined;
   /** Whether to allow viewers to select a different global time setting for the shared dashboard. */
-  global_time_selectable_enabled?: boolean | null;
+  global_time_selectable_enabled?: boolean | null | undefined;
   /** The `SharedDashboard` `invitees`. */
-  invitees?: UpdatePublicDashboardRequestInviteesList;
+  invitees?: UpdatePublicDashboardRequestInviteesList | undefined;
   /** List of objects representing template variables on the shared dashboard which can have selectable values. */
-  selectable_template_vars?: UpdatePublicDashboardRequestSelectableTemplateVarsList | null;
+  selectable_template_vars?:
+    | UpdatePublicDashboardRequestSelectableTemplateVarsList
+    | null
+    | undefined;
   /** List of email addresses that can be given access to the shared dashboard. */
-  share_list?: UpdatePublicDashboardRequestShareListList | null;
-  share_type?: DashboardShareType | (string & {}) | null;
-  status?: SharedDashboardStatus | (string & {});
+  share_list?: UpdatePublicDashboardRequestShareListList | null | undefined;
+  share_type?: DashboardShareType | (string & {}) | null | undefined;
+  status?: SharedDashboardStatus | (string & {}) | undefined;
   /** Title of the shared dashboard. */
-  title?: string;
-  viewing_preferences?: ViewingPreferences;
+  title?: string | undefined;
+  viewing_preferences?: ViewingPreferences | undefined;
 }
 export interface UpdateSlackIntegrationChannelRequest {
   /** Your Slack account name. */
   account_name: string;
   /** The name of the Slack channel being operated on. */
   channel_name: string;
-  display?: SlackIntegrationChannelDisplay;
+  display?: SlackIntegrationChannelDisplay | undefined;
   /** Your channel name. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A list of (up to 100) monitor groups that narrow the scope of a monitor service level objective. Included in service level objective responses if it is not empty. Optional in create/update requests for monitor service level objectives, but may only be used when then length of the `monitor_ids` field is one. */
 export type UpdateSLORequestGroupsList = Array<string>;
@@ -11350,97 +11367,97 @@ export interface UpdateSLORequest {
   /** The ID of the service level objective object. */
   slo_id: string;
   /** A user-defined description of the service level objective. Always included in service level objective responses (but may be `null`). Optional in create/update requests. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** A list of (up to 100) monitor groups that narrow the scope of a monitor service level objective. Included in service level objective responses if it is not empty. Optional in create/update requests for monitor service level objectives, but may only be used when then length of the `monitor_ids` field is one. */
-  groups?: UpdateSLORequestGroupsList;
+  groups?: UpdateSLORequestGroupsList | undefined;
   /** A list of monitor ids that defines the scope of a monitor service level objective. **Required if type is `monitor`**. */
-  monitor_ids?: UpdateSLORequestMonitorIdsList;
+  monitor_ids?: UpdateSLORequestMonitorIdsList | undefined;
   /** The union of monitor tags for all monitors referenced by the `monitor_ids` field. Always included in service level objective responses for monitor-based service level objectives (but may be empty). Ignored in create/update requests. Does not affect which monitors are included in the service level objective (that is determined entirely by the `monitor_ids` field). */
-  monitor_tags?: UpdateSLORequestMonitorTagsList;
+  monitor_tags?: UpdateSLORequestMonitorTagsList | undefined;
   /** The name of the service level objective object. */
   name: string;
-  query?: ServiceLevelObjectiveQuery;
-  sli_specification?: SLOSliSpec;
+  query?: ServiceLevelObjectiveQuery | undefined;
+  sli_specification?: SLOSliSpec | undefined;
   /** A list of tags associated with this service level objective. Always included in service level objective responses (but may be empty). Optional in create/update requests. */
-  tags?: UpdateSLORequestTagsList;
+  tags?: UpdateSLORequestTagsList | undefined;
   /** The target threshold such that when the service level indicator is above this threshold over the given timeframe, the objective is being met. */
-  target_threshold?: number;
+  target_threshold?: number | undefined;
   /** The thresholds (timeframes and associated targets) for this service level objective object. */
   thresholds: UpdateSLORequestThresholdsList;
-  timeframe?: SLOTimeframe | (string & {});
+  timeframe?: SLOTimeframe | (string & {}) | undefined;
   type: SLOType | (string & {});
   /** The optional warning threshold such that when the service level indicator is below this value for the given threshold, but above the target threshold, the objective appears in a "warning" state. This value must be greater than the target threshold. */
-  warning_threshold?: number;
+  warning_threshold?: number | undefined;
 }
 /** The attribute object associated with the SLO correction to be updated. */
 export interface SLOCorrectionUpdateRequestAttributes {
-  category?: SLOCorrectionCategory | (string & {});
+  category?: SLOCorrectionCategory | (string & {}) | undefined;
   /** Description of the correction being made. */
-  description?: string;
+  description?: string | undefined;
   /** Length of time (in seconds) for a specified `rrule` recurring SLO correction. */
-  duration?: number;
+  duration?: number | undefined;
   /** Ending time of the correction in epoch seconds. */
-  end?: number;
+  end?: number | undefined;
   /** The recurrence rules as defined in the iCalendar RFC 5545. The supported rules for SLO corrections are `FREQ`, `INTERVAL`, `COUNT`, `UNTIL` and `BYDAY`. */
-  rrule?: string;
+  rrule?: string | undefined;
   /** Query that matches the SLOs this correction applies to. The query uses the [Events search syntax](https://docs.datadoghq.com/events/explorer/searching/) and can filter SLOs by SLO tags. */
-  slo_query?: string;
+  slo_query?: string | undefined;
   /** Starting time of the correction in epoch seconds. */
-  start?: number;
+  start?: number | undefined;
   /** The timezone to display in the UI for the correction times (defaults to "UTC"). */
-  timezone?: string;
+  timezone?: string | undefined;
 }
 /** The data object associated with the SLO correction to be updated. */
 export interface SLOCorrectionUpdateData {
-  attributes?: SLOCorrectionUpdateRequestAttributes;
-  type?: SLOCorrectionType | (string & {});
+  attributes?: SLOCorrectionUpdateRequestAttributes | undefined;
+  type?: SLOCorrectionType | (string & {}) | undefined;
 }
 export interface UpdateSLOCorrectionRequest {
   /** The ID of the SLO correction object. */
   slo_correction_id: string;
-  data?: SLOCorrectionUpdateData;
+  data?: SLOCorrectionUpdateData | undefined;
 }
 export interface UpdateTestPauseStatusRequest {
   /** The public ID of the Synthetic test to update. */
   public_id: string;
-  new_status?: SyntheticsTestPauseStatus | (string & {});
+  new_status?: SyntheticsTestPauseStatus | (string & {}) | undefined;
 }
 export type UpdateTestPauseStatusResponse = boolean;
 export interface UpdateUserRequest {
   /** The ID of the user. */
   user_handle: string;
-  access_role?: AccessRole | (string & {}) | null;
+  access_role?: AccessRole | (string & {}) | null | undefined;
   /** The new disabled status of the user. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
   /** The new email of the user. */
-  email?: string;
+  email?: string | undefined;
   /** The user handle, must be a valid email. */
-  handle?: string;
+  handle?: string | undefined;
   /** The name of the user. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface UpdateWebhooksIntegrationRequest {
   /** The name of the webhook. */
   webhook_name: string;
   /** If `null`, uses no header. If given a JSON payload, these will be headers attached to your webhook. */
-  custom_headers?: string;
-  encode_as?: WebhooksIntegrationEncoding | (string & {});
+  custom_headers?: string | undefined;
+  encode_as?: WebhooksIntegrationEncoding | (string & {}) | undefined;
   /** The name of the webhook. It corresponds with `<WEBHOOK_NAME>`. Learn more on how to use it in [monitor notifications](https://docs.datadoghq.com/monitors/notify). */
-  name?: string;
+  name?: string | undefined;
   /** If `null`, uses the default payload. If given a JSON payload, the webhook returns the payload specified by the given payload. [Webhooks variable usage](https://docs.datadoghq.com/integrations/webhooks/#usage). */
-  payload?: string | null;
+  payload?: string | null | undefined;
   /** URL of the webhook. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface UpdateWebhooksIntegrationCustomVariableRequest {
   /** The name of the custom variable. */
   custom_variable_name: string;
   /** Make custom variable is secret or not. If the custom variable is secret, the value is not returned in the response payload. */
-  is_secret?: boolean;
+  is_secret?: boolean | undefined;
   /** The name of the variable. It corresponds with `<CUSTOM_VARIABLE_NAME>`. It must only contains upper-case characters, integers or underscores. */
-  name?: string;
+  name?: string | undefined;
   /** Value of the custom variable. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface UploadIdPForOrgRequest {
   /** The `public_id` of the organization you are operating with */
@@ -11457,7 +11474,7 @@ export interface ValidateRequest {}
 /** Represent validation endpoint responses. */
 export interface AuthenticationValidationResponse {
   /** Return `true` if the authentication response is valid. */
-  valid?: boolean;
+  valid?: boolean | undefined;
 }
 /** The list of monitor assets tied to a monitor, which represents key links for users to take action on monitor alerts (for example, runbooks). */
 export type ValidateExistingMonitorRequestAssetsList = Array<MonitorAsset>;
@@ -11471,23 +11488,23 @@ export interface ValidateExistingMonitorRequest {
   /** The ID of the monitor */
   monitor_id: number;
   /** The list of monitor assets tied to a monitor, which represents key links for users to take action on monitor alerts (for example, runbooks). */
-  assets?: ValidateExistingMonitorRequestAssetsList;
-  draft_status?: MonitorDraftStatus | (string & {});
+  assets?: ValidateExistingMonitorRequestAssetsList | undefined;
+  draft_status?: MonitorDraftStatus | (string & {}) | undefined;
   /** A list of active v1 downtimes that match this monitor. */
-  matching_downtimes?: ValidateExistingMonitorRequestMatchingDowntimesList;
+  matching_downtimes?: ValidateExistingMonitorRequestMatchingDowntimesList | undefined;
   /** A message to include with notifications for this monitor. */
-  message?: string;
+  message?: string | undefined;
   /** The monitor name. */
-  name?: string;
-  options?: MonitorOptionsInput;
+  name?: string | undefined;
+  options?: MonitorOptionsInput | undefined;
   /** Integer from 1 (high) to 5 (low) indicating alert severity. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The monitor query. */
   query: string;
   /** A list of unique role identifiers to define which roles are allowed to edit the monitor. The unique identifiers for all roles can be pulled from the [Roles API](https://docs.datadoghq.com/api/latest/roles/#list-roles) and are located in the `data.id` field. Editing a monitor includes any updates to the monitor configuration, monitor deletion, and muting of the monitor for any amount of time. You can use the [Restriction Policies API](https://docs.datadoghq.com/api/latest/restriction-policies/) to manage write authorization for individual monitors by teams and users, in addition to roles. */
-  restricted_roles?: ValidateExistingMonitorRequestRestrictedRolesList | null;
+  restricted_roles?: ValidateExistingMonitorRequestRestrictedRolesList | null | undefined;
   /** Tags associated to your monitor. */
-  tags?: ValidateExistingMonitorRequestTagsList;
+  tags?: ValidateExistingMonitorRequestTagsList | undefined;
   type: MonitorType | (string & {});
 }
 export type ValidateExistingMonitorResponse = unknown;
@@ -11501,23 +11518,23 @@ export type ValidateMonitorRequestRestrictedRolesList = Array<string>;
 export type ValidateMonitorRequestTagsList = Array<string>;
 export interface ValidateMonitorRequest {
   /** The list of monitor assets tied to a monitor, which represents key links for users to take action on monitor alerts (for example, runbooks). */
-  assets?: ValidateMonitorRequestAssetsList;
-  draft_status?: MonitorDraftStatus | (string & {});
+  assets?: ValidateMonitorRequestAssetsList | undefined;
+  draft_status?: MonitorDraftStatus | (string & {}) | undefined;
   /** A list of active v1 downtimes that match this monitor. */
-  matching_downtimes?: ValidateMonitorRequestMatchingDowntimesList;
+  matching_downtimes?: ValidateMonitorRequestMatchingDowntimesList | undefined;
   /** A message to include with notifications for this monitor. */
-  message?: string;
+  message?: string | undefined;
   /** The monitor name. */
-  name?: string;
-  options?: MonitorOptionsInput;
+  name?: string | undefined;
+  options?: MonitorOptionsInput | undefined;
   /** Integer from 1 (high) to 5 (low) indicating alert severity. */
-  priority?: number | null;
+  priority?: number | null | undefined;
   /** The monitor query. */
   query: string;
   /** A list of unique role identifiers to define which roles are allowed to edit the monitor. The unique identifiers for all roles can be pulled from the [Roles API](https://docs.datadoghq.com/api/latest/roles/#list-roles) and are located in the `data.id` field. Editing a monitor includes any updates to the monitor configuration, monitor deletion, and muting of the monitor for any amount of time. You can use the [Restriction Policies API](https://docs.datadoghq.com/api/latest/restriction-policies/) to manage write authorization for individual monitors by teams and users, in addition to roles. */
-  restricted_roles?: ValidateMonitorRequestRestrictedRolesList | null;
+  restricted_roles?: ValidateMonitorRequestRestrictedRolesList | null | undefined;
   /** Tags associated to your monitor. */
-  tags?: ValidateMonitorRequestTagsList;
+  tags?: ValidateMonitorRequestTagsList | undefined;
   type: MonitorType | (string & {});
 }
 export type ValidateMonitorResponse = unknown;

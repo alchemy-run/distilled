@@ -69,9 +69,9 @@ export interface CheckUploadMethodRequest {
   rev: string;
   files: CheckUploadMethodRequestFilesList;
   /** Provide this parameter if you plan to modify `.gitattributes` yourself at the same time as uploading LFS files. Note that this is not needed if you solely rely on automatic LFS detection from HF: the commit endpoint will automatically edit the `.gitattributes` file to track the files passed to its `lfsFiles` param. */
-  gitAttributes?: string;
+  gitAttributes?: string | undefined;
   /** Content of the .gitignore file for the revision. Optional, otherwise takes the existing content of `.gitignore` for the revision. */
-  gitIgnore?: string;
+  gitIgnore?: string | undefined;
 }
 export type CheckUploadMethodResponseFilesItemUploadMode = "lfs" | "regular";
 export interface CheckUploadMethodResponseFilesItem {
@@ -79,7 +79,7 @@ export interface CheckUploadMethodResponseFilesItem {
   uploadMode: CheckUploadMethodResponseFilesItemUploadMode;
   shouldIgnore: boolean;
   /** The oid of the blob if it already exists in the repository. If the blob is a LFS file, it'll be the lfs oid. */
-  oid?: string;
+  oid?: string | undefined;
 }
 export type CheckUploadMethodResponseFilesList = Array<CheckUploadMethodResponseFilesItem>;
 export interface CheckUploadMethodResponse {
@@ -92,15 +92,15 @@ export interface CommitRequest {
   namespace: string;
   repo: string;
   rev: string;
-  create_pr?: string;
-  hot_reload?: string;
-  contentType?: CommitRequestContentType | (string & {});
+  create_pr?: string | undefined;
+  hot_reload?: string | undefined;
+  contentType?: CommitRequestContentType | (string & {}) | undefined;
 }
 export interface CommitResponse {
   /** Whether the commit was successful */
   success: boolean;
   /** The URL of the pull request */
-  pullRequestUrl?: string;
+  pullRequestUrl?: string | undefined;
   /** The OID of the commit */
   commitOid: string;
   /** The URL of the commit */
@@ -113,11 +113,11 @@ export interface CreateBranchRequest {
   repo: string;
   rev: string;
   /** The commit to start from */
-  startingPoint?: string;
+  startingPoint?: string | undefined;
   /** Create an empty branch */
-  emptyBranch?: boolean;
+  emptyBranch?: boolean | undefined;
   /** Overwrite the branch if it already exists */
-  overwrite?: boolean;
+  overwrite?: boolean | undefined;
 }
 export interface CreateBranchResponse {}
 export interface CreateTagRequest {
@@ -125,7 +125,7 @@ export interface CreateTagRequest {
   repo: string;
   rev: string;
   tag: string;
-  message?: string;
+  message?: string | undefined;
 }
 export interface CreateTagResponse {}
 export interface DeleteBranchRequest {
@@ -138,13 +138,13 @@ export interface DeleteLargeFileRequest {
   namespace: string;
   repo: string;
   sha: string;
-  rewriteHistory?: string;
+  rewriteHistory?: string | undefined;
 }
 export interface DeleteLargeFileResponse {}
 export type DeleteLargeFilesRequestDeletionsShaList = Array<string>;
 export interface DeleteLargeFilesRequestDeletions {
   sha: DeleteLargeFilesRequestDeletionsShaList;
-  rewriteHistory?: boolean;
+  rewriteHistory?: boolean | undefined;
 }
 export interface DeleteLargeFilesRequest {
   namespace: string;
@@ -183,7 +183,7 @@ export interface DuplicateXetFilesRequestTarget {
 export interface DuplicateXetFilesRequestFilesItem {
   xetHash: string;
   sha256: string;
-  filename?: string;
+  filename?: string | undefined;
 }
 export type DuplicateXetFilesRequestFilesList = Array<DuplicateXetFilesRequestFilesItem>;
 export interface DuplicateXetFilesRequest {
@@ -213,19 +213,19 @@ export interface DuplicateXetFilesResponse {
   failed: DuplicateXetFilesResponseFailedList;
 }
 export interface FeaturedSpacesRequest {
-  date?: string;
+  date?: string | undefined;
 }
 export interface FeaturedSpacesResponse {}
 export interface GenerateJwtRequest {
   namespace: string;
   repo: string;
-  write?: string;
-  expiration?: string;
-  expires_in?: number;
-  encrypted?: string;
-  inference_api?: string;
-  include_pro_status?: string;
-  billing_details?: string;
+  write?: string | undefined;
+  expiration?: string | undefined;
+  expires_in?: number | undefined;
+  encrypted?: string | undefined;
+  inference_api?: string | undefined;
+  include_pro_status?: string | undefined;
+  billing_details?: string | undefined;
 }
 /** Encrypted JWT token and key ID (only if encrypted=true was requested) */
 export interface GenerateJwtResponseEncryptedToken {
@@ -238,17 +238,17 @@ export interface GenerateJwtResponse {
   /** The JWT token with Bearer prefix */
   accessToken: string | Redacted.Redacted<string>;
   /** Token expiration timestamp in seconds (JWT standard) */
-  exp?: number;
+  exp?: number | undefined;
   /** The JWT token */
   token: string;
   /** Encrypted JWT token and key ID (only if encrypted=true was requested) */
-  encryptedToken?: GenerateJwtResponseEncryptedToken;
+  encryptedToken?: GenerateJwtResponseEncryptedToken | undefined;
 }
 export interface GetCompareRevRequest {
   namespace: string;
   repo: string;
   compare: string;
-  raw?: string;
+  raw?: string | undefined;
 }
 export type GetCompareRevResponse = string;
 export interface GetFolderSizeRequest {
@@ -291,7 +291,7 @@ export interface GetResourceGroupResponse {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
   name: string;
-  numUsers?: number;
+  numUsers?: number | undefined;
 }
 export interface GetSecurityStatusRequest {
   namespace: string;
@@ -335,9 +335,9 @@ export interface GetZeroGPUQuotaResponse {
   /** ISO 8601 timestamp when the quota resets, or null if the quota has not been used yet */
   resetsAt: string | null;
   /** Overquota (paid) GPU-seconds consumed */
-  overquotaUsed?: number;
+  overquotaUsed?: number | undefined;
   /** Execution (runs) accounting, or omitted for visitors without a runs limit */
-  runs?: GetZeroGPUQuotaResponseRuns;
+  runs?: GetZeroGPUQuotaResponseRuns | undefined;
 }
 export type ListCommitsRequestExpandItem = "formatted";
 export type ListCommitsRequestExpandList = Array<ListCommitsRequestExpandItem | (string & {})>;
@@ -345,19 +345,19 @@ export interface ListCommitsRequest {
   namespace: string;
   repo: string;
   rev: string;
-  p?: number;
-  expand?: ListCommitsRequestExpandList;
-  limit?: number;
+  p?: number | undefined;
+  expand?: ListCommitsRequestExpandList | undefined;
+  limit?: number | undefined;
 }
 export interface ListCommitsResponseBodyItemAuthorsItem {
   user: string;
-  avatar?: string;
+  avatar?: string | undefined;
 }
 export type ListCommitsResponseBodyItemAuthorsList = Array<ListCommitsResponseBodyItemAuthorsItem>;
 /** Available if expand includes formatted */
 export interface ListCommitsResponseBodyItemFormatted {
   title: string;
-  message?: string;
+  message?: string | undefined;
 }
 export interface ListCommitsResponseBodyItem {
   id: string;
@@ -366,7 +366,7 @@ export interface ListCommitsResponseBodyItem {
   authors: ListCommitsResponseBodyItemAuthorsList;
   date: string;
   /** Available if expand includes formatted */
-  formatted?: ListCommitsResponseBodyItemFormatted;
+  formatted?: ListCommitsResponseBodyItemFormatted | undefined;
 }
 export type ListCommitsResponseBodyList = Array<ListCommitsResponseBodyItem>;
 export type ListCommitsResponse = ListCommitsResponseBodyList;
@@ -375,10 +375,10 @@ export interface ListFolderContentRequest {
   repo: string;
   rev: string;
   path: string;
-  expand?: string;
-  recursive?: string;
-  limit?: number;
-  cursor?: string;
+  expand?: string | undefined;
+  recursive?: string | undefined;
+  limit?: number | undefined;
+  cursor?: string | undefined;
 }
 export type ListFolderContentResponseBodyItemType = "file" | "directory" | "unknown";
 export interface ListFolderContentResponseBodyItemLfs {
@@ -420,11 +420,13 @@ export type ListFolderContentResponseBodyItemSecurityFileStatusJFrogScanPickleIm
   Array<ListFolderContentResponseBodyItemSecurityFileStatusJFrogScanPickleImportsItem>;
 export interface ListFolderContentResponseBodyItemSecurityFileStatusJFrogScan {
   status: ListFolderContentResponseBodyItemSecurityFileStatusJFrogScanStatus;
-  message?: string;
-  reportLink?: string;
-  reportLabel?: string;
-  pickleImports?: ListFolderContentResponseBodyItemSecurityFileStatusJFrogScanPickleImportsList;
-  version?: string;
+  message?: string | undefined;
+  reportLink?: string | undefined;
+  reportLabel?: string | undefined;
+  pickleImports?:
+    | ListFolderContentResponseBodyItemSecurityFileStatusJFrogScanPickleImportsList
+    | undefined;
+  version?: string | undefined;
 }
 export type ListFolderContentResponseBodyItemSecurityFileStatusProtectAiScanStatus =
   | "unscanned"
@@ -447,11 +449,13 @@ export type ListFolderContentResponseBodyItemSecurityFileStatusProtectAiScanPick
   Array<ListFolderContentResponseBodyItemSecurityFileStatusProtectAiScanPickleImportsItem>;
 export interface ListFolderContentResponseBodyItemSecurityFileStatusProtectAiScan {
   status: ListFolderContentResponseBodyItemSecurityFileStatusProtectAiScanStatus;
-  message?: string;
-  reportLink?: string;
-  reportLabel?: string;
-  pickleImports?: ListFolderContentResponseBodyItemSecurityFileStatusProtectAiScanPickleImportsList;
-  version?: string;
+  message?: string | undefined;
+  reportLink?: string | undefined;
+  reportLabel?: string | undefined;
+  pickleImports?:
+    | ListFolderContentResponseBodyItemSecurityFileStatusProtectAiScanPickleImportsList
+    | undefined;
+  version?: string | undefined;
 }
 export type ListFolderContentResponseBodyItemSecurityFileStatusAvScanStatus =
   | "unscanned"
@@ -474,11 +478,13 @@ export type ListFolderContentResponseBodyItemSecurityFileStatusAvScanPickleImpor
   Array<ListFolderContentResponseBodyItemSecurityFileStatusAvScanPickleImportsItem>;
 export interface ListFolderContentResponseBodyItemSecurityFileStatusAvScan {
   status: ListFolderContentResponseBodyItemSecurityFileStatusAvScanStatus;
-  message?: string;
-  reportLink?: string;
-  reportLabel?: string;
-  pickleImports?: ListFolderContentResponseBodyItemSecurityFileStatusAvScanPickleImportsList;
-  version?: string;
+  message?: string | undefined;
+  reportLink?: string | undefined;
+  reportLabel?: string | undefined;
+  pickleImports?:
+    | ListFolderContentResponseBodyItemSecurityFileStatusAvScanPickleImportsList
+    | undefined;
+  version?: string | undefined;
 }
 export type ListFolderContentResponseBodyItemSecurityFileStatusPickleImportScanStatus =
   | "unscanned"
@@ -501,11 +507,13 @@ export type ListFolderContentResponseBodyItemSecurityFileStatusPickleImportScanP
   Array<ListFolderContentResponseBodyItemSecurityFileStatusPickleImportScanPickleImportsItem>;
 export interface ListFolderContentResponseBodyItemSecurityFileStatusPickleImportScan {
   status: ListFolderContentResponseBodyItemSecurityFileStatusPickleImportScanStatus;
-  message?: string;
-  reportLink?: string;
-  reportLabel?: string;
-  pickleImports?: ListFolderContentResponseBodyItemSecurityFileStatusPickleImportScanPickleImportsList;
-  version?: string;
+  message?: string | undefined;
+  reportLink?: string | undefined;
+  reportLabel?: string | undefined;
+  pickleImports?:
+    | ListFolderContentResponseBodyItemSecurityFileStatusPickleImportScanPickleImportsList
+    | undefined;
+  version?: string | undefined;
 }
 export type ListFolderContentResponseBodyItemSecurityFileStatusVirusTotalScanStatus =
   | "unscanned"
@@ -528,29 +536,31 @@ export type ListFolderContentResponseBodyItemSecurityFileStatusVirusTotalScanPic
   Array<ListFolderContentResponseBodyItemSecurityFileStatusVirusTotalScanPickleImportsItem>;
 export interface ListFolderContentResponseBodyItemSecurityFileStatusVirusTotalScan {
   status: ListFolderContentResponseBodyItemSecurityFileStatusVirusTotalScanStatus;
-  message?: string;
-  reportLink?: string;
-  reportLabel?: string;
-  pickleImports?: ListFolderContentResponseBodyItemSecurityFileStatusVirusTotalScanPickleImportsList;
-  version?: string;
+  message?: string | undefined;
+  reportLink?: string | undefined;
+  reportLabel?: string | undefined;
+  pickleImports?:
+    | ListFolderContentResponseBodyItemSecurityFileStatusVirusTotalScanPickleImportsList
+    | undefined;
+  version?: string | undefined;
 }
 export interface ListFolderContentResponseBodyItemSecurityFileStatus {
   status: ListFolderContentResponseBodyItemSecurityFileStatusStatus;
-  jFrogScan?: ListFolderContentResponseBodyItemSecurityFileStatusJFrogScan;
-  protectAiScan?: ListFolderContentResponseBodyItemSecurityFileStatusProtectAiScan;
+  jFrogScan?: ListFolderContentResponseBodyItemSecurityFileStatusJFrogScan | undefined;
+  protectAiScan?: ListFolderContentResponseBodyItemSecurityFileStatusProtectAiScan | undefined;
   avScan: ListFolderContentResponseBodyItemSecurityFileStatusAvScan;
   pickleImportScan: ListFolderContentResponseBodyItemSecurityFileStatusPickleImportScan;
-  virusTotalScan?: ListFolderContentResponseBodyItemSecurityFileStatusVirusTotalScan;
+  virusTotalScan?: ListFolderContentResponseBodyItemSecurityFileStatusVirusTotalScan | undefined;
 }
 export interface ListFolderContentResponseBodyItem {
   type: ListFolderContentResponseBodyItemType;
   oid: string;
   /** If the file is a LFS pointer, it'll return the size of the remote file */
-  size?: number;
-  lfs?: ListFolderContentResponseBodyItemLfs;
-  xetHash?: string;
-  lastCommit?: ListFolderContentResponseBodyItemLastCommit;
-  securityFileStatus?: ListFolderContentResponseBodyItemSecurityFileStatus;
+  size?: number | undefined;
+  lfs?: ListFolderContentResponseBodyItemLfs | undefined;
+  xetHash?: string | undefined;
+  lastCommit?: ListFolderContentResponseBodyItemLastCommit | undefined;
+  securityFileStatus?: ListFolderContentResponseBodyItemSecurityFileStatus | undefined;
 }
 export type ListFolderContentResponseBodyList = Array<ListFolderContentResponseBodyItem>;
 export type ListFolderContentResponse = ListFolderContentResponseBodyList;
@@ -559,11 +569,11 @@ export type ListLargeFilesRequestSort = "size" | "pushedAt";
 export interface ListLargeFilesRequest {
   namespace: string;
   repo: string;
-  cursor?: string;
-  direction?: ListLargeFilesRequestDirection | (string & {});
-  limit?: number;
-  sort?: ListLargeFilesRequestSort | (string & {});
-  xet?: string;
+  cursor?: string | undefined;
+  direction?: ListLargeFilesRequestDirection | (string & {}) | undefined;
+  limit?: number | undefined;
+  sort?: ListLargeFilesRequestSort | (string & {}) | undefined;
+  xet?: string | undefined;
 }
 export type ListLargeFilesResponseBodyItemPusherPrimaryOrgPlan =
   | "team"
@@ -582,12 +592,12 @@ export interface ListLargeFilesResponseBodyItemPusherPrimaryOrg {
   name: string;
   type: string;
   isHf: boolean;
-  isFollowing?: boolean;
-  plan?: ListLargeFilesResponseBodyItemPusherPrimaryOrgPlan;
-  details?: string;
-  hasPrivateMembersList?: boolean;
-  userRole?: ListLargeFilesResponseBodyItemPusherPrimaryOrgUserRole;
-  numUsers?: number;
+  isFollowing?: boolean | undefined;
+  plan?: ListLargeFilesResponseBodyItemPusherPrimaryOrgPlan | undefined;
+  details?: string | undefined;
+  hasPrivateMembersList?: boolean | undefined;
+  userRole?: ListLargeFilesResponseBodyItemPusherPrimaryOrgUserRole | undefined;
+  numUsers?: number | undefined;
 }
 export interface ListLargeFilesResponseBodyItemPusher {
   /** A hex string of 24 characters representing an ObjectId. */
@@ -598,22 +608,22 @@ export interface ListLargeFilesResponseBodyItemPusher {
   isHf: boolean;
   isHfAdmin: boolean;
   isMod: boolean;
-  followerCount?: number;
+  followerCount?: number | undefined;
   type: string;
   isPro: boolean;
-  isUserFollowing?: boolean;
-  primaryOrg?: ListLargeFilesResponseBodyItemPusherPrimaryOrg;
+  isUserFollowing?: boolean | undefined;
+  primaryOrg?: ListLargeFilesResponseBodyItemPusherPrimaryOrg | undefined;
 }
 export interface ListLargeFilesResponseBodyItem {
-  pusher?: ListLargeFilesResponseBodyItemPusher;
-  ref?: string;
+  pusher?: ListLargeFilesResponseBodyItemPusher | undefined;
+  ref?: string | undefined;
   fileOid: string;
   oid: string;
   size: number;
   pushedAt: string;
   /** Potential filename of the LFS file */
-  filename?: string;
-  xetHash?: string;
+  filename?: string | undefined;
+  xetHash?: string | undefined;
 }
 export type ListLargeFilesResponseBodyList = Array<ListLargeFilesResponseBodyItem>;
 export type ListLargeFilesResponse = ListLargeFilesResponseBodyList;
@@ -622,7 +632,7 @@ export type ListLikersRequestExpandList = Array<ListLikersRequestExpandItem | (s
 export interface ListLikersRequest {
   namespace: string;
   repo: string;
-  expand?: ListLikersRequestExpandList;
+  expand?: ListLikersRequestExpandList | undefined;
 }
 export interface ListLikersResponse {}
 export type ListPathsInfoRequestPathsCase0List = Array<string>;
@@ -635,7 +645,7 @@ export interface ListPathsInfoRequest {
   rev: string;
   paths: ListPathsInfoRequestPaths;
   /** Expand the response with the last commit and security file status */
-  expand?: ListPathsInfoRequestExpand;
+  expand?: ListPathsInfoRequestExpand | undefined;
 }
 export type ListPathsInfoResponseBodyItemType = "file" | "directory" | "unknown";
 export interface ListPathsInfoResponseBodyItemLfs {
@@ -671,11 +681,13 @@ export type ListPathsInfoResponseBodyItemSecurityFileStatusJFrogScanPickleImport
   Array<ListPathsInfoResponseBodyItemSecurityFileStatusJFrogScanPickleImportsItem>;
 export interface ListPathsInfoResponseBodyItemSecurityFileStatusJFrogScan {
   status: ListPathsInfoResponseBodyItemSecurityFileStatusJFrogScanStatus;
-  message?: string;
-  reportLink?: string;
-  reportLabel?: string;
-  pickleImports?: ListPathsInfoResponseBodyItemSecurityFileStatusJFrogScanPickleImportsList;
-  version?: string;
+  message?: string | undefined;
+  reportLink?: string | undefined;
+  reportLabel?: string | undefined;
+  pickleImports?:
+    | ListPathsInfoResponseBodyItemSecurityFileStatusJFrogScanPickleImportsList
+    | undefined;
+  version?: string | undefined;
 }
 export type ListPathsInfoResponseBodyItemSecurityFileStatusProtectAiScanStatus =
   | "unscanned"
@@ -698,11 +710,13 @@ export type ListPathsInfoResponseBodyItemSecurityFileStatusProtectAiScanPickleIm
   Array<ListPathsInfoResponseBodyItemSecurityFileStatusProtectAiScanPickleImportsItem>;
 export interface ListPathsInfoResponseBodyItemSecurityFileStatusProtectAiScan {
   status: ListPathsInfoResponseBodyItemSecurityFileStatusProtectAiScanStatus;
-  message?: string;
-  reportLink?: string;
-  reportLabel?: string;
-  pickleImports?: ListPathsInfoResponseBodyItemSecurityFileStatusProtectAiScanPickleImportsList;
-  version?: string;
+  message?: string | undefined;
+  reportLink?: string | undefined;
+  reportLabel?: string | undefined;
+  pickleImports?:
+    | ListPathsInfoResponseBodyItemSecurityFileStatusProtectAiScanPickleImportsList
+    | undefined;
+  version?: string | undefined;
 }
 export type ListPathsInfoResponseBodyItemSecurityFileStatusAvScanStatus =
   | "unscanned"
@@ -725,11 +739,13 @@ export type ListPathsInfoResponseBodyItemSecurityFileStatusAvScanPickleImportsLi
   Array<ListPathsInfoResponseBodyItemSecurityFileStatusAvScanPickleImportsItem>;
 export interface ListPathsInfoResponseBodyItemSecurityFileStatusAvScan {
   status: ListPathsInfoResponseBodyItemSecurityFileStatusAvScanStatus;
-  message?: string;
-  reportLink?: string;
-  reportLabel?: string;
-  pickleImports?: ListPathsInfoResponseBodyItemSecurityFileStatusAvScanPickleImportsList;
-  version?: string;
+  message?: string | undefined;
+  reportLink?: string | undefined;
+  reportLabel?: string | undefined;
+  pickleImports?:
+    | ListPathsInfoResponseBodyItemSecurityFileStatusAvScanPickleImportsList
+    | undefined;
+  version?: string | undefined;
 }
 export type ListPathsInfoResponseBodyItemSecurityFileStatusPickleImportScanStatus =
   | "unscanned"
@@ -752,11 +768,13 @@ export type ListPathsInfoResponseBodyItemSecurityFileStatusPickleImportScanPickl
   Array<ListPathsInfoResponseBodyItemSecurityFileStatusPickleImportScanPickleImportsItem>;
 export interface ListPathsInfoResponseBodyItemSecurityFileStatusPickleImportScan {
   status: ListPathsInfoResponseBodyItemSecurityFileStatusPickleImportScanStatus;
-  message?: string;
-  reportLink?: string;
-  reportLabel?: string;
-  pickleImports?: ListPathsInfoResponseBodyItemSecurityFileStatusPickleImportScanPickleImportsList;
-  version?: string;
+  message?: string | undefined;
+  reportLink?: string | undefined;
+  reportLabel?: string | undefined;
+  pickleImports?:
+    | ListPathsInfoResponseBodyItemSecurityFileStatusPickleImportScanPickleImportsList
+    | undefined;
+  version?: string | undefined;
 }
 export type ListPathsInfoResponseBodyItemSecurityFileStatusVirusTotalScanStatus =
   | "unscanned"
@@ -779,36 +797,38 @@ export type ListPathsInfoResponseBodyItemSecurityFileStatusVirusTotalScanPickleI
   Array<ListPathsInfoResponseBodyItemSecurityFileStatusVirusTotalScanPickleImportsItem>;
 export interface ListPathsInfoResponseBodyItemSecurityFileStatusVirusTotalScan {
   status: ListPathsInfoResponseBodyItemSecurityFileStatusVirusTotalScanStatus;
-  message?: string;
-  reportLink?: string;
-  reportLabel?: string;
-  pickleImports?: ListPathsInfoResponseBodyItemSecurityFileStatusVirusTotalScanPickleImportsList;
-  version?: string;
+  message?: string | undefined;
+  reportLink?: string | undefined;
+  reportLabel?: string | undefined;
+  pickleImports?:
+    | ListPathsInfoResponseBodyItemSecurityFileStatusVirusTotalScanPickleImportsList
+    | undefined;
+  version?: string | undefined;
 }
 export interface ListPathsInfoResponseBodyItemSecurityFileStatus {
   status: ListPathsInfoResponseBodyItemSecurityFileStatusStatus;
-  jFrogScan?: ListPathsInfoResponseBodyItemSecurityFileStatusJFrogScan;
-  protectAiScan?: ListPathsInfoResponseBodyItemSecurityFileStatusProtectAiScan;
+  jFrogScan?: ListPathsInfoResponseBodyItemSecurityFileStatusJFrogScan | undefined;
+  protectAiScan?: ListPathsInfoResponseBodyItemSecurityFileStatusProtectAiScan | undefined;
   avScan: ListPathsInfoResponseBodyItemSecurityFileStatusAvScan;
   pickleImportScan: ListPathsInfoResponseBodyItemSecurityFileStatusPickleImportScan;
-  virusTotalScan?: ListPathsInfoResponseBodyItemSecurityFileStatusVirusTotalScan;
+  virusTotalScan?: ListPathsInfoResponseBodyItemSecurityFileStatusVirusTotalScan | undefined;
 }
 export interface ListPathsInfoResponseBodyItem {
   type: ListPathsInfoResponseBodyItemType;
   oid: string;
   size: number;
-  lfs?: ListPathsInfoResponseBodyItemLfs;
-  xetHash?: string;
+  lfs?: ListPathsInfoResponseBodyItemLfs | undefined;
+  xetHash?: string | undefined;
   path: string;
-  lastCommit?: ListFolderContentResponseBodyItemLastCommit;
-  securityFileStatus?: ListPathsInfoResponseBodyItemSecurityFileStatus;
+  lastCommit?: ListFolderContentResponseBodyItemLastCommit | undefined;
+  securityFileStatus?: ListPathsInfoResponseBodyItemSecurityFileStatus | undefined;
 }
 export type ListPathsInfoResponseBodyList = Array<ListPathsInfoResponseBodyItem>;
 export type ListPathsInfoResponse = ListPathsInfoResponseBodyList;
 export interface ListReferencesRequest {
   namespace: string;
   repo: string;
-  include_prs?: string;
+  include_prs?: string | undefined;
 }
 export interface ListReferencesResponseTagsItem {
   name: string;
@@ -826,7 +846,7 @@ export interface ListReferencesResponse {
   tags: ListReferencesResponseTagsList;
   branches: ListReferencesResponseBranchesList;
   converts: ListReferencesResponseConvertsList;
-  pullRequests?: ListReferencesResponsePullRequestsList;
+  pullRequests?: ListReferencesResponsePullRequestsList | undefined;
 }
 export interface ListSecretsRequest {
   namespace: string;
@@ -834,8 +854,8 @@ export interface ListSecretsRequest {
 }
 export interface ListSecretsResponseBodyValue {
   key: string;
-  description?: string;
-  updatedAt?: string;
+  description?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export type ListSecretsResponseBodyMap = {
   [key: string]: ListSecretsResponseBodyValue | undefined;
@@ -886,8 +906,8 @@ export interface ListVariablesRequest {
 export interface ListVariablesResponseBodyValue {
   key: string;
   value: string;
-  description?: string;
-  updatedAt?: string;
+  description?: string | undefined;
+  updatedAt?: string | undefined;
 }
 export type ListVariablesResponseBodyMap = {
   [key: string]: ListVariablesResponseBodyValue | undefined;
@@ -898,8 +918,8 @@ export interface ResolveFileRequest {
   repo: string;
   rev: string;
   path: string;
-  range?: string;
-  accept?: string;
+  range?: string | undefined;
+  accept?: string | undefined;
 }
 export interface ResolveFileResponse {
   /** The XET hash of the file */
@@ -918,8 +938,8 @@ export interface ResolveFileCachedRequest {
   repo: string;
   rev: string;
   path: string;
-  range?: string;
-  accept?: string;
+  range?: string | undefined;
+  accept?: string | undefined;
 }
 export interface ResolveFileCachedResponse {
   /** The XET hash of the file */
@@ -976,12 +996,12 @@ export type SearchSemanticRequestSdkItem = "gradio" | "docker" | "static" | "str
 export type SearchSemanticRequestSdkList = Array<SearchSemanticRequestSdkItem | (string & {})>;
 export type SearchSemanticRequestFilterList = Array<string>;
 export interface SearchSemanticRequest {
-  q?: string;
-  category?: SearchSemanticRequestCategory | (string & {});
-  includeNonRunning?: boolean;
-  sdk?: SearchSemanticRequestSdkList;
-  filter?: SearchSemanticRequestFilterList;
-  agents?: boolean;
+  q?: string | undefined;
+  category?: SearchSemanticRequestCategory | (string & {}) | undefined;
+  includeNonRunning?: boolean | undefined;
+  sdk?: SearchSemanticRequestSdkList | undefined;
+  filter?: SearchSemanticRequestFilterList | undefined;
+  agents?: boolean | undefined;
 }
 export interface SearchSemanticResponse {}
 export interface SetCustomDomainRequest {
@@ -1005,11 +1025,11 @@ export interface SetSpaceVolumesRequestVolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 export type SetSpaceVolumesRequestVolumesList = Array<SetSpaceVolumesRequestVolumesItem>;
 export interface SetSpaceVolumesRequest {
@@ -1022,7 +1042,7 @@ export interface SquashRefRequest {
   namespace: string;
   repo: string;
   rev: string;
-  message?: string;
+  message?: string | undefined;
 }
 export interface SquashRefResponse {
   /** The new commit ID after the squash */
@@ -1031,7 +1051,7 @@ export interface SquashRefResponse {
 export interface StreamEventsRequest {
   namespace: string;
   repo: string;
-  session_uuid?: string;
+  session_uuid?: string | undefined;
 }
 export interface StreamEventsResponse {}
 export type StreamLogsRequestLogType = "build" | "run";
@@ -1039,7 +1059,7 @@ export interface StreamLogsRequest {
   namespace: string;
   repo: string;
   logType: StreamLogsRequestLogType | (string & {});
-  tail?: number;
+  tail?: number | undefined;
 }
 export interface StreamLogsResponse {}
 export interface StreamMetricsRequest {
@@ -1088,7 +1108,7 @@ export interface UpdateHardwareFlavorRequest {
   namespace: string;
   repo: string;
   flavor: UpdateHardwareFlavorRequestFlavor | (string & {});
-  sleepTimeSeconds?: UpdateHardwareFlavorRequestSleepTimeSeconds;
+  sleepTimeSeconds?: UpdateHardwareFlavorRequestSleepTimeSeconds | undefined;
 }
 export interface UpdateHardwareFlavorResponse {}
 /** Repository visibility. `protected` is only supported for Spaces. */
@@ -1103,16 +1123,19 @@ export type UpdateRepoSettingsRequestGatedNotificationsMode = "bulk" | "real-tim
 export interface UpdateRepoSettingsRequest {
   namespace: string;
   repo: string;
-  private?: boolean;
+  private?: boolean | undefined;
   /** Repository visibility. `protected` is only supported for Spaces. */
-  visibility?: UpdateRepoSettingsRequestVisibility | (string & {});
-  discussionsDisabled?: boolean;
-  discussionsSorting?: UpdateRepoSettingsRequestDiscussionsSorting | (string & {});
-  gated?: UpdateRepoSettingsRequestGated;
+  visibility?: UpdateRepoSettingsRequestVisibility | (string & {}) | undefined;
+  discussionsDisabled?: boolean | undefined;
+  discussionsSorting?: UpdateRepoSettingsRequestDiscussionsSorting | (string & {}) | undefined;
+  gated?: UpdateRepoSettingsRequestGated | undefined;
   /** If true, members of the owning org (except admins) must also go through the gated access-request flow. */
-  orgMembersGated?: boolean;
-  gatedNotificationsEmail?: string;
-  gatedNotificationsMode?: UpdateRepoSettingsRequestGatedNotificationsMode | (string & {});
+  orgMembersGated?: boolean | undefined;
+  gatedNotificationsEmail?: string | undefined;
+  gatedNotificationsMode?:
+    | UpdateRepoSettingsRequestGatedNotificationsMode
+    | (string & {})
+    | undefined;
 }
 /** Repository visibility. `protected` is only supported for Spaces. */
 export type UpdateRepoSettingsResponseVisibility = "private" | "public" | "protected";
@@ -1124,31 +1147,31 @@ export type UpdateRepoSettingsResponseGatedCase1 = "auto" | "manual";
 export type UpdateRepoSettingsResponseGated = boolean | UpdateRepoSettingsResponseGatedCase1;
 export type UpdateRepoSettingsResponseGatedNotificationsMode = "bulk" | "real-time";
 export interface UpdateRepoSettingsResponse {
-  private?: boolean;
+  private?: boolean | undefined;
   /** Repository visibility. `protected` is only supported for Spaces. */
-  visibility?: UpdateRepoSettingsResponseVisibility;
-  discussionsDisabled?: boolean;
-  discussionsSorting?: UpdateRepoSettingsResponseDiscussionsSorting;
-  gated?: UpdateRepoSettingsResponseGated;
+  visibility?: UpdateRepoSettingsResponseVisibility | undefined;
+  discussionsDisabled?: boolean | undefined;
+  discussionsSorting?: UpdateRepoSettingsResponseDiscussionsSorting | undefined;
+  gated?: UpdateRepoSettingsResponseGated | undefined;
   /** If true, members of the owning org (except admins) must also go through the gated access-request flow. */
-  orgMembersGated?: boolean;
-  gatedNotificationsEmail?: string;
-  gatedNotificationsMode?: UpdateRepoSettingsResponseGatedNotificationsMode;
+  orgMembersGated?: boolean | undefined;
+  gatedNotificationsEmail?: string | undefined;
+  gatedNotificationsMode?: UpdateRepoSettingsResponseGatedNotificationsMode | undefined;
 }
 export interface UpsertSecretRequest {
   namespace: string;
   repo: string;
   key: string;
-  description?: string;
-  value?: string;
+  description?: string | undefined;
+  value?: string | undefined;
 }
 export interface UpsertSecretResponse {}
 export interface UpsertVariableRequest {
   namespace: string;
   repo: string;
   key: string;
-  description?: string;
-  value?: string;
+  description?: string | undefined;
+  value?: string | undefined;
 }
 export interface UpsertVariableResponse {}
 export interface XetReadTokenRequest {

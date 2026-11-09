@@ -57,7 +57,7 @@ export interface DeleteMembershipRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteMembershipResponse {
   /** Membership identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
 }
 export interface GetMembershipRequest {
   /** Membership identifier tag. */
@@ -66,15 +66,15 @@ export interface GetMembershipRequest {
 export type GetResponseAccountType = "standard" | "enterprise";
 export interface GetResponseAccountManagedBy {
   /** ID of the parent Organization, if one exists */
-  parentOrgId?: string | null;
+  parentOrgId?: string | null | undefined;
   /** Name of the parent Organization, if one exists */
-  parentOrgName?: string | null;
+  parentOrgName?: string | null | undefined;
 }
 export interface GetResponseAccountSettings {
   /** Sets an abuse contact email to notify for abuse reports. */
-  abuseContactEmail?: string | null;
+  abuseContactEmail?: string | null | undefined;
   /** Indicates whether membership in this account requires that Two-Factor Authentication is enabled */
-  enforceTwofactor?: boolean | null;
+  enforceTwofactor?: boolean | null | undefined;
 }
 export interface GetResponseAccount {
   /** Identifier */
@@ -83,15 +83,15 @@ export interface GetResponseAccount {
   name: string;
   type: GetResponseAccountType;
   /** Timestamp for the creation of the account */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Parent container details */
-  managedBy?: GetResponseAccountManagedBy | null;
+  managedBy?: GetResponseAccountManagedBy | null | undefined;
   /** Account settings */
-  settings?: GetResponseAccountSettings | null;
+  settings?: GetResponseAccountSettings | null | undefined;
 }
 export interface GetResponsePermissionsAnalytics {
-  read?: boolean | null;
-  write?: boolean | null;
+  read?: boolean | null | undefined;
+  write?: boolean | null | undefined;
 }
 export type GetResponsePermissionsBilling = GetResponsePermissionsAnalytics;
 export type GetResponsePermissionsCachePurge = GetResponsePermissionsAnalytics;
@@ -105,45 +105,45 @@ export type GetResponsePermissionsWaf = GetResponsePermissionsAnalytics;
 export type GetResponsePermissionsZoneSettings = GetResponsePermissionsAnalytics;
 export type GetResponsePermissionsZones = GetResponsePermissionsAnalytics;
 export interface GetResponsePermissions {
-  analytics?: GetResponsePermissionsAnalytics | null;
-  billing?: GetResponsePermissionsAnalytics | null;
-  cachePurge?: GetResponsePermissionsAnalytics | null;
-  dns?: GetResponsePermissionsAnalytics | null;
-  dnsRecords?: GetResponsePermissionsAnalytics | null;
-  lb?: GetResponsePermissionsAnalytics | null;
-  logs?: GetResponsePermissionsAnalytics | null;
-  organization?: GetResponsePermissionsAnalytics | null;
-  ssl?: GetResponsePermissionsAnalytics | null;
-  waf?: GetResponsePermissionsAnalytics | null;
-  zoneSettings?: GetResponsePermissionsAnalytics | null;
-  zones?: GetResponsePermissionsAnalytics | null;
+  analytics?: GetResponsePermissionsAnalytics | null | undefined;
+  billing?: GetResponsePermissionsAnalytics | null | undefined;
+  cachePurge?: GetResponsePermissionsAnalytics | null | undefined;
+  dns?: GetResponsePermissionsAnalytics | null | undefined;
+  dnsRecords?: GetResponsePermissionsAnalytics | null | undefined;
+  lb?: GetResponsePermissionsAnalytics | null | undefined;
+  logs?: GetResponsePermissionsAnalytics | null | undefined;
+  organization?: GetResponsePermissionsAnalytics | null | undefined;
+  ssl?: GetResponsePermissionsAnalytics | null | undefined;
+  waf?: GetResponsePermissionsAnalytics | null | undefined;
+  zoneSettings?: GetResponsePermissionsAnalytics | null | undefined;
+  zones?: GetResponsePermissionsAnalytics | null | undefined;
 }
 export type GetResponsePoliciesItemAccess = "allow" | "deny";
 export interface GetResponsePoliciesItemPermissionGroupsItemMeta {
   /** A category used to group permission groups. */
-  category?: string | null;
+  category?: string | null | undefined;
   /** Indicates whether the permission group is deprecated. */
-  deprecated?: string | null;
+  deprecated?: string | null | undefined;
   /** Additional information about the permission group. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Indicates whether the permission group can be edited. */
-  editable?: string | null;
+  editable?: string | null | undefined;
   /** The planned end-of-life date and time, when provided. */
-  eolAt?: string | null;
+  eolAt?: string | null | undefined;
   /** A label identifying the permission group. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The scope associated with the permission group. */
-  scopes?: string | null;
+  scopes?: string | null | undefined;
   /** Indicates the permission group's availability or visibility. */
-  visibility?: string | null;
+  visibility?: string | null | undefined;
 }
 export interface GetResponsePoliciesItemPermissionGroupsItem {
   /** Identifier of the permission group. */
   id: string;
   /** Attributes associated to the permission group. */
-  meta?: GetResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: GetResponsePoliciesItemPermissionGroupsItemMeta | null | undefined;
   /** Name of the permission group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type GetResponsePoliciesItemPermissionGroupsList =
   Array<GetResponsePoliciesItemPermissionGroupsItem>;
@@ -160,8 +160,8 @@ export interface GetResponsePoliciesItemResourceGroupsItemScope {
   objects: GetResponsePoliciesItemResourceGroupsItemScopeObjectsList;
 }
 export interface GetResponsePoliciesItemResourceGroupsItemMeta {
-  key?: string | null;
-  value?: string | null;
+  key?: string | null | undefined;
+  value?: string | null | undefined;
 }
 export interface GetResponsePoliciesItemResourceGroupsItem {
   /** Identifier of the resource group. */
@@ -169,21 +169,21 @@ export interface GetResponsePoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: GetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: GetResponsePoliciesItemResourceGroupsItemMeta | null;
+  meta?: GetResponsePoliciesItemResourceGroupsItemMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type GetResponsePoliciesItemResourceGroupsList =
   Array<GetResponsePoliciesItemResourceGroupsItem>;
 export interface GetResponsePoliciesItem {
   /** Policy identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Allow or deny operations against the resources. */
-  access?: GetResponsePoliciesItemAccess | null;
+  access?: GetResponsePoliciesItemAccess | null | undefined;
   /** A set of permission groups that are specified to the policy. */
-  permissionGroups?: GetResponsePoliciesItemPermissionGroupsList | null;
+  permissionGroups?: GetResponsePoliciesItemPermissionGroupsList | null | undefined;
   /** A list of resource groups that the policy applies to. */
-  resourceGroups?: GetResponsePoliciesItemResourceGroupsList | null;
+  resourceGroups?: GetResponsePoliciesItemResourceGroupsList | null | undefined;
 }
 export type GetResponsePoliciesList = Array<GetResponsePoliciesItem>;
 export type GetResponseRolesList = Array<string>;
@@ -191,40 +191,40 @@ export type GetResponseStatus = "accepted" | "pending" | "rejected";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetMembershipResponse {
   /** Membership identifier tag. */
-  id?: string | null;
-  account?: GetResponseAccount | null;
+  id?: string | null | undefined;
+  account?: GetResponseAccount | null | undefined;
   /** Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account. */
-  apiAccessEnabled?: boolean | null;
+  apiAccessEnabled?: boolean | null | undefined;
   /** All access permissions for the user at the account. */
-  permissions?: GetResponsePermissions | null;
+  permissions?: GetResponsePermissions | null | undefined;
   /** Access policy for the membership */
-  policies?: GetResponsePoliciesList | null;
+  policies?: GetResponsePoliciesList | null | undefined;
   /** List of role names the membership has for this account. */
-  roles?: GetResponseRolesList | null;
+  roles?: GetResponseRolesList | null | undefined;
   /** Status of this membership. */
-  status?: GetResponseStatus | null;
+  status?: GetResponseStatus | null | undefined;
 }
 export interface ListRequestAccount {
   /** Account name */
-  name?: string;
+  name?: string | undefined;
 }
 export type ListRequestDirection = "asc" | "desc";
 export type ListRequestOrder = "id" | "account.name" | "status";
 export type ListRequestStatus = "accepted" | "pending" | "rejected";
 export interface ListMembershipsRequest {
-  account?: ListRequestAccount;
+  account?: ListRequestAccount | undefined;
   /** Direction to order memberships. */
-  direction?: ListRequestDirection | (string & {});
+  direction?: ListRequestDirection | (string & {}) | undefined;
   /** Account name */
-  name?: string;
+  name?: string | undefined;
   /** Field to order memberships by. */
-  order?: ListRequestOrder | (string & {});
+  order?: ListRequestOrder | (string & {}) | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of memberships per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Status of this membership. */
-  status?: ListRequestStatus | (string & {});
+  status?: ListRequestStatus | (string & {}) | undefined;
 }
 export type ListResultItemAccountType = "standard" | "enterprise";
 export type ListResultItemAccountManagedBy = GetResponseAccountManagedBy;
@@ -236,11 +236,11 @@ export interface ListResultItemAccount {
   name: string;
   type: ListResultItemAccountType;
   /** Timestamp for the creation of the account */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Parent container details */
-  managedBy?: GetResponseAccountManagedBy | null;
+  managedBy?: GetResponseAccountManagedBy | null | undefined;
   /** Account settings */
-  settings?: GetResponseAccountSettings | null;
+  settings?: GetResponseAccountSettings | null | undefined;
 }
 export type ListResultItemPermissionsAnalytics = GetResponsePermissionsAnalytics;
 export type ListResultItemPermissionsBilling = GetResponsePermissionsAnalytics;
@@ -259,23 +259,23 @@ export type ListResultItemRolesList = Array<string>;
 export type ListResultItemStatus = "accepted" | "pending" | "rejected";
 export interface ListResultItem {
   /** Membership identifier tag. */
-  id?: string | null;
-  account?: ListResultItemAccount | null;
+  id?: string | null | undefined;
+  account?: ListResultItemAccount | null | undefined;
   /** Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account. */
-  apiAccessEnabled?: boolean | null;
+  apiAccessEnabled?: boolean | null | undefined;
   /** All access permissions for the user at the account. */
-  permissions?: GetResponsePermissions | null;
+  permissions?: GetResponsePermissions | null | undefined;
   /** List of role names the membership has for this account. */
-  roles?: ListResultItemRolesList | null;
+  roles?: ListResultItemRolesList | null | undefined;
   /** Status of this membership. */
-  status?: ListResultItemStatus | null;
+  status?: ListResultItemStatus | null | undefined;
 }
 export type ListResultList = Array<ListResultItem>;
 export interface ListMembershipsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type UpdateRequestStatus = "accepted" | "rejected";
 export interface PutMembershipRequest {
@@ -294,11 +294,11 @@ export interface UpdateResponseAccount {
   name: string;
   type: UpdateResponseAccountType;
   /** Timestamp for the creation of the account */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** Parent container details */
-  managedBy?: GetResponseAccountManagedBy | null;
+  managedBy?: GetResponseAccountManagedBy | null | undefined;
   /** Account settings */
-  settings?: GetResponseAccountSettings | null;
+  settings?: GetResponseAccountSettings | null | undefined;
 }
 export type UpdateResponsePermissionsAnalytics = GetResponsePermissionsAnalytics;
 export type UpdateResponsePermissionsBilling = GetResponsePermissionsAnalytics;
@@ -338,21 +338,21 @@ export interface UpdateResponsePoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: UpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: GetResponsePoliciesItemResourceGroupsItemMeta | null;
+  meta?: GetResponsePoliciesItemResourceGroupsItemMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type UpdateResponsePoliciesItemResourceGroupsList =
   Array<UpdateResponsePoliciesItemResourceGroupsItem>;
 export interface UpdateResponsePoliciesItem {
   /** Policy identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Allow or deny operations against the resources. */
-  access?: UpdateResponsePoliciesItemAccess | null;
+  access?: UpdateResponsePoliciesItemAccess | null | undefined;
   /** A set of permission groups that are specified to the policy. */
-  permissionGroups?: UpdateResponsePoliciesItemPermissionGroupsList | null;
+  permissionGroups?: UpdateResponsePoliciesItemPermissionGroupsList | null | undefined;
   /** A list of resource groups that the policy applies to. */
-  resourceGroups?: UpdateResponsePoliciesItemResourceGroupsList | null;
+  resourceGroups?: UpdateResponsePoliciesItemResourceGroupsList | null | undefined;
 }
 export type UpdateResponsePoliciesList = Array<UpdateResponsePoliciesItem>;
 export type UpdateResponseRolesList = Array<string>;
@@ -360,18 +360,18 @@ export type UpdateResponseStatus = "accepted" | "pending" | "rejected";
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutMembershipResponse {
   /** Membership identifier tag. */
-  id?: string | null;
-  account?: UpdateResponseAccount | null;
+  id?: string | null | undefined;
+  account?: UpdateResponseAccount | null | undefined;
   /** Enterprise only. Indicates whether or not API access is enabled specifically for this user on a given account. */
-  apiAccessEnabled?: boolean | null;
+  apiAccessEnabled?: boolean | null | undefined;
   /** All access permissions for the user at the account. */
-  permissions?: GetResponsePermissions | null;
+  permissions?: GetResponsePermissions | null | undefined;
   /** Access policy for the membership */
-  policies?: UpdateResponsePoliciesList | null;
+  policies?: UpdateResponsePoliciesList | null | undefined;
   /** List of role names the membership has for this account. */
-  roles?: UpdateResponseRolesList | null;
+  roles?: UpdateResponseRolesList | null | undefined;
   /** Status of this membership. */
-  status?: UpdateResponseStatus | null;
+  status?: UpdateResponseStatus | null | undefined;
 }
 export type DeleteMembershipError = CloudflareOpError;
 /** Remove the associated member from an account. */

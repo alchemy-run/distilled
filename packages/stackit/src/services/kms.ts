@@ -90,14 +90,14 @@ export interface CreateKeyRequest {
   regionId: CreateKeyRequestRegionId | (string & {});
   /** The key ring UUID. */
   keyRingId: string;
-  access_scope?: AccessScope | (string & {});
+  access_scope?: AccessScope | (string & {}) | undefined;
   algorithm: Algorithm | (string & {});
   /** A user chosen description to distinguish multiple keys. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple keys. Valid characters: letters, digits, underscores and hyphens. */
   displayName: string;
   /** States whether versions can be created or only imported. */
-  importOnly?: boolean;
+  importOnly?: boolean | undefined;
   protection: string;
   purpose: Purpose | (string & {});
 }
@@ -115,9 +115,9 @@ export interface Key {
   /** The date and time the creation of the key was triggered. */
   createdAt: string;
   /** This date is set when a key is pending deletion and refers to the scheduled date of deletion */
-  deletionDate?: string;
+  deletionDate?: string | undefined;
   /** A user chosen description to distinguish multiple keys. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple keys. */
   displayName: string;
   /** A auto generated unique id which identifies the keys. */
@@ -138,7 +138,7 @@ export interface CreateKeyRingRequest {
   /** The STACKIT region name the key ring is located in. */
   regionId: CreateKeyRingRequestRegionId | (string & {});
   /** A user chosen description to distinguish multiple key rings. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple key rings. Valid characters: letters, digits, underscores and hyphens. */
   displayName: string;
 }
@@ -148,7 +148,7 @@ export interface KeyRing {
   /** The date and time the creation of the key ring was triggered. */
   createdAt: string;
   /** A user chosen description to distinguish multiple key rings. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple key rings. */
   displayName: string;
   /** A auto generated unique id which identifies the key ring. */
@@ -176,10 +176,10 @@ export interface CreateWrappingKeyRequest {
   regionId: CreateWrappingKeyRequestRegionId | (string & {});
   /** The key ring UUID. */
   keyRingId: string;
-  access_scope?: AccessScope | (string & {});
+  access_scope?: AccessScope | (string & {}) | undefined;
   algorithm: WrappingAlgorithm | (string & {});
   /** A user chosen description to distinguish multiple wrapping keys. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple wrapping keys. Valid characters: letters, digits, underscores and hyphens. */
   displayName: string;
   protection: string;
@@ -198,7 +198,7 @@ export interface WrappingKey {
   /** The date and time the creation of the wrapping key was triggered. */
   createdAt: string;
   /** A user chosen description to distinguish multiple wrapping keys. */
-  description?: string;
+  description?: string | undefined;
   /** The display name to distinguish multiple wrapping keys. */
   displayName: string;
   /** The date and time the wrapping key will expire. */
@@ -209,7 +209,7 @@ export interface WrappingKey {
   keyRingId: string;
   protection: string;
   /** The public key of the wrapping key. */
-  publicKey?: string;
+  publicKey?: string | undefined;
   purpose: WrappingPurpose;
   /** The current state of the wrapping key. */
   state: WrappingKeyState;
@@ -373,7 +373,7 @@ export interface Version {
   /** The date and time the creation of the key was triggered. */
   createdAt: string;
   /** The scheduled date when a version's key material will be erased completely from the backend */
-  destroyDate?: string;
+  destroyDate?: string | undefined;
   /** States whether versions is enabled or disabled. */
   disabled: boolean;
   /** The unique id of the key this version is assigned to. */
@@ -383,7 +383,7 @@ export interface Version {
   /** A sequential number which identifies the key versions. */
   number: number;
   /** The public key of the key version. Only present in asymmetric keys. */
-  publicKey?: string;
+  publicKey?: string | undefined;
   /** The current state of the key. */
   state: VersionState;
 }

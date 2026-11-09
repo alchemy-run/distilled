@@ -89,7 +89,7 @@ export interface BenignProjectsAlertsRequest {
   /** Required. Name of the alert to mark as a benign. Format: projects/{project}/alerts/{alert} */
   name: string;
   /** Request body */
-  body?: MarkAlertAsBenignRequest;
+  body?: MarkAlertAsBenignRequest | undefined;
 }
 export type StringList = Array<string>;
 export type AlertStateEnum =
@@ -129,11 +129,11 @@ export type SeverityAnalysisSeverityLevelEnum =
 /** Structured severity analysis for a threat. */
 export interface SeverityAnalysis {
   /** Human-readable explanation from the model, detailing why a particular result is considered to have a certain severity. */
-  reasoning?: string;
+  reasoning?: string | undefined;
   /** The level of confidence in the given verdict. */
-  confidence?: SeverityAnalysisConfidenceEnum;
+  confidence?: SeverityAnalysisConfidenceEnum | undefined;
   /** The level of severity. */
-  severityLevel?: SeverityAnalysisSeverityLevelEnum;
+  severityLevel?: SeverityAnalysisSeverityLevelEnum | undefined;
 }
 export type AssociationTypeEnum =
   | "THREAT_INTEL_OBJECT_TYPE_UNSPECIFIED"
@@ -147,9 +147,9 @@ export type AssociationTypeEnum =
 /** Represents an association with a vulnerability. */
 export interface Association {
   /** Required. The ID of the association. */
-  id?: string;
+  id?: string | undefined;
   /** Required. The type of the association. */
-  type?: AssociationTypeEnum;
+  type?: AssociationTypeEnum | undefined;
 }
 export type AssociationList = Array<Association>;
 export type VulnerabilityMatchExploitationStateEnum =
@@ -199,13 +199,13 @@ export type VulnerabilityMatchExploitationConsequencesItemEnumList =
 /** Contains details about a product fix. */
 export interface ProductFix {
   /** Required. The source ID of the fix. Ex: "APPSEC-1420". */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** Required. The name of the fix. Ex: "Magento". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. The published time of the fix. */
-  publishTime?: string;
+  publishTime?: string | undefined;
   /** Optional. The URI of the fix. */
-  uri?: string;
+  uri?: string | undefined;
 }
 export type ProductFixList = Array<ProductFix>;
 export type VulnerabilityMatchRiskRatingEnum =
@@ -231,17 +231,17 @@ export type PublicExploitExploitReliabilityEnum =
 /** Contains details about a public exploit. */
 export interface PublicExploit {
   /** Optional. The size of the exploit. */
-  sizeBytes?: string;
+  sizeBytes?: string | undefined;
   /** Required. The name of the exploit. Ex: "Magentounauth.php.txt". */
-  exploitName?: string;
+  exploitName?: string | undefined;
   /** Optional. The release time of the exploit. */
-  releaseTime?: string;
+  releaseTime?: string | undefined;
   /** Optional. The grade of the exploit. Ex: "non-weaponized". */
-  exploitGrade?: PublicExploitExploitGradeEnum;
+  exploitGrade?: PublicExploitExploitGradeEnum | undefined;
   /** Optional. The URI of the exploit. */
-  uri?: string;
+  uri?: string | undefined;
   /** Optional. The reliability of the exploit. Ex: "Unreviewed". */
-  exploitReliability?: PublicExploitExploitReliabilityEnum;
+  exploitReliability?: PublicExploitExploitReliabilityEnum | undefined;
 }
 export type PublicExploitList = Array<PublicExploit>;
 export type VulnerabilityMatchPriorityEnum =
@@ -254,101 +254,101 @@ export type VulnerabilityMatchPriorityEnum =
 /** Contains details about a vulnerability match. */
 export interface VulnerabilityMatch {
   /** Required. The collection ID of the vulnerability. Ex: "vulnerability--cve-2025-9876". */
-  collectionId?: string;
+  collectionId?: string | undefined;
   /** Optional. The specific technologies from the configured watchlist that triggered the match. Ex: "Apache Struts". */
-  matchedTechnologies?: StringList;
+  matchedTechnologies?: StringList | undefined;
   /** Optional. Associated threat actors, malware, etc. This is embedded as a snapshot because the details of the association at the time of the vulnerability match are important for context and reporting. */
-  associations?: AssociationList;
+  associations?: AssociationList | undefined;
   /** Required. The exploitation state of the vulnerability. */
-  exploitationState?: VulnerabilityMatchExploitationStateEnum;
+  exploitationState?: VulnerabilityMatchExploitationStateEnum | undefined;
   /** Required. A description of the vulnerability. */
-  description?: string;
+  description?: string | undefined;
   /** Required. The CVE ID of the vulnerability. Ex: "CVE-2025-9876". See https://www.cve.org/ for more information. */
-  cveId?: string;
+  cveId?: string | undefined;
   /** Optional. List of exploitation vectors for the vulnerability. */
-  exploitationVectors?: VulnerabilityMatchExploitationVectorsItemEnumList;
+  exploitationVectors?: VulnerabilityMatchExploitationVectorsItemEnumList | undefined;
   /** Optional. List of exploitation consequences for the vulnerability. */
-  exploitationConsequences?: VulnerabilityMatchExploitationConsequencesItemEnumList;
+  exploitationConsequences?: VulnerabilityMatchExploitationConsequencesItemEnumList | undefined;
   /** Required. All technologies affected by the vulnerability. Ex: "Apache Struts". */
-  technologies?: StringList;
+  technologies?: StringList | undefined;
   /** Optional. List of product fixes for the vulnerability. */
-  productFixes?: ProductFixList;
+  productFixes?: ProductFixList | undefined;
   /** Required. The risk rating of the vulnerability. */
-  riskRating?: VulnerabilityMatchRiskRatingEnum;
+  riskRating?: VulnerabilityMatchRiskRatingEnum | undefined;
   /** Optional. List of public exploits. */
-  publicExploits?: PublicExploitList;
+  publicExploits?: PublicExploitList | undefined;
   /** Required. The CVSS score of the vulnerability. Evaluates to CVSS v3 when available with a fallback to v2 and v4. Example: 6.4. */
-  cvss3Score?: number;
+  cvss3Score?: number | undefined;
   /** Output only. Whether a publicly available exploit exists. */
-  publiclyAvailableExploit?: boolean;
+  publiclyAvailableExploit?: boolean | undefined;
   /** Optional. The priority level of the vulnerability data. Ex: "P1". */
-  priority?: VulnerabilityMatchPriorityEnum;
+  priority?: VulnerabilityMatchPriorityEnum | undefined;
   /** Optional. The disclosure time of the vulnerability. */
-  disclosureTime?: string;
+  disclosureTime?: string | undefined;
   /** Optional. The EPSS score, representing the probability of exploitation. Example: 0.87. */
-  epssScore?: number;
+  epssScore?: number | undefined;
 }
 /** Contains details for a technology watchlist alert. */
 export interface TargetTechnologyAlertDetail {
   /** Optional. The vulnerability match details. */
-  vulnerabilityMatch?: VulnerabilityMatch;
+  vulnerabilityMatch?: VulnerabilityMatch | undefined;
 }
 /** Detailed communication context metadata for documents originating from deep and dark web communication channels. */
 export interface CommunicationContext {
   /** Optional. Channel path (e.g. forum path or sub-channel). */
-  channelPath?: string;
+  channelPath?: string | undefined;
   /** Optional. Description of the communication channel. */
-  channelDescription?: string;
+  channelDescription?: string | undefined;
   /** Optional. Name of the communication channel. */
-  channelName?: string;
+  channelName?: string | undefined;
   /** Optional. Conversation thread identifier. */
-  threadId?: string;
+  threadId?: string | undefined;
   /** Optional. URL of the communication channel. */
-  channelUrl?: string;
+  channelUrl?: string | undefined;
   /** Optional. Service from the collection event origin (e.g. forum or chat service name). */
-  serviceName?: string;
+  serviceName?: string | undefined;
 }
 /** Replaces the raw string ID to hold associated metadata. */
 export interface DiscoveryDocument {
   /** Optional. Detailed communication context metadata for documents originating from deep and dark web communication channels. */
-  communicationContext?: CommunicationContext;
+  communicationContext?: CommunicationContext | undefined;
   /** Output only. The identifier of the discovery document. */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Output only. The classification/type of the document (e.g. `COMMUNICATION`, `DDW_COMMUNICATION`, `message`). */
-  documentType?: string;
+  documentType?: string | undefined;
 }
 export type DiscoveryDocumentList = Array<DiscoveryDocument>;
 /** Captures the specific details of InsiderThreat alert. */
 export interface InsiderThreatAlertDetail {
   /** Output only. New structured metadata payload. */
-  discoveryDocuments?: DiscoveryDocumentList;
+  discoveryDocuments?: DiscoveryDocumentList | undefined;
   /** Optional. Deprecated: Use `discovery_documents` instead. Array of ids to accommodate multiple discovery documents. */
-  discoveryDocumentIds?: StringList;
+  discoveryDocumentIds?: StringList | undefined;
   /** Required. The severity of the Insider Threat alert. Allowed values are: * `LOW` * `MEDIUM` * `HIGH` * `CRITICAL` */
-  severity?: string;
+  severity?: string | undefined;
 }
 /** Captures the specific details of InitialAccessBroker (IAB) alert. */
 export interface InitialAccessBrokerAlertDetail {
   /** Required. The severity of the Initial Access Broker (IAB) alert. Allowed values are: * `LOW` * `MEDIUM` * `HIGH` * `CRITICAL` */
-  severity?: string;
+  severity?: string | undefined;
   /** Optional. Deprecated: Use `discovery_documents` instead. Array of ids to accommodate multiple discovery documents. */
-  discoveryDocumentIds?: StringList;
+  discoveryDocumentIds?: StringList | undefined;
   /** Output only. New structured metadata payload. */
-  discoveryDocuments?: DiscoveryDocumentList;
+  discoveryDocuments?: DiscoveryDocumentList | undefined;
 }
 /** Threat attribution information (actor, campaign, etc.). */
 export interface ThreatAttributionDetails {
   /** Optional. The threat collections detected. */
-  collections?: StringList;
+  collections?: StringList | undefined;
   /** Optional. The malware associated with the threat. */
-  malware?: StringList;
+  malware?: StringList | undefined;
   /** Optional. The threat actors associated with the target. */
-  actors?: StringList;
+  actors?: StringList | undefined;
 }
 /** Details specific to a monitored domain. */
 export interface DomainMonitoringDomainDetails {
   /** Required. The domain name to match against. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export type DomainMonitoringGtiDetailsVerdictEnum =
   | "DOMAIN_MONITORING_GTI_VERDICT_UNSPECIFIED"
@@ -360,159 +360,159 @@ export type DomainMonitoringGtiDetailsVerdictEnum =
 /** Details about the detection vendors. */
 export interface AVDetections {
   /** Optional. Total number of vendors. */
-  totalVendorCount?: number;
+  totalVendorCount?: number | undefined;
   /** Optional. Number of vendors that detected the threat. */
-  detectedVendorCount?: number;
+  detectedVendorCount?: number | undefined;
 }
 /** The GTI details of the domain. */
 export interface DomainMonitoringGtiDetails {
   /** Optional. The permutation technique used for the domain (e.g., dictionary, homoglyph). */
-  domainPermutation?: string;
+  domainPermutation?: string | undefined;
   /** Output only. The verdict of the domain. */
-  verdict?: DomainMonitoringGtiDetailsVerdictEnum;
+  verdict?: DomainMonitoringGtiDetailsVerdictEnum | undefined;
   /** Optional. The threat classification of the domain, obtained from the domain report (e.g. DomainMonitoring). */
-  threatClassification?: string;
+  threatClassification?: string | undefined;
   /** Optional. The GTI link for the domain. */
-  gtiDomainUri?: string;
+  gtiDomainUri?: string | undefined;
   /** Optional. The GTI score of the domain. The threat score is a number between 0 and 100. */
-  gtiScore?: number;
+  gtiScore?: number | undefined;
   /** Optional. Detection counts across vendor feeds. */
-  avDetections?: AVDetections;
+  avDetections?: AVDetections | undefined;
 }
 /** Related entities and domains observed for the target. */
 export interface Relationships {
   /** Optional. Related URLs associated with the domain. */
-  relatedUrls?: StringList;
+  relatedUrls?: StringList | undefined;
   /** Optional. Sibling domains sharing the same IP address. */
-  siblingDomains?: StringList;
+  siblingDomains?: StringList | undefined;
   /** Optional. Subdomains associated with the target domain or URL. */
-  subdomains?: StringList;
+  subdomains?: StringList | undefined;
 }
 /** The DNS record of the domain. */
 export interface DomainMonitoringDnsRecord {
   /** Optional. The value of the DNS record. */
-  recordData?: string;
+  recordData?: string | undefined;
   /** Optional. The type of the DNS record. */
-  type?: string;
+  type?: string | undefined;
   /** Optional. The region code associated with the resolved IP. Use ISO 3166-1 alpha-2 codes. */
-  ipRegionCode?: string;
+  ipRegionCode?: string | undefined;
   /** Optional. The region code of the ASN. Use ISO 3166-1 alpha-2 codes. */
-  asnRegionCode?: string;
+  asnRegionCode?: string | undefined;
   /** Optional. The TTL of the DNS record. */
-  ttl?: number;
+  ttl?: number | undefined;
   /** Optional. The ASN hosting the domain. */
-  asnHosting?: string;
+  asnHosting?: string | undefined;
   /** Optional. The resolved IP address. */
-  resolvedIp?: string;
+  resolvedIp?: string | undefined;
 }
 export type DomainMonitoringDnsRecordList = Array<DomainMonitoringDnsRecord>;
 /** The DNS details of the domain. */
 export interface DomainMonitoringDnsDetails {
   /** Optional. The DNS records of the domain. */
-  dnsRecords?: DomainMonitoringDnsRecordList;
+  dnsRecords?: DomainMonitoringDnsRecordList | undefined;
   /** Optional. The time the DNS details were retrieved. */
-  retrievalTime?: string;
+  retrievalTime?: string | undefined;
 }
 /** The whois details of the domain. */
 export interface DomainMonitoringWhoIsDetails {
   /** Optional. The time the whois details were retrieved. */
-  retrievalTime?: string;
+  retrievalTime?: string | undefined;
   /** Optional. The whois details of the domain. */
-  whois?: string;
+  whois?: string | undefined;
 }
 /** Details regarding the SSL certificate configuration. */
 export interface CertificateDetails {
   /** Optional. The SSL subject alternative names. */
-  subjectAlternativeNames?: StringList;
+  subjectAlternativeNames?: StringList | undefined;
   /** Optional. The SSL certificate issuer. */
-  issuer?: string;
+  issuer?: string | undefined;
 }
 /** Core infrastructure observations associated with the URL or Domain. */
 export interface Infrastructure {
   /** Optional. The raw URL response string. */
-  urlResponse?: string;
+  urlResponse?: string | undefined;
   /** Optional. SSL certificate details. */
-  certificateDetails?: CertificateDetails;
+  certificateDetails?: CertificateDetails | undefined;
 }
 /** Extracted WHOIS and DNS registration details of the domain. */
 export interface DnsRegistrationDetails {
   /** Optional. The country code of the registrant (e.g., US). Use ISO 3166-1 alpha-2 codes */
-  registrantCountry?: string;
+  registrantCountry?: string | undefined;
   /** Optional. The registrar where the domain was registered (e.g., NameCheap). */
-  registrar?: string;
+  registrar?: string | undefined;
   /** Optional. The specific timestamp when the current domain registration expires. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Optional. Indicates whether private registration is enabled on the WHOIS record. */
-  privateRegistration?: boolean;
+  privateRegistration?: boolean | undefined;
   /** Optional. The specific timestamp when the domain registration was created. */
-  registrationTime?: string;
+  registrationTime?: string | undefined;
 }
 /** Details specific to a monitored URL. */
 export interface DomainMonitoringUrlDetails {
   /** Required. The URL to match against. */
-  url?: string;
+  url?: string | undefined;
 }
 /** A detailed object for a Domain or URL alert. */
 export interface DomainMonitoringAlertDetail {
   /** Optional. The threat attribution details of the domain or URL. */
-  threatAttributionDetails?: ThreatAttributionDetails;
+  threatAttributionDetails?: ThreatAttributionDetails | undefined;
   /** The protected domain that triggered the alert. */
-  protectedDomain?: DomainMonitoringDomainDetails;
+  protectedDomain?: DomainMonitoringDomainDetails | undefined;
   /** The protected brand name that triggered the alert. */
-  protectedBrand?: string;
+  protectedBrand?: string | undefined;
   /** Optional. The GTI details of the domain or URL. */
-  gtiDetails?: DomainMonitoringGtiDetails;
+  gtiDetails?: DomainMonitoringGtiDetails | undefined;
   /** Optional. The matched domain. */
-  matchedDomain?: string;
+  matchedDomain?: string | undefined;
   /** Optional. The relationships of the domain or URL. */
-  relationships?: Relationships;
+  relationships?: Relationships | undefined;
   /** Optional. The DNS details of the domain or URL. */
-  dnsDetails?: DomainMonitoringDnsDetails;
+  dnsDetails?: DomainMonitoringDnsDetails | undefined;
   /** Details specific to a monitored domain. */
-  domainDetails?: DomainMonitoringDomainDetails;
+  domainDetails?: DomainMonitoringDomainDetails | undefined;
   /** Optional. The whois details of the domain or URL. */
-  whoisDetails?: DomainMonitoringWhoIsDetails;
+  whoisDetails?: DomainMonitoringWhoIsDetails | undefined;
   /** Optional. The infrastructure of the domain or URL. */
-  infrastructure?: Infrastructure;
+  infrastructure?: Infrastructure | undefined;
   /** Optional. Extracted WHOIS and DNS registration details. */
-  registrationDetails?: DnsRegistrationDetails;
+  registrationDetails?: DnsRegistrationDetails | undefined;
   /** Details specific to a monitored URL. */
-  urlDetails?: DomainMonitoringUrlDetails;
+  urlDetails?: DomainMonitoringUrlDetails | undefined;
 }
 /** Captures the specific details of Data Leak alert. */
 export interface DataLeakAlertDetail {
   /** Optional. Deprecated: Use `discovery_documents` instead. Array of ids to accommodate multiple discovery documents. */
-  discoveryDocumentIds?: StringList;
+  discoveryDocumentIds?: StringList | undefined;
   /** Output only. New structured metadata payload. */
-  discoveryDocuments?: DiscoveryDocumentList;
+  discoveryDocuments?: DiscoveryDocumentList | undefined;
   /** Required. The severity of the Data Leak alert. Allowed values are: * `LOW` * `MEDIUM` * `HIGH` * `CRITICAL` */
-  severity?: string;
+  severity?: string | undefined;
 }
 /** Container for different types of alert details. */
 export interface AlertDetail {
   /** Output only. Name of the detail type. Will be set by the server during creation to the name of the field that is set in the detail union. */
-  detailType?: string;
+  detailType?: string | undefined;
   /** Technology Watchlist alert detail type. */
-  targetTechnology?: TargetTechnologyAlertDetail;
+  targetTechnology?: TargetTechnologyAlertDetail | undefined;
   /** Insider Threat alert detail type. */
-  insiderThreat?: InsiderThreatAlertDetail;
+  insiderThreat?: InsiderThreatAlertDetail | undefined;
   /** Initial Access Broker alert detail type. */
-  initialAccessBroker?: InitialAccessBrokerAlertDetail;
+  initialAccessBroker?: InitialAccessBrokerAlertDetail | undefined;
   /** Domain Monitoring alert detail type. */
-  domainMonitoring?: DomainMonitoringAlertDetail;
+  domainMonitoring?: DomainMonitoringAlertDetail | undefined;
   /** Data Leak alert detail type. */
-  dataLeak?: DataLeakAlertDetail;
+  dataLeak?: DataLeakAlertDetail | undefined;
 }
 /** Tracks basic CRUD facts. */
 export interface Audit {
   /** Output only. Agent that created or updated the record, could be a UserId or a JobId. */
-  creator?: string;
+  creator?: string | undefined;
   /** Output only. Agent that last updated the record, could be a UserId or a JobId. */
-  updater?: string;
+  updater?: string | undefined;
   /** Output only. Time of creation or last update. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Time of creation. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export type PriorityAnalysisPriorityLevelEnum =
   | "PRIORITY_LEVEL_UNSPECIFIED"
@@ -528,11 +528,11 @@ export type PriorityAnalysisConfidenceEnum =
 /** Structured priority analysis for a threat. */
 export interface PriorityAnalysis {
   /** The level of Priority. */
-  priorityLevel?: PriorityAnalysisPriorityLevelEnum;
+  priorityLevel?: PriorityAnalysisPriorityLevelEnum | undefined;
   /** The level of confidence in the given verdict. */
-  confidence?: PriorityAnalysisConfidenceEnum;
+  confidence?: PriorityAnalysisConfidenceEnum | undefined;
   /** Human-readable explanation from the model, detailing why a particular result is considered to have a certain priority. */
-  reasoning?: string;
+  reasoning?: string | undefined;
 }
 export type RelevanceAnalysisRelevanceLevelEnum =
   | "RELEVANCE_LEVEL_UNSPECIFIED"
@@ -547,105 +547,105 @@ export type RelevanceAnalysisConfidenceEnum =
 /** Details the evidence used to determine the relevance verdict. */
 export interface Evidence {
   /** A list of semantic themes or concepts found to be common, related, or aligned between the sources, supporting the verdict. */
-  commonThemes?: StringList;
+  commonThemes?: StringList | undefined;
   /** A list of semantic themes or descriptions unique to one source or semantically distant. */
-  distinctThemes?: StringList;
+  distinctThemes?: StringList | undefined;
 }
 /** Structured relevance analysis for a threat. */
 export interface RelevanceAnalysis {
   /** Human-readable explanation from the matcher, detailing why a particular result is considered relevant or not relevant. */
-  reasoning?: string;
+  reasoning?: string | undefined;
   /** The level of relevance. */
-  relevanceLevel?: RelevanceAnalysisRelevanceLevelEnum;
+  relevanceLevel?: RelevanceAnalysisRelevanceLevelEnum | undefined;
   /** Indicates whether the threat is considered relevant. */
-  relevant?: boolean;
+  relevant?: boolean | undefined;
   /** The level of confidence in the given verdict. */
-  confidence?: RelevanceAnalysisConfidenceEnum;
+  confidence?: RelevanceAnalysisConfidenceEnum | undefined;
   /** Evidence supporting the verdict, including matched and unmatched items. */
-  evidence?: Evidence;
+  evidence?: Evidence | undefined;
 }
 /** Stateful object representing a group of Findings. Key feature to an Alert is that it expresses the user's intent towards the findings of that group, even those that haven't occurred yet. */
 export interface Alert {
   /** Output only. Findings that are covered by this alert. */
-  findings?: StringList;
+  findings?: StringList | undefined;
   /** Output only. External ID for the alert. This is used internally to provide protection against out of order updates. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Optional. AI summary of the alert. */
-  aiSummary?: string;
+  aiSummary?: string | undefined;
   /** Output only. State of the alert. */
-  state?: AlertStateEnum;
+  state?: AlertStateEnum | undefined;
   /** Output only. System taxonomy tags associated with this alert. */
-  tags?: AlertTagsItemEnumList;
+  tags?: AlertTagsItemEnumList | undefined;
   /** Output only. High-Precision Severity Analysis for the alert. */
-  severityAnalysis?: SeverityAnalysis;
+  severityAnalysis?: SeverityAnalysis | undefined;
   /** Identifier. Server generated name for the alert. format is projects/{project}/alerts/{alert} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Details object for the alert, not all alerts will have a details object. */
-  detail?: AlertDetail;
+  detail?: AlertDetail | undefined;
   /** Output only. alert name of the alert this alert is a duplicate of. Format: projects/{project}/alerts/{alert} */
-  duplicateOf?: string;
+  duplicateOf?: string | undefined;
   /** Output only. Audit information for the alert. */
-  audit?: Audit;
+  audit?: Audit | undefined;
   /** Output only. The resource names of the Configurations bound to this alert. Format: projects/{project}/configurations/{configuration} */
-  configurations?: StringList;
+  configurations?: StringList | undefined;
   /** Output only. alert names of the alerts that are duplicates of this alert. Format: projects/{project}/alerts/{alert} */
-  duplicatedBy?: StringList;
+  duplicatedBy?: StringList | undefined;
   /** Output only. The number of findings associated with this alert. */
-  findingCount?: string;
+  findingCount?: string | undefined;
   /** Output only. High-Precision Priority Analysis for the alert. */
-  priorityAnalysis?: PriorityAnalysis;
+  priorityAnalysis?: PriorityAnalysis | undefined;
   /** Output only. High-Precision Relevance Analysis verdict for the alert. */
-  relevanceAnalysis?: RelevanceAnalysis;
+  relevanceAnalysis?: RelevanceAnalysis | undefined;
   /** Optional. If included when updating an alert, this should be set to the current etag of the alert. If the etags do not match, the update will be rejected and an ABORTED error will be returned. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. A short title for the alert. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 /** Request message for MarkAlertAsDuplicate. */
 export interface MarkAlertAsDuplicateRequest {
   /** Optional. Name of the alert to mark as a duplicate of. Format: projects/{project}/alerts/{alert} */
-  duplicateOf?: string;
+  duplicateOf?: string | undefined;
 }
 export interface DuplicateProjectsAlertsRequest {
   /** Required. Name of the alert to mark as a duplicate. Format: projects/{project}/alerts/{alert} */
   name: string;
   /** Request body */
-  body?: MarkAlertAsDuplicateRequest;
+  body?: MarkAlertAsDuplicateRequest | undefined;
 }
 export interface EnumerateFacetsProjectsAlertsRequest {
   /** Required. Parent of the alerts. */
   parent: string;
   /** Optional. Filter on what alerts will be enumerated. */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** FacetCount represents a count of records with each facet value. */
 export interface FacetCount {
   /** Value of the facet stringified. Timestamps will be formatted using RFC3339. */
-  value?: string;
+  value?: string | undefined;
   /** Count of records with the value. */
-  count?: number;
+  count?: number | undefined;
 }
 export type FacetCountList = Array<FacetCount>;
 /** Facet represents a sub element of a resource for filtering. The results from this method are used to populate the filterable facets in the UI. */
 export interface Facet {
   /** Name of the facet. This is also the string that needs to be used in the filtering expression. */
-  facet?: string;
+  facet?: string | undefined;
   /** Min value of the facet stringified based on type. This is only populated for facets that have a clear ordering, for types like enum it will be left empty. Timestamps will be formatted using RFC3339. */
-  minValue?: string;
+  minValue?: string | undefined;
   /** List of counts for the facet (if categorical). */
-  facetCounts?: FacetCountList;
+  facetCounts?: FacetCountList | undefined;
   /** Max value of the facet stringified based on type. Will be populated and formatted the same as min_value. */
-  maxValue?: string;
+  maxValue?: string | undefined;
   /** Total number of records that contain this facet with ANY value. */
-  totalCount?: string;
+  totalCount?: string | undefined;
   /** The type of the facet. Options include "string", "int", "float", "bool", "enum", "timestamp", "user" and are useful to show the right sort of UI controls when building a AIP-160 style filtering string. */
-  facetType?: string;
+  facetType?: string | undefined;
 }
 export type FacetList = Array<Facet>;
 /** Response message for EnumerateAlertFacets. */
 export interface EnumerateAlertFacetsResponse {
   /** List of facets and the counts. */
-  facets?: FacetList;
+  facets?: FacetList | undefined;
 }
 /** Request message for MarkAlertAsEscalated. */
 export type MarkAlertAsEscalatedRequest = MarkAlertAsBenignRequest;
@@ -653,7 +653,7 @@ export interface EscalateProjectsAlertsRequest {
   /** Required. Name of the alert to mark as escalated. Format: projects/{project}/alerts/{alert} */
   name: string;
   /** Request body */
-  body?: MarkAlertAsBenignRequest;
+  body?: MarkAlertAsBenignRequest | undefined;
 }
 /** Request message for MarkAlertAsFalsePositive. */
 export type MarkAlertAsFalsePositiveRequest = MarkAlertAsBenignRequest;
@@ -661,44 +661,44 @@ export interface FalsePositiveProjectsAlertsRequest {
   /** Required. Name of the alert to mark as a false positive. Format: projects/{project}/alerts/{alert} */
   name: string;
   /** Request body */
-  body?: MarkAlertAsBenignRequest;
+  body?: MarkAlertAsBenignRequest | undefined;
 }
 /** Request message for GenerateOrgProfileConfiguration. */
 export interface GenerateOrgProfileConfigurationRequest {
   /** Required. The display name of the organization to generate the profile for. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. The domain of the organization to generate the profile for. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export interface GenerateOrgProfileProjectsRequest {
   /** Required. The name of the project to generate the profile for. Format: projects/{project} */
   name: string;
   /** Request body */
-  body?: GenerateOrgProfileConfigurationRequest;
+  body?: GenerateOrgProfileConfigurationRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export interface GetPasswordProjectsAlertsRequest {
   /** Required. Name of the alert to get password for. Format: projects/{project}/alerts/{alert} */
@@ -707,7 +707,7 @@ export interface GetPasswordProjectsAlertsRequest {
 /** Response message for GetPassword. */
 export interface GetPasswordResponse {
   /** The decrypted cleartext password for the compromised credential. */
-  password?: string;
+  password?: string | undefined;
 }
 export interface GetProjectsAlertsRequest {
   /** Required. Name of the alert to get. Format: projects/{project}/alerts/{alert} */
@@ -720,38 +720,38 @@ export interface GetProjectsAlertsDocumentsRequest {
 /** The translation of an alert document. */
 export interface AlertDocumentTranslation {
   /** Output only. The translated content of the document. */
-  translatedContent?: string;
+  translatedContent?: string | undefined;
   /** Output only. The translated title of the document. */
-  translatedTitle?: string;
+  translatedTitle?: string | undefined;
 }
 /** A document that is associated with an alert. */
 export interface AlertDocument {
   /** Output only. Time when the origin source collected the intel. */
-  collectionTime?: string;
+  collectionTime?: string | undefined;
   /** Output only. Source of the intel item, e.g. DarkMarket. */
-  source?: string;
+  source?: string | undefined;
   /** Output only. The translation of the document, if available. */
-  translation?: AlertDocumentTranslation;
+  translation?: AlertDocumentTranslation | undefined;
   /** Output only. The language code of the document. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Output only. Time when GTI received the intel. */
-  ingestTime?: string;
+  ingestTime?: string | undefined;
   /** Output only. AI summary of the document. */
-  aiSummary?: string;
+  aiSummary?: string | undefined;
   /** Output only. Time when the intel was last updated by the source. */
-  sourceUpdateTime?: string;
+  sourceUpdateTime?: string | undefined;
   /** Output only. The timestamp of the original external publication of the document. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Identifier. Server generated name for the alert document. format is projects/{project}/alerts/{alert}/documents/{document} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. URI of the intel item from the source. */
-  sourceUri?: string;
+  sourceUri?: string | undefined;
   /** Output only. The content of the document. */
-  content?: string;
+  content?: string | undefined;
   /** Output only. The title of the document, if available. */
-  title?: string;
+  title?: string | undefined;
   /** Output only. The author of the document. */
-  author?: string;
+  author?: string | undefined;
 }
 export interface GetProjectsConfigurationsRequest {
   /** Required. Name of the configuration to get. Format: vaults/{vault}/configurations/{configuration} */
@@ -761,45 +761,45 @@ export type ConfigurationStateEnum = "STATE_UNSPECIFIED" | "ENABLED" | "DISABLED
 /** Legacy metadata associated with this scenario/monitor. */
 export interface LegacyMetadata {
   /** Output only. Deprecated: Whether email notifications are intermediate/immediate. This field will not be used as email notifications are handled through the GTI Mail Hub. */
-  emailNotificationImmediate?: boolean;
+  emailNotificationImmediate?: boolean | undefined;
   /** Output only. Unique identifier of the legacy monitor. */
-  legacyMonitorId?: string;
+  legacyMonitorId?: string | undefined;
   /** Output only. Description of the legacy monitor. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Version of the monitor configuration. */
-  version?: number;
+  version?: number | undefined;
   /** Output only. Code indicating why the monitor is disabled (if applicable). */
-  disabledCode?: string;
+  disabledCode?: string | undefined;
   /** Output only. ID of the template this monitor was created from. */
-  templateId?: string;
+  templateId?: string | undefined;
   /** Output only. Whether aggregation is enabled for alerts from this monitor. */
-  aggregationEnabled?: boolean;
+  aggregationEnabled?: boolean | undefined;
   /** Output only. Deprecated: Whether email notifications are enabled. This field will not be used as email notifications are handled through the GTI Mail Hub. */
-  emailNotificationEnabled?: boolean;
+  emailNotificationEnabled?: boolean | undefined;
   /** Output only. User ID who last updated the monitor. */
-  updaterUserId?: string;
+  updaterUserId?: string | undefined;
   /** Output only. Time the legacy monitor was considered stale. */
-  staleTime?: string;
+  staleTime?: string | undefined;
   /** Output only. Similarity threshold for aggregation. */
-  aggregationSimilarity?: number;
+  aggregationSimilarity?: number | undefined;
   /** Output only. Version of the condition schema. */
-  conditionVersion?: number;
+  conditionVersion?: number | undefined;
   /** Output only. Name of the legacy monitor. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. User ID who created the monitor. */
-  creatorUserId?: string;
+  creatorUserId?: string | undefined;
   /** Output only. Reason why the monitor is disabled (if applicable). */
-  disabledReason?: string;
+  disabledReason?: string | undefined;
   /** Output only. ID of the tenant owning the monitor. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export type DocumentQueryQueryTypeEnum = "QUERY_TYPE_UNSPECIFIED" | "JSON" | "STRING";
 /** Represents a query to match documents. */
 export interface DocumentQuery {
   /** Required. The type of query. */
-  queryType?: DocumentQueryQueryTypeEnum | (string & {});
+  queryType?: DocumentQueryQueryTypeEnum | (string & {}) | undefined;
   /** Required. The query string. */
-  query?: string;
+  query?: string | undefined;
 }
 export type CustomThreatScenarioConfigScenarioTypeEnum =
   | "CUSTOM_THREAT_SCENARIO_TYPE_UNSPECIFIED"
@@ -815,213 +815,213 @@ export type CustomThreatScenarioConfigScenarioTypeEnum =
 /** CustomThreatScenarioConfig represents a user-defined threat scenario configuration. */
 export interface CustomThreatScenarioConfig {
   /** Output only. The compiled Lucene query string. */
-  compiledLuceneQuery?: string;
+  compiledLuceneQuery?: string | undefined;
   /** Required. The condition driving the scenario, stored as a stringified JSON. This is used to query/filter documents. */
-  documentCondition?: string;
+  documentCondition?: string | undefined;
   /** Output only. Legacy metadata associated with this scenario/monitor. */
-  legacyMonitorMetadata?: LegacyMetadata;
+  legacyMonitorMetadata?: LegacyMetadata | undefined;
   /** Optional. The query used to match documents. */
-  documentQuery?: DocumentQuery;
+  documentQuery?: DocumentQuery | undefined;
   /** Optional. The custom threat scenario type used to create this configuration. */
-  scenarioType?: CustomThreatScenarioConfigScenarioTypeEnum | (string & {});
+  scenarioType?: CustomThreatScenarioConfigScenarioTypeEnum | (string & {}) | undefined;
 }
 /** A Domain Monitoring "domain" */
 export interface DomainMonitoringDomain {
   /** The domain name to match against. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export type DomainMonitoringDomainList = Array<DomainMonitoringDomain>;
 /** Any account-level configuration options will go here. */
 export interface DomainMonitoringConfig {
   /** The domains to use as "seeds" for Suspicious Domain Monitoring. */
-  domains?: DomainMonitoringDomainList;
+  domains?: DomainMonitoringDomainList | undefined;
 }
 /** Specific configuration for the Domain Monitoring feature. */
 export interface DomainMonitoringFeatureConfig {
   /** Optional. Whether the Domain Monitoring feature is disabled for the domain. */
-  disabled?: boolean;
+  disabled?: boolean | undefined;
 }
 export type DomainSettingStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "VERIFIED";
 /** Feature settings and toggles for a single specific domain. */
 export interface DomainSetting {
   /** Optional. If not present, Domain Monitoring is enabled. */
-  domainMonitoringConfig?: DomainMonitoringFeatureConfig;
+  domainMonitoringConfig?: DomainMonitoringFeatureConfig | undefined;
   /** Required. The domain name to match against. */
-  domain?: string;
+  domain?: string | undefined;
   /** Output only. The verification state of the domain. */
-  state?: DomainSettingStateEnum | (string & {});
+  state?: DomainSettingStateEnum | (string & {}) | undefined;
 }
 export type DomainSettingList = Array<DomainSetting>;
 /** Configuration holding settings for one or more monitored domains. */
 export interface DomainConfiguration {
   /** Optional. A list of settings for individual domains. */
-  domainSettings?: DomainSettingList;
+  domainSettings?: DomainSettingList | undefined;
 }
 /** Web presence information for the customer profile. */
 export interface CustomerProfileWebPresence {
   /** Optional. The citation ids for the web presence. */
-  citationIds?: StringList;
+  citationIds?: StringList | undefined;
   /** Required. The domain name of the web presence. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export type CustomerProfileWebPresenceList = Array<CustomerProfileWebPresence>;
 /** Product information for the customer profile. */
 export interface CustomerProfileProduct {
   /** Required. The brand of the product. */
-  brand?: string;
+  brand?: string | undefined;
   /** Optional. The citation ids for the product. */
-  citationIds?: StringList;
+  citationIds?: StringList | undefined;
   /** Required. The name of the product. */
-  product?: string;
+  product?: string | undefined;
 }
 export type CustomerProfileProductList = Array<CustomerProfileProduct>;
 /** Contact information for the customer profile. */
 export interface CustomerProfileContactInfo {
   /** The email address of the contact. */
-  email?: string;
+  email?: string | undefined;
   /** Optional. The citation ids for the contact information. */
-  citationIds?: StringList;
+  citationIds?: StringList | undefined;
   /** The other contact information. */
-  other?: string;
+  other?: string | undefined;
   /** The address of the contact. */
-  address?: string;
+  address?: string | undefined;
   /** Optional. The name of the contact. */
-  label?: string;
+  label?: string | undefined;
   /** The phone number of the contact. */
-  phone?: string;
+  phone?: string | undefined;
 }
 export type CustomerProfileContactInfoList = Array<CustomerProfileContactInfo>;
 /** Industry information for the customer profile. */
 export interface CustomerProfileIndustry {
   /** Required. The name of the industry. */
-  industry?: string;
+  industry?: string | undefined;
   /** Optional. The citation ids for the industry. */
-  citationIds?: StringList;
+  citationIds?: StringList | undefined;
 }
 export type CustomerProfileIndustryList = Array<CustomerProfileIndustry>;
 /** Company information for the customer profile. */
 export interface CustomerProfileCompany {
   /** Required. The name of the company. */
-  company?: string;
+  company?: string | undefined;
   /** Optional. The citation ids for the company. */
-  citationIds?: StringList;
+  citationIds?: StringList | undefined;
 }
 export type CustomerProfileCompanyList = Array<CustomerProfileCompany>;
 /** A string with citation ids. */
 export interface CustomerProfileCitedString {
   /** Optional. The citation ids for the string. */
-  citationIds?: StringList;
+  citationIds?: StringList | undefined;
   /** Required. The value of the string. */
-  value?: string;
+  value?: string | undefined;
 }
 /** A summarized version of the customer profile. Generated by the backend. */
 export interface CustomerProfileSummary {
   /** Optional. The industry the customer is in. */
-  industry?: CustomerProfileCitedString;
+  industry?: CustomerProfileCitedString | undefined;
   /** Optional. The headquarters of the customer. */
-  headquarters?: CustomerProfileCitedString;
+  headquarters?: CustomerProfileCitedString | undefined;
   /** Optional. The date the customer was founded. */
-  founded?: CustomerProfileCitedString;
+  founded?: CustomerProfileCitedString | undefined;
   /** Optional. A narrative summary of products. */
-  productsSummary?: CustomerProfileCitedString;
+  productsSummary?: CustomerProfileCitedString | undefined;
   /** Optional. A narrative summary of key people. */
-  keyPeopleSummary?: CustomerProfileCitedString;
+  keyPeopleSummary?: CustomerProfileCitedString | undefined;
   /** Optional. The primary website of the customer. */
-  primaryWebsite?: CustomerProfileCitedString;
+  primaryWebsite?: CustomerProfileCitedString | undefined;
   /** Optional. The official name of the customer. */
-  title?: CustomerProfileCitedString;
+  title?: CustomerProfileCitedString | undefined;
   /** Optional. A narrative summary of services. */
-  servicesSummary?: CustomerProfileCitedString;
+  servicesSummary?: CustomerProfileCitedString | undefined;
   /** Optional. The entity type of the customer. */
-  entityType?: CustomerProfileCitedString;
+  entityType?: CustomerProfileCitedString | undefined;
   /** Optional. The parent company of the customer. */
-  parentCompany?: CustomerProfileCitedString;
+  parentCompany?: CustomerProfileCitedString | undefined;
   /** Optional. The area the customer serves. */
-  areaServed?: CustomerProfileCitedString;
+  areaServed?: CustomerProfileCitedString | undefined;
   /** Optional. A narrative summary of brands. */
-  brands?: CustomerProfileCitedString;
+  brands?: CustomerProfileCitedString | undefined;
 }
 /** Security considerations for the customer profile. */
 export interface CustomerProfileSecurityConsiderations {
   /** Optional. A note about the security considerations. */
-  note?: string;
+  note?: string | undefined;
   /** Optional. A series of considerations for the security of the organization, such as "high risk of compromise" or "vulnerable to cyberbullying". */
-  considerations?: StringList;
+  considerations?: StringList | undefined;
 }
 /** Location information for the customer profile. */
 export interface CustomerProfileLocation {
   /** Required. The brand of the location. */
-  brand?: string;
+  brand?: string | undefined;
   /** Optional. The type of location. */
-  facilityType?: string;
+  facilityType?: string | undefined;
   /** Required. The address of the location. */
-  address?: string;
+  address?: string | undefined;
   /** Optional. The citation ids for the location. */
-  citationIds?: StringList;
+  citationIds?: StringList | undefined;
 }
 export type CustomerProfileLocationList = Array<CustomerProfileLocation>;
 /** Person information for the customer profile. */
 export interface CustomerProfilePerson {
   /** Optional. The citation ids for the person. */
-  citationIds?: StringList;
+  citationIds?: StringList | undefined;
   /** Optional. The title of the person. */
-  title?: string;
+  title?: string | undefined;
   /** Required. The name of the person. */
-  name?: string;
+  name?: string | undefined;
 }
 export type CustomerProfilePersonList = Array<CustomerProfilePerson>;
 /** Citation information for the customer profile. */
 export interface CustomerProfileCitation {
   /** The time the citation was retrieved. */
-  retrievalTime?: string;
+  retrievalTime?: string | undefined;
   /** Required. The citation id for the citation. Should be unique within the profile. */
-  citationId?: string;
+  citationId?: string | undefined;
   /** Optional. The url of the citation. */
-  uri?: string;
+  uri?: string | undefined;
   /** Required. The name of the document the citation is from. */
-  document?: string;
+  document?: string | undefined;
   /** Required. The source of the citation. */
-  source?: string;
+  source?: string | undefined;
 }
 export type CustomerProfileCitationList = Array<CustomerProfileCitation>;
 /** Technology information for the customer profile. */
 export interface CustomerProfileTechnology {
   /** Optional. The citation ids for the technology. */
-  citationIds?: StringList;
+  citationIds?: StringList | undefined;
   /** Required. The name of the technology. */
-  technology?: string;
+  technology?: string | undefined;
 }
 export type CustomerProfileTechnologyList = Array<CustomerProfileTechnology>;
 /** CustomerProfileConfig is the configuration for the customer profile. */
 export interface CustomerProfileConfig {
   /** Optional. A summary of the organization. */
-  orgSummary?: string;
+  orgSummary?: string | undefined;
   /** Optional. Web presence of the organization. */
-  webPresences?: CustomerProfileWebPresenceList;
+  webPresences?: CustomerProfileWebPresenceList | undefined;
   /** Optional. Product information for the organization. */
-  products?: CustomerProfileProductList;
+  products?: CustomerProfileProductList | undefined;
   /** Optional. Contact information for the organization. */
-  contactInfo?: CustomerProfileContactInfoList;
+  contactInfo?: CustomerProfileContactInfoList | undefined;
   /** Optional. The industries the organization is involved in. */
-  industries?: CustomerProfileIndustryList;
+  industries?: CustomerProfileIndustryList | undefined;
   /** Required. The name of the organization. */
-  org?: string;
+  org?: string | undefined;
   /** Optional. The parent companies of the organization. */
-  parentCompanies?: CustomerProfileCompanyList;
+  parentCompanies?: CustomerProfileCompanyList | undefined;
   /** Optional. A summarized version of the customer profile. */
-  summary?: CustomerProfileSummary;
+  summary?: CustomerProfileSummary | undefined;
   /** Optional. Security considerations for the organization. */
-  securityConsiderations?: CustomerProfileSecurityConsiderations;
+  securityConsiderations?: CustomerProfileSecurityConsiderations | undefined;
   /** Optional. Locations the organization is present or conducts business in. */
-  locations?: CustomerProfileLocationList;
+  locations?: CustomerProfileLocationList | undefined;
   /** Optional. Executives of the organization. */
-  executives?: CustomerProfilePersonList;
+  executives?: CustomerProfilePersonList | undefined;
   /** Optional. Technology presence of the organization. */
-  technologyPresence?: string;
+  technologyPresence?: string | undefined;
   /** Optional. Citations for the organization profile. */
-  citations?: CustomerProfileCitationList;
+  citations?: CustomerProfileCitationList | undefined;
   /** Optional. Technologies associated with the organization. */
-  technologies?: CustomerProfileTechnologyList;
+  technologies?: CustomerProfileTechnologyList | undefined;
 }
 export type TechnologyWatchListAlertThresholdRiskRatingMinimumEnum =
   | "RISK_RATING_UNSPECIFIED"
@@ -1050,58 +1050,64 @@ export type TechnologyWatchListAlertThresholdExploitationStatesItemEnumList = Ar
 /** TechnologyWatchListAlertThreshold contains the thresholds for alerting. */
 export interface TechnologyWatchListAlertThreshold {
   /** Optional. The minimum risk rating for the alert. */
-  riskRatingMinimum?: TechnologyWatchListAlertThresholdRiskRatingMinimumEnum | (string & {});
+  riskRatingMinimum?:
+    | TechnologyWatchListAlertThresholdRiskRatingMinimumEnum
+    | (string & {})
+    | undefined;
   /** Optional. The minimum CVSS score for the alert. Evaluates to CVSS v3 when available with a fallback to v2 and v4. Ex: 7.0. Valid range is [0.0, 10.0]. */
-  cvssScoreMinimum?: number;
+  cvssScoreMinimum?: number | undefined;
   /** Optional. The minimum priority for the alert. */
-  priorityMinimum?: TechnologyWatchListAlertThresholdPriorityMinimumEnum | (string & {});
+  priorityMinimum?:
+    | TechnologyWatchListAlertThresholdPriorityMinimumEnum
+    | (string & {})
+    | undefined;
   /** Optional. The exploitation states of the alert. */
-  exploitationStates?: TechnologyWatchListAlertThresholdExploitationStatesItemEnumList;
+  exploitationStates?: TechnologyWatchListAlertThresholdExploitationStatesItemEnumList | undefined;
   /** Optional. The minimum epss score for the alert. Ex: 0.8. Valid range is [0.0, 1.0]. */
-  epssScoreMinimum?: number;
+  epssScoreMinimum?: number | undefined;
 }
 /** TechnologyWatchListConfig is the configuration for the technology watchlist. */
 export interface TechnologyWatchListConfig {
   /** Optional. List of vendor, technology or cpe fingerprint. example: Microsoft office 360 Apache Server 3.5 cpe:2.3:a:microsoft:outlook:*:*:*:*:*:*:*:* */
-  technologies?: StringList;
+  technologies?: StringList | undefined;
   /** Optional. Alert thresholds to effectively reduce noise. */
-  alertThreshold?: TechnologyWatchListAlertThreshold;
+  alertThreshold?: TechnologyWatchListAlertThreshold | undefined;
 }
 /** Wrapper class that contains the union struct for all the various configuration detail specific classes. */
 export interface ConfigurationDetail {
   /** Custom Threat Scenario detail config. */
-  customThreatScenario?: CustomThreatScenarioConfig;
+  customThreatScenario?: CustomThreatScenarioConfig | undefined;
   /** Output only. Name of the detail type. Will be set by the server during creation to the name of the field that is set in the detail union. */
-  detailType?: string;
+  detailType?: string | undefined;
   /** Domain Monitoring detail config. */
-  domainMonitoring?: DomainMonitoringConfig;
+  domainMonitoring?: DomainMonitoringConfig | undefined;
   /** Domain Configuration detail config. */
-  domainConfiguration?: DomainConfiguration;
+  domainConfiguration?: DomainConfiguration | undefined;
   /** Customer Profile detail config. */
-  customerProfile?: CustomerProfileConfig;
+  customerProfile?: CustomerProfileConfig | undefined;
   /** Technology Watchlist detail config. */
-  technologyWatchlist?: TechnologyWatchListConfig;
+  technologyWatchlist?: TechnologyWatchListConfig | undefined;
 }
 /** A configuration represents a behavior an engine should follow when producing new findings. */
 export interface Configuration {
   /** Identifier. Server generated name for the configuration. format is projects/{project}/configurations/{configuration} */
-  name?: string;
+  name?: string | undefined;
   /** If included when updating a configuration, this should be set to the current etag of the configuration. If the etags do not match, the update will be rejected and an ABORTED error will be returned. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. Name of the service that provides the configuration. */
-  provider?: string;
+  provider?: string | undefined;
   /** Optional. A user-manipulatable version. Does not adhere to a specific format */
-  version?: string;
+  version?: string | undefined;
   /** Optional. A description of the configuration. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. State of the configuration. */
-  state?: ConfigurationStateEnum | (string & {});
+  state?: ConfigurationStateEnum | (string & {}) | undefined;
   /** Output only. Human readable name for the configuration. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. Domain specific details for the configuration. */
-  detail?: ConfigurationDetail;
+  detail?: ConfigurationDetail | undefined;
   /** Output only. Audit information for the configuration. */
-  audit?: Audit;
+  audit?: Audit | undefined;
 }
 export interface GetProjectsFindingsRequest {
   /** Required. Name of the finding to get. */
@@ -1116,13 +1122,13 @@ export type InitialAccessBrokerFindingDetailSeverityEnum =
 /** A detail object for an Initial Access Broker (IAB) finding. */
 export interface InitialAccessBrokerFindingDetail {
   /** Optional. The discovery document associated with the IAB finding. */
-  discoveryDocument?: DiscoveryDocument;
+  discoveryDocument?: DiscoveryDocument | undefined;
   /** Required. Reference to the match score of the IAB finding. This is a float value between 0 and 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
-  matchScore?: number;
+  matchScore?: number | undefined;
   /** Optional. Deprecated: Use `discovery_document` instead. The unique identifier of the document that triggered the IAB finding. This ID can be used to retrieve the content of the document for further analysis. */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Required. The severity of the IAB finding. This indicates the potential impact of the threat. */
-  severity?: InitialAccessBrokerFindingDetailSeverityEnum;
+  severity?: InitialAccessBrokerFindingDetailSeverityEnum | undefined;
 }
 export type DataLeakFindingDetailSeverityEnum =
   | "SEVERITY_UNSPECIFIED"
@@ -1133,13 +1139,13 @@ export type DataLeakFindingDetailSeverityEnum =
 /** A detail object for a Data Leak finding. */
 export interface DataLeakFindingDetail {
   /** Required. The severity of the Data Leak finding. This indicates the potential impact of the threat. */
-  severity?: DataLeakFindingDetailSeverityEnum;
+  severity?: DataLeakFindingDetailSeverityEnum | undefined;
   /** Required. Reference to the match score of the Data Leak finding. This is a float value greater than 0 and less than or equal to 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
-  matchScore?: number;
+  matchScore?: number | undefined;
   /** Optional. Deprecated: Use `discovery_document` instead. The unique identifier of the document that triggered the Data Leak finding. This ID can be used to retrieve the content of the document for further analysis. */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Optional. The discovery document associated with the Data Leak finding. */
-  discoveryDocument?: DiscoveryDocument;
+  discoveryDocument?: DiscoveryDocument | undefined;
 }
 /** Contains details for a technology watchlist finding. */
 export type TargetTechnologyFindingDetail = TargetTechnologyAlertDetail;
@@ -1152,161 +1158,161 @@ export type InsiderThreatFindingDetailSeverityEnum =
 /** A detail object for a InsiderThreat finding. */
 export interface InsiderThreatFindingDetail {
   /** Required. The severity of the InsiderThreat finding. This indicates the potential impact of the threat. */
-  severity?: InsiderThreatFindingDetailSeverityEnum;
+  severity?: InsiderThreatFindingDetailSeverityEnum | undefined;
   /** Required. Reference to the match score of the InsiderThreat finding. This is a float value greater than 0 and less than or equal to 1 calculated by the matching engine based on the similarity of the document and the user provided configurations. */
-  matchScore?: number;
+  matchScore?: number | undefined;
   /** Optional. Deprecated: Use `discovery_document` instead. The unique identifier of the document that triggered the InsiderThreat finding. This ID can be used to retrieve the content of the document for further analysis. */
-  documentId?: string;
+  documentId?: string | undefined;
   /** Optional. The discovery document associated with the Insider Threat finding. */
-  discoveryDocument?: DiscoveryDocument;
+  discoveryDocument?: DiscoveryDocument | undefined;
 }
 /** A detailed object for a Domain or URL finding. */
 export interface DomainMonitoringFindingDetail {
   /** Optional. The relationships of the domain or URL. */
-  relationships?: Relationships;
+  relationships?: Relationships | undefined;
   /** Details specific to a monitored domain. */
-  domainDetails?: DomainMonitoringDomainDetails;
+  domainDetails?: DomainMonitoringDomainDetails | undefined;
   /** Optional. The whois details of the domain or URL. */
-  whoisDetails?: DomainMonitoringWhoIsDetails;
+  whoisDetails?: DomainMonitoringWhoIsDetails | undefined;
   /** Optional. The threat attribution details of the domain or URL. */
-  threatAttributionDetails?: ThreatAttributionDetails;
+  threatAttributionDetails?: ThreatAttributionDetails | undefined;
   /** Details specific to a monitored URL. */
-  urlDetails?: DomainMonitoringUrlDetails;
+  urlDetails?: DomainMonitoringUrlDetails | undefined;
   /** The protected brand name that triggered the alert. */
-  protectedBrand?: string;
+  protectedBrand?: string | undefined;
   /** Optional. The matched domain. */
-  matchedDomain?: string;
+  matchedDomain?: string | undefined;
   /** The protected domain that triggered the alert. */
-  protectedDomain?: DomainMonitoringDomainDetails;
+  protectedDomain?: DomainMonitoringDomainDetails | undefined;
   /** Optional. The DNS details of the domain or URL. */
-  dnsDetails?: DomainMonitoringDnsDetails;
+  dnsDetails?: DomainMonitoringDnsDetails | undefined;
   /** Optional. Extracted WHOIS and DNS registration details. */
-  registrationDetails?: DnsRegistrationDetails;
+  registrationDetails?: DnsRegistrationDetails | undefined;
   /** Optional. The GTI details of the domain or URL. */
-  gtiDetails?: DomainMonitoringGtiDetails;
+  gtiDetails?: DomainMonitoringGtiDetails | undefined;
   /** Optional. The infrastructure of the domain or URL. */
-  infrastructure?: Infrastructure;
+  infrastructure?: Infrastructure | undefined;
 }
 /** Wrapper class that contains the union struct for all the various findings detail specific classes. */
 export interface FindingDetail {
   /** Initial Access Broker finding detail type. */
-  initialAccessBroker?: InitialAccessBrokerFindingDetail;
+  initialAccessBroker?: InitialAccessBrokerFindingDetail | undefined;
   /** Output only. Name of the detail type. Will be set by the server during creation to the name of the field that is set in the detail union. */
-  detailType?: string;
+  detailType?: string | undefined;
   /** Data Leak finding detail type. */
-  dataLeak?: DataLeakFindingDetail;
+  dataLeak?: DataLeakFindingDetail | undefined;
   /** Technology Watchlist finding detail type. */
-  targetTechnology?: TargetTechnologyAlertDetail;
+  targetTechnology?: TargetTechnologyAlertDetail | undefined;
   /** Insider Threat finding detail type. */
-  insiderThreat?: InsiderThreatFindingDetail;
+  insiderThreat?: InsiderThreatFindingDetail | undefined;
   /** Domain Monitoring finding detail type. */
-  domainMonitoring?: DomainMonitoringFindingDetail;
+  domainMonitoring?: DomainMonitoringFindingDetail | undefined;
 }
 /** A 'stateless' and a point in time event that a check produced a result of interest. */
 export interface Finding {
   /** Output only. High-Precision Severity Analysis verdict for the finding. */
-  severityAnalysis?: SeverityAnalysis;
+  severityAnalysis?: SeverityAnalysis | undefined;
   /** Optional. Configuration names that are bound to this finding. */
-  configurations?: StringList;
+  configurations?: StringList | undefined;
   /** Output only. When identical finding (same labels and same details) has re-occurred. */
-  reoccurrenceTimes?: StringList;
+  reoccurrenceTimes?: StringList | undefined;
   /** Output only. Audit data about the finding. */
-  audit?: Audit;
+  audit?: Audit | undefined;
   /** Required. Logical source of this finding (name of the sub-engine). */
-  provider?: string;
+  provider?: string | undefined;
   /** Optional. Deprecated: Use the `severity_analysis` field instead. Base severity score from the finding source. */
-  severity?: number;
+  severity?: number | undefined;
   /** Identifier. Server generated name for the finding (leave clear during creation). Format: projects/{project}/findings/{finding} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. AI summary of the finding. */
-  aiSummary?: string;
+  aiSummary?: string | undefined;
   /** Required. Holder of the domain specific details of the finding. */
-  detail?: FindingDetail;
+  detail?: FindingDetail | undefined;
   /** Output only. High-Precision Relevance Analysis verdict for the finding. */
-  relevanceAnalysis?: RelevanceAnalysis;
+  relevanceAnalysis?: RelevanceAnalysis | undefined;
   /** Required. A short descriptive title for the finding <= 250 chars. EX: "Actor 'baddy' offering $1000 for credentials of 'goodguy'". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Optional. Name of the alert that this finding is bound to. */
-  alert?: string;
+  alert?: string | undefined;
 }
 export interface ListProjectsAlertsRequest {
   /** Optional. Filter criteria. Supported fields for filtering include: * `audit.create_time` * `audit.creator` * `audit.update_time` * `audit.updater` * `detail.data_leak.discovery_document_ids` * `detail.data_leak.severity` * `detail.detail_type` * `detail.initial_access_broker.discovery_document_ids` * `detail.initial_access_broker.severity` * `detail.insider_threat.discovery_document_ids` * `detail.insider_threat.severity` * `finding_count` * `priority_analysis.priority_level` * `relevance_analysis.confidence` * `relevance_analysis.relevance_level` * `relevance_analysis.relevant` * `severity_analysis.severity_level` * `state` Examples: * `detail.detail_type = "initial_access_broker"` * `detail.detail_type != "data_leak"` * `detail.insider_threat.severity = "HIGH"` * `audit.create_time >= "2026-04-03T00:00:00Z" AND audit.create_time < "2026-04-06T00:00:00Z"` * `state = "NEW" OR state = "TRIAGED"` * `severity_analysis.severity_level = "SEVERITY_LEVEL_CRITICAL"` */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Page size. Default to 100 alerts per page. Maximum is 1000 alerts per page. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. Parent of the alerts. Format: projects/{project} */
   parent: string;
   /** Optional. Order by criteria in the csv format: "field1, field2 desc" or "field1, field2" or "field1 asc, field2". If a field is specified without `asc` or `desc`, ascending order is used by default. Supported fields for ordering are identical to those supported for filtering. Examples: * `audit.create_time desc` * `audit.update_time asc` * `audit.create_time desc, severity_analysis.severity_level desc` */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Page token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type AlertList = Array<Alert>;
 /** Response message for ListAlerts. */
 export interface ListAlertsResponse {
   /** Page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of alerts. */
-  alerts?: AlertList;
+  alerts?: AlertList | undefined;
 }
 export interface ListProjectsConfigurationsRequest {
   /** Optional. Filter criteria. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Order by criteria in the csv format: "field1,field2 desc" or "field1,field2" or "field1 asc, field2". */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent of the configuration. Format: vaults/{vault} */
   parent: string;
   /** Optional. Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ConfigurationList = Array<Configuration>;
 /** Response message for ListConfigurations. */
 export interface ListConfigurationsResponse {
   /** List of configurations. */
-  configurations?: ConfigurationList;
+  configurations?: ConfigurationList | undefined;
   /** Page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsConfigurationsRevisionsRequest {
   /** Optional. Page Size */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. An AIP-160 filter string */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Specify ordering of response */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The name of the Configuration to retrieve Revisions for */
   parent: string;
   /** Optional. A page token provided by the API */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** A ConfigurationRevision is a snapshot of a Configuration at a point in time. It is immutable. */
 export interface ConfigurationRevision {
   /** Identifier. The name of the ConfigurationRevision Format: projects//configurations//revisions/ */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time the Revision was created */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The snapshot of the configuration */
-  snapshot?: Configuration;
+  snapshot?: Configuration | undefined;
 }
 export type ConfigurationRevisionList = Array<ConfigurationRevision>;
 /** Response message for ListConfigurationRevisions. */
 export interface ListConfigurationRevisionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The Configuration Revisions associated with the specified Configuration */
-  revisions?: ConfigurationRevisionList;
+  revisions?: ConfigurationRevisionList | undefined;
 }
 export interface ListProjectsFindingsRequest {
   /** Optional. Filter criteria. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Order by criteria in the csv format: "field1,field2 desc" or "field1,field2" or "field1 asc, field2". */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent of the findings. */
   parent: string;
 }
@@ -1314,9 +1320,9 @@ export type FindingList = Array<Finding>;
 /** Response message for ListFindings. */
 export interface ListFindingsResponse {
   /** List of findings. */
-  findings?: FindingList;
+  findings?: FindingList | undefined;
   /** Page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 /** Request message for MarkAlertAsNotActionable. */
 export type MarkAlertAsNotActionableRequest = MarkAlertAsBenignRequest;
@@ -1324,7 +1330,7 @@ export interface NotActionableProjectsAlertsRequest {
   /** Required. Name of the alert to mark as a not actionable. Format: projects/{project}/alerts/{alert} */
   name: string;
   /** Request body */
-  body?: MarkAlertAsBenignRequest;
+  body?: MarkAlertAsBenignRequest | undefined;
 }
 /** Request message for MarkAlertAsRead. */
 export type MarkAlertAsReadRequest = MarkAlertAsBenignRequest;
@@ -1332,7 +1338,7 @@ export interface ReadProjectsAlertsRequest {
   /** Required. Name of the alert to mark as read. Format: projects/{project}/alerts/{alert} */
   name: string;
   /** Request body */
-  body?: MarkAlertAsBenignRequest;
+  body?: MarkAlertAsBenignRequest | undefined;
 }
 /** Request message for MarkAlertAsResolved. */
 export type MarkAlertAsResolvedRequest = MarkAlertAsBenignRequest;
@@ -1340,26 +1346,26 @@ export interface ResolveProjectsAlertsRequest {
   /** Required. Name of the alert to mark as resolved. Format: projects/{project}/alerts/{alert} */
   name: string;
   /** Request body */
-  body?: MarkAlertAsBenignRequest;
+  body?: MarkAlertAsBenignRequest | undefined;
 }
 export interface SearchProjectsFindingsRequest {
   /** Optional. Order by criteria in the csv format: "field1,field2 desc" or "field1,field2" or "field1 asc, field2". */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. Parent of the findings. Format: vaults/{vault} */
   parent: string;
   /** Optional. Query on what findings will be returned. This supports the same filter criteria as FindingService.ListFindings as well as the following relationship query `has_alert`. Example: - `has_alert("name=\"projects/gti-12345/alerts/alert-12345\"")` */
-  query?: string;
+  query?: string | undefined;
   /** Optional. Page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for SearchFindings. */
 export interface SearchFindingsResponse {
   /** Page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of findings. */
-  findings?: FindingList;
+  findings?: FindingList | undefined;
 }
 /** Request message for MarkAlertAsTrackedExternally. */
 export type MarkAlertAsTrackedExternallyRequest = MarkAlertAsBenignRequest;
@@ -1367,7 +1373,7 @@ export interface TrackExternallyProjectsAlertsRequest {
   /** Required. Name of the alert to mark as tracked externally. Format: projects/{project}/alerts/{alert} */
   name: string;
   /** Request body */
-  body?: MarkAlertAsBenignRequest;
+  body?: MarkAlertAsBenignRequest | undefined;
 }
 /** Request message for MarkAlertAsTriaged. */
 export type MarkAlertAsTriagedRequest = MarkAlertAsBenignRequest;
@@ -1375,20 +1381,20 @@ export interface TriageProjectsAlertsRequest {
   /** Required. Name of the alert to mark as a triaged. Format: projects/{project}/alerts/{alert} */
   name: string;
   /** Request body */
-  body?: MarkAlertAsBenignRequest;
+  body?: MarkAlertAsBenignRequest | undefined;
 }
 export interface UpsertProjectsConfigurationsRequest {
   /** Required. Parent of the configuration. */
   parent: string;
   /** Optional. Time that the configuration should be considered to have been published. This is an advanced feature used when onboarding and bulk loading data from other systems. Do not set this field without consulting with the API team. */
-  publishTime?: string;
+  publishTime?: string | undefined;
   /** Request body */
-  body?: Configuration;
+  body?: Configuration | undefined;
 }
 /** Response message for UpsertConfiguration. */
 export interface UpsertConfigurationResponse {
   /** Output only. Created configuration ID with server assigned id. */
-  configuration?: string;
+  configuration?: string | undefined;
 }
 export type BenignProjectsAlertsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Marks an alert as benign - BENIGN. */

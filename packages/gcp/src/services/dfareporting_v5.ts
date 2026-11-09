@@ -101,49 +101,49 @@ export type StringList = Array<string>;
 /** Contains data of the items purchased. */
 export interface CartDataItem {
   /** The shopping id of the item. Must be equal to the Merchant Center product identifier. This is a required field. */
-  itemId?: string;
+  itemId?: string | undefined;
   /** Unit price excluding tax, shipping, and any transaction level discounts. Interpreted in CM360 Floodlight config parent advertiser's currency code. This is a required field. */
-  unitPrice?: number;
+  unitPrice?: number | undefined;
   /** Number of items sold. This is a required field. */
-  quantity?: number;
+  quantity?: number | undefined;
 }
 export type CartDataItemList = Array<CartDataItem>;
 /** Contains additional information about cart data. This field may only be used when calling batchinsert; it is not supported by batchupdate. Cart data reporting is only supported in SA360. [Learn more](https://support.google.com/sa360/topic/13425788) */
 export interface CartData {
   /** The feed labels associated with the feed where your items are uploaded. For more information, please refer to  https://support.google.com/merchants/answer/12453549. Providing the feed label reduces ambiguity in identifying the right offer details. */
-  merchantFeedLabel?: string;
+  merchantFeedLabel?: string | undefined;
   /** The Merchant Center ID where the items are uploaded. Providing Merchant Center ID reduces ambiguity in identifying the right offer details. */
-  merchantId?: string;
+  merchantId?: string | undefined;
   /** The language associated with the feed where your items are uploaded. Use ISO 639-1 language codes. Providing the feed language reduces ambiguity in identifying the right offer details. */
-  merchantFeedLanguage?: string;
+  merchantFeedLanguage?: string | undefined;
   /** Data of the items purchased. */
-  items?: CartDataItemList;
+  items?: CartDataItemList | undefined;
 }
 /** Identify a user by name and address. */
 export interface OfflineUserAddressInfo {
   /** City of the address. */
-  city?: string;
+  city?: string | undefined;
   /** First name of the user, which is hashed as SHA-256 after normalized (Lowercase all characters; Remove any extra spaces before, after, and in between). */
-  hashedFirstName?: string;
+  hashedFirstName?: string | undefined;
   /** Last name of the user, which is hashed as SHA-256 after normalized (lower case only and no punctuation). */
-  hashedLastName?: string;
+  hashedLastName?: string | undefined;
   /** State code of the address. */
-  state?: string;
+  state?: string | undefined;
   /** Postal code of the user's address. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** The street address of the user hashed using SHA-256 hash function after normalization (lower case only). */
-  hashedStreetAddress?: string;
+  hashedStreetAddress?: string | undefined;
   /** 2-letter country code in ISO-3166-1 alpha-2 of the user's address. */
-  countryCode?: string;
+  countryCode?: string | undefined;
 }
 /** User identifying information. Exactly one type of identifier must be specified. */
 export interface UserIdentifier {
   /** Address information. */
-  addressInfo?: OfflineUserAddressInfo;
+  addressInfo?: OfflineUserAddressInfo | undefined;
   /** Hashed phone number using SHA-256 hash function after normalization (E164 standard). */
-  hashedPhoneNumber?: string;
+  hashedPhoneNumber?: string | undefined;
   /** Hashed email address using SHA-256 hash function after normalization. */
-  hashedEmail?: string;
+  hashedEmail?: string | undefined;
 }
 export type UserIdentifierList = Array<UserIdentifier>;
 export type CustomFloodlightVariableTypeEnum =
@@ -250,62 +250,62 @@ export type CustomFloodlightVariableTypeEnum =
 /** A custom floodlight variable. Can be used in both batchinsert and batchupdate. Adding this in batchupdate will update or append the variable to the existing list. */
 export interface CustomFloodlightVariable {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#customFloodlightVariable". */
-  kind?: string;
+  kind?: string | undefined;
   /** The type of custom floodlight variable to supply a value for. These map to the "u[1-100]=" in the tags. */
-  type?: CustomFloodlightVariableTypeEnum | (string & {});
+  type?: CustomFloodlightVariableTypeEnum | (string & {}) | undefined;
   /** The value of the custom floodlight variable. The length of string must not exceed 100 characters. */
-  value?: string;
+  value?: string | undefined;
 }
 export type CustomFloodlightVariableList = Array<CustomFloodlightVariable>;
 export type ConversionAdUserDataConsentEnum = "GRANTED" | "DENIED";
 /** A Conversion represents when a user successfully performs a desired action after seeing an ad. */
 export interface Conversion {
   /** Whether Limit Ad Tracking is enabled. When set to true, the conversion will be used for reporting but not targeting. This will prevent remarketing. */
-  limitAdTracking?: boolean;
+  limitAdTracking?: boolean | undefined;
   /** Floodlight Activity ID of this conversion. This is a required field. */
-  floodlightActivityId?: string;
+  floodlightActivityId?: string | undefined;
   /** A list of the alphanumeric encrypted user IDs. Any user ID with exposure prior to the conversion timestamp will be used in the inserted conversion. If no such user ID is found then the conversion will be rejected with INVALID_ARGUMENT error. When set, encryptionInfo should also be specified. This field may only be used when calling batchinsert; it is not supported by batchupdate. This field is mutually exclusive with encryptedUserId, matchId, mobileDeviceId, gclid dclid, and impressionId. This or encryptedUserId or matchId or mobileDeviceId or gclid or dclid or impressionId is a required field. */
-  encryptedUserIdCandidates?: StringList;
+  encryptedUserIdCandidates?: StringList | undefined;
   /** The ordinal of the conversion. Use this field to control how conversions of the same user and day are de-duplicated. This is a required field. */
-  ordinal?: string;
+  ordinal?: string | undefined;
   /** Floodlight Configuration ID of this conversion. This is a required field. */
-  floodlightConfigurationId?: string;
+  floodlightConfigurationId?: string | undefined;
   /** The cart data associated with this conversion. */
-  cartData?: CartData;
+  cartData?: CartData | undefined;
   /** The alphanumeric encrypted user ID. When set, encryptionInfo should also be specified. This field is mutually exclusive with encryptedUserIdCandidates[], matchId, mobileDeviceId, gclid, dclid, and impressionId. This or encryptedUserIdCandidates[] or matchId or mobileDeviceId or gclid or dclid or impressionId is a required field. */
-  encryptedUserId?: string;
+  encryptedUserId?: string | undefined;
   /** Session attributes for the conversion, encoded as based64 bytes. This field may only be used when calling batchinsert; it is not supported by batchupdate. */
-  sessionAttributesEncoded?: string;
+  sessionAttributesEncoded?: string | undefined;
   /** The display click ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, gclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or mobileDeviceId or gclid or impressionId is a required field. */
-  dclid?: string;
+  dclid?: string | undefined;
   /** The quantity of the conversion. This is a required field. */
-  quantity?: string;
+  quantity?: string | undefined;
   /** The user identifiers to enhance the conversion. The maximum number of user identifiers for each conversion is 5. */
-  userIdentifiers?: UserIdentifierList;
+  userIdentifiers?: UserIdentifierList | undefined;
   /** The Google click ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, dclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or mobileDeviceId or dclid or impressionId is a required field. */
-  gclid?: string;
+  gclid?: string | undefined;
   /** Whether this particular request may come from a user under the age of 16 (may differ by country), under compliance with the European Union's General Data Protection Regulation (GDPR). */
-  treatmentForUnderage?: boolean;
+  treatmentForUnderage?: boolean | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversion". */
-  kind?: string;
+  kind?: string | undefined;
   /** Whether the conversion was for a non personalized ad. */
-  nonPersonalizedAd?: boolean;
+  nonPersonalizedAd?: boolean | undefined;
   /** Custom floodlight variables. */
-  customVariables?: CustomFloodlightVariableList;
+  customVariables?: CustomFloodlightVariableList | undefined;
   /** The mobile device ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, gclid, dclid, and impressionId. This or encryptedUserId or encryptedUserIdCandidates[] or matchId or gclid or dclid or impressionId is a required field. */
-  mobileDeviceId?: string;
+  mobileDeviceId?: string | undefined;
   /** This represents consent for ad user data. */
-  adUserDataConsent?: ConversionAdUserDataConsentEnum | (string & {});
+  adUserDataConsent?: ConversionAdUserDataConsentEnum | (string & {}) | undefined;
   /** The value of the conversion. Interpreted in CM360 Floodlight config parent advertiser's currency code. This is a required field. */
-  value?: number;
+  value?: number | undefined;
   /** Whether this particular request may come from a user under the age of 13, under COPPA compliance. */
-  childDirectedTreatment?: boolean;
+  childDirectedTreatment?: boolean | undefined;
   /** The match ID field. A match ID is your own first-party identifier that has been synced with Google using the match ID feature in Floodlight. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[],mobileDeviceId, gclid, dclid, and impressionId. This or encryptedUserId orencryptedUserIdCandidates[] or mobileDeviceId or gclid or dclid or impressionIdis a required field. */
-  matchId?: string;
+  matchId?: string | undefined;
   /** The timestamp of conversion, in Unix epoch micros. This is a required field. */
-  timestampMicros?: string;
+  timestampMicros?: string | undefined;
   /** The impression ID. This field is mutually exclusive with encryptedUserId, encryptedUserIdCandidates[], matchId, mobileDeviceId, and gclid. One of these identifiers must be set. */
-  impressionId?: string;
+  impressionId?: string | undefined;
 }
 export type ConversionList = Array<Conversion>;
 export type EncryptionInfoEncryptionSourceEnum =
@@ -323,28 +323,28 @@ export type EncryptionInfoEncryptionEntityTypeEnum =
 /** A description of how user IDs are encrypted. */
 export interface EncryptionInfo {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#encryptionInfo". */
-  kind?: string;
+  kind?: string | undefined;
   /** The encryption entity ID. This should match the encryption configuration for ad serving or Data Transfer. */
-  encryptionEntityId?: string;
+  encryptionEntityId?: string | undefined;
   /** Describes whether the encrypted cookie was received from ad serving (the %m macro) or from Data Transfer. */
-  encryptionSource?: EncryptionInfoEncryptionSourceEnum | (string & {});
+  encryptionSource?: EncryptionInfoEncryptionSourceEnum | (string & {}) | undefined;
   /** The encryption entity type. This should match the encryption configuration for ad serving or Data Transfer. */
-  encryptionEntityType?: EncryptionInfoEncryptionEntityTypeEnum | (string & {});
+  encryptionEntityType?: EncryptionInfoEncryptionEntityTypeEnum | (string & {}) | undefined;
 }
 /** Insert Conversions Request. */
 export interface ConversionsBatchInsertRequest {
   /** The set of conversions to insert. */
-  conversions?: ConversionList;
+  conversions?: ConversionList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchInsertRequest". */
-  kind?: string;
+  kind?: string | undefined;
   /** Describes how encryptedUserId or encryptedUserIdCandidates[] is encrypted. This is a required field if encryptedUserId or encryptedUserIdCandidates[] is used. */
-  encryptionInfo?: EncryptionInfo;
+  encryptionInfo?: EncryptionInfo | undefined;
 }
 export interface BatchinsertConversionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: ConversionsBatchInsertRequest;
+  body?: ConversionsBatchInsertRequest | undefined;
 }
 export type ConversionErrorCodeEnum =
   | "INVALID_ARGUMENT"
@@ -354,55 +354,55 @@ export type ConversionErrorCodeEnum =
 /** The error code and description for a conversion that failed to insert or update. */
 export interface ConversionError {
   /** The error code. */
-  code?: ConversionErrorCodeEnum;
+  code?: ConversionErrorCodeEnum | undefined;
   /** A description of the error. */
-  message?: string;
+  message?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionError". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ConversionErrorList = Array<ConversionError>;
 /** The original conversion that was inserted or updated and whether there were any errors. */
 export interface ConversionStatus {
   /** The original conversion that was inserted or updated. */
-  conversion?: Conversion;
+  conversion?: Conversion | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionStatus". */
-  kind?: string;
+  kind?: string | undefined;
   /** A list of errors related to this conversion. */
-  errors?: ConversionErrorList;
+  errors?: ConversionErrorList | undefined;
 }
 export type ConversionStatusList = Array<ConversionStatus>;
 /** Insert Conversions Response. */
 export interface ConversionsBatchInsertResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchInsertResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Indicates that some or all conversions failed to insert. */
-  hasFailures?: boolean;
+  hasFailures?: boolean | undefined;
   /** The insert status of each conversion. Statuses are returned in the same order that conversions are inserted. */
-  status?: ConversionStatusList;
+  status?: ConversionStatusList | undefined;
 }
 /** Update Conversions Request. */
 export interface ConversionsBatchUpdateRequest {
   /** The set of conversions to update. */
-  conversions?: ConversionList;
+  conversions?: ConversionList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchUpdateRequest". */
-  kind?: string;
+  kind?: string | undefined;
   /** Describes how encryptedUserId is encrypted. This is a required field if encryptedUserId is used. */
-  encryptionInfo?: EncryptionInfo;
+  encryptionInfo?: EncryptionInfo | undefined;
 }
 export interface BatchupdateConversionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: ConversionsBatchUpdateRequest;
+  body?: ConversionsBatchUpdateRequest | undefined;
 }
 /** Update Conversions Response. */
 export interface ConversionsBatchUpdateResponse {
   /** Indicates that some or all conversions failed to update. */
-  hasFailures?: boolean;
+  hasFailures?: boolean | undefined;
   /** The update status of each conversion. Statuses are returned in the same order that conversions are updated. */
-  status?: ConversionStatusList;
+  status?: ConversionStatusList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#conversionsBatchUpdateResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface DeleteAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
@@ -492,22 +492,22 @@ export interface GenerateCodeDynamicProfilesRequest {
 /** Response message for DfareportingDynamicProfiles.GenerateCode. */
 export interface DynamicProfileGenerateCodeResponse {
   /** Generated code for the dynamic profile. The code will need to be unescaped. */
-  code?: string;
+  code?: string | undefined;
 }
 export interface GeneratetagFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Floodlight activity ID for which we want to generate a tag. */
-  floodlightActivityId?: string;
+  floodlightActivityId?: string | undefined;
 }
 /** Floodlight Activity GenerateTag Response */
 export interface FloodlightActivitiesGenerateTagResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivitiesGenerateTagResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Generated tag for this Floodlight activity. For Google tags, this is the event snippet. */
-  floodlightActivityTag?: string;
+  floodlightActivityTag?: string | undefined;
   /** The global snippet section of a Google tag. The Google tag sets new cookies on your domain, which will store a unique identifier for a user or the ad click that brought the user to your site. Learn more. */
-  globalSiteTagGlobalSnippet?: string;
+  globalSiteTagGlobalSnippet?: string | undefined;
 }
 export type GeneratetagsPlacementsTagFormatsEnum =
   | "PLACEMENT_TAG_STANDARD"
@@ -535,19 +535,19 @@ export type GeneratetagsPlacementsTagFormatsEnumList = Array<
 >;
 export interface GeneratetagsPlacementsRequest {
   /** Tag formats to generate for these placements. *Note:* PLACEMENT_TAG_STANDARD can only be generated for 1x1 placements. */
-  tagFormats?: GeneratetagsPlacementsTagFormatsEnumList;
+  tagFormats?: GeneratetagsPlacementsTagFormatsEnumList | undefined;
   /** Optional. Indicates whether to include the TCF macro in the generated tags. Default true. [Learn more](https://support.google.com/campaignmanager/answer/10031693) about this macro. */
-  "tagProperties.tcfGdprMacrosIncluded"?: boolean;
+  "tagProperties.tcfGdprMacrosIncluded"?: boolean | undefined;
   /** Generate placements belonging to this campaign. This is a required field. */
-  campaignId?: string;
+  campaignId?: string | undefined;
   /** Generate tags for these placements. */
-  placementIds?: StringList;
+  placementIds?: StringList | undefined;
   /** Optional. Indicates whether to include the dc_dbm macro in the generated tags. [Learn more](https://support.google.com/campaignmanager/answer/9280273) about this macro. */
-  "tagProperties.dcDbmMacroIncluded"?: boolean;
+  "tagProperties.dcDbmMacroIncluded"?: boolean | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Optional. Indicates whether to include the GPP macro in the generated tags. [Learn more](https://support.google.com/campaignmanager/answer/10031693) about this macro. */
-  "tagProperties.gppMacrosIncluded"?: boolean;
+  "tagProperties.gppMacrosIncluded"?: boolean | undefined;
 }
 export type TagDataFormatEnum =
   | "PLACEMENT_TAG_STANDARD"
@@ -573,31 +573,31 @@ export type TagDataFormatEnum =
 /** Placement Tag Data */
 export interface TagData {
   /** Tag string to record a click. */
-  clickTag?: string;
+  clickTag?: string | undefined;
   /** TagData tag format of this tag. */
-  format?: TagDataFormatEnum;
+  format?: TagDataFormatEnum | undefined;
   /** Creative associated with this placement tag. Applicable only when format is PLACEMENT_TAG_TRACKING. */
-  creativeId?: string;
+  creativeId?: string | undefined;
   /** Tag string for serving an ad. */
-  impressionTag?: string;
+  impressionTag?: string | undefined;
   /** Ad associated with this placement tag. Applicable only when format is PLACEMENT_TAG_TRACKING. */
-  adId?: string;
+  adId?: string | undefined;
 }
 export type TagDataList = Array<TagData>;
 /** Placement Tag */
 export interface PlacementTag {
   /** Placement ID */
-  placementId?: string;
+  placementId?: string | undefined;
   /** Tags generated for this placement. */
-  tagDatas?: TagDataList;
+  tagDatas?: TagDataList | undefined;
 }
 export type PlacementTagList = Array<PlacementTag>;
 /** Placement GenerateTags Response */
 export interface PlacementsGenerateTagsResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementsGenerateTagsResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Set of generated tags for the specified placements. */
-  placementTags?: PlacementTagList;
+  placementTags?: PlacementTagList | undefined;
 }
 export interface GetAccountActiveAdSummariesRequest {
   /** User profile ID associated with this request. */
@@ -617,15 +617,15 @@ export type AccountActiveAdSummaryActiveAdsLimitTierEnum =
 /** Gets a summary of active ads in an account. */
 export interface AccountActiveAdSummary {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountActiveAdSummary". */
-  kind?: string;
+  kind?: string | undefined;
   /** Ads that can be activated for the account. */
-  availableAds?: string;
+  availableAds?: string | undefined;
   /** Maximum number of active ads allowed for the account. */
-  activeAdsLimitTier?: AccountActiveAdSummaryActiveAdsLimitTierEnum;
+  activeAdsLimitTier?: AccountActiveAdSummaryActiveAdsLimitTierEnum | undefined;
   /** Ads that have been activated for the account */
-  activeAds?: string;
+  activeAds?: string | undefined;
   /** ID of the account. */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface GetAccountPermissionGroupsRequest {
   /** User profile ID associated with this request. */
@@ -636,11 +636,11 @@ export interface GetAccountPermissionGroupsRequest {
 /** AccountPermissionGroups contains a mapping of permission group IDs to names. A permission group is a grouping of account permissions. */
 export interface AccountPermissionGroup {
   /** ID of this account permission group. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this account permission group. */
-  name?: string;
+  name?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermissionGroup". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetAccountPermissionsRequest {
   /** User profile ID associated with this request. */
@@ -657,17 +657,17 @@ export type AccountPermissionAccountProfilesItemEnumList =
 /** AccountPermissions contains information about a particular account permission. Some features of Campaign Manager require an account permission to be present in the account. */
 export interface AccountPermission {
   /** Administrative level required to enable this account permission. */
-  level?: AccountPermissionLevelEnum;
+  level?: AccountPermissionLevelEnum | undefined;
   /** Permission group of this account permission. */
-  permissionGroupId?: string;
+  permissionGroupId?: string | undefined;
   /** Name of this account permission. */
-  name?: string;
+  name?: string | undefined;
   /** Account profiles associated with this account permission. Possible values are: - "ACCOUNT_PROFILE_BASIC" - "ACCOUNT_PROFILE_STANDARD" */
-  accountProfiles?: AccountPermissionAccountProfilesItemEnumList;
+  accountProfiles?: AccountPermissionAccountProfilesItemEnumList | undefined;
   /** ID of this account permission. */
-  id?: string;
+  id?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermission". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetAccountsRequest {
   /** Account ID. */
@@ -687,60 +687,60 @@ export type AccountActiveAdsLimitTierEnum =
 /** Lookback configuration settings. */
 export interface LookbackConfiguration {
   /** Lookback window, in days, from the last time a given user clicked on one of your ads. If you enter 0, clicks will not be considered as triggering events for floodlight tracking. If you leave this field blank, the default value for your account will be used. Acceptable values are 0 to 90, inclusive. */
-  clickDuration?: number;
+  clickDuration?: number | undefined;
   /** Lookback window, in days, from the last time a given user viewed one of your ads. If you enter 0, impressions will not be considered as triggering events for floodlight tracking. If you leave this field blank, the default value for your account will be used. Acceptable values are 0 to 90, inclusive. */
-  postImpressionActivitiesDuration?: number;
+  postImpressionActivitiesDuration?: number | undefined;
 }
 /** Reporting Configuration */
 export interface ReportsConfiguration {
   /** Default lookback windows for new advertisers in this account. */
-  lookbackConfiguration?: LookbackConfiguration;
+  lookbackConfiguration?: LookbackConfiguration | undefined;
   /** Report generation time zone ID of this account. This is a required field that cannot be changed on update. Acceptable values are: - "1" for "America/New_York" - "2" for "Europe/London" - "3" for "Europe/Paris" - "4" for "Africa/Johannesburg" - "5" for "Asia/Jerusalem" - "6" for "Asia/Shanghai" - "7" for "Asia/Hong_Kong" - "8" for "Asia/Tokyo" - "9" for "Australia/Sydney" - "10" for "Asia/Dubai" - "11" for "America/Los_Angeles" - "12" for "Pacific/Auckland" - "13" for "America/Sao_Paulo" - "16" for "America/Asuncion" - "17" for "America/Chicago" - "18" for "America/Denver" - "19" for "America/St_Johns" - "20" for "Asia/Dhaka" - "21" for "Asia/Jakarta" - "22" for "Asia/Kabul" - "23" for "Asia/Karachi" - "24" for "Asia/Calcutta" - "25" for "Asia/Pyongyang" - "26" for "Asia/Rangoon" - "27" for "Atlantic/Cape_Verde" - "28" for "Atlantic/South_Georgia" - "29" for "Australia/Adelaide" - "30" for "Australia/Lord_Howe" - "31" for "Europe/Moscow" - "32" for "Pacific/Kiritimati" - "35" for "Pacific/Norfolk" - "36" for "Pacific/Tongatapu" */
-  reportGenerationTimeZoneId?: string;
+  reportGenerationTimeZoneId?: string | undefined;
   /** Whether the exposure to conversion report is enabled. This report shows detailed pathway information on up to 10 of the most recent ad exposures seen by a user before converting. */
-  exposureToConversionEnabled?: boolean;
+  exposureToConversionEnabled?: boolean | undefined;
 }
 export type AccountAccountProfileEnum = "ACCOUNT_PROFILE_BASIC" | "ACCOUNT_PROFILE_STANDARD";
 /** Contains properties of a Campaign Manager account. */
 export interface Account {
   /** Maximum image size allowed for this account, in kilobytes. Value must be greater than or equal to 1. */
-  maximumImageSize?: string;
+  maximumImageSize?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#account". */
-  kind?: string;
+  kind?: string | undefined;
   /** Account permissions assigned to this account. */
-  accountPermissionIds?: StringList;
+  accountPermissionIds?: StringList | undefined;
   /** ID of currency associated with this account. This is a required field. Acceptable values are: - "1" for USD - "2" for GBP - "3" for ESP - "4" for SEK - "5" for CAD - "6" for JPY - "7" for DEM - "8" for AUD - "9" for FRF - "10" for ITL - "11" for DKK - "12" for NOK - "13" for FIM - "14" for ZAR - "15" for IEP - "16" for NLG - "17" for EUR - "18" for KRW - "19" for TWD - "20" for SGD - "21" for CNY - "22" for HKD - "23" for NZD - "24" for MYR - "25" for BRL - "26" for PTE - "28" for CLP - "29" for TRY - "30" for ARS - "31" for PEN - "32" for ILS - "33" for CHF - "34" for VEF - "35" for COP - "36" for GTQ - "37" for PLN - "39" for INR - "40" for THB - "41" for IDR - "42" for CZK - "43" for RON - "44" for HUF - "45" for RUB - "46" for AED - "47" for BGN - "48" for HRK - "49" for MXN - "50" for NGN - "51" for EGP */
-  currencyId?: string;
+  currencyId?: string | undefined;
   /** Maximum number of active ads allowed for this account. */
-  activeAdsLimitTier?: AccountActiveAdsLimitTierEnum | (string & {});
+  activeAdsLimitTier?: AccountActiveAdsLimitTierEnum | (string & {}) | undefined;
   /** Whether to serve creatives with Active View tags. If disabled, viewability data will not be available for any impressions. */
-  activeViewOptOut?: boolean;
+  activeViewOptOut?: boolean | undefined;
   /** Locale of this account. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
-  locale?: string;
+  locale?: string | undefined;
   /** Reporting configuration of this account. */
-  reportsConfiguration?: ReportsConfiguration;
+  reportsConfiguration?: ReportsConfiguration | undefined;
   /** Whether this account is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** User role permissions available to the user roles of this account. */
-  availablePermissionIds?: StringList;
+  availablePermissionIds?: StringList | undefined;
   /** File size limit in kilobytes of Rich Media teaser creatives. Acceptable values are 1 to 10240, inclusive. */
-  teaserSizeLimit?: string;
+  teaserSizeLimit?: string | undefined;
   /** ID of this account. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Profile for this account. This is a read-only field that can be left blank. */
-  accountProfile?: AccountAccountProfileEnum | (string & {});
+  accountProfile?: AccountAccountProfileEnum | (string & {}) | undefined;
   /** Default placement dimensions for this account. */
-  defaultCreativeSizeId?: string;
+  defaultCreativeSizeId?: string | undefined;
   /** Description of this account. */
-  description?: string;
+  description?: string | undefined;
   /** Whether campaigns created in this account will be enabled for Nielsen OCR reach ratings by default. */
-  nielsenOcrEnabled?: boolean;
+  nielsenOcrEnabled?: boolean | undefined;
   /** ID of the country associated with this account. */
-  countryId?: string;
+  countryId?: string | undefined;
   /** Name of this account. This is a required field, and must be less than 128 characters long and be globally unique. */
-  name?: string;
+  name?: string | undefined;
   /** Share Path to Conversion reports with Twitter. */
-  shareReportsWithTwitter?: boolean;
+  shareReportsWithTwitter?: boolean | undefined;
 }
 export interface GetAccountUserProfilesRequest {
   /** User profile ID. */
@@ -752,11 +752,11 @@ export type ObjectFilterStatusEnum = "NONE" | "ASSIGNED" | "ALL";
 /** Object Filter. */
 export interface ObjectFilter {
   /** Status of the filter. NONE means the user has access to none of the objects. ALL means the user has access to all objects. ASSIGNED means the user has access to the objects with IDs in the objectIds list. */
-  status?: ObjectFilterStatusEnum | (string & {});
+  status?: ObjectFilterStatusEnum | (string & {}) | undefined;
   /** Applicable when status is ASSIGNED. The user has access to objects with these object IDs. */
-  objectIds?: StringList;
+  objectIds?: StringList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#objectFilter". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type AccountUserProfileTraffickerTypeEnum =
   | "INTERNAL_NON_TRAFFICKER"
@@ -770,37 +770,37 @@ export type AccountUserProfileUserAccessTypeEnum =
 /** AccountUserProfiles contains properties of a Campaign Manager user profile. This resource is specifically for managing user profiles, whereas UserProfiles is for accessing the API. */
 export interface AccountUserProfile {
   /** Filter that describes which sites are visible to the user profile. */
-  siteFilter?: ObjectFilter;
+  siteFilter?: ObjectFilter | undefined;
   /** Email of the user profile. The email address must be linked to a Google Account. This field is required on insertion and is read-only after insertion. */
-  email?: string;
+  email?: string | undefined;
   /** Comments for this user profile. */
-  comments?: string;
+  comments?: string | undefined;
   /** Name of the user profile. This is a required field. Must be less than 64 characters long, must be globally unique, and cannot contain whitespace or any of the following characters: "&;<>"#%,". */
-  name?: string;
+  name?: string | undefined;
   /** Locale of the user profile. This is a required field. Acceptable values are: - "cs" (Czech) - "de" (German) - "en" (English) - "en-GB" (English United Kingdom) - "es" (Spanish) - "fr" (French) - "it" (Italian) - "ja" (Japanese) - "ko" (Korean) - "pl" (Polish) - "pt-BR" (Portuguese Brazil) - "ru" (Russian) - "sv" (Swedish) - "tr" (Turkish) - "zh-CN" (Chinese Simplified) - "zh-TW" (Chinese Traditional) */
-  locale?: string;
+  locale?: string | undefined;
   /** Filter that describes which advertisers are visible to the user profile. */
-  advertiserFilter?: ObjectFilter;
+  advertiserFilter?: ObjectFilter | undefined;
   /** Whether this user profile is active. This defaults to false, and must be set true on insert for the user profile to be usable. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Trafficker type of this user profile. This is a read-only field. */
-  traffickerType?: AccountUserProfileTraffickerTypeEnum | (string & {});
+  traffickerType?: AccountUserProfileTraffickerTypeEnum | (string & {}) | undefined;
   /** ID of the user profile. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfile". */
-  kind?: string;
+  kind?: string | undefined;
   /** Filter that describes which campaigns are visible to the user profile. */
-  campaignFilter?: ObjectFilter;
+  campaignFilter?: ObjectFilter | undefined;
   /** Subaccount ID of the user profile. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** User role ID of the user profile. This is a required field. */
-  userRoleId?: string;
+  userRoleId?: string | undefined;
   /** Filter that describes which user roles are visible to the user profile. */
-  userRoleFilter?: ObjectFilter;
+  userRoleFilter?: ObjectFilter | undefined;
   /** User type of the user profile. This is a read-only field that can be left blank. */
-  userAccessType?: AccountUserProfileUserAccessTypeEnum | (string & {});
+  userAccessType?: AccountUserProfileUserAccessTypeEnum | (string & {}) | undefined;
   /** Account ID of the user profile. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface GetAdsRequest {
   /** Ad ID. */
@@ -827,37 +827,37 @@ export type CreativeGroupAssignmentCreativeGroupNumberEnum =
 /** Creative Group Assignment. */
 export interface CreativeGroupAssignment {
   /** Creative group number of the creative group assignment. */
-  creativeGroupNumber?: CreativeGroupAssignmentCreativeGroupNumberEnum | (string & {});
+  creativeGroupNumber?: CreativeGroupAssignmentCreativeGroupNumberEnum | (string & {}) | undefined;
   /** ID of the creative group to be assigned. */
-  creativeGroupId?: string;
+  creativeGroupId?: string | undefined;
 }
 export type CreativeGroupAssignmentList = Array<CreativeGroupAssignment>;
 /** Represents the dimensions of ads, placements, creatives, or creative assets. */
 export interface Size {
   /** Width of this size. Acceptable values are 0 to 32767, inclusive. */
-  width?: number;
+  width?: number | undefined;
   /** IAB standard size. This is a read-only, auto-generated field. */
-  iab?: boolean;
+  iab?: boolean | undefined;
   /** Height of this size. Acceptable values are 0 to 32767, inclusive. */
-  height?: number;
+  height?: number | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#size". */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of this size. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Click Through URL Suffix settings. */
 export interface ClickThroughUrlSuffixProperties {
   /** Click-through URL suffix to apply to all ads in this entity's scope. Must be less than 128 characters long. */
-  clickThroughUrlSuffix?: string;
+  clickThroughUrlSuffix?: string | undefined;
   /** Whether this entity should override the inherited click-through URL suffix with its own defined value. */
-  overrideInheritedSuffix?: boolean;
+  overrideInheritedSuffix?: boolean | undefined;
 }
 /** Event tag override information. */
 export interface EventTagOverride {
   /** ID of this event tag override. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Whether this override is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type EventTagOverrideList = Array<EventTagOverride>;
 export type DimensionValueMatchTypeEnum =
@@ -868,129 +868,129 @@ export type DimensionValueMatchTypeEnum =
 /** Represents a DimensionValue resource. */
 export interface DimensionValue {
   /** The name of the dimension. */
-  dimensionName?: string;
+  dimensionName?: string | undefined;
   /** The ID associated with the value if available. */
-  id?: string;
+  id?: string | undefined;
   /** The value of the dimension. */
-  value?: string;
+  value?: string | undefined;
   /** The kind of resource this is, in this case dfareporting#dimensionValue. */
-  kind?: string;
+  kind?: string | undefined;
   /** The eTag of this response for caching purposes. */
-  etag?: string;
+  etag?: string | undefined;
   /** Determines how the 'value' field is matched when filtering. If not specified, defaults to EXACT. If set to WILDCARD_EXPRESSION, '*' is allowed as a placeholder for variable length character sequences, and it can be escaped with a backslash. Note, only paid search dimensions ('dfa:paidSearch*') allow a matchType other than EXACT. */
-  matchType?: DimensionValueMatchTypeEnum | (string & {});
+  matchType?: DimensionValueMatchTypeEnum | (string & {}) | undefined;
 }
 /** Contains information about a mobile carrier that can be targeted by ads. */
 export interface MobileCarrier {
   /** DART ID of the country to which this mobile carrier belongs. */
-  countryDartId?: string;
+  countryDartId?: string | undefined;
   /** Country code of the country to which this mobile carrier belongs. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** Name of this mobile carrier. */
-  name?: string;
+  name?: string | undefined;
   /** ID of this mobile carrier. */
-  id?: string;
+  id?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileCarrier". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type MobileCarrierList = Array<MobileCarrier>;
 /** Contains information about a platform type that can be targeted by ads. */
 export interface PlatformType {
   /** ID of this platform type. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this platform type. */
-  name?: string;
+  name?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#platformType". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type PlatformTypeList = Array<PlatformType>;
 /** Contains information about an internet connection type that can be targeted by ads. Clients can use the connection type to target mobile vs. broadband users. */
 export interface ConnectionType {
   /** Name of this connection type. */
-  name?: string;
+  name?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#connectionType". */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of this connection type. */
-  id?: string;
+  id?: string | undefined;
 }
 export type ConnectionTypeList = Array<ConnectionType>;
 /** Contains information about a browser that can be targeted by ads. */
 export interface Browser {
   /** ID referring to this grouping of browser and version numbers. This is the ID used for targeting. */
-  browserVersionId?: string;
+  browserVersionId?: string | undefined;
   /** Minor version number (number after first dot on left) of this browser. For example, for Chrome 5.0.375.86 beta, this field should be set to 0. An asterisk (*) may be used to target any version number, and a question mark (?) may be used to target cases where the version number cannot be identified. For example, Chrome *.* targets any version of Chrome: 1.2, 2.5, 3.5, and so on. Chrome 3.* targets Chrome 3.1, 3.5, but not 4.0. Firefox ?.? targets cases where the ad server knows the browser is Firefox but can't tell which version it is. */
-  minorVersion?: string;
+  minorVersion?: string | undefined;
   /** Major version number (leftmost number) of this browser. For example, for Chrome 5.0.376.86 beta, this field should be set to 5. An asterisk (*) may be used to target any version number, and a question mark (?) may be used to target cases where the version number cannot be identified. For example, Chrome *.* targets any version of Chrome: 1.2, 2.5, 3.5, and so on. Chrome 3.* targets Chrome 3.1, 3.5, but not 4.0. Firefox ?.? targets cases where the ad server knows the browser is Firefox but can't tell which version it is. */
-  majorVersion?: string;
+  majorVersion?: string | undefined;
   /** Name of this browser. */
-  name?: string;
+  name?: string | undefined;
   /** DART ID of this browser. This is the ID used when generating reports. */
-  dartId?: string;
+  dartId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#browser". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type BrowserList = Array<Browser>;
 /** Contains information about an operating system that can be targeted by ads. */
 export interface OperatingSystem {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystem". */
-  kind?: string;
+  kind?: string | undefined;
   /** Name of this operating system. */
-  name?: string;
+  name?: string | undefined;
   /** Whether this operating system is for mobile. */
-  mobile?: boolean;
+  mobile?: boolean | undefined;
   /** Whether this operating system is for desktop. */
-  desktop?: boolean;
+  desktop?: boolean | undefined;
   /** DART ID of this operating system. This is the ID used for targeting. */
-  dartId?: string;
+  dartId?: string | undefined;
 }
 /** Contains information about a particular version of an operating system that can be targeted by ads. */
 export interface OperatingSystemVersion {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystemVersion". */
-  kind?: string;
+  kind?: string | undefined;
   /** Operating system of this operating system version. */
-  operatingSystem?: OperatingSystem;
+  operatingSystem?: OperatingSystem | undefined;
   /** Name of this operating system version. */
-  name?: string;
+  name?: string | undefined;
   /** Minor version (number after the first dot) of this operating system version. */
-  minorVersion?: string;
+  minorVersion?: string | undefined;
   /** ID of this operating system version. */
-  id?: string;
+  id?: string | undefined;
   /** Major version (leftmost number) of this operating system version. */
-  majorVersion?: string;
+  majorVersion?: string | undefined;
 }
 export type OperatingSystemVersionList = Array<OperatingSystemVersion>;
 export type OperatingSystemList = Array<OperatingSystem>;
 /** Technology Targeting. */
 export interface TechnologyTargeting {
   /** Mobile carriers that this ad targets. For each mobile carrier only id is required, and the other fields are populated automatically when the ad is inserted or updated. If targeting a mobile carrier, do not set targeting for any zip codes. */
-  mobileCarriers?: MobileCarrierList;
+  mobileCarriers?: MobileCarrierList | undefined;
   /** Platform types that this ad targets. For example, desktop, mobile, or tablet. For each platform type, only id is required, and the other fields are populated automatically when the ad is inserted or updated. */
-  platformTypes?: PlatformTypeList;
+  platformTypes?: PlatformTypeList | undefined;
   /** Connection types that this ad targets. For each connection type only id is required. The other fields are populated automatically when the ad is inserted or updated. */
-  connectionTypes?: ConnectionTypeList;
+  connectionTypes?: ConnectionTypeList | undefined;
   /** Browsers that this ad targets. For each browser either set browserVersionId or dartId along with the version numbers. If both are specified, only browserVersionId will be used. The other fields are populated automatically when the ad is inserted or updated. */
-  browsers?: BrowserList;
+  browsers?: BrowserList | undefined;
   /** Operating system versions that this ad targets. To target all versions, use operatingSystems. For each operating system version, only id is required. The other fields are populated automatically when the ad is inserted or updated. If targeting an operating system version, do not set targeting for the corresponding operating system in operatingSystems. */
-  operatingSystemVersions?: OperatingSystemVersionList;
+  operatingSystemVersions?: OperatingSystemVersionList | undefined;
   /** Operating systems that this ad targets. To target specific versions, use operatingSystemVersions. For each operating system only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting an operating system, do not set targeting for operating system versions for the same operating system. */
-  operatingSystems?: OperatingSystemList;
+  operatingSystems?: OperatingSystemList | undefined;
 }
 /** Contains information about a language that can be targeted by ads. */
 export interface Language {
   /** Name of this language. */
-  name?: string;
+  name?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#language". */
-  kind?: string;
+  kind?: string | undefined;
   /** Format of language code is an ISO 639 two-letter language code optionally followed by an underscore followed by an ISO 3166 code. Examples are "en" for English or "zh_CN" for Simplified Chinese. */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Language ID of this language. This is the ID used for targeting and generating reports. */
-  id?: string;
+  id?: string | undefined;
 }
 export type LanguageList = Array<Language>;
 /** Language Targeting. */
 export interface LanguageTargeting {
   /** Languages that this ad targets. For each language only languageId is required. The other fields are populated automatically when the ad is inserted or updated. */
-  languages?: LanguageList;
+  languages?: LanguageList | undefined;
 }
 export type CreativeRotationTypeEnum =
   | "CREATIVE_ROTATION_TYPE_SEQUENTIAL"
@@ -1003,82 +1003,85 @@ export type CreativeRotationWeightCalculationStrategyEnum =
 /** Click-through URL */
 export interface ClickThroughUrl {
   /** Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If defaultLandingPage is enabled then the campaign's default landing page URL is assigned to this field. - If defaultLandingPage is not enabled and a landingPageId is specified then that landing page's URL is assigned to this field. - If neither of the above cases apply, then the customClickThroughUrl is assigned to this field. */
-  computedClickThroughUrl?: string;
+  computedClickThroughUrl?: string | undefined;
   /** ID of the landing page for the click-through URL. Applicable if the defaultLandingPage field is set to false. */
-  landingPageId?: string;
+  landingPageId?: string | undefined;
   /** Custom click-through URL. Applicable if the defaultLandingPage field is set to false and the landingPageId field is left unset. */
-  customClickThroughUrl?: string;
+  customClickThroughUrl?: string | undefined;
   /** Whether the campaign default landing page is used. */
-  defaultLandingPage?: boolean;
+  defaultLandingPage?: boolean | undefined;
 }
 /** Rich Media Exit Override. */
 export interface RichMediaExitOverride {
   /** Whether to use the clickThroughUrl. If false, the creative-level exit will be used. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** ID for the override to refer to a specific exit in the creative. */
-  exitId?: string;
+  exitId?: string | undefined;
   /** Click-through URL of this rich media exit override. Applicable if the enabled field is set to true. */
-  clickThroughUrl?: ClickThroughUrl;
+  clickThroughUrl?: ClickThroughUrl | undefined;
 }
 export type RichMediaExitOverrideList = Array<RichMediaExitOverride>;
 /** Companion Click-through override. */
 export interface CompanionClickThroughOverride {
   /** ID of the creative for this companion click-through override. */
-  creativeId?: string;
+  creativeId?: string | undefined;
   /** Click-through URL of this companion click-through override. */
-  clickThroughUrl?: ClickThroughUrl;
+  clickThroughUrl?: ClickThroughUrl | undefined;
 }
 export type CompanionClickThroughOverrideList = Array<CompanionClickThroughOverride>;
 /** Creative Assignment. */
 export interface CreativeAssignment {
   /** Whether applicable event tags should fire when this creative assignment is rendered. If this value is unset when the ad is inserted or updated, it will default to true for all creative types EXCEPT for INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO. */
-  applyEventTags?: boolean;
+  applyEventTags?: boolean | undefined;
   /** Rich media exit overrides for this creative assignment. Applicable when the creative type is any of the following: - DISPLAY - RICH_MEDIA_INPAGE - RICH_MEDIA_INPAGE_FLOATING - RICH_MEDIA_IM_EXPAND - RICH_MEDIA_EXPANDING - RICH_MEDIA_INTERSTITIAL_FLOAT - RICH_MEDIA_MOBILE_IN_APP - RICH_MEDIA_MULTI_FLOATING - RICH_MEDIA_PEEL_DOWN - VPAID_LINEAR - VPAID_NON_LINEAR */
-  richMediaExitOverrides?: RichMediaExitOverrideList;
+  richMediaExitOverrides?: RichMediaExitOverrideList | undefined;
   /** Creative group assignments for this creative assignment. Only one assignment per creative group number is allowed for a maximum of two assignments. */
-  creativeGroupAssignments?: CreativeGroupAssignmentList;
+  creativeGroupAssignments?: CreativeGroupAssignmentList | undefined;
   /** Weight of the creative assignment, applicable when the rotation type is CREATIVE_ROTATION_TYPE_RANDOM. Value must be greater than or equal to 1. */
-  weight?: number;
+  weight?: number | undefined;
   /** Dimension value for the ID of the creative. This is a read-only, auto-generated field. */
-  creativeIdDimensionValue?: DimensionValue;
+  creativeIdDimensionValue?: DimensionValue | undefined;
   /** Sequence number of the creative assignment, applicable when the rotation type is CREATIVE_ROTATION_TYPE_SEQUENTIAL. Acceptable values are 1 to 65535, inclusive. */
-  sequence?: number;
+  sequence?: number | undefined;
   /** Whether this creative assignment is active. When true, the creative will be included in the ad's rotation. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Click-through URL of the creative assignment. */
-  clickThroughUrl?: ClickThroughUrl;
-  endTime?: string;
+  clickThroughUrl?: ClickThroughUrl | undefined;
+  endTime?: string | undefined;
   /** Whether the creative to be assigned is SSL-compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslCompliant?: boolean;
+  sslCompliant?: boolean | undefined;
   /** Companion creative overrides for this creative assignment. Applicable to video ads. */
-  companionCreativeOverrides?: CompanionClickThroughOverrideList;
-  startTime?: string;
+  companionCreativeOverrides?: CompanionClickThroughOverrideList | undefined;
+  startTime?: string | undefined;
   /** ID of the creative to be assigned. This is a required field. */
-  creativeId?: string;
+  creativeId?: string | undefined;
 }
 export type CreativeAssignmentList = Array<CreativeAssignment>;
 /** Creative Rotation. */
 export interface CreativeRotation {
   /** Type of creative rotation. Can be used to specify whether to use sequential or random rotation. */
-  type?: CreativeRotationTypeEnum | (string & {});
+  type?: CreativeRotationTypeEnum | (string & {}) | undefined;
   /** Creative optimization configuration that is used by this ad. It should refer to one of the existing optimization configurations in the ad's campaign. If it is unset or set to 0, then the campaign's default optimization configuration will be used for this ad. */
-  creativeOptimizationConfigurationId?: string;
+  creativeOptimizationConfigurationId?: string | undefined;
   /** Strategy for calculating weights. Used with CREATIVE_ROTATION_TYPE_RANDOM. */
-  weightCalculationStrategy?: CreativeRotationWeightCalculationStrategyEnum | (string & {});
+  weightCalculationStrategy?:
+    | CreativeRotationWeightCalculationStrategyEnum
+    | (string & {})
+    | undefined;
   /** Creative assignments in this creative rotation. */
-  creativeAssignments?: CreativeAssignmentList;
+  creativeAssignments?: CreativeAssignmentList | undefined;
 }
 /** Modification timestamp. */
 export interface LastModifiedInfo {
   /** Timestamp of the last change in milliseconds since epoch. */
-  time?: string;
+  time?: string | undefined;
 }
 /** Frequency Cap. */
 export interface FrequencyCap {
   /** Number of times an individual user can be served the ad within the specified duration. Acceptable values are 1 to 15, inclusive. */
-  impressions?: string;
+  impressions?: string | undefined;
   /** Duration of time, in seconds, for this frequency cap. The maximum duration is 90 days. Acceptable values are 1 to 7776000, inclusive. */
-  duration?: string;
+  duration?: string | undefined;
 }
 export type DeliverySchedulePriorityEnum =
   | "AD_PRIORITY_01"
@@ -1100,31 +1103,31 @@ export type DeliverySchedulePriorityEnum =
 /** Delivery Schedule. */
 export interface DeliverySchedule {
   /** Limit on the number of times an individual user can be served the ad within a specified period of time. */
-  frequencyCap?: FrequencyCap;
+  frequencyCap?: FrequencyCap | undefined;
   /** Whether or not hard cutoff is enabled. If true, the ad will not serve after the end date and time. Otherwise the ad will continue to be served until it has reached its delivery goals. */
-  hardCutoff?: boolean;
+  hardCutoff?: boolean | undefined;
   /** Impression ratio for this ad. This ratio determines how often each ad is served relative to the others. For example, if ad A has an impression ratio of 1 and ad B has an impression ratio of 3, then Campaign Manager will serve ad B three times as often as ad A. Acceptable values are 1 to 10, inclusive. */
-  impressionRatio?: string;
+  impressionRatio?: string | undefined;
   /** Serving priority of an ad, with respect to other ads. The lower the priority number, the greater the priority with which it is served. */
-  priority?: DeliverySchedulePriorityEnum | (string & {});
+  priority?: DeliverySchedulePriorityEnum | (string & {}) | undefined;
 }
 /** Properties of inheriting and overriding the default click-through event tag. A campaign may override the event tag defined at the advertiser level, and an ad may also override the campaign's setting further. */
 export interface DefaultClickThroughEventTagProperties {
   /** Whether this entity should override the inherited default click-through event tag with its own defined value. */
-  overrideInheritedEventTag?: boolean;
+  overrideInheritedEventTag?: boolean | undefined;
   /** ID of the click-through event tag to apply to all ads in this entity's scope. */
-  defaultClickThroughEventTagId?: string;
+  defaultClickThroughEventTagId?: string | undefined;
 }
 /** Contains information about a Contextual Keyword that can be targeted by ads. */
 export interface ContextualKeyword {
   /** The keyword that can be targeted by ads. */
-  keyword?: string;
+  keyword?: string | undefined;
 }
 export type ContextualKeywordList = Array<ContextualKeyword>;
 /** Contextual Keyword Targeting. */
 export interface ContextualKeywordTargeting {
   /** Contextual keywords that this ad targets */
-  keywords?: ContextualKeywordList;
+  keywords?: ContextualKeywordList | undefined;
 }
 export type DayPartTargetingDaysOfWeekItemEnum =
   | "SUNDAY"
@@ -1141,72 +1144,72 @@ export type IntegerList = Array<number>;
 /** Day Part Targeting. */
 export interface DayPartTargeting {
   /** Days of the week when the ad will serve. Acceptable values are: - "SUNDAY" - "MONDAY" - "TUESDAY" - "WEDNESDAY" - "THURSDAY" - "FRIDAY" - "SATURDAY" */
-  daysOfWeek?: DayPartTargetingDaysOfWeekItemEnumList;
+  daysOfWeek?: DayPartTargetingDaysOfWeekItemEnumList | undefined;
   /** Hours of the day when the ad will serve, where 0 is midnight to 1 AM and 23 is 11 PM to midnight. Can be specified with days of week, in which case the ad would serve during these hours on the specified days. For example if Monday, Wednesday, Friday are the days of week specified and 9-10am, 3-5pm (hours 9, 15, and 16) is specified, the ad would serve Monday, Wednesdays, and Fridays at 9-10am and 3-5pm. Acceptable values are 0 to 23, inclusive. */
-  hoursOfDay?: IntegerList;
+  hoursOfDay?: IntegerList | undefined;
   /** Whether or not to use the user's local time. If false, the America/New York time zone applies. */
-  userLocalTime?: boolean;
+  userLocalTime?: boolean | undefined;
 }
 /** Remarketing List Targeting Expression. */
 export interface ListTargetingExpression {
   /** Expression describing which lists are being targeted by the ad. */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** Placement Assignment. */
 export interface PlacementAssignment {
   /** ID of the placement to be assigned. This is a required field. */
-  placementId?: string;
+  placementId?: string | undefined;
   /** Whether this placement assignment is active. When true, the placement will be included in the ad's rotation. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Whether the placement to be assigned requires SSL. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslRequired?: boolean;
+  sslRequired?: boolean | undefined;
   /** Dimension value for the ID of the placement. This is a read-only, auto-generated field. */
-  placementIdDimensionValue?: DimensionValue;
+  placementIdDimensionValue?: DimensionValue | undefined;
 }
 export type PlacementAssignmentList = Array<PlacementAssignment>;
 /** Key Value Targeting Expression. */
 export interface KeyValueTargetingExpression {
   /** Keyword expression being targeted by the ad. */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** Contains information about a city that can be targeted by ads. */
 export interface City {
   /** Country code of the country to which this city belongs. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** Name of this city. */
-  name?: string;
+  name?: string | undefined;
   /** Region code of the region to which this city belongs. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** DART ID of the region to which this city belongs. */
-  regionDartId?: string;
+  regionDartId?: string | undefined;
   /** Metro region code of the metro region (DMA) to which this city belongs. */
-  metroCode?: string;
+  metroCode?: string | undefined;
   /** DART ID of this city. This is the ID used for targeting and generating reports. */
-  dartId?: string;
+  dartId?: string | undefined;
   /** ID of the metro region (DMA) to which this city belongs. */
-  metroDmaId?: string;
+  metroDmaId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#city". */
-  kind?: string;
+  kind?: string | undefined;
   /** DART ID of the country to which this city belongs. */
-  countryDartId?: string;
+  countryDartId?: string | undefined;
 }
 export type CityList = Array<City>;
 /** Contains information about a metro region that can be targeted by ads. */
 export interface Metro {
   /** Metro code of this metro region. This is equivalent to dma_id. */
-  metroCode?: string;
+  metroCode?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#metro". */
-  kind?: string;
+  kind?: string | undefined;
   /** Name of this metro region. */
-  name?: string;
+  name?: string | undefined;
   /** DART ID of the country to which this metro region belongs. */
-  countryDartId?: string;
+  countryDartId?: string | undefined;
   /** DMA ID of this metro region. This is the ID used for targeting and generating reports, and is equivalent to metro_code. */
-  dmaId?: string;
+  dmaId?: string | undefined;
   /** DART ID of this metro region. */
-  dartId?: string;
+  dartId?: string | undefined;
   /** Country code of the country to which this metro region belongs. */
-  countryCode?: string;
+  countryCode?: string | undefined;
 }
 export type MetroList = Array<Metro>;
 export type CountryTvDataProvidersItemEnum =
@@ -1226,144 +1229,144 @@ export type CountryTvDataProvidersItemEnumList = Array<
 /** Contains information about a country that can be targeted by ads. */
 export interface Country {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#country". */
-  kind?: string;
+  kind?: string | undefined;
   /** Name of this country. */
-  name?: string;
+  name?: string | undefined;
   /** Whether ad serving supports secure servers in this country. */
-  sslEnabled?: boolean;
+  sslEnabled?: boolean | undefined;
   /** DART ID of this country. This is the ID used for targeting and generating reports. */
-  dartId?: string;
+  dartId?: string | undefined;
   /** Output only. The TV data providers supported in this country. */
-  tvDataProviders?: CountryTvDataProvidersItemEnumList;
+  tvDataProviders?: CountryTvDataProvidersItemEnumList | undefined;
   /** Country code. */
-  countryCode?: string;
+  countryCode?: string | undefined;
 }
 export type CountryList = Array<Country>;
 /** Contains information about a postal code that can be targeted by ads. */
 export interface PostalCode {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#postalCode". */
-  kind?: string;
+  kind?: string | undefined;
   /** Postal code. This is equivalent to the id field. */
-  code?: string;
+  code?: string | undefined;
   /** ID of this postal code. */
-  id?: string;
+  id?: string | undefined;
   /** DART ID of the country to which this postal code belongs. */
-  countryDartId?: string;
+  countryDartId?: string | undefined;
   /** Country code of the country to which this postal code belongs. */
-  countryCode?: string;
+  countryCode?: string | undefined;
 }
 export type PostalCodeList = Array<PostalCode>;
 /** Contains information about a region that can be targeted by ads. */
 export interface Region {
   /** DART ID of this region. */
-  dartId?: string;
+  dartId?: string | undefined;
   /** DART ID of the country to which this region belongs. */
-  countryDartId?: string;
+  countryDartId?: string | undefined;
   /** Region code. */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Name of this region. */
-  name?: string;
+  name?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#region". */
-  kind?: string;
+  kind?: string | undefined;
   /** Country code of the country to which this region belongs. */
-  countryCode?: string;
+  countryCode?: string | undefined;
 }
 export type RegionList = Array<Region>;
 /** Geographical Targeting. */
 export interface GeoTargeting {
   /** Cities to be targeted. For each city only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a city, do not target or exclude the country of the city, and do not target the metro or region of the city. */
-  cities?: CityList;
+  cities?: CityList | undefined;
   /** Metros to be targeted. For each metro only dmaId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a metro, do not target or exclude the country of the metro. */
-  metros?: MetroList;
+  metros?: MetroList | undefined;
   /** Countries to be targeted or excluded from targeting, depending on the setting of the excludeCountries field. For each country only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting or excluding a country, do not target regions, cities, metros, or postal codes in the same country. */
-  countries?: CountryList;
+  countries?: CountryList | undefined;
   /** Postal codes to be targeted. For each postal code only id is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a postal code, do not target or exclude the country of the postal code. */
-  postalCodes?: PostalCodeList;
+  postalCodes?: PostalCodeList | undefined;
   /** Whether or not to exclude the countries in the countries field from targeting. If false, the countries field refers to countries which will be targeted by the ad. */
-  excludeCountries?: boolean;
+  excludeCountries?: boolean | undefined;
   /** Regions to be targeted. For each region only dartId is required. The other fields are populated automatically when the ad is inserted or updated. If targeting a region, do not target or exclude the country of the region. */
-  regions?: RegionList;
+  regions?: RegionList | undefined;
 }
 /** Contains properties of a Campaign Manager ad. */
 export interface Ad {
   /** Compatibility of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to either rendering on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are only used for existing default ads. New mobile placements must be assigned DISPLAY or DISPLAY_INTERSTITIAL and default ads created for those placements will be limited to those compatibility types. IN_STREAM_VIDEO refers to rendering in-stream video ads developed with the VAST standard. */
-  compatibility?: AdCompatibilityEnum | (string & {});
+  compatibility?: AdCompatibilityEnum | (string & {}) | undefined;
   /** Type of ad. This is a required field on insertion. Note that default ads ( AD_SERVING_DEFAULT_AD) cannot be created directly (see Creative resource). */
-  type?: AdTypeEnum | (string & {});
+  type?: AdTypeEnum | (string & {}) | undefined;
   /** Subaccount ID of this ad. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Creative group assignments for this ad. Applicable when type is AD_SERVING_CLICK_TRACKER. Only one assignment per creative group number is allowed for a maximum of two assignments. */
-  creativeGroupAssignments?: CreativeGroupAssignmentList;
+  creativeGroupAssignments?: CreativeGroupAssignmentList | undefined;
   /** Size of this ad. Applicable when type is AD_SERVING_DEFAULT_AD. */
-  size?: Size;
+  size?: Size | undefined;
   /** Audience segment ID that is being targeted for this ad. Applicable when type is AD_SERVING_STANDARD_AD. */
-  audienceSegmentId?: string;
+  audienceSegmentId?: string | undefined;
   /** Click-through URL suffix properties for this ad. Applies to the URL in the ad or (if overriding ad properties) the URL in the creative. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties;
+  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
   /** Event tag overrides for this ad. */
-  eventTagOverrides?: EventTagOverrideList;
+  eventTagOverrides?: EventTagOverrideList | undefined;
   /** Campaign ID of this ad. This is a required field on insertion. */
-  campaignId?: string;
+  campaignId?: string | undefined;
   /** Dimension value for the ID of this ad. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** Whether this ad requires ssl. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslRequired?: boolean;
+  sslRequired?: boolean | undefined;
   /** ID of this ad. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Technology platform targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  technologyTargeting?: TechnologyTargeting;
+  technologyTargeting?: TechnologyTargeting | undefined;
   /** Account ID of this ad. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Language targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  languageTargeting?: LanguageTargeting;
+  languageTargeting?: LanguageTargeting | undefined;
   /** Creative rotation for this ad. Applicable when type is AD_SERVING_DEFAULT_AD, AD_SERVING_STANDARD_AD, or AD_SERVING_TRACKING. When type is AD_SERVING_DEFAULT_AD, this field should have exactly one creativeAssignment . */
-  creativeRotation?: CreativeRotation;
-  endTime?: string;
+  creativeRotation?: CreativeRotation | undefined;
+  endTime?: string | undefined;
   /** Information about the creation of this ad. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
+  createInfo?: LastModifiedInfo | undefined;
   /** Delivery schedule information for this ad. Applicable when type is AD_SERVING_STANDARD_AD or AD_SERVING_TRACKING. This field along with subfields priority and impressionRatio are required on insertion when type is AD_SERVING_STANDARD_AD. */
-  deliverySchedule?: DeliverySchedule;
+  deliverySchedule?: DeliverySchedule | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Default click-through event tag properties for this ad. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties;
+  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
   /** Click-through URL for this ad. This is a required field on insertion. Applicable when type is AD_SERVING_CLICK_TRACKER. */
-  clickThroughUrl?: ClickThroughUrl;
+  clickThroughUrl?: ClickThroughUrl | undefined;
   /** Name of this ad. This is a required field and must be less than 256 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Contextual keyword targeting information for this ad. */
-  contextualKeywordTargeting?: ContextualKeywordTargeting;
+  contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
   /** Time and day targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  dayPartTargeting?: DayPartTargeting;
+  dayPartTargeting?: DayPartTargeting | undefined;
   /** Whether this ad is a dynamic click tracker. Applicable when type is AD_SERVING_CLICK_TRACKER. This is a required field on insert, and is read-only after insert. */
-  dynamicClickTracker?: boolean;
+  dynamicClickTracker?: boolean | undefined;
   /** Remarketing list targeting expression for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  remarketingListExpression?: ListTargetingExpression;
+  remarketingListExpression?: ListTargetingExpression | undefined;
   /** Placement assignments for this ad. */
-  placementAssignments?: PlacementAssignmentList;
+  placementAssignments?: PlacementAssignmentList | undefined;
   /** Targeting template ID, used to apply preconfigured targeting information to this ad. This cannot be set while any of dayPartTargeting, geoTargeting, keyValueTargetingExpression, languageTargeting, remarketingListExpression, or technologyTargeting are set. Applicable when type is AD_SERVING_STANDARD_AD. */
-  targetingTemplateId?: string;
-  startTime?: string;
+  targetingTemplateId?: string | undefined;
+  startTime?: string | undefined;
   /** Whether this ad is ssl compliant. This is a read-only field that is auto-generated when the ad is inserted or updated. */
-  sslCompliant?: boolean;
+  sslCompliant?: boolean | undefined;
   /** Comments for this ad. */
-  comments?: string;
+  comments?: string | undefined;
   /** Key-value targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression;
+  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
   /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue;
+  campaignIdDimensionValue?: DimensionValue | undefined;
   /** Whether this ad is archived. When true, active must be false. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Geographical targeting information for this ad. This field must be left blank if the ad is using a targeting template. Applicable when type is AD_SERVING_STANDARD_AD. */
-  geoTargeting?: GeoTargeting;
+  geoTargeting?: GeoTargeting | undefined;
   /** Information about the most recent modification of this ad. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#ad". */
-  kind?: string;
+  kind?: string | undefined;
   /** Advertiser ID of this ad. This is a required field on insertion. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Whether this ad is active. When true, archived must be false. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export interface GetAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
@@ -1374,13 +1377,13 @@ export interface GetAdvertiserGroupsRequest {
 /** Groups advertisers together so that reports can be generated for the entire group at once. */
 export interface AdvertiserGroup {
   /** ID of this advertiser group. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this advertiser group. This is a required field and must be less than 256 characters long and unique among advertiser groups of the same account. */
-  name?: string;
+  name?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserGroup". */
-  kind?: string;
+  kind?: string | undefined;
   /** Account ID of this advertiser group. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface GetAdvertiserLandingPagesRequest {
   /** Landing page ID. */
@@ -1403,46 +1406,46 @@ export type MobileAppDirectoryEnum =
 /** Contains information about a mobile app. Used as a landing page deep link. */
 export interface MobileApp {
   /** Title of this mobile app. */
-  title?: string;
+  title?: string | undefined;
   /** Publisher name. */
-  publisherName?: string;
+  publisherName?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileApp". */
-  kind?: string;
+  kind?: string | undefined;
   /** Mobile app directory. */
-  directory?: MobileAppDirectoryEnum | (string & {});
+  directory?: MobileAppDirectoryEnum | (string & {}) | undefined;
   /** ID of this mobile app. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Contains information about a landing page deep link. */
 export interface DeepLink {
   /** The URL of the mobile app being linked to. */
-  appUrl?: string;
+  appUrl?: string | undefined;
   /** The mobile app targeted by this deep link. */
-  mobileApp?: MobileApp;
+  mobileApp?: MobileApp | undefined;
   /** Ads served to users on these remarketing lists will use this deep link. Applicable when mobileApp.directory is APPLE_APP_STORE. */
-  remarketingListIds?: StringList;
+  remarketingListIds?: StringList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#deepLink". */
-  kind?: string;
+  kind?: string | undefined;
   /** The fallback URL. This URL will be served to users who do not have the mobile app installed. */
-  fallbackUrl?: string;
+  fallbackUrl?: string | undefined;
 }
 export type DeepLinkList = Array<DeepLink>;
 /** Contains information about where a user's browser is taken after the user clicks an ad. */
 export interface LandingPage {
   /** URL of this landing page. This is a required field. */
-  url?: string;
+  url?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#landingPage". */
-  kind?: string;
+  kind?: string | undefined;
   /** Whether this landing page has been archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Name of this landing page. This is a required field. It must be less than 256 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** ID of this landing page. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Links that will direct the user to a mobile app, if installed. */
-  deepLinks?: DeepLinkList;
+  deepLinks?: DeepLinkList | undefined;
   /** Advertiser ID of this landing page. This is a required field. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
 }
 export interface GetAdvertisersRequest {
   /** User profile ID associated with this request. */
@@ -1470,48 +1473,51 @@ export type MeasurementPartnerAdvertiserLinkLinkStatusEnum =
   | "MEASUREMENT_PARTNER_UNLINK_PENDING";
 export interface MeasurementPartnerAdvertiserLink {
   /** partner Advertiser Id. */
-  partnerAdvertiserId?: string;
+  partnerAdvertiserId?: string | undefined;
   /** Measurement partner used for tag wrapping. */
-  measurementPartner?: MeasurementPartnerAdvertiserLinkMeasurementPartnerEnum | (string & {});
+  measurementPartner?:
+    | MeasurementPartnerAdvertiserLinkMeasurementPartnerEnum
+    | (string & {})
+    | undefined;
   /** Status of the partner link. */
-  linkStatus?: MeasurementPartnerAdvertiserLinkLinkStatusEnum | (string & {});
+  linkStatus?: MeasurementPartnerAdvertiserLinkLinkStatusEnum | (string & {}) | undefined;
 }
 /** Contains properties of a Campaign Manager advertiser. */
 export interface Advertiser {
   /** Suspension status of this advertiser. */
-  suspended?: boolean;
+  suspended?: boolean | undefined;
   /** Account ID of this advertiser.This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Name of this advertiser. This is a required field and must be less than 256 characters long and unique among advertisers of the same account. */
-  name?: string;
+  name?: string | undefined;
   /** Dimension value for the ID of this advertiser. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** ID of this advertiser. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Status of this advertiser. */
-  status?: AdvertiserStatusEnum | (string & {});
+  status?: AdvertiserStatusEnum | (string & {}) | undefined;
   /** Floodlight configuration ID of this advertiser. The floodlight configuration ID will be created automatically, so on insert this field should be left blank. This field can be set to another advertiser's floodlight configuration ID in order to share that advertiser's floodlight configuration with this advertiser, so long as: - This advertiser's original floodlight configuration is not already associated with floodlight activities or floodlight activity groups. - This advertiser's original floodlight configuration is not already shared with another advertiser. */
-  floodlightConfigurationId?: string;
+  floodlightConfigurationId?: string | undefined;
   /** Suffix added to click-through URL of ad creative associations under this advertiser. Must be less than 129 characters long. */
-  clickThroughUrlSuffix?: string;
+  clickThroughUrlSuffix?: string | undefined;
   /** Optional. Whether the advertiser plans to serve EU political ads. */
-  euPoliticalAdsDeclaration?: AdvertiserEuPoliticalAdsDeclarationEnum | (string & {});
+  euPoliticalAdsDeclaration?: AdvertiserEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiser". */
-  kind?: string;
+  kind?: string | undefined;
   /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue;
+  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
   /** ID of the advertiser group this advertiser belongs to. You can group advertisers for reporting purposes, allowing you to see aggregated information for all advertisers in each group. */
-  advertiserGroupId?: string;
+  advertiserGroupId?: string | undefined;
   /** ID of the click-through event tag to apply by default to the landing pages of this advertiser's campaigns. */
-  defaultClickThroughEventTagId?: string;
+  defaultClickThroughEventTagId?: string | undefined;
   /** Default email address used in sender field for tag emails. */
-  defaultEmail?: string;
+  defaultEmail?: string | undefined;
   /** Original floodlight configuration before any sharing occurred. Set the floodlightConfigurationId of this advertiser to originalFloodlightConfigurationId to unshare the advertiser's current floodlight configuration. You cannot unshare an advertiser's floodlight configuration if the shared configuration has activities associated with any campaign or placement. */
-  originalFloodlightConfigurationId?: string;
+  originalFloodlightConfigurationId?: string | undefined;
   /** Subaccount ID of this advertiser.This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Measurement partner advertiser link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerAdvertiserLink;
+  measurementPartnerLink?: MeasurementPartnerAdvertiserLink | undefined;
 }
 export interface GetBillingProfilesRequest {
   /** User profile ID associated with this request. */
@@ -1527,31 +1533,31 @@ export type BillingProfileStatusEnum = "UNDER_REVIEW" | "ACTIVE" | "ARCHIVED";
 /** Contains properties of a Campaign Manager Billing Profile. */
 export interface BillingProfile {
   /** The ID of the payment customer the billing profile belongs to. This is a read-only field. */
-  paymentsCustomerId?: string;
+  paymentsCustomerId?: string | undefined;
   /** Consolidated invoice option for this billing profile. Used to get a single, consolidated invoice across the chosen invoice level. */
-  consolidatedInvoice?: boolean;
+  consolidatedInvoice?: boolean | undefined;
   /** Invoice level for this billing profile. Used to group fees into separate invoices by account, advertiser, or campaign. */
-  invoiceLevel?: BillingProfileInvoiceLevelEnum | (string & {});
+  invoiceLevel?: BillingProfileInvoiceLevelEnum | (string & {}) | undefined;
   /** Purchase order (PO) for this billing profile. This PO number is used in the invoices for all of the advertisers in this billing profile. */
-  purchaseOrder?: string;
+  purchaseOrder?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingProfile". */
-  kind?: string;
+  kind?: string | undefined;
   /** Billing currency code in ISO 4217 format.This is a read-only field. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** The ID of the secondary payment customer the billing profile belongs to. This is a read-only field. */
-  secondaryPaymentsCustomerId?: string;
+  secondaryPaymentsCustomerId?: string | undefined;
   /** Country code of this billing profile.This is a read-only field. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** True if the billing profile is the account default profile. This is a read-only field. */
-  isDefault?: boolean;
+  isDefault?: boolean | undefined;
   /** ID of this billing profile. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this billing profile. This is a required field and must be less than 256 characters long and must be unique among billing profile in the same account. */
-  name?: string;
+  name?: string | undefined;
   /** The ID of the payment account the billing profile belongs to. This is a read-only field. */
-  paymentsAccountId?: string;
+  paymentsAccountId?: string | undefined;
   /** Status of this billing profile.This is a read-only field. */
-  status?: BillingProfileStatusEnum | (string & {});
+  status?: BillingProfileStatusEnum | (string & {}) | undefined;
 }
 export interface GetCampaignsRequest {
   /** Campaign ID. */
@@ -1568,23 +1574,26 @@ export type CreativeOptimizationConfigurationOptimizationModelEnum =
 /** Creative optimization activity. */
 export interface OptimizationActivity {
   /** Floodlight activity ID of this optimization activity. This is a required field. */
-  floodlightActivityId?: string;
+  floodlightActivityId?: string | undefined;
   /** Dimension value for the ID of the floodlight activity. This is a read-only, auto-generated field. */
-  floodlightActivityIdDimensionValue?: DimensionValue;
+  floodlightActivityIdDimensionValue?: DimensionValue | undefined;
   /** Weight associated with this optimization. The weight assigned will be understood in proportion to the weights assigned to the other optimization activities. Value must be greater than or equal to 1. */
-  weight?: number;
+  weight?: number | undefined;
 }
 export type OptimizationActivityList = Array<OptimizationActivity>;
 /** Creative optimization settings. */
 export interface CreativeOptimizationConfiguration {
   /** Name of this creative optimization config. This is a required field and must be less than 129 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** Optimization model for this configuration. */
-  optimizationModel?: CreativeOptimizationConfigurationOptimizationModelEnum | (string & {});
+  optimizationModel?:
+    | CreativeOptimizationConfigurationOptimizationModelEnum
+    | (string & {})
+    | undefined;
   /** List of optimization activities associated with this configuration. */
-  optimizationActivitys?: OptimizationActivityList;
+  optimizationActivitys?: OptimizationActivityList | undefined;
   /** ID of this creative optimization config. This field is auto-generated when the campaign is inserted or updated. It can be null for existing campaigns. */
-  id?: string;
+  id?: string | undefined;
 }
 export type CreativeOptimizationConfigurationList = Array<CreativeOptimizationConfiguration>;
 export type CampaignEuPoliticalAdsDeclarationEnum =
@@ -1593,21 +1602,21 @@ export type CampaignEuPoliticalAdsDeclarationEnum =
 /** Audience Segment. */
 export interface AudienceSegment {
   /** ID of this audience segment. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Weight allocated to this segment. The weight assigned will be understood in proportion to the weights assigned to other segments in the same segment group. Acceptable values are 1 to 1000, inclusive. */
-  allocation?: number;
+  allocation?: number | undefined;
   /** Name of this audience segment. This is a required field and must be less than 65 characters long. */
-  name?: string;
+  name?: string | undefined;
 }
 export type AudienceSegmentList = Array<AudienceSegment>;
 /** Audience Segment Group. */
 export interface AudienceSegmentGroup {
   /** ID of this audience segment group. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Audience segments assigned to this group. The number of segments must be between 2 and 100. */
-  audienceSegments?: AudienceSegmentList;
+  audienceSegments?: AudienceSegmentList | undefined;
   /** Name of this audience segment group. This is a required field and must be less than 65 characters long. */
-  name?: string;
+  name?: string | undefined;
 }
 export type AudienceSegmentGroupList = Array<AudienceSegmentGroup>;
 export type MeasurementPartnerCampaignLinkMeasurementPartnerEnum =
@@ -1626,73 +1635,76 @@ export type MeasurementPartnerCampaignLinkLinkStatusEnum =
   | "MEASUREMENT_PARTNER_UNLINK_PENDING";
 export interface MeasurementPartnerCampaignLink {
   /** Measurement partner used for tag wrapping. */
-  measurementPartner?: MeasurementPartnerCampaignLinkMeasurementPartnerEnum | (string & {});
+  measurementPartner?:
+    | MeasurementPartnerCampaignLinkMeasurementPartnerEnum
+    | (string & {})
+    | undefined;
   /** . */
-  linkStatus?: MeasurementPartnerCampaignLinkLinkStatusEnum | (string & {});
+  linkStatus?: MeasurementPartnerCampaignLinkLinkStatusEnum | (string & {}) | undefined;
   /** Partner campaign ID needed for establishing linking with Measurement partner. */
-  partnerCampaignId?: string;
+  partnerCampaignId?: string | undefined;
 }
 /** Campaign ad blocking settings. */
 export interface AdBlockingConfiguration {
   /** Whether this campaign has enabled ad blocking. When true, ad blocking is enabled for placements in the campaign, but this may be overridden by site and placement settings. When false, ad blocking is disabled for all placements under the campaign, regardless of site and placement settings. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Contains properties of a Campaign Manager campaign. */
 export interface Campaign {
-  startDate?: string;
+  startDate?: string | undefined;
   /** Information about the most recent modification of this campaign. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
   /** Account ID of this campaign. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Dimension value for the advertiser ID of this campaign. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Subaccount ID of this campaign. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Click-through URL suffix override properties for this campaign. */
-  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties;
+  clickThroughUrlSuffixProperties?: ClickThroughUrlSuffixProperties | undefined;
   /** Arbitrary comments about this campaign. Must be less than 256 characters long. */
-  comment?: string;
+  comment?: string | undefined;
   /** Information about the creation of this campaign. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
-  endDate?: string;
+  createInfo?: LastModifiedInfo | undefined;
+  endDate?: string | undefined;
   /** Billing invoice code included in the Campaign Manager client billing invoices associated with the campaign. */
-  billingInvoiceCode?: string;
+  billingInvoiceCode?: string | undefined;
   /** Additional creative optimization configurations for the campaign. */
-  additionalCreativeOptimizationConfigurations?: CreativeOptimizationConfigurationList;
+  additionalCreativeOptimizationConfigurations?: CreativeOptimizationConfigurationList | undefined;
   /** Click-through event tag ID override properties for this campaign. */
-  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties;
+  defaultClickThroughEventTagProperties?: DefaultClickThroughEventTagProperties | undefined;
   /** Optional. Whether the campaign has EU political ads. Campaign Manager 360 doesn't allow campaigns with EU political ads to serve in the EU. They can still serve in other regions. */
-  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | (string & {});
+  euPoliticalAdsDeclaration?: CampaignEuPoliticalAdsDeclarationEnum | (string & {}) | undefined;
   /** Audience segment groups assigned to this campaign. Cannot have more than 300 segment groups. */
-  audienceSegmentGroups?: AudienceSegmentGroupList;
+  audienceSegmentGroups?: AudienceSegmentGroupList | undefined;
   /** List of creative group IDs that are assigned to the campaign. */
-  creativeGroupIds?: StringList;
+  creativeGroupIds?: StringList | undefined;
   /** Measurement partner campaign link for tag wrapping. */
-  measurementPartnerLink?: MeasurementPartnerCampaignLink;
+  measurementPartnerLink?: MeasurementPartnerCampaignLink | undefined;
   /** External ID for this campaign. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Overrides that can be used to activate or deactivate advertiser event tags. */
-  eventTagOverrides?: EventTagOverrideList;
+  eventTagOverrides?: EventTagOverrideList | undefined;
   /** Name of this campaign. This is a required field and must be less than 512 characters long and unique among campaigns of the same advertiser. */
-  name?: string;
+  name?: string | undefined;
   /** Creative optimization configuration for the campaign. */
-  creativeOptimizationConfiguration?: CreativeOptimizationConfiguration;
+  creativeOptimizationConfiguration?: CreativeOptimizationConfiguration | undefined;
   /** ID of this campaign. This is a read-only auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Dimension value for the ID of this campaign. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** Ad blocking settings for this campaign. */
-  adBlockingConfiguration?: AdBlockingConfiguration;
+  adBlockingConfiguration?: AdBlockingConfiguration | undefined;
   /** Advertiser ID of this campaign. This is a required field. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaign". */
-  kind?: string;
+  kind?: string | undefined;
   /** Advertiser group ID of the associated advertiser. */
-  advertiserGroupId?: string;
+  advertiserGroupId?: string | undefined;
   /** The default landing page ID for this campaign. */
-  defaultLandingPageId?: string;
+  defaultLandingPageId?: string | undefined;
   /** Whether this campaign has been archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
 }
 export interface GetChangeLogsRequest {
   /** Change log ID. */
@@ -1703,32 +1715,32 @@ export interface GetChangeLogsRequest {
 /** Describes a change that a user has made to a resource. */
 export interface ChangeLog {
   /** ID of the user who modified the object. */
-  userProfileId?: string;
+  userProfileId?: string | undefined;
   /** Object type of the change log. */
-  objectType?: string;
-  changeTime?: string;
+  objectType?: string | undefined;
+  changeTime?: string | undefined;
   /** Account ID of the modified object. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Transaction ID of this change log. When a single API call results in many changes, each change will have a separate ID in the change log but will share the same transactionId. */
-  transactionId?: string;
+  transactionId?: string | undefined;
   /** Action which caused the change. */
-  action?: string;
+  action?: string | undefined;
   /** User profile name of the user who modified the object. */
-  userProfileName?: string;
+  userProfileName?: string | undefined;
   /** Old value of the object field. */
-  oldValue?: string;
+  oldValue?: string | undefined;
   /** ID of this change log. */
-  id?: string;
+  id?: string | undefined;
   /** Subaccount ID of the modified object. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#changeLog". */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the object of this change log. The object could be a campaign, placement, ad, or other type. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Field name of the object which changed. */
-  fieldName?: string;
+  fieldName?: string | undefined;
   /** New value of the object field. */
-  newValue?: string;
+  newValue?: string | undefined;
 }
 export interface GetConnectionTypesRequest {
   /** Connection type ID. */
@@ -1744,13 +1756,13 @@ export interface GetContentCategoriesRequest {
 }
 export interface ContentCategory {
   /** Name of this content category. This is a required field and must be less than 256 characters long and unique among content categories of the same account. */
-  name?: string;
+  name?: string | undefined;
   /** Account ID of this content category. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategory". */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of this content category. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface GetCountriesRequest {
   /** Country DART ID. */
@@ -1767,19 +1779,19 @@ export interface GetCreativeFieldsRequest {
 /** Contains properties of a creative field. */
 export interface CreativeField {
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** ID of this creative field. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Subaccount ID of this creative field. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Advertiser ID of this creative field. This is a required field on insertion. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Account ID of this creative field. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeField". */
-  kind?: string;
+  kind?: string | undefined;
   /** Name of this creative field. This is a required field and must be less than 256 characters long and unique among creative fields of the same advertiser. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetCreativeFieldValuesRequest {
   /** User profile ID associated with this request. */
@@ -1792,11 +1804,11 @@ export interface GetCreativeFieldValuesRequest {
 /** Contains properties of a creative field value. */
 export interface CreativeFieldValue {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldValue". */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of this creative field value. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Value of this creative field value. It needs to be less than 256 characters in length and unique per creative field. */
-  value?: string;
+  value?: string | undefined;
 }
 export interface GetCreativeGroupsRequest {
   /** User profile ID associated with this request. */
@@ -1807,21 +1819,21 @@ export interface GetCreativeGroupsRequest {
 /** Contains properties of a creative group. */
 export interface CreativeGroup {
   /** Advertiser ID of this creative group. This is a required field on insertion. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Subgroup of the creative group. Assign your creative groups to a subgroup in order to filter or manage them more easily. This field is required on insertion and is read-only after insertion. Acceptable values are 1 to 2, inclusive. */
-  groupNumber?: number;
+  groupNumber?: number | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** ID of this creative group. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this creative group. This is a required field and must be less than 256 characters long and unique among creative groups of the same advertiser. */
-  name?: string;
+  name?: string | undefined;
   /** Account ID of this creative group. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeGroup". */
-  kind?: string;
+  kind?: string | undefined;
   /** Subaccount ID of this creative group. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
 }
 export interface GetCreativesRequest {
   /** User profile ID associated with this request. */
@@ -1832,9 +1844,9 @@ export interface GetCreativesRequest {
 /** Video Offset */
 export interface VideoOffset {
   /** Duration, as a percentage of video duration. Do not set when offsetSeconds is set. Acceptable values are 0 to 100, inclusive. */
-  offsetPercentage?: number;
+  offsetPercentage?: number | undefined;
   /** Duration, in seconds. Do not set when offsetPercentage is set. Acceptable values are 0 to 86399, inclusive. */
-  offsetSeconds?: number;
+  offsetSeconds?: number | undefined;
 }
 export type CreativeCompatibilityItemEnum =
   | "DISPLAY"
@@ -1869,9 +1881,9 @@ export type ThirdPartyTrackingUrlThirdPartyUrlTypeEnum =
 /** Third-party Tracking URL. */
 export interface ThirdPartyTrackingUrl {
   /** Third-party URL type for in-stream video and in-stream audio creatives. */
-  thirdPartyUrlType?: ThirdPartyTrackingUrlThirdPartyUrlTypeEnum | (string & {});
+  thirdPartyUrlType?: ThirdPartyTrackingUrlThirdPartyUrlTypeEnum | (string & {}) | undefined;
   /** URL for the specified third-party URL type. */
-  url?: string;
+  url?: string | undefined;
 }
 export type ThirdPartyTrackingUrlList = Array<ThirdPartyTrackingUrl>;
 export type UniversalAdIdRegistryEnum =
@@ -1884,18 +1896,18 @@ export type UniversalAdIdRegistryEnum =
 /** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and VPAID. */
 export interface UniversalAdId {
   /** ID value for this creative. Only alphanumeric characters and the following symbols are valid: "_/\-". Maximum length is 64 characters. Read only when registry is DCM. */
-  value?: string;
+  value?: string | undefined;
   /** Registry used for the Ad ID value. */
-  registry?: UniversalAdIdRegistryEnum | (string & {});
+  registry?: UniversalAdIdRegistryEnum | (string & {}) | undefined;
 }
 /** Click-through URL */
 export interface CreativeClickThroughUrl {
   /** Custom click-through URL. Applicable if the landingPageId field is left unset. */
-  customClickThroughUrl?: string;
+  customClickThroughUrl?: string | undefined;
   /** ID of the landing page for the click-through URL. */
-  landingPageId?: string;
+  landingPageId?: string | undefined;
   /** Read-only convenience field representing the actual URL that will be used for this click-through. The URL is computed as follows: - If landingPageId is specified then that landing page's URL is assigned to this field. - Otherwise, the customClickThroughUrl is assigned to this field. */
-  computedClickThroughUrl?: string;
+  computedClickThroughUrl?: string | undefined;
 }
 export type CreativeCustomEventAdvertiserCustomEventTypeEnum =
   | "ADVERTISER_EVENT_TIMER"
@@ -1910,30 +1922,30 @@ export type PopupWindowPropertiesPositionTypeEnum = "CENTER" | "COORDINATES";
 /** Offset Position. */
 export interface OffsetPosition {
   /** Offset distance from left side of an asset or a window. */
-  left?: number;
+  left?: number | undefined;
   /** Offset distance from top side of an asset or a window. */
-  top?: number;
+  top?: number | undefined;
 }
 /** Popup Window Properties. */
 export interface PopupWindowProperties {
   /** Whether to display the browser address bar. */
-  showAddressBar?: boolean;
+  showAddressBar?: boolean | undefined;
   /** Popup dimension for a creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID */
-  dimension?: Size;
+  dimension?: Size | undefined;
   /** Whether to display the browser menu bar. */
-  showMenuBar?: boolean;
+  showMenuBar?: boolean | undefined;
   /** Whether to display the browser scroll bar. */
-  showScrollBar?: boolean;
+  showScrollBar?: boolean | undefined;
   /** Popup window position either centered or at specific coordinate. */
-  positionType?: PopupWindowPropertiesPositionTypeEnum | (string & {});
+  positionType?: PopupWindowPropertiesPositionTypeEnum | (string & {}) | undefined;
   /** Whether to display the browser tool bar. */
-  showToolBar?: boolean;
+  showToolBar?: boolean | undefined;
   /** Title of popup window. */
-  title?: string;
+  title?: string | undefined;
   /** Upper-left corner coordinates of the popup window. Applicable if positionType is COORDINATES. */
-  offset?: OffsetPosition;
+  offset?: OffsetPosition | undefined;
   /** Whether to display the browser status bar. */
-  showStatusBar?: boolean;
+  showStatusBar?: boolean | undefined;
 }
 export type CreativeCustomEventTargetTypeEnum =
   | "TARGET_BLANK"
@@ -1944,25 +1956,28 @@ export type CreativeCustomEventTargetTypeEnum =
 /** Creative Custom Event. */
 export interface CreativeCustomEvent {
   /** Artwork label column, used to link events in Campaign Manager back to events in Studio. This is a required field and should not be modified after insertion. */
-  artworkLabel?: string;
+  artworkLabel?: string | undefined;
   /** Exit click-through URL for the event. This field is used only for exit events. */
-  exitClickThroughUrl?: CreativeClickThroughUrl;
+  exitClickThroughUrl?: CreativeClickThroughUrl | undefined;
   /** Type of the event. This is a read-only field. */
-  advertiserCustomEventType?: CreativeCustomEventAdvertiserCustomEventTypeEnum | (string & {});
+  advertiserCustomEventType?:
+    | CreativeCustomEventAdvertiserCustomEventTypeEnum
+    | (string & {})
+    | undefined;
   /** User-entered name for the event. */
-  advertiserCustomEventName?: string;
+  advertiserCustomEventName?: string | undefined;
   /** Artwork type used by the creative.This is a read-only field. */
-  artworkType?: CreativeCustomEventArtworkTypeEnum | (string & {});
+  artworkType?: CreativeCustomEventArtworkTypeEnum | (string & {}) | undefined;
   /** Properties for rich media popup windows. This field is used only for exit events. */
-  popupWindowProperties?: PopupWindowProperties;
+  popupWindowProperties?: PopupWindowProperties | undefined;
   /** Unique ID of this event used by Reporting and Data Transfer. This is a read-only field. */
-  advertiserCustomEventId?: string;
+  advertiserCustomEventId?: string | undefined;
   /** Video reporting ID, used to differentiate multiple videos in a single creative. This is a read-only field. */
-  videoReportingId?: string;
+  videoReportingId?: string | undefined;
   /** Target type used by the event. */
-  targetType?: CreativeCustomEventTargetTypeEnum | (string & {});
+  targetType?: CreativeCustomEventTargetTypeEnum | (string & {}) | undefined;
   /** ID of this event. This is a required field and should not be modified after insertion. */
-  id?: string;
+  id?: string | undefined;
 }
 export type CreativeCustomEventList = Array<CreativeCustomEvent>;
 export type CreativeArtworkTypeEnum =
@@ -1973,11 +1988,11 @@ export type CreativeArtworkTypeEnum =
 /** Creative Click Tag. */
 export interface ClickTag {
   /** Parameter name for the specified click tag. For DISPLAY_IMAGE_GALLERY creative assets, this field must match the value of the creative asset's creativeAssetId.name field. */
-  name?: string;
+  name?: string | undefined;
   /** Advertiser event name associated with the click tag. This field is used by DISPLAY_IMAGE_GALLERY and HTML5_BANNER creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  eventName?: string;
+  eventName?: string | undefined;
   /** Parameter value for the specified click tag. This field contains a click-through url. */
-  clickThroughUrl?: CreativeClickThroughUrl;
+  clickThroughUrl?: CreativeClickThroughUrl | undefined;
 }
 export type ClickTagList = Array<ClickTag>;
 export type CreativeSyntheticContentAttestationStatusEnum =
@@ -1987,9 +2002,9 @@ export type CreativeSyntheticContentAttestationStatusEnum =
 /** Creative Field Assignment. */
 export interface CreativeFieldAssignment {
   /** ID of the creative field value. */
-  creativeFieldValueId?: string;
+  creativeFieldValueId?: string | undefined;
   /** ID of the creative field. */
-  creativeFieldId?: string;
+  creativeFieldId?: string | undefined;
 }
 export type CreativeFieldAssignmentList = Array<CreativeFieldAssignment>;
 export type CreativeBackupImageFeaturesItemEnum =
@@ -2066,29 +2081,29 @@ export type TargetWindowTargetWindowOptionEnum = "NEW_WINDOW" | "CURRENT_WINDOW"
 /** Target Window. */
 export interface TargetWindow {
   /** Type of browser window for which the backup image of the flash creative can be displayed. */
-  targetWindowOption?: TargetWindowTargetWindowOptionEnum | (string & {});
+  targetWindowOption?: TargetWindowTargetWindowOptionEnum | (string & {}) | undefined;
   /** User-entered value. */
-  customHtml?: string;
+  customHtml?: string | undefined;
 }
 export type SizeList = Array<Size>;
 /** Online Behavioral Advertiser icon. */
 export interface ObaIcon {
   /** OBA icon x coordinate position. Accepted values are left or right. */
-  xPosition?: string;
+  xPosition?: string | undefined;
   /** URL to track view when an OBA icon is clicked. */
-  iconViewTrackingUrl?: string;
+  iconViewTrackingUrl?: string | undefined;
   /** OBA icon y coordinate position. Accepted values are top or bottom. */
-  yPosition?: string;
+  yPosition?: string | undefined;
   /** URL to redirect to when an OBA icon is clicked. */
-  iconClickThroughUrl?: string;
+  iconClickThroughUrl?: string | undefined;
   /** OBA icon size. */
-  size?: Size;
+  size?: Size | undefined;
   /** OBA icon resource URL. Campaign Manager only supports image and JavaScript icons. Learn more */
-  resourceUrl?: string;
+  resourceUrl?: string | undefined;
   /** Identifies the industry initiative that the icon supports. For example, AdChoices. */
-  program?: string;
+  program?: string | undefined;
   /** URL to track click when an OBA icon is clicked. */
-  iconClickTrackingUrl?: string;
+  iconClickTrackingUrl?: string | undefined;
 }
 export type CreativeTypeEnum =
   | "IMAGE"
@@ -2133,15 +2148,15 @@ export type FsCommandPositionOptionEnum = "CENTERED" | "DISTANCE_FROM_TOP_LEFT_C
 /** FsCommand. */
 export interface FsCommand {
   /** Distance from the top of the browser. Applicable when positionOption is DISTANCE_FROM_TOP_LEFT_CORNER. */
-  top?: number;
+  top?: number | undefined;
   /** Distance from the left of the browser.Applicable when positionOption is DISTANCE_FROM_TOP_LEFT_CORNER. */
-  left?: number;
+  left?: number | undefined;
   /** Position in the browser where the window will open. */
-  positionOption?: FsCommandPositionOptionEnum | (string & {});
+  positionOption?: FsCommandPositionOptionEnum | (string & {}) | undefined;
   /** Width of the window. */
-  windowWidth?: number;
+  windowWidth?: number | undefined;
   /** Height of the window. */
-  windowHeight?: number;
+  windowHeight?: number | undefined;
 }
 export type CreativeAssetOrientationEnum = "LANDSCAPE" | "PORTRAIT" | "SQUARE";
 export type CreativeAssetAlignmentEnum =
@@ -2163,9 +2178,9 @@ export type CreativeAssetIdTypeEnum = "IMAGE" | "FLASH" | "VIDEO" | "HTML" | "HT
 /** Creative Asset ID. */
 export interface CreativeAssetId {
   /** Type of asset to upload. This is a required field. FLASH and IMAGE are no longer supported for new uploads. All image assets should use HTML_IMAGE. */
-  type?: CreativeAssetIdTypeEnum | (string & {});
+  type?: CreativeAssetIdTypeEnum | (string & {}) | undefined;
   /** Name of the creative asset. This is a required field while inserting an asset. After insertion, this assetIdentifier is used to identify the uploaded asset. Characters in the name must be alphanumeric or one of the following: ".-_ ". Spaces are allowed. */
-  name?: string;
+  name?: string | undefined;
 }
 export type CreativeAssetDetectedFeaturesItemEnum =
   | "CSS_FONT_FACE"
@@ -2278,237 +2293,240 @@ export type CreativeAssetDurationTypeEnum =
 /** Creative Asset. */
 export interface CreativeAsset {
   /** Whether the asset is horizontally locked. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  horizontallyLocked?: boolean;
+  horizontallyLocked?: boolean | undefined;
   /** Whether ActionScript3 is enabled for the flash asset. This is a read-only field. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  actionScript3?: boolean;
+  actionScript3?: boolean | undefined;
   /** Duration in seconds for which an asset will be displayed. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and VPAID_LINEAR_VIDEO. Value must be greater than or equal to 1. */
-  duration?: number;
+  duration?: number | undefined;
   /** Size of zip file. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  zipFilesize?: string;
+  zipFilesize?: string | undefined;
   /** Whether to hide Flash objects flag for an asset. Applicable to the following creative types: all RICH_MEDIA. */
-  hideFlashObjects?: boolean;
+  hideFlashObjects?: boolean | undefined;
   /** Whether the asset pushes down other content. Applicable to the following creative types: all RICH_MEDIA. Additionally, only applicable when the asset offsets are 0, the collapsedSize.width matches size.width, and the collapsedSize.height is less than size.height. */
-  pushdown?: boolean;
+  pushdown?: boolean | undefined;
   /** Orientation of video asset. This is a read-only, auto-generated field. */
-  orientation?: CreativeAssetOrientationEnum | (string & {});
+  orientation?: CreativeAssetOrientationEnum | (string & {}) | undefined;
   /** Whether the backup asset is original or changed by the user in Campaign Manager. Applicable to the following creative types: all RICH_MEDIA. */
-  originalBackup?: boolean;
+  originalBackup?: boolean | undefined;
   /** Possible alignments for an asset. This is a read-only field. Applicable to the following creative types: RICH_MEDIA_DISPLAY_MULTI_FLOATING_INTERSTITIAL . */
-  alignment?: CreativeAssetAlignmentEnum | (string & {});
+  alignment?: CreativeAssetAlignmentEnum | (string & {}) | undefined;
   /** zIndex value of an asset. Applicable to the following creative types: all RICH_MEDIA.Additionally, only applicable to assets whose displayType is NOT one of the following types: ASSET_DISPLAY_TYPE_INPAGE or ASSET_DISPLAY_TYPE_OVERLAY. Acceptable values are -999999999 to 999999999, inclusive. */
-  zIndex?: number;
+  zIndex?: number | undefined;
   /** Window mode options for flash assets. Applicable to the following creative types: FLASH_INPAGE, RICH_MEDIA_DISPLAY_EXPANDING, RICH_MEDIA_IM_EXPAND, RICH_MEDIA_DISPLAY_BANNER, and RICH_MEDIA_INPAGE_FLOATING. */
-  windowMode?: CreativeAssetWindowModeEnum | (string & {});
+  windowMode?: CreativeAssetWindowModeEnum | (string & {}) | undefined;
   /** Audio sample bit rate in hertz. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  audioSampleRate?: number;
+  audioSampleRate?: number | undefined;
   /** Size associated with this creative asset. This is a required field when applicable; however for IMAGE and FLASH_INPAGE, creatives if left blank, this field will be automatically set using the actual size of the associated image asset. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  size?: Size;
+  size?: Size | undefined;
   /** Flash version of the asset. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  flashVersion?: number;
+  flashVersion?: number | undefined;
   /** Dimension value for the ID of the asset. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** Offset position for an asset. Applicable to the following creative types: all RICH_MEDIA. */
-  position?: OffsetPosition;
+  position?: OffsetPosition | undefined;
   /** Detected bit-rate for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  bitRate?: number;
+  bitRate?: number | undefined;
   /** Video frame rate for video asset in frames per second. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  frameRate?: number;
+  frameRate?: number | undefined;
   /** Whether the asset is vertically locked. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  verticallyLocked?: boolean;
+  verticallyLocked?: boolean | undefined;
   /** Whether the video or audio asset is active. This is a read-only field for VPAID_NON_LINEAR_VIDEO assets. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Exit event configured for the backup image. Applicable to the following creative types: all RICH_MEDIA. */
-  backupImageExit?: CreativeCustomEvent;
+  backupImageExit?: CreativeCustomEvent | undefined;
   /** Rich media child asset type. This is a read-only field. Applicable to the following creative types: all VPAID. */
-  childAssetType?: CreativeAssetChildAssetTypeEnum | (string & {});
+  childAssetType?: CreativeAssetChildAssetTypeEnum | (string & {}) | undefined;
   /** Offset top unit for an asset. This is a read-only field if the asset displayType is ASSET_DISPLAY_TYPE_OVERLAY. Applicable to the following creative types: all RICH_MEDIA. */
-  positionTopUnit?: CreativeAssetPositionTopUnitEnum | (string & {});
+  positionTopUnit?: CreativeAssetPositionTopUnitEnum | (string & {}) | undefined;
   /** File size associated with this creative asset. This is a read-only field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  fileSize?: string;
+  fileSize?: string | undefined;
   /** Whether the asset is SSL-compliant. This is a read-only field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  sslCompliant?: boolean;
+  sslCompliant?: boolean | undefined;
   /** Identifier of this asset. This is the same identifier returned during creative asset insert operation. This is a required field. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  assetIdentifier?: CreativeAssetId;
+  assetIdentifier?: CreativeAssetId | undefined;
   /** Audio stream bit rate in kbps. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  audioBitRate?: number;
+  audioBitRate?: number | undefined;
   /** List of companion creatives assigned to an in-stream video creative asset. Acceptable values include IDs of existing flash and image creatives. Applicable to INSTREAM_VIDEO creative type with dynamicAssetSelection set to true. */
-  companionCreativeIds?: StringList;
+  companionCreativeIds?: StringList | undefined;
   /** Numeric ID of this creative asset. This is a required field and should not be modified. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. */
-  id?: string;
+  id?: string | undefined;
   /** Detected duration for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  mediaDuration?: number;
+  mediaDuration?: number | undefined;
   /** Detected MIME type for audio or video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_AUDIO, INSTREAM_VIDEO and all VPAID. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  detectedFeatures?: CreativeAssetDetectedFeaturesItemEnumList;
+  detectedFeatures?: CreativeAssetDetectedFeaturesItemEnumList | undefined;
   /** Type of rich media asset. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  displayType?: CreativeAssetDisplayTypeEnum | (string & {});
+  displayType?: CreativeAssetDisplayTypeEnum | (string & {}) | undefined;
   /** Offset position for an asset in collapsed mode. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID. Additionally, only applicable to assets whose displayType is ASSET_DISPLAY_TYPE_EXPANDING or ASSET_DISPLAY_TYPE_PEEL_DOWN. */
-  offset?: OffsetPosition;
+  offset?: OffsetPosition | undefined;
   /** Custom start time in seconds for making the asset visible. Applicable to the following creative types: all RICH_MEDIA. Value must be greater than or equal to 0. */
-  customStartTimeValue?: number;
+  customStartTimeValue?: number | undefined;
   /** Streaming URL for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  streamingServingUrl?: string;
+  streamingServingUrl?: string | undefined;
   /** File name of zip file. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  zipFilename?: string;
+  zipFilename?: string | undefined;
   /** Progressive URL for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  progressiveServingUrl?: string;
+  progressiveServingUrl?: string | undefined;
   /** Detected expanded dimension for video asset. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO and all VPAID. */
-  expandedDimension?: Size;
+  expandedDimension?: Size | undefined;
   /** Artwork type of rich media creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  artworkType?: CreativeAssetArtworkTypeEnum | (string & {});
+  artworkType?: CreativeAssetArtworkTypeEnum | (string & {}) | undefined;
   /** Initial wait time type before making the asset visible. Applicable to the following creative types: all RICH_MEDIA. */
-  startTimeType?: CreativeAssetStartTimeTypeEnum | (string & {});
+  startTimeType?: CreativeAssetStartTimeTypeEnum | (string & {}) | undefined;
   /** Role of the asset in relation to creative. Applicable to all but the following creative types: all REDIRECT and TRACKING_TEXT. This is a required field. PRIMARY applies to DISPLAY, FLASH_INPAGE, HTML5_BANNER, IMAGE, DISPLAY_IMAGE_GALLERY, all RICH_MEDIA (which may contain multiple primary assets), and all VPAID creatives. BACKUP_IMAGE applies to FLASH_INPAGE, HTML5_BANNER, all RICH_MEDIA, and all VPAID creatives. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. ADDITIONAL_IMAGE and ADDITIONAL_FLASH apply to FLASH_INPAGE creatives. OTHER refers to assets from sources other than Campaign Manager, such as Studio uploaded assets, applicable to all RICH_MEDIA and all VPAID creatives. PARENT_VIDEO refers to videos uploaded by the user in Campaign Manager and is applicable to INSTREAM_VIDEO and VPAID_LINEAR_VIDEO creatives. TRANSCODED_VIDEO refers to videos transcoded by Campaign Manager from PARENT_VIDEO assets and is applicable to INSTREAM_VIDEO and VPAID_LINEAR_VIDEO creatives. ALTERNATE_VIDEO refers to the Campaign Manager representation of child asset videos from Studio, and is applicable to VPAID_LINEAR_VIDEO creatives. These cannot be added or removed within Campaign Manager. For VPAID_LINEAR_VIDEO creatives, PARENT_VIDEO, TRANSCODED_VIDEO and ALTERNATE_VIDEO assets that are marked active serve as backup in case the VPAID creative cannot be served. Only PARENT_VIDEO assets can be added or removed for an INSTREAM_VIDEO or VPAID_LINEAR_VIDEO creative. PARENT_AUDIO refers to audios uploaded by the user in Campaign Manager and is applicable to INSTREAM_AUDIO creatives. TRANSCODED_AUDIO refers to audios transcoded by Campaign Manager from PARENT_AUDIO assets and is applicable to INSTREAM_AUDIO creatives. */
-  role?: CreativeAssetRoleEnum | (string & {});
+  role?: CreativeAssetRoleEnum | (string & {}) | undefined;
   /** Offset left unit for an asset. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA. */
-  positionLeftUnit?: CreativeAssetPositionLeftUnitEnum | (string & {});
+  positionLeftUnit?: CreativeAssetPositionLeftUnitEnum | (string & {}) | undefined;
   /** Pushdown duration in seconds for an asset. Applicable to the following creative types: all RICH_MEDIA.Additionally, only applicable when the asset pushdown field is true, the offsets are 0, the collapsedSize.width matches size.width, and the collapsedSize.height is less than size.height. Acceptable values are 0 to 9.99, inclusive. */
-  pushdownDuration?: number;
+  pushdownDuration?: number | undefined;
   /** Whether this asset is used as a polite load asset. */
-  politeLoad?: boolean;
+  politeLoad?: boolean | undefined;
   /** Additional sizes associated with this creative asset. HTML5 asset generated by compatible software such as GWD will be able to support more sizes this creative asset can render. */
-  additionalSizes?: SizeList;
+  additionalSizes?: SizeList | undefined;
   /** Whether to hide selection boxes flag for an asset. Applicable to the following creative types: all RICH_MEDIA. */
-  hideSelectionBoxes?: boolean;
+  hideSelectionBoxes?: boolean | undefined;
   /** Whether the asset is transparent. Applicable to the following creative types: all RICH_MEDIA. Additionally, only applicable to HTML5 assets. */
-  transparency?: boolean;
+  transparency?: boolean | undefined;
   /** Duration type for which an asset will be displayed. Applicable to the following creative types: all RICH_MEDIA. */
-  durationType?: CreativeAssetDurationTypeEnum | (string & {});
+  durationType?: CreativeAssetDurationTypeEnum | (string & {}) | undefined;
   /** Size of an asset when collapsed. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA and all VPAID. Additionally, applicable to assets whose displayType is ASSET_DISPLAY_TYPE_EXPANDING or ASSET_DISPLAY_TYPE_PEEL_DOWN. */
-  collapsedSize?: Size;
+  collapsedSize?: Size | undefined;
 }
 export type CreativeAssetList = Array<CreativeAsset>;
 /** Contains properties of a Creative. */
 export interface Creative {
   /** Subaccount ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Amount of time to play the video before counting a view. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  progressOffset?: VideoOffset;
+  progressOffset?: VideoOffset | undefined;
   /** Compatibilities associated with this creative. This is a read-only field. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices or in mobile apps for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. Only pre-existing creatives may have these compatibilities since new creatives will either be assigned DISPLAY or DISPLAY_INTERSTITIAL instead. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. IN_STREAM_AUDIO refers to rendering in in-stream audio ads developed with the VAST standard. Applicable to all creative types. Acceptable values are: - "APP" - "APP_INTERSTITIAL" - "IN_STREAM_VIDEO" - "IN_STREAM_AUDIO" - "DISPLAY" - "DISPLAY_INTERSTITIAL" */
-  compatibility?: CreativeCompatibilityItemEnumList;
+  compatibility?: CreativeCompatibilityItemEnumList | undefined;
   /** Industry standard ID assigned to creative for reach and frequency. Applicable to INSTREAM_VIDEO_REDIRECT creatives. */
-  commercialId?: string;
+  commercialId?: string | undefined;
   /** ID of current rendering version. This is a read-only field. Applicable to all creative types. */
-  renderingId?: string;
+  renderingId?: string | undefined;
   /** Whether the creative is archived. Applicable to all creative types. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** The 6-character HTML color code, beginning with #, for the background of the window area where the Flash file is displayed. Default is white. Applicable to the following creative types: FLASH_INPAGE. */
-  backgroundColor?: string;
+  backgroundColor?: string | undefined;
   /** Whether images are automatically advanced for image gallery creatives. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY. */
-  autoAdvanceImages?: boolean;
+  autoAdvanceImages?: boolean | undefined;
   /** Whether the user can choose to skip the creative. Applicable to the following creative types: all INSTREAM_VIDEO and all VPAID. */
-  skippable?: boolean;
+  skippable?: boolean | undefined;
   /** Third-party URLs for tracking in-stream creative events. Applicable to the following creative types: all INSTREAM_VIDEO, all INSTREAM_AUDIO, and all VPAID. */
-  thirdPartyUrls?: ThirdPartyTrackingUrlList;
+  thirdPartyUrls?: ThirdPartyTrackingUrlList | undefined;
   /** Whether creative should be treated as SSL compliant even if the system scan shows it's not. Applicable to all creative types. */
-  sslOverride?: boolean;
+  sslOverride?: boolean | undefined;
   /** A Universal Ad ID as per the VAST 4.0 spec. Applicable to the following creative types: INSTREAM_AUDIO and INSTREAM_VIDEO and VPAID. */
-  universalAdId?: UniversalAdId;
+  universalAdId?: UniversalAdId | undefined;
   /** ID of this creative. This is a read-only, auto-generated field. Applicable to all creative types. */
-  id?: string;
+  id?: string | undefined;
   /** Size associated with this creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. This is a required field when applicable; however for IMAGE, FLASH_INPAGE creatives, and for DISPLAY creatives with a primary asset of type HTML_IMAGE, if left blank, this field will be automatically set using the actual size of the associated image assets. Applicable to the following creative types: DISPLAY, DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER, IMAGE, and all RICH_MEDIA. */
-  size?: Size;
+  size?: Size | undefined;
   /** List of timer events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset is not HTML_IMAGE. */
-  timerCustomEvents?: CreativeCustomEventList;
+  timerCustomEvents?: CreativeCustomEventList | undefined;
   /** Ad parameters user for VPAID creative. This is a read-only field. Applicable to the following creative types: all VPAID. */
-  adParameters?: string;
+  adParameters?: string | undefined;
   /** Type of artwork used for the creative. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  artworkType?: CreativeArtworkTypeEnum | (string & {});
+  artworkType?: CreativeArtworkTypeEnum | (string & {}) | undefined;
   /** Click tags of the creative. For DISPLAY, FLASH_INPAGE, and HTML5_BANNER creatives, this is a subset of detected click tags for the assets associated with this creative. After creating a flash asset, detected click tags will be returned in the creativeAssetMetadata. When inserting the creative, populate the creative clickTags field using the creativeAssetMetadata.clickTags field. For DISPLAY_IMAGE_GALLERY creatives, there should be exactly one entry in this list for each image creative asset. A click tag is matched with a corresponding creative asset by matching the clickTag.name field with the creativeAsset.assetIdentifier.name field. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, FLASH_INPAGE, HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  clickTags?: ClickTagList;
+  clickTags?: ClickTagList | undefined;
   /** Optional. Whether to add a label to the creative as created or edited using AI when served in regions with local AI labeling regulations. [Learn more about labeling requirements in AI regulations.](https://support.google.com/campaignmanager/answer/17232030) */
-  syntheticContentAttestationStatus?: CreativeSyntheticContentAttestationStatusEnum | (string & {});
+  syntheticContentAttestationStatus?:
+    | CreativeSyntheticContentAttestationStatusEnum
+    | (string & {})
+    | undefined;
   /** Studio creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioCreativeId?: string;
+  studioCreativeId?: string | undefined;
   /** Third-party URL used to record backup image impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyBackupImageImpressionsUrl?: string;
+  thirdPartyBackupImageImpressionsUrl?: string | undefined;
   /** URL of hosted image or hosted video or another ad tag. For INSTREAM_VIDEO_REDIRECT creatives this is the in-stream video redirect URL. The standard for a VAST (Video Ad Serving Template) ad response allows for a redirect link to another VAST 2.0 or 3.0 call. This is a required field when applicable. Applicable to the following creative types: DISPLAY_REDIRECT, INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and INSTREAM_VIDEO_REDIRECT */
-  redirectUrl?: string;
+  redirectUrl?: string | undefined;
   /** Custom key-values for a Rich Media creative. Key-values let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use key-values to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  customKeyValues?: StringList;
+  customKeyValues?: StringList | undefined;
   /** Required. Name of the creative. This must be less than 256 characters long. Applicable to all creative types. */
-  name?: string;
+  name?: string | undefined;
   /** The version number helps you keep track of multiple versions of your creative in your reports. The version number will always be auto-generated during insert operations to start at 1. For tracking creatives the version cannot be incremented and will always remain at 1. For all other creative types the version can be incremented only by 1 during update operations. In addition, the version will be automatically incremented by 1 when undergoing Rich Media creative merging. Applicable to all creative types. */
-  version?: number;
+  version?: number | undefined;
   /** Third-party URL used to record rich media impressions. Applicable to the following creative types: all RICH_MEDIA. */
-  thirdPartyRichMediaImpressionsUrl?: string;
+  thirdPartyRichMediaImpressionsUrl?: string | undefined;
   /** Latest Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  latestTraffickedCreativeId?: string;
+  latestTraffickedCreativeId?: string | undefined;
   /** Creative field assignments for this creative. Applicable to all creative types. */
-  creativeFieldAssignments?: CreativeFieldAssignmentList;
+  creativeFieldAssignments?: CreativeFieldAssignmentList | undefined;
   /** The minimum required Flash plugin version for this creative. For example, 11.2.202.235. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  requiredFlashPluginVersion?: string;
+  requiredFlashPluginVersion?: string | undefined;
   /** Dimension value for the rendering ID of this creative. This is a read-only field. Applicable to all creative types. */
-  renderingIdDimensionValue?: DimensionValue;
+  renderingIdDimensionValue?: DimensionValue | undefined;
   /** HTML code for the creative. This is a required field when applicable. This field is ignored if htmlCodeLocked is true. Applicable to the following creative types: all CUSTOM, FLASH_INPAGE, and HTML5_BANNER, and all RICH_MEDIA. */
-  htmlCode?: string;
+  htmlCode?: string | undefined;
   /** Whether the creative is active. Applicable to all creative types. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** List of feature dependencies that will cause a backup image to be served if the browser that serves the ad does not support them. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative asset correctly. This field is initially auto-generated to contain all features detected by Campaign Manager for all the assets of this creative and can then be modified by the client. To reset this field, copy over all the creativeAssets' detected features. Applicable to the following creative types: HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageFeatures?: CreativeBackupImageFeaturesItemEnumList;
+  backupImageFeatures?: CreativeBackupImageFeaturesItemEnumList | undefined;
   /** Override CSS value for rich media creatives. Applicable to the following creative types: all RICH_MEDIA. */
-  overrideCss?: string;
+  overrideCss?: string | undefined;
   /** Target window for backup image. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageTargetWindow?: TargetWindow;
+  backupImageTargetWindow?: TargetWindow | undefined;
   /** Additional sizes associated with a responsive creative. When inserting or updating a creative either the size ID field or size width and height fields can be used. Applicable to DISPLAY creatives when the primary asset type is HTML_IMAGE. */
-  additionalSizes?: SizeList;
+  additionalSizes?: SizeList | undefined;
   /** Dimension value for the ID of this creative. This is a read-only field. Applicable to all creative types. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** List of companion creatives assigned to an in-Stream video creative. Acceptable values include IDs of existing flash and image creatives. Applicable to the following creative types: all VPAID, all INSTREAM_AUDIO and all INSTREAM_VIDEO with dynamicAssetSelection set to false. */
-  companionCreatives?: StringList;
+  companionCreatives?: StringList | undefined;
   /** Description of the audio or video ad. Applicable to the following creative types: all INSTREAM_VIDEO, INSTREAM_AUDIO, and all VPAID. */
-  mediaDescription?: string;
+  mediaDescription?: string | undefined;
   /** Online behavioral advertising icon to be added to the creative. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  obaIcon?: ObaIcon;
+  obaIcon?: ObaIcon | undefined;
   /** Required. Type of this creative. Applicable to all creative types. *Note:* FLASH_INPAGE, HTML5_BANNER, and IMAGE are only used for existing creatives. New creatives should use DISPLAY as a replacement for these types. */
-  type?: CreativeTypeEnum | (string & {});
+  type?: CreativeTypeEnum | (string & {}) | undefined;
   /** Source application where creative was authored. Presently, only DBM authored creatives will have this field set. Applicable to all creative types. */
-  authoringSource?: CreativeAuthoringSourceEnum | (string & {});
+  authoringSource?: CreativeAuthoringSourceEnum | (string & {}) | undefined;
   /** Authoring tool for HTML5 banner creatives. This is a read-only field. Applicable to the following creative types: HTML5_BANNER. */
-  authoringTool?: CreativeAuthoringToolEnum | (string & {});
+  authoringTool?: CreativeAuthoringToolEnum | (string & {}) | undefined;
   /** Keywords for a Rich Media creative. Keywords let you customize the creative settings of a Rich Media ad running on your site without having to contact the advertiser. You can use keywords to dynamically change the look or functionality of a creative. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  adTagKeys?: StringList;
+  adTagKeys?: StringList | undefined;
   /** Click-through URL for backup image. Applicable to ENHANCED_BANNER when the primary asset type is not HTML_IMAGE. */
-  backupImageClickThroughUrl?: CreativeClickThroughUrl;
+  backupImageClickThroughUrl?: CreativeClickThroughUrl | undefined;
   /** Combined size of all creative assets. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  totalFileSize?: string;
+  totalFileSize?: string | undefined;
   /** OpenWindow FSCommand of this creative. This lets the SWF file communicate with either Flash Player or the program hosting Flash Player, such as a web browser. This is only triggered if allowScriptAccess field is true. Applicable to the following creative types: FLASH_INPAGE. */
-  fsCommand?: FsCommand;
+  fsCommand?: FsCommand | undefined;
   /** Studio advertiser ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioAdvertiserId?: string;
+  studioAdvertiserId?: string | undefined;
   /** Studio trafficked creative ID associated with rich media and VPAID creatives. This is a read-only field. Applicable to the following creative types: all RICH_MEDIA, and all VPAID. */
-  studioTraffickedCreativeId?: string;
+  studioTraffickedCreativeId?: string | undefined;
   /** Whether HTML code is generated by Campaign Manager or manually entered. Set to true to ignore changes to htmlCode. Applicable to the following creative types: FLASH_INPAGE and HTML5_BANNER. */
-  htmlCodeLocked?: boolean;
+  htmlCodeLocked?: boolean | undefined;
   /** Amount of time to play the video before the skip button appears. Applicable to the following creative types: all INSTREAM_VIDEO. */
-  skipOffset?: VideoOffset;
+  skipOffset?: VideoOffset | undefined;
   /** Reporting label used for HTML5 banner backup image. Applicable to the following creative types: DISPLAY when the primary asset type is not HTML_IMAGE. */
-  backupImageReportingLabel?: string;
+  backupImageReportingLabel?: string | undefined;
   /** Creative audio or video duration in seconds. This is a read-only field. Applicable to the following creative types: INSTREAM_VIDEO, INSTREAM_AUDIO, all RICH_MEDIA, and all VPAID. */
-  mediaDuration?: number;
+  mediaDuration?: number | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creative". */
-  kind?: string;
+  kind?: string | undefined;
   /** Assets associated with a creative. Applicable to all but the following creative types: INTERNAL_REDIRECT, INTERSTITIAL_INTERNAL_REDIRECT, and REDIRECT */
-  creativeAssets?: CreativeAssetList;
+  creativeAssets?: CreativeAssetList | undefined;
   /** List of exit events configured for the creative. For DISPLAY and DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags, For DISPLAY, an event is also created from the backupImageReportingLabel. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  exitCustomEvents?: CreativeCustomEventList;
+  exitCustomEvents?: CreativeCustomEventList | undefined;
   /** Whether the creative is SSL-compliant. This is a read-only field. Applicable to all creative types. */
-  sslCompliant?: boolean;
+  sslCompliant?: boolean | undefined;
   /** Creative last modification information. This is a read-only field. Applicable to all creative types. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
   /** The internal Flash version for this creative as calculated by Studio. This is a read-only field. Applicable to the following creative types: FLASH_INPAGE all RICH_MEDIA, and all VPAID. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  requiredFlashVersion?: number;
+  requiredFlashVersion?: number | undefined;
   /** List of counter events configured for the creative. For DISPLAY_IMAGE_GALLERY creatives, these are read-only and auto-generated from clickTags. Applicable to the following creative types: DISPLAY_IMAGE_GALLERY, all RICH_MEDIA, and all VPAID. */
-  counterCustomEvents?: CreativeCustomEventList;
+  counterCustomEvents?: CreativeCustomEventList | undefined;
   /** Whether script access is allowed for this creative. This is a read-only and deprecated field which will automatically be set to true on update. Applicable to the following creative types: FLASH_INPAGE. */
-  allowScriptAccess?: boolean;
+  allowScriptAccess?: boolean | undefined;
   /** Whether Flash assets associated with the creative need to be automatically converted to HTML5. This flag is enabled by default and users can choose to disable it if they don't want the system to generate and use HTML5 asset for this creative. Applicable to the following creative type: FLASH_INPAGE. Applicable to DISPLAY when the primary asset type is not HTML_IMAGE. */
-  convertFlashToHtml5?: boolean;
+  convertFlashToHtml5?: boolean | undefined;
   /** Required. Advertiser ID of this creative. This is a required field. Applicable to all creative types. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Account ID of this creative. This field, if left unset, will be auto-generated for both insert and update operations. Applicable to all creative types. */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface GetDirectorySitesRequest {
   /** User profile ID associated with this request. */
@@ -2519,26 +2537,26 @@ export interface GetDirectorySitesRequest {
 /** Google Ad Manager Settings */
 export interface DfpSettings {
   /** Whether this directory site accepts programmatic placements. */
-  programmaticPlacementAccepted?: boolean;
+  programmaticPlacementAccepted?: boolean | undefined;
   /** Ad Manager network code for this directory site. */
-  dfpNetworkCode?: string;
+  dfpNetworkCode?: string | undefined;
   /** Ad Manager network name for this directory site. */
-  dfpNetworkName?: string;
+  dfpNetworkName?: string | undefined;
   /** Whether this directory site is available only via Publisher Portal. */
-  publisherPortalOnly?: boolean;
+  publisherPortalOnly?: boolean | undefined;
   /** Whether this directory site accepts publisher-paid tags. */
-  pubPaidPlacementAccepted?: boolean;
+  pubPaidPlacementAccepted?: boolean | undefined;
 }
 /** Directory Site Settings */
 export interface DirectorySiteSettings {
   /** Directory site Ad Manager settings. */
-  dfpSettings?: DfpSettings;
+  dfpSettings?: DfpSettings | undefined;
   /** Whether this site accepts interstitial ads. */
-  interstitialPlacementAccepted?: boolean;
+  interstitialPlacementAccepted?: boolean | undefined;
   /** Whether this site accepts in-stream video ads. */
-  instreamVideoPlacementAccepted?: boolean;
+  instreamVideoPlacementAccepted?: boolean | undefined;
   /** Whether this directory site has disabled active view creatives. */
-  activeViewOptOut?: boolean;
+  activeViewOptOut?: boolean | undefined;
 }
 export type DirectorySiteInpageTagFormatsItemEnum =
   | "STANDARD"
@@ -2558,23 +2576,23 @@ export type DirectorySiteInterstitialTagFormatsItemEnumList = Array<
 /** DirectorySites contains properties of a website from the Site Directory. Sites need to be added to an account via the Sites resource before they can be assigned to a placement. */
 export interface DirectorySite {
   /** ID of this directory site. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** URL of this directory site. */
-  url?: string;
+  url?: string | undefined;
   /** Directory site settings. */
-  settings?: DirectorySiteSettings;
+  settings?: DirectorySiteSettings | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#directorySite". */
-  kind?: string;
+  kind?: string | undefined;
   /** Tag types for regular placements. Acceptable values are: - "STANDARD" - "IFRAME_JAVASCRIPT_INPAGE" - "INTERNAL_REDIRECT_INPAGE" - "JAVASCRIPT_INPAGE" */
-  inpageTagFormats?: DirectorySiteInpageTagFormatsItemEnumList;
+  inpageTagFormats?: DirectorySiteInpageTagFormatsItemEnumList | undefined;
   /** Output only. Default publisher specification ID of video placements under this directory site. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
-  publisherSpecificationId?: string;
+  publisherSpecificationId?: string | undefined;
   /** Dimension value for the ID of this directory site. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** Tag types for interstitial placements. Acceptable values are: - "IFRAME_JAVASCRIPT_INTERSTITIAL" - "INTERNAL_REDIRECT_INTERSTITIAL" - "JAVASCRIPT_INTERSTITIAL" */
-  interstitialTagFormats?: DirectorySiteInterstitialTagFormatsItemEnumList;
+  interstitialTagFormats?: DirectorySiteInterstitialTagFormatsItemEnumList | undefined;
   /** Name of this directory site. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetDynamicFeedsRequest {
   /** Required. Dynamic feed ID. */
@@ -2583,13 +2601,13 @@ export interface GetDynamicFeedsRequest {
 /** Contains the meta data of the content source. This is a read-only field. */
 export interface ContentSourceMetaData {
   /** Output only. The number of rows in the content source. */
-  rowNumber?: number;
+  rowNumber?: number | undefined;
   /** Output only. The list of column names in the content source. */
-  fieldNames?: StringList;
+  fieldNames?: StringList | undefined;
   /** Output only. The separator of the content source. */
-  separator?: string;
+  separator?: string | undefined;
   /** Output only. The charset of the content source. */
-  charset?: string;
+  charset?: string | undefined;
 }
 export type ContentSourceResourceTypeEnum =
   | "RESOURCE_TYPE_UNSPECIFIED"
@@ -2598,17 +2616,17 @@ export type ContentSourceResourceTypeEnum =
 /** Contains the content source of the dynamic feed. */
 export interface ContentSource {
   /** Output only. Metadata of the content source. It contains the number of rows and the column names from resource link. This is a read-only field. */
-  metaData?: ContentSourceMetaData;
+  metaData?: ContentSourceMetaData | undefined;
   /** Required. The link to the file of the content source. */
-  resourceLink?: string;
+  resourceLink?: string | undefined;
   /** Optional. The name of the content source. It is defaulted to content source file name if not provided. */
-  contentSourceName?: string;
+  contentSourceName?: string | undefined;
   /** Required. The resource type of the content source. */
-  resourceType?: ContentSourceResourceTypeEnum | (string & {});
+  resourceType?: ContentSourceResourceTypeEnum | (string & {}) | undefined;
   /** Output only. The creation timestamp of the content source. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
+  createInfo?: LastModifiedInfo | undefined;
   /** Output only. The last modified timestamp of the content source. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
 }
 export type FieldErrorIngestionErrorEnum =
   | "UNKNOWN_PARSING_ERROR"
@@ -2656,23 +2674,23 @@ export type FieldErrorIngestionErrorEnum =
 /** Contains the field error of the dynamic feed. */
 export interface FieldError {
   /** Output only. The ID of the field. */
-  fieldId?: number;
+  fieldId?: number | undefined;
   /** Output only. The ingestion error of the field. */
-  ingestionError?: FieldErrorIngestionErrorEnum | (string & {});
+  ingestionError?: FieldErrorIngestionErrorEnum | (string & {}) | undefined;
   /** Output only. The list of values of the field. */
-  fieldValues?: StringList;
+  fieldValues?: StringList | undefined;
   /** Output only. Incidcates whether the field has error or warning. */
-  isError?: boolean;
+  isError?: boolean | undefined;
   /** Output only. The name of the field. */
-  fieldName?: string;
+  fieldName?: string | undefined;
 }
 export type FieldErrorList = Array<FieldError>;
 /** Contains the ingestion error record of the dynamic feed. limited to 100 records. */
 export interface IngestionErrorRecord {
   /** Output only. The list of field errors of the ingestion error record. */
-  errors?: FieldErrorList;
+  errors?: FieldErrorList | undefined;
   /** Output only. The record ID of the ingestion error record. */
-  recordId?: string;
+  recordId?: string | undefined;
 }
 export type IngestionErrorRecordList = Array<IngestionErrorRecord>;
 export type FeedIngestionStatusStateEnum =
@@ -2689,24 +2707,24 @@ export type FeedIngestionStatusStateEnum =
 /** Contains the ingestion status of the dynamic feed. */
 export interface IngestionStatus {
   /** Output only. The number of active rows in the feed. */
-  numActiveRows?: string;
+  numActiveRows?: string | undefined;
   /** Output only. The number of rows processed in the feed. */
-  numRowsProcessed?: string;
+  numRowsProcessed?: string | undefined;
   /** Output only. The total number of rows in the feed. */
-  numRowsTotal?: string;
+  numRowsTotal?: string | undefined;
   /** Output only. The number of rows with errors in the feed. */
-  numRowsWithErrors?: string;
+  numRowsWithErrors?: string | undefined;
   /** Output only. The total number of warnings in the feed. */
-  numWarningsTotal?: string;
+  numWarningsTotal?: string | undefined;
 }
 /** Contains the ingestion status of the dynamic feed. Feed ingestion is an asynchronous process. If the feed create request is successful, feed ingestion will be processed in the background, including validation, assets retrieval, and saving the data from the resource link. The processing time is dependent on the data size in the resource link. This read-only status field contains the current stage of that processing and its ingestion state. */
 export interface FeedIngestionStatus {
   /** Output only. The ingestion error records of the feed. */
-  ingestionErrorRecords?: IngestionErrorRecordList;
+  ingestionErrorRecords?: IngestionErrorRecordList | undefined;
   /** Output only. The processing state of the feed. */
-  state?: FeedIngestionStatusStateEnum | (string & {});
+  state?: FeedIngestionStatusStateEnum | (string & {}) | undefined;
   /** Output only. The ingestion status of the feed. */
-  ingestionStatus?: IngestionStatus;
+  ingestionStatus?: IngestionStatus | undefined;
 }
 export type DynamicFeedStatusEnum = "STATUS_UNKNOWN" | "ACTIVE" | "INACTIVE" | "DELETED";
 export type FeedFieldTypeEnum =
@@ -2747,85 +2765,85 @@ export type FeedFieldTypeEnum =
 /** Each field of the element. This is a required field. */
 export interface FeedField {
   /** Optional. Whether the field is able to display. Could be set as true when the field type is not in any of the following and the field is not filterable: - COUNTRY_CODE_ISO - CITY - REGION - POSTAL_CODE - METRO - GEO_CANONICAL - USERLIST_ID - CONTEXTUAL_KEYWORD - CM360_DYNAMIC_TARGETING_KEY - WEIGHT */
-  renderable?: boolean;
+  renderable?: boolean | undefined;
   /** Optional. The default value of the field. */
-  defaultValue?: string;
+  defaultValue?: string | undefined;
   /** Optional. Whether the field is filterable. Could be set as true when the field type is any of the following and is not renderable: - STRING - BOOL - COUNTRY_CODE_ISO - CM360_SITE_ID - CM360_KEYWORD - CM360_CREATIVE_ID - CM360_PLACEMENT_ID - CM360_AD_ID - CM360_ADVERTISER_ID - CM360_CAMPAIGN_ID - CITY - REGION - POSTAL_CODE - METRO - CUSTOM_VALUE - REMARKETING_VALUE - GEO_CANONICAL - STRING_LIST - CREATIVE_DIMENSION - USERLIST_ID - CM360_DYNAMIC_TARGETING_KEY - DV360_LINE_ITEM_ID */
-  filterable?: boolean;
+  filterable?: boolean | undefined;
   /** Required. The type of the field. */
-  type?: FeedFieldTypeEnum | (string & {});
+  type?: FeedFieldTypeEnum | (string & {}) | undefined;
   /** Required. The ID of the field. The ID is based on the column index starting from 0, and it should match the column index in the resource link. */
-  id?: number;
+  id?: number | undefined;
   /** Required. The name of the field. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Whether the field is required and should not be empty in the feed. Could be set as true when the field type is any of the following: - GPA_SERVED_IMAGE_URL - GPA_SERVED_ASSET_URL - ASSET_LIBRARY_HANDLE - ASSET_LIBRARY_VIDEO_HANDLE - ASSET_LIBRARY_DIRECTORY_HANDLE */
-  required?: boolean;
+  required?: boolean | undefined;
 }
 export type FeedFieldList = Array<FeedField>;
 /** Contains the element of the dynamic feed. */
 export interface Element {
   /** Required. The field ID to specify the field used for uniquely identifying the feed row. This is a required field. */
-  externalIdFieldId?: number;
+  externalIdFieldId?: number | undefined;
   /** Optional. The name of the element. It is defaulted to resource file name if not provided. */
-  elementName?: string;
+  elementName?: string | undefined;
   /** Output only. The last modified timestamp of the element. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
   /** Optional. The field ID to specify the field that represents the end timestamp. Only applicable if you're planning to use scheduling in your dynamic creative. */
-  endTimestampFieldId?: number;
+  endTimestampFieldId?: number | undefined;
   /** Required. The field ID to specify the field used for dynamic reporting in Campaign Manager 360. */
-  reportingLabelFieldId?: number;
+  reportingLabelFieldId?: number | undefined;
   /** Required. The list of fields of the element. The field order and name should match the meta data in the content source source. */
-  feedFields?: FeedFieldList;
+  feedFields?: FeedFieldList | undefined;
   /** Optional. The field ID to specify the field that represents the start timestamp. Only applicable if you're planning to use scheduling in your dynamic creative. */
-  startTimestampFieldId?: number;
+  startTimestampFieldId?: number | undefined;
   /** Output only. The creation timestamp of the element. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
+  createInfo?: LastModifiedInfo | undefined;
   /** Optional. The field ID to specify the active field in the feed. */
-  activeFieldId?: number;
+  activeFieldId?: number | undefined;
   /** Optional. The field ID that specify field used for proximity targeting. */
-  proximityTargetingFieldId?: number;
+  proximityTargetingFieldId?: number | undefined;
   /** Optional. Whether the start and end timestamp is local timestamp. The default value is false which means start and end timestamp is in UTC. */
-  isLocalTimestamp?: boolean;
+  isLocalTimestamp?: boolean | undefined;
   /** Optional. The field ID to specify the field that represents the default field in the feed. */
-  defaultFieldId?: number;
+  defaultFieldId?: number | undefined;
 }
 /** Contains the schedule of the dynamic feed. */
 export interface FeedSchedule {
   /** Optional. The hour of the day to start the feed. It is applicable if the repeat value is equal to 1. Default value is 0. */
-  startHour?: string;
+  startHour?: string | undefined;
   /** Optional. The time zone to schedule the feed. It is applicable if the repeat value is equal to 1. Default value is "America/Los_Angeles". */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Optional. The number of times the feed retransforms within one day. This is a required field if the schedule is enabled. Acceptable values are between 1 to 6, inclusive. */
-  repeatValue?: string;
+  repeatValue?: string | undefined;
   /** Optional. The minute of the hour to start the feed. It is applicable if the repeat value is equal to 1. Default value is 0. */
-  startMinute?: string;
+  startMinute?: string | undefined;
   /** Optional. Whether the schedule is enabled. */
-  scheduleEnabled?: boolean;
+  scheduleEnabled?: boolean | undefined;
 }
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains dynamic feed information. */
 export interface DynamicFeed {
   /** Required. The content source of the dynamic feed. This is a required field. */
-  contentSource?: ContentSource;
+  contentSource?: ContentSource | undefined;
   /** Output only. The ingestion status of the dynamic feed. This is a read-only field. */
-  feedIngestionStatus?: FeedIngestionStatus;
+  feedIngestionStatus?: FeedIngestionStatus | undefined;
   /** Output only. Indicates whether the dynamic feed has a published version. This is a read-only field. */
-  hasPublished?: boolean;
+  hasPublished?: boolean | undefined;
   /** Output only. The last modified timestamp of the dynamic feed. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
   /** Output only. Unique ID of this dynamic feed. This is a read-only, auto-generated field. */
-  dynamicFeedId?: string;
+  dynamicFeedId?: string | undefined;
   /** Required. Advertiser ID of this dynamic feed. This is a required field. */
-  studioAdvertiserId?: string;
+  studioAdvertiserId?: string | undefined;
   /** Optional. Name of this dynamic feed. It is defaulted to content source file name if not provided. */
-  dynamicFeedName?: string;
+  dynamicFeedName?: string | undefined;
   /** Output only. The creation timestamp of the dynamic feed. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
+  createInfo?: LastModifiedInfo | undefined;
   /** Output only. The status of the feed. It is a read-only field that depends on the the feed ingestion status. The default value is INACTIVE, and it will be updated to ACTIVE once the feed is ingested successfully. */
-  status?: DynamicFeedStatusEnum | (string & {});
+  status?: DynamicFeedStatusEnum | (string & {}) | undefined;
   /** Required. The element of the dynamic feed that is to specify the schema of the feed. This is a required field. */
-  element?: Element;
+  element?: Element | undefined;
   /** Optional. The schedule of the dynamic feed. It can be set if the feed is published. */
-  feedSchedule?: FeedSchedule;
+  feedSchedule?: FeedSchedule | undefined;
 }
 export interface GetDynamicProfilesRequest {
   /** Required. Dynamic profile ID. */
@@ -2844,20 +2862,20 @@ export type ProximityFilterRadiusBucketTypeEnum =
 /** Contains proximity filter information. */
 export interface ProximityFilter {
   /** Optional. Radius length in units defined by radius_units. */
-  radiusValue?: number;
+  radiusValue?: number | undefined;
   /** Optional. Field ID in the element. */
-  fieldId?: number;
+  fieldId?: number | undefined;
   /** Optional. The units of the radius value */
-  radiusUnitType?: ProximityFilterRadiusUnitTypeEnum | (string & {});
+  radiusUnitType?: ProximityFilterRadiusUnitTypeEnum | (string & {}) | undefined;
   /** Optional. The radius bucket type of the proximity filter */
-  radiusBucketType?: ProximityFilterRadiusBucketTypeEnum | (string & {});
+  radiusBucketType?: ProximityFilterRadiusBucketTypeEnum | (string & {}) | undefined;
 }
 /** Contains custom value field information. */
 export interface CustomValueField {
   /** Optional. Field ID in the element. */
-  fieldId?: number;
+  fieldId?: number | undefined;
   /** Optional. Custom key used to match for auto filtering. */
-  requestKey?: string;
+  requestKey?: string | undefined;
 }
 export type CustomValueFieldList = Array<CustomValueField>;
 export type DynamicRulesRuleTypeEnum =
@@ -2869,19 +2887,19 @@ export type DynamicRulesRuleTypeEnum =
 /** Contains remarketing value attribute information. */
 export interface RemarketingValueAttribute {
   /** Optional. Field ID in the element. */
-  fieldId?: number;
+  fieldId?: number | undefined;
   /** Optional. Remarketing user attribute IDs for auto filtering. */
-  userAttributeIds?: StringList;
+  userAttributeIds?: StringList | undefined;
 }
 export type RemarketingValueAttributeList = Array<RemarketingValueAttribute>;
 /** Contains dependent field value information. */
 export interface DependentFieldValue {
   /** Optional. The ID of the element that value's field will match against. */
-  elementId?: string;
+  elementId?: string | undefined;
   /** Optional. The field id of the dependent field. */
-  fieldId?: number;
+  fieldId?: number | undefined;
   /** Optional. The ID of the dynamic feed that value's field will match against. */
-  dynamicFeedId?: string;
+  dynamicFeedId?: string | undefined;
 }
 export type FieldFilterMatchTypeEnum =
   | "LHS_MATCH_TYPE_UNKNOWN"
@@ -2898,44 +2916,44 @@ export type FieldFilterValueTypeEnum =
 /** Contains request value information. */
 export interface RequestValue {
   /** Optional. User attribute IDs in the request. Used only when the field type is REMARKETING_VALUE or USER_ATTRIBUTE_ID. */
-  userAttributeIds?: StringList;
+  userAttributeIds?: StringList | undefined;
   /** Optional. User attribute IDs in the request that should be excluded. Used only when the field type is REMARKETING_VALUE or USER_ATTRIBUTE_ID. */
-  excludeFromUserAttributeIds?: StringList;
+  excludeFromUserAttributeIds?: StringList | undefined;
   /** Optional. Custom key in the request. Used only when the field type is CUSTOM_VALUE. */
-  key?: string;
+  key?: string | undefined;
 }
 /** Contains field filter information. */
 export interface FieldFilter {
   /** Optional. The boolean values, only applicable when rhs_value_type is BOOL. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** Optional. The field ID on the left hand side of the expression. */
-  fieldId?: number;
+  fieldId?: number | undefined;
   /** Optional. The dependent values, only applicable when rhs_value_type is DEPENDENT. */
-  dependentFieldValue?: DependentFieldValue;
+  dependentFieldValue?: DependentFieldValue | undefined;
   /** Optional. Left hand side of the expression match type. */
-  matchType?: FieldFilterMatchTypeEnum | (string & {});
+  matchType?: FieldFilterMatchTypeEnum | (string & {}) | undefined;
   /** Optional. The string value, only applicable when rhs_value_type is STRING. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** Optional. Right hand side of the expression. */
-  valueType?: FieldFilterValueTypeEnum | (string & {});
+  valueType?: FieldFilterValueTypeEnum | (string & {}) | undefined;
   /** Optional. The request value, only applicable when rhs_value_type is REQUEST. */
-  requestValue?: RequestValue;
+  requestValue?: RequestValue | undefined;
 }
 export type FieldFilterList = Array<FieldFilter>;
 /** Contains a list of field filters that the given custom rule will apply. */
 export interface RuleBlock {
   /** Optional. A list of non-auto field filters */
-  fieldFilter?: FieldFilterList;
+  fieldFilter?: FieldFilterList | undefined;
 }
 export type RuleBlockList = Array<RuleBlock>;
 /** Contains custom rule information. */
 export interface CustomRule {
   /** Optional. Priority of the custom rule. */
-  priority?: number;
+  priority?: number | undefined;
   /** Optional. A list of field filter, the custom rule will apply. */
-  ruleBlocks?: RuleBlockList;
+  ruleBlocks?: RuleBlockList | undefined;
   /** Optional. Name of this custom rule. */
-  name?: string;
+  name?: string | undefined;
 }
 export type CustomRuleList = Array<CustomRule>;
 export type DynamicRulesRotationTypeEnum =
@@ -2946,63 +2964,63 @@ export type DynamicRulesRotationTypeEnum =
 /** Contains dynamic rules information. */
 export interface DynamicRules {
   /** Optional. The proximity targeting rules of the dynamic feed, only applicable when rule type is PROXIMITY_TARGETING. */
-  proximityFilter?: ProximityFilter;
+  proximityFilter?: ProximityFilter | undefined;
   /** Optional. Mapping between field ID and custom key that are used to match for auto filtering. */
-  customValueFields?: CustomValueFieldList;
+  customValueFields?: CustomValueFieldList | undefined;
   /** Optional. List of field IDs in this element that should be auto-targeted. Applicable when rule type is AUTO. */
-  autoTargetedFieldIds?: IntegerList;
+  autoTargetedFieldIds?: IntegerList | undefined;
   /** Optional. The type of the rule, the default value is OPEN. */
-  ruleType?: DynamicRulesRuleTypeEnum | (string & {});
+  ruleType?: DynamicRulesRuleTypeEnum | (string & {}) | undefined;
   /** Optional. The link between an element field ID and a list of user attribute IDs. */
-  remarketingValueAttributes?: RemarketingValueAttributeList;
+  remarketingValueAttributes?: RemarketingValueAttributeList | undefined;
   /** Optional. The custom rules of the dynamic feed, only applicable when rule type is CUSTOM. */
-  customRules?: CustomRuleList;
+  customRules?: CustomRuleList | undefined;
   /** Optional. The rotation type to select from eligible rows. Rotation type only apply when the filtering rule results in more than one eligible rows. */
-  rotationType?: DynamicRulesRotationTypeEnum | (string & {});
+  rotationType?: DynamicRulesRotationTypeEnum | (string & {}) | undefined;
   /** Optional. The field ID for the feed that will be used for weighted rotation, only applicable when rotation type is WEIGHTED. */
-  weightFieldId?: number;
+  weightFieldId?: number | undefined;
 }
 /** Contains dynamic profile specific settings for an associated dynamic feed. */
 export interface DynamicProfileFeedSettings {
   /** Optional. Dynamic rules for row selection for the given dynamic feed in the given dynamic profile. */
-  dynamicRules?: DynamicRules;
+  dynamicRules?: DynamicRules | undefined;
   /** Optional. The number of this dynamic feed rows needed by the dynamic profile, default value is 1. Acceptable values are between 1 to 99, inclusive. */
-  quantity?: number;
+  quantity?: number | undefined;
   /** Optional. Dynamic feed ID associated with dynamic profile version. */
-  dynamicFeedId?: string;
+  dynamicFeedId?: string | undefined;
 }
 export type DynamicProfileFeedSettingsList = Array<DynamicProfileFeedSettings>;
 /** Contains dynamic profile version information. */
 export interface DynamicProfileVersion {
   /** Optional. Associated dynamic feeds and their settings (including dynamic rules) for this dynamic profile version. */
-  dynamicProfileFeedSettings?: DynamicProfileFeedSettingsList;
+  dynamicProfileFeedSettings?: DynamicProfileFeedSettingsList | undefined;
   /** Output only. Version ID of this dynamic profile version. This is a read-only, auto-generated field. -1 for draft version, 0+ for published versions. */
-  versionId?: string;
+  versionId?: string | undefined;
 }
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains dynamic profile information. */
 export interface DynamicProfile {
   /** Output only. Unique ID of this dynamic profile. This is a read-only, auto-generated field. */
-  dynamicProfileId?: string;
+  dynamicProfileId?: string | undefined;
   /** Optional. Archive status of this dynamic profile. */
-  archiveStatus?: DynamicProfileArchiveStatusEnum | (string & {});
+  archiveStatus?: DynamicProfileArchiveStatusEnum | (string & {}) | undefined;
   /** Required. Identifier. Name of this dynamic profile. This is a required field and must be less than 256 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The last modified timestamp of the dynamic profile. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
   /** Optional. Description of this dynamic profile. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The creation timestamp of the dynamic profile. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
+  createInfo?: LastModifiedInfo | undefined;
   /** Output only. Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicProfile". */
-  kind?: string;
+  kind?: string | undefined;
   /** Optional. Status of this dynamic profile. */
-  status?: DynamicProfileStatusEnum | (string & {});
+  status?: DynamicProfileStatusEnum | (string & {}) | undefined;
   /** Optional. Active version of the dynamic profile. */
-  active?: DynamicProfileVersion;
+  active?: DynamicProfileVersion | undefined;
   /** Required. Advertiser ID of this dynamic profile. This is a required field on insertion. */
-  studioAdvertiserId?: string;
+  studioAdvertiserId?: string | undefined;
   /** Optional. Draft version of the dynamic profile. */
-  draft?: DynamicProfileVersion;
+  draft?: DynamicProfileVersion | undefined;
 }
 export interface GetEventTagsRequest {
   /** Event tag ID. */
@@ -3019,41 +3037,41 @@ export type EventTagSiteFilterTypeEnum = "ALLOWLIST" | "BLOCKLIST";
 /** Contains properties of an event tag. */
 export interface EventTag {
   /** Whether to remove this event tag from ads that are trafficked through Display & Video 360 to Ad Exchange. This may be useful if the event tag uses a pixel that is unapproved for Ad Exchange bids on one or more networks, such as the Google Display Network. */
-  excludeFromAdxRequests?: boolean;
+  excludeFromAdxRequests?: boolean | undefined;
   /** Payload URL for this event tag. The URL on a click-through event tag should have a landing page URL appended to the end of it. This field is required on insertion. */
-  url?: string;
+  url?: string | undefined;
   /** Advertiser ID of this event tag. This field or the campaignId field is required on insertion. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Whether this tag is SSL-compliant or not. This is a read-only field. */
-  sslCompliant?: boolean;
+  sslCompliant?: boolean | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#eventTag". */
-  kind?: string;
+  kind?: string | undefined;
   /** Account ID of this event tag. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Filter list of site IDs associated with this event tag. The siteFilterType determines whether this is a allowlist or blocklist filter. */
-  siteIds?: StringList;
+  siteIds?: StringList | undefined;
   /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue;
+  campaignIdDimensionValue?: DimensionValue | undefined;
   /** ID of this event tag. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Event tag type. Can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. This is a required field. */
-  type?: EventTagTypeEnum | (string & {});
+  type?: EventTagTypeEnum | (string & {}) | undefined;
   /** Name of this event tag. This is a required field and must be less than 256 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** Campaign ID of this event tag. This field or the advertiserId field is required on insertion. */
-  campaignId?: string;
+  campaignId?: string | undefined;
   /** Number of times the landing page URL should be URL-escaped before being appended to the click-through event tag URL. Only applies to click-through event tags as specified by the event tag type. */
-  urlEscapeLevels?: number;
+  urlEscapeLevels?: number | undefined;
   /** Subaccount ID of this event tag. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Status of this event tag. Must be ENABLED for this event tag to fire. This is a required field. */
-  status?: EventTagStatusEnum | (string & {});
+  status?: EventTagStatusEnum | (string & {}) | undefined;
   /** Site filter type for this event tag. If no type is specified then the event tag will be applied to all sites. */
-  siteFilterType?: EventTagSiteFilterTypeEnum | (string & {});
+  siteFilterType?: EventTagSiteFilterTypeEnum | (string & {}) | undefined;
   /** Whether this event tag should be automatically enabled for all of the advertiser's campaigns and ads. */
-  enabledByDefault?: boolean;
+  enabledByDefault?: boolean | undefined;
 }
 export interface GetFilesRequest {
   /** The ID of the report. */
@@ -3065,9 +3083,9 @@ export type FileFormatEnum = "CSV" | "EXCEL";
 export type FileStatusEnum = "PROCESSING" | "REPORT_AVAILABLE" | "FAILED" | "CANCELLED" | "QUEUED";
 export interface FileUrls {
   /** The URL for downloading the report data through a browser. */
-  browserUrl?: string;
+  browserUrl?: string | undefined;
   /** The URL for downloading the report data through the API. */
-  apiUrl?: string;
+  apiUrl?: string | undefined;
 }
 export type DateRangeRelativeDateRangeEnum =
   | "TODAY"
@@ -3089,35 +3107,35 @@ export type DateRangeRelativeDateRangeEnum =
   | "LAST_60_DAYS";
 /** Represents a date range. */
 export interface DateRange {
-  startDate?: string;
+  startDate?: string | undefined;
   /** The kind of resource this is, in this case dfareporting#dateRange. */
-  kind?: string;
+  kind?: string | undefined;
   /** The date range relative to the date of when the report is run. */
-  relativeDateRange?: DateRangeRelativeDateRangeEnum | (string & {});
-  endDate?: string;
+  relativeDateRange?: DateRangeRelativeDateRangeEnum | (string & {}) | undefined;
+  endDate?: string | undefined;
 }
 /** Represents a File resource. A file contains the metadata for a report run. It shows the status of the run and holds the URLs to the generated report data if the run is finished and the status is "REPORT_AVAILABLE". */
 export interface File {
   /** Etag of this resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** The output format of the report. Only available once the file is available. */
-  format?: FileFormatEnum;
+  format?: FileFormatEnum | undefined;
   /** The status of the report file. */
-  status?: FileStatusEnum;
+  status?: FileStatusEnum | undefined;
   /** The unique ID of this report file. */
-  id?: string;
+  id?: string | undefined;
   /** The timestamp in milliseconds since epoch when this file was last modified. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The filename of the file. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** The URLs where the completed report file can be downloaded. */
-  urls?: FileUrls;
+  urls?: FileUrls | undefined;
   /** The date range for which the file has report data. The date range will always be the absolute date range for which the report is run. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** The ID of the report this file was generated from. */
-  reportId?: string;
+  reportId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#file". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
@@ -3129,11 +3147,11 @@ export type FloodlightActivityTagFormatEnum = "HTML" | "XHTML";
 /** Dynamic Tag */
 export interface FloodlightActivityDynamicTag {
   /** Name of this tag. */
-  name?: string;
+  name?: string | undefined;
   /** Tag code. */
-  tag?: string;
+  tag?: string | undefined;
   /** ID of this dynamic tag. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
 }
 export type FloodlightActivityDynamicTagList = Array<FloodlightActivityDynamicTag>;
 export type FloodlightActivityConversionCategoryEnum =
@@ -3157,17 +3175,17 @@ export type FloodlightActivityConversionCategoryEnum =
 /** Publisher Dynamic Tag */
 export interface FloodlightActivityPublisherDynamicTag {
   /** Whether this tag is applicable only for click-throughs. */
-  clickThrough?: boolean;
+  clickThrough?: boolean | undefined;
   /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue;
+  siteIdDimensionValue?: DimensionValue | undefined;
   /** Dynamic floodlight tag. */
-  dynamicTag?: FloodlightActivityDynamicTag;
+  dynamicTag?: FloodlightActivityDynamicTag | undefined;
   /** Whether this tag is applicable only for view-throughs. */
-  viewThrough?: boolean;
+  viewThrough?: boolean | undefined;
   /** Site ID of this dynamic tag. */
-  siteId?: string;
+  siteId?: string | undefined;
   /** Directory site ID of this dynamic tag. This is a write-only field that can be used as an alternative to the siteId field. When this resource is retrieved, only the siteId field will be populated. */
-  directorySiteId?: string;
+  directorySiteId?: string | undefined;
 }
 export type FloodlightActivityPublisherDynamicTagList =
   Array<FloodlightActivityPublisherDynamicTag>;
@@ -3297,65 +3315,68 @@ export type FloodlightActivityCountingMethodEnum =
 /** Contains properties of a Floodlight activity. */
 export interface FloodlightActivity {
   /** Account ID of this floodlight activity. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Floodlight activity group ID of this floodlight activity. This is a required field. */
-  floodlightActivityGroupId?: string;
+  floodlightActivityGroupId?: string | undefined;
   /** Tag format type for the floodlight activity. If left blank, the tag format will default to HTML. */
-  tagFormat?: FloodlightActivityTagFormatEnum | (string & {});
+  tagFormat?: FloodlightActivityTagFormatEnum | (string & {}) | undefined;
   /** Dynamic floodlight tags. */
-  defaultTags?: FloodlightActivityDynamicTagList;
+  defaultTags?: FloodlightActivityDynamicTagList | undefined;
   /** Floodlight configuration ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's floodlight configuration or from the existing activity's floodlight configuration. */
-  floodlightConfigurationId?: string;
+  floodlightConfigurationId?: string | undefined;
   /** Required. The conversion category of the activity. */
-  conversionCategory?: FloodlightActivityConversionCategoryEnum | (string & {});
+  conversionCategory?: FloodlightActivityConversionCategoryEnum | (string & {}) | undefined;
   /** Value of the cat= parameter in the floodlight tag, which the ad servers use to identify the activity. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activities of the same activity group. This field is read-only after insertion. */
-  tagString?: string;
+  tagString?: string | undefined;
   /** Dimension value for the ID of this floodlight activity. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** Publisher dynamic floodlight tags. */
-  publisherTags?: FloodlightActivityPublisherDynamicTagList;
+  publisherTags?: FloodlightActivityPublisherDynamicTagList | undefined;
   /** List of the user-defined variables used by this conversion tag. These map to the "u[1-100]=" in the tags. Each of these can have a user defined type. Acceptable values are U1 to U100, inclusive. */
-  userDefinedVariableTypes?: FloodlightActivityUserDefinedVariableTypesItemEnumList;
+  userDefinedVariableTypes?: FloodlightActivityUserDefinedVariableTypesItemEnumList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivity". */
-  kind?: string;
+  kind?: string | undefined;
   /** General notes or implementation instructions for the tag. */
-  notes?: string;
+  notes?: string | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Code type used for cache busting in the generated tag. Applicable only when floodlightActivityGroupType is COUNTER and countingMethod is STANDARD_COUNTING or UNIQUE_COUNTING. */
-  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | (string & {});
+  cacheBustingType?: FloodlightActivityCacheBustingTypeEnum | (string & {}) | undefined;
   /** Whether this floodlight activity must be SSL-compliant. */
-  sslRequired?: boolean;
+  sslRequired?: boolean | undefined;
   /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue;
+  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
   /** Name of this floodlight activity. This is a required field. Must be less than 129 characters long and cannot contain quotes. */
-  name?: string;
+  name?: string | undefined;
   /** The status of the activity. This can only be set to ACTIVE or ARCHIVED_AND_DISABLED. The ARCHIVED status is no longer supported and cannot be set for Floodlight activities. The DISABLED_POLICY status indicates that a Floodlight activity is violating Google policy. Contact your account manager for more information. */
-  status?: FloodlightActivityStatusEnum | (string & {});
+  status?: FloodlightActivityStatusEnum | (string & {}) | undefined;
   /** Subaccount ID of this floodlight activity. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** The type of Floodlight tag this activity will generate. This is a required field. */
-  floodlightTagType?: FloodlightActivityFloodlightTagTypeEnum | (string & {});
+  floodlightTagType?: FloodlightActivityFloodlightTagTypeEnum | (string & {}) | undefined;
   /** Whether the activity is enabled for attribution. */
-  attributionEnabled?: boolean;
+  attributionEnabled?: boolean | undefined;
   /** Whether this tag should use SSL. */
-  secure?: boolean;
+  secure?: boolean | undefined;
   /** Name of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupName?: string;
+  floodlightActivityGroupName?: string | undefined;
   /** Advertiser ID of this floodlight activity. If this field is left blank, the value will be copied over either from the activity group's advertiser or the existing activity's advertiser. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Whether the floodlight activity is SSL-compliant. This is a read-only field, its value detected by the system from the floodlight tags. */
-  sslCompliant?: boolean;
+  sslCompliant?: boolean | undefined;
   /** Type of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupType?: FloodlightActivityFloodlightActivityGroupTypeEnum | (string & {});
+  floodlightActivityGroupType?:
+    | FloodlightActivityFloodlightActivityGroupTypeEnum
+    | (string & {})
+    | undefined;
   /** Counting method for conversions for this floodlight activity. This is a required field. */
-  countingMethod?: FloodlightActivityCountingMethodEnum | (string & {});
+  countingMethod?: FloodlightActivityCountingMethodEnum | (string & {}) | undefined;
   /** Tag string of the associated floodlight activity group. This is a read-only field. */
-  floodlightActivityGroupTagString?: string;
+  floodlightActivityGroupTagString?: string | undefined;
   /** ID of this floodlight activity. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** URL where this tag will be deployed. If specified, must be less than 256 characters long. */
-  expectedUrl?: string;
+  expectedUrl?: string | undefined;
 }
 export interface GetFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
@@ -3367,29 +3388,29 @@ export type FloodlightActivityGroupTypeEnum = "COUNTER" | "SALE";
 /** Contains properties of a Floodlight activity group. */
 export interface FloodlightActivityGroup {
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Advertiser ID of this floodlight activity group. If this field is left blank, the value will be copied over either from the floodlight configuration's advertiser or from the existing activity group's advertiser. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Dimension value for the ID of this floodlight activity group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** Value of the type= parameter in the floodlight tag, which the ad servers use to identify the activity group that the activity belongs to. This is optional: if empty, a new tag string will be generated for you. This string must be 1 to 8 characters long, with valid characters being a-z0-9[ _ ]. This tag string must also be unique among activity groups of the same floodlight configuration. This field is read-only after insertion. */
-  tagString?: string;
+  tagString?: string | undefined;
   /** Name of this floodlight activity group. This is a required field. Must be less than 65 characters long and cannot contain quotes. */
-  name?: string;
+  name?: string | undefined;
   /** Floodlight configuration ID of this floodlight activity group. This is a required field. */
-  floodlightConfigurationId?: string;
+  floodlightConfigurationId?: string | undefined;
   /** Type of the floodlight activity group. This is a required field that is read-only after insertion. */
-  type?: FloodlightActivityGroupTypeEnum | (string & {});
+  type?: FloodlightActivityGroupTypeEnum | (string & {}) | undefined;
   /** Dimension value for the ID of the floodlight configuration. This is a read-only, auto-generated field. */
-  floodlightConfigurationIdDimensionValue?: DimensionValue;
+  floodlightConfigurationIdDimensionValue?: DimensionValue | undefined;
   /** Account ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroup". */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of this floodlight activity group. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Subaccount ID of this floodlight activity group. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
 }
 export interface GetFloodlightConfigurationsRequest {
   /** User profile ID associated with this request. */
@@ -3401,9 +3422,9 @@ export type FloodlightConfigurationFirstDayOfWeekEnum = "SUNDAY" | "MONDAY";
 /** Third Party Authentication Token */
 export interface ThirdPartyAuthenticationToken {
   /** Value of the third-party authentication token. This is a read-only, auto-generated field. */
-  value?: string;
+  value?: string | undefined;
   /** Name of the third-party authentication token. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ThirdPartyAuthenticationTokenList = Array<ThirdPartyAuthenticationToken>;
 export type FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum =
@@ -3413,29 +3434,29 @@ export type FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum 
 /** The attributes, like playtime and percent onscreen, that define the Custom Viewability Metric. */
 export interface CustomViewabilityMetricConfiguration {
   /** The time in milliseconds the video must play for the Custom Viewability Metric to count an impression. If both this and timePercent are specified, the earlier of the two will be used. */
-  timeMillis?: number;
+  timeMillis?: number | undefined;
   /** The percentage of video that must be on screen for the Custom Viewability Metric to count an impression. */
-  viewabilityPercent?: number;
+  viewabilityPercent?: number | undefined;
   /** The percentage of video that must play for the Custom Viewability Metric to count an impression. If both this and timeMillis are specified, the earlier of the two will be used. */
-  timePercent?: number;
+  timePercent?: number | undefined;
   /** Whether the video must be audible to count an impression. */
-  audible?: boolean;
+  audible?: boolean | undefined;
 }
 /** Custom Viewability Metric */
 export interface CustomViewabilityMetric {
   /** ID of the custom viewability metric. */
-  id?: string;
+  id?: string | undefined;
   /** Configuration of the custom viewability metric. */
-  configuration?: CustomViewabilityMetricConfiguration;
+  configuration?: CustomViewabilityMetricConfiguration | undefined;
   /** Name of the custom viewability metric. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Dynamic and Image Tag Settings. */
 export interface TagSettings {
   /** Whether image tags are enabled. */
-  imageTagEnabled?: boolean;
+  imageTagEnabled?: boolean | undefined;
   /** Whether dynamic floodlight tags are enabled. */
-  dynamicTagEnabled?: boolean;
+  dynamicTagEnabled?: boolean | undefined;
 }
 export type UserDefinedVariableConfigurationVariableTypeEnum =
   | "U1"
@@ -3542,59 +3563,60 @@ export type UserDefinedVariableConfigurationDataTypeEnum = "STRING" | "NUMBER";
 /** User Defined Variable configuration. */
 export interface UserDefinedVariableConfiguration {
   /** Variable name in the tag. This is a required field. */
-  variableType?: UserDefinedVariableConfigurationVariableTypeEnum | (string & {});
+  variableType?: UserDefinedVariableConfigurationVariableTypeEnum | (string & {}) | undefined;
   /** User-friendly name for the variable which will appear in reports. This is a required field, must be less than 64 characters long, and cannot contain the following characters: ""<>". */
-  reportName?: string;
+  reportName?: string | undefined;
   /** Data type for the variable. This is a required field. */
-  dataType?: UserDefinedVariableConfigurationDataTypeEnum | (string & {});
+  dataType?: UserDefinedVariableConfigurationDataTypeEnum | (string & {}) | undefined;
 }
 export type UserDefinedVariableConfigurationList = Array<UserDefinedVariableConfiguration>;
 /** Omniture Integration Settings. */
 export interface OmnitureSettings {
   /** Whether Omniture integration is enabled. This property can be enabled only when the "Advanced Ad Serving" account setting is enabled. */
-  omnitureIntegrationEnabled?: boolean;
+  omnitureIntegrationEnabled?: boolean | undefined;
   /** Whether placement cost data will be sent to Omniture. This property can be enabled only if omnitureIntegrationEnabled is true. */
-  omnitureCostDataEnabled?: boolean;
+  omnitureCostDataEnabled?: boolean | undefined;
 }
 /** Contains properties of a Floodlight configuration. */
 export interface FloodlightConfiguration {
-  firstDayOfWeek?: FloodlightConfigurationFirstDayOfWeekEnum | (string & {});
+  firstDayOfWeek?: FloodlightConfigurationFirstDayOfWeekEnum | (string & {}) | undefined;
   /** Account ID of this floodlight configuration. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Subaccount ID of this floodlight configuration. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** List of third-party authentication tokens enabled for this configuration. */
-  thirdPartyAuthenticationTokens?: ThirdPartyAuthenticationTokenList;
+  thirdPartyAuthenticationTokens?: ThirdPartyAuthenticationTokenList | undefined;
   /** Types of attribution options for natural search conversions. */
   naturalSearchConversionAttributionOption?:
     | FloodlightConfigurationNaturalSearchConversionAttributionOptionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Custom Viewability metric for the floodlight configuration. */
-  customViewabilityMetric?: CustomViewabilityMetric;
+  customViewabilityMetric?: CustomViewabilityMetric | undefined;
   /** Whether the exposure-to-conversion report is enabled. This report shows detailed pathway information on up to 10 of the most recent ad exposures seen by a user before converting. */
-  exposureToConversionEnabled?: boolean;
+  exposureToConversionEnabled?: boolean | undefined;
   /** Configuration settings for dynamic and image floodlight tags. */
-  tagSettings?: TagSettings;
+  tagSettings?: TagSettings | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightConfiguration". */
-  kind?: string;
+  kind?: string | undefined;
   /** List of user defined variables enabled for this configuration. */
-  userDefinedVariableConfigurations?: UserDefinedVariableConfigurationList;
+  userDefinedVariableConfigurations?: UserDefinedVariableConfigurationList | undefined;
   /** Dimension value for the ID of this floodlight configuration. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** Settings for Campaign Manager Omniture integration. */
-  omnitureSettings?: OmnitureSettings;
+  omnitureSettings?: OmnitureSettings | undefined;
   /** Whether in-app attribution tracking is enabled. */
-  inAppAttributionTrackingEnabled?: boolean;
+  inAppAttributionTrackingEnabled?: boolean | undefined;
   /** Advertiser ID of the parent advertiser of this floodlight configuration. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** ID of this floodlight configuration. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Whether advertiser data is shared with Google Analytics. */
-  analyticsDataSharingEnabled?: boolean;
+  analyticsDataSharingEnabled?: boolean | undefined;
   /** Lookback window settings for this floodlight configuration. */
-  lookbackConfiguration?: LookbackConfiguration;
+  lookbackConfiguration?: LookbackConfiguration | undefined;
 }
 export interface GetMobileAppsRequest {
   /** Mobile app ID. */
@@ -3637,13 +3659,13 @@ export type PricingSchedulePricingTypeEnum =
 /** Pricing Period */
 export interface PricingSchedulePricingPeriod {
   /** Rate or cost of this pricing period in nanos (i.e., multiplied by 1000000000). Acceptable values are 0 to 1000000000000000000, inclusive. */
-  rateOrCostNanos?: string;
+  rateOrCostNanos?: string | undefined;
   /** Comments for this pricing period. */
-  pricingComment?: string;
-  endDate?: string;
-  startDate?: string;
+  pricingComment?: string | undefined;
+  endDate?: string | undefined;
+  startDate?: string | undefined;
   /** Units of this pricing period. Acceptable values are 0 to 10000000000, inclusive. */
-  units?: string;
+  units?: string | undefined;
 }
 export type PricingSchedulePricingPeriodList = Array<PricingSchedulePricingPeriod>;
 export type PricingScheduleCapCostOptionEnum =
@@ -3652,19 +3674,19 @@ export type PricingScheduleCapCostOptionEnum =
   | "CAP_COST_CUMULATIVE";
 /** Pricing Schedule */
 export interface PricingSchedule {
-  startDate?: string;
+  startDate?: string | undefined;
   /** Placement pricing type. This field is required on insertion. */
-  pricingType?: PricingSchedulePricingTypeEnum | (string & {});
+  pricingType?: PricingSchedulePricingTypeEnum | (string & {}) | undefined;
   /** Pricing periods for this placement. */
-  pricingPeriods?: PricingSchedulePricingPeriodList;
+  pricingPeriods?: PricingSchedulePricingPeriodList | undefined;
   /** Floodlight activity ID associated with this placement. This field should be set when placement pricing type is set to PRICING_TYPE_CPA. */
-  floodlightActivityId?: string;
+  floodlightActivityId?: string | undefined;
   /** Whether this placement is flighted. If true, pricing periods will be computed automatically. */
-  flighted?: boolean;
-  testingStartDate?: string;
-  endDate?: string;
+  flighted?: boolean | undefined;
+  testingStartDate?: string | undefined;
+  endDate?: string | undefined;
   /** Placement cap cost option. */
-  capCostOption?: PricingScheduleCapCostOptionEnum | (string & {});
+  capCostOption?: PricingScheduleCapCostOptionEnum | (string & {}) | undefined;
 }
 export type PlacementGroupActiveStatusEnum =
   | "PLACEMENT_STATUS_UNKNOWN"
@@ -3675,57 +3697,57 @@ export type PlacementGroupActiveStatusEnum =
 /** Contains properties of a package or roadblock. */
 export interface PlacementGroup {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroup". */
-  kind?: string;
+  kind?: string | undefined;
   /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue;
+  campaignIdDimensionValue?: DimensionValue | undefined;
   /** Dimension value for the ID of the primary placement. This is a read-only, auto-generated field. */
-  primaryPlacementIdDimensionValue?: DimensionValue;
+  primaryPlacementIdDimensionValue?: DimensionValue | undefined;
   /** Information about the creation of this placement group. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
+  createInfo?: LastModifiedInfo | undefined;
   /** Account ID of this placement group. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** ID of the placement strategy assigned to this placement group. */
-  placementStrategyId?: string;
+  placementStrategyId?: string | undefined;
   /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue;
+  directorySiteIdDimensionValue?: DimensionValue | undefined;
   /** Campaign ID of this placement group. This field is required on insertion. */
-  campaignId?: string;
+  campaignId?: string | undefined;
   /** Advertiser ID of this placement group. This is a required field on insertion. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Information about the most recent modification of this placement group. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
   /** Name of this placement group. This is a required field and must be less than 256 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** Comments for this placement group. */
-  comment?: string;
+  comment?: string | undefined;
   /** Type of this placement group. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point, but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. This field is required on insertion. */
-  placementGroupType?: PlacementGroupPlacementGroupTypeEnum | (string & {});
+  placementGroupType?: PlacementGroupPlacementGroupTypeEnum | (string & {}) | undefined;
   /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue;
+  siteIdDimensionValue?: DimensionValue | undefined;
   /** IDs of placements which are assigned to this placement group. This is a read-only, auto-generated field. */
-  childPlacementIds?: StringList;
+  childPlacementIds?: StringList | undefined;
   /** Dimension value for the ID of this placement group. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** Site ID associated with this placement group. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  siteId?: string;
+  siteId?: string | undefined;
   /** ID of this placement group. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Subaccount ID of this placement group. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** ID of the primary placement, used to calculate the media cost of a roadblock (placement group). Modifying this field will automatically modify the primary field on all affected roadblock child placements. */
-  primaryPlacementId?: string;
+  primaryPlacementId?: string | undefined;
   /** Pricing schedule of this placement group. This field is required on insertion. */
-  pricingSchedule?: PricingSchedule;
+  pricingSchedule?: PricingSchedule | undefined;
   /** ID of the content category assigned to this placement group. */
-  contentCategoryId?: string;
+  contentCategoryId?: string | undefined;
   /** Directory site ID associated with this placement group. On insert, you must set either this field or the site_id field to specify the site associated with this placement group. This is a required field that is read-only after insertion. */
-  directorySiteId?: string;
+  directorySiteId?: string | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** External ID for this placement. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Whether this placement group is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementGroupActiveStatusEnum | (string & {});
+  activeStatus?: PlacementGroupActiveStatusEnum | (string & {}) | undefined;
 }
 export interface GetPlacementsRequest {
   /** Placement ID. */
@@ -3776,13 +3798,16 @@ export type MeasurementPartnerWrappingDataLinkStatusEnum =
 /** Placement tag wrapping */
 export interface MeasurementPartnerWrappingData {
   /** Measurement mode for the wrapped placement. */
-  tagWrappingMode?: MeasurementPartnerWrappingDataTagWrappingModeEnum | (string & {});
+  tagWrappingMode?: MeasurementPartnerWrappingDataTagWrappingModeEnum | (string & {}) | undefined;
   /** Measurement partner used for wrapping the placement. */
-  measurementPartner?: MeasurementPartnerWrappingDataMeasurementPartnerEnum | (string & {});
+  measurementPartner?:
+    | MeasurementPartnerWrappingDataMeasurementPartnerEnum
+    | (string & {})
+    | undefined;
   /** Placement wrapping status. */
-  linkStatus?: MeasurementPartnerWrappingDataLinkStatusEnum | (string & {});
+  linkStatus?: MeasurementPartnerWrappingDataLinkStatusEnum | (string & {}) | undefined;
   /** Tag provided by the measurement partner during wrapping. */
-  wrappedTag?: string;
+  wrappedTag?: string | undefined;
 }
 export type TagSettingKeywordOptionEnum =
   | "PLACEHOLDER_WITH_LIST_OF_KEYWORDS"
@@ -3791,15 +3816,15 @@ export type TagSettingKeywordOptionEnum =
 /** Tag Settings */
 export interface TagSetting {
   /** Optional. Indicates that the unescapedlpurl macro should be included in the tag for the static landing page. New placements will default to the value set on their site. */
-  includeUnescapedlpurlMacro?: boolean;
+  includeUnescapedlpurlMacro?: boolean | undefined;
   /** Whether click-tracking string should be included in the tags. */
-  includeClickTracking?: boolean;
+  includeClickTracking?: boolean | undefined;
   /** Option specifying how keywords are embedded in ad tags. This setting can be used to specify whether keyword placeholders are inserted in placement tags for this site. Publishers can then add keywords to those placeholders. */
-  keywordOption?: TagSettingKeywordOptionEnum | (string & {});
+  keywordOption?: TagSettingKeywordOptionEnum | (string & {}) | undefined;
   /** Additional key-values to be included in tags. Each key-value pair must be of the form key=value, and pairs must be separated by a semicolon (;). Keys and values must not contain commas. For example, id=2;color=red is a valid value for this field. */
-  additionalKeyValues?: string;
+  additionalKeyValues?: string | undefined;
   /** Whether static landing page URLs should be included in the tags. New placements will default to the value set on their site. */
-  includeClickThroughUrls?: boolean;
+  includeClickThroughUrls?: boolean | undefined;
 }
 export type PlacementCompatibilityEnum =
   | "DISPLAY"
@@ -3818,52 +3843,52 @@ export type VideoSettingsOrientationEnum = "ANY" | "LANDSCAPE" | "PORTRAIT";
 /** Companion Settings */
 export interface CompanionSetting {
   /** Allowlist of companion sizes to be served to this placement. Set this list to null or empty to serve all companion sizes. */
-  enabledSizes?: SizeList;
+  enabledSizes?: SizeList | undefined;
   /** Whether companions are disabled for this placement. */
-  companionsDisabled?: boolean;
+  companionsDisabled?: boolean | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#companionSetting". */
-  kind?: string;
+  kind?: string | undefined;
   /** Whether to serve only static images as companions. */
-  imageOnly?: boolean;
+  imageOnly?: boolean | undefined;
 }
 /** Transcode Settings */
 export interface TranscodeSetting {
   /** Allowlist of video formats to be served to this placement. Set this list to null or empty to serve all video formats. */
-  enabledVideoFormats?: IntegerList;
+  enabledVideoFormats?: IntegerList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#transcodeSetting". */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Skippable Settings */
 export interface SkippableSetting {
   /** Amount of time to play videos served to this placement before the skip button should appear. Applicable when skippable is true. */
-  skipOffset?: VideoOffset;
+  skipOffset?: VideoOffset | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#skippableSetting". */
-  kind?: string;
+  kind?: string | undefined;
   /** Amount of time to play videos served to this placement before counting a view. Applicable when skippable is true. */
-  progressOffset?: VideoOffset;
+  progressOffset?: VideoOffset | undefined;
   /** Whether the user can skip creatives served to this placement. */
-  skippable?: boolean;
+  skippable?: boolean | undefined;
 }
 /** Video Settings */
 export interface VideoSettings {
   /** Whether OBA icons are enabled for this placement. */
-  obaEnabled?: boolean;
+  obaEnabled?: boolean | undefined;
   /** Orientation of a video placement. If this value is set, placement will return assets matching the specified orientation. */
-  orientation?: VideoSettingsOrientationEnum | (string & {});
+  orientation?: VideoSettingsOrientationEnum | (string & {}) | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoSettings". */
-  kind?: string;
+  kind?: string | undefined;
   /** Publisher specification ID of a video placement. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
-  publisherSpecificationId?: string;
+  publisherSpecificationId?: string | undefined;
   /** Duration of a video placement in seconds. */
-  durationSeconds?: number;
+  durationSeconds?: number | undefined;
   /** Settings for the companion creatives of video creatives served to this placement. */
-  companionSettings?: CompanionSetting;
+  companionSettings?: CompanionSetting | undefined;
   /** Settings for the transcodes of video creatives served to this placement. If this object is provided, the creative-level transcode settings will be overridden. */
-  transcodeSettings?: TranscodeSetting;
+  transcodeSettings?: TranscodeSetting | undefined;
   /** Settings for the skippability of video creatives served to this placement. If this object is provided, the creative-level skippable settings will be overridden. */
-  skippableSettings?: SkippableSetting;
+  skippableSettings?: SkippableSetting | undefined;
   /** Settings for the OBA icon of video creatives served to this placement. If this object is provided, the creative-level OBA settings will be overridden. */
-  obaSettings?: ObaIcon;
+  obaSettings?: ObaIcon | undefined;
 }
 export type PlacementTagFormatsItemEnum =
   | "PLACEMENT_TAG_STANDARD"
@@ -3888,12 +3913,12 @@ export type PlacementTagFormatsItemEnum =
   | "PLACEMENT_TAG_TRACKING_THIRD_PARTY_MEASUREMENT";
 export type PlacementTagFormatsItemEnumList = Array<PlacementTagFormatsItemEnum | (string & {})>;
 export interface PlacementSingleConversionDomain {
-  conversionDomainId?: string;
-  conversionDomainValue?: string;
+  conversionDomainId?: string | undefined;
+  conversionDomainValue?: string | undefined;
 }
 export type PlacementSingleConversionDomainList = Array<PlacementSingleConversionDomain>;
 export interface PlacementConversionDomainOverride {
-  conversionDomains?: PlacementSingleConversionDomainList;
+  conversionDomains?: PlacementSingleConversionDomainList | undefined;
 }
 export type YoutubeSettingsCallToActionsItemEnum =
   | "CALL_TO_ACTION_UNKNOWN"
@@ -3926,116 +3951,116 @@ export type YoutubeSettingsCallToActionsItemEnumList = Array<
 /** Contains the YouTube settings. */
 export interface YoutubeSettings {
   /** Optional. The long headlines. Currently only one long headline is supported. */
-  longHeadlines?: StringList;
+  longHeadlines?: StringList | undefined;
   /** Optional. The descriptions. Currently only one description is supported. */
-  descriptions?: StringList;
+  descriptions?: StringList | undefined;
   /** Optional. The call to actions. Currently only one call to action is supported. */
-  callToActions?: YoutubeSettingsCallToActionsItemEnumList;
+  callToActions?: YoutubeSettingsCallToActionsItemEnumList | undefined;
   /** Optional. The headlines associated with the call to actions. Currently only one headline is supported. */
-  headlines?: StringList;
+  headlines?: StringList | undefined;
   /** Optional. The business name. */
-  businessName?: string;
+  businessName?: string | undefined;
   /** Optional. The IDs of the creatives to use for the business logo. Currently only one creative is supported. */
-  businessLogoCreativeIds?: StringList;
+  businessLogoCreativeIds?: StringList | undefined;
 }
 /** Contains properties of a placement. */
 export interface Placement {
   /** Comments for this placement. */
-  comment?: string;
+  comment?: string | undefined;
   /** Information about the last publisher update. This is a read-only field. */
-  publisherUpdateInfo?: LastModifiedInfo;
+  publisherUpdateInfo?: LastModifiedInfo | undefined;
   /** Third-party placement status. */
-  status?: PlacementStatusEnum | (string & {});
+  status?: PlacementStatusEnum | (string & {}) | undefined;
   /** ID of the placement strategy assigned to this placement. */
-  placementStrategyId?: string;
+  placementStrategyId?: string | undefined;
   /** Dimension value for the ID of this placement. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** VPAID adapter setting for this placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to this placement. *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
-  vpaidAdapterChoice?: PlacementVpaidAdapterChoiceEnum | (string & {});
+  vpaidAdapterChoice?: PlacementVpaidAdapterChoiceEnum | (string & {}) | undefined;
   /** Subaccount ID of this placement. This field can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Payment source for this placement. This is a required field that is read-only after insertion. */
-  paymentSource?: PlacementPaymentSourceEnum | (string & {});
+  paymentSource?: PlacementPaymentSourceEnum | (string & {}) | undefined;
   /** Measurement partner provided settings for a wrapped placement. */
-  partnerWrappingData?: MeasurementPartnerWrappingData;
+  partnerWrappingData?: MeasurementPartnerWrappingData | undefined;
   /** Directory site ID of this placement. On insert, you must set either this field or the siteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  directorySiteId?: string;
+  directorySiteId?: string | undefined;
   /** External ID for this placement. */
-  externalId?: string;
+  externalId?: string | undefined;
   /** Name of this placement.This is a required field and must be less than or equal to 512 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** Tag settings for this placement. */
-  tagSetting?: TagSetting;
+  tagSetting?: TagSetting | undefined;
   /** Whether creatives assigned to this placement must be SSL-compliant. */
-  sslRequired?: boolean;
+  sslRequired?: boolean | undefined;
   /** Whether Verification and ActiveView are disabled for in-stream video creatives for this placement. The same setting videoActiveViewOptOut exists on the site level -- the opt out occurs if either of these settings are true. These settings are distinct from DirectorySites.settings.activeViewOptOut or Sites.siteSettings.activeViewOptOut which only apply to display ads. However, Accounts.activeViewOptOut opts out both video traffic, as well as display ads, from Verification and ActiveView. */
-  videoActiveViewOptOut?: boolean;
+  videoActiveViewOptOut?: boolean | undefined;
   /** Placement compatibility. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering on desktop, on mobile devices or in mobile apps for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are no longer allowed for new placement insertions. Instead, use DISPLAY or DISPLAY_INTERSTITIAL. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. This field is required on insertion. */
-  compatibility?: PlacementCompatibilityEnum | (string & {});
+  compatibility?: PlacementCompatibilityEnum | (string & {}) | undefined;
   /** Dimension value for the ID of the placement group. This is a read-only, auto-generated field. */
-  placementGroupIdDimensionValue?: DimensionValue;
+  placementGroupIdDimensionValue?: DimensionValue | undefined;
   /** Whether this placement opts out of ad blocking. When true, ad blocking is disabled for this placement. When false, the campaign and site settings take effect. */
-  adBlockingOptOut?: boolean;
+  adBlockingOptOut?: boolean | undefined;
   /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue;
+  directorySiteIdDimensionValue?: DimensionValue | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placement". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pricing schedule of this placement. This field is required on insertion, specifically subfields startDate, endDate and pricingType. */
-  pricingSchedule?: PricingSchedule;
+  pricingSchedule?: PricingSchedule | undefined;
   /** Whether this placement is active, inactive, archived or permanently archived. */
-  activeStatus?: PlacementActiveStatusEnum | (string & {});
+  activeStatus?: PlacementActiveStatusEnum | (string & {}) | undefined;
   /** Lookback window settings for this placement. */
-  lookbackConfiguration?: LookbackConfiguration;
+  lookbackConfiguration?: LookbackConfiguration | undefined;
   /** Dimension value for the ID of the campaign. This is a read-only, auto-generated field. */
-  campaignIdDimensionValue?: DimensionValue;
+  campaignIdDimensionValue?: DimensionValue | undefined;
   /** Key name of this placement. This is a read-only, auto-generated field. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Additional sizes associated with this placement. When inserting or updating a placement, only the size ID field is used. */
-  additionalSizes?: SizeList;
+  additionalSizes?: SizeList | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Account ID of this placement. This field can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** A collection of settings which affect video creatives served through this placement. Applicable to placements with IN_STREAM_VIDEO compatibility. */
-  videoSettings?: VideoSettings;
+  videoSettings?: VideoSettings | undefined;
   /** ID of the content category assigned to this placement. */
-  contentCategoryId?: string;
+  contentCategoryId?: string | undefined;
   /** Site ID associated with this placement. On insert, you must set either this field or the directorySiteId field to specify the site associated with this placement. This is a required field that is read-only after insertion. */
-  siteId?: string;
+  siteId?: string | undefined;
   /** Tag formats to generate for this placement. This field is required on insertion. Acceptable values are: - "PLACEMENT_TAG_STANDARD" - "PLACEMENT_TAG_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_IFRAME_ILAYER" - "PLACEMENT_TAG_INTERNAL_REDIRECT" - "PLACEMENT_TAG_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_IFRAME_JAVASCRIPT" - "PLACEMENT_TAG_INTERSTITIAL_INTERNAL_REDIRECT" - "PLACEMENT_TAG_INTERSTITIAL_JAVASCRIPT" - "PLACEMENT_TAG_CLICK_COMMANDS" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_3" - "PLACEMENT_TAG_INSTREAM_VIDEO_PREFETCH_VAST_4" - "PLACEMENT_TAG_TRACKING" - "PLACEMENT_TAG_TRACKING_IFRAME" - "PLACEMENT_TAG_TRACKING_JAVASCRIPT" */
-  tagFormats?: PlacementTagFormatsItemEnumList;
+  tagFormats?: PlacementTagFormatsItemEnumList | undefined;
   /** Optional. Conversion domain overrides for a placement. */
-  conversionDomainOverride?: PlacementConversionDomainOverride;
+  conversionDomainOverride?: PlacementConversionDomainOverride | undefined;
   /** Campaign ID of this placement. This field is a required field on insertion. */
-  campaignId?: string;
+  campaignId?: string | undefined;
   /** Size associated with this placement. When inserting or updating a placement, only the size ID field is used. This field is required on insertion. */
-  size?: Size;
+  size?: Size | undefined;
   /** Whether this placement opts out of tag wrapping. */
-  wrappingOptOut?: boolean;
+  wrappingOptOut?: boolean | undefined;
   /** Whether this placement is the primary placement of a roadblock (placement group). You cannot change this field from true to false. Setting this field to true will automatically set the primary field on the original primary placement of the roadblock to false, and it will automatically set the roadblock's primaryPlacementId field to the ID of this placement. */
-  primary?: boolean;
+  primary?: boolean | undefined;
   /** Optional. Whether the placement is enabled for YouTube integration. */
-  allowOnYoutube?: boolean;
+  allowOnYoutube?: boolean | undefined;
   /** Advertiser ID of this placement. This field can be left blank. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** ID of this placement. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Optional. Ad serving platform ID to identify the ad serving platform used by the placement. Measurement partners can use this field to add ad-server specific macros. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string;
+  adServingPlatformId?: string | undefined;
   /** Whether payment was approved for this placement. This is a read-only field relevant only to publisher-paid placements. */
-  paymentApproved?: boolean;
+  paymentApproved?: boolean | undefined;
   /** Information about the creation of this placement. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
+  createInfo?: LastModifiedInfo | undefined;
   /** ID of this placement's group, if applicable. */
-  placementGroupId?: string;
+  placementGroupId?: string | undefined;
   /** Optional. YouTube settings for the placement. The placement must be enabled for YouTube to use this field. */
-  youtubeSettings?: YoutubeSettings;
+  youtubeSettings?: YoutubeSettings | undefined;
   /** Dimension value for the ID of the site. This is a read-only, auto-generated field. */
-  siteIdDimensionValue?: DimensionValue;
+  siteIdDimensionValue?: DimensionValue | undefined;
   /** Optional. Whether the ads in the placement are served by another platform and CM is only used for tracking or they are served by CM. A false value indicates the ad is served by CM. */
-  siteServed?: boolean;
+  siteServed?: boolean | undefined;
   /** Information about the most recent modification of this placement. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
 }
 export interface GetPlacementStrategiesRequest {
   /** User profile ID associated with this request. */
@@ -4046,13 +4071,13 @@ export interface GetPlacementStrategiesRequest {
 /** Contains properties of a placement strategy. */
 export interface PlacementStrategy {
   /** Account ID of this placement strategy.This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementStrategy". */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of this placement strategy. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Name of this placement strategy. This is a required field. It must be less than 256 characters long and unique among placement strategies of the same account. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetPlatformTypesRequest {
   /** User profile ID associated with this request. */
@@ -4099,66 +4124,66 @@ export type ListPopulationTermTypeEnum =
 /** Remarketing List Population Rule Term. */
 export interface ListPopulationTerm {
   /** Friendly name of this term's variable. This is a read-only, auto-generated field. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM. */
-  variableFriendlyName?: string;
+  variableFriendlyName?: string | undefined;
   /** ID of the list in question. This field is only relevant when type is set to LIST_MEMBERSHIP_TERM. */
-  remarketingListId?: string;
+  remarketingListId?: string | undefined;
   /** Will be true if the term should check if the user is in the list and false if the term should check if the user is not in the list. This field is only relevant when type is set to LIST_MEMBERSHIP_TERM. False by default. */
-  contains?: boolean;
+  contains?: boolean | undefined;
   /** Name of the variable (U1, U2, etc.) being compared in this term. This field is only relevant when type is set to null, CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  variableName?: string;
+  variableName?: string | undefined;
   /** Literal to compare the variable to. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  value?: string;
+  value?: string | undefined;
   /** Comparison operator of this term. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  operator?: ListPopulationTermOperatorEnum | (string & {});
+  operator?: ListPopulationTermOperatorEnum | (string & {}) | undefined;
   /** List population term type determines the applicable fields in this object. If left unset or set to CUSTOM_VARIABLE_TERM, then variableName, variableFriendlyName, operator, value, and negation are applicable. If set to LIST_MEMBERSHIP_TERM then remarketingListId and contains are applicable. If set to REFERRER_TERM then operator, value, and negation are applicable. */
-  type?: ListPopulationTermTypeEnum | (string & {});
+  type?: ListPopulationTermTypeEnum | (string & {}) | undefined;
   /** Whether to negate the comparison result of this term during rule evaluation. This field is only relevant when type is left unset or set to CUSTOM_VARIABLE_TERM or REFERRER_TERM. */
-  negation?: boolean;
+  negation?: boolean | undefined;
 }
 export type ListPopulationTermList = Array<ListPopulationTerm>;
 /** A group clause made up of list population terms representing constraints joined by ORs. */
 export interface ListPopulationClause {
   /** Terms of this list population clause. Each clause is made up of list population terms representing constraints and are joined by ORs. */
-  terms?: ListPopulationTermList;
+  terms?: ListPopulationTermList | undefined;
 }
 export type ListPopulationClauseList = Array<ListPopulationClause>;
 /** Remarketing List Population Rule. */
 export interface ListPopulationRule {
   /** Clauses that make up this list population rule. Clauses are joined by ANDs, and the clauses themselves are made up of list population terms which are joined by ORs. */
-  listPopulationClauses?: ListPopulationClauseList;
+  listPopulationClauses?: ListPopulationClauseList | undefined;
   /** Floodlight activity ID associated with this rule. This field can be left blank. */
-  floodlightActivityId?: string;
+  floodlightActivityId?: string | undefined;
   /** Name of floodlight activity associated with this rule. This is a read-only, auto-generated field. */
-  floodlightActivityName?: string;
+  floodlightActivityName?: string | undefined;
 }
 /** Contains properties of a remarketing list. Remarketing enables you to create lists of users who have performed specific actions on a site, then target ads to members of those lists. This resource can be used to manage remarketing lists that are owned by your advertisers. To see all remarketing lists that are visible to your advertisers, including those that are shared to your advertiser or account, use the TargetableRemarketingLists resource. */
 export interface RemarketingList {
   /** Whether this remarketing list is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Number of users currently in the list. This is a read-only field. */
-  listSize?: string;
+  listSize?: string | undefined;
   /** Dimension value for the advertiser ID that owns this remarketing list. This is a required field. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Remarketing list description. */
-  description?: string;
+  description?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingList". */
-  kind?: string;
+  kind?: string | undefined;
   /** Number of days that a user should remain in the remarketing list without an impression. Acceptable values are 1 to 540, inclusive. */
-  lifeSpan?: string;
+  lifeSpan?: string | undefined;
   /** Product from which this remarketing list was originated. */
-  listSource?: RemarketingListListSourceEnum | (string & {});
+  listSource?: RemarketingListListSourceEnum | (string & {}) | undefined;
   /** Remarketing list ID. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Name of the remarketing list. This is a required field. Must be no greater than 128 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** Rule used to populate the remarketing list with users. */
-  listPopulationRule?: ListPopulationRule;
+  listPopulationRule?: ListPopulationRule | undefined;
 }
 export interface GetRemarketingListSharesRequest {
   /** User profile ID associated with this request. */
@@ -4169,13 +4194,13 @@ export interface GetRemarketingListSharesRequest {
 /** Contains properties of a remarketing list's sharing information. Sharing allows other accounts or advertisers to target to your remarketing lists. This resource can be used to manage remarketing list sharing to other accounts and advertisers. */
 export interface RemarketingListShare {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingListShare". */
-  kind?: string;
+  kind?: string | undefined;
   /** Remarketing list ID. This is a read-only, auto-generated field. */
-  remarketingListId?: string;
+  remarketingListId?: string | undefined;
   /** Advertisers that the remarketing list is shared with. */
-  sharedAdvertiserIds?: StringList;
+  sharedAdvertiserIds?: StringList | undefined;
   /** Accounts that the remarketing list is shared with. */
-  sharedAccountIds?: StringList;
+  sharedAccountIds?: StringList | undefined;
 }
 export interface GetReportsRequest {
   /** The ID of the report. */
@@ -4188,52 +4213,52 @@ export type SortedDimensionSortOrderEnum = "ASCENDING" | "DESCENDING";
 /** Represents a sorted dimension. */
 export interface SortedDimension {
   /** The kind of resource this is, in this case dfareporting#sortedDimension. */
-  kind?: string;
+  kind?: string | undefined;
   /** An optional sort order for the dimension column. */
-  sortOrder?: SortedDimensionSortOrderEnum | (string & {});
+  sortOrder?: SortedDimensionSortOrderEnum | (string & {}) | undefined;
   /** The name of the dimension. */
-  name?: string;
+  name?: string | undefined;
 }
 export type SortedDimensionList = Array<SortedDimension>;
 export interface ReportPathToConversionCriteriaReportProperties {
   /** Deprecated: has no effect. */
-  includeAttributedIPConversions?: boolean;
+  includeAttributedIPConversions?: boolean | undefined;
   /** CM360 checks to see if an impression interaction occurred within the specified period of time before a conversion. By default the value is pulled from Floodlight or you can manually enter a custom value. Valid values: 1-90. */
-  impressionsLookbackWindow?: number;
+  impressionsLookbackWindow?: number | undefined;
   /** CM360 checks to see if a click interaction occurred within the specified period of time before a conversion. By default the value is pulled from Floodlight or you can manually enter a custom value. Valid values: 1-90. */
-  clicksLookbackWindow?: number;
+  clicksLookbackWindow?: number | undefined;
   /** The maximum amount of time that can take place between interactions (clicks or impressions) by the same user. Valid values: 1-90. */
-  maximumInteractionGap?: number;
+  maximumInteractionGap?: number | undefined;
   /** The maximum number of click interactions to include in the report. Advertisers currently paying for E2C reports get up to 200 (100 clicks, 100 impressions). If another advertiser in your network is paying for E2C, you can have up to 5 total exposures per report. */
-  maximumImpressionInteractions?: number;
+  maximumImpressionInteractions?: number | undefined;
   /** The maximum number of click interactions to include in the report. Advertisers currently paying for E2C reports get up to 200 (100 clicks, 100 impressions). If another advertiser in your network is paying for E2C, you can have up to 5 total exposures per report. */
-  maximumClickInteractions?: number;
+  maximumClickInteractions?: number | undefined;
   /** Enable pivoting on interaction path. */
-  pivotOnInteractionPath?: boolean;
+  pivotOnInteractionPath?: boolean | undefined;
   /** Include conversions of users with a DoubleClick cookie but without an exposure. That means the user did not click or see an ad from the advertiser within the Floodlight group, or that the interaction happened outside the lookback window. */
-  includeUnattributedCookieConversions?: boolean;
+  includeUnattributedCookieConversions?: boolean | undefined;
   /** Include conversions that have no associated cookies and no exposures. It's therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion. */
-  includeUnattributedIPConversions?: boolean;
+  includeUnattributedIPConversions?: boolean | undefined;
 }
 export interface ReportPathToConversionCriteria {
   /** The list of 'dfa:activity' values to filter on. */
-  activityFilters?: DimensionValueList_;
+  activityFilters?: DimensionValueList_ | undefined;
   /** The list of names of metrics the report should include. */
-  metricNames?: StringList;
+  metricNames?: StringList | undefined;
   /** The floodlight ID for which to show data in this report. All advertisers associated with that ID will automatically be added. The dimension of the value needs to be 'dfa:floodlightConfigId'. */
-  floodlightConfigId?: DimensionValue;
+  floodlightConfigId?: DimensionValue | undefined;
   /** The list of conversion dimensions the report should include. */
-  conversionDimensions?: SortedDimensionList;
+  conversionDimensions?: SortedDimensionList | undefined;
   /** The properties of the report. */
-  reportProperties?: ReportPathToConversionCriteriaReportProperties;
+  reportProperties?: ReportPathToConversionCriteriaReportProperties | undefined;
   /** The list of custom floodlight variables the report should include. */
-  customFloodlightVariables?: SortedDimensionList;
+  customFloodlightVariables?: SortedDimensionList | undefined;
   /** The list of per interaction dimensions the report should include. */
-  perInteractionDimensions?: SortedDimensionList;
+  perInteractionDimensions?: SortedDimensionList | undefined;
   /** The list of custom rich media events to include. */
-  customRichMediaEvents?: DimensionValueList_;
+  customRichMediaEvents?: DimensionValueList_ | undefined;
   /** The date range this report should be run for. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
 }
 export type ReportScheduleRepeatsOnWeekDaysItemEnum =
   | "SUNDAY"
@@ -4249,59 +4274,59 @@ export type ReportScheduleRepeatsOnWeekDaysItemEnumList = Array<
 export type ReportScheduleRunsOnDayOfMonthEnum = "DAY_OF_MONTH" | "WEEK_OF_MONTH";
 export interface ReportSchedule {
   /** The timezone when the report will run. */
-  timezone?: string;
+  timezone?: string | undefined;
   /** List of week days "WEEKLY" on which scheduled reports should run. */
-  repeatsOnWeekDays?: ReportScheduleRepeatsOnWeekDaysItemEnumList;
+  repeatsOnWeekDays?: ReportScheduleRepeatsOnWeekDaysItemEnumList | undefined;
   /** Whether the schedule is active or not. Must be set to either true or false. */
-  active?: boolean;
-  expirationDate?: string;
+  active?: boolean | undefined;
+  expirationDate?: string | undefined;
   /** Defines every how many days, weeks or months the report should be run. Needs to be set when "repeats" is either "DAILY", "WEEKLY" or "MONTHLY". */
-  every?: number;
+  every?: number | undefined;
   /** Enum to define for "MONTHLY" scheduled reports whether reports should be repeated on the same day of the month as "startDate" or the same day of the week of the month. Example: If 'startDate' is Monday, April 2nd 2012 (2012-04-02), "DAY_OF_MONTH" would run subsequent reports on the 2nd of every Month, and "WEEK_OF_MONTH" would run subsequent reports on the first Monday of the month. */
-  runsOnDayOfMonth?: ReportScheduleRunsOnDayOfMonthEnum | (string & {});
+  runsOnDayOfMonth?: ReportScheduleRunsOnDayOfMonthEnum | (string & {}) | undefined;
   /** The interval for which the report is repeated. Note: - "DAILY" also requires field "every" to be set. - "WEEKLY" also requires fields "every" and "repeatsOnWeekDays" to be set. - "MONTHLY" also requires fields "every" and "runsOnDayOfMonth" to be set. */
-  repeats?: string;
-  startDate?: string;
+  repeats?: string | undefined;
+  startDate?: string | undefined;
 }
 /** Represents an activity group. */
 export interface Activities {
   /** List of names of floodlight activity metrics. */
-  metricNames?: StringList;
+  metricNames?: StringList | undefined;
   /** List of activity filters. The dimension values need to be all either of type "dfa:activity" or "dfa:activityGroup". */
-  filters?: DimensionValueList_;
+  filters?: DimensionValueList_ | undefined;
   /** The kind of resource this is, in this case dfareporting#activities. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Represents a Custom Rich Media Events group. */
 export interface CustomRichMediaEvents {
   /** The kind of resource this is, in this case dfareporting#customRichMediaEvents. */
-  kind?: string;
+  kind?: string | undefined;
   /** List of custom rich media event IDs. Dimension values must be all of type dfa:richMediaEventTypeIdAndName. */
-  filteredEventIds?: DimensionValueList_;
+  filteredEventIds?: DimensionValueList_ | undefined;
 }
 export interface ReportCriteria {
   /** Activity group. */
-  activities?: Activities;
+  activities?: Activities | undefined;
   /** Custom Rich Media Events group. */
-  customRichMediaEvents?: CustomRichMediaEvents;
+  customRichMediaEvents?: CustomRichMediaEvents | undefined;
   /** The list of names of metrics the report should include. */
-  metricNames?: StringList;
+  metricNames?: StringList | undefined;
   /** The date range for which this report should be run. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
-  dimensionFilters?: DimensionValueList_;
+  dimensionFilters?: DimensionValueList_ | undefined;
   /** The list of standard dimensions the report should include. */
-  dimensions?: SortedDimensionList;
+  dimensions?: SortedDimensionList | undefined;
 }
 export interface ReportCrossMediaReachCriteria {
   /** Required. The date range this report should be run for. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Required. The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
-  dimensionFilters?: DimensionValueList_;
+  dimensionFilters?: DimensionValueList_ | undefined;
   /** Required. The list of names of metrics the report should include. */
-  metricNames?: StringList;
+  metricNames?: StringList | undefined;
   /** Required. The list of dimensions the report should include. */
-  dimensions?: SortedDimensionList;
+  dimensions?: SortedDimensionList | undefined;
 }
 export type ReportTypeEnum =
   | "STANDARD"
@@ -4312,104 +4337,104 @@ export type ReportTypeEnum =
 export type ReportFormatEnum = "CSV" | "EXCEL";
 export interface ReportReachCriteria {
   /** The list of dimensions the report should include. */
-  dimensions?: SortedDimensionList;
+  dimensions?: SortedDimensionList | undefined;
   /** The date range this report should be run for. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** The list of names of metrics the report should include. */
-  metricNames?: StringList;
+  metricNames?: StringList | undefined;
   /** Custom Rich Media Events group. */
-  customRichMediaEvents?: CustomRichMediaEvents;
+  customRichMediaEvents?: CustomRichMediaEvents | undefined;
   /** Activity group. */
-  activities?: Activities;
+  activities?: Activities | undefined;
   /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
-  dimensionFilters?: DimensionValueList_;
+  dimensionFilters?: DimensionValueList_ | undefined;
   /** The list of names of Reach By Frequency metrics the report should include. */
-  reachByFrequencyMetricNames?: StringList;
+  reachByFrequencyMetricNames?: StringList | undefined;
 }
 export type RecipientDeliveryTypeEnum = "LINK" | "ATTACHMENT";
 /** Represents a recipient. */
 export interface Recipient {
   /** The email address of the recipient. */
-  email?: string;
+  email?: string | undefined;
   /** The kind of resource this is, in this case dfareporting#recipient. */
-  kind?: string;
+  kind?: string | undefined;
   /** The delivery type for the recipient. */
-  deliveryType?: RecipientDeliveryTypeEnum | (string & {});
+  deliveryType?: RecipientDeliveryTypeEnum | (string & {}) | undefined;
 }
 export type RecipientList = Array<Recipient>;
 export type ReportDeliveryEmailOwnerDeliveryTypeEnum = "LINK" | "ATTACHMENT";
 export interface ReportDelivery {
   /** Whether the report should be emailed to the report owner. */
-  emailOwner?: boolean;
+  emailOwner?: boolean | undefined;
   /** The message to be sent with each email. */
-  message?: string;
+  message?: string | undefined;
   /** The list of recipients to which to email the report. */
-  recipients?: RecipientList;
+  recipients?: RecipientList | undefined;
   /** The type of delivery for the owner to receive, if enabled. */
-  emailOwnerDeliveryType?: ReportDeliveryEmailOwnerDeliveryTypeEnum | (string & {});
+  emailOwnerDeliveryType?: ReportDeliveryEmailOwnerDeliveryTypeEnum | (string & {}) | undefined;
 }
 export interface ReportFloodlightCriteriaReportProperties {
   /** Include conversions that have no cookie, but do have an exposure path. */
-  includeAttributedIPConversions?: boolean;
+  includeAttributedIPConversions?: boolean | undefined;
   /** Include conversions of users with a DoubleClick cookie but without an exposure. That means the user did not click or see an ad from the advertiser within the Floodlight group, or that the interaction happened outside the lookback window. */
-  includeUnattributedCookieConversions?: boolean;
+  includeUnattributedCookieConversions?: boolean | undefined;
   /** Include conversions that have no associated cookies and no exposures. It's therefore impossible to know how the user was exposed to your ads during the lookback window prior to a conversion. */
-  includeUnattributedIPConversions?: boolean;
+  includeUnattributedIPConversions?: boolean | undefined;
 }
 export interface ReportFloodlightCriteria {
   /** The list of dimensions the report should include. */
-  dimensions?: SortedDimensionList;
+  dimensions?: SortedDimensionList | undefined;
   /** The list of names of metrics the report should include. */
-  metricNames?: StringList;
+  metricNames?: StringList | undefined;
   /** The properties of the report. */
-  reportProperties?: ReportFloodlightCriteriaReportProperties;
+  reportProperties?: ReportFloodlightCriteriaReportProperties | undefined;
   /** The floodlight ID for which to show data in this report. All advertisers associated with that ID will automatically be added. The dimension of the value needs to be 'dfa:floodlightConfigId'. */
-  floodlightConfigId?: DimensionValue;
+  floodlightConfigId?: DimensionValue | undefined;
   /** The list of filters on which dimensions are filtered. Filters for different dimensions are ANDed, filters for the same dimension are grouped together and ORed. */
-  dimensionFilters?: DimensionValueList_;
+  dimensionFilters?: DimensionValueList_ | undefined;
   /** The list of custom rich media events to include. */
-  customRichMediaEvents?: DimensionValueList_;
+  customRichMediaEvents?: DimensionValueList_ | undefined;
   /** The date range this report should be run for. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
 }
 /** Represents a Report resource. */
 export interface Report {
   /** The kind of resource this is, in this case dfareporting#report. */
-  kind?: string;
+  kind?: string | undefined;
   /** The report criteria for a report of type "PATH_TO_CONVERSION". */
-  pathToConversionCriteria?: ReportPathToConversionCriteria;
+  pathToConversionCriteria?: ReportPathToConversionCriteria | undefined;
   /** The report's schedule. Can only be set if the report's 'dateRange' is a relative date range and the relative date range is not "TODAY". */
-  schedule?: ReportSchedule;
+  schedule?: ReportSchedule | undefined;
   /** The timestamp (in milliseconds since epoch) of when this report was last modified. */
-  lastModifiedTime?: string;
+  lastModifiedTime?: string | undefined;
   /** The report criteria for a report of type "STANDARD". */
-  criteria?: ReportCriteria;
+  criteria?: ReportCriteria | undefined;
   /** The filename used when generating report files for this report. */
-  fileName?: string;
+  fileName?: string | undefined;
   /** The unique ID identifying this report resource. */
-  id?: string;
+  id?: string | undefined;
   /** Optional. The report criteria for a report of type "CROSS_MEDIA_REACH". */
-  crossMediaReachCriteria?: ReportCrossMediaReachCriteria;
+  crossMediaReachCriteria?: ReportCrossMediaReachCriteria | undefined;
   /** The account ID to which this report belongs. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** The subaccount ID to which this report belongs if applicable. */
-  subAccountId?: string;
+  subAccountId?: string | undefined;
   /** The type of the report. */
-  type?: ReportTypeEnum | (string & {});
+  type?: ReportTypeEnum | (string & {}) | undefined;
   /** The output format of the report. If not specified, default format is "CSV". Note that the actual format in the completed report file might differ if for instance the report's size exceeds the format's capabilities. "CSV" will then be the fallback format. */
-  format?: ReportFormatEnum | (string & {});
+  format?: ReportFormatEnum | (string & {}) | undefined;
   /** The name of the report. */
-  name?: string;
+  name?: string | undefined;
   /** The report criteria for a report of type "REACH". */
-  reachCriteria?: ReportReachCriteria;
+  reachCriteria?: ReportReachCriteria | undefined;
   /** The report's email delivery settings. */
-  delivery?: ReportDelivery;
+  delivery?: ReportDelivery | undefined;
   /** The report criteria for a report of type "FLOODLIGHT". */
-  floodlightCriteria?: ReportFloodlightCriteria;
+  floodlightCriteria?: ReportFloodlightCriteria | undefined;
   /** The eTag of this response for caching purposes. */
-  etag?: string;
+  etag?: string | undefined;
   /** The user profile id of the owner of this report. */
-  ownerProfileId?: string;
+  ownerProfileId?: string | undefined;
 }
 export interface GetReportsFilesRequest {
   /** The Campaign Manager 360 user profile ID. */
@@ -4429,118 +4454,121 @@ export type SiteSettingsVpaidAdapterChoiceTemplateEnum = "DEFAULT" | "FLASH" | "
 /** Site Settings */
 export interface SiteSettings {
   /** Configuration settings for dynamic and image floodlight tags. */
-  tagSetting?: TagSetting;
+  tagSetting?: TagSetting | undefined;
   /** Default VPAID adapter setting for new placements created under this site. This value will be used to populate the placements.vpaidAdapterChoice field, when no value is specified for the new placement. Controls which VPAID format the measurement adapter will use for in-stream video creatives assigned to the placement. The publisher's specifications will typically determine this setting. For VPAID creatives, the adapter format will match the VPAID format (HTML5 VPAID creatives use the HTML5 adapter). *Note:* Flash is no longer supported. This field now defaults to HTML5 when the following values are provided: FLASH, BOTH. */
-  vpaidAdapterChoiceTemplate?: SiteSettingsVpaidAdapterChoiceTemplateEnum | (string & {});
+  vpaidAdapterChoiceTemplate?:
+    | SiteSettingsVpaidAdapterChoiceTemplateEnum
+    | (string & {})
+    | undefined;
   /** Whether Verification and ActiveView for in-stream video creatives are disabled by default for new placements created under this site. This value will be used to populate the placement.videoActiveViewOptOut field, when no value is specified for the new placement. */
-  videoActiveViewOptOutTemplate?: boolean;
+  videoActiveViewOptOutTemplate?: boolean | undefined;
   /** Whether this site opts out of ad blocking. When true, ad blocking is disabled for all placements under the site, regardless of the individual placement settings. When false, the campaign and placement settings take effect. */
-  adBlockingOptOut?: boolean;
+  adBlockingOptOut?: boolean | undefined;
   /** Whether new cookies are disabled for this site. */
-  disableNewCookie?: boolean;
+  disableNewCookie?: boolean | undefined;
   /** Whether active view creatives are disabled for this site. */
-  activeViewOptOut?: boolean;
+  activeViewOptOut?: boolean | undefined;
 }
 export type SiteVideoSettingsOrientationEnum = "ANY" | "LANDSCAPE" | "PORTRAIT";
 /** Skippable Settings */
 export interface SiteSkippableSetting {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteSkippableSetting". */
-  kind?: string;
+  kind?: string | undefined;
   /** Whether the user can skip creatives served to this site. This will act as default for new placements created under this site. */
-  skippable?: boolean;
+  skippable?: boolean | undefined;
   /** Amount of time to play videos served to this site before the skip button should appear. Applicable when skippable is true. */
-  skipOffset?: VideoOffset;
+  skipOffset?: VideoOffset | undefined;
   /** Amount of time to play videos served to this site template before counting a view. Applicable when skippable is true. */
-  progressOffset?: VideoOffset;
+  progressOffset?: VideoOffset | undefined;
 }
 /** Companion Settings */
 export interface SiteCompanionSetting {
   /** Whether to serve only static images as companions. */
-  imageOnly?: boolean;
+  imageOnly?: boolean | undefined;
   /** Whether companions are disabled for this site template. */
-  companionsDisabled?: boolean;
+  companionsDisabled?: boolean | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteCompanionSetting". */
-  kind?: string;
+  kind?: string | undefined;
   /** Allowlist of companion sizes to be served via this site template. Set this list to null or empty to serve all companion sizes. */
-  enabledSizes?: SizeList;
+  enabledSizes?: SizeList | undefined;
 }
 /** Transcode Settings */
 export interface SiteTranscodeSetting {
   /** Allowlist of video formats to be served to this site template. Set this list to null or empty to serve all video formats. */
-  enabledVideoFormats?: IntegerList;
+  enabledVideoFormats?: IntegerList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteTranscodeSetting". */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Video Settings */
 export interface SiteVideoSettings {
   /** Whether OBA icons are enabled for this placement. */
-  obaEnabled?: boolean;
+  obaEnabled?: boolean | undefined;
   /** Orientation of a site template used for video. This will act as default for new placements created under this site. */
-  orientation?: SiteVideoSettingsOrientationEnum | (string & {});
+  orientation?: SiteVideoSettingsOrientationEnum | (string & {}) | undefined;
   /** Settings for the OBA icon of video creatives served to this site. This will act as default for new placements created under this site. */
-  obaSettings?: ObaIcon;
+  obaSettings?: ObaIcon | undefined;
   /** Settings for the skippability of video creatives served to this site. This will act as default for new placements created under this site. */
-  skippableSettings?: SiteSkippableSetting;
+  skippableSettings?: SiteSkippableSetting | undefined;
   /** Settings for the companion creatives of video creatives served to this site. */
-  companionSettings?: SiteCompanionSetting;
+  companionSettings?: SiteCompanionSetting | undefined;
   /** Publisher specification ID used to identify site-associated publisher requirements and automatically populate transcode settings. If publisher specification ID is specified, it will take precedence over transcode settings. Possible values are: * `1`, Hulu * `2`, NBC * `3`, CBS * `4`, CBS Desktop * `5`, Discovery * `6`, VEVO HD * `7`, VEVO Vertical * `8`, Fox * `9`, CW Network * `10`, Disney * `11`, IGN * `12`, NFL.com * `13`, Turner Broadcasting * `14`, Tubi on Fox * `15`, Hearst Corporation * `16`, Twitch Desktop * `17`, ABC * `18`, Univision * `19`, MLB.com * `20`, MLB.com Mobile * `21`, MLB.com OTT * `22`, Polsat * `23`, TVN * `24`, Mediaset * `25`, Antena 3 * `26`, Mediamond * `27`, Sky Italia * `28`, Tubi on CBS * `29`, Spotify * `30`, Paramount * `31`, Max */
-  publisherSpecificationId?: string;
+  publisherSpecificationId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#siteVideoSettings". */
-  kind?: string;
+  kind?: string | undefined;
   /** Settings for the transcodes of video creatives served to this site. This will act as default for new placements created under this site. */
-  transcodeSettings?: SiteTranscodeSetting;
+  transcodeSettings?: SiteTranscodeSetting | undefined;
 }
 export type SiteContactContactTypeEnum = "SALES_PERSON" | "TRAFFICKER";
 /** Site Contact */
 export interface SiteContact {
   /** Address of this site contact. */
-  address?: string;
+  address?: string | undefined;
   /** Last name of this site contact. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** First name of this site contact. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** Site contact type. */
-  contactType?: SiteContactContactTypeEnum | (string & {});
+  contactType?: SiteContactContactTypeEnum | (string & {}) | undefined;
   /** Title or designation of this site contact. */
-  title?: string;
+  title?: string | undefined;
   /** Email address of this site contact. This is a required field. */
-  email?: string;
+  email?: string | undefined;
   /** Primary phone number of this site contact. */
-  phone?: string;
+  phone?: string | undefined;
   /** ID of this site contact. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
 }
 export type SiteContactList = Array<SiteContact>;
 /** Contains properties of a site. */
 export interface Site {
   /** Directory site associated with this site. This is a required field that is read-only after insertion. */
-  directorySiteId?: string;
+  directorySiteId?: string | undefined;
   /** Site-wide settings. */
-  siteSettings?: SiteSettings;
+  siteSettings?: SiteSettings | undefined;
   /** Dimension value for the ID of this site. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** Name of this site.This is a required field. Must be less than 128 characters long. If this site is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this site is a top-level site, and the name must be unique among top-level sites of the same account. */
-  name?: string;
+  name?: string | undefined;
   /** ID of this site. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Optional. Ad serving platform ID to identify the ad serving platform used by the site. Measurement partners can use this field to add ad-server specific macros. If set, this value acts as the default during placement creation. Possible values are: * `1`, Adelphic * `2`, Adform * `3`, Adobe * `4`, Amobee * `5`, Basis (Centro) * `6`, Beeswax * `7`, Amazon * `8`, DV360 (DBM) * `9`, Innovid * `10`, MediaMath * `11`, Roku OneView DSP * `12`, TabMo Hawk * `13`, The Trade Desk * `14`, Xandr Invest DSP * `15`, Yahoo DSP * `16`, Zeta Global * `17`, Scaleout * `18`, Bidtellect * `19`, Unicorn * `20`, Teads * `21`, Quantcast * `22`, Cognitiv * `23`, AdTheorent * `24`, DeepIntent * `25`, Pulsepoint */
-  adServingPlatformId?: string;
+  adServingPlatformId?: string | undefined;
   /** Default video settings for new placements created under this site. This value will be used to populate the placements.videoSettings field, when no value is specified for the new placement. */
-  videoSettings?: SiteVideoSettings;
+  videoSettings?: SiteVideoSettings | undefined;
   /** Subaccount ID of this site. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Site contacts. */
-  siteContacts?: SiteContactList;
+  siteContacts?: SiteContactList | undefined;
   /** Dimension value for the ID of the directory site. This is a read-only, auto-generated field. */
-  directorySiteIdDimensionValue?: DimensionValue;
+  directorySiteIdDimensionValue?: DimensionValue | undefined;
   /** Key name of this site. This is a read-only, auto-generated field. */
-  keyName?: string;
+  keyName?: string | undefined;
   /** Whether this site is approved. */
-  approved?: boolean;
+  approved?: boolean | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#site". */
-  kind?: string;
+  kind?: string | undefined;
   /** Account ID of this site. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface GetSizesRequest {
   /** User profile ID associated with this request. */
@@ -4562,9 +4590,9 @@ export type StudioCreativeStatusEnum =
 /** Dimension information for a studio creative. */
 export interface StudioCreativeDimension {
   /** Height of the studio creative. */
-  height?: number;
+  height?: number | undefined;
   /** Width of the studio creative. */
-  width?: number;
+  width?: number | undefined;
 }
 export type StudioCreativeFormatEnum =
   | "UNKNOWN"
@@ -4575,31 +4603,31 @@ export type StudioCreativeFormatEnum =
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains studio creative information. */
 export interface StudioCreative {
   /** Output only. Status of this studio creative. It is a read-only field. */
-  status?: StudioCreativeStatusEnum | (string & {});
+  status?: StudioCreativeStatusEnum | (string & {}) | undefined;
   /** Dimension of this studio creative. This is a required field on insertion if format is BANNER or EXPANDING. */
-  dimension?: StudioCreativeDimension;
+  dimension?: StudioCreativeDimension | undefined;
   /** List of assets associated with this studio creative. It is a required field on insertion. */
-  assetIds?: StringList;
+  assetIds?: StringList | undefined;
   /** Studio advertiser ID of this studio creative. This is a required field on insertion. */
-  studioAdvertiserId?: string;
+  studioAdvertiserId?: string | undefined;
   /** Studio account ID of this creative. This field, if left unset, will be auto-populated. */
-  studioAccountId?: string;
+  studioAccountId?: string | undefined;
   /** Studio campaign ID of this studio creative. This is a required field on insertion. */
-  studioCampaignId?: string;
+  studioCampaignId?: string | undefined;
   /** The timestamp when the studio creative was created. This is a read-only, auto-generated field. */
-  createdInfo?: LastModifiedInfo;
+  createdInfo?: LastModifiedInfo | undefined;
   /** The timestamp when the studio creative was last modified. This is a read-only, auto-generated field. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
   /** Dynamic profile ID of this studio creative. */
-  dynamicProfileId?: string;
+  dynamicProfileId?: string | undefined;
   /** Format of this studio creative. This is a required field on insertion. */
-  format?: StudioCreativeFormatEnum | (string & {});
+  format?: StudioCreativeFormatEnum | (string & {}) | undefined;
   /** Output only. Unique ID of this studio creative. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Backup image asset ID of this studio creative. It is a required field on insertion. */
-  backupImageAssetId?: string;
+  backupImageAssetId?: string | undefined;
   /** Identifier. Name of this studio creative. This is a required field on insertion. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetSubaccountsRequest {
   /** Subaccount ID. */
@@ -4610,15 +4638,15 @@ export interface GetSubaccountsRequest {
 /** Contains properties of a Campaign Manager subaccount. */
 export interface Subaccount {
   /** Name of this subaccount. This is a required field. Must be less than 128 characters long and be unique among subaccounts of the same account. */
-  name?: string;
+  name?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#subaccount". */
-  kind?: string;
+  kind?: string | undefined;
   /** IDs of the available user role permissions for this subaccount. */
-  availablePermissionIds?: StringList;
+  availablePermissionIds?: StringList | undefined;
   /** ID of the account that contains this subaccount. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** ID of this subaccount. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface GetTargetableRemarketingListsRequest {
   /** Remarketing list ID. */
@@ -4641,29 +4669,29 @@ export type TargetableRemarketingListListSourceEnum =
 /** Contains properties of a targetable remarketing list. Remarketing enables you to create lists of users who have performed specific actions on a site, then target ads to members of those lists. This resource is a read-only view of a remarketing list to be used to facilitate targeting ads to specific lists. Remarketing lists that are owned by your advertisers and those that are shared to your advertisers or account are accessible via this resource. To manage remarketing lists that are owned by your advertisers, use the RemarketingLists resource. */
 export interface TargetableRemarketingList {
   /** Whether this targetable remarketing list is active. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Targetable remarketing list ID. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the targetable remarketing list. Is no greater than 128 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** Targetable remarketing list description. */
-  description?: string;
+  description?: string | undefined;
   /** Dimension value for the advertiser ID that owns this targetable remarketing list. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Number of days that a user should remain in the targetable remarketing list without an impression. */
-  lifeSpan?: string;
+  lifeSpan?: string | undefined;
   /** Dimension value for the ID of the advertiser. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Subaccount ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Account ID of this remarketing list. This is a read-only, auto-generated field that is only returned in GET requests. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetableRemarketingList". */
-  kind?: string;
+  kind?: string | undefined;
   /** Product from which this targetable remarketing list was originated. */
-  listSource?: TargetableRemarketingListListSourceEnum;
+  listSource?: TargetableRemarketingListListSourceEnum | undefined;
   /** Number of users currently in the list. This is a read-only field. */
-  listSize?: string;
+  listSize?: string | undefined;
 }
 export interface GetTargetingTemplatesRequest {
   /** Targeting template ID. */
@@ -4674,33 +4702,33 @@ export interface GetTargetingTemplatesRequest {
 /** Contains properties of a targeting template. A targeting template encapsulates targeting information which can be reused across multiple ads. */
 export interface TargetingTemplate {
   /** Account ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Geographical targeting criteria. */
-  geoTargeting?: GeoTargeting;
+  geoTargeting?: GeoTargeting | undefined;
   /** Time and day targeting criteria. */
-  dayPartTargeting?: DayPartTargeting;
+  dayPartTargeting?: DayPartTargeting | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetingTemplate". */
-  kind?: string;
+  kind?: string | undefined;
   /** Advertiser ID of this targeting template. This is a required field on insert and is read-only after insert. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Optional. Contextual keyword targeting criteria. */
-  contextualKeywordTargeting?: ContextualKeywordTargeting;
+  contextualKeywordTargeting?: ContextualKeywordTargeting | undefined;
   /** Subaccount ID of this targeting template. This field, if left unset, will be auto-generated on insert and is read-only after insert. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Dimension value for the ID of the advertiser. This is a read-only, auto-generated field. */
-  advertiserIdDimensionValue?: DimensionValue;
+  advertiserIdDimensionValue?: DimensionValue | undefined;
   /** Name of this targeting template. This field is required. It must be less than 256 characters long and unique within an advertiser. */
-  name?: string;
+  name?: string | undefined;
   /** ID of this targeting template. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Technology platform targeting criteria. */
-  technologyTargeting?: TechnologyTargeting;
+  technologyTargeting?: TechnologyTargeting | undefined;
   /** Language targeting criteria. */
-  languageTargeting?: LanguageTargeting;
+  languageTargeting?: LanguageTargeting | undefined;
   /** Key-value targeting criteria. */
-  keyValueTargetingExpression?: KeyValueTargetingExpression;
+  keyValueTargetingExpression?: KeyValueTargetingExpression | undefined;
   /** Remarketing list targeting criteria. */
-  listTargetingExpression?: ListTargetingExpression;
+  listTargetingExpression?: ListTargetingExpression | undefined;
 }
 export type GetTvCampaignDetailsTvDataProviderEnum =
   | "INVALID_TV_DATA_PROVIDER"
@@ -4715,13 +4743,13 @@ export type GetTvCampaignDetailsTvDataProviderEnum =
   | "SAMBA_AU";
 export interface GetTvCampaignDetailsRequest {
   /** Optional. TV data provider. If not specified, defaults to `COMSCORE_NATIONAL_US`. */
-  tvDataProvider?: GetTvCampaignDetailsTvDataProviderEnum | (string & {});
+  tvDataProvider?: GetTvCampaignDetailsTvDataProviderEnum | (string & {}) | undefined;
   /** Required. Account ID associated with this request. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Required. User profile ID associated with this request. */
   profileId: string;
   /** Optional. Country Dart ID. If not specified, defaults to 256 (US). */
-  countryDartId?: string;
+  countryDartId?: string | undefined;
   /** Required. TV Campaign ID. */
   id: string;
 }
@@ -4735,21 +4763,21 @@ export type TvCampaignTimepointDateWindowEnum =
 /** A single data point for TvCampaignDetail, which holds information about the TV campaign for a specific start date and date window. */
 export interface TvCampaignTimepoint {
   /** The date window of the timepoint. */
-  dateWindow?: TvCampaignTimepointDateWindowEnum;
+  dateWindow?: TvCampaignTimepointDateWindowEnum | undefined;
   /** The start date of the timepoint. A string in the format of "yyyy-MM-dd". */
-  startDate?: string;
+  startDate?: string | undefined;
   /** The spend within the time range of the timepoint. */
-  spend?: number;
+  spend?: number | undefined;
 }
 export type TvCampaignTimepointList = Array<TvCampaignTimepoint>;
 /** TvCampaignDetail contains data from a TV campaign for specific start dates and date windows. */
 export interface TvCampaignDetail {
   /** ID of this TV campaign. */
-  id?: string;
+  id?: string | undefined;
   /** The timepoints of the TV campaign. */
-  timepoints?: TvCampaignTimepointList;
+  timepoints?: TvCampaignTimepointList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#tvCampaignSummary". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface GetUserProfilesRequest {
   /** The user profile ID. */
@@ -4758,21 +4786,21 @@ export interface GetUserProfilesRequest {
 /** A UserProfile resource lets you list all DFA user profiles that are associated with a Google user account. The profile_id needs to be specified in other API requests. */
 export interface UserProfile {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userProfile". */
-  kind?: string;
+  kind?: string | undefined;
   /** The sub account name this profile belongs to if applicable. */
-  subAccountName?: string;
+  subAccountName?: string | undefined;
   /** The user name. */
-  userName?: string;
+  userName?: string | undefined;
   /** The sub account ID this profile belongs to if applicable. */
-  subAccountId?: string;
+  subAccountId?: string | undefined;
   /** The unique ID of the user profile. */
-  profileId?: string;
+  profileId?: string | undefined;
   /** The account name this profile belongs to. */
-  accountName?: string;
+  accountName?: string | undefined;
   /** Etag of this resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** The account ID to which this profile belongs. */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface GetUserRolePermissionGroupsRequest {
   /** User role permission group ID. */
@@ -4783,11 +4811,11 @@ export interface GetUserRolePermissionGroupsRequest {
 /** Represents a grouping of related user role permissions. */
 export interface UserRolePermissionGroup {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolePermissionGroup". */
-  kind?: string;
+  kind?: string | undefined;
   /** Name of this user role permission group. */
-  name?: string;
+  name?: string | undefined;
   /** ID of this user role permission. */
-  id?: string;
+  id?: string | undefined;
 }
 export interface GetUserRolePermissionsRequest {
   /** User profile ID associated with this request. */
@@ -4805,15 +4833,15 @@ export type UserRolePermissionAvailabilityEnum =
 /** Contains properties of a user role permission. */
 export interface UserRolePermission {
   /** ID of this user role permission. */
-  id?: string;
+  id?: string | undefined;
   /** Levels of availability for a user role permission. */
-  availability?: UserRolePermissionAvailabilityEnum | (string & {});
+  availability?: UserRolePermissionAvailabilityEnum | (string & {}) | undefined;
   /** ID of the permission group that this user role permission belongs to. */
-  permissionGroupId?: string;
+  permissionGroupId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolePermission". */
-  kind?: string;
+  kind?: string | undefined;
   /** Name of this user role permission. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface GetUserRolesRequest {
   /** User profile ID associated with this request. */
@@ -4825,21 +4853,21 @@ export type UserRolePermissionList = Array<UserRolePermission>;
 /** Contains properties of auser role, which is used to manage user access. */
 export interface UserRole {
   /** Whether this is a default user role. Default user roles are created by the system for the account/subaccount and cannot be modified or deleted. Each default user role comes with a basic set of preassigned permissions. */
-  defaultUserRole?: boolean;
+  defaultUserRole?: boolean | undefined;
   /** Name of this user role. This is a required field. Must be less than 256 characters long. If this user role is under a subaccount, the name must be unique among sites of the same subaccount. Otherwise, this user role is a top-level user role, and the name must be unique among top-level user roles of the same account. */
-  name?: string;
+  name?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRole". */
-  kind?: string;
+  kind?: string | undefined;
   /** Subaccount ID of this user role. This is a read-only field that can be left blank. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** List of permissions associated with this user role. */
-  permissions?: UserRolePermissionList;
+  permissions?: UserRolePermissionList | undefined;
   /** ID of the user role that this user role is based on or copied from. This is a required field. */
-  parentUserRoleId?: string;
+  parentUserRoleId?: string | undefined;
   /** ID of this user role. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Account ID of this user role. This is a read-only field that can be left blank. */
-  accountId?: string;
+  accountId?: string | undefined;
 }
 export interface GetVideoFormatsRequest {
   /** Video format ID. */
@@ -4851,58 +4879,58 @@ export type VideoFormatFileTypeEnum = "FLV" | "THREEGPP" | "MP4" | "WEBM" | "M3U
 /** Contains information about supported video formats. */
 export interface VideoFormat {
   /** ID of the video format. */
-  id?: number;
+  id?: number | undefined;
   /** The target bit rate of this video format. */
-  targetBitRate?: number;
+  targetBitRate?: number | undefined;
   /** File type of the video format. */
-  fileType?: VideoFormatFileTypeEnum;
+  fileType?: VideoFormatFileTypeEnum | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoFormat". */
-  kind?: string;
+  kind?: string | undefined;
   /** The resolution of this video format. */
-  resolution?: Size;
+  resolution?: Size | undefined;
 }
 export interface InsertAccountUserProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: AccountUserProfile;
+  body?: AccountUserProfile | undefined;
 }
 export interface InsertAdsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Ad;
+  body?: Ad | undefined;
 }
 export interface InsertAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: AdvertiserGroup;
+  body?: AdvertiserGroup | undefined;
 }
 export interface InsertAdvertiserLandingPagesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: LandingPage;
+  body?: LandingPage | undefined;
 }
 export interface InsertAdvertisersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Advertiser;
+  body?: Advertiser | undefined;
 }
 /** List account, subaccount, advertiser, and campaign associated with a given Billing Profile. */
 export interface BillingAssignment {
   /** ID of the subaccount associated with the billing assignment.Wildcard (*) means this assignment is not limited to a single subaccountThis is a read-only, auto-generated field. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingAssignment". */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the account associated with the billing assignment.This is a read-only, auto-generated field. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** ID of the campaign associated with the billing assignment. Wildcard (*) means this assignment is not limited to a single campaign */
-  campaignId?: string;
+  campaignId?: string | undefined;
   /** ID of the advertiser associated with the billing assignment.Wildcard (*) means this assignment is not limited to a single advertiser */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
 }
 export interface InsertBillingAssignmentsRequest {
   /** User profile ID associated with this request. */
@@ -4910,14 +4938,14 @@ export interface InsertBillingAssignmentsRequest {
   /** Billing profile ID of this billing assignment. */
   billingProfileId: string;
   /** Request body */
-  body?: BillingAssignment;
+  body?: BillingAssignment | undefined;
 }
 /** Identifies a creative which has been associated with a given campaign. */
 export interface CampaignCreativeAssociation {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignCreativeAssociation". */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of the creative associated with the campaign. This is a required field. */
-  creativeId?: string;
+  creativeId?: string | undefined;
 }
 export interface InsertCampaignCreativeAssociationsRequest {
   /** User profile ID associated with this request. */
@@ -4925,19 +4953,19 @@ export interface InsertCampaignCreativeAssociationsRequest {
   /** Campaign ID in this association. */
   campaignId: string;
   /** Request body */
-  body?: CampaignCreativeAssociation;
+  body?: CampaignCreativeAssociation | undefined;
 }
 export interface InsertCampaignsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Campaign;
+  body?: Campaign | undefined;
 }
 export interface InsertContentCategoriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: ContentCategory;
+  body?: ContentCategory | undefined;
 }
 export type CreativeAssetMetadataDetectedFeaturesItemEnum =
   | "CSS_FONT_FACE"
@@ -5042,27 +5070,27 @@ export type CreativeAssetMetadataWarnedValidationRulesItemEnumList = Array<
 /** CreativeAssets contains properties of a creative asset file which will be uploaded or has already been uploaded. Refer to the creative sample code for how to upload assets and insert a creative. */
 export interface CreativeAssetMetadata {
   /** ID of the creative asset. This is a required field. */
-  assetIdentifier?: CreativeAssetId;
+  assetIdentifier?: CreativeAssetId | undefined;
   /** List of exit events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  exitCustomEvents?: CreativeCustomEventList;
+  exitCustomEvents?: CreativeCustomEventList | undefined;
   /** List of feature dependencies for the creative asset that are detected by Campaign Manager. Feature dependencies are features that a browser must be able to support in order to render your HTML5 creative correctly. This is a read-only, auto-generated field. */
-  detectedFeatures?: CreativeAssetMetadataDetectedFeaturesItemEnumList;
+  detectedFeatures?: CreativeAssetMetadataDetectedFeaturesItemEnumList | undefined;
   /** List of timer events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  timerCustomEvents?: CreativeCustomEventList;
+  timerCustomEvents?: CreativeCustomEventList | undefined;
   /** List of counter events configured for the asset. This is a read-only, auto-generated field and only applicable to a rich media asset. */
-  counterCustomEvents?: CreativeCustomEventList;
+  counterCustomEvents?: CreativeCustomEventList | undefined;
   /** Dimension value for the numeric ID of the asset. This is a read-only, auto-generated field. */
-  idDimensionValue?: DimensionValue;
+  idDimensionValue?: DimensionValue | undefined;
   /** List of detected click tags for assets. This is a read-only, auto-generated field. This field is empty for a rich media asset. */
-  clickTags?: ClickTagList;
+  clickTags?: ClickTagList | undefined;
   /** True if the uploaded asset is a rich media asset. This is a read-only, auto-generated field. */
-  richMedia?: boolean;
+  richMedia?: boolean | undefined;
   /** Rules validated during code generation that generated a warning. This is a read-only, auto-generated field. Possible values are: - "ADMOB_REFERENCED" - "ASSET_FORMAT_UNSUPPORTED_DCM" - "ASSET_INVALID" - "CLICK_TAG_HARD_CODED" - "CLICK_TAG_INVALID" - "CLICK_TAG_IN_GWD" - "CLICK_TAG_MISSING" - "CLICK_TAG_MORE_THAN_ONE" - "CLICK_TAG_NON_TOP_LEVEL" - "COMPONENT_UNSUPPORTED_DCM" - "ENABLER_UNSUPPORTED_METHOD_DCM" - "EXTERNAL_FILE_REFERENCED" - "FILE_DETAIL_EMPTY" - "FILE_TYPE_INVALID" - "GWD_PROPERTIES_INVALID" - "HTML5_FEATURE_UNSUPPORTED" - "LINKED_FILE_NOT_FOUND" - "MAX_FLASH_VERSION_11" - "MRAID_REFERENCED" - "NOT_SSL_COMPLIANT" - "ORPHANED_ASSET" - "PRIMARY_HTML_MISSING" - "SVG_INVALID" - "ZIP_INVALID" */
-  warnedValidationRules?: CreativeAssetMetadataWarnedValidationRulesItemEnumList;
+  warnedValidationRules?: CreativeAssetMetadataWarnedValidationRulesItemEnumList | undefined;
   /** Numeric ID of the asset. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeAssetMetadata". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface InsertCreativeAssetsRequest {
   /** Advertiser ID of this creative. This is a required field. */
@@ -5070,13 +5098,13 @@ export interface InsertCreativeAssetsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: CreativeAssetMetadata;
+  body?: CreativeAssetMetadata | undefined;
 }
 export interface InsertCreativeFieldsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: CreativeField;
+  body?: CreativeField | undefined;
 }
 export interface InsertCreativeFieldValuesRequest {
   /** User profile ID associated with this request. */
@@ -5084,40 +5112,40 @@ export interface InsertCreativeFieldValuesRequest {
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
   /** Request body */
-  body?: CreativeFieldValue;
+  body?: CreativeFieldValue | undefined;
 }
 export interface InsertCreativeGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: CreativeGroup;
+  body?: CreativeGroup | undefined;
 }
 export interface InsertCreativesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Creative;
+  body?: Creative | undefined;
 }
 export interface InsertDirectorySitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: DirectorySite;
+  body?: DirectorySite | undefined;
 }
 /** Dynamic profile ID is required for dynamic feed insert as the current GPA API only can create a dynamic feed under profile context,even though the dynamic feed itself don't need the dynamic profile id. */
 export interface DynamicFeedsInsertRequest {
   /** Required. Dynamic profile ID of the inserted dynamic feed. */
-  dynamicProfileId?: string;
+  dynamicProfileId?: string | undefined;
   /** Required. Dynamic feed to insert. */
-  dynamicFeed?: DynamicFeed;
+  dynamicFeed?: DynamicFeed | undefined;
 }
 export interface InsertDynamicFeedsRequest {
   /** Request body */
-  body?: DynamicFeedsInsertRequest;
+  body?: DynamicFeedsInsertRequest | undefined;
 }
 export interface InsertDynamicProfilesRequest {
   /** Request body */
-  body?: DynamicProfile;
+  body?: DynamicProfile | undefined;
 }
 export type DynamicTargetingKeyObjectTypeEnum =
   | "OBJECT_ADVERTISER"
@@ -5127,92 +5155,92 @@ export type DynamicTargetingKeyObjectTypeEnum =
 /** Contains properties of a dynamic targeting key. Dynamic targeting keys are unique, user-friendly labels, created at the advertiser level in DCM, that can be assigned to ads, creatives, and placements and used for targeting with Studio dynamic creatives. Use these labels instead of numeric Campaign Manager IDs (such as placement IDs) to save time and avoid errors in your dynamic feeds. */
 export interface DynamicTargetingKey {
   /** ID of the object of this dynamic targeting key. This is a required field. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Type of the object of this dynamic targeting key. This is a required field. */
-  objectType?: DynamicTargetingKeyObjectTypeEnum | (string & {});
+  objectType?: DynamicTargetingKeyObjectTypeEnum | (string & {}) | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicTargetingKey". */
-  kind?: string;
+  kind?: string | undefined;
   /** Name of this dynamic targeting key. This is a required field. Must be less than 256 characters long and cannot contain commas. All characters are converted to lowercase. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface InsertDynamicTargetingKeysRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: DynamicTargetingKey;
+  body?: DynamicTargetingKey | undefined;
 }
 export interface InsertEventTagsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: EventTag;
+  body?: EventTag | undefined;
 }
 export interface InsertFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: FloodlightActivity;
+  body?: FloodlightActivity | undefined;
 }
 export interface InsertFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: FloodlightActivityGroup;
+  body?: FloodlightActivityGroup | undefined;
 }
 export interface InsertPlacementGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: PlacementGroup;
+  body?: PlacementGroup | undefined;
 }
 export interface InsertPlacementsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Placement;
+  body?: Placement | undefined;
 }
 export interface InsertPlacementStrategiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: PlacementStrategy;
+  body?: PlacementStrategy | undefined;
 }
 export interface InsertRemarketingListsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: RemarketingList;
+  body?: RemarketingList | undefined;
 }
 export interface InsertReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
   /** Request body */
-  body?: Report;
+  body?: Report | undefined;
 }
 export interface InsertSitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Site;
+  body?: Site | undefined;
 }
 export interface InsertSizesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Size;
+  body?: Size | undefined;
 }
 /** Request message for DfareportingStudioCreativeAssets.Insert. */
 export interface DfareportingStudioCreativeAssetsInsertRequest {
   /** Optional. Studio account ID of the studio creative asset. It is a optional. */
-  studioAccountId?: string;
+  studioAccountId?: string | undefined;
   /** Required. Studio advertiser ID of the studio creative asset. It is a required field on insertion. */
-  studioAdvertiserId?: string;
+  studioAdvertiserId?: string | undefined;
   /** Optional. Studio creative ID of the studio creative asset. It is a optional field. If it is set, the asset will be associated to the creative. */
-  studioCreativeId?: string;
+  studioCreativeId?: string | undefined;
 }
 export interface InsertStudioCreativeAssetsRequest {
   /** Request body */
-  body?: DfareportingStudioCreativeAssetsInsertRequest;
+  body?: DfareportingStudioCreativeAssetsInsertRequest | undefined;
 }
 export type VideoProcessingDataProcessingStateEnum =
   | "UNKNOWN"
@@ -5222,61 +5250,61 @@ export type VideoProcessingDataProcessingStateEnum =
 /** Contains processing data for a video asset. */
 export interface VideoProcessingData {
   /** For a FAILED processing state, the error reason discovered. */
-  errorReason?: string;
+  errorReason?: string | undefined;
   /** Output only. The processing state of the studio creative asset. */
-  processingState?: VideoProcessingDataProcessingStateEnum;
+  processingState?: VideoProcessingDataProcessingStateEnum | undefined;
 }
 export type StudioCreativeAssetTypeEnum = "UNKNOWN_TYPE" | "HTML" | "VIDEO" | "IMAGE" | "FONT";
 /** *Beta:* This API resource is available only to a very limited number of customers. If you'd like to use this resource, please reach out to your Google sales representative. Contains studio creative asset information. */
 export interface StudioCreativeAsset {
   /** The filesize of the studio creative asset. This is a read-only field. */
-  filesize?: string;
+  filesize?: string | undefined;
   /** Output only. The creation timestamp of the studio creative asset. This is a read-only field. */
-  createInfo?: LastModifiedInfo;
+  createInfo?: LastModifiedInfo | undefined;
   /** Studio advertiser ID of this studio creative asset. This is a required field on insertion. */
-  studioAdvertiserId?: string;
+  studioAdvertiserId?: string | undefined;
   /** Output only. The last modified timestamp of the studio creative asset. This is a read-only field. */
-  lastModifiedInfo?: LastModifiedInfo;
+  lastModifiedInfo?: LastModifiedInfo | undefined;
   /** The filename of the studio creative asset. It is default to the original filename of the asset. */
-  filename?: string;
+  filename?: string | undefined;
   /** Output only. Unique ID of this studio creative asset. This is a read-only, auto-generated field. */
-  id?: string;
+  id?: string | undefined;
   /** Studio creative ID of this studio creative asset. The asset will be associated to the creative if creative id is set. */
-  studioCreativeId?: string;
+  studioCreativeId?: string | undefined;
   /** The processing data of the studio creative asset. This is a read-only field. */
-  videoProcessingData?: VideoProcessingData;
+  videoProcessingData?: VideoProcessingData | undefined;
   /** Studio account ID of this studio creative asset. This field, if left unset, will be auto-populated.. */
-  studioAccountId?: string;
+  studioAccountId?: string | undefined;
   /** The type of the studio creative asset. It is a auto-generated, read-only field. */
-  type?: StudioCreativeAssetTypeEnum;
+  type?: StudioCreativeAssetTypeEnum | undefined;
 }
 export type StudioCreativeAssetList = Array<StudioCreativeAsset>;
 /** Response message for DfareportingStudioCreativeAssets.Insert. */
 export interface StudioCreativeAssetsResponse {
   /** The list of studio creative assets. */
-  assets?: StudioCreativeAssetList;
+  assets?: StudioCreativeAssetList | undefined;
 }
 export interface InsertStudioCreativesRequest {
   /** Request body */
-  body?: StudioCreative;
+  body?: StudioCreative | undefined;
 }
 export interface InsertSubaccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Subaccount;
+  body?: Subaccount | undefined;
 }
 export interface InsertTargetingTemplatesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: TargetingTemplate;
+  body?: TargetingTemplate | undefined;
 }
 export interface InsertUserRolesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: UserRole;
+  body?: UserRole | undefined;
 }
 export interface ListAccountPermissionGroupsRequest {
   /** User profile ID associated with this request. */
@@ -5286,9 +5314,9 @@ export type AccountPermissionGroupList = Array<AccountPermissionGroup>;
 /** Account Permission Group List Response */
 export interface AccountPermissionGroupsListResponse {
   /** Account permission group collection. */
-  accountPermissionGroups?: AccountPermissionGroupList;
+  accountPermissionGroups?: AccountPermissionGroupList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermissionGroupGroupsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListAccountPermissionsRequest {
   /** User profile ID associated with this request. */
@@ -5298,27 +5326,27 @@ export type AccountPermissionList = Array<AccountPermission>;
 /** Account Permission List Response */
 export interface AccountPermissionsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountPermissionsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Account permission collection. */
-  accountPermissions?: AccountPermissionList;
+  accountPermissions?: AccountPermissionList | undefined;
 }
 export type ListAccountsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListAccountsSortFieldEnum = "ID" | "NAME";
 export interface ListAccountsRequest {
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "account*2015" will return objects with names like "account June 2015", "account April 2015", or simply "account 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "account" will match objects with name "my account", "account 2015", or simply "account". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListAccountsSortOrderEnum | (string & {});
+  sortOrder?: ListAccountsSortOrderEnum | (string & {}) | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only accounts with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListAccountsSortFieldEnum | (string & {});
+  sortField?: ListAccountsSortFieldEnum | (string & {}) | undefined;
   /** Select only active accounts. Don't set this field to select both active and non-active accounts. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
 }
@@ -5326,11 +5354,11 @@ export type AccountList = Array<Account>;
 /** Account List Response */
 export interface AccountsListResponse {
   /** Account collection. */
-  accounts?: AccountList;
+  accounts?: AccountList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListAccountUserProfilesSortFieldEnum = "ID" | "NAME";
 export type ListAccountUserProfilesSortOrderEnum = "ASCENDING" | "DESCENDING";
@@ -5338,33 +5366,33 @@ export interface ListAccountUserProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListAccountUserProfilesSortFieldEnum | (string & {});
+  sortField?: ListAccountUserProfilesSortFieldEnum | (string & {}) | undefined;
   /** Allows searching for objects by name, ID or email. Wildcards (*) are allowed. For example, "user profile*2015" will return objects with names like "user profile June 2015", "user profile April 2015", or simply "user profile 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "user profile" will match objects with name "my user profile", "user profile 2015", or simply "user profile". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Select only user profiles with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Select only user profiles with the specified subaccount ID. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListAccountUserProfilesSortOrderEnum | (string & {});
+  sortOrder?: ListAccountUserProfilesSortOrderEnum | (string & {}) | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only user profiles with the specified user role ID. */
-  userRoleId?: string;
+  userRoleId?: string | undefined;
   /** Select only active user profiles. */
-  active?: boolean;
+  active?: boolean | undefined;
 }
 export type AccountUserProfileList = Array<AccountUserProfile>;
 /** Account User Profile List Response */
 export interface AccountUserProfilesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#accountUserProfilesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Account user profile collection. */
-  accountUserProfiles?: AccountUserProfileList;
+  accountUserProfiles?: AccountUserProfileList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListAdsTypeEnum =
   | "AD_SERVING_STANDARD_AD"
@@ -5384,91 +5412,91 @@ export type ListAdsCompatibilityEnum =
 export type ListAdsSortFieldEnum = "ID" | "NAME";
 export interface ListAdsRequest {
   /** Select only ads with these types. */
-  type?: ListAdsTypeEnumList;
+  type?: ListAdsTypeEnumList | undefined;
   /** Select only ads with these landing page IDs. */
-  landingPageIds?: StringList;
+  landingPageIds?: StringList | undefined;
   /** Select only ads with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListAdsSortOrderEnum | (string & {});
+  sortOrder?: ListAdsSortOrderEnum | (string & {}) | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "ad*2015" will return objects with names like "ad June 2015", "ad April 2015", or simply "ad 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "ad" will match objects with name "my ad", "ad 2015", or simply "ad". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Select only active ads. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only ads that are SSL-compliant. */
-  sslCompliant?: boolean;
+  sslCompliant?: boolean | undefined;
   /** Select only ads whose list targeting expression use these remarketing list IDs. */
-  remarketingListIds?: StringList;
+  remarketingListIds?: StringList | undefined;
   /** Select only dynamic click trackers. Applicable when type is AD_SERVING_CLICK_TRACKER. If true, select dynamic click trackers. If false, select static click trackers. Leave unset to select both. */
-  dynamicClickTracker?: boolean;
+  dynamicClickTracker?: boolean | undefined;
   /** Select only ads with this advertiser ID. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Select only ads with these audience segment IDs. */
-  audienceSegmentIds?: StringList;
+  audienceSegmentIds?: StringList | undefined;
   /** Select only ads with these creative optimization configuration IDs. */
-  creativeOptimizationConfigurationIds?: StringList;
+  creativeOptimizationConfigurationIds?: StringList | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select default ads with the specified compatibility. Applicable when type is AD_SERVING_DEFAULT_AD. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices for regular or interstitial ads, respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. IN_STREAM_VIDEO refers to rendering an in-stream video ads developed with the VAST standard. */
-  compatibility?: ListAdsCompatibilityEnum | (string & {});
+  compatibility?: ListAdsCompatibilityEnum | (string & {}) | undefined;
   /** Select only ads with these placement IDs assigned. */
-  placementIds?: StringList;
+  placementIds?: StringList | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Select only ads with these size IDs. */
-  sizeIds?: StringList;
+  sizeIds?: StringList | undefined;
   /** Select only ads with these campaign IDs. */
-  campaignIds?: StringList;
+  campaignIds?: StringList | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListAdsSortFieldEnum | (string & {});
+  sortField?: ListAdsSortFieldEnum | (string & {}) | undefined;
   /** Select only ads that require SSL. */
-  sslRequired?: boolean;
+  sslRequired?: boolean | undefined;
   /** Select only ads with these creative IDs assigned. */
-  creativeIds?: StringList;
+  creativeIds?: StringList | undefined;
   /** Select only archived ads. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Select only ads with this event tag override ID. */
-  overriddenEventTagId?: string;
+  overriddenEventTagId?: string | undefined;
 }
 export type AdList = Array<Ad>;
 /** Ad List Response */
 export interface AdsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#adsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Ad collection. */
-  ads?: AdList;
+  ads?: AdList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListAdvertiserGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListAdvertiserGroupsSortFieldEnum = "ID" | "NAME";
 export interface ListAdvertiserGroupsRequest {
   /** Select only advertiser groups with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "advertiser*2015" will return objects with names like "advertiser group June 2015", "advertiser group April 2015", or simply "advertiser group 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "advertisergroup" will match objects with name "my advertisergroup", "advertisergroup 2015", or simply "advertisergroup". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListAdvertiserGroupsSortOrderEnum | (string & {});
+  sortOrder?: ListAdvertiserGroupsSortOrderEnum | (string & {}) | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Field by which to sort the list. */
-  sortField?: ListAdvertiserGroupsSortFieldEnum | (string & {});
+  sortField?: ListAdvertiserGroupsSortFieldEnum | (string & {}) | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type AdvertiserGroupList = Array<AdvertiserGroup>;
 /** Advertiser Group List Response */
 export interface AdvertiserGroupsListResponse {
   /** Advertiser group collection. */
-  advertiserGroups?: AdvertiserGroupList;
+  advertiserGroups?: AdvertiserGroupList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserGroupsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListAdvertiserInvoicesRequest {
   /** User profile ID associated with this request. */
@@ -5476,24 +5504,24 @@ export interface ListAdvertiserInvoicesRequest {
   /** Advertiser ID of this invoice. */
   advertiserId: string;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Month for which invoices are needed in the format YYYYMM. Required field */
-  issueMonth?: string;
+  issueMonth?: string | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 /** Represents a summarized campaign information associated with this invoice. */
 export interface CampaignSummary {
   /** The tax amount for this campaign, in micros of the invoice's currency. */
-  taxAmountMicros?: string;
+  taxAmountMicros?: string | undefined;
   /** Campaign billing invoice code. */
-  billingInvoiceCode?: string;
+  billingInvoiceCode?: string | undefined;
   /** The pre-tax amount for this campaign, in micros of the invoice's currency. */
-  preTaxAmountMicros?: string;
+  preTaxAmountMicros?: string | undefined;
   /** The total amount of charges for this campaign, in micros of the invoice's currency. */
-  totalAmountMicros?: string;
+  totalAmountMicros?: string | undefined;
   /** Campaign ID. */
-  campaignId?: string;
+  campaignId?: string | undefined;
 }
 export type CampaignSummaryList = Array<CampaignSummary>;
 export type InvoiceInvoiceTypeEnum =
@@ -5503,128 +5531,128 @@ export type InvoiceInvoiceTypeEnum =
 /** Contains information about a single invoice */
 export interface Invoice {
   /** The ID of the payments profile the invoice belongs to. Appears on the invoice PDF as *Billing ID*. */
-  paymentsProfileId?: string;
+  paymentsProfileId?: string | undefined;
   /** The invoice due date. */
-  dueDate?: string;
+  dueDate?: string | undefined;
   /** The sum of all taxes in invoice, in micros of the invoice's currency. */
-  totalTaxAmountMicros?: string;
+  totalTaxAmountMicros?: string | undefined;
   /** The ID of the payments account the invoice belongs to. Appears on the invoice PDF as *Billing Account Number*. */
-  paymentsAccountId?: string;
+  paymentsAccountId?: string | undefined;
   /** Invoice currency code in ISO 4217 format. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#invoice". */
-  kind?: string;
+  kind?: string | undefined;
   /** ID of this invoice. */
-  id?: string;
+  id?: string | undefined;
   /** The originally issued invoice that is being adjusted by this invoice, if applicable. May appear on invoice PDF as *Reference invoice number*. */
-  correctedInvoiceId?: string;
+  correctedInvoiceId?: string | undefined;
   /** The pre-tax subtotal amount, in micros of the invoice's currency. */
-  subtotalAmountMicros?: string;
+  subtotalAmountMicros?: string | undefined;
   /** The list of summarized campaign information associated with this invoice. */
-  campaign_summaries?: CampaignSummaryList;
+  campaign_summaries?: CampaignSummaryList | undefined;
   /** The date when the invoice was issued. */
-  issueDate?: string;
+  issueDate?: string | undefined;
   /** The invoice total amount, in micros of the invoice's currency. */
-  totalAmountMicros?: string;
+  totalAmountMicros?: string | undefined;
   /** The originally issued invoice(s) that is being cancelled by this invoice, if applicable. May appear on invoice PDF as *Replaced invoice numbers*. Note: There may be multiple replaced invoices due to consolidation of multiple invoices into a single invoice. */
-  replacedInvoiceIds?: StringList;
+  replacedInvoiceIds?: StringList | undefined;
   /** The URL to download a PDF copy of the invoice. Note that this URL is user specific and requires a valid OAuth 2.0 access token to access. The access token must be provided in an *Authorization: Bearer* HTTP header. The URL will only be usable for 7 days from when the api is called. */
-  pdfUrl?: string;
+  pdfUrl?: string | undefined;
   /** Purchase order number associated with the invoice. */
-  purchaseOrderNumber?: string;
+  purchaseOrderNumber?: string | undefined;
   /** The type of invoice document. */
-  invoiceType?: InvoiceInvoiceTypeEnum;
+  invoiceType?: InvoiceInvoiceTypeEnum | undefined;
   /** The invoice service end date. */
-  serviceEndDate?: string;
+  serviceEndDate?: string | undefined;
   /** The invoice service start date. */
-  serviceStartDate?: string;
+  serviceStartDate?: string | undefined;
 }
 export type InvoiceList = Array<Invoice>;
 /** Invoice List Response */
 export interface AdvertiserInvoicesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserInvoicesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Invoice collection */
-  invoices?: InvoiceList;
+  invoices?: InvoiceList | undefined;
 }
 export type ListAdvertiserLandingPagesSortFieldEnum = "ID" | "NAME";
 export type ListAdvertiserLandingPagesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListAdvertiserLandingPagesRequest {
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only archived landing pages. Don't set this field to select both archived and non-archived landing pages. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Select only landing pages that belong to these advertisers. */
-  advertiserIds?: StringList;
+  advertiserIds?: StringList | undefined;
   /** Select only landing pages that belong to this subaccount. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Allows searching for landing pages by name or ID. Wildcards (*) are allowed. For example, "landingpage*2017" will return landing pages with names like "landingpage July 2017", "landingpage March 2017", or simply "landingpage 2017". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "landingpage" will match campaigns with name "my landingpage", "landingpage 2015", or simply "landingpage". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Field by which to sort the list. */
-  sortField?: ListAdvertiserLandingPagesSortFieldEnum | (string & {});
+  sortField?: ListAdvertiserLandingPagesSortFieldEnum | (string & {}) | undefined;
   /** Select only landing pages that are associated with these campaigns. */
-  campaignIds?: StringList;
+  campaignIds?: StringList | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListAdvertiserLandingPagesSortOrderEnum | (string & {});
+  sortOrder?: ListAdvertiserLandingPagesSortOrderEnum | (string & {}) | undefined;
   /** Select only landing pages with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
 }
 export type LandingPageList = Array<LandingPage>;
 /** Landing Page List Response */
 export interface AdvertiserLandingPagesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertiserLandingPagesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Landing page collection */
-  landingPages?: LandingPageList;
+  landingPages?: LandingPageList | undefined;
 }
 export type ListAdvertisersSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListAdvertisersStatusEnum = "APPROVED" | "ON_HOLD";
 export type ListAdvertisersSortFieldEnum = "ID" | "NAME";
 export interface ListAdvertisersRequest {
   /** Select only advertisers with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Select only advertisers with these subaccount IDs. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Select only advertisers with these advertiser group IDs. */
-  advertiserGroupIds?: StringList;
+  advertiserGroupIds?: StringList | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Select only advertisers which do not belong to any advertiser group. */
-  includeAdvertisersWithoutGroupsOnly?: boolean;
+  includeAdvertisersWithoutGroupsOnly?: boolean | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListAdvertisersSortOrderEnum | (string & {});
+  sortOrder?: ListAdvertisersSortOrderEnum | (string & {}) | undefined;
   /** Select only advertisers with the specified status. */
-  status?: ListAdvertisersStatusEnum | (string & {});
+  status?: ListAdvertisersStatusEnum | (string & {}) | undefined;
   /** Select only advertisers which use another advertiser's floodlight configuration. */
-  onlyParent?: boolean;
+  onlyParent?: boolean | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "advertiser*2015" will return objects with names like "advertiser June 2015", "advertiser April 2015", or simply "advertiser 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "advertiser" will match objects with name "my advertiser", "advertiser 2015", or simply "advertiser" . */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListAdvertisersSortFieldEnum | (string & {});
+  sortField?: ListAdvertisersSortFieldEnum | (string & {}) | undefined;
   /** Select only advertisers with these floodlight configuration IDs. */
-  floodlightConfigurationIds?: StringList;
+  floodlightConfigurationIds?: StringList | undefined;
 }
 export type AdvertiserList = Array<Advertiser>;
 /** Advertiser List Response */
 export interface AdvertisersListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#advertisersListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Advertiser collection. */
-  advertisers?: AdvertiserList;
+  advertisers?: AdvertiserList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListBillingAssignmentsRequest {
   /** User profile ID associated with this request. */
@@ -5636,9 +5664,9 @@ export type BillingAssignmentList = Array<BillingAssignment>;
 /** Billing assignment List Response */
 export interface BillingAssignmentsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingAssignmentsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Billing assignments collection. */
-  billingAssignments?: BillingAssignmentList;
+  billingAssignments?: BillingAssignmentList | undefined;
 }
 export type ListBillingProfilesStatusEnum = "UNDER_REVIEW" | "ACTIVE" | "ARCHIVED";
 export type ListBillingProfilesStatusEnumList = Array<
@@ -5648,25 +5676,25 @@ export type ListBillingProfilesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListBillingProfilesSortFieldEnum = "ID" | "NAME";
 export interface ListBillingProfilesRequest {
   /** Select only billing profile with the specified status. */
-  status?: ListBillingProfilesStatusEnumList;
+  status?: ListBillingProfilesStatusEnumList | undefined;
   /** Select only billing profile with currency. */
-  currency_code?: string;
+  currency_code?: string | undefined;
   /** Select only billing profile with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only billing profile with the specified subaccount.When only_suggestion is true, only a single subaccount_id is supported. */
-  subaccountIds?: StringList;
+  subaccountIds?: StringList | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListBillingProfilesSortOrderEnum | (string & {});
+  sortOrder?: ListBillingProfilesSortOrderEnum | (string & {}) | undefined;
   /** Allows searching for billing profiles by name. Wildcards (*) are allowed. For example, "profile*2020" will return objects with names like "profile June 2020", "profile April 2020", or simply "profile 2020". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "profile" will match objects with name "my profile", "profile 2021", or simply "profile". */
-  name?: string;
+  name?: string | undefined;
   /** Select only billing profile which is suggested for the currency_code & subaccount_id using the Billing Suggestion API. */
-  onlySuggestion?: boolean;
+  onlySuggestion?: boolean | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListBillingProfilesSortFieldEnum | (string & {});
+  sortField?: ListBillingProfilesSortFieldEnum | (string & {}) | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
 }
@@ -5674,11 +5702,11 @@ export type BillingProfileList = Array<BillingProfile>;
 /** Billing profile List Response */
 export interface BillingProfilesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingProfilesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Billing profiles collection. */
-  billingProfiles?: BillingProfileList;
+  billingProfiles?: BillingProfileList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListBillingRatesRequest {
   /** User profile ID associated with this request. */
@@ -5688,11 +5716,11 @@ export interface ListBillingRatesRequest {
 }
 export interface BillingRateTieredRate {
   /** The maximum for this tier range. */
-  highValue?: string;
+  highValue?: string | undefined;
   /** Rate in micros for this tier. */
-  rateInMicros?: string;
+  rateInMicros?: string | undefined;
   /** The minimum for this tier range. */
-  lowValue?: string;
+  lowValue?: string | undefined;
 }
 export type BillingRateTieredRateList = Array<BillingRateTieredRate>;
 export type BillingRateUnitOfMeasureEnum = "CPM" | "CPC" | "EA" | "P2C";
@@ -5731,33 +5759,33 @@ export type BillingRateTypeEnum =
   | "ADVANCED_DISPLAY_AD_SERVING";
 export interface BillingRate {
   /** Tiered rate of this billing rate. This cannot co-exist with flat rate. */
-  tieredRates?: BillingRateTieredRateList;
+  tieredRates?: BillingRateTieredRateList | undefined;
   /** End date of this billing rate. */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Flat rate in micros of this billing rate. This cannot co-exist with tiered rate. */
-  rateInMicros?: string;
+  rateInMicros?: string | undefined;
   /** Unit of measure for this billing rate. */
-  unitOfMeasure?: BillingRateUnitOfMeasureEnum;
+  unitOfMeasure?: BillingRateUnitOfMeasureEnum | undefined;
   /** Billing currency code in ISO 4217 format. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
   /** Name of this billing rate. This must be less than 256 characters long. */
-  name?: string;
+  name?: string | undefined;
   /** ID of this billing rate. */
-  id?: string;
+  id?: string | undefined;
   /** Start date of this billing rate. */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Type of this billing rate. */
-  type?: BillingRateTypeEnum;
+  type?: BillingRateTypeEnum | undefined;
 }
 export type BillingRateList = Array<BillingRate>;
 /** Billing Rate List Response */
 export interface BillingRatesListResponse {
   /** Billing rates collection. */
-  billingRates?: BillingRateList;
+  billingRates?: BillingRateList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#billingRatesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListBrowsersRequest {
   /** User profile ID associated with this request. */
@@ -5766,20 +5794,20 @@ export interface ListBrowsersRequest {
 /** Browser List Response */
 export interface BrowsersListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#browsersListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Browser collection. */
-  browsers?: BrowserList;
+  browsers?: BrowserList | undefined;
 }
 export type ListCampaignCreativeAssociationsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListCampaignCreativeAssociationsRequest {
   /** Order of sorted results. */
-  sortOrder?: ListCampaignCreativeAssociationsSortOrderEnum | (string & {});
+  sortOrder?: ListCampaignCreativeAssociationsSortOrderEnum | (string & {}) | undefined;
   /** Campaign ID in this association. */
   campaignId: string;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
 }
@@ -5787,53 +5815,53 @@ export type CampaignCreativeAssociationList = Array<CampaignCreativeAssociation>
 /** Campaign Creative Association List Response */
 export interface CampaignCreativeAssociationsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignCreativeAssociationsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Campaign creative association collection */
-  campaignCreativeAssociations?: CampaignCreativeAssociationList;
+  campaignCreativeAssociations?: CampaignCreativeAssociationList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListCampaignsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListCampaignsSortFieldEnum = "ID" | "NAME";
 export interface ListCampaignsRequest {
   /** Order of sorted results. */
-  sortOrder?: ListCampaignsSortOrderEnum | (string & {});
+  sortOrder?: ListCampaignsSortOrderEnum | (string & {}) | undefined;
   /** Select only campaigns with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only campaigns that have at least one optimization activity. */
-  atLeastOneOptimizationActivity?: boolean;
+  atLeastOneOptimizationActivity?: boolean | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Select only campaigns that belong to these advertisers. */
-  advertiserIds?: StringList;
+  advertiserIds?: StringList | undefined;
   /** Select only archived campaigns. Don't set this field to select both archived and non-archived campaigns. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Allows searching for campaigns by name or ID. Wildcards (*) are allowed. For example, "campaign*2015" will return campaigns with names like "campaign June 2015", "campaign April 2015", or simply "campaign 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "campaign" will match campaigns with name "my campaign", "campaign 2015", or simply "campaign". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Exclude campaigns with these IDs. */
-  excludedIds?: StringList;
+  excludedIds?: StringList | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListCampaignsSortFieldEnum | (string & {});
+  sortField?: ListCampaignsSortFieldEnum | (string & {}) | undefined;
   /** Select only campaigns whose advertisers belong to these advertiser groups. */
-  advertiserGroupIds?: StringList;
+  advertiserGroupIds?: StringList | undefined;
   /** Select only campaigns that have overridden this event tag ID. */
-  overriddenEventTagId?: string;
+  overriddenEventTagId?: string | undefined;
   /** Select only campaigns that belong to this subaccount. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
 }
 export type CampaignList = Array<Campaign>;
 /** Campaign List Response */
 export interface CampaignsListResponse {
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Campaign collection. */
-  campaigns?: CampaignList;
+  campaigns?: CampaignList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#campaignsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListChangeLogsObjectTypeEnum =
   | "OBJECT_ADVERTISER"
@@ -5899,56 +5927,56 @@ export type ListChangeLogsActionEnum =
   | "ACTION_SHARE";
 export interface ListChangeLogsRequest {
   /** Select only change logs whose change time is after the specified minChangeTime.The time should be formatted as an RFC3339 date/time string. For example, for 10:54 PM on July 18th, 2015, in the America/New York time zone, the format is "2015-07-18T22:54:00-04:00". In other words, the year, month, day, the letter T, the hour (24-hour clock system), minute, second, and then the time zone offset. */
-  minChangeTime?: string;
+  minChangeTime?: string | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only change logs whose object ID, user name, old or new values match the search string. */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Select only change logs with these user profile IDs. */
-  userProfileIds?: StringList;
+  userProfileIds?: StringList | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only change logs with the specified object type. */
-  objectType?: ListChangeLogsObjectTypeEnum | (string & {});
+  objectType?: ListChangeLogsObjectTypeEnum | (string & {}) | undefined;
   /** Select only change logs with these object IDs. */
-  objectIds?: StringList;
+  objectIds?: StringList | undefined;
   /** Select only change logs with the specified action. */
-  action?: ListChangeLogsActionEnum | (string & {});
+  action?: ListChangeLogsActionEnum | (string & {}) | undefined;
   /** Select only change logs whose change time is before the specified maxChangeTime.The time should be formatted as an RFC3339 date/time string. For example, for 10:54 PM on July 18th, 2015, in the America/New York time zone, the format is "2015-07-18T22:54:00-04:00". In other words, the year, month, day, the letter T, the hour (24-hour clock system), minute, second, and then the time zone offset. */
-  maxChangeTime?: string;
+  maxChangeTime?: string | undefined;
   /** Select only change logs with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
 }
 export type ChangeLogList = Array<ChangeLog>;
 /** Change Log List Response */
 export interface ChangeLogsListResponse {
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#changeLogsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Change log collection. */
-  changeLogs?: ChangeLogList;
+  changeLogs?: ChangeLogList | undefined;
 }
 export interface ListCitiesRequest {
   /** Select only cities from these regions. */
-  regionDartIds?: StringList;
+  regionDartIds?: StringList | undefined;
   /** Select only cities from these countries. */
-  countryDartIds?: StringList;
+  countryDartIds?: StringList | undefined;
   /** Select only cities with names starting with this prefix. */
-  namePrefix?: string;
+  namePrefix?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only cities with these DART IDs. */
-  dartIds?: StringList;
+  dartIds?: StringList | undefined;
 }
 /** City List Response */
 export interface CitiesListResponse {
   /** City collection. */
-  cities?: CityList;
+  cities?: CityList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#citiesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListConnectionTypesRequest {
   /** User profile ID associated with this request. */
@@ -5957,37 +5985,37 @@ export interface ListConnectionTypesRequest {
 /** Connection Type List Response */
 export interface ConnectionTypesListResponse {
   /** Collection of connection types such as broadband and mobile. */
-  connectionTypes?: ConnectionTypeList;
+  connectionTypes?: ConnectionTypeList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#connectionTypesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListContentCategoriesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListContentCategoriesSortFieldEnum = "ID" | "NAME";
 export interface ListContentCategoriesRequest {
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "contentcategory*2015" will return objects with names like "contentcategory June 2015", "contentcategory April 2015", or simply "contentcategory 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "contentcategory" will match objects with name "my contentcategory", "contentcategory 2015", or simply "contentcategory". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListContentCategoriesSortOrderEnum | (string & {});
+  sortOrder?: ListContentCategoriesSortOrderEnum | (string & {}) | undefined;
   /** Select only content categories with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Field by which to sort the list. */
-  sortField?: ListContentCategoriesSortFieldEnum | (string & {});
+  sortField?: ListContentCategoriesSortFieldEnum | (string & {}) | undefined;
 }
 export type ContentCategoryList = Array<ContentCategory>;
 /** Content Category List Response */
 export interface ContentCategoriesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#contentCategoriesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Content category collection. */
-  contentCategories?: ContentCategoryList;
+  contentCategories?: ContentCategoryList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListCountriesRequest {
   /** User profile ID associated with this request. */
@@ -5996,101 +6024,101 @@ export interface ListCountriesRequest {
 /** Country List Response */
 export interface CountriesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#countriesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Country collection. */
-  countries?: CountryList;
+  countries?: CountryList | undefined;
 }
 export type ListCreativeFieldsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListCreativeFieldsSortFieldEnum = "ID" | "NAME";
 export interface ListCreativeFieldsRequest {
   /** Order of sorted results. */
-  sortOrder?: ListCreativeFieldsSortOrderEnum | (string & {});
+  sortOrder?: ListCreativeFieldsSortOrderEnum | (string & {}) | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only creative fields that belong to these advertisers. */
-  advertiserIds?: StringList;
+  advertiserIds?: StringList | undefined;
   /** Select only creative fields with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Allows searching for creative fields by name or ID. Wildcards (*) are allowed. For example, "creativefield*2015" will return creative fields with names like "creativefield June 2015", "creativefield April 2015", or simply "creativefield 2015". Most of the searches also add wild-cards implicitly at the start and the end of the search string. For example, a search string of "creativefield" will match creative fields with the name "my creativefield", "creativefield 2015", or simply "creativefield". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Field by which to sort the list. */
-  sortField?: ListCreativeFieldsSortFieldEnum | (string & {});
+  sortField?: ListCreativeFieldsSortFieldEnum | (string & {}) | undefined;
 }
 export type CreativeFieldList = Array<CreativeField>;
 /** Creative Field List Response */
 export interface CreativeFieldsListResponse {
   /** Creative field collection. */
-  creativeFields?: CreativeFieldList;
+  creativeFields?: CreativeFieldList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListCreativeFieldValuesSortFieldEnum = "ID" | "VALUE";
 export type ListCreativeFieldValuesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListCreativeFieldValuesRequest {
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListCreativeFieldValuesSortFieldEnum | (string & {});
+  sortField?: ListCreativeFieldValuesSortFieldEnum | (string & {}) | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Allows searching for creative field values by their values. Wildcards (e.g. *) are not allowed. */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
   /** Order of sorted results. */
-  sortOrder?: ListCreativeFieldValuesSortOrderEnum | (string & {});
+  sortOrder?: ListCreativeFieldValuesSortOrderEnum | (string & {}) | undefined;
   /** Select only creative field values with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
 }
 export type CreativeFieldValueList = Array<CreativeFieldValue>;
 /** Creative Field Value List Response */
 export interface CreativeFieldValuesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeFieldValuesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Creative field value collection. */
-  creativeFieldValues?: CreativeFieldValueList;
+  creativeFieldValues?: CreativeFieldValueList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListCreativeGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListCreativeGroupsSortFieldEnum = "ID" | "NAME";
 export interface ListCreativeGroupsRequest {
   /** Select only creative groups that belong to these advertisers. */
-  advertiserIds?: StringList;
+  advertiserIds?: StringList | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListCreativeGroupsSortOrderEnum | (string & {});
+  sortOrder?: ListCreativeGroupsSortOrderEnum | (string & {}) | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListCreativeGroupsSortFieldEnum | (string & {});
+  sortField?: ListCreativeGroupsSortFieldEnum | (string & {}) | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only creative groups with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Allows searching for creative groups by name or ID. Wildcards (*) are allowed. For example, "creativegroup*2015" will return creative groups with names like "creativegroup June 2015", "creativegroup April 2015", or simply "creativegroup 2015". Most of the searches also add wild-cards implicitly at the start and the end of the search string. For example, a search string of "creativegroup" will match creative groups with the name "my creativegroup", "creativegroup 2015", or simply "creativegroup". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Select only creative groups that belong to this subgroup. */
-  groupNumber?: number;
+  groupNumber?: number | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type CreativeGroupList = Array<CreativeGroup>;
 /** Creative Group List Response */
 export interface CreativeGroupsListResponse {
   /** Creative group collection. */
-  creativeGroups?: CreativeGroupList;
+  creativeGroups?: CreativeGroupList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativeGroupsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListCreativesSortFieldEnum = "ID" | "NAME";
 export type ListCreativesSortOrderEnum = "ASCENDING" | "DESCENDING";
@@ -6123,87 +6151,87 @@ export type ListCreativesTypesEnum =
 export type ListCreativesTypesEnumList = Array<ListCreativesTypesEnum | (string & {})>;
 export interface ListCreativesRequest {
   /** Select only creatives corresponding to this Studio creative ID. */
-  studioCreativeId?: string;
+  studioCreativeId?: string | undefined;
   /** Select only creatives with these size IDs. */
-  sizeIds?: StringList;
+  sizeIds?: StringList | undefined;
   /** Select only creatives with these rendering IDs. */
-  renderingIds?: StringList;
+  renderingIds?: StringList | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListCreativesSortFieldEnum | (string & {});
+  sortField?: ListCreativesSortFieldEnum | (string & {}) | undefined;
   /** Select only in-stream video creatives with these companion IDs. */
-  companionCreativeIds?: StringList;
+  companionCreativeIds?: StringList | undefined;
   /** Select only active creatives. Leave blank to select active and inactive creatives. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Select only creatives with this campaign ID. */
-  campaignId?: string;
+  campaignId?: string | undefined;
   /** Select only creatives with these creative field IDs. */
-  creativeFieldIds?: StringList;
+  creativeFieldIds?: StringList | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListCreativesSortOrderEnum | (string & {});
+  sortOrder?: ListCreativesSortOrderEnum | (string & {}) | undefined;
   /** Select only creatives with this advertiser ID. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only creatives with these creative types. */
-  types?: ListCreativesTypesEnumList;
+  types?: ListCreativesTypesEnumList | undefined;
   /** Select only creatives with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "creative*2015" will return objects with names like "creative June 2015", "creative April 2015", or simply "creative 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "creative" will match objects with name "my creative", "creative 2015", or simply "creative". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Select only archived creatives. Leave blank to select archived and unarchived creatives. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type CreativeList = Array<Creative>;
 /** Creative List Response */
 export interface CreativesListResponse {
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Creative collection. */
-  creatives?: CreativeList;
+  creatives?: CreativeList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#creativesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListDirectorySitesSortFieldEnum = "ID" | "NAME";
 export type ListDirectorySitesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListDirectorySitesRequest {
   /** This search filter is no longer supported and will have no effect on the results returned. */
-  acceptsInStreamVideoPlacements?: boolean;
+  acceptsInStreamVideoPlacements?: boolean | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListDirectorySitesSortFieldEnum | (string & {});
+  sortField?: ListDirectorySitesSortFieldEnum | (string & {}) | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Select only directory sites that accept publisher paid placements. This field can be left blank. */
-  acceptsPublisherPaidPlacements?: boolean;
+  acceptsPublisherPaidPlacements?: boolean | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only directory sites with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Allows searching for objects by name, ID or URL. Wildcards (*) are allowed. For example, "directory site*2015" will return objects with names like "directory site June 2015", "directory site April 2015", or simply "directory site 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "directory site" will match objects with name "my directory site", "directory site 2015" or simply, "directory site". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Select only active directory sites. Leave blank to retrieve both active and inactive directory sites. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListDirectorySitesSortOrderEnum | (string & {});
+  sortOrder?: ListDirectorySitesSortOrderEnum | (string & {}) | undefined;
   /** This search filter is no longer supported and will have no effect on the results returned. */
-  acceptsInterstitialPlacements?: boolean;
+  acceptsInterstitialPlacements?: boolean | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only directory sites with this Ad Manager network code. */
-  dfpNetworkCode?: string;
+  dfpNetworkCode?: string | undefined;
 }
 export type DirectorySiteList = Array<DirectorySite>;
 /** Directory Site List Response */
 export interface DirectorySitesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#directorySitesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Directory site collection. */
-  directorySites?: DirectorySiteList;
+  directorySites?: DirectorySiteList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListDynamicTargetingKeysObjectTypeEnum =
   | "OBJECT_ADVERTISER"
@@ -6212,13 +6240,13 @@ export type ListDynamicTargetingKeysObjectTypeEnum =
   | "OBJECT_PLACEMENT";
 export interface ListDynamicTargetingKeysRequest {
   /** Select only dynamic targeting keys with this object ID. */
-  objectId?: string;
+  objectId?: string | undefined;
   /** Select only dynamic targeting keys with this object type. */
-  objectType?: ListDynamicTargetingKeysObjectTypeEnum | (string & {});
+  objectType?: ListDynamicTargetingKeysObjectTypeEnum | (string & {}) | undefined;
   /** Select only dynamic targeting keys exactly matching these names. */
-  names?: StringList;
+  names?: StringList | undefined;
   /** Select only dynamic targeting keys whose object has this advertiser ID. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
 }
@@ -6226,9 +6254,9 @@ export type DynamicTargetingKeyList = Array<DynamicTargetingKey>;
 /** Dynamic Targeting Key List Response */
 export interface DynamicTargetingKeysListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#dynamicTargetingKeysListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Dynamic targeting key collection. */
-  dynamicTargetingKeys?: DynamicTargetingKeyList;
+  dynamicTargetingKeys?: DynamicTargetingKeyList | undefined;
 }
 export type ListEventTagsSortFieldEnum = "ID" | "NAME";
 export type ListEventTagsSortOrderEnum = "ASCENDING" | "DESCENDING";
@@ -6241,52 +6269,52 @@ export type ListEventTagsEventTagTypesEnumList = Array<
 >;
 export interface ListEventTagsRequest {
   /** Examine only the specified campaign or advertiser's event tags for matching selector criteria. When set to false, the parent advertiser and parent campaign of the specified ad or campaign is examined as well. In addition, when set to false, the status field is examined as well, along with the enabledByDefault field. This parameter can not be set to true when adId is specified as ads do not define their own even tags. */
-  definitionsOnly?: boolean;
+  definitionsOnly?: boolean | undefined;
   /** Select only event tags that belong to this advertiser. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Select only event tags that belong to this ad. */
-  adId?: string;
+  adId?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Field by which to sort the list. */
-  sortField?: ListEventTagsSortFieldEnum | (string & {});
+  sortField?: ListEventTagsSortFieldEnum | (string & {}) | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListEventTagsSortOrderEnum | (string & {});
+  sortOrder?: ListEventTagsSortOrderEnum | (string & {}) | undefined;
   /** Select only event tags with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Select only event tags with the specified event tag types. Event tag types can be used to specify whether to use a third-party pixel, a third-party JavaScript URL, or a third-party click-through URL for either impression or click tracking. */
-  eventTagTypes?: ListEventTagsEventTagTypesEnumList;
+  eventTagTypes?: ListEventTagsEventTagTypesEnumList | undefined;
   /** Select only event tags that belong to this campaign. */
-  campaignId?: string;
+  campaignId?: string | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "eventtag*2015" will return objects with names like "eventtag June 2015", "eventtag April 2015", or simply "eventtag 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "eventtag" will match objects with name "my eventtag", "eventtag 2015", or simply "eventtag". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Select only enabled event tags. What is considered enabled or disabled depends on the definitionsOnly parameter. When definitionsOnly is set to true, only the specified advertiser or campaign's event tags' enabledByDefault field is examined. When definitionsOnly is set to false, the specified ad or specified campaign's parent advertiser's or parent campaign's event tags' enabledByDefault and status fields are examined as well. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export type EventTagList = Array<EventTag>;
 /** Event Tag List Response */
 export interface EventTagsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#eventTagsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Event tag collection. */
-  eventTags?: EventTagList;
+  eventTags?: EventTagList | undefined;
 }
 export type ListFilesSortFieldEnum = "ID" | "LAST_MODIFIED_TIME";
 export type ListFilesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListFilesScopeEnum = "ALL" | "MINE" | "SHARED_WITH_ME";
 export interface ListFilesRequest {
   /** The value of the nextToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The field by which to sort the list. */
-  sortField?: ListFilesSortFieldEnum | (string & {});
+  sortField?: ListFilesSortFieldEnum | (string & {}) | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListFilesSortOrderEnum | (string & {});
+  sortOrder?: ListFilesSortOrderEnum | (string & {}) | undefined;
   /** The scope that defines which results are returned. */
-  scope?: ListFilesScopeEnum | (string & {});
+  scope?: ListFilesScopeEnum | (string & {}) | undefined;
 }
 export type FileList_ = Array<File>;
 /** List of files for a report. */
@@ -6294,105 +6322,106 @@ export interface FileList {
   /** The files returned in this response. */
   items: FileList_;
   /** Etag of this resource. */
-  etag?: string;
+  etag?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#fileList". */
-  kind?: string;
+  kind?: string | undefined;
   /** Continuation token used to page through files. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListFloodlightActivitiesSortFieldEnum = "ID" | "NAME";
 export type ListFloodlightActivitiesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListFloodlightActivitiesFloodlightActivityGroupTypeEnum = "COUNTER" | "SALE";
 export interface ListFloodlightActivitiesRequest {
   /** Field by which to sort the list. */
-  sortField?: ListFloodlightActivitiesSortFieldEnum | (string & {});
+  sortField?: ListFloodlightActivitiesSortFieldEnum | (string & {}) | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Select only floodlight activities with the specified floodlight activity group name. */
-  floodlightActivityGroupName?: string;
+  floodlightActivityGroupName?: string | undefined;
   /** Select only floodlight activities with the specified tag string. */
-  tagString?: string;
+  tagString?: string | undefined;
   /** Select only floodlight activities with the specified IDs. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Select only floodlight activities with the specified floodlight activity group IDs. */
-  floodlightActivityGroupIds?: StringList;
+  floodlightActivityGroupIds?: StringList | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "floodlightactivity*2015" will return objects with names like "floodlightactivity June 2015", "floodlightactivity April 2015", or simply "floodlightactivity 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "floodlightactivity" will match objects with name "my floodlightactivity activity", "floodlightactivity 2015", or simply "floodlightactivity". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListFloodlightActivitiesSortOrderEnum | (string & {});
+  sortOrder?: ListFloodlightActivitiesSortOrderEnum | (string & {}) | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only floodlight activities with the specified floodlight activity group type. */
   floodlightActivityGroupType?:
     | ListFloodlightActivitiesFloodlightActivityGroupTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Select only floodlight activities for the specified advertiser ID. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** Select only floodlight activities with the specified floodlight activity group tag string. */
-  floodlightActivityGroupTagString?: string;
+  floodlightActivityGroupTagString?: string | undefined;
   /** Select only floodlight activities for the specified floodlight configuration ID. Must specify either ids, advertiserId, or floodlightConfigurationId for a non-empty result. */
-  floodlightConfigurationId?: string;
+  floodlightConfigurationId?: string | undefined;
 }
 export type FloodlightActivityList = Array<FloodlightActivity>;
 /** Floodlight Activity List Response */
 export interface FloodlightActivitiesListResponse {
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Floodlight activity collection. */
-  floodlightActivities?: FloodlightActivityList;
+  floodlightActivities?: FloodlightActivityList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivitiesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListFloodlightActivityGroupsTypeEnum = "COUNTER" | "SALE";
 export type ListFloodlightActivityGroupsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListFloodlightActivityGroupsSortFieldEnum = "ID" | "NAME";
 export interface ListFloodlightActivityGroupsRequest {
   /** Select only floodlight activity groups with the specified floodlight configuration ID. Must specify either advertiserId, or floodlightConfigurationId for a non-empty result. */
-  floodlightConfigurationId?: string;
+  floodlightConfigurationId?: string | undefined;
   /** Select only floodlight activity groups with the specified floodlight activity group type. */
-  type?: ListFloodlightActivityGroupsTypeEnum | (string & {});
+  type?: ListFloodlightActivityGroupsTypeEnum | (string & {}) | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "floodlightactivitygroup*2015" will return objects with names like "floodlightactivitygroup June 2015", "floodlightactivitygroup April 2015", or simply "floodlightactivitygroup 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "floodlightactivitygroup" will match objects with name "my floodlightactivitygroup activity", "floodlightactivitygroup 2015", or simply "floodlightactivitygroup". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListFloodlightActivityGroupsSortOrderEnum | (string & {});
+  sortOrder?: ListFloodlightActivityGroupsSortOrderEnum | (string & {}) | undefined;
   /** Select only floodlight activity groups with the specified IDs. Must specify either advertiserId or floodlightConfigurationId for a non-empty result. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Select only floodlight activity groups with the specified advertiser ID. Must specify either advertiserId or floodlightConfigurationId for a non-empty result. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Field by which to sort the list. */
-  sortField?: ListFloodlightActivityGroupsSortFieldEnum | (string & {});
+  sortField?: ListFloodlightActivityGroupsSortFieldEnum | (string & {}) | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export type FloodlightActivityGroupList = Array<FloodlightActivityGroup>;
 /** Floodlight Activity Group List Response */
 export interface FloodlightActivityGroupsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightActivityGroupsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Floodlight activity group collection. */
-  floodlightActivityGroups?: FloodlightActivityGroupList;
+  floodlightActivityGroups?: FloodlightActivityGroupList | undefined;
 }
 export interface ListFloodlightConfigurationsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Set of IDs of floodlight configurations to retrieve. Required field; otherwise an empty list will be returned. */
-  ids?: StringList;
+  ids?: StringList | undefined;
 }
 export type FloodlightConfigurationList = Array<FloodlightConfiguration>;
 /** Floodlight Configuration List Response */
 export interface FloodlightConfigurationsListResponse {
   /** Floodlight configuration collection. */
-  floodlightConfigurations?: FloodlightConfigurationList;
+  floodlightConfigurations?: FloodlightConfigurationList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#floodlightConfigurationsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListLanguagesRequest {
   /** User profile ID associated with this request. */
@@ -6401,9 +6430,9 @@ export interface ListLanguagesRequest {
 /** Language List Response */
 export interface LanguagesListResponse {
   /** Language collection. */
-  languages?: LanguageList;
+  languages?: LanguageList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#languagesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListMetrosRequest {
   /** User profile ID associated with this request. */
@@ -6412,9 +6441,9 @@ export interface ListMetrosRequest {
 /** Metro List Response */
 export interface MetrosListResponse {
   /** Metro collection. */
-  metros?: MetroList;
+  metros?: MetroList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#metrosListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListMobileAppsDirectoriesEnum =
   | "UNKNOWN"
@@ -6433,27 +6462,27 @@ export type ListMobileAppsDirectoriesEnumList = Array<
 >;
 export interface ListMobileAppsRequest {
   /** Select only apps from these directories. */
-  directories?: ListMobileAppsDirectoriesEnumList;
+  directories?: ListMobileAppsDirectoriesEnumList | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Select only apps with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "app*2015" will return objects with names like "app Jan 2018", "app Jan 2018", or simply "app 2018". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "app" will match objects with name "my app", "app 2018", or simply "app". */
-  searchString?: string;
+  searchString?: string | undefined;
 }
 export type MobileAppList = Array<MobileApp>;
 /** Mobile app List Response */
 export interface MobileAppsListResponse {
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Mobile apps collection. */
-  mobileApps?: MobileAppList;
+  mobileApps?: MobileAppList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileAppsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListMobileCarriersRequest {
   /** User profile ID associated with this request. */
@@ -6462,9 +6491,9 @@ export interface ListMobileCarriersRequest {
 /** Mobile Carrier List Response */
 export interface MobileCarriersListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#mobileCarriersListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Mobile carrier collection. */
-  mobileCarriers?: MobileCarrierList;
+  mobileCarriers?: MobileCarrierList | undefined;
 }
 export interface ListOperatingSystemsRequest {
   /** User profile ID associated with this request. */
@@ -6473,9 +6502,9 @@ export interface ListOperatingSystemsRequest {
 /** Operating System List Response */
 export interface OperatingSystemsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystemsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Operating system collection. */
-  operatingSystems?: OperatingSystemList;
+  operatingSystems?: OperatingSystemList | undefined;
 }
 export interface ListOperatingSystemVersionsRequest {
   /** User profile ID associated with this request. */
@@ -6484,9 +6513,9 @@ export interface ListOperatingSystemVersionsRequest {
 /** Operating System Version List Response */
 export interface OperatingSystemVersionsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#operatingSystemVersionsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Operating system version collection. */
-  operatingSystemVersions?: OperatingSystemVersionList;
+  operatingSystemVersions?: OperatingSystemVersionList | undefined;
 }
 export type ListPlacementGroupsActiveStatusEnum =
   | "PLACEMENT_STATUS_UNKNOWN"
@@ -6512,55 +6541,55 @@ export type ListPlacementGroupsPricingTypesEnumList = Array<
 >;
 export interface ListPlacementGroupsRequest {
   /** Select only placements with these active statuses. */
-  activeStatus?: ListPlacementGroupsActiveStatusEnumList;
+  activeStatus?: ListPlacementGroupsActiveStatusEnumList | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListPlacementGroupsSortFieldEnum | (string & {});
+  sortField?: ListPlacementGroupsSortFieldEnum | (string & {}) | undefined;
   /** Select only placements or placement groups whose start date is on or before the specified maxStartDate. The date should be formatted as "yyyy-MM-dd". */
-  maxStartDate?: string;
+  maxStartDate?: string | undefined;
   /** Allows searching for placement groups by name or ID. Wildcards (*) are allowed. For example, "placement*2015" will return placement groups with names like "placement group June 2015", "placement group May 2015", or simply "placements 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placementgroup" will match placement groups with name "my placementgroup", "placementgroup 2015", or simply "placementgroup". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Select only placements or placement groups whose start date is on or after the specified minStartDate. The date should be formatted as "yyyy-MM-dd". */
-  minStartDate?: string;
+  minStartDate?: string | undefined;
   /** Select only placement groups that are associated with these sites. */
-  siteIds?: StringList;
+  siteIds?: StringList | undefined;
   /** Select only placements or placement groups whose end date is on or before the specified maxEndDate. The date should be formatted as "yyyy-MM-dd". */
-  maxEndDate?: string;
+  maxEndDate?: string | undefined;
   /** Select only placement groups that belong to these advertisers. */
-  advertiserIds?: StringList;
+  advertiserIds?: StringList | undefined;
   /** Select only placements or placement groups whose end date is on or after the specified minEndDate. The date should be formatted as "yyyy-MM-dd". */
-  minEndDate?: string;
+  minEndDate?: string | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Select only placement groups that are associated with these directory sites. */
-  directorySiteIds?: StringList;
+  directorySiteIds?: StringList | undefined;
   /** Select only placement groups with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only placement groups belonging with this group type. A package is a simple group of placements that acts as a single pricing point for a group of tags. A roadblock is a group of placements that not only acts as a single pricing point but also assumes that all the tags in it will be served at the same time. A roadblock requires one of its assigned placements to be marked as primary for reporting. */
-  placementGroupType?: ListPlacementGroupsPlacementGroupTypeEnum | (string & {});
+  placementGroupType?: ListPlacementGroupsPlacementGroupTypeEnum | (string & {}) | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListPlacementGroupsSortOrderEnum | (string & {});
+  sortOrder?: ListPlacementGroupsSortOrderEnum | (string & {}) | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only placement groups that belong to these campaigns. */
-  campaignIds?: StringList;
+  campaignIds?: StringList | undefined;
   /** Select only placement groups that are associated with these content categories. */
-  contentCategoryIds?: StringList;
+  contentCategoryIds?: StringList | undefined;
   /** Select only placement groups that are associated with these placement strategies. */
-  placementStrategyIds?: StringList;
+  placementStrategyIds?: StringList | undefined;
   /** Select only placement groups with these pricing types. */
-  pricingTypes?: ListPlacementGroupsPricingTypesEnumList;
+  pricingTypes?: ListPlacementGroupsPricingTypesEnumList | undefined;
 }
 export type PlacementGroupList = Array<PlacementGroup>;
 /** Placement Group List Response */
 export interface PlacementGroupsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementGroupsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Placement group collection. */
-  placementGroups?: PlacementGroupList;
+  placementGroups?: PlacementGroupList | undefined;
 }
 export type ListPlacementsSortFieldEnum = "ID" | "NAME";
 export type ListPlacementsPaymentSourceEnum = "PLACEMENT_AGENCY_PAID" | "PLACEMENT_PUBLISHER_PAID";
@@ -6596,89 +6625,89 @@ export type ListPlacementsCompatibilitiesEnumList = Array<
 export type ListPlacementsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListPlacementsRequest {
   /** Field by which to sort the list. */
-  sortField?: ListPlacementsSortFieldEnum | (string & {});
+  sortField?: ListPlacementsSortFieldEnum | (string & {}) | undefined;
   /** Select only placements that belong to these campaigns. */
-  campaignIds?: StringList;
+  campaignIds?: StringList | undefined;
   /** Select only placements that are associated with these sites. */
-  siteIds?: StringList;
+  siteIds?: StringList | undefined;
   /** Select only placements that belong to these placement groups. */
-  groupIds?: StringList;
+  groupIds?: StringList | undefined;
   /** Allows searching for placements by name or ID. Wildcards (*) are allowed. For example, "placement*2015" will return placements with names like "placement June 2015", "placement May 2015", or simply "placements 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placement" will match placements with name "my placement", "placement 2015", or simply "placement" . */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Select only placements or placement groups whose start date is on or after the specified minStartDate. The date should be formatted as "yyyy-MM-dd". */
-  minStartDate?: string;
+  minStartDate?: string | undefined;
   /** Select only placements that belong to these advertisers. */
-  advertiserIds?: StringList;
+  advertiserIds?: StringList | undefined;
   /** Select only placements that are associated with these sizes. */
-  sizeIds?: StringList;
+  sizeIds?: StringList | undefined;
   /** Select only placements or placement groups whose end date is on or before the specified maxEndDate. The date should be formatted as "yyyy-MM-dd". */
-  maxEndDate?: string;
+  maxEndDate?: string | undefined;
   /** Select only placements with this payment source. */
-  paymentSource?: ListPlacementsPaymentSourceEnum | (string & {});
+  paymentSource?: ListPlacementsPaymentSourceEnum | (string & {}) | undefined;
   /** Select only placements with these active statuses. */
-  activeStatus?: ListPlacementsActiveStatusEnumList;
+  activeStatus?: ListPlacementsActiveStatusEnumList | undefined;
   /** Select only placements or placement groups whose end date is on or after the specified minEndDate. The date should be formatted as "yyyy-MM-dd". */
-  minEndDate?: string;
+  minEndDate?: string | undefined;
   /** Select only placements or placement groups whose start date is on or before the specified maxStartDate. The date should be formatted as "yyyy-MM-dd". */
-  maxStartDate?: string;
+  maxStartDate?: string | undefined;
   /** Select only placements with these pricing types. */
-  pricingTypes?: ListPlacementsPricingTypesEnumList;
+  pricingTypes?: ListPlacementsPricingTypesEnumList | undefined;
   /** Select only placements that are associated with these placement strategies. */
-  placementStrategyIds?: StringList;
+  placementStrategyIds?: StringList | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only placements that are associated with these compatibilities. DISPLAY and DISPLAY_INTERSTITIAL refer to rendering either on desktop or on mobile devices for regular or interstitial ads respectively. APP and APP_INTERSTITIAL are for rendering in mobile apps. IN_STREAM_VIDEO refers to rendering in in-stream video ads developed with the VAST standard. */
-  compatibilities?: ListPlacementsCompatibilitiesEnumList;
+  compatibilities?: ListPlacementsCompatibilitiesEnumList | undefined;
   /** Select only placements that are associated with these directory sites. */
-  directorySiteIds?: StringList;
+  directorySiteIds?: StringList | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListPlacementsSortOrderEnum | (string & {});
+  sortOrder?: ListPlacementsSortOrderEnum | (string & {}) | undefined;
   /** Select only placements that are associated with these content categories. */
-  contentCategoryIds?: StringList;
+  contentCategoryIds?: StringList | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only placements with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
 }
 export type PlacementList = Array<Placement>;
 /** Placement List Response */
 export interface PlacementsListResponse {
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Placement collection. */
-  placements?: PlacementList;
+  placements?: PlacementList | undefined;
 }
 export type ListPlacementStrategiesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListPlacementStrategiesSortFieldEnum = "ID" | "NAME";
 export interface ListPlacementStrategiesRequest {
   /** Order of sorted results. */
-  sortOrder?: ListPlacementStrategiesSortOrderEnum | (string & {});
+  sortOrder?: ListPlacementStrategiesSortOrderEnum | (string & {}) | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "placementstrategy*2015" will return objects with names like "placementstrategy June 2015", "placementstrategy April 2015", or simply "placementstrategy 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "placementstrategy" will match objects with name "my placementstrategy", "placementstrategy 2015", or simply "placementstrategy". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Field by which to sort the list. */
-  sortField?: ListPlacementStrategiesSortFieldEnum | (string & {});
+  sortField?: ListPlacementStrategiesSortFieldEnum | (string & {}) | undefined;
   /** Select only placement strategies with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
 }
 export type PlacementStrategyList = Array<PlacementStrategy>;
 /** Placement Strategy List Response */
 export interface PlacementStrategiesListResponse {
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Placement strategy collection. */
-  placementStrategies?: PlacementStrategyList;
+  placementStrategies?: PlacementStrategyList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#placementStrategiesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListPlatformTypesRequest {
   /** User profile ID associated with this request. */
@@ -6687,9 +6716,9 @@ export interface ListPlatformTypesRequest {
 /** Platform Type List Response */
 export interface PlatformTypesListResponse {
   /** Platform type collection. */
-  platformTypes?: PlatformTypeList;
+  platformTypes?: PlatformTypeList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#platformTypesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListPostalCodesRequest {
   /** User profile ID associated with this request. */
@@ -6698,9 +6727,9 @@ export interface ListPostalCodesRequest {
 /** Postal Code List Response */
 export interface PostalCodesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#postalCodesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Postal code collection. */
-  postalCodes?: PostalCodeList;
+  postalCodes?: PostalCodeList | undefined;
 }
 export interface ListRegionsRequest {
   /** User profile ID associated with this request. */
@@ -6709,9 +6738,9 @@ export interface ListRegionsRequest {
 /** Region List Response */
 export interface RegionsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#regionsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Region collection. */
-  regions?: RegionList;
+  regions?: RegionList | undefined;
 }
 export type ListRemarketingListsSortFieldEnum = "ID" | "NAME";
 export type ListRemarketingListsSortOrderEnum = "ASCENDING" | "DESCENDING";
@@ -6719,74 +6748,74 @@ export interface ListRemarketingListsRequest {
   /** Required. Select only remarketing lists owned by this advertiser. */
   advertiserId: string;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only remarketing lists that have this floodlight activity ID. */
-  floodlightActivityId?: string;
+  floodlightActivityId?: string | undefined;
   /** Select only active or only inactive remarketing lists. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListRemarketingListsSortFieldEnum | (string & {});
+  sortField?: ListRemarketingListsSortFieldEnum | (string & {}) | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "remarketing list*2015" will return objects with names like "remarketing list June 2015", "remarketing list April 2015", or simply "remarketing list 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "remarketing list" will match objects with name "my remarketing list", "remarketing list 2015", or simply "remarketing list". */
-  name?: string;
+  name?: string | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListRemarketingListsSortOrderEnum | (string & {});
+  sortOrder?: ListRemarketingListsSortOrderEnum | (string & {}) | undefined;
 }
 export type RemarketingListList = Array<RemarketingList>;
 /** Remarketing list response */
 export interface RemarketingListsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#remarketingListsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Remarketing list collection. */
-  remarketingLists?: RemarketingListList;
+  remarketingLists?: RemarketingListList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListReportsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListReportsScopeEnum = "ALL" | "MINE";
 export type ListReportsSortFieldEnum = "ID" | "LAST_MODIFIED_TIME" | "NAME";
 export interface ListReportsRequest {
   /** Order of sorted results. */
-  sortOrder?: ListReportsSortOrderEnum | (string & {});
+  sortOrder?: ListReportsSortOrderEnum | (string & {}) | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The value of the nextToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The scope that defines which results are returned. */
-  scope?: ListReportsScopeEnum | (string & {});
+  scope?: ListReportsScopeEnum | (string & {}) | undefined;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
   /** The field by which to sort the list. */
-  sortField?: ListReportsSortFieldEnum | (string & {});
+  sortField?: ListReportsSortFieldEnum | (string & {}) | undefined;
 }
 export type ReportList_ = Array<Report>;
 /** Represents the list of reports. */
 export interface ReportList {
   /** The eTag of this response for caching purposes. */
-  etag?: string;
+  etag?: string | undefined;
   /** Continuation token used to page through reports. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The reports returned in this response. */
   items: ReportList_;
   /** The kind of list this is, in this case dfareporting#reportList. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type ListReportsFilesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListReportsFilesSortFieldEnum = "ID" | "LAST_MODIFIED_TIME";
 export interface ListReportsFilesRequest {
   /** Order of sorted results. */
-  sortOrder?: ListReportsFilesSortOrderEnum | (string & {});
+  sortOrder?: ListReportsFilesSortOrderEnum | (string & {}) | undefined;
   /** The ID of the parent report. */
   reportId: string;
   /** The value of the nextToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The field by which to sort the list. */
-  sortField?: ListReportsFilesSortFieldEnum | (string & {});
+  sortField?: ListReportsFilesSortFieldEnum | (string & {}) | undefined;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
 }
@@ -6794,112 +6823,112 @@ export type ListSitesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListSitesSortFieldEnum = "ID" | "NAME";
 export interface ListSitesRequest {
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only sites that accept publisher paid placements. */
-  acceptsPublisherPaidPlacements?: boolean;
+  acceptsPublisherPaidPlacements?: boolean | undefined;
   /** This search filter is no longer supported and will have no effect on the results returned. */
-  acceptsInStreamVideoPlacements?: boolean;
+  acceptsInStreamVideoPlacements?: boolean | undefined;
   /** Select only sites with this subaccount ID. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Select only approved sites. */
-  approved?: boolean;
+  approved?: boolean | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only sites with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** This search filter is no longer supported and will have no effect on the results returned. */
-  acceptsInterstitialPlacements?: boolean;
+  acceptsInterstitialPlacements?: boolean | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListSitesSortOrderEnum | (string & {});
+  sortOrder?: ListSitesSortOrderEnum | (string & {}) | undefined;
   /** Select only sites that have not been mapped to a directory site. */
-  unmappedSite?: boolean;
+  unmappedSite?: boolean | undefined;
   /** Select only sites with these directory site IDs. */
-  directorySiteIds?: StringList;
+  directorySiteIds?: StringList | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Allows searching for objects by name, ID or keyName. Wildcards (*) are allowed. For example, "site*2015" will return objects with names like "site June 2015", "site April 2015", or simply "site 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "site" will match objects with name "my site", "site 2015", or simply "site". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Select only AdWords sites. */
-  adWordsSite?: boolean;
+  adWordsSite?: boolean | undefined;
   /** Select only sites with these campaign IDs. */
-  campaignIds?: StringList;
+  campaignIds?: StringList | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListSitesSortFieldEnum | (string & {});
+  sortField?: ListSitesSortFieldEnum | (string & {}) | undefined;
 }
 export type SiteList = Array<Site>;
 /** Site List Response */
 export interface SitesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#sitesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Site collection. */
-  sites?: SiteList;
+  sites?: SiteList | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListSizesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only sizes with this height. */
-  height?: number;
+  height?: number | undefined;
   /** Select only sizes with this width. */
-  width?: number;
+  width?: number | undefined;
   /** Select only IAB standard sizes. */
-  iabStandard?: boolean;
+  iabStandard?: boolean | undefined;
   /** Select only sizes with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
 }
 /** Size List Response */
 export interface SizesListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#sizesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Size collection. */
-  sizes?: SizeList;
+  sizes?: SizeList | undefined;
 }
 export type ListSubaccountsSortFieldEnum = "ID" | "NAME";
 export type ListSubaccountsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListSubaccountsRequest {
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "subaccount*2015" will return objects with names like "subaccount June 2015", "subaccount April 2015", or simply "subaccount 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "subaccount" will match objects with name "my subaccount", "subaccount 2015", or simply "subaccount" . */
-  searchString?: string;
+  searchString?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Field by which to sort the list. */
-  sortField?: ListSubaccountsSortFieldEnum | (string & {});
+  sortField?: ListSubaccountsSortFieldEnum | (string & {}) | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListSubaccountsSortOrderEnum | (string & {});
+  sortOrder?: ListSubaccountsSortOrderEnum | (string & {}) | undefined;
   /** Select only subaccounts with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
 }
 export type SubaccountList = Array<Subaccount>;
 /** Subaccount List Response */
 export interface SubaccountsListResponse {
   /** Subaccount collection. */
-  subaccounts?: SubaccountList;
+  subaccounts?: SubaccountList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#subaccountsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListTargetableRemarketingListsSortOrderEnum = "ASCENDING" | "DESCENDING";
 export type ListTargetableRemarketingListsSortFieldEnum = "ID" | "NAME";
 export interface ListTargetableRemarketingListsRequest {
   /** Order of sorted results. */
-  sortOrder?: ListTargetableRemarketingListsSortOrderEnum | (string & {});
+  sortOrder?: ListTargetableRemarketingListsSortOrderEnum | (string & {}) | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only active or only inactive targetable remarketing lists. */
-  active?: boolean;
+  active?: boolean | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "remarketing list*2015" will return objects with names like "remarketing list June 2015", "remarketing list April 2015", or simply "remarketing list 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "remarketing list" will match objects with name "my remarketing list", "remarketing list 2015", or simply "remarketing list". */
-  name?: string;
+  name?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListTargetableRemarketingListsSortFieldEnum | (string & {});
+  sortField?: ListTargetableRemarketingListsSortFieldEnum | (string & {}) | undefined;
   /** Required. Select only targetable remarketing lists targetable by these advertisers. */
   advertiserId: string;
 }
@@ -6907,41 +6936,41 @@ export type TargetableRemarketingListList = Array<TargetableRemarketingList>;
 /** Targetable remarketing list response */
 export interface TargetableRemarketingListsListResponse {
   /** Targetable remarketing list collection. */
-  targetableRemarketingLists?: TargetableRemarketingListList;
+  targetableRemarketingLists?: TargetableRemarketingListList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetableRemarketingListsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListTargetingTemplatesSortFieldEnum = "ID" | "NAME";
 export type ListTargetingTemplatesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListTargetingTemplatesRequest {
   /** Field by which to sort the list. */
-  sortField?: ListTargetingTemplatesSortFieldEnum | (string & {});
+  sortField?: ListTargetingTemplatesSortFieldEnum | (string & {}) | undefined;
   /** Select only targeting templates with this advertiser ID. */
-  advertiserId?: string;
+  advertiserId?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only targeting templates with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "template*2015" will return objects with names like "template June 2015", "template April 2015", or simply "template 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "template" will match objects with name "my template", "template 2015", or simply "template". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListTargetingTemplatesSortOrderEnum | (string & {});
+  sortOrder?: ListTargetingTemplatesSortOrderEnum | (string & {}) | undefined;
 }
 export type TargetingTemplateList = Array<TargetingTemplate>;
 /** Targeting Template List Response */
 export interface TargetingTemplatesListResponse {
   /** Targeting template collection. */
-  targetingTemplates?: TargetingTemplateList;
+  targetingTemplates?: TargetingTemplateList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#targetingTemplatesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListTvCampaignSummariesTvDataProviderEnum =
   | "INVALID_TV_DATA_PROVIDER"
@@ -6956,15 +6985,15 @@ export type ListTvCampaignSummariesTvDataProviderEnum =
   | "SAMBA_AU";
 export interface ListTvCampaignSummariesRequest {
   /** Optional. Country Dart ID. If not specified, defaults to 256 (US). */
-  countryDartId?: string;
+  countryDartId?: string | undefined;
   /** Required. User profile ID associated with this request. */
   profileId: string;
   /** Required. Search string to filter the list of TV campaign summaries. Matches any substring. Required field. */
-  name?: string;
+  name?: string | undefined;
   /** Required. Account ID associated with this request. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Optional. TV data provider. If not specified, defaults to `COMSCORE_NATIONAL_US`. */
-  tvDataProvider?: ListTvCampaignSummariesTvDataProviderEnum | (string & {});
+  tvDataProvider?: ListTvCampaignSummariesTvDataProviderEnum | (string & {}) | undefined;
 }
 export type TvCampaignSummaryTypeEnum =
   | "CAMPAIGN_COMPONENT_TYPE_UNSPECIFIED"
@@ -6975,42 +7004,42 @@ export type TvCampaignSummaryTypeEnum =
 /** TvCampaignSummary contains aggregate data from a TV campaign. */
 export interface TvCampaignSummary {
   /** GRP of this TV campaign. */
-  grp?: string;
+  grp?: string | undefined;
   /** The end date of the TV campaign, inclusive. A string of the format: "yyyy-MM-dd". */
-  endDate?: string;
+  endDate?: string | undefined;
   /** Identifier. Name of this TV campaign. */
-  name?: string;
+  name?: string | undefined;
   /** "CampaignComponentType" of this TV campaign. */
-  type?: TvCampaignSummaryTypeEnum;
+  type?: TvCampaignSummaryTypeEnum | undefined;
   /** Impressions across the entire TV campaign. */
-  impressions?: string;
+  impressions?: string | undefined;
   /** ID of this TV campaign. */
-  id?: string;
+  id?: string | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#tvCampaignSummary". */
-  kind?: string;
+  kind?: string | undefined;
   /** The start date of the TV campaign, inclusive. A string of the format: "yyyy-MM-dd". */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Spend across the entire TV campaign. */
-  spend?: number;
+  spend?: number | undefined;
 }
 export type TvCampaignSummaryList = Array<TvCampaignSummary>;
 /** Response message for TvCampaignSummariesService.List. */
 export interface TvCampaignSummariesListResponse {
   /** List of TV campaign summaries. */
-  tvCampaignSummaries?: TvCampaignSummaryList;
+  tvCampaignSummaries?: TvCampaignSummaryList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#tvCampaignSummariesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListUserProfilesRequest {}
 export type UserProfileList_ = Array<UserProfile>;
 /** Represents the list of user profiles. */
 export interface UserProfileList {
   /** The user profiles returned in this response. */
-  items?: UserProfileList_;
+  items?: UserProfileList_ | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userProfileList". */
-  kind?: string;
+  kind?: string | undefined;
   /** Etag of this resource. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface ListUserRolePermissionGroupsRequest {
   /** User profile ID associated with this request. */
@@ -7020,54 +7049,54 @@ export type UserRolePermissionGroupList = Array<UserRolePermissionGroup>;
 /** User Role Permission Group List Response */
 export interface UserRolePermissionGroupsListResponse {
   /** User role permission group collection. */
-  userRolePermissionGroups?: UserRolePermissionGroupList;
+  userRolePermissionGroups?: UserRolePermissionGroupList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolePermissionGroupsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListUserRolePermissionsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only user role permissions with these IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
 }
 /** User Role Permission List Response */
 export interface UserRolePermissionsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolePermissionsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** User role permission collection. */
-  userRolePermissions?: UserRolePermissionList;
+  userRolePermissions?: UserRolePermissionList | undefined;
 }
 export type ListUserRolesSortFieldEnum = "ID" | "NAME";
 export type ListUserRolesSortOrderEnum = "ASCENDING" | "DESCENDING";
 export interface ListUserRolesRequest {
   /** Select only user roles that belong to this subaccount. */
-  subaccountId?: string;
+  subaccountId?: string | undefined;
   /** Field by which to sort the list. */
-  sortField?: ListUserRolesSortFieldEnum | (string & {});
+  sortField?: ListUserRolesSortFieldEnum | (string & {}) | undefined;
   /** Allows searching for objects by name or ID. Wildcards (*) are allowed. For example, "userrole*2015" will return objects with names like "userrole June 2015", "userrole April 2015", or simply "userrole 2015". Most of the searches also add wildcards implicitly at the start and the end of the search string. For example, a search string of "userrole" will match objects with name "my userrole", "userrole 2015", or simply "userrole". */
-  searchString?: string;
+  searchString?: string | undefined;
   /** User profile ID associated with this request. */
   profileId: string;
   /** Select only account level user roles not associated with any specific subaccount. */
-  accountUserRoleOnly?: boolean;
+  accountUserRoleOnly?: boolean | undefined;
   /** Order of sorted results. */
-  sortOrder?: ListUserRolesSortOrderEnum | (string & {});
+  sortOrder?: ListUserRolesSortOrderEnum | (string & {}) | undefined;
   /** Value of the nextPageToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Select only user roles with the specified IDs. */
-  ids?: StringList;
+  ids?: StringList | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export type UserRoleList = Array<UserRole>;
 /** User Role List Response */
 export interface UserRolesListResponse {
   /** Pagination token to be used for the next list operation. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** User role collection. */
-  userRoles?: UserRoleList;
+  userRoles?: UserRoleList | undefined;
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#userRolesListResponse". */
-  kind?: string;
+  kind?: string | undefined;
 }
 export interface ListVideoFormatsRequest {
   /** User profile ID associated with this request. */
@@ -7077,9 +7106,9 @@ export type VideoFormatList = Array<VideoFormat>;
 /** Video Format List Response */
 export interface VideoFormatsListResponse {
   /** Identifies what kind of resource this is. Value: the fixed string "dfareporting#videoFormatsListResponse". */
-  kind?: string;
+  kind?: string | undefined;
   /** Video format collection. */
-  videoFormats?: VideoFormatList;
+  videoFormats?: VideoFormatList | undefined;
 }
 export interface PatchAccountsRequest {
   /** User profile ID associated with this request. */
@@ -7087,7 +7116,7 @@ export interface PatchAccountsRequest {
   /** Required. Account ID. */
   id: string;
   /** Request body */
-  body?: Account;
+  body?: Account | undefined;
 }
 export interface PatchAccountUserProfilesRequest {
   /** User profile ID associated with this request. */
@@ -7095,7 +7124,7 @@ export interface PatchAccountUserProfilesRequest {
   /** Required. AccountUserProfile ID. */
   id: string;
   /** Request body */
-  body?: AccountUserProfile;
+  body?: AccountUserProfile | undefined;
 }
 export interface PatchAdsRequest {
   /** Required. RemarketingList ID. */
@@ -7103,7 +7132,7 @@ export interface PatchAdsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Ad;
+  body?: Ad | undefined;
 }
 export interface PatchAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
@@ -7111,7 +7140,7 @@ export interface PatchAdvertiserGroupsRequest {
   /** Required. Advertiser Group ID. */
   id: string;
   /** Request body */
-  body?: AdvertiserGroup;
+  body?: AdvertiserGroup | undefined;
 }
 export interface PatchAdvertiserLandingPagesRequest {
   /** User profile ID associated with this request. */
@@ -7119,7 +7148,7 @@ export interface PatchAdvertiserLandingPagesRequest {
   /** Required. Landing Page ID. */
   id: string;
   /** Request body */
-  body?: LandingPage;
+  body?: LandingPage | undefined;
 }
 export interface PatchAdvertisersRequest {
   /** Required. Advertiser ID. */
@@ -7127,7 +7156,7 @@ export interface PatchAdvertisersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Advertiser;
+  body?: Advertiser | undefined;
 }
 export interface PatchCampaignsRequest {
   /** User profile ID associated with this request. */
@@ -7135,7 +7164,7 @@ export interface PatchCampaignsRequest {
   /** Required. Campaign ID. */
   id: string;
   /** Request body */
-  body?: Campaign;
+  body?: Campaign | undefined;
 }
 export interface PatchContentCategoriesRequest {
   /** Required. ContentCategory ID. */
@@ -7143,7 +7172,7 @@ export interface PatchContentCategoriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: ContentCategory;
+  body?: ContentCategory | undefined;
 }
 export interface PatchCreativeFieldsRequest {
   /** CreativeField ID. */
@@ -7151,7 +7180,7 @@ export interface PatchCreativeFieldsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: CreativeField;
+  body?: CreativeField | undefined;
 }
 export interface PatchCreativeFieldValuesRequest {
   /** CreativeField ID. */
@@ -7161,7 +7190,7 @@ export interface PatchCreativeFieldValuesRequest {
   /** CreativeFieldValue ID. */
   id: string;
   /** Request body */
-  body?: CreativeFieldValue;
+  body?: CreativeFieldValue | undefined;
 }
 export interface PatchCreativeGroupsRequest {
   /** User profile ID associated with this request. */
@@ -7169,7 +7198,7 @@ export interface PatchCreativeGroupsRequest {
   /** Required. Creative Group ID. */
   id: string;
   /** Request body */
-  body?: CreativeGroup;
+  body?: CreativeGroup | undefined;
 }
 export interface PatchCreativesRequest {
   /** User profile ID associated with this request. */
@@ -7177,7 +7206,7 @@ export interface PatchCreativesRequest {
   /** Required. Creative ID. */
   id: string;
   /** Request body */
-  body?: Creative;
+  body?: Creative | undefined;
 }
 export interface PatchEventTagsRequest {
   /** User profile ID associated with this request. */
@@ -7185,7 +7214,7 @@ export interface PatchEventTagsRequest {
   /** Required. EventTag ID. */
   id: string;
   /** Request body */
-  body?: EventTag;
+  body?: EventTag | undefined;
 }
 export interface PatchFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
@@ -7193,7 +7222,7 @@ export interface PatchFloodlightActivitiesRequest {
   /** Required. EventTag ID. */
   id: string;
   /** Request body */
-  body?: FloodlightActivity;
+  body?: FloodlightActivity | undefined;
 }
 export interface PatchFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
@@ -7201,7 +7230,7 @@ export interface PatchFloodlightActivityGroupsRequest {
   /** Required. EventTag ID. */
   id: string;
   /** Request body */
-  body?: FloodlightActivityGroup;
+  body?: FloodlightActivityGroup | undefined;
 }
 export interface PatchFloodlightConfigurationsRequest {
   /** Required. EventTag ID. */
@@ -7209,7 +7238,7 @@ export interface PatchFloodlightConfigurationsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: FloodlightConfiguration;
+  body?: FloodlightConfiguration | undefined;
 }
 export interface PatchPlacementGroupsRequest {
   /** User profile ID associated with this request. */
@@ -7217,7 +7246,7 @@ export interface PatchPlacementGroupsRequest {
   /** Required. Placement ID. */
   id: string;
   /** Request body */
-  body?: PlacementGroup;
+  body?: PlacementGroup | undefined;
 }
 export interface PatchPlacementsRequest {
   /** Required. Placement ID. */
@@ -7225,7 +7254,7 @@ export interface PatchPlacementsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Placement;
+  body?: Placement | undefined;
 }
 export interface PatchPlacementStrategiesRequest {
   /** Required. PlacementStrategy ID. */
@@ -7233,7 +7262,7 @@ export interface PatchPlacementStrategiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: PlacementStrategy;
+  body?: PlacementStrategy | undefined;
 }
 export interface PatchRemarketingListsRequest {
   /** User profile ID associated with this request. */
@@ -7241,7 +7270,7 @@ export interface PatchRemarketingListsRequest {
   /** Required. RemarketingList ID. */
   id: string;
   /** Request body */
-  body?: RemarketingList;
+  body?: RemarketingList | undefined;
 }
 export interface PatchRemarketingListSharesRequest {
   /** Required. RemarketingList ID. */
@@ -7249,7 +7278,7 @@ export interface PatchRemarketingListSharesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: RemarketingListShare;
+  body?: RemarketingListShare | undefined;
 }
 export interface PatchSitesRequest {
   /** User profile ID associated with this request. */
@@ -7257,7 +7286,7 @@ export interface PatchSitesRequest {
   /** Required. Site ID. */
   id: string;
   /** Request body */
-  body?: Site;
+  body?: Site | undefined;
 }
 export interface PatchSubaccountsRequest {
   /** User profile ID associated with this request. */
@@ -7265,7 +7294,7 @@ export interface PatchSubaccountsRequest {
   /** Required. Subaccount ID. */
   id: string;
   /** Request body */
-  body?: Subaccount;
+  body?: Subaccount | undefined;
 }
 export interface PatchTargetingTemplatesRequest {
   /** Required. RemarketingList ID. */
@@ -7273,7 +7302,7 @@ export interface PatchTargetingTemplatesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: TargetingTemplate;
+  body?: TargetingTemplate | undefined;
 }
 export interface PatchUserRolesRequest {
   /** Required. UserRole ID. */
@@ -7281,7 +7310,7 @@ export interface PatchUserRolesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: UserRole;
+  body?: UserRole | undefined;
 }
 export interface PublishDynamicProfilesRequest {
   /** Required. Dynamic profile ID. */
@@ -7296,217 +7325,217 @@ export interface PublishStudioCreativesResponse {}
 /** Represents a dimension filter. */
 export interface DimensionFilter {
   /** The name of the dimension to filter. */
-  dimensionName?: string;
+  dimensionName?: string | undefined;
   /** The value of the dimension to filter. */
-  value?: string;
+  value?: string | undefined;
   /** The kind of resource this is, in this case dfareporting#dimensionFilter. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type DimensionFilterList = Array<DimensionFilter>;
 /** Represents a DimensionValuesRequest. */
 export interface DimensionValueRequest {
   /** The kind of request this is, in this case dfareporting#dimensionValueRequest . */
-  kind?: string;
-  startDate?: string;
+  kind?: string | undefined;
+  startDate?: string | undefined;
   /** The name of the dimension for which values should be requested. */
-  dimensionName?: string;
+  dimensionName?: string | undefined;
   /** The list of filters by which to filter values. The filters are ANDed. */
-  filters?: DimensionFilterList;
-  endDate?: string;
+  filters?: DimensionFilterList | undefined;
+  endDate?: string | undefined;
 }
 export interface QueryDimensionValuesRequest {
   /** The value of the nextToken from the previous result page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of results to return. */
-  maxResults?: number;
+  maxResults?: number | undefined;
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
   /** Request body */
-  body?: DimensionValueRequest;
+  body?: DimensionValueRequest | undefined;
 }
 /** Represents the list of DimensionValue resources. */
 export interface DimensionValueList {
   /** The eTag of this response for caching purposes. */
-  etag?: string;
+  etag?: string | undefined;
   /** The kind of list this is, in this case dfareporting#dimensionValueList. */
-  kind?: string;
+  kind?: string | undefined;
   /** The dimension values returned in this response. */
   items: DimensionValueList_;
   /** Continuation token used to page through dimension values. To retrieve the next page of results, set the next request's "pageToken" to the value of this field. The page token is only valid for a limited amount of time and should not be persisted. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type SortBySortOrderEnum = "ASCENDING" | "DESCENDING";
 /** Specifies the sort configuration for a specific field in the report. */
 export interface SortBy {
   /** Required. The dimension or metric field name to sort on. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. The sort order of this column. */
-  sortOrder?: SortBySortOrderEnum | (string & {});
+  sortOrder?: SortBySortOrderEnum | (string & {}) | undefined;
 }
 export type SortByList = Array<SortBy>;
 /** The request body containing ad-hoc query parameters. */
 export interface ReportDataQueryRequest {
   /** Optional. The list of dimension values on which report lines are filtered. Utilizes the existing legacy filter message `DimensionValue`. */
-  dimensionFilters?: DimensionValueList_;
+  dimensionFilters?: DimensionValueList_ | undefined;
   /** Optional. The requested date range covering the report duration. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Optional. Sort options across either requested dimensions or metrics. */
-  sortBys?: SortByList;
+  sortBys?: SortByList | undefined;
   /** Required. The list of metric names to include. */
-  metricNames?: StringList;
+  metricNames?: StringList | undefined;
   /** Optional. The list of dimension names to group by. */
-  dimensionNames?: StringList;
+  dimensionNames?: StringList | undefined;
   /** Optional. Continuation token for paginating results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of result rows to return per page. The default value is 100. The maximum allowed value is 1000. Values above 1000 will be coerced (clamped) down to 1000. Negative values will be rejected. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export interface QueryReportDataRequest {
   /** Required. The Campaign Manager 360 user profile ID. */
   profileId: string;
   /** Request body */
-  body?: ReportDataQueryRequest;
+  body?: ReportDataQueryRequest | undefined;
 }
 export type ColumnHeaderTypeEnum = "COLUMN_TYPE_UNSPECIFIED" | "DIMENSION" | "METRIC";
 /** A column header in the report. */
 export interface ColumnHeader {
   /** Output only. The column name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The column type. */
-  type?: ColumnHeaderTypeEnum;
+  type?: ColumnHeaderTypeEnum | undefined;
 }
 export type ColumnHeaderList = Array<ColumnHeader>;
 /** A row of report data. */
 export interface ReportDataRow {
   /** Output only. A single sequential list of all cell values matching column_headers indices exactly. - Metric cells that are suppressed due to Minimum Reporting Standard (MRS) privacy protection constraints return "-". */
-  values?: StringList;
+  values?: StringList | undefined;
 }
 export type ReportDataRowList = Array<ReportDataRow>;
 /** Represents a response to report data request. */
 export interface ReportDataResponse {
   /** Output only. Ordered descriptors of the requested column fields. */
-  columnHeaders?: ColumnHeaderList;
+  columnHeaders?: ColumnHeaderList | undefined;
   /** Output only. Token to retrieve the next page of rows, or empty if end of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. The resulting set of matching data rows. */
-  rows?: ReportDataRowList;
+  rows?: ReportDataRowList | undefined;
   /** Output only. Singular aggregate total row for the entire query matching the criteria. Column headers apply in the exact same order as data rows. In the total_row: - All dimension columns contain an empty string (""), as aggregation does not apply. - Non-summable metric columns (e.g. Reach metrics) contain an empty string (""), as grand total aggregation cannot be mathematically/logically computed for them. */
-  totalRow?: ReportDataRow;
+  totalRow?: ReportDataRow | undefined;
 }
 export interface QueryReportsCompatibleFieldsRequest {
   /** The Campaign Manager 360 user profile ID. */
   profileId: string;
   /** Request body */
-  body?: Report;
+  body?: Report | undefined;
 }
 /** Represents a dimension. */
 export interface Dimension {
   /** The dimension name, e.g. advertiser */
-  name?: string;
+  name?: string | undefined;
   /** The kind of resource this is, in this case dfareporting#dimension. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type DimensionList = Array<Dimension>;
 /** Represents a metric. */
 export interface Metric {
   /** The metric name, e.g. impressions */
-  name?: string;
+  name?: string | undefined;
   /** The kind of resource this is, in this case dfareporting#metric. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type MetricList = Array<Metric>;
 /** Represents fields that are compatible to be selected for a report of type "REACH". */
 export interface ReachReportCompatibleFields {
   /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
-  dimensions?: DimensionList;
+  dimensions?: DimensionList | undefined;
   /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList;
+  dimensionFilters?: DimensionList | undefined;
   /** Metrics which are compatible to be selected as activity metrics to pivot on in the "activities" section of the report. */
-  pivotedActivityMetrics?: MetricList;
+  pivotedActivityMetrics?: MetricList | undefined;
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
+  metrics?: MetricList | undefined;
   /** The kind of resource this is, in this case dfareporting#reachReportCompatibleFields. */
-  kind?: string;
+  kind?: string | undefined;
   /** Metrics which are compatible to be selected in the "reachByFrequencyMetricNames" section of the report. */
-  reachByFrequencyMetrics?: MetricList;
+  reachByFrequencyMetrics?: MetricList | undefined;
 }
 /** Represents fields that are compatible to be selected for a report of type "CROSS_DIMENSION_REACH". */
 export interface CrossDimensionReachReportCompatibleFields {
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
+  metrics?: MetricList | undefined;
   /** The kind of resource this is, in this case dfareporting#crossDimensionReachReportCompatibleFields. */
-  kind?: string;
+  kind?: string | undefined;
   /** Dimensions which are compatible to be selected in the "breakdown" section of the report. */
-  breakdown?: DimensionList;
+  breakdown?: DimensionList | undefined;
   /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList;
+  dimensionFilters?: DimensionList | undefined;
   /** Metrics which are compatible to be selected in the "overlapMetricNames" section of the report. */
-  overlapMetrics?: MetricList;
+  overlapMetrics?: MetricList | undefined;
 }
 /** Represents fields that are compatible to be selected for a report of type "PATH_TO_CONVERSION". */
 export interface PathToConversionReportCompatibleFields {
   /** Per-interaction dimensions which are compatible to be selected in the "perInteractionDimensions" section of the report. */
-  perInteractionDimensions?: DimensionList;
+  perInteractionDimensions?: DimensionList | undefined;
   /** The kind of resource this is, in this case dfareporting#pathToConversionReportCompatibleFields. */
-  kind?: string;
+  kind?: string | undefined;
   /** Custom floodlight variables which are compatible to be selected in the "customFloodlightVariables" section of the report. */
-  customFloodlightVariables?: DimensionList;
+  customFloodlightVariables?: DimensionList | undefined;
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
+  metrics?: MetricList | undefined;
   /** Conversion dimensions which are compatible to be selected in the "conversionDimensions" section of the report. */
-  conversionDimensions?: DimensionList;
+  conversionDimensions?: DimensionList | undefined;
 }
 /** Represents fields that are compatible to be selected for a report of type "CROSS_MEDIA_REACH". */
 export interface CrossMediaReachReportCompatibleFields {
   /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList;
+  dimensionFilters?: DimensionList | undefined;
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
+  metrics?: MetricList | undefined;
   /** The kind of resource this is, in this case dfareporting#crossMediaReachReportCompatibleFields. */
-  kind?: string;
+  kind?: string | undefined;
   /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
-  dimensions?: DimensionList;
+  dimensions?: DimensionList | undefined;
 }
 /** Represents fields that are compatible to be selected for a report of type "FlOODLIGHT". */
 export interface FloodlightReportCompatibleFields {
   /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
-  dimensions?: DimensionList;
+  dimensions?: DimensionList | undefined;
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
+  metrics?: MetricList | undefined;
   /** The kind of resource this is, in this case dfareporting#floodlightReportCompatibleFields. */
-  kind?: string;
+  kind?: string | undefined;
   /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList;
+  dimensionFilters?: DimensionList | undefined;
 }
 /** Represents fields that are compatible to be selected for a report of type "STANDARD". */
 export interface ReportCompatibleFields {
   /** Dimensions which are compatible to be selected in the "dimensionFilters" section of the report. */
-  dimensionFilters?: DimensionList;
+  dimensionFilters?: DimensionList | undefined;
   /** Metrics which are compatible to be selected in the "metricNames" section of the report. */
-  metrics?: MetricList;
+  metrics?: MetricList | undefined;
   /** Dimensions which are compatible to be selected in the "dimensions" section of the report. */
-  dimensions?: DimensionList;
+  dimensions?: DimensionList | undefined;
   /** Metrics which are compatible to be selected as activity metrics to pivot on in the "activities" section of the report. */
-  pivotedActivityMetrics?: MetricList;
+  pivotedActivityMetrics?: MetricList | undefined;
   /** The kind of resource this is, in this case dfareporting#reportCompatibleFields. */
-  kind?: string;
+  kind?: string | undefined;
 }
 /** Represents a response to the queryCompatibleFields method. Next ID: 10 */
 export interface CompatibleFields {
   /** The kind of resource this is, in this case dfareporting#compatibleFields. */
-  kind?: string;
+  kind?: string | undefined;
   /** Contains items that are compatible to be selected for a report of type "REACH". */
-  reachReportCompatibleFields?: ReachReportCompatibleFields;
+  reachReportCompatibleFields?: ReachReportCompatibleFields | undefined;
   /** Contains items that are compatible to be selected for a report of type "CROSS_DIMENSION_REACH". */
-  crossDimensionReachReportCompatibleFields?: CrossDimensionReachReportCompatibleFields;
+  crossDimensionReachReportCompatibleFields?: CrossDimensionReachReportCompatibleFields | undefined;
   /** Contains items that are compatible to be selected for a report of type "PATH_TO_CONVERSION". */
-  pathToConversionReportCompatibleFields?: PathToConversionReportCompatibleFields;
+  pathToConversionReportCompatibleFields?: PathToConversionReportCompatibleFields | undefined;
   /** Contains items that are compatible to be selected for a report of type "CROSS_MEDIA_REACH". */
-  crossMediaReachReportCompatibleFields?: CrossMediaReachReportCompatibleFields;
+  crossMediaReachReportCompatibleFields?: CrossMediaReachReportCompatibleFields | undefined;
   /** Contains items that are compatible to be selected for a report of type "FLOODLIGHT". */
-  floodlightReportCompatibleFields?: FloodlightReportCompatibleFields;
+  floodlightReportCompatibleFields?: FloodlightReportCompatibleFields | undefined;
   /** Contains items that are compatible to be selected for a report of type "STANDARD". */
-  reportCompatibleFields?: ReportCompatibleFields;
+  reportCompatibleFields?: ReportCompatibleFields | undefined;
 }
 export interface RetransformDynamicFeedsRequest {
   /** Required. Dynamic feed ID. */
@@ -7514,7 +7543,7 @@ export interface RetransformDynamicFeedsRequest {
 }
 export interface RunReportsRequest {
   /** If set and true, tries to run the report synchronously. */
-  synchronous?: boolean;
+  synchronous?: boolean | undefined;
   /** The ID of the report. */
   reportId: string;
   /** The Campaign Manager 360 user profile ID. */
@@ -7524,61 +7553,61 @@ export interface UpdateAccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Account;
+  body?: Account | undefined;
 }
 export interface UpdateAccountUserProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: AccountUserProfile;
+  body?: AccountUserProfile | undefined;
 }
 export interface UpdateAdsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Ad;
+  body?: Ad | undefined;
 }
 export interface UpdateAdvertiserGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: AdvertiserGroup;
+  body?: AdvertiserGroup | undefined;
 }
 export interface UpdateAdvertiserLandingPagesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: LandingPage;
+  body?: LandingPage | undefined;
 }
 export interface UpdateAdvertisersRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Advertiser;
+  body?: Advertiser | undefined;
 }
 export interface UpdateBillingProfilesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: BillingProfile;
+  body?: BillingProfile | undefined;
 }
 export interface UpdateCampaignsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Campaign;
+  body?: Campaign | undefined;
 }
 export interface UpdateContentCategoriesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: ContentCategory;
+  body?: ContentCategory | undefined;
 }
 export interface UpdateCreativeFieldsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: CreativeField;
+  body?: CreativeField | undefined;
 }
 export interface UpdateCreativeFieldValuesRequest {
   /** User profile ID associated with this request. */
@@ -7586,81 +7615,81 @@ export interface UpdateCreativeFieldValuesRequest {
   /** Creative field ID for this creative field value. */
   creativeFieldId: string;
   /** Request body */
-  body?: CreativeFieldValue;
+  body?: CreativeFieldValue | undefined;
 }
 export interface UpdateCreativeGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: CreativeGroup;
+  body?: CreativeGroup | undefined;
 }
 export interface UpdateCreativesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Creative;
+  body?: Creative | undefined;
 }
 export interface UpdateDynamicFeedsRequest {
   /** Request body */
-  body?: DynamicFeed;
+  body?: DynamicFeed | undefined;
 }
 export interface UpdateDynamicProfilesRequest {
   /** Request body */
-  body?: DynamicProfile;
+  body?: DynamicProfile | undefined;
 }
 export interface UpdateEventTagsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: EventTag;
+  body?: EventTag | undefined;
 }
 export interface UpdateFloodlightActivitiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: FloodlightActivity;
+  body?: FloodlightActivity | undefined;
 }
 export interface UpdateFloodlightActivityGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: FloodlightActivityGroup;
+  body?: FloodlightActivityGroup | undefined;
 }
 export interface UpdateFloodlightConfigurationsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: FloodlightConfiguration;
+  body?: FloodlightConfiguration | undefined;
 }
 export interface UpdatePlacementGroupsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: PlacementGroup;
+  body?: PlacementGroup | undefined;
 }
 export interface UpdatePlacementsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Placement;
+  body?: Placement | undefined;
 }
 export interface UpdatePlacementStrategiesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: PlacementStrategy;
+  body?: PlacementStrategy | undefined;
 }
 export interface UpdateRemarketingListsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: RemarketingList;
+  body?: RemarketingList | undefined;
 }
 export interface UpdateRemarketingListSharesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: RemarketingListShare;
+  body?: RemarketingListShare | undefined;
 }
 export interface UpdateReportsRequest {
   /** The Campaign Manager 360 user profile ID. */
@@ -7668,31 +7697,31 @@ export interface UpdateReportsRequest {
   /** The ID of the report. */
   reportId: string;
   /** Request body */
-  body?: Report;
+  body?: Report | undefined;
 }
 export interface UpdateSitesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Site;
+  body?: Site | undefined;
 }
 export interface UpdateSubaccountsRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: Subaccount;
+  body?: Subaccount | undefined;
 }
 export interface UpdateTargetingTemplatesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: TargetingTemplate;
+  body?: TargetingTemplate | undefined;
 }
 export interface UpdateUserRolesRequest {
   /** User profile ID associated with this request. */
   profileId: string;
   /** Request body */
-  body?: UserRole;
+  body?: UserRole | undefined;
 }
 export type BatchinsertConversionsError =
   | NotFound

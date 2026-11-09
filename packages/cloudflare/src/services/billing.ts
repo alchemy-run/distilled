@@ -103,124 +103,124 @@ const TELEMETRY = {
 
 export interface AddressValidationRequest {
   /** Address line 1. */
-  address?: string;
+  address?: string | undefined;
   /** Address line 2. */
-  address2?: string;
+  address2?: string | undefined;
   /** City. */
-  city?: string;
+  city?: string | undefined;
   /** Country code. */
-  country?: string;
+  country?: string | undefined;
   /** State or province. */
-  state?: string;
+  state?: string | undefined;
   /** Postal or zip code. */
-  zipcode?: string;
+  zipcode?: string | undefined;
 }
 export interface AddressValidationResponseValidatedAddressesItem {
   /** Validated address line 1. */
-  address?: string | null;
+  address?: string | null | undefined;
   /** Validated address line 2. */
-  address2?: string | null;
+  address2?: string | null | undefined;
   /** Validated city. */
-  city?: string | null;
+  city?: string | null | undefined;
   /** Validated country code. */
-  country?: string | null;
+  country?: string | null | undefined;
   /** Validated state or province. */
-  state?: string | null;
+  state?: string | null | undefined;
   /** The validation result code. */
-  validationCode?: string | null;
+  validationCode?: string | null | undefined;
   /** Validated postal or zip code. */
-  zipcode?: string | null;
+  zipcode?: string | null | undefined;
 }
 export type AddressValidationResponseValidatedAddressesList =
   Array<AddressValidationResponseValidatedAddressesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface AddressValidationResponse {
   /** List of validated address suggestions. */
-  validatedAddresses?: AddressValidationResponseValidatedAddressesList | null;
+  validatedAddresses?: AddressValidationResponseValidatedAddressesList | null | undefined;
 }
 export interface CreateProfileRequest {
   /** Identifier */
   accountId: string;
   /** Street address line 1. */
-  address?: string;
+  address?: string | undefined;
   /** Street address line 2 (apt, suite, etc.). */
-  address2?: string;
+  address2?: string | undefined;
   /** Primary billing email address. */
-  billingEmail?: string;
+  billingEmail?: string | undefined;
   /** Rate plan being purchased right after profile setup. */
-  buyingRatePlan?: string;
+  buyingRatePlan?: string | undefined;
   /** Captcha challenge JWT issued during onboarding. */
-  captchaChallengeJwt?: string;
+  captchaChallengeJwt?: string | undefined;
   /** Cloudflare Turnstile response. */
-  cfTurnstileResponse?: string;
+  cfTurnstileResponse?: string | undefined;
   /** City on the billing profile. */
-  city?: string;
+  city?: string | undefined;
   /** Company name on the billing profile. */
-  company?: string;
+  company?: string | undefined;
   /** ISO 3166-1 alpha-2 country code. */
-  country?: string;
+  country?: string | undefined;
   /** First name on the billing profile. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** hCaptcha response. */
-  hCaptchaResponse?: string;
+  hCaptchaResponse?: string | undefined;
   /** Last name on the billing profile. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Preferred locale for invoice rendering (BCP 47). */
-  preferredLocale?: string;
+  preferredLocale?: string | undefined;
   /** Secondary billing email address for CC on invoices. */
-  secondaryBillingEmail?: string;
+  secondaryBillingEmail?: string | undefined;
   /** State or region on the billing profile. */
-  state?: string;
+  state?: string | undefined;
   /** Type of tax ID provided. */
-  taxIdType?: string;
+  taxIdType?: string | undefined;
   /** Contact phone number. */
-  telephone?: string;
+  telephone?: string | undefined;
   /** VAT identifier. */
-  vat?: string;
+  vat?: string | undefined;
   /** ZIP or postal code. */
-  zipcode?: string;
+  zipcode?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateProfileResponse {
   /** Billing item identifier tag. */
-  id?: string | null;
-  accountType?: string | null;
-  address?: string | null;
-  address2?: string | null;
-  balance?: string | null;
-  cardExpiryMonth?: number | null;
-  cardExpiryYear?: number | null;
-  cardNumber?: string | null;
-  city?: string | null;
-  company?: string | null;
-  country?: string | null;
-  createdOn?: string | null;
-  deviceData?: string | null;
-  editedOn?: string | null;
-  enterpriseBillingEmail?: string | null;
-  enterprisePrimaryEmail?: string | null;
-  firstName?: string | null;
-  isPartner?: boolean | null;
-  lastName?: string | null;
-  nextBillDate?: string | null;
-  paymentAddress?: string | null;
-  paymentAddress2?: string | null;
-  paymentCity?: string | null;
-  paymentCountry?: string | null;
-  paymentEmail?: string | null;
-  paymentFirstName?: string | null;
-  paymentGateway?: string | null;
-  paymentLastName?: string | null;
-  paymentNonce?: string | null;
-  paymentState?: string | null;
-  paymentZipcode?: string | null;
-  primaryEmail?: string | null;
-  state?: string | null;
-  taxIdType?: string | null;
-  telephone?: string | null;
-  validationCode?: string | null;
-  vat?: string | null;
-  zipcode?: string | null;
+  id?: string | null | undefined;
+  accountType?: string | null | undefined;
+  address?: string | null | undefined;
+  address2?: string | null | undefined;
+  balance?: string | null | undefined;
+  cardExpiryMonth?: number | null | undefined;
+  cardExpiryYear?: number | null | undefined;
+  cardNumber?: string | null | undefined;
+  city?: string | null | undefined;
+  company?: string | null | undefined;
+  country?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deviceData?: string | null | undefined;
+  editedOn?: string | null | undefined;
+  enterpriseBillingEmail?: string | null | undefined;
+  enterprisePrimaryEmail?: string | null | undefined;
+  firstName?: string | null | undefined;
+  isPartner?: boolean | null | undefined;
+  lastName?: string | null | undefined;
+  nextBillDate?: string | null | undefined;
+  paymentAddress?: string | null | undefined;
+  paymentAddress2?: string | null | undefined;
+  paymentCity?: string | null | undefined;
+  paymentCountry?: string | null | undefined;
+  paymentEmail?: string | null | undefined;
+  paymentFirstName?: string | null | undefined;
+  paymentGateway?: string | null | undefined;
+  paymentLastName?: string | null | undefined;
+  paymentNonce?: string | null | undefined;
+  paymentState?: string | null | undefined;
+  paymentZipcode?: string | null | undefined;
+  primaryEmail?: string | null | undefined;
+  state?: string | null | undefined;
+  taxIdType?: string | null | undefined;
+  telephone?: string | null | undefined;
+  validationCode?: string | null | undefined;
+  vat?: string | null | undefined;
+  zipcode?: string | null | undefined;
 }
 export interface CreateProfilesPaymentMethodRequest {
   /** Identifier */
@@ -229,9 +229,9 @@ export interface CreateProfilesPaymentMethodRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateProfilesPaymentMethodResponse {
   /** The Stripe client secret for frontend payment method collection. */
-  clientSecret?: string | null;
+  clientSecret?: string | null | undefined;
   /** The type of Stripe intent created. */
-  intentType?: string | null;
+  intentType?: string | null | undefined;
 }
 export interface DeleteProfileRequest {
   /** Identifier */
@@ -244,47 +244,47 @@ export interface GetBadDebtRequest {
 }
 export interface GetBadDebtResponseInvoicesItem {
   /** Billing history item identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The billing item action. */
-  action?: string | null;
+  action?: string | null | undefined;
   /** The amount associated with this billing item. */
-  amount?: number | null;
+  amount?: number | null | undefined;
   /** The amount remaining to pay. */
-  amountToPay?: number | null;
+  amountToPay?: number | null | undefined;
   /** The currency of the billing item. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** The billing item description. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** The external invoice identifier. */
-  externalInvoiceId?: string | null;
+  externalInvoiceId?: string | null | undefined;
   /** URL to the hosted invoice. */
-  hostedInvoiceUrl?: string | null;
+  hostedInvoiceUrl?: string | null | undefined;
   /** The associated invoice identifier. */
-  invoiceId?: string | null;
+  invoiceId?: string | null | undefined;
   /** When the billing event occurred. */
-  occurredAt?: string | null;
+  occurredAt?: string | null | undefined;
   /** The associated receipt identifier. */
-  receiptId?: string | null;
+  receiptId?: string | null | undefined;
   /** The source of the billing item. */
-  source?: string | null;
+  source?: string | null | undefined;
   /** The source invoice identifier. */
-  sourceInvoiceId?: string | null;
+  sourceInvoiceId?: string | null | undefined;
   /** The status of the billing item. */
-  status?: string | null;
+  status?: string | null | undefined;
   /** The billing item type. */
-  type?: string | null;
+  type?: string | null | undefined;
 }
 export type GetBadDebtResponseInvoicesList = Array<GetBadDebtResponseInvoicesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetBadDebtResponse {
   /** Amount already paid towards the debt. */
-  alreadyPaid?: number | null;
+  alreadyPaid?: number | null | undefined;
   /** The current bad debt status of the account. */
-  badDebtStatus?: string | null;
+  badDebtStatus?: string | null | undefined;
   /** List of outstanding invoices contributing to bad debt. */
-  invoices?: GetBadDebtResponseInvoicesList | null;
+  invoices?: GetBadDebtResponseInvoicesList | null | undefined;
   /** Total outstanding debt amount. */
-  totalDebtAmount?: number | null;
+  totalDebtAmount?: number | null | undefined;
 }
 export interface GetCreditRequest {
   /** Identifier */
@@ -293,25 +293,25 @@ export interface GetCreditRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetCreditResponse {
   /** The confirmed credit balance in cents. */
-  confirmedBalanceCents?: number | null;
+  confirmedBalanceCents?: number | null | undefined;
   /** Currency of the credit balance. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Days remaining until the credits expire. */
-  daysRemaining?: number | null;
+  daysRemaining?: number | null | undefined;
   /** Whether the account is eligible to receive credits. */
-  eligible?: boolean | null;
+  eligible?: boolean | null | undefined;
   /** Whether a credit record exists for the account. */
-  hasRecord?: boolean | null;
+  hasRecord?: boolean | null | undefined;
   /** The original credit amount in cents. */
-  originalAmountCents?: number | null;
+  originalAmountCents?: number | null | undefined;
   /** Percentage of the original credit amount consumed. */
-  percentConsumed?: number | null;
+  percentConsumed?: number | null | undefined;
   /** Projected date when the credits will be depleted. */
-  projectedDepletionDate?: string | null;
+  projectedDepletionDate?: string | null | undefined;
   /** When the credits become valid. */
-  validFrom?: string | null;
+  validFrom?: string | null | undefined;
   /** When the credits expire. */
-  validTo?: string | null;
+  validTo?: string | null | undefined;
 }
 export interface GetProfileRequest {
   /** Identifier */
@@ -320,44 +320,44 @@ export interface GetProfileRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetProfileResponse {
   /** Billing item identifier tag. */
-  id?: string | null;
-  accountType?: string | null;
-  address?: string | null;
-  address2?: string | null;
-  balance?: string | null;
-  cardExpiryMonth?: number | null;
-  cardExpiryYear?: number | null;
-  cardNumber?: string | null;
-  city?: string | null;
-  company?: string | null;
-  country?: string | null;
-  createdOn?: string | null;
-  deviceData?: string | null;
-  editedOn?: string | null;
-  enterpriseBillingEmail?: string | null;
-  enterprisePrimaryEmail?: string | null;
-  firstName?: string | null;
-  isPartner?: boolean | null;
-  lastName?: string | null;
-  nextBillDate?: string | null;
-  paymentAddress?: string | null;
-  paymentAddress2?: string | null;
-  paymentCity?: string | null;
-  paymentCountry?: string | null;
-  paymentEmail?: string | null;
-  paymentFirstName?: string | null;
-  paymentGateway?: string | null;
-  paymentLastName?: string | null;
-  paymentNonce?: string | null;
-  paymentState?: string | null;
-  paymentZipcode?: string | null;
-  primaryEmail?: string | null;
-  state?: string | null;
-  taxIdType?: string | null;
-  telephone?: string | null;
-  validationCode?: string | null;
-  vat?: string | null;
-  zipcode?: string | null;
+  id?: string | null | undefined;
+  accountType?: string | null | undefined;
+  address?: string | null | undefined;
+  address2?: string | null | undefined;
+  balance?: string | null | undefined;
+  cardExpiryMonth?: number | null | undefined;
+  cardExpiryYear?: number | null | undefined;
+  cardNumber?: string | null | undefined;
+  city?: string | null | undefined;
+  company?: string | null | undefined;
+  country?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deviceData?: string | null | undefined;
+  editedOn?: string | null | undefined;
+  enterpriseBillingEmail?: string | null | undefined;
+  enterprisePrimaryEmail?: string | null | undefined;
+  firstName?: string | null | undefined;
+  isPartner?: boolean | null | undefined;
+  lastName?: string | null | undefined;
+  nextBillDate?: string | null | undefined;
+  paymentAddress?: string | null | undefined;
+  paymentAddress2?: string | null | undefined;
+  paymentCity?: string | null | undefined;
+  paymentCountry?: string | null | undefined;
+  paymentEmail?: string | null | undefined;
+  paymentFirstName?: string | null | undefined;
+  paymentGateway?: string | null | undefined;
+  paymentLastName?: string | null | undefined;
+  paymentNonce?: string | null | undefined;
+  paymentState?: string | null | undefined;
+  paymentZipcode?: string | null | undefined;
+  primaryEmail?: string | null | undefined;
+  state?: string | null | undefined;
+  taxIdType?: string | null | undefined;
+  telephone?: string | null | undefined;
+  validationCode?: string | null | undefined;
+  vat?: string | null | undefined;
+  zipcode?: string | null | undefined;
 }
 export interface GetRatePlanRequest {
   publicKey: string;
@@ -367,13 +367,13 @@ export type GetRatePlanResponseComponentsList = Array<GetRatePlanResponseCompone
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetRatePlanResponse {
   /** The uppercase rate plan public key. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Pricing components that make up this rate plan. */
-  components?: GetRatePlanResponseComponentsList | null;
+  components?: GetRatePlanResponseComponentsList | null | undefined;
   /** Currency of the rate plan pricing. */
-  currency?: string | null;
+  currency?: string | null | undefined;
   /** Human-readable description of the rate plan. */
-  publicName?: string | null;
+  publicName?: string | null | undefined;
 }
 export interface GetUnpaidInvoiceRequest {
   /** Identifier */
@@ -384,15 +384,15 @@ export type GetUnpaidInvoiceResponseInvoicesList = Array<GetBadDebtResponseInvoi
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetUnpaidInvoiceResponse {
   /** List of unpaid invoices. */
-  invoices?: GetUnpaidInvoiceResponseInvoicesList | null;
+  invoices?: GetUnpaidInvoiceResponseInvoicesList | null | undefined;
 }
 export interface GetUsageRequest {
   /** Represents a Cloudflare resource identifier tag. */
   accountId: string;
   /** Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days. */
-  from?: string;
+  from?: string | undefined;
   /** End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days. */
-  to?: string;
+  to?: string | undefined;
 }
 export type UsageGetResultItemChargeCategory = "Usage";
 export type UsageGetResultItemChargeFrequency = "Usage-Based";
@@ -421,57 +421,57 @@ export interface UsageGetResultItem {
   /** The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId. */
   xBillableMetricId: string;
   /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
-  billedCost?: number | null;
+  billedCost?: number | null | undefined;
   /** Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account. */
-  billingAccountId?: string | null;
+  billingAccountId?: string | null | undefined;
   /** Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level. */
-  billingAccountName?: string | null;
+  billingAccountName?: string | null | undefined;
   /** Currency that a charge was billed in (ISO 4217). */
-  billingCurrency?: string | null;
+  billingCurrency?: string | null | undefined;
   /** Exclusive end of the billing cycle that contains this usage record. */
-  billingPeriodEnd?: string | null;
+  billingPeriodEnd?: string | null | undefined;
   /** Inclusive start of the billing cycle that contains this usage record. */
-  billingPeriodStart?: string | null;
+  billingPeriodStart?: string | null | undefined;
   /** Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period. */
-  chargeClass?: UsageGetResultItemChargeClass | null;
+  chargeClass?: UsageGetResultItemChargeClass | null | undefined;
   /** Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations. */
-  consumedQuantity?: number | null;
+  consumedQuantity?: number | null | undefined;
   /** Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity. */
-  contractedCost?: number | null;
+  contractedCost?: number | null | undefined;
   /** The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts. */
-  contractedUnitPrice?: number | null;
+  contractedUnitPrice?: number | null | undefined;
   /** The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge. */
-  effectiveCost?: number | null;
+  effectiveCost?: number | null | undefined;
   /** Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity. */
-  listCost?: number | null;
+  listCost?: number | null | undefined;
   /** Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts. */
-  listUnitPrice?: number | null;
+  listUnitPrice?: number | null | undefined;
   /** Volume of a given service used or purchased, based on the PricingUnit. */
-  pricingQuantity?: number | null;
+  pricingQuantity?: number | null | undefined;
   /** Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing. */
-  pricingUnit?: string | null;
+  pricingUnit?: string | null | undefined;
   /** Provider-assigned identifier for an isolated geographic area where a service is provided. */
-  regionId?: string | null;
+  regionId?: string | null | undefined;
   /** Name of an isolated geographic area where a service is provided. */
-  regionName?: string | null;
+  regionName?: string | null | undefined;
   /** Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID. */
-  subAccountId?: string | null;
+  subAccountId?: string | null | undefined;
   /** Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name. */
-  subAccountName?: string | null;
+  subAccountName?: string | null | undefined;
   /** Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings. */
-  tags?: UsageGetResultItemTagsMap | null;
+  tags?: UsageGetResultItemTagsMap | null | undefined;
   /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
-  xBillableMetricName?: string | null;
+  xBillableMetricName?: string | null | undefined;
   /** The product category the charge belongs to (e.g., "Developer", "Cloudflare One"). Cloudflare extension; replaces FOCUS ServiceCategory. */
-  xProductCategoryName?: string | null;
+  xProductCategoryName?: string | null | undefined;
   /** The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId. */
-  xProductFamilyId?: string | null;
+  xProductFamilyId?: string | null | undefined;
   /** The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName. */
-  xProductFamilyName?: string | null;
+  xProductFamilyName?: string | null | undefined;
   /** The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension. */
-  xZoneId?: string | null;
+  xZoneId?: string | null | undefined;
   /** The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension. */
-  xZoneName?: string | null;
+  xZoneName?: string | null | undefined;
 }
 export type UsageGetResultList = Array<UsageGetResultItem>;
 export type GetUsageResponse = UsageGetResultList;
@@ -479,11 +479,11 @@ export interface ListHistoryRequest {
   /** Identifier */
   accountId: string;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Number of items per page. */
-  perPage?: number;
+  perPage?: number | undefined;
   /** Filter billing history by status. */
-  status?: string;
+  status?: string | undefined;
 }
 export type ListHistoryResultItem = GetBadDebtResponseInvoicesItem;
 export type ListHistoryResultList = Array<GetBadDebtResponseInvoicesItem>;
@@ -492,9 +492,9 @@ export interface PaygoUsageRequest {
   /** Represents a Cloudflare resource identifier tag. */
   accountId: string;
   /** Start date for the usage query (ISO 8601). The provided time range must include the subscription billing cycle anchor day, otherwise no usage data is returned. Use the info endpoint to retrieve the subscription anchor day. */
-  from?: string;
+  from?: string | undefined;
   /** End date for the usage query (ISO 8601). */
-  to?: string;
+  to?: string | undefined;
 }
 export type UsagePaygoResultItemChargeCategory = "Usage";
 export interface UsagePaygoResultItem {
@@ -545,148 +545,148 @@ export interface UsagePaygoResultItem {
   /** The provider of the purchased service. */
   serviceProviderName: string;
   /** Identifies the product family for the Cloudflare service. */
-  serviceFamilyName?: string | null;
+  serviceFamilyName?: string | null | undefined;
   /** The identifier for the Cloudflare subscription. */
-  subscriptionId?: string | null;
+  subscriptionId?: string | null | undefined;
   /** The identifier for the Cloudflare zone (zone tag). */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
   /** The display name of the Cloudflare zone. */
-  zoneName?: string | null;
+  zoneName?: string | null | undefined;
 }
 export type UsagePaygoResultList = Array<UsagePaygoResultItem>;
 export type PaygoUsageResponse = UsagePaygoResultList;
 export interface ProfilesUpdateBillingEmailRequest {
   /** Identifier */
   accountId: string;
-  billingEmail?: string;
-  preferredLocale?: string;
-  secondaryBillingEmail?: string;
+  billingEmail?: string | undefined;
+  preferredLocale?: string | undefined;
+  secondaryBillingEmail?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ProfilesUpdateBillingEmailResponse {
   /** Billing item identifier tag. */
-  id?: string | null;
-  accountType?: string | null;
-  address?: string | null;
-  address2?: string | null;
-  balance?: string | null;
-  cardExpiryMonth?: number | null;
-  cardExpiryYear?: number | null;
-  cardNumber?: string | null;
-  city?: string | null;
-  company?: string | null;
-  country?: string | null;
-  createdOn?: string | null;
-  deviceData?: string | null;
-  editedOn?: string | null;
-  enterpriseBillingEmail?: string | null;
-  enterprisePrimaryEmail?: string | null;
-  firstName?: string | null;
-  isPartner?: boolean | null;
-  lastName?: string | null;
-  nextBillDate?: string | null;
-  paymentAddress?: string | null;
-  paymentAddress2?: string | null;
-  paymentCity?: string | null;
-  paymentCountry?: string | null;
-  paymentEmail?: string | null;
-  paymentFirstName?: string | null;
-  paymentGateway?: string | null;
-  paymentLastName?: string | null;
-  paymentNonce?: string | null;
-  paymentState?: string | null;
-  paymentZipcode?: string | null;
-  primaryEmail?: string | null;
-  state?: string | null;
-  taxIdType?: string | null;
-  telephone?: string | null;
-  validationCode?: string | null;
-  vat?: string | null;
-  zipcode?: string | null;
+  id?: string | null | undefined;
+  accountType?: string | null | undefined;
+  address?: string | null | undefined;
+  address2?: string | null | undefined;
+  balance?: string | null | undefined;
+  cardExpiryMonth?: number | null | undefined;
+  cardExpiryYear?: number | null | undefined;
+  cardNumber?: string | null | undefined;
+  city?: string | null | undefined;
+  company?: string | null | undefined;
+  country?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deviceData?: string | null | undefined;
+  editedOn?: string | null | undefined;
+  enterpriseBillingEmail?: string | null | undefined;
+  enterprisePrimaryEmail?: string | null | undefined;
+  firstName?: string | null | undefined;
+  isPartner?: boolean | null | undefined;
+  lastName?: string | null | undefined;
+  nextBillDate?: string | null | undefined;
+  paymentAddress?: string | null | undefined;
+  paymentAddress2?: string | null | undefined;
+  paymentCity?: string | null | undefined;
+  paymentCountry?: string | null | undefined;
+  paymentEmail?: string | null | undefined;
+  paymentFirstName?: string | null | undefined;
+  paymentGateway?: string | null | undefined;
+  paymentLastName?: string | null | undefined;
+  paymentNonce?: string | null | undefined;
+  paymentState?: string | null | undefined;
+  paymentZipcode?: string | null | undefined;
+  primaryEmail?: string | null | undefined;
+  state?: string | null | undefined;
+  taxIdType?: string | null | undefined;
+  telephone?: string | null | undefined;
+  validationCode?: string | null | undefined;
+  vat?: string | null | undefined;
+  zipcode?: string | null | undefined;
 }
 export interface UpdateProfileRequest {
   /** Identifier */
   accountId: string;
   /** Street address line 1. */
-  address?: string;
+  address?: string | undefined;
   /** Street address line 2 (apt, suite, etc.). */
-  address2?: string;
+  address2?: string | undefined;
   /** Primary billing email address. */
-  billingEmail?: string;
+  billingEmail?: string | undefined;
   /** Rate plan being purchased right after profile setup. */
-  buyingRatePlan?: string;
+  buyingRatePlan?: string | undefined;
   /** Captcha challenge JWT issued during onboarding. */
-  captchaChallengeJwt?: string;
+  captchaChallengeJwt?: string | undefined;
   /** Cloudflare Turnstile response. */
-  cfTurnstileResponse?: string;
+  cfTurnstileResponse?: string | undefined;
   /** City on the billing profile. */
-  city?: string;
+  city?: string | undefined;
   /** Company name on the billing profile. */
-  company?: string;
+  company?: string | undefined;
   /** ISO 3166-1 alpha-2 country code. */
-  country?: string;
+  country?: string | undefined;
   /** First name on the billing profile. */
-  firstName?: string;
+  firstName?: string | undefined;
   /** hCaptcha response. */
-  hCaptchaResponse?: string;
+  hCaptchaResponse?: string | undefined;
   /** Last name on the billing profile. */
-  lastName?: string;
+  lastName?: string | undefined;
   /** Preferred locale for invoice rendering (BCP 47). */
-  preferredLocale?: string;
+  preferredLocale?: string | undefined;
   /** Secondary billing email address for CC on invoices. */
-  secondaryBillingEmail?: string;
+  secondaryBillingEmail?: string | undefined;
   /** State or region on the billing profile. */
-  state?: string;
+  state?: string | undefined;
   /** Type of tax ID provided. */
-  taxIdType?: string;
+  taxIdType?: string | undefined;
   /** Contact phone number. */
-  telephone?: string;
+  telephone?: string | undefined;
   /** VAT identifier. */
-  vat?: string;
+  vat?: string | undefined;
   /** ZIP or postal code. */
-  zipcode?: string;
+  zipcode?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateProfileResponse {
   /** Billing item identifier tag. */
-  id?: string | null;
-  accountType?: string | null;
-  address?: string | null;
-  address2?: string | null;
-  balance?: string | null;
-  cardExpiryMonth?: number | null;
-  cardExpiryYear?: number | null;
-  cardNumber?: string | null;
-  city?: string | null;
-  company?: string | null;
-  country?: string | null;
-  createdOn?: string | null;
-  deviceData?: string | null;
-  editedOn?: string | null;
-  enterpriseBillingEmail?: string | null;
-  enterprisePrimaryEmail?: string | null;
-  firstName?: string | null;
-  isPartner?: boolean | null;
-  lastName?: string | null;
-  nextBillDate?: string | null;
-  paymentAddress?: string | null;
-  paymentAddress2?: string | null;
-  paymentCity?: string | null;
-  paymentCountry?: string | null;
-  paymentEmail?: string | null;
-  paymentFirstName?: string | null;
-  paymentGateway?: string | null;
-  paymentLastName?: string | null;
-  paymentNonce?: string | null;
-  paymentState?: string | null;
-  paymentZipcode?: string | null;
-  primaryEmail?: string | null;
-  state?: string | null;
-  taxIdType?: string | null;
-  telephone?: string | null;
-  validationCode?: string | null;
-  vat?: string | null;
-  zipcode?: string | null;
+  id?: string | null | undefined;
+  accountType?: string | null | undefined;
+  address?: string | null | undefined;
+  address2?: string | null | undefined;
+  balance?: string | null | undefined;
+  cardExpiryMonth?: number | null | undefined;
+  cardExpiryYear?: number | null | undefined;
+  cardNumber?: string | null | undefined;
+  city?: string | null | undefined;
+  company?: string | null | undefined;
+  country?: string | null | undefined;
+  createdOn?: string | null | undefined;
+  deviceData?: string | null | undefined;
+  editedOn?: string | null | undefined;
+  enterpriseBillingEmail?: string | null | undefined;
+  enterprisePrimaryEmail?: string | null | undefined;
+  firstName?: string | null | undefined;
+  isPartner?: boolean | null | undefined;
+  lastName?: string | null | undefined;
+  nextBillDate?: string | null | undefined;
+  paymentAddress?: string | null | undefined;
+  paymentAddress2?: string | null | undefined;
+  paymentCity?: string | null | undefined;
+  paymentCountry?: string | null | undefined;
+  paymentEmail?: string | null | undefined;
+  paymentFirstName?: string | null | undefined;
+  paymentGateway?: string | null | undefined;
+  paymentLastName?: string | null | undefined;
+  paymentNonce?: string | null | undefined;
+  paymentState?: string | null | undefined;
+  paymentZipcode?: string | null | undefined;
+  primaryEmail?: string | null | undefined;
+  state?: string | null | undefined;
+  taxIdType?: string | null | undefined;
+  telephone?: string | null | undefined;
+  validationCode?: string | null | undefined;
+  vat?: string | null | undefined;
+  zipcode?: string | null | undefined;
 }
 export interface UsageGetAccountUsageInfoV1Request {
   /** Represents a Cloudflare resource identifier tag. */
@@ -700,7 +700,7 @@ export interface UsageGetAccountUsageInfoV1ResponseSubscriptionsItem {
   /** The subscription start timestamp. */
   startTimestamp: string;
   /** The subscription end timestamp. Omitted for active subscriptions; present only when the subscription has been cancelled. */
-  endTimestamp?: string | null;
+  endTimestamp?: string | null | undefined;
 }
 export type UsageGetAccountUsageInfoV1ResponseSubscriptionsList =
   Array<UsageGetAccountUsageInfoV1ResponseSubscriptionsItem>;
@@ -715,9 +715,9 @@ export interface UsageGetAccountUsageV1Request {
   /** Represents a Cloudflare resource identifier tag. */
   accountId: string;
   /** Start date for the usage query (ISO 8601). The provided time range must include the subscription billing cycle anchor day, otherwise no usage data is returned. Use the info endpoint to retrieve the subscription anchor day. */
-  from?: string;
+  from?: string | undefined;
   /** End date for the usage query (ISO 8601). */
-  to?: string;
+  to?: string | undefined;
 }
 export type UsageGetAccountUsageV1ResultItemChargeCategory = "Usage";
 export interface UsageGetAccountUsageV1ResultItem {
@@ -768,13 +768,13 @@ export interface UsageGetAccountUsageV1ResultItem {
   /** The provider of the purchased service. */
   serviceProviderName: string;
   /** Identifies the product family for the Cloudflare service. */
-  serviceFamilyName?: string | null;
+  serviceFamilyName?: string | null | undefined;
   /** The identifier for the Cloudflare subscription. */
-  subscriptionId?: string | null;
+  subscriptionId?: string | null | undefined;
   /** The identifier for the Cloudflare zone (zone tag). */
-  zoneId?: string | null;
+  zoneId?: string | null | undefined;
   /** The display name of the Cloudflare zone. */
-  zoneName?: string | null;
+  zoneName?: string | null | undefined;
 }
 export type UsageGetAccountUsageV1ResultList = Array<UsageGetAccountUsageV1ResultItem>;
 export type UsageGetAccountUsageV1Response = UsageGetAccountUsageV1ResultList;
@@ -782,9 +782,9 @@ export interface UsageGetAccountUsageV2Request {
   /** Represents a Cloudflare resource identifier tag. */
   accountId: string;
   /** Start date for the usage query (ISO 8601). Required if `to` is set. When omitted along with `to`, defaults to the start of the current month. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days. */
-  from?: string;
+  from?: string | undefined;
   /** End date for the usage query (ISO 8601). Required if `from` is set. When omitted along with `from`, defaults to today. Filters by charge period (when consumption happened), not billing period. The maximum date range is 31 days. */
-  to?: string;
+  to?: string | undefined;
 }
 export type UsageGetAccountUsageV2ResultItemChargeCategory = "Usage";
 export type UsageGetAccountUsageV2ResultItemChargeFrequency = "Usage-Based";
@@ -815,57 +815,57 @@ export interface UsageGetAccountUsageV2ResultItem {
   /** The unique identifier for the billable metric in the Cloudflare catalog. Cloudflare extension; replaces FOCUS SkuId. */
   xBillableMetricId: string;
   /** A charge serving as the basis for invoicing, inclusive of all reduced rates and discounts while excluding the amortization of upfront charges (one-time or recurring). */
-  billedCost?: number | null;
+  billedCost?: number | null | undefined;
   /** Public identifier of the Cloudflare account (account tag). Omitted when account is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by account: that usage is returned as its own record with no account. */
-  billingAccountId?: string | null;
+  billingAccountId?: string | null | undefined;
   /** Display name of the Cloudflare account. Omitted when account is not part of the requested grouping, and for usage measured at contract level. */
-  billingAccountName?: string | null;
+  billingAccountName?: string | null | undefined;
   /** Currency that a charge was billed in (ISO 4217). */
-  billingCurrency?: string | null;
+  billingCurrency?: string | null | undefined;
   /** Exclusive end of the billing cycle that contains this usage record. */
-  billingPeriodEnd?: string | null;
+  billingPeriodEnd?: string | null | undefined;
   /** Inclusive start of the billing cycle that contains this usage record. */
-  billingPeriodStart?: string | null;
+  billingPeriodStart?: string | null | undefined;
   /** Indicates whether the row represents a correction to one or more charges invoiced in a previous billing period. */
-  chargeClass?: UsageGetAccountUsageV2ResultItemChargeClass | null;
+  chargeClass?: UsageGetAccountUsageV2ResultItemChargeClass | null | undefined;
   /** Measured usage amount within the charge period. Reflects raw metered consumption before pricing transformations. */
-  consumedQuantity?: number | null;
+  consumedQuantity?: number | null | undefined;
   /** Cost calculated by multiplying ContractedUnitPrice and the corresponding PricingQuantity. */
-  contractedCost?: number | null;
+  contractedCost?: number | null | undefined;
   /** The agreed-upon unit price for a single PricingUnit of the associated billable metric, inclusive of negotiated discounts, if present, while excluding any other discounts. */
-  contractedUnitPrice?: number | null;
+  contractedUnitPrice?: number | null | undefined;
   /** The amortized cost of the charge after applying all reduced rates, discounts, and the applicable portion of relevant, prepaid purchases (one-time or recurring) that covered the charge. */
-  effectiveCost?: number | null;
+  effectiveCost?: number | null | undefined;
   /** Cost calculated by multiplying ListUnitPrice and the corresponding PricingQuantity. */
-  listCost?: number | null;
+  listCost?: number | null | undefined;
   /** Suggested provider-published unit price for a single PricingUnit of the associated billable metric, exclusive of any discounts. */
-  listUnitPrice?: number | null;
+  listUnitPrice?: number | null | undefined;
   /** Volume of a given service used or purchased, based on the PricingUnit. */
-  pricingQuantity?: number | null;
+  pricingQuantity?: number | null | undefined;
   /** Provider-specified measurement unit for determining unit prices, indicating how the provider rates measured usage after applying pricing rules like block pricing. */
-  pricingUnit?: string | null;
+  pricingUnit?: string | null | undefined;
   /** Provider-assigned identifier for an isolated geographic area where a service is provided. */
-  regionId?: string | null;
+  regionId?: string | null | undefined;
   /** Name of an isolated geographic area where a service is provided. */
-  regionName?: string | null;
+  regionName?: string | null | undefined;
   /** Unique identifier assigned to a grouping of services. For Cloudflare, this is the subscription or contract ID. */
-  subAccountId?: string | null;
+  subAccountId?: string | null | undefined;
   /** Name assigned to a grouping of services. For Cloudflare, this is the subscription or contract display name. */
-  subAccountName?: string | null;
+  subAccountName?: string | null | undefined;
   /** Tag values for the requested `GroupBy` keys. Omitted when `GroupBy` is not provided. Missing keys are omitted, and key-only tags are returned as boolean `true`. All other tag values are strings. */
-  tags?: UsageGetAccountUsageV2ResultItemTagsMap | null;
+  tags?: UsageGetAccountUsageV2ResultItemTagsMap | null | undefined;
   /** The display name of the billable metric. Cloudflare extension; replaces FOCUS SkuMeter. */
-  xBillableMetricName?: string | null;
+  xBillableMetricName?: string | null | undefined;
   /** The product category the charge belongs to (e.g., "Developer", "Cloudflare One"). Cloudflare extension; replaces FOCUS ServiceCategory. */
-  xProductCategoryName?: string | null;
+  xProductCategoryName?: string | null | undefined;
   /** The unique identifier for the product family in the Cloudflare catalog. Cloudflare extension; replaces FOCUS ServiceId. */
-  xProductFamilyId?: string | null;
+  xProductFamilyId?: string | null | undefined;
   /** The product family the charge belongs to (e.g., "R2", "Workers"). Cloudflare extension; replaces FOCUS ServiceName. */
-  xProductFamilyName?: string | null;
+  xProductFamilyName?: string | null | undefined;
   /** The identifier for the Cloudflare zone (zone tag). Omitted when zone is not part of the requested grouping, and always omitted for usage measured at contract level, even when grouping by zone. Cloudflare extension. */
-  xZoneId?: string | null;
+  xZoneId?: string | null | undefined;
   /** The display name of the Cloudflare zone. Omitted when zone is not part of the requested grouping, and for usage measured at contract level. Cloudflare extension. */
-  xZoneName?: string | null;
+  xZoneName?: string | null | undefined;
 }
 export type UsageGetAccountUsageV2ResultList = Array<UsageGetAccountUsageV2ResultItem>;
 export type UsageGetAccountUsageV2Response = UsageGetAccountUsageV2ResultList;

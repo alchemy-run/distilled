@@ -87,14 +87,14 @@ export interface CheckFreeAccessPublicationsRequest {
   /** Required. The resource name of the publication. Format: publications/{publication_id} */
   name: string;
   /** Required. The URI of the content. */
-  uri?: string;
+  uri?: string | undefined;
   /** Required. The HTTP referrer. */
-  httpReferrer?: string;
+  httpReferrer?: string | undefined;
 }
 /** Response message for CheckFreeAccess */
 export interface CheckFreeAccessResponse {
   /** Output only. True if free access should be allowed, false otherwise. */
-  isAllowed?: boolean;
+  isAllowed?: boolean | undefined;
 }
 export type PublicationOnboardingStateEnum =
   | "ONBOARDING_STATE_UNSPECIFIED"
@@ -104,32 +104,32 @@ export type PublicationOnboardingStateEnum =
 /** Subscription Linking (SL) product settings and status. */
 export interface SlProduct {
   /** Optional. The Google Cloud Project number associated with the publication. */
-  gcpProjectNumber?: string;
+  gcpProjectNumber?: string | undefined;
   /** Optional. Whether the Subscription Linking product is enabled. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Details about the acceptance of the Terms of Service (TOS). */
 export interface TosAcceptance {
   /** Optional. Whether the user opted in to receive product updates and email communications. */
-  emailOptIn?: boolean;
+  emailOptIn?: boolean | undefined;
   /** Required. Whether the user has accepted the Terms of Service. */
-  userAccepted?: boolean;
+  userAccepted?: boolean | undefined;
 }
 /** Configuration and status of the Reader Revenue Manager (RRM) product for a publication. */
 export interface RrmProduct {
   /** Optional. The details of the TOS acceptance. */
-  tosAcceptance?: TosAcceptance;
+  tosAcceptance?: TosAcceptance | undefined;
   /** Optional. Whether the RRM product is enabled for the publication. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Output only. The URL to the product-specific Terms of Service. */
-  productTosUrl?: string;
+  productTosUrl?: string | undefined;
 }
 /** Represents a domain property associated with a publication, typically used to verify ownership and scope access. */
 export interface DomainProperty {
   /** Required. The URL of the domain property (e.g., "https://example.com"). */
-  url?: string;
+  url?: string | undefined;
   /** Output only. Whether the domain ownership has been verified (e.g., via Google Search Console). */
-  ownershipVerified?: boolean;
+  ownershipVerified?: boolean | undefined;
 }
 export type DomainPropertyList = Array<DomainProperty>;
 export type ContentPolicyStatusStateEnum =
@@ -143,9 +143,9 @@ export type ContentPolicyStatusStateEnum =
 /** The content policy status of the publication, indicating any violations. */
 export interface ContentPolicyStatus {
   /** Output only. URL pointing to more details about the policy violation or status. */
-  policyInfoUrl?: string;
+  policyInfoUrl?: string | undefined;
   /** Output only. The current policy state. */
-  state?: ContentPolicyStatusStateEnum | (string & {});
+  state?: ContentPolicyStatusStateEnum | (string & {}) | undefined;
 }
 export type PublicationPaymentOptionEnum =
   | "PAYMENT_OPTION_UNSPECIFIED"
@@ -160,83 +160,83 @@ export type StringList = Array<string>;
 /** Represents a publisher's publication in Reader Revenue Manager. */
 export interface Publication {
   /** Output only. The current onboarding state. */
-  onboardingState?: PublicationOnboardingStateEnum | (string & {});
+  onboardingState?: PublicationOnboardingStateEnum | (string & {}) | undefined;
   /** Output only. The unique identifier of the publication. */
-  publicationId?: string;
+  publicationId?: string | undefined;
   /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Subscription Linking product configurations. */
-  slProduct?: SlProduct;
+  slProduct?: SlProduct | undefined;
   /** Optional. The URL to the publisher's Privacy Policy. */
-  publicationPrivacyPolicyUrl?: string;
+  publicationPrivacyPolicyUrl?: string | undefined;
   /** Optional. Reader Revenue Manager product settings and status. */
-  rrmProduct?: RrmProduct;
+  rrmProduct?: RrmProduct | undefined;
   /** Optional. Additional domain properties verified for the publication. */
-  additionalDomains?: DomainPropertyList;
+  additionalDomains?: DomainPropertyList | undefined;
   /** Required. The primary domain property associated with the publication. */
-  primaryDomain?: DomainProperty;
+  primaryDomain?: DomainProperty | undefined;
   /** Required. The user-visible display name of the publication. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The unique identifier of the organization that owns this publication. */
-  organizationId?: string;
+  organizationId?: string | undefined;
   /** Output only. The content policy compliance status of the publication. */
-  contentPolicyStatus?: ContentPolicyStatus;
+  contentPolicyStatus?: ContentPolicyStatus | undefined;
   /** Output only. The configured payment option. */
-  paymentOption?: PublicationPaymentOptionEnum | (string & {});
+  paymentOption?: PublicationPaymentOptionEnum | (string & {}) | undefined;
   /** Required. The ISO 3166-1 alpha-2 region code where the publication is registered (e.g., "US"). */
-  regionCode?: string;
+  regionCode?: string | undefined;
   /** Optional. The publication entity type (for-profit vs non-profit). Defaults to FOR_PROFIT if omitted. */
-  publicationType?: PublicationPublicationTypeEnum | (string & {});
+  publicationType?: PublicationPublicationTypeEnum | (string & {}) | undefined;
   /** Output only. The list of active products/features enabled for this publication. */
-  products?: StringList;
+  products?: StringList | undefined;
   /** Required. The primary language of the publication (BCP-47 code, e.g., "en-US"). */
-  languageCode?: string;
+  languageCode?: string | undefined;
   /** Optional. The URL to the publisher's own Terms of Service. */
-  publicationTosUrl?: string;
+  publicationTosUrl?: string | undefined;
 }
 export interface CreateOrganizationsPublicationsRequest {
   /** Required. The parent resource where this publication will be created. Format: `organizations/{organization}`. */
   parent: string;
   /** Optional. The unique identifier of the publication to create. If not specified, the server will generate a random publication ID. */
-  publicationId?: string;
+  publicationId?: string | undefined;
   /** Request body */
-  body?: Publication;
+  body?: Publication | undefined;
 }
 export type CtaTypeEnum = "TYPE_UNSPECIFIED" | "NEWSLETTER_SIGNUP";
 export type CtaStateEnum = "STATE_UNSPECIFIED" | "DRAFT" | "ACTIVE";
 /** Configuration for newsletter signup calls-to-action (CTAs). */
 export interface NewsletterConfig {
   /** Required. The title of the newsletter signup prompt. */
-  title?: string;
+  title?: string | undefined;
   /** Optional. Whether checking the opt-in checkbox is required. */
-  optInRequired?: boolean;
+  optInRequired?: boolean | undefined;
   /** Optional. Whether the user is required to provide their name to sign up. */
-  nameRequired?: boolean;
+  nameRequired?: boolean | undefined;
   /** Optional. A custom message displayed to the user in the signup prompt. */
-  customMessage?: string;
+  customMessage?: string | undefined;
   /** Optional. Custom consent or disclosure text shown to the user. */
-  customConsentText?: string;
+  customConsentText?: string | undefined;
 }
 /** Represents a Call-To-Action (CTA) configuration for a publication. */
 export interface Cta {
   /** Required. The user-visible display name of the CTA. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. The type of this CTA. */
-  type?: CtaTypeEnum | (string & {});
+  type?: CtaTypeEnum | (string & {}) | undefined;
   /** Output only. The current state of this CTA. */
-  state?: CtaStateEnum | (string & {});
+  state?: CtaStateEnum | (string & {}) | undefined;
   /** Optional. Configuration specific to newsletter signup CTAs. Only populated if type is `NEWSLETTER_SIGNUP`. */
-  newsletterConfig?: NewsletterConfig;
+  newsletterConfig?: NewsletterConfig | undefined;
   /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateOrganizationsPublicationsCtasRequest {
   /** Required. The parent publication resource where this CTA will be created. Format: `organizations/{organization}/publications/{publication}`. */
   parent: string;
   /** Optional. The unique identifier of the CTA to create. If not specified, the server will generate a random CTA ID. */
-  ctaId?: string;
+  ctaId?: string | undefined;
   /** Request body */
-  body?: Cta;
+  body?: Cta | undefined;
 }
 /** Request message for `GeneratePlatformSiteTokens`. */
 export interface GeneratePlatformSiteTokensRequest {}
@@ -244,20 +244,20 @@ export interface GeneratePlatformSiteTokensUsersRequest {
   /** Required. The resource name of the user to generate tokens for. Format: users/{user} */
   name: string;
   /** Request body */
-  body?: GeneratePlatformSiteTokensRequest;
+  body?: GeneratePlatformSiteTokensRequest | undefined;
 }
 /** Represents a domain-scoped secure token mapping. */
 export interface SiteToken {
   /** The domain-scoped secure token value (ESUT). */
-  token?: string;
+  token?: string | undefined;
   /** The domain scope this token is valid for. */
-  domain?: string;
+  domain?: string | undefined;
 }
 export type SiteTokenList = Array<SiteToken>;
 /** Response message for `GeneratePlatformSiteTokens`. */
 export interface GeneratePlatformSiteTokensResponse {
   /** List of domain-scoped secure token mappings. */
-  siteTokens?: SiteTokenList;
+  siteTokens?: SiteTokenList | undefined;
 }
 export interface GetOrganizationsPublicationsRequest {
   /** Required. The resource name of the publication to retrieve. Format: `organizations/{organization}/publications/{publication}`. */
@@ -271,25 +271,25 @@ export interface ListOrganizationsPublicationsRequest {
   /** Required. The parent organization whose publications to list, or "organizations/-" for all organizations a user has access to. Format: `organizations/{organization}`. */
   parent: string;
   /** Optional. A filter expression to filter the publications returned. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListPublications` call, to retrieve the next page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of publications to return. The service may return fewer than this value. If unspecified, at most 50 publications will be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type PublicationList = Array<Publication>;
 /** Response message for `ListPublications`. */
 export interface ListPublicationsResponse {
   /** Output only. A token to retrieve the next page of results, or empty if there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. The list of publications. */
-  publications?: PublicationList;
+  publications?: PublicationList | undefined;
 }
 export interface ListOrganizationsPublicationsCtasRequest {
   /** Optional. The maximum number of CTAs to return. The service may return fewer than this value. If unspecified, at most 50 CTAs will be returned. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListCtas` call, to retrieve the next page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent publication resource whose CTAs to list. Format: `organizations/{organization}/publications/{publication}`. */
   parent: string;
 }
@@ -297,25 +297,25 @@ export type CtaList = Array<Cta>;
 /** Response message for `ListCtas`. */
 export interface ListCtasResponse {
   /** Output only. The list of CTAs. */
-  ctas?: CtaList;
+  ctas?: CtaList | undefined;
   /** Output only. A token to retrieve the next page of results, or empty if there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchOrganizationsPublicationsRequest {
   /** Identifier. The resource name of the publication. Format: organizations/{organization}/publications/{publication} */
   name: string;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Publication;
+  body?: Publication | undefined;
 }
 export interface PatchOrganizationsPublicationsCtasRequest {
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The resource name of the Cta. Format: organizations/{organization}/publications/{publication}/ctas/{cta} */
   name: string;
   /** Request body */
-  body?: Cta;
+  body?: Cta | undefined;
 }
 export type CheckFreeAccessPublicationsError = NotFound | Forbidden | GcpOpError;
 /** Checks if a user is eligible for free article access. */

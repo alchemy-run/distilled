@@ -105,8 +105,8 @@ export type IntegrationKindEnum =
 export interface CreateIntegrationRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  kind?: IntegrationKindEnum | (string & {});
-  config?: unknown;
+  kind?: IntegrationKindEnum | (string & {}) | undefined;
+  config?: unknown | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -123,51 +123,51 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** * `connected` - connected * `unavailable` - unavailable */
 export type InstallationStatusEnum = "connected" | "unavailable";
 /** Standard Integration serializer. */
 export interface IntegrationConfig {
-  id?: number;
-  kind?: IntegrationKindEnum;
-  config?: unknown;
-  created_at?: string;
-  created_by?: UserBasic | null;
-  errors?: string;
-  display_name?: string;
+  id?: number | undefined;
+  kind?: IntegrationKindEnum | undefined;
+  config?: unknown | undefined;
+  created_at?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  errors?: string | undefined;
+  display_name?: string | undefined;
   /** Slack only: whether reconnecting can request the files:write scope. */
-  files_write_requestable?: boolean;
+  files_write_requestable?: boolean | undefined;
   /** GitHub only, null otherwise. Whether another project's GitHub integration references the same App installation. When false, disconnecting this integration also uninstalls the GitHub App from the connected account or organization and removes personal GitHub connections that share it. */
-  installation_shared?: boolean | null;
+  installation_shared?: boolean | null | undefined;
   /** GitHub only, null otherwise. `unavailable` means the App was uninstalled or suspended on GitHub and PostHog can no longer mint tokens for it; `connected` otherwise. */
-  installation_status?: InstallationStatusEnum | null;
+  installation_status?: InstallationStatusEnum | null | undefined;
 }
 export interface CreateIntegrationsGithubLinkExistingRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Discovery response ID for diagnostics only; grants no authority. */
-  discovery_id?: string | null;
+  discovery_id?: string | null | undefined;
   /** Sibling team in the same organization whose GitHub installation should be reused. */
-  source_team_id?: number | null;
+  source_team_id?: number | null | undefined;
   /** GitHub installation ID to link; resolved within the organization when source_team_id is omitted. */
-  installation_id?: string | null;
+  installation_id?: string | null | undefined;
 }
 export interface CreateIntegrationsGithubPrepareCallbackRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Relative URL to redirect to after GitHub setup completes (e.g. account-connected for PostHog Desktop). */
-  next?: string;
+  next?: string | undefined;
   /** GitHub installation ID being managed; binds the seeded update state so a callback can't swap in a different installation. */
-  installation_id?: string;
+  installation_id?: string | undefined;
 }
 export interface CreateIntegrationsGithubPrepareCallbackResponse {}
 export interface CreateIntegrationsRequestAccessRequest {
@@ -215,11 +215,11 @@ export interface GetIntegrationsChannelRequest {
   /** A unique integer value identifying this integration. */
   id: number;
   /** Maximum number of channels to return per request (max 200). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of channels to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Optional case-insensitive channel name or ID search query. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface SlackChannel {
   /** Slack channel ID (e.g. C0123ABC) -- pass to cdp-functions inputs.channel. */
@@ -241,9 +241,9 @@ export interface SlackChannelsResponse {
   /** Slack channels visible to the PostHog Slack app. */
   channels: SlackChannelsResponseChannelsList;
   /** ISO 8601 timestamp of the last full Slack API refresh (only set on full lists, not single-channel lookups). */
-  lastRefreshedAt?: string | null;
+  lastRefreshedAt?: string | null | undefined;
   /** Whether more channels match the current search beyond this page. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export interface GetIntegrationsClickupListRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -307,23 +307,23 @@ export interface GetIntegrationsGithubBranchRequest {
   /** A unique integer value identifying this integration. */
   id: number;
   /** Maximum number of branches to return */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of branches to skip */
-  offset?: number;
+  offset?: number | undefined;
   /** Repository in owner/repo format */
   repo: string;
   /** Optional case-insensitive branch name search query. */
-  search?: string;
+  search?: string | undefined;
 }
 /** List of branch names */
 export type GitHubBranchesResponseBranchesList = Array<string>;
 export interface GitHubBranchesResponse {
   /** List of branch names */
-  branches?: GitHubBranchesResponseBranchesList;
+  branches?: GitHubBranchesResponseBranchesList | undefined;
   /** The default branch of the repository */
-  default_branch?: string | null;
+  default_branch?: string | null | undefined;
   /** Whether more branches exist beyond the returned page */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export interface GetIntegrationsGithubReposRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -331,43 +331,43 @@ export interface GetIntegrationsGithubReposRequest {
   /** A unique integer value identifying this integration. */
   id: number;
   /** When true, return only id, name, and full_name for each repository. Use it to list large rosters in fewer, smaller pages. */
-  compact?: boolean;
+  compact?: boolean | undefined;
   /** Maximum number of repositories to return per request (max 500). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of repositories to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Optional case-insensitive repository name search query. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface GitHubRepo {
   /** GitHub repository numeric identifier. */
-  id?: number;
+  id?: number | undefined;
   /** Repository short name (without the owner prefix). */
-  name?: string;
+  name?: string | undefined;
   /** Fully-qualified repository name as 'owner/repo'. */
-  full_name?: string;
+  full_name?: string | undefined;
   /** Whether the repository is private. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** The repository's default branch (e.g. 'main'). */
-  default_branch?: string;
+  default_branch?: string | undefined;
   /** Primary programming language GitHub detected for the repository. */
-  language?: string;
+  language?: string | undefined;
   /** ISO 8601 timestamp of the most recent push, useful for sorting by recent activity. */
-  pushed_at?: string;
+  pushed_at?: string | undefined;
   /** Whether the repository is archived. */
-  archived?: boolean;
+  archived?: boolean | undefined;
   /** Whether the PostHog GitHub App has write access -- required to open pull requests. */
-  can_push?: boolean;
+  can_push?: boolean | undefined;
 }
 export type GitHubReposResponseRepositoriesList = Array<GitHubRepo>;
 export interface GitHubReposResponse {
-  repositories?: GitHubReposResponseRepositoriesList;
+  repositories?: GitHubReposResponseRepositoriesList | undefined;
   /** Whether more repositories are available beyond this page. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
   /** The offset to pass to get the next page, or null when this page is the last one. */
-  next_offset?: number | null;
+  next_offset?: number | null | undefined;
   /** Total number of repositories matching the search query, across all pages. */
-  total?: number;
+  total?: number | undefined;
 }
 export interface GetIntegrationsGithubTeamRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -375,11 +375,11 @@ export interface GetIntegrationsGithubTeamRequest {
   /** A unique integer value identifying this integration. */
   id: number;
   /** Maximum number of teams to return per request (max 500). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of teams to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Optional case-insensitive team name or slug search query. */
-  search?: string;
+  search?: string | undefined;
 }
 export interface GitHubTeam {
   /** GitHub team numeric identifier. */
@@ -476,15 +476,15 @@ export interface GetIntegrationsUserRequest {
   /** A unique integer value identifying this integration. */
   id: number;
   /** Bypass the 1 hour member cache. Honored only for browser session callers; API key, OAuth, and MCP callers always read through the cache. */
-  force_refresh?: boolean;
+  force_refresh?: boolean | undefined;
   /** Maximum number of members to return per request (max 200). */
-  limit?: number;
+  limit?: number | undefined;
   /** Number of members to skip before returning results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Optional case-insensitive member name or ID search query. */
-  search?: string;
+  search?: string | undefined;
   /** Look up one member directly by Slack member ID (e.g. U0123ABC). When set, `search`, `limit`, and `offset` are ignored and the response holds at most that member. */
-  user_id?: string;
+  user_id?: string | undefined;
 }
 export interface SlackUser {
   /** Slack member ID (e.g. U0123ABC) -- post to it to open a direct message. */
@@ -500,9 +500,9 @@ export interface SlackUsersResponse {
   /** Human Slack workspace members the PostHog Slack app can DM. */
   users: SlackUsersResponseUsersList;
   /** ISO 8601 timestamp of the last full Slack API refresh (only set on full lists, not single-member lookups). */
-  lastRefreshedAt?: string | null;
+  lastRefreshedAt?: string | null | undefined;
   /** Whether more members match the current search beyond this page. */
-  has_more?: boolean;
+  has_more?: boolean | undefined;
 }
 export interface IntegrationsAuthorizeRetrieveRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -519,8 +519,8 @@ export interface IntegrationsDestroyResponse {}
 export interface IntegrationsDomainConnectApplyUrlCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
-  kind?: IntegrationKindEnum | (string & {});
-  config?: unknown;
+  kind?: IntegrationKindEnum | (string & {}) | undefined;
+  config?: unknown | undefined;
 }
 export interface IntegrationsDomainConnectApplyUrlCreateResponse {}
 export interface IntegrationsDomainConnectCheckRetrieveRequest {
@@ -533,8 +533,8 @@ export interface IntegrationsEmailVerifyCreateRequest {
   project_id: string;
   /** A unique integer value identifying this integration. */
   id: number;
-  kind?: IntegrationKindEnum | (string & {});
-  config?: unknown;
+  kind?: IntegrationKindEnum | (string & {}) | undefined;
+  config?: unknown | undefined;
 }
 export interface IntegrationsEmailVerifyCreateResponse {}
 /** * `posthog_code` - posthog_code */
@@ -543,11 +543,11 @@ export interface IntegrationsGithubOauthAuthorizeCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** GitHub installation ID to carry through the User OAuth flow. */
-  installation_id?: string;
+  installation_id?: string | undefined;
   /** Relative URL to redirect to after the OAuth flow completes. */
-  next?: string;
+  next?: string | undefined;
   /** Originating surface for the connect flow; only 'posthog_code' is recognized. * `posthog_code` - posthog_code */
-  connect_from?: ConnectFromEnum | (string & {});
+  connect_from?: ConnectFromEnum | (string & {}) | undefined;
 }
 export interface GitHubOAuthAuthorizeResponse {
   /** GitHub User OAuth URL the client should redirect to. */
@@ -563,9 +563,9 @@ export interface IntegrationsGithubReposRefreshCreateRequest {
 export type GitHubReposRefreshResponseRepositoriesList = Array<GitHubRepo>;
 export interface GitHubReposRefreshResponse {
   /** The refreshed repository cache. */
-  repositories?: GitHubReposRefreshResponseRepositoriesList;
+  repositories?: GitHubReposRefreshResponseRepositoriesList | undefined;
   /** `unavailable` when GitHub reports the App installation as uninstalled or suspended, in which case `repositories` is the last cached list rather than a fresh one. * `connected` - connected * `unavailable` - unavailable */
-  installation_status?: InstallationStatusEnum;
+  installation_status?: InstallationStatusEnum | undefined;
 }
 export type ListIntegrationsRequestKind =
   | "anthropic"
@@ -621,26 +621,26 @@ export interface ListIntegrationsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** * `anthropic` - Anthropic * `apns` - Apple Push * `aws-redshift` - Aws Redshift * `aws-s3` - Aws S3 * `azure-blob` - Azure Blob * `bing-ads` - Bing Ads * `clickup` - Clickup * `customerio-app` - Customerio App * `customerio-track` - Customerio Track * `customerio-webhook` - Customerio Webhook * `databricks` - Databricks * `email` - Email * `firebase` - Firebase * `github` - Github * `gitlab` - Gitlab * `google-ads` - Google Ads * `google-analytics` - Google Analytics * `google-calendar` - Google Calendar * `google-cloud-service-account` - Google Cloud Service Account * `google-cloud-storage` - Google Cloud Storage * `google-pubsub` - Google Pubsub * `google-search-console` - Google Search Console * `google-sheets` - Google Sheets * `helpscout` - Helpscout * `hubspot` - Hubspot * `instagram` - Instagram * `intercom` - Intercom * `jira` - Jira * `linear` - Linear * `linkedin-ads` - Linkedin Ads * `meta-ads` - Meta Ads * `pardot` - Pardot * `pinterest-ads` - Pinterest Ads * `postgresql` - Postgresql * `posthog` - Posthog * `reddit-ads` - Reddit Ads * `twitter-ads` - Twitter Ads * `resend` - Resend * `s3-compatible` - S3 Compatible * `salesforce` - Salesforce * `slack` - Slack * `slack-posthog-code` - Slack Posthog Code * `snapchat` - Snapchat * `snowflake` - Snowflake * `stripe` - Stripe * `tiktok-ads` - Tiktok Ads * `twilio` - Twilio * `vercel` - Vercel * `youtube-analytics` - Youtube Analytics */
-  kind?: ListIntegrationsRequestKind | (string & {});
+  kind?: ListIntegrationsRequestKind | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedIntegrationConfigListResultsList = Array<IntegrationConfig>;
 export interface PaginatedIntegrationConfigList {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedIntegrationConfigListResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedIntegrationConfigListResultsList | undefined;
 }
 export interface UpdateIntegrationsEmailPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** A unique integer value identifying this integration. */
   id: number;
-  kind?: IntegrationKindEnum | (string & {});
-  config?: unknown;
+  kind?: IntegrationKindEnum | (string & {}) | undefined;
+  config?: unknown | undefined;
 }
 export type CreateIntegrationError = BadRequest | Forbidden | NotFound | PosthogOpError;
 export const createIntegration: API.OperationMethod<

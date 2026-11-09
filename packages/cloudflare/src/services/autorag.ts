@@ -34,10 +34,10 @@ export interface FilesRequest {
   accountId: string;
   /** rag id */
   id: string;
-  page?: number;
-  perPage?: number;
-  search?: string;
-  status?: FilesRequestStatus | (string & {});
+  page?: number | undefined;
+  perPage?: number | undefined;
+  search?: string | undefined;
+  status?: FilesRequestStatus | (string & {}) | undefined;
 }
 export interface FilesResultItem {
   error: string;
@@ -56,18 +56,18 @@ export type GetJobResponseSource = "user" | "schedule";
 export interface GetJobResponse {
   id: string;
   source: GetJobResponseSource;
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
+  endReason?: string | null | undefined;
+  endedAt?: string | null | undefined;
+  lastSeenAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
 }
 export interface JobsLogsRequest {
   accountId: string;
   /** rag id */
   id: string;
   jobId: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export interface JobsLogsResultItem {
   id: number;
@@ -81,17 +81,17 @@ export interface ListJobsRequest {
   accountId: string;
   /** rag id */
   id: string;
-  page?: number;
-  perPage?: number;
+  page?: number | undefined;
+  perPage?: number | undefined;
 }
 export type ListJobsResultItemSource = "user" | "schedule";
 export interface ListJobsResultItem {
   id: string;
   source: ListJobsResultItemSource;
-  endReason?: string | null;
-  endedAt?: string | null;
-  lastSeenAt?: string | null;
-  startedAt?: string | null;
+  endReason?: string | null | undefined;
+  endedAt?: string | null | undefined;
+  lastSeenAt?: string | null | undefined;
+  startedAt?: string | null | undefined;
 }
 export type ListJobsResultList = Array<ListJobsResultItem>;
 export type ListJobsResponse = ListJobsResultList;
@@ -117,45 +117,45 @@ export interface SearchRequestFiltersCase1 {
 }
 export type SearchRequestFilters = SearchRequestFiltersCase0 | SearchRequestFiltersCase1;
 export interface SearchRequestRankingOptions {
-  ranker?: string;
-  scoreThreshold?: number;
+  ranker?: string | undefined;
+  scoreThreshold?: number | undefined;
 }
 export type SearchRequestRerankingModel = "@cf/baai/bge-reranker-base" | "";
 export interface SearchRequestReranking {
-  enabled?: boolean;
-  model?: SearchRequestRerankingModel | (string & {});
+  enabled?: boolean | undefined;
+  model?: SearchRequestRerankingModel | (string & {}) | undefined;
 }
 export interface SearchRequest {
   accountId: string;
   /** rag id */
   id: string;
   query: string;
-  filters?: SearchRequestFilters;
-  maxNumResults?: number;
-  rankingOptions?: SearchRequestRankingOptions;
-  reranking?: SearchRequestReranking;
-  rewriteQuery?: boolean;
+  filters?: SearchRequestFilters | undefined;
+  maxNumResults?: number | undefined;
+  rankingOptions?: SearchRequestRankingOptions | undefined;
+  reranking?: SearchRequestReranking | undefined;
+  rewriteQuery?: boolean | undefined;
 }
 export interface SearchResponseDataItemContentItem {
-  text?: string | null;
-  type?: string | null;
+  text?: string | null | undefined;
+  type?: string | null | undefined;
 }
 export type SearchResponseDataItemContentList = Array<SearchResponseDataItemContentItem>;
 export interface SearchResponseDataItem {
   score: number;
-  attributes?: unknown | null;
-  content?: SearchResponseDataItemContentList | null;
-  fileId?: string | null;
-  filename?: string | null;
+  attributes?: unknown | null | undefined;
+  content?: SearchResponseDataItemContentList | null | undefined;
+  fileId?: string | null | undefined;
+  filename?: string | null | undefined;
 }
 export type SearchResponseDataList = Array<SearchResponseDataItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SearchResponse {
   searchQuery: string;
-  data?: SearchResponseDataList | null;
-  hasMore?: boolean | null;
-  nextPage?: string | null;
-  object?: string | null;
+  data?: SearchResponseDataList | null | undefined;
+  hasMore?: boolean | null | undefined;
+  nextPage?: string | null | undefined;
+  object?: string | null | undefined;
 }
 export type SearchAiRequestFiltersCase0Type = "eq" | "ne" | "gt" | "gte" | "lt" | "lte";
 export type SearchAiRequestFiltersCase0Value = string | number | boolean;
@@ -208,41 +208,41 @@ export type SearchAiRequestModel =
 export type SearchAiRequestRankingOptions = SearchRequestRankingOptions;
 export type SearchAiRequestRerankingModel = "@cf/baai/bge-reranker-base" | "";
 export interface SearchAiRequestReranking {
-  enabled?: boolean;
-  model?: SearchAiRequestRerankingModel | (string & {});
+  enabled?: boolean | undefined;
+  model?: SearchAiRequestRerankingModel | (string & {}) | undefined;
 }
 export interface SearchAiRequest {
   accountId: string;
   /** rag id */
   id: string;
   query: string;
-  filters?: SearchAiRequestFilters;
-  maxNumResults?: number;
-  model?: SearchAiRequestModel | (string & {});
-  rankingOptions?: SearchRequestRankingOptions;
-  reranking?: SearchAiRequestReranking;
-  rewriteQuery?: boolean;
-  stream?: boolean;
-  systemPrompt?: string;
+  filters?: SearchAiRequestFilters | undefined;
+  maxNumResults?: number | undefined;
+  model?: SearchAiRequestModel | (string & {}) | undefined;
+  rankingOptions?: SearchRequestRankingOptions | undefined;
+  reranking?: SearchAiRequestReranking | undefined;
+  rewriteQuery?: boolean | undefined;
+  stream?: boolean | undefined;
+  systemPrompt?: string | undefined;
 }
 export type SearchAiResponseDataItemContentItem = SearchResponseDataItemContentItem;
 export type SearchAiResponseDataItemContentList = Array<SearchResponseDataItemContentItem>;
 export interface SearchAiResponseDataItem {
   score: number;
-  attributes?: unknown | null;
-  content?: SearchAiResponseDataItemContentList | null;
-  fileId?: string | null;
-  filename?: string | null;
+  attributes?: unknown | null | undefined;
+  content?: SearchAiResponseDataItemContentList | null | undefined;
+  fileId?: string | null | undefined;
+  filename?: string | null | undefined;
 }
 export type SearchAiResponseDataList = Array<SearchAiResponseDataItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface SearchAiResponse {
   response: string;
   searchQuery: string;
-  data?: SearchAiResponseDataList | null;
-  hasMore?: boolean | null;
-  nextPage?: string | null;
-  object?: string | null;
+  data?: SearchAiResponseDataList | null | undefined;
+  hasMore?: boolean | null | undefined;
+  nextPage?: string | null | undefined;
+  object?: string | null | undefined;
 }
 export interface SyncRequest {
   accountId: string;

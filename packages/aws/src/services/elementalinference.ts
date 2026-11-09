@@ -159,7 +159,7 @@ export interface TemplateGroup {
 }
 export type TemplateGroupList = TemplateGroup[];
 export interface CroppingConfig {
-  templateGroups?: TemplateGroup[];
+  templateGroups?: TemplateGroup[] | undefined;
 }
 export type ResourceDescription = string;
 export type FixtureId = string;
@@ -167,8 +167,8 @@ export interface DataSourceConfiguration {
   fixtureId: string;
 }
 export interface ClippingConfig {
-  callbackMetadata?: string;
-  dataSourceConfiguration?: DataSourceConfiguration;
+  callbackMetadata?: string | undefined;
+  dataSourceConfiguration?: DataSourceConfiguration | undefined;
 }
 export type TranscriptionLanguage =
   | "eng"
@@ -189,24 +189,39 @@ export type DictionaryId = string;
 export type ProfanityFilterMode = "DISABLED" | "CENSOR" | "DROP" | (string & {});
 export interface SubtitlingConfig {
   language: TranscriptionLanguage;
-  aspectRatio?: AspectRatio;
-  dictionary?: string;
-  profanityFilter?: ProfanityFilterMode;
+  aspectRatio?: AspectRatio | undefined;
+  dictionary?: string | undefined;
+  profanityFilter?: ProfanityFilterMode | undefined;
 }
 export type SummaryGenerationMode = "ENABLED" | "DISABLED" | (string & {});
 export type ExtendedAnalysisMode = "ENABLED" | "DISABLED" | (string & {});
 export interface ContextualMetadataConfig {
-  summaryGeneration?: SummaryGenerationMode;
-  extendedAnalysis?: ExtendedAnalysisMode;
+  summaryGeneration?: SummaryGenerationMode | undefined;
+  extendedAnalysis?: ExtendedAnalysisMode | undefined;
 }
 export type OutputConfig =
-  | { cropping: CroppingConfig; clipping?: never; subtitling?: never; contextualMetadata?: never }
-  | { cropping?: never; clipping: ClippingConfig; subtitling?: never; contextualMetadata?: never }
-  | { cropping?: never; clipping?: never; subtitling: SubtitlingConfig; contextualMetadata?: never }
   | {
-      cropping?: never;
-      clipping?: never;
-      subtitling?: never;
+      cropping: CroppingConfig;
+      clipping?: undefined;
+      subtitling?: undefined;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping: ClippingConfig;
+      subtitling?: undefined;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping?: undefined;
+      subtitling: SubtitlingConfig;
+      contextualMetadata?: undefined;
+    }
+  | {
+      cropping?: undefined;
+      clipping?: undefined;
+      subtitling?: undefined;
       contextualMetadata: ContextualMetadataConfig;
     };
 export type OutputStatus = "ENABLED" | "DISABLED" | (string & {});
@@ -214,14 +229,14 @@ export interface CreateOutput {
   name: string;
   outputConfig: OutputConfig;
   status: OutputStatus;
-  description?: string;
+  description?: string | undefined;
 }
 export type CreateOutputList = CreateOutput[];
 export interface AssociateFeedRequest {
   id: string;
   associatedResourceName: string;
   outputs: CreateOutput[];
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export type FeedArn = string;
 export interface AssociateFeedResponse {
@@ -236,8 +251,8 @@ export type TagMap = { [key: string]: string | undefined };
 export interface CreateDictionaryRequest {
   name: string;
   language: DictionaryLanguage;
-  entries?: string;
-  tags?: { [key: string]: string | undefined };
+  entries?: string | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type DictionaryArn = string;
 export type DictionaryStatus =
@@ -254,23 +269,23 @@ export interface CreateDictionaryResponse {
   id: string;
   language: DictionaryLanguage;
   status: DictionaryStatus;
-  references?: string[];
-  tags?: { [key: string]: string | undefined };
+  references?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type IamRoleArn = string;
 export interface CreateFeedRequest {
   name: string;
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   outputs: CreateOutput[];
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type StringList = string[];
 export interface GetOutput {
   name: string;
   outputConfig: OutputConfig;
   status: OutputStatus;
-  description?: string;
-  fromAssociation?: boolean;
+  description?: string | undefined;
+  fromAssociation?: boolean | undefined;
 }
 export type GetOutputList = GetOutput[];
 export type FeedStatus =
@@ -291,10 +306,10 @@ export interface CreateFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   status: FeedStatus;
-  association?: FeedAssociation;
-  tags?: { [key: string]: string | undefined };
+  association?: FeedAssociation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface DeleteDictionaryRequest {
   id: string;
@@ -319,7 +334,7 @@ export interface DeleteFeedPolicyResponse {}
 export interface DisassociateFeedRequest {
   id: string;
   associatedResourceName: string;
-  dryRun?: boolean;
+  dryRun?: boolean | undefined;
 }
 export interface DisassociateFeedResponse {
   arn: string;
@@ -329,7 +344,7 @@ export interface ExportDictionaryEntriesRequest {
   id: string;
 }
 export interface ExportDictionaryEntriesResponse {
-  entries?: string;
+  entries?: string | undefined;
 }
 export interface GetDictionaryRequest {
   id: string;
@@ -340,8 +355,8 @@ export interface GetDictionaryResponse {
   id: string;
   language: DictionaryLanguage;
   status: DictionaryStatus;
-  references?: string[];
-  tags?: { [key: string]: string | undefined };
+  references?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFeedRequest {
   id: string;
@@ -352,10 +367,10 @@ export interface GetFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   status: FeedStatus;
-  association?: FeedAssociation;
-  tags?: { [key: string]: string | undefined };
+  association?: FeedAssociation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetFeedPolicyRequest {
   id: string;
@@ -368,21 +383,21 @@ export interface GetFixtureRequest {
   fixtureId: string;
 }
 export interface Competitor {
-  name?: string;
-  isHome?: boolean;
+  name?: string | undefined;
+  isHome?: boolean | undefined;
 }
 export type CompetitorList = Competitor[];
 export interface GetFixtureResponse {
   fixtureId: string;
   name: string;
-  fixtureGroup?: string;
-  scheduledStart?: Date;
+  fixtureGroup?: string | undefined;
+  scheduledStart?: Date | undefined;
   status: string;
   competitors: Competitor[];
 }
 export interface ListDictionariesRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DictionarySummary {
   arn: string;
@@ -394,30 +409,30 @@ export interface DictionarySummary {
 export type DictionarySummaryList = DictionarySummary[];
 export interface ListDictionariesResponse {
   dictionaries: DictionarySummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFeedsRequest {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FeedSummary {
   arn: string;
   id: string;
   name: string;
-  association?: FeedAssociation;
+  association?: FeedAssociation | undefined;
   status: FeedStatus;
 }
 export type FeedSummaryList = FeedSummary[];
 export interface ListFeedsResponse {
   feeds: FeedSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ResourceArn = string;
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PutFeedPolicyRequest {
   id: string;
@@ -437,23 +452,23 @@ export type SearchFilterList = SearchFilter[];
 export interface SearchFixturesRequest {
   sport: DataSourceSport;
   startDate: string;
-  endDate?: string;
-  filters?: SearchFilter[];
-  maxResults?: number;
-  nextToken?: string;
+  endDate?: string | undefined;
+  filters?: SearchFilter[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface FixtureSummary {
   fixtureId: string;
   name: string;
-  fixtureGroup?: string;
-  scheduledStart?: Date;
+  fixtureGroup?: string | undefined;
+  scheduledStart?: Date | undefined;
   status: string;
   competitors: Competitor[];
 }
 export type FixtureSummaryList = FixtureSummary[];
 export interface SearchFixturesResponse {
   fixtures: FixtureSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -468,9 +483,9 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateDictionaryRequest {
   id: string;
-  name?: string;
-  language?: DictionaryLanguage;
-  entries?: string;
+  name?: string | undefined;
+  language?: DictionaryLanguage | undefined;
+  entries?: string | undefined;
 }
 export interface UpdateDictionaryResponse {
   name: string;
@@ -478,20 +493,20 @@ export interface UpdateDictionaryResponse {
   id: string;
   language: DictionaryLanguage;
   status: DictionaryStatus;
-  references?: string[];
-  tags?: { [key: string]: string | undefined };
+  references?: string[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UpdateOutput {
   name: string;
   outputConfig: OutputConfig;
   status: OutputStatus;
-  description?: string;
-  fromAssociation?: boolean;
+  description?: string | undefined;
+  fromAssociation?: boolean | undefined;
 }
 export type UpdateOutputList = UpdateOutput[];
 export interface UpdateFeedRequest {
   name: string;
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   id: string;
   outputs: UpdateOutput[];
 }
@@ -501,10 +516,10 @@ export interface UpdateFeedResponse {
   id: string;
   dataEndpoints: string[];
   outputs: GetOutput[];
-  accessRoleArn?: string;
+  accessRoleArn?: string | undefined;
   status: FeedStatus;
-  association?: FeedAssociation;
-  tags?: { [key: string]: string | undefined };
+  association?: FeedAssociation | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export type AssociateFeedError =
   | AccessDeniedException

@@ -189,7 +189,7 @@ export type Name = string;
 export interface ApplyArchiveRuleRequest {
   analyzerArn: string;
   ruleName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface ApplyArchiveRuleResponse {}
 export type JobId = string;
@@ -203,8 +203,8 @@ export type ActionsList = string[];
 export type Resource = string;
 export type ResourcesList = string[];
 export interface Access {
-  actions?: string[];
-  resources?: string[];
+  actions?: string[] | undefined;
+  resources?: string[] | undefined;
 }
 export type AccessList = Access[];
 export type AccessCheckPolicyType = string;
@@ -215,15 +215,15 @@ export interface CheckAccessNotGrantedRequest {
 }
 export type CheckAccessNotGrantedResult = string;
 export interface ReasonSummary {
-  description?: string;
-  statementIndex?: number;
-  statementId?: string;
+  description?: string | undefined;
+  statementIndex?: number | undefined;
+  statementId?: string | undefined;
 }
 export type ReasonSummaryList = ReasonSummary[];
 export interface CheckAccessNotGrantedResponse {
-  result?: string;
-  message?: string;
-  reasons?: ReasonSummary[];
+  result?: string | undefined;
+  message?: string | undefined;
+  reasons?: ReasonSummary[] | undefined;
 }
 export interface CheckNoNewAccessRequest {
   newPolicyDocument: string | redacted.Redacted<string>;
@@ -232,9 +232,9 @@ export interface CheckNoNewAccessRequest {
 }
 export type CheckNoNewAccessResult = string;
 export interface CheckNoNewAccessResponse {
-  result?: string;
-  message?: string;
-  reasons?: ReasonSummary[];
+  result?: string | undefined;
+  message?: string | undefined;
+  reasons?: ReasonSummary[] | undefined;
 }
 export type AccessCheckResourceType = string;
 export interface CheckNoPublicAccessRequest {
@@ -243,9 +243,9 @@ export interface CheckNoPublicAccessRequest {
 }
 export type CheckNoPublicAccessResult = string;
 export interface CheckNoPublicAccessResponse {
-  result?: string;
-  message?: string;
-  reasons?: ReasonSummary[];
+  result?: string | undefined;
+  message?: string | undefined;
+  reasons?: ReasonSummary[] | undefined;
 }
 export type ConfigurationsMapKey = string;
 export type EbsUserId = string;
@@ -254,21 +254,21 @@ export type EbsGroup = string;
 export type EbsGroupList = string[];
 export type EbsSnapshotDataEncryptionKeyId = string;
 export interface EbsSnapshotConfiguration {
-  userIds?: string[];
-  groups?: string[];
-  kmsKeyId?: string;
+  userIds?: string[] | undefined;
+  groups?: string[] | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type EcrRepositoryPolicy = string;
 export interface EcrRepositoryConfiguration {
-  repositoryPolicy?: string;
+  repositoryPolicy?: string | undefined;
 }
 export type IamTrustPolicy = string;
 export interface IamRoleConfiguration {
-  trustPolicy?: string;
+  trustPolicy?: string | undefined;
 }
 export type EfsFileSystemPolicy = string;
 export interface EfsFileSystemConfiguration {
-  fileSystemPolicy?: string;
+  fileSystemPolicy?: string | undefined;
 }
 export type PolicyName = string;
 export type KmsKeyPolicy = string;
@@ -281,21 +281,21 @@ export type KmsConstraintsKey = string;
 export type KmsConstraintsValue = string;
 export type KmsConstraintsMap = { [key: string]: string | undefined };
 export interface KmsGrantConstraints {
-  encryptionContextEquals?: { [key: string]: string | undefined };
-  encryptionContextSubset?: { [key: string]: string | undefined };
+  encryptionContextEquals?: { [key: string]: string | undefined } | undefined;
+  encryptionContextSubset?: { [key: string]: string | undefined } | undefined;
 }
 export type IssuingAccount = string;
 export interface KmsGrantConfiguration {
   operations: string[];
   granteePrincipal: string;
-  retiringPrincipal?: string;
-  constraints?: KmsGrantConstraints;
+  retiringPrincipal?: string | undefined;
+  constraints?: KmsGrantConstraints | undefined;
   issuingAccount: string;
 }
 export type KmsGrantConfigurationsList = KmsGrantConfiguration[];
 export interface KmsKeyConfiguration {
-  keyPolicies?: { [key: string]: string | undefined };
-  grants?: KmsGrantConfiguration[];
+  keyPolicies?: { [key: string]: string | undefined } | undefined;
+  grants?: KmsGrantConfiguration[] | undefined;
 }
 export type RdsDbClusterSnapshotAttributeName = string;
 export type RdsDbClusterSnapshotAccountId = string;
@@ -306,8 +306,8 @@ export type RdsDbClusterSnapshotAttributesMap = {
 };
 export type RdsDbClusterSnapshotKmsKeyId = string;
 export interface RdsDbClusterSnapshotConfiguration {
-  attributes?: { [key: string]: RdsDbClusterSnapshotAttributeValue | undefined };
-  kmsKeyId?: string;
+  attributes?: { [key: string]: RdsDbClusterSnapshotAttributeValue | undefined } | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type RdsDbSnapshotAttributeName = string;
 export type RdsDbSnapshotAccountId = string;
@@ -316,20 +316,20 @@ export type RdsDbSnapshotAttributeValue = { accountIds: string[] };
 export type RdsDbSnapshotAttributesMap = { [key: string]: RdsDbSnapshotAttributeValue | undefined };
 export type RdsDbSnapshotKmsKeyId = string;
 export interface RdsDbSnapshotConfiguration {
-  attributes?: { [key: string]: RdsDbSnapshotAttributeValue | undefined };
-  kmsKeyId?: string;
+  attributes?: { [key: string]: RdsDbSnapshotAttributeValue | undefined } | undefined;
+  kmsKeyId?: string | undefined;
 }
 export type SecretsManagerSecretKmsId = string;
 export type SecretsManagerSecretPolicy = string;
 export interface SecretsManagerSecretConfiguration {
-  kmsKeyId?: string;
-  secretPolicy?: string;
+  kmsKeyId?: string | undefined;
+  secretPolicy?: string | undefined;
 }
 export type S3BucketPolicy = string;
 export type AclPermission = string;
 export type AclCanonicalId = string;
 export type AclUri = string;
-export type AclGrantee = { id: string; uri?: never } | { id?: never; uri: string };
+export type AclGrantee = { id: string; uri?: undefined } | { id?: undefined; uri: string };
 export interface S3BucketAclGrantConfiguration {
   permission: string;
   grantee: AclGrantee;
@@ -347,281 +347,283 @@ export interface VpcConfiguration {
 }
 export interface InternetConfiguration {}
 export type NetworkOriginConfiguration =
-  | { vpcConfiguration: VpcConfiguration; internetConfiguration?: never }
-  | { vpcConfiguration?: never; internetConfiguration: InternetConfiguration };
+  | { vpcConfiguration: VpcConfiguration; internetConfiguration?: undefined }
+  | { vpcConfiguration?: undefined; internetConfiguration: InternetConfiguration };
 export interface S3AccessPointConfiguration {
-  accessPointPolicy?: string;
-  publicAccessBlock?: S3PublicAccessBlockConfiguration;
-  networkOrigin?: NetworkOriginConfiguration;
+  accessPointPolicy?: string | undefined;
+  publicAccessBlock?: S3PublicAccessBlockConfiguration | undefined;
+  networkOrigin?: NetworkOriginConfiguration | undefined;
 }
 export type S3AccessPointConfigurationsMap = {
   [key: string]: S3AccessPointConfiguration | undefined;
 };
 export interface S3BucketConfiguration {
-  bucketPolicy?: string;
-  bucketAclGrants?: S3BucketAclGrantConfiguration[];
-  bucketPublicAccessBlock?: S3PublicAccessBlockConfiguration;
-  accessPoints?: { [key: string]: S3AccessPointConfiguration | undefined };
+  bucketPolicy?: string | undefined;
+  bucketAclGrants?: S3BucketAclGrantConfiguration[] | undefined;
+  bucketPublicAccessBlock?: S3PublicAccessBlockConfiguration | undefined;
+  accessPoints?: { [key: string]: S3AccessPointConfiguration | undefined } | undefined;
 }
 export type SnsTopicPolicy = string;
 export interface SnsTopicConfiguration {
-  topicPolicy?: string;
+  topicPolicy?: string | undefined;
 }
 export type SqsQueuePolicy = string;
 export interface SqsQueueConfiguration {
-  queuePolicy?: string;
+  queuePolicy?: string | undefined;
 }
 export type S3ExpressDirectoryBucketPolicy = string;
 export type S3ExpressDirectoryAccessPointArn = string;
 export interface S3ExpressDirectoryAccessPointConfiguration {
-  accessPointPolicy?: string;
-  networkOrigin?: NetworkOriginConfiguration;
+  accessPointPolicy?: string | undefined;
+  networkOrigin?: NetworkOriginConfiguration | undefined;
 }
 export type S3ExpressDirectoryAccessPointConfigurationsMap = {
   [key: string]: S3ExpressDirectoryAccessPointConfiguration | undefined;
 };
 export interface S3ExpressDirectoryBucketConfiguration {
-  bucketPolicy?: string;
-  accessPoints?: { [key: string]: S3ExpressDirectoryAccessPointConfiguration | undefined };
+  bucketPolicy?: string | undefined;
+  accessPoints?:
+    | { [key: string]: S3ExpressDirectoryAccessPointConfiguration | undefined }
+    | undefined;
 }
 export type DynamodbStreamPolicy = string;
 export interface DynamodbStreamConfiguration {
-  streamPolicy?: string;
+  streamPolicy?: string | undefined;
 }
 export type DynamodbTablePolicy = string;
 export interface DynamodbTableConfiguration {
-  tablePolicy?: string;
+  tablePolicy?: string | undefined;
 }
 export type Configuration =
   | {
       ebsSnapshot: EbsSnapshotConfiguration;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
+      ebsSnapshot?: undefined;
       ecrRepository: EcrRepositoryConfiguration;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
       iamRole: IamRoleConfiguration;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
       efsFileSystem: EfsFileSystemConfiguration;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
       kmsKey: KmsKeyConfiguration;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
       rdsDbClusterSnapshot: RdsDbClusterSnapshotConfiguration;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
       rdsDbSnapshot: RdsDbSnapshotConfiguration;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
       secretsManagerSecret: SecretsManagerSecretConfiguration;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
       s3Bucket: S3BucketConfiguration;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
       snsTopic: SnsTopicConfiguration;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
       sqsQueue: SqsQueueConfiguration;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
       s3ExpressDirectoryBucket: S3ExpressDirectoryBucketConfiguration;
-      dynamodbStream?: never;
-      dynamodbTable?: never;
+      dynamodbStream?: undefined;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
       dynamodbStream: DynamodbStreamConfiguration;
-      dynamodbTable?: never;
+      dynamodbTable?: undefined;
     }
   | {
-      ebsSnapshot?: never;
-      ecrRepository?: never;
-      iamRole?: never;
-      efsFileSystem?: never;
-      kmsKey?: never;
-      rdsDbClusterSnapshot?: never;
-      rdsDbSnapshot?: never;
-      secretsManagerSecret?: never;
-      s3Bucket?: never;
-      snsTopic?: never;
-      sqsQueue?: never;
-      s3ExpressDirectoryBucket?: never;
-      dynamodbStream?: never;
+      ebsSnapshot?: undefined;
+      ecrRepository?: undefined;
+      iamRole?: undefined;
+      efsFileSystem?: undefined;
+      kmsKey?: undefined;
+      rdsDbClusterSnapshot?: undefined;
+      rdsDbSnapshot?: undefined;
+      secretsManagerSecret?: undefined;
+      s3Bucket?: undefined;
+      snsTopic?: undefined;
+      sqsQueue?: undefined;
+      s3ExpressDirectoryBucket?: undefined;
+      dynamodbStream?: undefined;
       dynamodbTable: DynamodbTableConfiguration;
     };
 export type ConfigurationsMap = { [key: string]: Configuration | undefined };
 export interface CreateAccessPreviewRequest {
   analyzerArn: string;
   configurations: { [key: string]: Configuration | undefined };
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export type AccessPreviewId = string;
 export interface CreateAccessPreviewResponse {
@@ -631,10 +633,10 @@ export type AnalyzerName = string;
 export type Type = string;
 export type ValueList = string[];
 export interface Criterion {
-  eq?: string[];
-  neq?: string[];
-  contains?: string[];
-  exists?: boolean;
+  eq?: string[] | undefined;
+  neq?: string[] | undefined;
+  contains?: string[] | undefined;
+  exists?: boolean | undefined;
 }
 export type FilterCriteriaMap = { [key: string]: Criterion | undefined };
 export interface InlineArchiveRule {
@@ -646,76 +648,76 @@ export type TagsMap = { [key: string]: string | undefined };
 export type AccountIdsList = string[];
 export type TagsList = { [key: string]: string | undefined }[];
 export interface AnalysisRuleCriteria {
-  accountIds?: string[];
-  resourceTags?: { [key: string]: string | undefined }[];
+  accountIds?: string[] | undefined;
+  resourceTags?: { [key: string]: string | undefined }[] | undefined;
 }
 export type AnalysisRuleCriteriaList = AnalysisRuleCriteria[];
 export interface AnalysisRule {
-  exclusions?: AnalysisRuleCriteria[];
+  exclusions?: AnalysisRuleCriteria[] | undefined;
 }
 export interface UnusedAccessConfiguration {
-  unusedAccessAge?: number;
-  analysisRule?: AnalysisRule;
+  unusedAccessAge?: number | undefined;
+  analysisRule?: AnalysisRule | undefined;
 }
 export type ResourceType = string;
 export type ResourceTypeList = string[];
 export type ResourceArnsList = string[];
 export interface InternalAccessAnalysisRuleCriteria {
-  accountIds?: string[];
-  resourceTypes?: string[];
-  resourceArns?: string[];
+  accountIds?: string[] | undefined;
+  resourceTypes?: string[] | undefined;
+  resourceArns?: string[] | undefined;
 }
 export type InternalAccessAnalysisRuleCriteriaList = InternalAccessAnalysisRuleCriteria[];
 export interface InternalAccessAnalysisRule {
-  inclusions?: InternalAccessAnalysisRuleCriteria[];
+  inclusions?: InternalAccessAnalysisRuleCriteria[] | undefined;
 }
 export interface InternalAccessConfiguration {
-  analysisRule?: InternalAccessAnalysisRule;
+  analysisRule?: InternalAccessAnalysisRule | undefined;
 }
 export type AnalyzerConfiguration =
-  | { unusedAccess: UnusedAccessConfiguration; internalAccess?: never }
-  | { unusedAccess?: never; internalAccess: InternalAccessConfiguration };
+  | { unusedAccess: UnusedAccessConfiguration; internalAccess?: undefined }
+  | { unusedAccess?: undefined; internalAccess: InternalAccessConfiguration };
 export interface CreateAnalyzerRequest {
   analyzerName: string;
   type: string;
-  archiveRules?: InlineArchiveRule[];
-  tags?: { [key: string]: string | undefined };
-  clientToken?: string;
-  configuration?: AnalyzerConfiguration;
+  archiveRules?: InlineArchiveRule[] | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
+  clientToken?: string | undefined;
+  configuration?: AnalyzerConfiguration | undefined;
 }
 export interface CreateAnalyzerResponse {
-  arn?: string;
+  arn?: string | undefined;
 }
 export interface CreateArchiveRuleRequest {
   analyzerName: string;
   ruleName: string;
   filter: { [key: string]: Criterion | undefined };
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface CreateArchiveRuleResponse {}
 export interface CreateServiceLinkedAnalyzerRequest {
   type: string;
-  archiveRules?: InlineArchiveRule[];
-  clientToken?: string;
-  configuration?: AnalyzerConfiguration;
+  archiveRules?: InlineArchiveRule[] | undefined;
+  clientToken?: string | undefined;
+  configuration?: AnalyzerConfiguration | undefined;
 }
 export interface CreateServiceLinkedAnalyzerResponse {
-  arn?: string;
+  arn?: string | undefined;
 }
 export interface DeleteAnalyzerRequest {
   analyzerName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteAnalyzerResponse {}
 export interface DeleteArchiveRuleRequest {
   analyzerName: string;
   ruleName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteArchiveRuleResponse {}
 export interface DeleteServiceLinkedAnalyzerRequest {
   analyzerName: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteServiceLinkedAnalyzerResponse {}
 export interface GenerateFindingRecommendationRequest {
@@ -738,7 +740,7 @@ export interface AccessPreview {
   configurations: { [key: string]: Configuration | undefined };
   createdAt: Date;
   status: string;
-  statusReason?: AccessPreviewStatusReason;
+  statusReason?: AccessPreviewStatusReason | undefined;
 }
 export interface GetAccessPreviewResponse {
   accessPreview: AccessPreview;
@@ -758,14 +760,14 @@ export interface AnalyzedResource {
   analyzedAt: Date;
   updatedAt: Date;
   isPublic: boolean;
-  actions?: string[];
-  sharedVia?: string[];
-  status?: string;
+  actions?: string[] | undefined;
+  sharedVia?: string[] | undefined;
+  status?: string | undefined;
   resourceOwnerAccount: string;
-  error?: string;
+  error?: string | undefined;
 }
 export interface GetAnalyzedResourceResponse {
-  resource?: AnalyzedResource;
+  resource?: AnalyzedResource | undefined;
 }
 export interface GetAnalyzerRequest {
   analyzerName: string;
@@ -780,13 +782,13 @@ export interface AnalyzerSummary {
   name: string;
   type: string;
   createdAt: Date;
-  lastResourceAnalyzed?: string;
-  lastResourceAnalyzedAt?: Date;
-  tags?: { [key: string]: string | undefined };
+  lastResourceAnalyzed?: string | undefined;
+  lastResourceAnalyzedAt?: Date | undefined;
+  tags?: { [key: string]: string | undefined } | undefined;
   status: string;
-  statusReason?: StatusReason;
-  configuration?: AnalyzerConfiguration;
-  managedBy?: string;
+  statusReason?: StatusReason | undefined;
+  configuration?: AnalyzerConfiguration | undefined;
+  managedBy?: string | undefined;
 }
 export interface GetAnalyzerResponse {
   analyzer: AnalyzerSummary;
@@ -813,21 +815,21 @@ export type PrincipalMap = { [key: string]: string | undefined };
 export type ConditionKeyMap = { [key: string]: string | undefined };
 export type FindingSourceType = string;
 export interface FindingSourceDetail {
-  accessPointArn?: string;
-  accessPointAccount?: string;
+  accessPointArn?: string | undefined;
+  accessPointAccount?: string | undefined;
 }
 export interface FindingSource {
   type: string;
-  detail?: FindingSourceDetail;
+  detail?: FindingSourceDetail | undefined;
 }
 export type FindingSourceList = FindingSource[];
 export type ResourceControlPolicyRestriction = string;
 export interface Finding {
   id: string;
-  principal?: { [key: string]: string | undefined };
-  action?: string[];
-  resource?: string;
-  isPublic?: boolean;
+  principal?: { [key: string]: string | undefined } | undefined;
+  action?: string[] | undefined;
+  resource?: string | undefined;
+  isPublic?: boolean | undefined;
   resourceType: string;
   condition: { [key: string]: string | undefined };
   createdAt: Date;
@@ -835,19 +837,19 @@ export interface Finding {
   updatedAt: Date;
   status: string;
   resourceOwnerAccount: string;
-  error?: string;
-  sources?: FindingSource[];
-  resourceControlPolicyRestriction?: string;
+  error?: string | undefined;
+  sources?: FindingSource[] | undefined;
+  resourceControlPolicyRestriction?: string | undefined;
 }
 export interface GetFindingResponse {
-  finding?: Finding;
+  finding?: Finding | undefined;
 }
 export type Token = string;
 export interface GetFindingRecommendationRequest {
   analyzerArn: string;
   id: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface RecommendationError {
   code: string;
@@ -855,10 +857,10 @@ export interface RecommendationError {
 }
 export type RecommendedRemediationAction = string;
 export interface UnusedPermissionsRecommendedStep {
-  policyUpdatedAt?: Date;
+  policyUpdatedAt?: Date | undefined;
   recommendedAction: string;
-  recommendedPolicy?: string;
-  existingPolicyId?: string;
+  recommendedPolicy?: string | undefined;
+  existingPolicyId?: string | undefined;
 }
 export type RecommendedStep = {
   unusedPermissionsRecommendedStep: UnusedPermissionsRecommendedStep;
@@ -868,11 +870,11 @@ export type RecommendationType = string;
 export type Status = string;
 export interface GetFindingRecommendationResponse {
   startedAt: Date;
-  completedAt?: Date;
-  nextToken?: string;
-  error?: RecommendationError;
+  completedAt?: Date | undefined;
+  nextToken?: string | undefined;
+  error?: RecommendationError | undefined;
   resourceArn: string;
-  recommendedSteps?: RecommendedStep[];
+  recommendedSteps?: RecommendedStep[] | undefined;
   recommendationType: string;
   status: string;
 }
@@ -880,166 +882,168 @@ export interface GetFindingsStatisticsRequest {
   analyzerArn: string;
 }
 export interface ResourceTypeDetails {
-  totalActivePublic?: number;
-  totalActiveCrossAccount?: number;
-  totalActiveErrors?: number;
+  totalActivePublic?: number | undefined;
+  totalActiveCrossAccount?: number | undefined;
+  totalActiveErrors?: number | undefined;
 }
 export type ResourceTypeStatisticsMap = { [key: string]: ResourceTypeDetails | undefined };
 export interface ExternalAccessFindingsStatistics {
-  resourceTypeStatistics?: { [key: string]: ResourceTypeDetails | undefined };
-  totalActiveFindings?: number;
-  totalArchivedFindings?: number;
-  totalResolvedFindings?: number;
+  resourceTypeStatistics?: { [key: string]: ResourceTypeDetails | undefined } | undefined;
+  totalActiveFindings?: number | undefined;
+  totalArchivedFindings?: number | undefined;
+  totalResolvedFindings?: number | undefined;
 }
 export interface InternalAccessResourceTypeDetails {
-  totalActiveFindings?: number;
-  totalResolvedFindings?: number;
-  totalArchivedFindings?: number;
+  totalActiveFindings?: number | undefined;
+  totalResolvedFindings?: number | undefined;
+  totalArchivedFindings?: number | undefined;
 }
 export type InternalAccessResourceTypeStatisticsMap = {
   [key: string]: InternalAccessResourceTypeDetails | undefined;
 };
 export interface InternalAccessFindingsStatistics {
-  resourceTypeStatistics?: { [key: string]: InternalAccessResourceTypeDetails | undefined };
-  totalActiveFindings?: number;
-  totalArchivedFindings?: number;
-  totalResolvedFindings?: number;
+  resourceTypeStatistics?:
+    | { [key: string]: InternalAccessResourceTypeDetails | undefined }
+    | undefined;
+  totalActiveFindings?: number | undefined;
+  totalArchivedFindings?: number | undefined;
+  totalResolvedFindings?: number | undefined;
 }
 export interface UnusedAccessTypeStatistics {
-  unusedAccessType?: string;
-  total?: number;
+  unusedAccessType?: string | undefined;
+  total?: number | undefined;
 }
 export type UnusedAccessTypeStatisticsList = UnusedAccessTypeStatistics[];
 export type FindingAggregationAccountDetailsMap = { [key: string]: number | undefined };
 export interface FindingAggregationAccountDetails {
-  account?: string;
-  numberOfActiveFindings?: number;
-  details?: { [key: string]: number | undefined };
+  account?: string | undefined;
+  numberOfActiveFindings?: number | undefined;
+  details?: { [key: string]: number | undefined } | undefined;
 }
 export type AccountAggregations = FindingAggregationAccountDetails[];
 export interface UnusedAccessFindingsStatistics {
-  unusedAccessTypeStatistics?: UnusedAccessTypeStatistics[];
-  topAccounts?: FindingAggregationAccountDetails[];
-  totalActiveFindings?: number;
-  totalArchivedFindings?: number;
-  totalResolvedFindings?: number;
+  unusedAccessTypeStatistics?: UnusedAccessTypeStatistics[] | undefined;
+  topAccounts?: FindingAggregationAccountDetails[] | undefined;
+  totalActiveFindings?: number | undefined;
+  totalArchivedFindings?: number | undefined;
+  totalResolvedFindings?: number | undefined;
 }
 export type FindingsStatistics =
   | {
       externalAccessFindingsStatistics: ExternalAccessFindingsStatistics;
-      internalAccessFindingsStatistics?: never;
-      unusedAccessFindingsStatistics?: never;
+      internalAccessFindingsStatistics?: undefined;
+      unusedAccessFindingsStatistics?: undefined;
     }
   | {
-      externalAccessFindingsStatistics?: never;
+      externalAccessFindingsStatistics?: undefined;
       internalAccessFindingsStatistics: InternalAccessFindingsStatistics;
-      unusedAccessFindingsStatistics?: never;
+      unusedAccessFindingsStatistics?: undefined;
     }
   | {
-      externalAccessFindingsStatistics?: never;
-      internalAccessFindingsStatistics?: never;
+      externalAccessFindingsStatistics?: undefined;
+      internalAccessFindingsStatistics?: undefined;
       unusedAccessFindingsStatistics: UnusedAccessFindingsStatistics;
     };
 export type FindingsStatisticsList = FindingsStatistics[];
 export interface GetFindingsStatisticsResponse {
-  findingsStatistics?: FindingsStatistics[];
-  lastUpdatedAt?: Date;
+  findingsStatistics?: FindingsStatistics[] | undefined;
+  lastUpdatedAt?: Date | undefined;
 }
 export interface GetFindingV2Request {
   analyzerArn: string;
   id: string;
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type InternalAccessType = string;
 export type PrincipalType = string;
 export type ServiceControlPolicyRestriction = string;
 export interface InternalAccessDetails {
-  action?: string[];
-  condition?: { [key: string]: string | undefined };
-  principal?: { [key: string]: string | undefined };
-  principalOwnerAccount?: string;
-  accessType?: string;
-  principalType?: string;
-  sources?: FindingSource[];
-  resourceControlPolicyRestriction?: string;
-  serviceControlPolicyRestriction?: string;
+  action?: string[] | undefined;
+  condition?: { [key: string]: string | undefined } | undefined;
+  principal?: { [key: string]: string | undefined } | undefined;
+  principalOwnerAccount?: string | undefined;
+  accessType?: string | undefined;
+  principalType?: string | undefined;
+  sources?: FindingSource[] | undefined;
+  resourceControlPolicyRestriction?: string | undefined;
+  serviceControlPolicyRestriction?: string | undefined;
 }
 export interface ExternalAccessDetails {
-  action?: string[];
+  action?: string[] | undefined;
   condition: { [key: string]: string | undefined };
-  isPublic?: boolean;
-  principal?: { [key: string]: string | undefined };
-  sources?: FindingSource[];
-  resourceControlPolicyRestriction?: string;
+  isPublic?: boolean | undefined;
+  principal?: { [key: string]: string | undefined } | undefined;
+  sources?: FindingSource[] | undefined;
+  resourceControlPolicyRestriction?: string | undefined;
 }
 export interface UnusedAction {
   action: string;
-  lastAccessed?: Date;
+  lastAccessed?: Date | undefined;
 }
 export type UnusedActionList = UnusedAction[];
 export interface UnusedPermissionDetails {
-  actions?: UnusedAction[];
+  actions?: UnusedAction[] | undefined;
   serviceNamespace: string;
-  lastAccessed?: Date;
+  lastAccessed?: Date | undefined;
 }
 export interface UnusedIamUserAccessKeyDetails {
   accessKeyId: string;
-  lastAccessed?: Date;
+  lastAccessed?: Date | undefined;
 }
 export interface UnusedIamRoleDetails {
-  lastAccessed?: Date;
+  lastAccessed?: Date | undefined;
 }
 export interface UnusedIamUserPasswordDetails {
-  lastAccessed?: Date;
+  lastAccessed?: Date | undefined;
 }
 export type FindingDetails =
   | {
       internalAccessDetails: InternalAccessDetails;
-      externalAccessDetails?: never;
-      unusedPermissionDetails?: never;
-      unusedIamUserAccessKeyDetails?: never;
-      unusedIamRoleDetails?: never;
-      unusedIamUserPasswordDetails?: never;
+      externalAccessDetails?: undefined;
+      unusedPermissionDetails?: undefined;
+      unusedIamUserAccessKeyDetails?: undefined;
+      unusedIamRoleDetails?: undefined;
+      unusedIamUserPasswordDetails?: undefined;
     }
   | {
-      internalAccessDetails?: never;
+      internalAccessDetails?: undefined;
       externalAccessDetails: ExternalAccessDetails;
-      unusedPermissionDetails?: never;
-      unusedIamUserAccessKeyDetails?: never;
-      unusedIamRoleDetails?: never;
-      unusedIamUserPasswordDetails?: never;
+      unusedPermissionDetails?: undefined;
+      unusedIamUserAccessKeyDetails?: undefined;
+      unusedIamRoleDetails?: undefined;
+      unusedIamUserPasswordDetails?: undefined;
     }
   | {
-      internalAccessDetails?: never;
-      externalAccessDetails?: never;
+      internalAccessDetails?: undefined;
+      externalAccessDetails?: undefined;
       unusedPermissionDetails: UnusedPermissionDetails;
-      unusedIamUserAccessKeyDetails?: never;
-      unusedIamRoleDetails?: never;
-      unusedIamUserPasswordDetails?: never;
+      unusedIamUserAccessKeyDetails?: undefined;
+      unusedIamRoleDetails?: undefined;
+      unusedIamUserPasswordDetails?: undefined;
     }
   | {
-      internalAccessDetails?: never;
-      externalAccessDetails?: never;
-      unusedPermissionDetails?: never;
+      internalAccessDetails?: undefined;
+      externalAccessDetails?: undefined;
+      unusedPermissionDetails?: undefined;
       unusedIamUserAccessKeyDetails: UnusedIamUserAccessKeyDetails;
-      unusedIamRoleDetails?: never;
-      unusedIamUserPasswordDetails?: never;
+      unusedIamRoleDetails?: undefined;
+      unusedIamUserPasswordDetails?: undefined;
     }
   | {
-      internalAccessDetails?: never;
-      externalAccessDetails?: never;
-      unusedPermissionDetails?: never;
-      unusedIamUserAccessKeyDetails?: never;
+      internalAccessDetails?: undefined;
+      externalAccessDetails?: undefined;
+      unusedPermissionDetails?: undefined;
+      unusedIamUserAccessKeyDetails?: undefined;
       unusedIamRoleDetails: UnusedIamRoleDetails;
-      unusedIamUserPasswordDetails?: never;
+      unusedIamUserPasswordDetails?: undefined;
     }
   | {
-      internalAccessDetails?: never;
-      externalAccessDetails?: never;
-      unusedPermissionDetails?: never;
-      unusedIamUserAccessKeyDetails?: never;
-      unusedIamRoleDetails?: never;
+      internalAccessDetails?: undefined;
+      externalAccessDetails?: undefined;
+      unusedPermissionDetails?: undefined;
+      unusedIamUserAccessKeyDetails?: undefined;
+      unusedIamRoleDetails?: undefined;
       unusedIamUserPasswordDetails: UnusedIamUserPasswordDetails;
     };
 export type FindingDetailsList = FindingDetails[];
@@ -1047,21 +1051,21 @@ export type FindingType = string;
 export interface GetFindingV2Response {
   analyzedAt: Date;
   createdAt: Date;
-  error?: string;
+  error?: string | undefined;
   id: string;
-  nextToken?: string;
-  resource?: string;
+  nextToken?: string | undefined;
+  resource?: string | undefined;
   resourceType: string;
   resourceOwnerAccount: string;
   status: string;
   updatedAt: Date;
   findingDetails: FindingDetails[];
-  findingType?: string;
+  findingType?: string | undefined;
 }
 export interface GetGeneratedPolicyRequest {
   jobId: string;
-  includeResourcePlaceholders?: boolean;
-  includeServiceLevelTemplate?: boolean;
+  includeResourcePlaceholders?: boolean | undefined;
+  includeServiceLevelTemplate?: boolean | undefined;
 }
 export type JobStatus = string;
 export type JobErrorCode = string;
@@ -1073,16 +1077,16 @@ export interface JobDetails {
   jobId: string;
   status: string;
   startedOn: Date;
-  completedOn?: Date;
-  jobError?: JobError;
+  completedOn?: Date | undefined;
+  jobError?: JobError | undefined;
 }
 export type PrincipalArn = string;
 export type CloudTrailArn = string;
 export type RegionList = string[];
 export interface TrailProperties {
   cloudTrailArn: string;
-  regions?: string[];
-  allRegions?: boolean;
+  regions?: string[] | undefined;
+  allRegions?: boolean | undefined;
 }
 export type TrailPropertiesList = TrailProperties[];
 export interface CloudTrailProperties {
@@ -1091,9 +1095,9 @@ export interface CloudTrailProperties {
   endTime: Date;
 }
 export interface GeneratedPolicyProperties {
-  isComplete?: boolean;
+  isComplete?: boolean | undefined;
   principalArn: string;
-  cloudTrailProperties?: CloudTrailProperties;
+  cloudTrailProperties?: CloudTrailProperties | undefined;
 }
 export interface GeneratedPolicy {
   policy: string;
@@ -1101,7 +1105,7 @@ export interface GeneratedPolicy {
 export type GeneratedPolicyList = GeneratedPolicy[];
 export interface GeneratedPolicyResult {
   properties: GeneratedPolicyProperties;
-  generatedPolicies?: GeneratedPolicy[];
+  generatedPolicies?: GeneratedPolicy[] | undefined;
 }
 export interface GetGeneratedPolicyResponse {
   jobDetails: JobDetails;
@@ -1110,57 +1114,57 @@ export interface GetGeneratedPolicyResponse {
 export interface ListAccessPreviewFindingsRequest {
   accessPreviewId: string;
   analyzerArn: string;
-  filter?: { [key: string]: Criterion | undefined };
-  nextToken?: string;
-  maxResults?: number;
+  filter?: { [key: string]: Criterion | undefined } | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type AccessPreviewFindingId = string;
 export type FindingChangeType = string;
 export interface AccessPreviewFinding {
   id: string;
-  existingFindingId?: string;
-  existingFindingStatus?: string;
-  principal?: { [key: string]: string | undefined };
-  action?: string[];
-  condition?: { [key: string]: string | undefined };
-  resource?: string;
-  isPublic?: boolean;
+  existingFindingId?: string | undefined;
+  existingFindingStatus?: string | undefined;
+  principal?: { [key: string]: string | undefined } | undefined;
+  action?: string[] | undefined;
+  condition?: { [key: string]: string | undefined } | undefined;
+  resource?: string | undefined;
+  isPublic?: boolean | undefined;
   resourceType: string;
   createdAt: Date;
   changeType: string;
   status: string;
   resourceOwnerAccount: string;
-  error?: string;
-  sources?: FindingSource[];
-  resourceControlPolicyRestriction?: string;
+  error?: string | undefined;
+  sources?: FindingSource[] | undefined;
+  resourceControlPolicyRestriction?: string | undefined;
 }
 export type AccessPreviewFindingsList = AccessPreviewFinding[];
 export interface ListAccessPreviewFindingsResponse {
   findings: AccessPreviewFinding[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAccessPreviewsRequest {
   analyzerArn: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AccessPreviewSummary {
   id: string;
   analyzerArn: string;
   createdAt: Date;
   status: string;
-  statusReason?: AccessPreviewStatusReason;
+  statusReason?: AccessPreviewStatusReason | undefined;
 }
 export type AccessPreviewsList = AccessPreviewSummary[];
 export interface ListAccessPreviewsResponse {
   accessPreviews: AccessPreviewSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAnalyzedResourcesRequest {
   analyzerArn: string;
-  resourceType?: string;
-  nextToken?: string;
-  maxResults?: number;
+  resourceType?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface AnalyzedResourceSummary {
   resourceArn: string;
@@ -1170,46 +1174,46 @@ export interface AnalyzedResourceSummary {
 export type AnalyzedResourcesList = AnalyzedResourceSummary[];
 export interface ListAnalyzedResourcesResponse {
   analyzedResources: AnalyzedResourceSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListAnalyzersRequest {
-  nextToken?: string;
-  maxResults?: number;
-  type?: string;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  type?: string | undefined;
 }
 export type AnalyzersList = AnalyzerSummary[];
 export interface ListAnalyzersResponse {
   analyzers: AnalyzerSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListArchiveRulesRequest {
   analyzerName: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type ArchiveRulesList = ArchiveRuleSummary[];
 export interface ListArchiveRulesResponse {
   archiveRules: ArchiveRuleSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type OrderBy = string;
 export interface SortCriteria {
-  attributeName?: string;
-  orderBy?: string;
+  attributeName?: string | undefined;
+  orderBy?: string | undefined;
 }
 export interface ListFindingsRequest {
   analyzerArn: string;
-  filter?: { [key: string]: Criterion | undefined };
-  sort?: SortCriteria;
-  nextToken?: string;
-  maxResults?: number;
+  filter?: { [key: string]: Criterion | undefined } | undefined;
+  sort?: SortCriteria | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface FindingSummary {
   id: string;
-  principal?: { [key: string]: string | undefined };
-  action?: string[];
-  resource?: string;
-  isPublic?: boolean;
+  principal?: { [key: string]: string | undefined } | undefined;
+  action?: string[] | undefined;
+  resource?: string | undefined;
+  isPublic?: boolean | undefined;
   resourceType: string;
   condition: { [key: string]: string | undefined };
   createdAt: Date;
@@ -1217,69 +1221,69 @@ export interface FindingSummary {
   updatedAt: Date;
   status: string;
   resourceOwnerAccount: string;
-  error?: string;
-  sources?: FindingSource[];
-  resourceControlPolicyRestriction?: string;
+  error?: string | undefined;
+  sources?: FindingSource[] | undefined;
+  resourceControlPolicyRestriction?: string | undefined;
 }
 export type FindingsList = FindingSummary[];
 export interface ListFindingsResponse {
   findings: FindingSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListFindingsV2Request {
   analyzerArn: string;
-  filter?: { [key: string]: Criterion | undefined };
-  maxResults?: number;
-  nextToken?: string;
-  sort?: SortCriteria;
+  filter?: { [key: string]: Criterion | undefined } | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
+  sort?: SortCriteria | undefined;
 }
 export interface FindingSummaryV2 {
   analyzedAt: Date;
   createdAt: Date;
-  error?: string;
+  error?: string | undefined;
   id: string;
-  resource?: string;
+  resource?: string | undefined;
   resourceType: string;
   resourceOwnerAccount: string;
   status: string;
   updatedAt: Date;
-  findingType?: string;
+  findingType?: string | undefined;
 }
 export type FindingsListV2 = FindingSummaryV2[];
 export interface ListFindingsV2Response {
   findings: FindingSummaryV2[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListPolicyGenerationsRequest {
-  principalArn?: string;
-  maxResults?: number;
-  nextToken?: string;
+  principalArn?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PolicyGeneration {
   jobId: string;
   principalArn: string;
   status: string;
   startedOn: Date;
-  completedOn?: Date;
+  completedOn?: Date | undefined;
 }
 export type PolicyGenerationList = PolicyGeneration[];
 export interface ListPolicyGenerationsResponse {
   policyGenerations: PolicyGeneration[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: { [key: string]: string | undefined };
+  tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface PolicyGenerationDetails {
   principalArn: string;
 }
 export interface Trail {
   cloudTrailArn: string;
-  regions?: string[];
-  allRegions?: boolean;
+  regions?: string[] | undefined;
+  allRegions?: boolean | undefined;
 }
 export type TrailList = Trail[];
 export type RoleArn = string;
@@ -1287,12 +1291,12 @@ export interface CloudTrailDetails {
   trails: Trail[];
   accessRole: string;
   startTime: Date;
-  endTime?: Date;
+  endTime?: Date | undefined;
 }
 export interface StartPolicyGenerationRequest {
   policyGenerationDetails: PolicyGenerationDetails;
-  cloudTrailDetails?: CloudTrailDetails;
-  clientToken?: string;
+  cloudTrailDetails?: CloudTrailDetails | undefined;
+  clientToken?: string | undefined;
 }
 export interface StartPolicyGenerationResponse {
   jobId: string;
@@ -1300,7 +1304,7 @@ export interface StartPolicyGenerationResponse {
 export interface StartResourceScanRequest {
   analyzerArn: string;
   resourceArn: string;
-  resourceOwnerAccount?: string;
+  resourceOwnerAccount?: string | undefined;
 }
 export interface StartResourceScanResponse {}
 export interface TagResourceRequest {
@@ -1316,16 +1320,16 @@ export interface UntagResourceRequest {
 export interface UntagResourceResponse {}
 export interface UpdateAnalyzerRequest {
   analyzerName: string;
-  configuration?: AnalyzerConfiguration;
+  configuration?: AnalyzerConfiguration | undefined;
 }
 export interface UpdateAnalyzerResponse {
-  configuration?: AnalyzerConfiguration;
+  configuration?: AnalyzerConfiguration | undefined;
 }
 export interface UpdateArchiveRuleRequest {
   analyzerName: string;
   ruleName: string;
   filter: { [key: string]: Criterion | undefined };
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface UpdateArchiveRuleResponse {}
 export type FindingStatusUpdate = string;
@@ -1333,9 +1337,9 @@ export type FindingIdList = string[];
 export interface UpdateFindingsRequest {
   analyzerArn: string;
   status: string;
-  ids?: string[];
-  resourceArn?: string;
-  clientToken?: string;
+  ids?: string[] | undefined;
+  resourceArn?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface UpdateFindingsResponse {}
 export type Locale = string;
@@ -1343,12 +1347,12 @@ export type PolicyDocument = string;
 export type PolicyType = string;
 export type ValidatePolicyResourceType = string;
 export interface ValidatePolicyRequest {
-  locale?: string;
-  maxResults?: number;
-  nextToken?: string;
+  locale?: string | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
   policyDocument: string;
   policyType: string;
-  validatePolicyResourceType?: string;
+  validatePolicyResourceType?: string | undefined;
 }
 export type ValidatePolicyFindingType = string;
 export type IssueCode = string;
@@ -1358,10 +1362,10 @@ export interface Substring {
   length: number;
 }
 export type PathElement =
-  | { index: number; key?: never; substring?: never; value?: never }
-  | { index?: never; key: string; substring?: never; value?: never }
-  | { index?: never; key?: never; substring: Substring; value?: never }
-  | { index?: never; key?: never; substring?: never; value: string };
+  | { index: number; key?: undefined; substring?: undefined; value?: undefined }
+  | { index?: undefined; key: string; substring?: undefined; value?: undefined }
+  | { index?: undefined; key?: undefined; substring: Substring; value?: undefined }
+  | { index?: undefined; key?: undefined; substring?: undefined; value: string };
 export type PathElementList = PathElement[];
 export interface Position {
   line: number;
@@ -1387,7 +1391,7 @@ export interface ValidatePolicyFinding {
 export type ValidatePolicyFindingList = ValidatePolicyFinding[];
 export interface ValidatePolicyResponse {
   findings: ValidatePolicyFinding[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type ValidationExceptionReason = string;
 export interface ValidationExceptionField {

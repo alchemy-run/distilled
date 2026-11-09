@@ -66,7 +66,7 @@ export type EnvVarType =
 export interface EnvVar {
   /** Environment variable key. */
   key: string;
-  origin?: EnvVarType | (string & {});
+  origin?: EnvVarType | (string & {}) | undefined;
   /** Environment variable value. */
   value: string;
 }
@@ -75,17 +75,17 @@ export type ContainerEnvironmentVariablesList = Array<EnvVar>;
 /** Container describes a simplified container configuration for the application. */
 export interface Container {
   /** Container argument override. */
-  args?: ContainerArgsList;
+  args?: ContainerArgsList | undefined;
   /** Container command override. */
-  command?: ContainerCommandList;
+  command?: ContainerCommandList | undefined;
   /** CPU limit for the container. */
-  cpu?: number;
+  cpu?: number | undefined;
   /** Environment variables exposed to the container. */
-  environmentVariables?: ContainerEnvironmentVariablesList;
+  environmentVariables?: ContainerEnvironmentVariablesList | undefined;
   /** Container image configuration. */
   image: string;
   /** Memory limit for the container. */
-  memory?: number;
+  memory?: number | undefined;
   /** Container name. */
   name: string;
 }
@@ -96,23 +96,23 @@ export type NetworkIngressAclList = Array<string>;
 /** Network configuration for an application. */
 export interface Network {
   /** Allowed destination CIDRs for Ingress traffic. */
-  ingressAcl?: NetworkIngressAclList;
+  ingressAcl?: NetworkIngressAclList | undefined;
   /** Internal port number for inter application communication. */
-  internalPort?: number;
+  internalPort?: number | undefined;
   /** Port number. */
-  port?: number;
+  port?: number | undefined;
   /** Whether the application should be accessible from the internet. */
-  publicIngress?: boolean;
+  publicIngress?: boolean | undefined;
 }
 export interface ApplicationRegistryCredentialsAuth {
   /** Password to authenticate to the registry. Omit or set to null to indicate deletion in updates. */
-  password?: string | Redacted.Redacted<string>;
+  password?: string | Redacted.Redacted<string> | undefined;
   url: string;
   user: string;
 }
 export type ApplicationRegistryAuthType = "AUTH_TYPE_NONE" | "AUTH_TYPE_CREDENTIALS";
 export interface ApplicationRegistry {
-  credentials?: ApplicationRegistryCredentialsAuth;
+  credentials?: ApplicationRegistryCredentialsAuth | undefined;
   type: ApplicationRegistryAuthType | (string & {});
 }
 /** Image registry configuration for the application. */
@@ -126,7 +126,7 @@ export type CurrentStatus =
   | "CURRENT_STATUS_IDLE"
   | "CURRENT_STATUS_NONE";
 export interface RuntimeStatusInput {
-  currentStatus?: CurrentStatus | (string & {});
+  currentStatus?: CurrentStatus | (string & {}) | undefined;
 }
 /** CustomRuleParameter defines a single scaler parameter. */
 export interface CustomRuleParameter {
@@ -147,25 +147,25 @@ export type CustomScaleRuleSecretsMappingList = Array<CustomRuleSecretMapping>;
 /** CustomScaleRule defines parameters for custom scalers (e.g., KEDA). */
 export interface CustomScaleRule {
   /** Scaler parameters. */
-  parameters?: CustomScaleRuleParametersList;
+  parameters?: CustomScaleRuleParametersList | undefined;
   /** Secret mappings for the scaler. */
-  secretsMapping?: CustomScaleRuleSecretsMappingList;
+  secretsMapping?: CustomScaleRuleSecretsMappingList | undefined;
   /** Scaler type. */
   type: string;
 }
 /** HttpScaleRule defines parameters for HTTP-based scaling. */
 export interface HttpScaleRule {
   /** Target concurrency per instance. */
-  concurrency?: number;
+  concurrency?: number | undefined;
   /** Target requests per second per instance. */
-  rps?: number;
+  rps?: number | undefined;
 }
 /** - RULE_TYPE_UNSPECIFIED: Used as zero value. - RULE_TYPE_HTTP: HTTP scaling rule. - RULE_TYPE_CUSTOM: Custom scaling rule (e.g. KEDA). */
 export type RuleType = "RULE_TYPE_UNSPECIFIED" | "RULE_TYPE_HTTP" | "RULE_TYPE_CUSTOM";
 /** ScaleRule defines one autoscaling trigger. */
 export interface ScaleRule {
-  customRule?: CustomScaleRule;
-  httpRule?: HttpScaleRule;
+  customRule?: CustomScaleRule | undefined;
+  httpRule?: HttpScaleRule | undefined;
   /** Rule name. */
   name: string;
   type: RuleType | (string & {});
@@ -175,7 +175,7 @@ export type AutoScalingRulesList = Array<ScaleRule>;
 /** AutoScaling configuration. */
 export interface AutoScaling {
   /** Allow automatically scale to zero. */
-  allowScaleToZero?: boolean;
+  allowScaleToZero?: boolean | undefined;
   /** Maximum number of instances. */
   maxInstances: number;
   /** Minimum number of instances. */
@@ -192,8 +192,8 @@ export interface ManualScaling {
 export type ScalingType = "SCALING_TYPE_UNSPECIFIED" | "SCALING_TYPE_AUTO" | "SCALING_TYPE_MANUAL";
 /** Scaling configuration for the application. */
 export interface Scaling {
-  autoScaling?: AutoScaling;
-  manualScaling?: ManualScaling;
+  autoScaling?: AutoScaling | undefined;
+  manualScaling?: ManualScaling | undefined;
   type: ScalingType | (string & {});
 }
 /** ApplicationSecret defines a single secret key-value pair. */
@@ -201,7 +201,7 @@ export interface ApplicationSecret {
   /** Secret key. */
   key: string;
   /** Secret value. Omit or set to null to keep the existing value unchanged. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Secrets associated with the application. */
 export type CreateApplicationRequestSecretsList = Array<ApplicationSecret>;
@@ -214,15 +214,15 @@ export interface CreateApplicationRequest {
   containers: CreateApplicationRequestContainersList;
   /** Human-readable display name. */
   displayName: string;
-  network?: Network;
+  network?: Network | undefined;
   /** Image registry configuration for the application. */
-  registry?: CreateApplicationRequestRegistryList;
-  runtimeStatus?: RuntimeStatusInput;
+  registry?: CreateApplicationRequestRegistryList | undefined;
+  runtimeStatus?: RuntimeStatusInput | undefined;
   scaling: Scaling;
   /** Secrets associated with the application. */
-  secrets?: CreateApplicationRequestSecretsList;
+  secrets?: CreateApplicationRequestSecretsList | undefined;
   /** Indicates if the application resources are stopped. */
-  stopped?: boolean;
+  stopped?: boolean | undefined;
 }
 /** Containers to deploy for the application. */
 export type ApplicationContainersList = Array<Container>;
@@ -238,23 +238,23 @@ export type InstanceStatus =
 /** Application instance summary. */
 export interface Instance {
   /** Instance's name. */
-  name?: string;
-  status?: InstanceStatus;
+  name?: string | undefined;
+  status?: InstanceStatus | undefined;
 }
 export type RuntimeStatusInstancesList = Array<Instance>;
 /** Known URLs for the running application. */
 export type RuntimeStatusUrlsList = Array<string>;
 export interface RuntimeStatus {
-  currentStatus?: CurrentStatus;
+  currentStatus?: CurrentStatus | undefined;
   /** Failure reasons collected from workload conditions. */
-  failureReasons?: RuntimeStatusFailureReasonsList;
-  instances?: RuntimeStatusInstancesList;
+  failureReasons?: RuntimeStatusFailureReasonsList | undefined;
+  instances?: RuntimeStatusInstancesList | undefined;
   /** Internal URL for the running application. */
-  internalUrl?: string;
+  internalUrl?: string | undefined;
   /** Last time the application was deployed. */
-  lastDeployment?: string;
+  lastDeployment?: string | undefined;
   /** Known URLs for the running application. */
-  urls?: RuntimeStatusUrlsList;
+  urls?: RuntimeStatusUrlsList | undefined;
 }
 /** Secrets associated with the application. */
 export type ApplicationSecretsList = Array<ApplicationSecret>;
@@ -265,20 +265,20 @@ export interface Application {
   /** Human-readable display name. */
   displayName: string;
   /** Application environment ID. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Application human-readable display name. */
-  environmentName?: string;
+  environmentName?: string | undefined;
   /** Application identifier, for example: 00000000-0000-0000-0000-000000000000. */
-  id?: string;
-  network?: Network;
+  id?: string | undefined;
+  network?: Network | undefined;
   /** Image registry configuration for the application. */
-  registry?: ApplicationRegistryList;
-  runtimeStatus?: RuntimeStatus;
+  registry?: ApplicationRegistryList | undefined;
+  runtimeStatus?: RuntimeStatus | undefined;
   scaling: Scaling;
   /** Secrets associated with the application. */
-  secrets?: ApplicationSecretsList;
+  secrets?: ApplicationSecretsList | undefined;
   /** Indicates if the application resources are stopped. */
-  stopped?: boolean;
+  stopped?: boolean | undefined;
 }
 /** - ENVIRONMENT_STATUS_UNSPECIFIED: Used as zero value. - ENVIRONMENT_STATUS_PROGRESSING: Environment is being created. - ENVIRONMENT_STATUS_CREATED: Environment is successfully created. */
 export type EnvironmentStatus =
@@ -290,19 +290,19 @@ export interface CreateEnvironmentRequest {
   projectId: string;
   /** Human-readable display name. */
   displayName: string;
-  status?: EnvironmentStatus | (string & {});
+  status?: EnvironmentStatus | (string & {}) | undefined;
 }
 /** Environment describes an isolated container scope within a project. */
 export interface Environment {
   /** Creation date in RFC3339 format. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Is the default environmet. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Human-readable display name. */
   displayName: string;
   /** Environment identifier, for example: default. */
-  id?: string;
-  status?: EnvironmentStatus;
+  id?: string | undefined;
+  status?: EnvironmentStatus | undefined;
 }
 export interface DeleteApplicationRequest {
   /** Project to delete the application in. */
@@ -331,14 +331,14 @@ export interface GetApplicationEventsRequest {
 /** Event defines an event line. */
 export interface Event {
   /** Event message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Events list. */
 export type GetApplicationEventsResponseEventsList = Array<Event>;
 /** GetApplicationEventsResponse contains an application's events list. */
 export interface GetApplicationEventsResponse {
   /** Events list. */
-  events?: GetApplicationEventsResponseEventsList;
+  events?: GetApplicationEventsResponseEventsList | undefined;
 }
 export interface GetApplicationLogsRequest {
   /** Project to fetch the application from. */
@@ -352,19 +352,19 @@ export interface GetApplicationLogsRequest {
   /** Container name to collect logs. */
   container: string;
   /** Get previous failed execution of the container. */
-  previous?: boolean;
+  previous?: boolean | undefined;
 }
 /** Log defines a log line. */
 export interface Log {
   /** Log message. */
-  message?: string;
+  message?: string | undefined;
 }
 /** Logs list. */
 export type GetApplicationLogsResponseLogsList = Array<Log>;
 /** GetApplicationLogsResponse contains an application's logs list. */
 export interface GetApplicationLogsResponse {
   /** Logs list. */
-  logs?: GetApplicationLogsResponseLogsList;
+  logs?: GetApplicationLogsResponseLogsList | undefined;
 }
 export interface GetEnvironmentRequest {
   /** Parent project resource name to fetch under. */
@@ -379,9 +379,9 @@ export interface GetOverviewRequest {
 /** Summary describes the current status of a project. */
 export interface Summary {
   /** Number of applications running in a project. */
-  applicationsRunning?: number;
+  applicationsRunning?: number | undefined;
   /** Number of applications created in a project. */
-  applicationsTotal?: number;
+  applicationsTotal?: number | undefined;
 }
 /** GetOverviewResponse contains a summary of the current state of the project's application. */
 export interface GetOverviewResponse {
@@ -396,35 +396,35 @@ export interface ListApplicationsRequest {
 /** ApplicationSummary describes a summary of an application. */
 export interface ApplicationSummary {
   /** Number of containers. */
-  containers?: number;
+  containers?: number | undefined;
   /** Creation date in RFC3339 format. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Application's human-readable name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Environment's identifier. */
-  environmentId?: string;
+  environmentId?: string | undefined;
   /** Environment's human-readable name. */
-  environmentName?: string;
+  environmentName?: string | undefined;
   /** Application identifier, for example: 00000000-0000-0000-0000-000000000000. */
-  id?: string;
+  id?: string | undefined;
   /** Application's running instances. */
-  instances?: number;
+  instances?: number | undefined;
   /** Application's internal URL. */
-  internalUrl?: string;
+  internalUrl?: string | undefined;
   /** Date of the last moment the application got the running status in RFC3339 format. */
-  lastDeployment?: string;
-  status?: CurrentStatus;
+  lastDeployment?: string | undefined;
+  status?: CurrentStatus | undefined;
   /** Indicates if the application resources are stopped. */
-  stopped?: boolean;
+  stopped?: boolean | undefined;
   /** Application's published URL. */
-  url?: string;
+  url?: string | undefined;
 }
 /** Applications under the requested parent. */
 export type ListApplicationsResponseItemsList = Array<ApplicationSummary>;
 /** ListApplicationsResponse contains applications and pagination metadata. */
 export interface ListApplicationsResponse {
   /** Applications under the requested parent. */
-  items?: ListApplicationsResponseItemsList;
+  items?: ListApplicationsResponseItemsList | undefined;
 }
 export interface ListEnvironmentsRequest {
   /** Parent project resource name to list under. */
@@ -433,22 +433,22 @@ export interface ListEnvironmentsRequest {
 /** Environment summary. */
 export interface EnvironmentSummary {
   /** Amount of applications in the environment. */
-  applicationsNumber?: number;
+  applicationsNumber?: number | undefined;
   /** Creation date in RFC3339 format. */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** Is the default environmet. */
-  default?: boolean;
+  default?: boolean | undefined;
   /** Human-readable display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Environment identifier, for example: default. */
-  id?: string;
+  id?: string | undefined;
 }
 /** Environments under the requested parent. */
 export type ListEnvironmentsResponseItemsList = Array<EnvironmentSummary>;
 /** ListEnvironmentsResponse contains environments and pagination metadata. */
 export interface ListEnvironmentsResponse {
   /** Environments under the requested parent. */
-  items?: ListEnvironmentsResponseItemsList;
+  items?: ListEnvironmentsResponseItemsList | undefined;
 }
 export interface ListProjectApplicationsRequest {
   /** Project to list the applications in. */
@@ -468,15 +468,15 @@ export interface UpdateApplicationRequest {
   /** Application id to update. */
   applicationId: string;
   /** Containers to deploy for the application. */
-  containers?: UpdateApplicationRequestContainersList;
-  network?: Network;
+  containers?: UpdateApplicationRequestContainersList | undefined;
+  network?: Network | undefined;
   /** Image registry configuration for the application. */
-  registry?: UpdateApplicationRequestRegistryList;
-  scaling?: Scaling;
+  registry?: UpdateApplicationRequestRegistryList | undefined;
+  scaling?: Scaling | undefined;
   /** Secrets associated with the application. */
-  secrets?: UpdateApplicationRequestSecretsList;
+  secrets?: UpdateApplicationRequestSecretsList | undefined;
   /** Indicates if the application resources are stopped. */
-  stopped?: boolean;
+  stopped?: boolean | undefined;
 }
 export type CreateApplicationError = BadRequest | Conflict | StackitOpError;
 /** Creates a new application within a environment. */

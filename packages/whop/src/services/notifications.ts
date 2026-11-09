@@ -140,9 +140,9 @@ export interface Notification {
 export type ListNotificationBadgesRequestExperienceIdsList = Array<string>;
 export interface ListNotificationBadgesRequest {
   /** Only return badges for these experiences (`exp_` tags). */
-  experience_ids?: ListNotificationBadgesRequestExperienceIdsList;
+  experience_ids?: ListNotificationBadgesRequestExperienceIdsList | undefined;
   /** The client's last fetched-at ISO 8601 timestamp, used to partially refresh badges after a websocket message. */
-  last_fetched_at?: string;
+  last_fetched_at?: string | undefined;
 }
 export interface NotificationBadge {
   /** Account the experience belongs to, prefixed `biz_`. */
@@ -162,17 +162,17 @@ export interface ListNotificationBadgesResponse {
 }
 export interface ListNotificationsRequest {
   /** Only return notifications created since the user last viewed their source. */
-  unread?: boolean;
+  unread?: boolean | undefined;
   /** Only return notifications from this experience (`exp_` tag). */
-  experience_id?: string;
+  experience_id?: string | undefined;
   /** Only return team notifications for this account (`biz_` tag). */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Only return notifications that mention the user directly. */
-  mentions?: boolean;
+  mentions?: boolean | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 export type ListNotificationsResponseDataList = Array<Notification>;
 export interface ListNotificationsResponsePageInfo {
@@ -188,11 +188,11 @@ export interface ListNotificationsResponse {
 export type ListNotificationTopicsRequestTopicType = "user" | "account_team";
 export interface ListNotificationTopicsRequest {
   /** Only return topics of this scope: `user` (member notifications) or `account_team` (team notifications). */
-  topic_type?: ListNotificationTopicsRequestTopicType | (string & {});
+  topic_type?: ListNotificationTopicsRequestTopicType | (string & {}) | undefined;
   /** Number of results to return from the start of the range. */
-  first?: number;
+  first?: number | undefined;
   /** Return results after this cursor. Use `page_info.end_cursor` from the previous response to fetch the next page. */
-  after?: string;
+  after?: string | undefined;
 }
 /** Scope of the topic: whether it applies to an account, a user, or an account's team. */
 export type NotificationTopicTopicType = "account" | "user" | "account_team";
@@ -220,11 +220,11 @@ export interface ListNotificationTopicsResponse {
 }
 export interface ReadMarkNotificationRequest {
   /** Pass `true` to mark every notification read. Exactly one of `experience_id` or `all` is required. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Experience to mark read (`exp_` tag). Exactly one of `experience_id` or `all` is required. */
-  experience_id?: string;
+  experience_id?: string | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export type ReadMarkNotificationResponseDataList = Array<NotificationBadge>;
 export interface ReadMarkNotificationResponse {
@@ -234,23 +234,23 @@ export interface ReadMarkNotificationResponse {
 export type SendNotificationRequestUserIdsList = Array<string>;
 export interface SendNotificationRequest {
   /** Account whose team members receive the notification (`biz_` tag). Exactly one of `experience_id` or `account_id` is required. */
-  account_id?: string;
+  account_id?: string | undefined;
   /** Main body text of the notification. */
   content: string;
   /** Experience whose users receive the notification (`exp_` tag). Exactly one of `experience_id` or `account_id` is required. */
-  experience_id?: string;
+  experience_id?: string | undefined;
   /** User whose profile picture is used as the notification icon. Defaults to the experience or account avatar. */
-  icon_user_id?: string | null;
+  icon_user_id?: string | null | undefined;
   /** Path segment appended to the generated deep link that opens your app, for example `/settings/billing`. */
-  rest_path?: string | null;
+  rest_path?: string | null | undefined;
   /** Optional secondary line displayed below the title. */
-  subtitle?: string | null;
+  subtitle?: string | null | undefined;
   /** Headline text of the notification. */
   title: string;
   /** Optional `user_` tags narrowing the audience. When provided, only these users are notified (as a mention), provided they are in the targeted experience or account. */
-  user_ids?: SendNotificationRequestUserIdsList;
+  user_ids?: SendNotificationRequestUserIdsList | undefined;
   /** A unique key that makes this request safe to retry. See [Idempotent requests](https://docs.whop.com/developer/api/idempotency). */
-  idempotency_key?: string;
+  idempotency_key?: string | undefined;
 }
 export interface SendNotificationResponse {
   success: boolean;

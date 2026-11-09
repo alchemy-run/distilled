@@ -89,28 +89,28 @@ export type NoConsolidation = Legacy;
 /** How the individual activities are consolidated. If a set of activities is related they can be consolidated into one combined activity, such as one actor performing the same action on multiple targets, or multiple actors performing the same action on a single target. The strategy defines the rules for which activities are related. */
 export interface ConsolidationStrategy {
   /** The individual activities are consolidated using the legacy strategy. */
-  legacy?: Legacy;
+  legacy?: Legacy | undefined;
   /** The individual activities are not consolidated. */
-  none?: Legacy;
+  none?: Legacy | undefined;
 }
 /** The request message for querying Drive activity. */
 export interface QueryDriveActivityRequest {
   /** The filtering for items returned from this query request. The format of the filter string is a sequence of expressions, joined by an optional "AND", where each expression is of the form "field operator value". Supported fields: - `time`: Uses numerical operators on date values either in terms of milliseconds since Jan 1, 1970 or in RFC 3339 format. Examples: - `time > 1452409200000 AND time <= 1492812924310` - `time >= "2016-01-10T01:02:03-05:00"` - `detail.action_detail_case`: Uses the "has" operator (:) and either a singular value or a list of allowed action types enclosed in parentheses, separated by a space. To exclude a result from the response, prepend a hyphen (`-`) to the beginning of the filter string. Examples: - `detail.action_detail_case:RENAME` - `detail.action_detail_case:(CREATE RESTORE)` - `-detail.action_detail_case:MOVE` */
-  filter?: string;
+  filter?: string | undefined;
   /** Return activities for this Drive item. The format is `items/ITEM_ID`. */
-  itemName?: string;
+  itemName?: string | undefined;
   /** The token identifies which page of results to return. Set this to the next_page_token value returned from a previous query to obtain the following page of results. If not set, the first page of results is returned. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Return activities for this Drive folder, plus all children and descendants. The format is `items/ITEM_ID`. */
-  ancestorName?: string;
+  ancestorName?: string | undefined;
   /** The minimum number of activities desired in the response; the server attempts to return at least this quantity. The server may also return fewer activities if it has a partial response ready before the request times out. If not set, a default value is used. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Details on how to consolidate related actions that make up the activity. If not set, then related actions aren't consolidated. */
-  consolidationStrategy?: ConsolidationStrategy;
+  consolidationStrategy?: ConsolidationStrategy | undefined;
 }
 export interface QueryActivityRequest {
   /** Request body */
-  body?: QueryDriveActivityRequest;
+  body?: QueryDriveActivityRequest | undefined;
 }
 /** Empty message representing an administrator. */
 export type Administrator = Legacy;
@@ -118,7 +118,7 @@ export type SystemEventTypeEnum = "TYPE_UNSPECIFIED" | "USER_DELETION" | "TRASH_
 /** Event triggered by system operations instead of end users. */
 export interface SystemEvent {
   /** The type of the system event that may triggered activity. */
-  type?: SystemEventTypeEnum;
+  type?: SystemEventTypeEnum | undefined;
 }
 /** A user whose account has since been deleted. */
 export type DeletedUser = Legacy;
@@ -127,47 +127,47 @@ export type UnknownUser = Legacy;
 /** A known user. */
 export interface KnownUser {
   /** The identifier for this user that can be used with the People API to get more information. The format is `people/ACCOUNT_ID`. See https://developers.google.com/people/. */
-  personName?: string;
+  personName?: string | undefined;
   /** True if this is the user making the request. */
-  isCurrentUser?: boolean;
+  isCurrentUser?: boolean | undefined;
 }
 /** Information about an end user. */
 export interface User {
   /** A user whose account has since been deleted. */
-  deletedUser?: Legacy;
+  deletedUser?: Legacy | undefined;
   /** A user about whom nothing is currently known. */
-  unknownUser?: Legacy;
+  unknownUser?: Legacy | undefined;
   /** A known user. */
-  knownUser?: KnownUser;
+  knownUser?: KnownUser | undefined;
 }
 /** Information about an impersonation, where an admin acts on behalf of an end user. Information about the acting admin is not currently available. */
 export interface Impersonation {
   /** The impersonated user. */
-  impersonatedUser?: User;
+  impersonatedUser?: User | undefined;
 }
 /** Empty message representing an anonymous user or indicating the authenticated user should be anonymized. */
 export type AnonymousUser = Legacy;
 /** The actor of a Drive activity. */
 export interface Actor {
   /** An administrator. */
-  administrator?: Legacy;
+  administrator?: Legacy | undefined;
   /** A non-user actor (i.e. system triggered). */
-  system?: SystemEvent;
+  system?: SystemEvent | undefined;
   /** An end user. */
-  user?: User;
+  user?: User | undefined;
   /** An account acting on behalf of another. */
-  impersonation?: Impersonation;
+  impersonation?: Impersonation | undefined;
   /** An anonymous user. */
-  anonymous?: Legacy;
+  anonymous?: Legacy | undefined;
 }
 /** An empty message indicating an object was edited. */
 export type Edit = Legacy;
 /** An object was renamed. */
 export interface Rename {
   /** The previous title of the drive object. */
-  oldTitle?: string;
+  oldTitle?: string | undefined;
   /** The new title of the drive object. */
-  newTitle?: string;
+  newTitle?: string | undefined;
 }
 export type RestrictionChangeFeatureEnum =
   | "FEATURE_UNSPECIFIED"
@@ -185,15 +185,15 @@ export type RestrictionChangeNewRestrictionEnum =
 /** Information about restriction policy changes to a feature. */
 export interface RestrictionChange {
   /** The feature which had a change in restriction policy. */
-  feature?: RestrictionChangeFeatureEnum;
+  feature?: RestrictionChangeFeatureEnum | undefined;
   /** The restriction in place after the change. */
-  newRestriction?: RestrictionChangeNewRestrictionEnum;
+  newRestriction?: RestrictionChangeNewRestrictionEnum | undefined;
 }
 export type RestrictionChangeList = Array<RestrictionChange>;
 /** Information about settings changes. */
 export interface SettingsChange {
   /** The set of changes made to restrictions. */
-  restrictionChanges?: RestrictionChangeList;
+  restrictionChanges?: RestrictionChangeList | undefined;
 }
 export type AssignmentSubtypeEnum =
   | "SUBTYPE_UNSPECIFIED"
@@ -207,9 +207,9 @@ export type AssignmentSubtypeEnum =
 /** A comment with an assignment. */
 export interface Assignment {
   /** The sub-type of this event. */
-  subtype?: AssignmentSubtypeEnum;
+  subtype?: AssignmentSubtypeEnum | undefined;
   /** The user to whom the comment was assigned. */
-  assignedUser?: User;
+  assignedUser?: User | undefined;
 }
 export type PostSubtypeEnum =
   | "SUBTYPE_UNSPECIFIED"
@@ -222,7 +222,7 @@ export type PostSubtypeEnum =
 /** A regular posted comment. */
 export interface Post {
   /** The sub-type of this event. */
-  subtype?: PostSubtypeEnum;
+  subtype?: PostSubtypeEnum | undefined;
 }
 export type UserList_ = Array<User>;
 export type SuggestionSubtypeEnum =
@@ -238,31 +238,31 @@ export type SuggestionSubtypeEnum =
 /** A suggestion. */
 export interface Suggestion {
   /** The sub-type of this event. */
-  subtype?: SuggestionSubtypeEnum;
+  subtype?: SuggestionSubtypeEnum | undefined;
 }
 /** A change about comments on an object. */
 export interface Comment {
   /** A change on an assignment. */
-  assignment?: Assignment;
+  assignment?: Assignment | undefined;
   /** A change on a regular posted comment. */
-  post?: Post;
+  post?: Post | undefined;
   /** Users who are mentioned in this comment. */
-  mentionedUsers?: UserList_;
+  mentionedUsers?: UserList_ | undefined;
   /** A change on a suggestion. */
-  suggestion?: Suggestion;
+  suggestion?: Suggestion | undefined;
 }
 export type RestoreTypeEnum = "TYPE_UNSPECIFIED" | "UNTRASH";
 /** A deleted object was restored. */
 export interface Restore {
   /** The type of restore action taken. */
-  type?: RestoreTypeEnum;
+  type?: RestoreTypeEnum | undefined;
 }
 /** Information about a domain. */
 export interface Domain {
   /** The name of the domain, e.g. `google.com`. */
-  name?: string;
+  name?: string | undefined;
   /** An opaque string used to identify this domain. */
-  legacyId?: string;
+  legacyId?: string | undefined;
 }
 export type PermissionRoleEnum =
   | "ROLE_UNSPECIFIED"
@@ -278,32 +278,32 @@ export type Anyone = Legacy;
 /** Information about a group. */
 export interface Group {
   /** The email address of the group. */
-  email?: string;
+  email?: string | undefined;
   /** The title of the group. */
-  title?: string;
+  title?: string | undefined;
 }
 /** The permission setting of an object. */
 export interface Permission {
   /** The domain to whom this permission applies. */
-  domain?: Domain;
+  domain?: Domain | undefined;
   /** The user to whom this permission applies. */
-  user?: User;
+  user?: User | undefined;
   /** Indicates the [Google Drive permissions role](https://developers.google.com/workspace/drive/web/manage-sharing#roles). The role determines a user's ability to read, write, and comment on items. */
-  role?: PermissionRoleEnum;
+  role?: PermissionRoleEnum | undefined;
   /** If set, this permission applies to anyone, even logged out users. */
-  anyone?: Legacy;
+  anyone?: Legacy | undefined;
   /** If true, the item can be discovered (e.g. in the user's "Shared with me" collection) without needing a link to the item. */
-  allowDiscovery?: boolean;
+  allowDiscovery?: boolean | undefined;
   /** The group to whom this permission applies. */
-  group?: Group;
+  group?: Group | undefined;
 }
 export type PermissionList = Array<Permission>;
 /** A change of the permission setting on an item. */
 export interface PermissionChange {
   /** The set of permissions removed by this change. */
-  removedPermissions?: PermissionList;
+  removedPermissions?: PermissionList | undefined;
   /** The set of permissions added by this change. */
-  addedPermissions?: PermissionList;
+  addedPermissions?: PermissionList | undefined;
 }
 /** An object was created from scratch. */
 export type New = Legacy;
@@ -312,9 +312,9 @@ export type Upload = Legacy;
 /** This item is deprecated; please see `DriveReference` instead. */
 export interface TeamDriveReference {
   /** This field is deprecated; please see `DriveReference.title` instead. */
-  title?: string;
+  title?: string | undefined;
   /** This field is deprecated; please see `DriveReference.name` instead. */
-  name?: string;
+  name?: string | undefined;
 }
 /** A Drive item which is a file. */
 export type DriveFile = Legacy;
@@ -326,7 +326,7 @@ export type DriveFolderTypeEnum =
 /** A Drive item which is a folder. */
 export interface DriveFolder {
   /** The type of Drive folder. */
-  type?: DriveFolderTypeEnum;
+  type?: DriveFolderTypeEnum | undefined;
 }
 export type FolderTypeEnum =
   | "TYPE_UNSPECIFIED"
@@ -336,80 +336,80 @@ export type FolderTypeEnum =
 /** This item is deprecated; please see `DriveFolder` instead. */
 export interface Folder {
   /** This field is deprecated; please see `DriveFolder.type` instead. */
-  type?: FolderTypeEnum;
+  type?: FolderTypeEnum | undefined;
 }
 /** This item is deprecated; please see `DriveFile` instead. */
 export type File = Legacy;
 /** A lightweight reference to a Drive item, such as a file or folder. */
 export interface DriveItemReference {
   /** The Drive item is a file. */
-  driveFile?: Legacy;
+  driveFile?: Legacy | undefined;
   /** The title of the Drive item. */
-  title?: string;
+  title?: string | undefined;
   /** The Drive item is a folder. Includes information about the type of folder. */
-  driveFolder?: DriveFolder;
+  driveFolder?: DriveFolder | undefined;
   /** This field is deprecated; please use the `driveFolder` field instead. */
-  folder?: Folder;
+  folder?: Folder | undefined;
   /** The target Drive item. The format is `items/ITEM_ID`. */
-  name?: string;
+  name?: string | undefined;
   /** This field is deprecated; please use the `driveFile` field instead. */
-  file?: Legacy;
+  file?: Legacy | undefined;
 }
 /** A lightweight reference to a shared drive. */
 export interface DriveReference {
   /** The resource name of the shared drive. The format is `COLLECTION_ID/DRIVE_ID`. Clients should not assume a specific collection ID for this resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The title of the shared drive. */
-  title?: string;
+  title?: string | undefined;
 }
 /** A lightweight reference to the target of activity. */
 export interface TargetReference {
   /** This field is deprecated; please use the `drive` field instead. */
-  teamDrive?: TeamDriveReference;
+  teamDrive?: TeamDriveReference | undefined;
   /** The target is a Drive item. */
-  driveItem?: DriveItemReference;
+  driveItem?: DriveItemReference | undefined;
   /** The target is a shared drive. */
-  drive?: DriveReference;
+  drive?: DriveReference | undefined;
 }
 /** An object was created by copying an existing object. */
 export interface Copy {
   /** The original object. */
-  originalObject?: TargetReference;
+  originalObject?: TargetReference | undefined;
 }
 /** An object was created. */
 export interface Create {
   /** If present, indicates the object was newly created (e.g. as a blank document), not derived from a Drive object or external object. */
-  new?: Legacy;
+  new?: Legacy | undefined;
   /** If present, indicates the object originated externally and was uploaded to Drive. */
-  upload?: Legacy;
+  upload?: Legacy | undefined;
   /** If present, indicates the object was created by copying an existing Drive object. */
-  copy?: Copy;
+  copy?: Copy | undefined;
 }
 export type DeleteTypeEnum = "TYPE_UNSPECIFIED" | "TRASH" | "PERMANENT_DELETE";
 /** An object was deleted. */
 export interface Delete {
   /** The type of delete action taken. */
-  type?: DeleteTypeEnum;
+  type?: DeleteTypeEnum | undefined;
 }
 export type ApplicationReferenceTypeEnum = "UNSPECIFIED_REFERENCE_TYPE" | "LINK" | "DISCUSS";
 /** Activity in applications other than Drive. */
 export interface ApplicationReference {
   /** The reference type corresponding to this event. */
-  type?: ApplicationReferenceTypeEnum;
+  type?: ApplicationReferenceTypeEnum | undefined;
 }
 export type DataLeakPreventionChangeTypeEnum = "TYPE_UNSPECIFIED" | "FLAGGED" | "CLEARED";
 /** A change in the object's data leak prevention status. */
 export interface DataLeakPreventionChange {
   /** The type of Data Leak Prevention (DLP) change. */
-  type?: DataLeakPreventionChangeTypeEnum;
+  type?: DataLeakPreventionChangeTypeEnum | undefined;
 }
 export type TargetReferenceList = Array<TargetReference>;
 /** An object was moved. */
 export interface Move {
   /** The removed parent object(s). */
-  removedParents?: TargetReferenceList;
+  removedParents?: TargetReferenceList | undefined;
   /** The added parent object(s). */
-  addedParents?: TargetReferenceList;
+  addedParents?: TargetReferenceList | undefined;
 }
 export type AppliedLabelChangeDetailTypesItemEnum =
   | "TYPE_UNSPECIFIED"
@@ -422,212 +422,212 @@ export type AppliedLabelChangeDetailTypesItemEnumList =
 /** Wrapper for User Field value. */
 export interface SingleUser {
   /** User value as email. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Wrapper for Selection Field value as combined value/display_name pair for selected choice. */
 export interface Selection {
   /** Selection value as Field Choice ID. */
-  value?: string;
+  value?: string | undefined;
   /** Selection value as human-readable display string. */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export type SelectionList_ = Array<Selection>;
 /** Wrapper for SelectionList Field value. */
 export interface SelectionList {
   /** Selection values. */
-  values?: SelectionList_;
+  values?: SelectionList_ | undefined;
 }
 /** Wrapper for Text Field value. */
 export interface Text {
   /** Value of Text Field. */
-  value?: string;
+  value?: string | undefined;
 }
 export type TextList_ = Array<Text>;
 /** Wrapper for Text List Field value. */
 export interface TextList {
   /** Text values. */
-  values?: TextList_;
+  values?: TextList_ | undefined;
 }
 export type SingleUserList = Array<SingleUser>;
 /** Wrapper for UserList Field value. */
 export interface UserList {
   /** User values. */
-  values?: SingleUserList;
+  values?: SingleUserList | undefined;
 }
 /** Wrapper for Date Field value. */
 export interface Driveactivity_Date {
   /** Date value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Wrapper for Integer Field value. */
 export interface Integer {
   /** Integer value. */
-  value?: string;
+  value?: string | undefined;
 }
 /** Contains a value of a Field. */
 export interface FieldValue {
   /** User Field value. */
-  user?: SingleUser;
+  user?: SingleUser | undefined;
   /** Selection Field value. */
-  selection?: Selection;
+  selection?: Selection | undefined;
   /** Selection List Field value. */
-  selectionList?: SelectionList;
+  selectionList?: SelectionList | undefined;
   /** Text List Field value. */
-  textList?: TextList;
+  textList?: TextList | undefined;
   /** User List Field value. */
-  userList?: UserList;
+  userList?: UserList | undefined;
   /** Text Field value. */
-  text?: Text;
+  text?: Text | undefined;
   /** Date Field value. */
-  date?: Driveactivity_Date;
+  date?: Driveactivity_Date | undefined;
   /** Integer Field value. */
-  integer?: Integer;
+  integer?: Integer | undefined;
 }
 /** Change to a Field value. */
 export interface FieldValueChange {
   /** The ID of this field. Field IDs are unique within a Label. */
-  fieldId?: string;
+  fieldId?: string | undefined;
   /** The human-readable display name for this field. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The value that is now set on the field. If not present, the field was cleared. At least one of {old_value|new_value} is always set. */
-  newValue?: FieldValue;
+  newValue?: FieldValue | undefined;
   /** The value that was previously set on the field. If not present, the field was newly set. At least one of {old_value|new_value} is always set. */
-  oldValue?: FieldValue;
+  oldValue?: FieldValue | undefined;
 }
 export type FieldValueChangeList = Array<FieldValueChange>;
 /** A change made to a Label on the Target. */
 export interface AppliedLabelChangeDetail {
   /** The human-readable title of the label that changed. */
-  title?: string;
+  title?: string | undefined;
   /** The types of changes made to the Label on the Target. */
-  types?: AppliedLabelChangeDetailTypesItemEnumList;
+  types?: AppliedLabelChangeDetailTypesItemEnumList | undefined;
   /** The Label name representing the Label that changed. This name always contains the revision of the Label that was used when this Action occurred. The format is `labels/id@revision`. */
-  label?: string;
+  label?: string | undefined;
   /** Field Changes. Only present if `types` contains `LABEL_FIELD_VALUE_CHANGED`. */
-  fieldChanges?: FieldValueChangeList;
+  fieldChanges?: FieldValueChangeList | undefined;
 }
 export type AppliedLabelChangeDetailList = Array<AppliedLabelChangeDetail>;
 /** Label changes that were made on the Target. */
 export interface AppliedLabelChange {
   /** Changes that were made to the Label on the Target. */
-  changes?: AppliedLabelChangeDetailList;
+  changes?: AppliedLabelChangeDetailList | undefined;
 }
 /** Data describing the type and additional information of an action. */
 export interface ActionDetail {
   /** An object was edited. */
-  edit?: Legacy;
+  edit?: Legacy | undefined;
   /** An object was renamed. */
-  rename?: Rename;
+  rename?: Rename | undefined;
   /** Settings were changed. */
-  settingsChange?: SettingsChange;
+  settingsChange?: SettingsChange | undefined;
   /** A change about comments was made. */
-  comment?: Comment;
+  comment?: Comment | undefined;
   /** A deleted object was restored. */
-  restore?: Restore;
+  restore?: Restore | undefined;
   /** The permission on an object was changed. */
-  permissionChange?: PermissionChange;
+  permissionChange?: PermissionChange | undefined;
   /** An object was created. */
-  create?: Create;
+  create?: Create | undefined;
   /** An object was deleted. */
-  delete?: Delete;
+  delete?: Delete | undefined;
   /** An object was referenced in an application outside of Drive/Docs. */
-  reference?: ApplicationReference;
+  reference?: ApplicationReference | undefined;
   /** A change happened in data leak prevention status. */
-  dlpChange?: DataLeakPreventionChange;
+  dlpChange?: DataLeakPreventionChange | undefined;
   /** An object was moved. */
-  move?: Move;
+  move?: Move | undefined;
   /** Label was changed. */
-  appliedLabelChange?: AppliedLabelChange;
+  appliedLabelChange?: AppliedLabelChange | undefined;
 }
 /** Information about the owner of a Drive item. */
 export interface Owner {
   /** The drive that owns the item. */
-  drive?: DriveReference;
+  drive?: DriveReference | undefined;
   /** The domain of the Drive item owner. */
-  domain?: Domain;
+  domain?: Domain | undefined;
   /** This field is deprecated; please use the `drive` field instead. */
-  teamDrive?: TeamDriveReference;
+  teamDrive?: TeamDriveReference | undefined;
   /** The user that owns the Drive item. */
-  user?: User;
+  user?: User | undefined;
 }
 /** A Drive item, such as a file or folder. */
 export interface DriveItem {
   /** This field is deprecated; please use the `driveFolder` field instead. */
-  folder?: Folder;
+  folder?: Folder | undefined;
   /** The Drive item is a file. */
-  driveFile?: Legacy;
+  driveFile?: Legacy | undefined;
   /** Information about the owner of this Drive item. */
-  owner?: Owner;
+  owner?: Owner | undefined;
   /** The MIME type of the Drive item. See https://developers.google.com/workspace/drive/v3/web/mime-types. */
-  mimeType?: string;
+  mimeType?: string | undefined;
   /** The title of the Drive item. */
-  title?: string;
+  title?: string | undefined;
   /** The target Drive item. The format is `items/ITEM_ID`. */
-  name?: string;
+  name?: string | undefined;
   /** The Drive item is a folder. Includes information about the type of folder. */
-  driveFolder?: DriveFolder;
+  driveFolder?: DriveFolder | undefined;
   /** This field is deprecated; please use the `driveFile` field instead. */
-  file?: Legacy;
+  file?: Legacy | undefined;
 }
 /** Information about a shared drive. */
 export interface Drive {
   /** The resource name of the shared drive. The format is `COLLECTION_ID/DRIVE_ID`. Clients should not assume a specific collection ID for this resource name. */
-  name?: string;
+  name?: string | undefined;
   /** The title of the shared drive. */
-  title?: string;
+  title?: string | undefined;
   /** The root of this shared drive. */
-  root?: DriveItem;
+  root?: DriveItem | undefined;
 }
 /** A comment on a file. */
 export interface FileComment {
   /** The Drive item containing this comment. */
-  parent?: DriveItem;
+  parent?: DriveItem | undefined;
   /** The comment in the discussion thread. This identifier is an opaque string compatible with the Drive API; see https://developers.google.com/workspace/drive/v3/reference/comments/get */
-  legacyCommentId?: string;
+  legacyCommentId?: string | undefined;
   /** The discussion thread to which the comment was added. This identifier is an opaque string compatible with the Drive API and references the first comment in a discussion; see https://developers.google.com/workspace/drive/v3/reference/comments/get */
-  legacyDiscussionId?: string;
+  legacyDiscussionId?: string | undefined;
   /** The link to the discussion thread containing this comment, for example, `https://docs.google.com/DOCUMENT_ID/edit?disco=THREAD_ID`. */
-  linkToDiscussion?: string;
+  linkToDiscussion?: string | undefined;
 }
 /** This item is deprecated; please see `Drive` instead. */
 export interface TeamDrive {
   /** This field is deprecated; please see `Drive.root` instead. */
-  root?: DriveItem;
+  root?: DriveItem | undefined;
   /** This field is deprecated; please see `Drive.title` instead. */
-  title?: string;
+  title?: string | undefined;
   /** This field is deprecated; please see `Drive.name` instead. */
-  name?: string;
+  name?: string | undefined;
 }
 /** Information about the target of activity. For more information on how activity history is shared with users, see [Activity history visibility](https://developers.google.com/workspace/drive/activity/v2#activityhistory). */
 export interface Target {
   /** The target is a Drive item. */
-  driveItem?: DriveItem;
+  driveItem?: DriveItem | undefined;
   /** The target is a shared drive. */
-  drive?: Drive;
+  drive?: Drive | undefined;
   /** The target is a comment on a Drive file. */
-  fileComment?: FileComment;
+  fileComment?: FileComment | undefined;
   /** This field is deprecated; please use the `drive` field instead. */
-  teamDrive?: TeamDrive;
+  teamDrive?: TeamDrive | undefined;
 }
 /** Information about time ranges. */
 export interface TimeRange {
   /** The end of the time range. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The start of the time range. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** Information about the action. */
 export interface Action {
   /** The actor responsible for this action (or empty if all actors are responsible). */
-  actor?: Actor;
+  actor?: Actor | undefined;
   /** The type and detailed information about the action. */
-  detail?: ActionDetail;
+  detail?: ActionDetail | undefined;
   /** The target this action affects (or empty if affecting all targets). This represents the state of the target immediately after this action occurred. */
-  target?: Target;
+  target?: Target | undefined;
   /** The action occurred over this time range. */
-  timeRange?: TimeRange;
+  timeRange?: TimeRange | undefined;
   /** The action occurred at this specific time. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export type ActionList = Array<Action>;
 export type TargetList = Array<Target>;
@@ -635,25 +635,25 @@ export type ActorList = Array<Actor>;
 /** A single Drive activity comprising one or more Actions by one or more Actors on one or more Targets. Some Action groupings occur spontaneously, such as moving an item into a shared folder triggering a permission change. Other groupings of related Actions, such as multiple Actors editing one item or moving multiple files into a new folder, are controlled by the selection of a ConsolidationStrategy in the QueryDriveActivityRequest. */
 export interface DriveActivity {
   /** Details on all actions in this activity. */
-  actions?: ActionList;
+  actions?: ActionList | undefined;
   /** The activity occurred over this time range. */
-  timeRange?: TimeRange;
+  timeRange?: TimeRange | undefined;
   /** The activity occurred at this specific time. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** All Google Drive objects this activity is about (e.g. file, folder, drive). This represents the state of the target immediately after the actions occurred. */
-  targets?: TargetList;
+  targets?: TargetList | undefined;
   /** Key information about the primary action for this activity. This is either representative, or the most important, of all actions in the activity, according to the ConsolidationStrategy in the request. */
-  primaryActionDetail?: ActionDetail;
+  primaryActionDetail?: ActionDetail | undefined;
   /** All actor(s) responsible for the activity. */
-  actors?: ActorList;
+  actors?: ActorList | undefined;
 }
 export type DriveActivityList = Array<DriveActivity>;
 /** Response message for querying Drive activity. */
 export interface QueryDriveActivityResponse {
   /** Token to retrieve the next page of results, or empty if there are no more results in the list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of activity requested. */
-  activities?: DriveActivityList;
+  activities?: DriveActivityList | undefined;
 }
 export type QueryActivityError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Query past activity in Google Drive. */

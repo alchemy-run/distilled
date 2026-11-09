@@ -87,11 +87,11 @@ export interface CreateWebhookRequestJobCase0VolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
 export type CreateWebhookRequestJobCase0VolumesList =
@@ -103,11 +103,11 @@ export type CreateWebhookRequestJobCase0ExposePortsPublicList = Array<number>;
 export interface CreateWebhookRequestJobCase0Expose {
   ports: CreateWebhookRequestJobCase0ExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: CreateWebhookRequestJobCase0ExposePortsPublicList;
+  portsPublic?: CreateWebhookRequestJobCase0ExposePortsPublicList | undefined;
 }
 /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
 export interface CreateWebhookRequestJobCase0Ssh {
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
 export type CreateWebhookRequestJobCase0NetworkAliasesList = Array<string>;
@@ -116,31 +116,31 @@ export interface CreateWebhookRequestJobCase0Network {
   /** Group name, scoped to the job's owner and resource group. */
   group: string;
   /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
-  aliases?: CreateWebhookRequestJobCase0NetworkAliasesList;
+  aliases?: CreateWebhookRequestJobCase0NetworkAliasesList | undefined;
 }
 export interface CreateWebhookRequestJobCase0 {
   spaceId: unknown;
-  dockerImage?: string;
-  arguments?: CreateWebhookRequestJobCase0ArgumentsList;
-  command?: CreateWebhookRequestJobCase0CommandList;
-  environment?: CreateWebhookRequestJobCase0EnvironmentMap;
-  secrets?: CreateWebhookRequestJobCase0SecretsMap;
+  dockerImage?: string | undefined;
+  arguments?: CreateWebhookRequestJobCase0ArgumentsList | undefined;
+  command?: CreateWebhookRequestJobCase0CommandList | undefined;
+  environment?: CreateWebhookRequestJobCase0EnvironmentMap | undefined;
+  secrets?: CreateWebhookRequestJobCase0SecretsMap | undefined;
   flavor: CreateWebhookRequestJobCase0Flavor | (string & {});
-  arch?: CreateWebhookRequestJobCase0Arch | (string & {});
-  timeoutSeconds?: number | null;
+  arch?: CreateWebhookRequestJobCase0Arch | (string & {}) | undefined;
+  timeoutSeconds?: number | null | undefined;
   /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
-  attempts?: number;
+  attempts?: number | undefined;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: CreateWebhookRequestJobCase0LabelsMap;
+  labels?: CreateWebhookRequestJobCase0LabelsMap | undefined;
   /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-  volumes?: CreateWebhookRequestJobCase0VolumesList;
+  volumes?: CreateWebhookRequestJobCase0VolumesList | undefined;
   /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-  expose?: CreateWebhookRequestJobCase0Expose;
+  expose?: CreateWebhookRequestJobCase0Expose | undefined;
   /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-  ssh?: CreateWebhookRequestJobCase0Ssh;
+  ssh?: CreateWebhookRequestJobCase0Ssh | undefined;
   /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
-  network?: CreateWebhookRequestJobCase0Network;
-  resourceGroupId?: string;
+  network?: CreateWebhookRequestJobCase0Network | undefined;
+  resourceGroupId?: string | undefined;
 }
 export type CreateWebhookRequestJobCase1ArgumentsList = Array<string>;
 export type CreateWebhookRequestJobCase1CommandList = Array<string>;
@@ -187,11 +187,11 @@ export interface CreateWebhookRequestJobCase1VolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
 export type CreateWebhookRequestJobCase1VolumesList =
@@ -203,7 +203,7 @@ export type CreateWebhookRequestJobCase1ExposePortsPublicList = Array<number>;
 export interface CreateWebhookRequestJobCase1Expose {
   ports: CreateWebhookRequestJobCase1ExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: CreateWebhookRequestJobCase1ExposePortsPublicList;
+  portsPublic?: CreateWebhookRequestJobCase1ExposePortsPublicList | undefined;
 }
 /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
 export type CreateWebhookRequestJobCase1Ssh = CreateWebhookRequestJobCase0Ssh;
@@ -214,31 +214,31 @@ export interface CreateWebhookRequestJobCase1Network {
   /** Group name, scoped to the job's owner and resource group. */
   group: string;
   /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
-  aliases?: CreateWebhookRequestJobCase1NetworkAliasesList;
+  aliases?: CreateWebhookRequestJobCase1NetworkAliasesList | undefined;
 }
 export interface CreateWebhookRequestJobCase1 {
-  spaceId?: string;
+  spaceId?: string | undefined;
   dockerImage: unknown;
-  arguments?: CreateWebhookRequestJobCase1ArgumentsList;
-  command?: CreateWebhookRequestJobCase1CommandList;
-  environment?: CreateWebhookRequestJobCase1EnvironmentMap;
-  secrets?: CreateWebhookRequestJobCase1SecretsMap;
+  arguments?: CreateWebhookRequestJobCase1ArgumentsList | undefined;
+  command?: CreateWebhookRequestJobCase1CommandList | undefined;
+  environment?: CreateWebhookRequestJobCase1EnvironmentMap | undefined;
+  secrets?: CreateWebhookRequestJobCase1SecretsMap | undefined;
   flavor: CreateWebhookRequestJobCase1Flavor | (string & {});
-  arch?: CreateWebhookRequestJobCase1Arch | (string & {});
-  timeoutSeconds?: number | null;
+  arch?: CreateWebhookRequestJobCase1Arch | (string & {}) | undefined;
+  timeoutSeconds?: number | null | undefined;
   /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
-  attempts?: number;
+  attempts?: number | undefined;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: CreateWebhookRequestJobCase1LabelsMap;
+  labels?: CreateWebhookRequestJobCase1LabelsMap | undefined;
   /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-  volumes?: CreateWebhookRequestJobCase1VolumesList;
+  volumes?: CreateWebhookRequestJobCase1VolumesList | undefined;
   /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-  expose?: CreateWebhookRequestJobCase1Expose;
+  expose?: CreateWebhookRequestJobCase1Expose | undefined;
   /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-  ssh?: CreateWebhookRequestJobCase0Ssh;
+  ssh?: CreateWebhookRequestJobCase0Ssh | undefined;
   /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
-  network?: CreateWebhookRequestJobCase1Network;
-  resourceGroupId?: string;
+  network?: CreateWebhookRequestJobCase1Network | undefined;
+  resourceGroupId?: string | undefined;
 }
 export type CreateWebhookRequestJob = CreateWebhookRequestJobCase0 | CreateWebhookRequestJobCase1;
 /** Secrets of the job started by the webhook, used together with `jobSourceId`: the source job's own secrets are never copied. On update, listed keys are replaced, an empty value removes a secret, and omitted keys keep their stored value. */
@@ -249,13 +249,13 @@ export type CreateWebhookRequestDomainsList = Array<
 >;
 export interface CreateWebhookRequest {
   watched: CreateWebhookRequestWatchedList;
-  url?: string;
-  job?: CreateWebhookRequestJob;
-  jobSourceId?: string;
+  url?: string | undefined;
+  job?: CreateWebhookRequestJob | undefined;
+  jobSourceId?: string | undefined;
   /** Secrets of the job started by the webhook, used together with `jobSourceId`: the source job's own secrets are never copied. On update, listed keys are replaced, an empty value removes a secret, and omitted keys keep their stored value. */
-  secrets?: CreateWebhookRequestSecretsMap;
+  secrets?: CreateWebhookRequestSecretsMap | undefined;
   domains: CreateWebhookRequestDomainsList;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type CreateWebhookResponseWebhookJobCase0EnvironmentMap = {
   [key: string]: string | undefined;
@@ -296,16 +296,16 @@ export type CreateWebhookResponseWebhookJobCase0Flavor =
 export type CreateWebhookResponseWebhookJobCase0LabelsMap = { [key: string]: string | undefined };
 export type CreateWebhookResponseWebhookJobCase0SecretsList = Array<string>;
 export interface CreateWebhookResponseWebhookJobCase0 {
-  dockerImage?: string;
+  dockerImage?: string | undefined;
   spaceId: unknown;
   environment: CreateWebhookResponseWebhookJobCase0EnvironmentMap;
-  arguments?: CreateWebhookResponseWebhookJobCase0ArgumentsList;
-  command?: CreateWebhookResponseWebhookJobCase0CommandList;
+  arguments?: CreateWebhookResponseWebhookJobCase0ArgumentsList | undefined;
+  command?: CreateWebhookResponseWebhookJobCase0CommandList | undefined;
   flavor: CreateWebhookResponseWebhookJobCase0Flavor;
   timeoutSeconds: number | null;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: CreateWebhookResponseWebhookJobCase0LabelsMap;
-  secrets?: CreateWebhookResponseWebhookJobCase0SecretsList;
+  labels?: CreateWebhookResponseWebhookJobCase0LabelsMap | undefined;
+  secrets?: CreateWebhookResponseWebhookJobCase0SecretsList | undefined;
 }
 export type CreateWebhookResponseWebhookJobCase1EnvironmentMap = {
   [key: string]: string | undefined;
@@ -347,15 +347,15 @@ export type CreateWebhookResponseWebhookJobCase1LabelsMap = { [key: string]: str
 export type CreateWebhookResponseWebhookJobCase1SecretsList = Array<string>;
 export interface CreateWebhookResponseWebhookJobCase1 {
   dockerImage: unknown;
-  spaceId?: string;
+  spaceId?: string | undefined;
   environment: CreateWebhookResponseWebhookJobCase1EnvironmentMap;
-  arguments?: CreateWebhookResponseWebhookJobCase1ArgumentsList;
-  command?: CreateWebhookResponseWebhookJobCase1CommandList;
+  arguments?: CreateWebhookResponseWebhookJobCase1ArgumentsList | undefined;
+  command?: CreateWebhookResponseWebhookJobCase1CommandList | undefined;
   flavor: CreateWebhookResponseWebhookJobCase1Flavor;
   timeoutSeconds: number | null;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: CreateWebhookResponseWebhookJobCase1LabelsMap;
-  secrets?: CreateWebhookResponseWebhookJobCase1SecretsList;
+  labels?: CreateWebhookResponseWebhookJobCase1LabelsMap | undefined;
+  secrets?: CreateWebhookResponseWebhookJobCase1SecretsList | undefined;
 }
 export type CreateWebhookResponseWebhookJob =
   | CreateWebhookResponseWebhookJobCase0
@@ -373,7 +373,7 @@ export type CreateWebhookResponseWebhookWatchedItemType =
 export interface CreateWebhookResponseWebhookWatchedItem {
   name: string;
   type: CreateWebhookResponseWebhookWatchedItemType;
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
 }
 export type CreateWebhookResponseWebhookWatchedList =
   Array<CreateWebhookResponseWebhookWatchedItem>;
@@ -383,15 +383,15 @@ export type CreateWebhookResponseWebhookDomainsList =
 export interface CreateWebhookResponseWebhook {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
-  url?: string;
-  job?: CreateWebhookResponseWebhookJob;
-  jobSourceId?: string;
+  url?: string | undefined;
+  job?: CreateWebhookResponseWebhookJob | undefined;
+  jobSourceId?: string | undefined;
   disabled: CreateWebhookResponseWebhookDisabled;
   watched: CreateWebhookResponseWebhookWatchedList;
   /** Whether the webhook has a secret (the secret itself is never returned) */
   hasSecret: boolean;
   domains: CreateWebhookResponseWebhookDomainsList;
-  lastTriggerAt?: string;
+  lastTriggerAt?: string | undefined;
 }
 export interface CreateWebhookResponse {
   webhook: CreateWebhookResponseWebhook;
@@ -446,16 +446,16 @@ export type EnableDisableWebhookResponseWebhookJobCase0LabelsMap = {
 };
 export type EnableDisableWebhookResponseWebhookJobCase0SecretsList = Array<string>;
 export interface EnableDisableWebhookResponseWebhookJobCase0 {
-  dockerImage?: string;
+  dockerImage?: string | undefined;
   spaceId: unknown;
   environment: EnableDisableWebhookResponseWebhookJobCase0EnvironmentMap;
-  arguments?: EnableDisableWebhookResponseWebhookJobCase0ArgumentsList;
-  command?: EnableDisableWebhookResponseWebhookJobCase0CommandList;
+  arguments?: EnableDisableWebhookResponseWebhookJobCase0ArgumentsList | undefined;
+  command?: EnableDisableWebhookResponseWebhookJobCase0CommandList | undefined;
   flavor: EnableDisableWebhookResponseWebhookJobCase0Flavor;
   timeoutSeconds: number | null;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: EnableDisableWebhookResponseWebhookJobCase0LabelsMap;
-  secrets?: EnableDisableWebhookResponseWebhookJobCase0SecretsList;
+  labels?: EnableDisableWebhookResponseWebhookJobCase0LabelsMap | undefined;
+  secrets?: EnableDisableWebhookResponseWebhookJobCase0SecretsList | undefined;
 }
 export type EnableDisableWebhookResponseWebhookJobCase1EnvironmentMap = {
   [key: string]: string | undefined;
@@ -499,15 +499,15 @@ export type EnableDisableWebhookResponseWebhookJobCase1LabelsMap = {
 export type EnableDisableWebhookResponseWebhookJobCase1SecretsList = Array<string>;
 export interface EnableDisableWebhookResponseWebhookJobCase1 {
   dockerImage: unknown;
-  spaceId?: string;
+  spaceId?: string | undefined;
   environment: EnableDisableWebhookResponseWebhookJobCase1EnvironmentMap;
-  arguments?: EnableDisableWebhookResponseWebhookJobCase1ArgumentsList;
-  command?: EnableDisableWebhookResponseWebhookJobCase1CommandList;
+  arguments?: EnableDisableWebhookResponseWebhookJobCase1ArgumentsList | undefined;
+  command?: EnableDisableWebhookResponseWebhookJobCase1CommandList | undefined;
   flavor: EnableDisableWebhookResponseWebhookJobCase1Flavor;
   timeoutSeconds: number | null;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: EnableDisableWebhookResponseWebhookJobCase1LabelsMap;
-  secrets?: EnableDisableWebhookResponseWebhookJobCase1SecretsList;
+  labels?: EnableDisableWebhookResponseWebhookJobCase1LabelsMap | undefined;
+  secrets?: EnableDisableWebhookResponseWebhookJobCase1SecretsList | undefined;
 }
 export type EnableDisableWebhookResponseWebhookJob =
   | EnableDisableWebhookResponseWebhookJobCase0
@@ -525,7 +525,7 @@ export type EnableDisableWebhookResponseWebhookWatchedItemType =
 export interface EnableDisableWebhookResponseWebhookWatchedItem {
   name: string;
   type: EnableDisableWebhookResponseWebhookWatchedItemType;
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
 }
 export type EnableDisableWebhookResponseWebhookWatchedList =
   Array<EnableDisableWebhookResponseWebhookWatchedItem>;
@@ -536,15 +536,15 @@ export type EnableDisableWebhookResponseWebhookDomainsList =
 export interface EnableDisableWebhookResponseWebhook {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
-  url?: string;
-  job?: EnableDisableWebhookResponseWebhookJob;
-  jobSourceId?: string;
+  url?: string | undefined;
+  job?: EnableDisableWebhookResponseWebhookJob | undefined;
+  jobSourceId?: string | undefined;
   disabled: EnableDisableWebhookResponseWebhookDisabled;
   watched: EnableDisableWebhookResponseWebhookWatchedList;
   /** Whether the webhook has a secret (the secret itself is never returned) */
   hasSecret: boolean;
   domains: EnableDisableWebhookResponseWebhookDomainsList;
-  lastTriggerAt?: string;
+  lastTriggerAt?: string | undefined;
 }
 export interface EnableDisableWebhookResponse {
   /** Webhook */
@@ -590,16 +590,16 @@ export type GetWebhookResponseWebhookJobCase0Flavor =
 export type GetWebhookResponseWebhookJobCase0LabelsMap = { [key: string]: string | undefined };
 export type GetWebhookResponseWebhookJobCase0SecretsList = Array<string>;
 export interface GetWebhookResponseWebhookJobCase0 {
-  dockerImage?: string;
+  dockerImage?: string | undefined;
   spaceId: unknown;
   environment: GetWebhookResponseWebhookJobCase0EnvironmentMap;
-  arguments?: GetWebhookResponseWebhookJobCase0ArgumentsList;
-  command?: GetWebhookResponseWebhookJobCase0CommandList;
+  arguments?: GetWebhookResponseWebhookJobCase0ArgumentsList | undefined;
+  command?: GetWebhookResponseWebhookJobCase0CommandList | undefined;
   flavor: GetWebhookResponseWebhookJobCase0Flavor;
   timeoutSeconds: number | null;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: GetWebhookResponseWebhookJobCase0LabelsMap;
-  secrets?: GetWebhookResponseWebhookJobCase0SecretsList;
+  labels?: GetWebhookResponseWebhookJobCase0LabelsMap | undefined;
+  secrets?: GetWebhookResponseWebhookJobCase0SecretsList | undefined;
 }
 export type GetWebhookResponseWebhookJobCase1EnvironmentMap = { [key: string]: string | undefined };
 export type GetWebhookResponseWebhookJobCase1ArgumentsList = Array<string>;
@@ -639,15 +639,15 @@ export type GetWebhookResponseWebhookJobCase1LabelsMap = { [key: string]: string
 export type GetWebhookResponseWebhookJobCase1SecretsList = Array<string>;
 export interface GetWebhookResponseWebhookJobCase1 {
   dockerImage: unknown;
-  spaceId?: string;
+  spaceId?: string | undefined;
   environment: GetWebhookResponseWebhookJobCase1EnvironmentMap;
-  arguments?: GetWebhookResponseWebhookJobCase1ArgumentsList;
-  command?: GetWebhookResponseWebhookJobCase1CommandList;
+  arguments?: GetWebhookResponseWebhookJobCase1ArgumentsList | undefined;
+  command?: GetWebhookResponseWebhookJobCase1CommandList | undefined;
   flavor: GetWebhookResponseWebhookJobCase1Flavor;
   timeoutSeconds: number | null;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: GetWebhookResponseWebhookJobCase1LabelsMap;
-  secrets?: GetWebhookResponseWebhookJobCase1SecretsList;
+  labels?: GetWebhookResponseWebhookJobCase1LabelsMap | undefined;
+  secrets?: GetWebhookResponseWebhookJobCase1SecretsList | undefined;
 }
 export type GetWebhookResponseWebhookJob =
   | GetWebhookResponseWebhookJobCase0
@@ -665,7 +665,7 @@ export type GetWebhookResponseWebhookWatchedItemType =
 export interface GetWebhookResponseWebhookWatchedItem {
   name: string;
   type: GetWebhookResponseWebhookWatchedItemType;
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
 }
 export type GetWebhookResponseWebhookWatchedList = Array<GetWebhookResponseWebhookWatchedItem>;
 export type GetWebhookResponseWebhookDomainsItem = "repo" | "discussion";
@@ -674,15 +674,15 @@ export type GetWebhookResponseWebhookDomainsList = Array<GetWebhookResponseWebho
 export interface GetWebhookResponseWebhook {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
-  url?: string;
-  job?: GetWebhookResponseWebhookJob;
-  jobSourceId?: string;
+  url?: string | undefined;
+  job?: GetWebhookResponseWebhookJob | undefined;
+  jobSourceId?: string | undefined;
   disabled: GetWebhookResponseWebhookDisabled;
   watched: GetWebhookResponseWebhookWatchedList;
   /** Whether the webhook has a secret (the secret itself is never returned) */
   hasSecret: boolean;
   domains: GetWebhookResponseWebhookDomainsList;
-  lastTriggerAt?: string;
+  lastTriggerAt?: string | undefined;
 }
 export interface GetWebhookResponse {
   /** Webhook */
@@ -728,16 +728,16 @@ export type ListWebhooksResponseBodyItemJobCase0Flavor =
 export type ListWebhooksResponseBodyItemJobCase0LabelsMap = { [key: string]: string | undefined };
 export type ListWebhooksResponseBodyItemJobCase0SecretsList = Array<string>;
 export interface ListWebhooksResponseBodyItemJobCase0 {
-  dockerImage?: string;
+  dockerImage?: string | undefined;
   spaceId: unknown;
   environment: ListWebhooksResponseBodyItemJobCase0EnvironmentMap;
-  arguments?: ListWebhooksResponseBodyItemJobCase0ArgumentsList;
-  command?: ListWebhooksResponseBodyItemJobCase0CommandList;
+  arguments?: ListWebhooksResponseBodyItemJobCase0ArgumentsList | undefined;
+  command?: ListWebhooksResponseBodyItemJobCase0CommandList | undefined;
   flavor: ListWebhooksResponseBodyItemJobCase0Flavor;
   timeoutSeconds: number | null;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: ListWebhooksResponseBodyItemJobCase0LabelsMap;
-  secrets?: ListWebhooksResponseBodyItemJobCase0SecretsList;
+  labels?: ListWebhooksResponseBodyItemJobCase0LabelsMap | undefined;
+  secrets?: ListWebhooksResponseBodyItemJobCase0SecretsList | undefined;
 }
 export type ListWebhooksResponseBodyItemJobCase1EnvironmentMap = {
   [key: string]: string | undefined;
@@ -779,15 +779,15 @@ export type ListWebhooksResponseBodyItemJobCase1LabelsMap = { [key: string]: str
 export type ListWebhooksResponseBodyItemJobCase1SecretsList = Array<string>;
 export interface ListWebhooksResponseBodyItemJobCase1 {
   dockerImage: unknown;
-  spaceId?: string;
+  spaceId?: string | undefined;
   environment: ListWebhooksResponseBodyItemJobCase1EnvironmentMap;
-  arguments?: ListWebhooksResponseBodyItemJobCase1ArgumentsList;
-  command?: ListWebhooksResponseBodyItemJobCase1CommandList;
+  arguments?: ListWebhooksResponseBodyItemJobCase1ArgumentsList | undefined;
+  command?: ListWebhooksResponseBodyItemJobCase1CommandList | undefined;
   flavor: ListWebhooksResponseBodyItemJobCase1Flavor;
   timeoutSeconds: number | null;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: ListWebhooksResponseBodyItemJobCase1LabelsMap;
-  secrets?: ListWebhooksResponseBodyItemJobCase1SecretsList;
+  labels?: ListWebhooksResponseBodyItemJobCase1LabelsMap | undefined;
+  secrets?: ListWebhooksResponseBodyItemJobCase1SecretsList | undefined;
 }
 export type ListWebhooksResponseBodyItemJob =
   | ListWebhooksResponseBodyItemJobCase0
@@ -805,7 +805,7 @@ export type ListWebhooksResponseBodyItemWatchedItemType =
 export interface ListWebhooksResponseBodyItemWatchedItem {
   name: string;
   type: ListWebhooksResponseBodyItemWatchedItemType;
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
 }
 export type ListWebhooksResponseBodyItemWatchedList =
   Array<ListWebhooksResponseBodyItemWatchedItem>;
@@ -815,15 +815,15 @@ export type ListWebhooksResponseBodyItemDomainsList =
 export interface ListWebhooksResponseBodyItem {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
-  url?: string;
-  job?: ListWebhooksResponseBodyItemJob;
-  jobSourceId?: string;
+  url?: string | undefined;
+  job?: ListWebhooksResponseBodyItemJob | undefined;
+  jobSourceId?: string | undefined;
   disabled: ListWebhooksResponseBodyItemDisabled;
   watched: ListWebhooksResponseBodyItemWatchedList;
   /** Whether the webhook has a secret (the secret itself is never returned) */
   hasSecret: boolean;
   domains: ListWebhooksResponseBodyItemDomainsList;
-  lastTriggerAt?: string;
+  lastTriggerAt?: string | undefined;
 }
 export type ListWebhooksResponseBodyList = Array<ListWebhooksResponseBodyItem>;
 export type ListWebhooksResponse = ListWebhooksResponseBodyList;
@@ -894,11 +894,11 @@ export interface UpdateWebhookRequestJobCase0VolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
 export type UpdateWebhookRequestJobCase0VolumesList =
@@ -910,7 +910,7 @@ export type UpdateWebhookRequestJobCase0ExposePortsPublicList = Array<number>;
 export interface UpdateWebhookRequestJobCase0Expose {
   ports: UpdateWebhookRequestJobCase0ExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: UpdateWebhookRequestJobCase0ExposePortsPublicList;
+  portsPublic?: UpdateWebhookRequestJobCase0ExposePortsPublicList | undefined;
 }
 /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
 export type UpdateWebhookRequestJobCase0Ssh = CreateWebhookRequestJobCase0Ssh;
@@ -921,31 +921,31 @@ export interface UpdateWebhookRequestJobCase0Network {
   /** Group name, scoped to the job's owner and resource group. */
   group: string;
   /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
-  aliases?: UpdateWebhookRequestJobCase0NetworkAliasesList;
+  aliases?: UpdateWebhookRequestJobCase0NetworkAliasesList | undefined;
 }
 export interface UpdateWebhookRequestJobCase0 {
   spaceId: unknown;
-  dockerImage?: string;
-  arguments?: UpdateWebhookRequestJobCase0ArgumentsList;
-  command?: UpdateWebhookRequestJobCase0CommandList;
-  environment?: UpdateWebhookRequestJobCase0EnvironmentMap;
-  secrets?: UpdateWebhookRequestJobCase0SecretsMap;
+  dockerImage?: string | undefined;
+  arguments?: UpdateWebhookRequestJobCase0ArgumentsList | undefined;
+  command?: UpdateWebhookRequestJobCase0CommandList | undefined;
+  environment?: UpdateWebhookRequestJobCase0EnvironmentMap | undefined;
+  secrets?: UpdateWebhookRequestJobCase0SecretsMap | undefined;
   flavor: UpdateWebhookRequestJobCase0Flavor | (string & {});
-  arch?: UpdateWebhookRequestJobCase0Arch | (string & {});
-  timeoutSeconds?: number | null;
+  arch?: UpdateWebhookRequestJobCase0Arch | (string & {}) | undefined;
+  timeoutSeconds?: number | null | undefined;
   /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
-  attempts?: number;
+  attempts?: number | undefined;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: UpdateWebhookRequestJobCase0LabelsMap;
+  labels?: UpdateWebhookRequestJobCase0LabelsMap | undefined;
   /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-  volumes?: UpdateWebhookRequestJobCase0VolumesList;
+  volumes?: UpdateWebhookRequestJobCase0VolumesList | undefined;
   /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-  expose?: UpdateWebhookRequestJobCase0Expose;
+  expose?: UpdateWebhookRequestJobCase0Expose | undefined;
   /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-  ssh?: CreateWebhookRequestJobCase0Ssh;
+  ssh?: CreateWebhookRequestJobCase0Ssh | undefined;
   /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
-  network?: UpdateWebhookRequestJobCase0Network;
-  resourceGroupId?: string;
+  network?: UpdateWebhookRequestJobCase0Network | undefined;
+  resourceGroupId?: string | undefined;
 }
 export type UpdateWebhookRequestJobCase1ArgumentsList = Array<string>;
 export type UpdateWebhookRequestJobCase1CommandList = Array<string>;
@@ -992,11 +992,11 @@ export interface UpdateWebhookRequestJobCase1VolumesItem {
   /** Mount path inside the container, e.g. '/data' */
   mountPath: string;
   /** Git revision (only for repos, defaults to 'main') */
-  revision?: string;
+  revision?: string | undefined;
   /** Read-only mount (true for repos, false default for buckets) */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** Subfolder prefix inside the bucket/repo to mount, e.g. 'path/to/dir' */
-  path?: string;
+  path?: string | undefined;
 }
 /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
 export type UpdateWebhookRequestJobCase1VolumesList =
@@ -1008,7 +1008,7 @@ export type UpdateWebhookRequestJobCase1ExposePortsPublicList = Array<number>;
 export interface UpdateWebhookRequestJobCase1Expose {
   ports: UpdateWebhookRequestJobCase1ExposePortsList;
   /** Subset of `ports` reachable without any authentication. */
-  portsPublic?: UpdateWebhookRequestJobCase1ExposePortsPublicList;
+  portsPublic?: UpdateWebhookRequestJobCase1ExposePortsPublicList | undefined;
 }
 /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
 export type UpdateWebhookRequestJobCase1Ssh = CreateWebhookRequestJobCase0Ssh;
@@ -1019,31 +1019,31 @@ export interface UpdateWebhookRequestJobCase1Network {
   /** Group name, scoped to the job's owner and resource group. */
   group: string;
   /** Roles this job answers to. An alias names a role, not a job: several members may claim the same alias, which then resolves to all of them, and a member may claim several. Peers get the hostname by appending the alias to the `HF_NETWORK_GROUP_PREFIX` environment variable, which already ends with a separator. */
-  aliases?: UpdateWebhookRequestJobCase1NetworkAliasesList;
+  aliases?: UpdateWebhookRequestJobCase1NetworkAliasesList | undefined;
 }
 export interface UpdateWebhookRequestJobCase1 {
-  spaceId?: string;
+  spaceId?: string | undefined;
   dockerImage: unknown;
-  arguments?: UpdateWebhookRequestJobCase1ArgumentsList;
-  command?: UpdateWebhookRequestJobCase1CommandList;
-  environment?: UpdateWebhookRequestJobCase1EnvironmentMap;
-  secrets?: UpdateWebhookRequestJobCase1SecretsMap;
+  arguments?: UpdateWebhookRequestJobCase1ArgumentsList | undefined;
+  command?: UpdateWebhookRequestJobCase1CommandList | undefined;
+  environment?: UpdateWebhookRequestJobCase1EnvironmentMap | undefined;
+  secrets?: UpdateWebhookRequestJobCase1SecretsMap | undefined;
   flavor: UpdateWebhookRequestJobCase1Flavor | (string & {});
-  arch?: UpdateWebhookRequestJobCase1Arch | (string & {});
-  timeoutSeconds?: number | null;
+  arch?: UpdateWebhookRequestJobCase1Arch | (string & {}) | undefined;
+  timeoutSeconds?: number | null | undefined;
   /** Max number of attempts to make. For example, if you set this to 3, the job will be retried up to 2 times if it fails. */
-  attempts?: number;
+  attempts?: number | undefined;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: UpdateWebhookRequestJobCase1LabelsMap;
+  labels?: UpdateWebhookRequestJobCase1LabelsMap | undefined;
   /** HuggingFace Buckets or Repos to mount as volumes in the job container. */
-  volumes?: UpdateWebhookRequestJobCase1VolumesList;
+  volumes?: UpdateWebhookRequestJobCase1VolumesList | undefined;
   /** Ports to expose publicly through the jobs proxy. Each port is reachable at `https://<job_id>--<port>.<jobs-public-domain>`. Access requires a HF token with read access to the job's namespace, except for ports also listed in `portsPublic`. */
-  expose?: UpdateWebhookRequestJobCase1Expose;
+  expose?: UpdateWebhookRequestJobCase1Expose | undefined;
   /** When `enabled`, the job's container is reachable over SSH at `ssh <job_id>@ssh.hf.jobs`. Only the job's owner is allowed in, authenticated by an SSH public key registered on the Hub. */
-  ssh?: CreateWebhookRequestJobCase0Ssh;
+  ssh?: CreateWebhookRequestJobCase0Ssh | undefined;
   /** Opt-in network group. Jobs of the same owner and resource group sharing a group are placed together and reach each other on every port. Two environment variables are set in the container: `HF_NETWORK_GROUP_HOSTNAME`, a hostname resolving to every member of the group, and `HF_NETWORK_GROUP_PREFIX`, to which an alias is appended to get that alias' hostname. */
-  network?: UpdateWebhookRequestJobCase1Network;
-  resourceGroupId?: string;
+  network?: UpdateWebhookRequestJobCase1Network | undefined;
+  resourceGroupId?: string | undefined;
 }
 export type UpdateWebhookRequestJob = UpdateWebhookRequestJobCase0 | UpdateWebhookRequestJobCase1;
 /** Secrets of the job started by the webhook, used together with `jobSourceId`: the source job's own secrets are never copied. On update, listed keys are replaced, an empty value removes a secret, and omitted keys keep their stored value. */
@@ -1055,13 +1055,13 @@ export type UpdateWebhookRequestDomainsList = Array<
 export interface UpdateWebhookRequest {
   webhookId: string;
   watched: UpdateWebhookRequestWatchedList;
-  url?: string;
-  job?: UpdateWebhookRequestJob;
-  jobSourceId?: string;
+  url?: string | undefined;
+  job?: UpdateWebhookRequestJob | undefined;
+  jobSourceId?: string | undefined;
   /** Secrets of the job started by the webhook, used together with `jobSourceId`: the source job's own secrets are never copied. On update, listed keys are replaced, an empty value removes a secret, and omitted keys keep their stored value. */
-  secrets?: UpdateWebhookRequestSecretsMap;
+  secrets?: UpdateWebhookRequestSecretsMap | undefined;
   domains: UpdateWebhookRequestDomainsList;
-  secret?: string | Redacted.Redacted<string>;
+  secret?: string | Redacted.Redacted<string> | undefined;
 }
 export type UpdateWebhookResponseWebhookJobCase0EnvironmentMap = {
   [key: string]: string | undefined;
@@ -1102,16 +1102,16 @@ export type UpdateWebhookResponseWebhookJobCase0Flavor =
 export type UpdateWebhookResponseWebhookJobCase0LabelsMap = { [key: string]: string | undefined };
 export type UpdateWebhookResponseWebhookJobCase0SecretsList = Array<string>;
 export interface UpdateWebhookResponseWebhookJobCase0 {
-  dockerImage?: string;
+  dockerImage?: string | undefined;
   spaceId: unknown;
   environment: UpdateWebhookResponseWebhookJobCase0EnvironmentMap;
-  arguments?: UpdateWebhookResponseWebhookJobCase0ArgumentsList;
-  command?: UpdateWebhookResponseWebhookJobCase0CommandList;
+  arguments?: UpdateWebhookResponseWebhookJobCase0ArgumentsList | undefined;
+  command?: UpdateWebhookResponseWebhookJobCase0CommandList | undefined;
   flavor: UpdateWebhookResponseWebhookJobCase0Flavor;
   timeoutSeconds: number | null;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: UpdateWebhookResponseWebhookJobCase0LabelsMap;
-  secrets?: UpdateWebhookResponseWebhookJobCase0SecretsList;
+  labels?: UpdateWebhookResponseWebhookJobCase0LabelsMap | undefined;
+  secrets?: UpdateWebhookResponseWebhookJobCase0SecretsList | undefined;
 }
 export type UpdateWebhookResponseWebhookJobCase1EnvironmentMap = {
   [key: string]: string | undefined;
@@ -1153,15 +1153,15 @@ export type UpdateWebhookResponseWebhookJobCase1LabelsMap = { [key: string]: str
 export type UpdateWebhookResponseWebhookJobCase1SecretsList = Array<string>;
 export interface UpdateWebhookResponseWebhookJobCase1 {
   dockerImage: unknown;
-  spaceId?: string;
+  spaceId?: string | undefined;
   environment: UpdateWebhookResponseWebhookJobCase1EnvironmentMap;
-  arguments?: UpdateWebhookResponseWebhookJobCase1ArgumentsList;
-  command?: UpdateWebhookResponseWebhookJobCase1CommandList;
+  arguments?: UpdateWebhookResponseWebhookJobCase1ArgumentsList | undefined;
+  command?: UpdateWebhookResponseWebhookJobCase1CommandList | undefined;
   flavor: UpdateWebhookResponseWebhookJobCase1Flavor;
   timeoutSeconds: number | null;
   /** Labels for the job as key-value pairs. Both keys and values must be max 100 characters and contain only alphanumeric characters, dashes, and underscores. */
-  labels?: UpdateWebhookResponseWebhookJobCase1LabelsMap;
-  secrets?: UpdateWebhookResponseWebhookJobCase1SecretsList;
+  labels?: UpdateWebhookResponseWebhookJobCase1LabelsMap | undefined;
+  secrets?: UpdateWebhookResponseWebhookJobCase1SecretsList | undefined;
 }
 export type UpdateWebhookResponseWebhookJob =
   | UpdateWebhookResponseWebhookJobCase0
@@ -1179,7 +1179,7 @@ export type UpdateWebhookResponseWebhookWatchedItemType =
 export interface UpdateWebhookResponseWebhookWatchedItem {
   name: string;
   type: UpdateWebhookResponseWebhookWatchedItemType;
-  avatarUrl?: string;
+  avatarUrl?: string | undefined;
 }
 export type UpdateWebhookResponseWebhookWatchedList =
   Array<UpdateWebhookResponseWebhookWatchedItem>;
@@ -1190,15 +1190,15 @@ export type UpdateWebhookResponseWebhookDomainsList =
 export interface UpdateWebhookResponseWebhook {
   /** A hex string of 24 characters representing an ObjectId. */
   id: string;
-  url?: string;
-  job?: UpdateWebhookResponseWebhookJob;
-  jobSourceId?: string;
+  url?: string | undefined;
+  job?: UpdateWebhookResponseWebhookJob | undefined;
+  jobSourceId?: string | undefined;
   disabled: UpdateWebhookResponseWebhookDisabled;
   watched: UpdateWebhookResponseWebhookWatchedList;
   /** Whether the webhook has a secret (the secret itself is never returned) */
   hasSecret: boolean;
   domains: UpdateWebhookResponseWebhookDomainsList;
-  lastTriggerAt?: string;
+  lastTriggerAt?: string | undefined;
 }
 export interface UpdateWebhookResponse {
   /** Webhook */

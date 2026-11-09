@@ -213,22 +213,22 @@ export type AttackSurfaceReportIssuesClassRequestSubjectNeqList = Array<string>;
 export interface ClassAttackSurfaceReportIssueRequest {
   /** Identifier. */
   accountId: string;
-  dismissed?: boolean;
-  issueClass?: AttackSurfaceReportIssuesClassRequestIssueClassList;
-  issueClassNeq?: AttackSurfaceReportIssuesClassRequestIssueClassNeqList;
-  issueType?: AttackSurfaceReportIssuesClassRequestIssueTypeList;
-  issueTypeNeq?: AttackSurfaceReportIssuesClassRequestIssueTypeNeqList;
-  product?: AttackSurfaceReportIssuesClassRequestProductList;
-  productNeq?: AttackSurfaceReportIssuesClassRequestProductNeqList;
-  severity?: AttackSurfaceReportIssuesClassRequestSeverityList;
-  severityNeq?: AttackSurfaceReportIssuesClassRequestSeverityNeqList;
-  source?: AttackSurfaceReportIssuesClassRequestSourceList;
-  subject?: AttackSurfaceReportIssuesClassRequestSubjectList;
-  subjectNeq?: AttackSurfaceReportIssuesClassRequestSubjectNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: AttackSurfaceReportIssuesClassRequestIssueClassList | undefined;
+  issueClassNeq?: AttackSurfaceReportIssuesClassRequestIssueClassNeqList | undefined;
+  issueType?: AttackSurfaceReportIssuesClassRequestIssueTypeList | undefined;
+  issueTypeNeq?: AttackSurfaceReportIssuesClassRequestIssueTypeNeqList | undefined;
+  product?: AttackSurfaceReportIssuesClassRequestProductList | undefined;
+  productNeq?: AttackSurfaceReportIssuesClassRequestProductNeqList | undefined;
+  severity?: AttackSurfaceReportIssuesClassRequestSeverityList | undefined;
+  severityNeq?: AttackSurfaceReportIssuesClassRequestSeverityNeqList | undefined;
+  source?: AttackSurfaceReportIssuesClassRequestSourceList | undefined;
+  subject?: AttackSurfaceReportIssuesClassRequestSubjectList | undefined;
+  subjectNeq?: AttackSurfaceReportIssuesClassRequestSubjectNeqList | undefined;
 }
 export interface AttackSurfaceReportIssuesClassResultItem {
-  count?: number | null;
-  value?: string | null;
+  count?: number | null | undefined;
+  value?: string | null | undefined;
 }
 export type AttackSurfaceReportIssuesClassResultList =
   Array<AttackSurfaceReportIssuesClassResultItem>;
@@ -237,41 +237,41 @@ export interface CreateIndicatorFeedRequest {
   /** Identifier */
   accountId: string;
   /** The description of the example test */
-  description?: string;
+  description?: string | undefined;
   /** The name of the indicator feed */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateIndicatorFeedResponse {
   /** The unique identifier for the indicator feed */
-  id?: number | null;
+  id?: number | null | undefined;
   /** The date and time when the data entry was created */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The description of the example test */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the indicator feed can be attributed to a provider */
-  isAttributable?: boolean | null;
+  isAttributable?: boolean | null | undefined;
   /** Whether the indicator feed can be downloaded */
-  isDownloadable?: boolean | null;
+  isDownloadable?: boolean | null | undefined;
   /** Whether the indicator feed is exposed to customers */
-  isPublic?: boolean | null;
+  isPublic?: boolean | null | undefined;
   /** The date and time when the data entry was last modified */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The name of the indicator feed */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface CreateIndicatorFeedPermissionRequest {
   /** Identifier */
   accountId: string;
   /** The Cloudflare account tag of the account to change permissions on */
-  accountTag?: string;
+  accountTag?: string | undefined;
   /** The ID of the feed to add/remove permissions on */
-  feedId?: number;
+  feedId?: number | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateIndicatorFeedPermissionResponse {
   /** Whether the update succeeded or not */
-  success?: boolean | null;
+  success?: boolean | null | undefined;
 }
 export type MiscategorizationsCreateRequestContentAddsList = Array<number>;
 export type MiscategorizationsCreateRequestContentRemovesList = Array<number>;
@@ -282,18 +282,18 @@ export interface CreateMiscategorizationRequest {
   /** Identifier. */
   accountId: string;
   /** Content category IDs to add. */
-  contentAdds?: MiscategorizationsCreateRequestContentAddsList;
+  contentAdds?: MiscategorizationsCreateRequestContentAddsList | undefined;
   /** Content category IDs to remove. */
-  contentRemoves?: MiscategorizationsCreateRequestContentRemovesList;
-  indicatorType?: MiscategorizationsCreateRequestIndicatorType | (string & {});
+  contentRemoves?: MiscategorizationsCreateRequestContentRemovesList | undefined;
+  indicatorType?: MiscategorizationsCreateRequestIndicatorType | (string & {}) | undefined;
   /** Provide only if indicator_type is `ipv4` or `ipv6`. */
-  ip?: string;
+  ip?: string | undefined;
   /** Security category IDs to add. */
-  securityAdds?: MiscategorizationsCreateRequestSecurityAddsList;
+  securityAdds?: MiscategorizationsCreateRequestSecurityAddsList | undefined;
   /** Security category IDs to remove. */
-  securityRemoves?: MiscategorizationsCreateRequestSecurityRemovesList;
+  securityRemoves?: MiscategorizationsCreateRequestSecurityRemovesList | undefined;
   /** Provide only if indicator_type is `domain` or `url`. Example if indicator_type is `domain`: `example.com`. Example if indicator_type is `url`: `https://example.com/news/`. */
-  url?: string;
+  url?: string | undefined;
 }
 export interface CreateMiscategorizationResponse {}
 export interface CreateSinkholeRequest {
@@ -302,28 +302,28 @@ export interface CreateSinkholeRequest {
   /** The name of the sinkhole. */
   name: string;
   /** The name of the R2 bucket to store results. Required if you want to store large request bodies in R2. */
-  r2Bucket?: string;
+  r2Bucket?: string | undefined;
   /** The id of the R2 instance. Required if you want to store large request bodies in R2. */
-  r2Id?: string;
+  r2Id?: string | undefined;
   /** The secret key for the R2 API token. Required if you want to store large request bodies in R2. */
-  r2Secret?: string;
+  r2Secret?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSinkholeResponse {
   /** The unique identifier for the sinkhole. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The account tag that owns this sinkhole. */
-  accountTag?: string | null;
+  accountTag?: string | null | undefined;
   /** The date and time when the sinkhole was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The date and time when the sinkhole was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The name of the sinkhole. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The name of the R2 bucket to store results. */
-  r2Bucket?: string | null;
+  r2Bucket?: string | null | undefined;
   /** The id of the R2 instance. */
-  r2Id?: string | null;
+  r2Id?: string | null | undefined;
 }
 export interface CreateSinkholesIngressRequest {
   /** An identifier for the resource. */
@@ -335,17 +335,17 @@ export interface CreateSinkholesIngressRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSinkholesIngressResponse {
   /** The unique identifier for the ingress rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The CIDR block for the ingress rule. */
-  cidr?: string | null;
+  cidr?: string | null | undefined;
   /** The date and time when the ingress rule was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The date and time when the ingress rule was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The sinkhole this ingress rule belongs to. */
-  sinkholeId?: string | null;
+  sinkholeId?: string | null | undefined;
   /** The zone tag associated with this ingress rule. */
-  zoneTag?: string | null;
+  zoneTag?: string | null | undefined;
 }
 export interface DataIndicatorFeedRequest {
   /** Identifier */
@@ -358,14 +358,14 @@ export interface DeleteIndicatorFeedPermissionRequest {
   /** Identifier */
   accountId: string;
   /** The Cloudflare account tag of the account to change permissions on */
-  accountTag?: string;
+  accountTag?: string | undefined;
   /** The ID of the feed to add/remove permissions on */
-  feedId?: number;
+  feedId?: number | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface DeleteIndicatorFeedPermissionResponse {
   /** Whether the update succeeded or not */
-  success?: boolean | null;
+  success?: boolean | null | undefined;
 }
 export interface DeleteSinkholeRequest {
   /** An identifier for the resource. */
@@ -384,7 +384,7 @@ export interface DismissAttackSurfaceReportIssueRequest {
   /** Identifier. */
   accountId: string;
   issueId: string;
-  dismiss?: boolean;
+  dismiss?: boolean | undefined;
 }
 export interface DismissAttackSurfaceReportIssueResponse {}
 export interface GetAsnRequest {
@@ -401,15 +401,15 @@ export interface GetAsnSubnetRequest {
 export type AsnSubnetsGetResponseSubnetsList = Array<string>;
 /** Raw response payload (operation does not use the standard v4 result envelope). */
 export interface GetAsnSubnetResponse {
-  asn?: unknown | null;
+  asn?: unknown | null | undefined;
   /** Total results returned based on your search parameters. */
-  count?: number | null;
-  ipCountTotal?: number | null;
+  count?: number | null | undefined;
+  ipCountTotal?: number | null | undefined;
   /** Current page within paginated list of results. */
-  page?: number | null;
+  page?: number | null | undefined;
   /** Number of results per page of results. */
-  perPage?: number | null;
-  subnets?: AsnSubnetsGetResponseSubnetsList | null;
+  perPage?: number | null | undefined;
+  subnets?: AsnSubnetsGetResponseSubnetsList | null | undefined;
 }
 export interface GetAttackSurfaceReportIssueTypeRequest {
   /** Identifier. */
@@ -420,29 +420,29 @@ export interface GetAttackSurfaceReportIssueTypeResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: AttackSurfaceReportIssueTypesGetResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface GetDomainRequest {
   /** Identifier. */
   accountId: string;
-  domain?: string;
+  domain?: string | undefined;
   /** Skip DNS resolution lookups for faster response. */
-  skipDns?: boolean;
+  skipDns?: boolean | undefined;
   /** Skip the domain ranking lookup for faster responses. Defaults to `false` (ranking is included). Set to `true` to opt out -- primarily used by callers like Cloudflare Radar that need to avoid a circular dependency when building the domain details page. Note: the bulk endpoint (`/intel/domain/bulk`) uses opposite defaults -- see `include_ranking` there. */
-  skipRanking?: boolean;
+  skipRanking?: boolean | undefined;
 }
 export interface DomainsGetResponseAdditionalInformation {
   /** Suspected DGA malware family. */
-  suspectedMalwareFamily?: string | null;
+  suspectedMalwareFamily?: string | null | undefined;
 }
 export interface DomainsGetResponseApplication {
-  id?: number | null;
-  name?: string | null;
+  id?: number | null | undefined;
+  name?: string | null | undefined;
 }
 export interface DomainsGetResponseContentCategoriesItem {
-  id?: number | null;
-  name?: string | null;
-  superCategoryId?: number | null;
+  id?: number | null | undefined;
+  name?: string | null | undefined;
+  superCategoryId?: number | null | undefined;
 }
 export type DomainsGetResponseContentCategoriesList =
   Array<DomainsGetResponseContentCategoriesItem>;
@@ -455,9 +455,9 @@ export type DomainsGetResponseInheritedRiskTypesList =
   Array<DomainsGetResponseContentCategoriesItem>;
 export interface DomainsGetResponseResolvesToRefsItem {
   /** STIX 2.1 identifier: https://docs.oasis-open.org/cti/stix/v2.1/cs02/stix-v2.1-cs02.html#_64yvzeku5a5c. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** IP address or domain name. */
-  value?: string | null;
+  value?: string | null | undefined;
 }
 export type DomainsGetResponseResolvesToRefsList = Array<DomainsGetResponseResolvesToRefsItem>;
 export type DomainsGetResponseRiskTypesItem = DomainsGetResponseContentCategoriesItem;
@@ -465,33 +465,33 @@ export type DomainsGetResponseRiskTypesList = Array<DomainsGetResponseContentCat
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetDomainResponse {
   /** Additional information related to the host name. */
-  additionalInformation?: DomainsGetResponseAdditionalInformation | null;
+  additionalInformation?: DomainsGetResponseAdditionalInformation | null | undefined;
   /** Application that the hostname belongs to. */
-  application?: DomainsGetResponseApplication | null;
-  contentCategories?: DomainsGetResponseContentCategoriesList | null;
-  domain?: string | null;
-  inheritedContentCategories?: DomainsGetResponseInheritedContentCategoriesList | null;
+  application?: DomainsGetResponseApplication | null | undefined;
+  contentCategories?: DomainsGetResponseContentCategoriesList | null | undefined;
+  domain?: string | null | undefined;
+  inheritedContentCategories?: DomainsGetResponseInheritedContentCategoriesList | null | undefined;
   /** Domain from which `inherited_content_categories` and `inherited_risk_types` are inherited, if applicable. */
-  inheritedFrom?: string | null;
-  inheritedRiskTypes?: DomainsGetResponseInheritedRiskTypesList | null;
+  inheritedFrom?: string | null | undefined;
+  inheritedRiskTypes?: DomainsGetResponseInheritedRiskTypesList | null | undefined;
   /** Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000. */
-  popularityRank?: number | null;
+  popularityRank?: number | null | undefined;
   /** Specifies a list of references to one or more IP addresses or domain names that the domain name currently resolves to. */
-  resolvesToRefs?: DomainsGetResponseResolvesToRefsList | null;
+  resolvesToRefs?: DomainsGetResponseResolvesToRefsList | null | undefined;
   /** Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk). */
-  riskScore?: number | null;
-  riskTypes?: DomainsGetResponseRiskTypesList | null;
+  riskScore?: number | null | undefined;
+  riskTypes?: DomainsGetResponseRiskTypesList | null | undefined;
 }
 export type DomainsBulksGetRequestDomainList = Array<string>;
 export interface GetDomainBulkRequest {
   /** Identifier. */
   accountId: string;
   /** Accepts multiple values like `?domain=cloudflare.com&domain=example.com`. */
-  domain?: DomainsBulksGetRequestDomainList;
+  domain?: DomainsBulksGetRequestDomainList | undefined;
   /** Whether to include domain ranking data in the response. Defaults to `false` -- ranking lookups are expensive at bulk scale and most callers do not need them. Set to `true` to opt in. This parameter replaces the deprecated `skip_ranking` (see below). */
-  includeRanking?: boolean;
+  includeRanking?: boolean | undefined;
   /** **Deprecated.** Previously controlled whether the ranking lookup was skipped (defaulted to `false`, meaning ranking ran). The endpoint's default behavior is being flipped -- ranking is now opt-in via `include_ranking=true` -- and this parameter will be silently ignored. Remove it from your callers and use `include_ranking` instead. */
-  skipRanking?: boolean;
+  skipRanking?: boolean | undefined;
 }
 export type DomainsBulksGetResultItemAdditionalInformation =
   DomainsGetResponseAdditionalInformation;
@@ -512,42 +512,45 @@ export type DomainsBulksGetResultItemRiskTypesItem = DomainsGetResponseContentCa
 export type DomainsBulksGetResultItemRiskTypesList = Array<DomainsGetResponseContentCategoriesItem>;
 export interface DomainsBulksGetResultItem {
   /** Additional information related to the host name. */
-  additionalInformation?: DomainsGetResponseAdditionalInformation | null;
+  additionalInformation?: DomainsGetResponseAdditionalInformation | null | undefined;
   /** Application that the hostname belongs to. */
-  application?: DomainsGetResponseApplication | null;
-  contentCategories?: DomainsBulksGetResultItemContentCategoriesList | null;
-  domain?: string | null;
-  inheritedContentCategories?: DomainsBulksGetResultItemInheritedContentCategoriesList | null;
+  application?: DomainsGetResponseApplication | null | undefined;
+  contentCategories?: DomainsBulksGetResultItemContentCategoriesList | null | undefined;
+  domain?: string | null | undefined;
+  inheritedContentCategories?:
+    | DomainsBulksGetResultItemInheritedContentCategoriesList
+    | null
+    | undefined;
   /** Domain from which `inherited_content_categories` and `inherited_risk_types` are inherited, if applicable. */
-  inheritedFrom?: string | null;
-  inheritedRiskTypes?: DomainsBulksGetResultItemInheritedRiskTypesList | null;
+  inheritedFrom?: string | null | undefined;
+  inheritedRiskTypes?: DomainsBulksGetResultItemInheritedRiskTypesList | null | undefined;
   /** Global Cloudflare 100k ranking for the last 30 days, if available for the hostname. The top ranked domain is 1, the lowest ranked domain is 100,000. */
-  popularityRank?: number | null;
+  popularityRank?: number | null | undefined;
   /** Hostname risk score, which is a value between 0 (lowest risk) to 1 (highest risk). */
-  riskScore?: number | null;
-  riskTypes?: DomainsBulksGetResultItemRiskTypesList | null;
+  riskScore?: number | null | undefined;
+  riskTypes?: DomainsBulksGetResultItemRiskTypesList | null | undefined;
 }
 export type DomainsBulksGetResultList = Array<DomainsBulksGetResultItem>;
 export type GetDomainBulkResponse = DomainsBulksGetResultList;
 export interface GetDomainHistoryRequest {
   /** Identifier. */
   accountId: string;
-  domain?: string;
+  domain?: string | undefined;
 }
 export type DomainHistoryGetResultItemCategorizationsItemCategoriesItem =
   DomainsGetResponseApplication;
 export type DomainHistoryGetResultItemCategorizationsItemCategoriesList =
   Array<DomainsGetResponseApplication>;
 export interface DomainHistoryGetResultItemCategorizationsItem {
-  categories?: DomainHistoryGetResultItemCategorizationsItemCategoriesList | null;
-  end?: string | null;
-  start?: string | null;
+  categories?: DomainHistoryGetResultItemCategorizationsItemCategoriesList | null | undefined;
+  end?: string | null | undefined;
+  start?: string | null | undefined;
 }
 export type DomainHistoryGetResultItemCategorizationsList =
   Array<DomainHistoryGetResultItemCategorizationsItem>;
 export interface DomainHistoryGetResultItem {
-  categorizations?: DomainHistoryGetResultItemCategorizationsList | null;
-  domain?: string | null;
+  categorizations?: DomainHistoryGetResultItemCategorizationsList | null | undefined;
+  domain?: string | null | undefined;
 }
 export type DomainHistoryGetResultList = Array<DomainHistoryGetResultItem>;
 export type GetDomainHistoryResponse = DomainHistoryGetResultList;
@@ -558,36 +561,36 @@ export interface GetIndicatorFeedRequest {
   feedId: number;
 }
 export interface IndicatorFeedsGetResponseLastUploadSummaryPersisted {
-  domainsAdded?: number | null;
-  domainsRemoved?: number | null;
-  ipsAdded?: number | null;
-  ipsRemoved?: number | null;
-  urlsAdded?: number | null;
-  urlsRemoved?: number | null;
+  domainsAdded?: number | null | undefined;
+  domainsRemoved?: number | null | undefined;
+  ipsAdded?: number | null | undefined;
+  ipsRemoved?: number | null | undefined;
+  urlsAdded?: number | null | undefined;
+  urlsRemoved?: number | null | undefined;
 }
 export interface IndicatorFeedsGetResponseLastUploadSummarySkipped {
   /** Domains filtered by the global popularity allowlist at QS provisioning time. Popular domains (bing.com, naver.com, etc.) are protected from custom-threat-feed enforcement. */
-  allowlistedDomains?: number | null;
+  allowlistedDomains?: number | null | undefined;
   /** Indicators in the upload whose valid_until is already in the past. These are not added to QS; the expiration cron handles cleanup. */
-  expiredIndicators?: number | null;
+  expiredIndicators?: number | null | undefined;
   /** Reserved for future use. Currently always 0 -- the unifier aborts the entire upload on a single bad indicator. */
-  invalidIndicators?: number | null;
+  invalidIndicators?: number | null | undefined;
 }
 export interface IndicatorFeedsGetResponseLastUploadSummaryUploaded {
   /** Number of domain indicators in the upload */
-  domains?: number | null;
+  domains?: number | null | undefined;
   /** Number of IP indicators in the upload */
-  ips?: number | null;
+  ips?: number | null | undefined;
   /** Number of URL indicators in the upload */
-  urls?: number | null;
+  urls?: number | null | undefined;
 }
 export interface IndicatorFeedsGetResponseLastUploadSummary {
   /** Net delta applied to feed indicators by this upload. Snapshot uploads emit both *_added and *_removed; delta-add emits only *_added; delta-remove emits only *_removed. */
-  persisted?: IndicatorFeedsGetResponseLastUploadSummaryPersisted | null;
+  persisted?: IndicatorFeedsGetResponseLastUploadSummaryPersisted | null | undefined;
   /** Counts of indicators that were uploaded but did not reach QuickSilver, broken down by reason. */
-  skipped?: IndicatorFeedsGetResponseLastUploadSummarySkipped | null;
+  skipped?: IndicatorFeedsGetResponseLastUploadSummarySkipped | null | undefined;
   /** Indicator counts from the unified file the loader received */
-  uploaded?: IndicatorFeedsGetResponseLastUploadSummaryUploaded | null;
+  uploaded?: IndicatorFeedsGetResponseLastUploadSummaryUploaded | null | undefined;
 }
 export type IndicatorFeedsGetResponseLatestUploadStatus =
   | "Mirroring"
@@ -599,54 +602,54 @@ export type IndicatorFeedsGetResponseLatestUploadStatus =
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetIndicatorFeedResponse {
   /** The unique identifier for the indicator feed */
-  id?: number | null;
+  id?: number | null | undefined;
   /** The date and time when the data entry was created */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The description of the example test */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the indicator feed can be attributed to a provider */
-  isAttributable?: boolean | null;
+  isAttributable?: boolean | null | undefined;
   /** Whether the indicator feed can be downloaded */
-  isDownloadable?: boolean | null;
+  isDownloadable?: boolean | null | undefined;
   /** Whether the indicator feed is exposed to customers */
-  isPublic?: boolean | null;
+  isPublic?: boolean | null | undefined;
   /** Summary of indicator counts from the last successful upload to this feed. Populated by the custom-threat-feeds loader at the end of each successful load. Absent (omitted) when no upload has completed successfully or the upload errored before the summary write. Surfaces silent-failure paths so operators can see when their indicators were dropped (popularity allowlist, expired valid_until, etc.) without reading loader logs. */
-  lastUploadSummary?: IndicatorFeedsGetResponseLastUploadSummary | null;
+  lastUploadSummary?: IndicatorFeedsGetResponseLastUploadSummary | null | undefined;
   /** Human-readable error message describing why the latest upload failed. Populated only when `latest_upload_status` is `Error`. Returns one of a small fixed set of category-level messages (invalid domain / IP / URL entries, malformed row or header, invalid valid_until timestamp, etc.) or the generic `Upload failed` for unknown or infrastructure-level errors. Never echoes raw error text from the underlying loader. Intel accounts receive the verbatim loader/API error text (including specific offending values) instead of these category-level messages. */
-  latestUploadError?: string | null;
+  latestUploadError?: string | null | undefined;
   /** Status of the latest snapshot uploaded */
-  latestUploadStatus?: IndicatorFeedsGetResponseLatestUploadStatus | null;
+  latestUploadStatus?: IndicatorFeedsGetResponseLatestUploadStatus | null | undefined;
   /** The date and time when the data entry was last modified */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The name of the indicator feed */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The unique identifier for the provider */
-  providerId?: number | null;
+  providerId?: number | null | undefined;
   /** The provider of the indicator feed */
-  providerName?: string | null;
+  providerName?: string | null | undefined;
 }
 export interface GetIpRequest {
   /** Identifier. */
   accountId: string;
-  ipv4?: string;
-  ipv6?: string;
+  ipv4?: string | undefined;
+  ipv6?: string | undefined;
 }
 export type IpsGetResultItemBelongsToRefType = "hosting_provider" | "isp" | "organization";
 export interface IpsGetResultItemBelongsToRef {
-  id?: string | null;
-  country?: string | null;
-  description?: string | null;
+  id?: string | null | undefined;
+  country?: string | null | undefined;
+  description?: string | null | undefined;
   /** Infrastructure type of this ASN. */
-  type?: IpsGetResultItemBelongsToRefType | null;
-  value?: string | null;
+  type?: IpsGetResultItemBelongsToRefType | null | undefined;
+  value?: string | null | undefined;
 }
 export type IpsGetResultItemRiskTypesItem = DomainsGetResponseContentCategoriesItem;
 export type IpsGetResultItemRiskTypesList = Array<DomainsGetResponseContentCategoriesItem>;
 export interface IpsGetResultItem {
   /** Specifies a reference to the autonomous systems (AS) that the IP address belongs to. */
-  belongsToRef?: IpsGetResultItemBelongsToRef | null;
-  ip?: string | null;
-  riskTypes?: IpsGetResultItemRiskTypesList | null;
+  belongsToRef?: IpsGetResultItemBelongsToRef | null | undefined;
+  ip?: string | null | undefined;
+  riskTypes?: IpsGetResultItemRiskTypesList | null | undefined;
 }
 export type IpsGetResultList = Array<IpsGetResultItem>;
 export type GetIpResponse = IpsGetResultList;
@@ -658,19 +661,19 @@ export interface GetSinkholeRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSinkholeResponse {
   /** The unique identifier for the sinkhole. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The account tag that owns this sinkhole. */
-  accountTag?: string | null;
+  accountTag?: string | null | undefined;
   /** The date and time when the sinkhole was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The date and time when the sinkhole was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The name of the sinkhole. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The name of the R2 bucket to store results. */
-  r2Bucket?: string | null;
+  r2Bucket?: string | null | undefined;
   /** The id of the R2 instance. */
-  r2Id?: string | null;
+  r2Id?: string | null | undefined;
 }
 export interface GetSinkholesIngressRequest {
   /** An identifier for the resource. */
@@ -681,17 +684,17 @@ export interface GetSinkholesIngressRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSinkholesIngressResponse {
   /** The unique identifier for the ingress rule. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The CIDR block for the ingress rule. */
-  cidr?: string | null;
+  cidr?: string | null | undefined;
   /** The date and time when the ingress rule was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The date and time when the ingress rule was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The sinkhole this ingress rule belongs to. */
-  sinkholeId?: string | null;
+  sinkholeId?: string | null | undefined;
   /** The zone tag associated with this ingress rule. */
-  zoneTag?: string | null;
+  zoneTag?: string | null | undefined;
 }
 export interface GetUrlRequest {
   /** Identifier. */
@@ -700,10 +703,10 @@ export interface GetUrlRequest {
   url: string;
 }
 export interface GetUrlResponseContentCategoriesItem {
-  id?: number | null;
-  name?: string | null;
-  sourceId?: number | null;
-  superCategoryId?: number | null;
+  id?: number | null | undefined;
+  name?: string | null | undefined;
+  sourceId?: number | null | undefined;
+  superCategoryId?: number | null | undefined;
 }
 export type GetUrlResponseContentCategoriesList = Array<GetUrlResponseContentCategoriesItem>;
 export type GetUrlResponseRiskTypeItem = GetUrlResponseContentCategoriesItem;
@@ -724,7 +727,7 @@ export interface GetUrlResponse {
 export interface GetWhoiRequest {
   /** Use to uniquely identify or reference the resource. */
   accountId: string;
-  domain?: string;
+  domain?: string | undefined;
 }
 export type WhoisGetResponseNameserversList = Array<string>;
 export type WhoisGetResponseStatusList = Array<string>;
@@ -738,85 +741,85 @@ export interface GetWhoiResponse {
   punycode: string;
   registrant: string;
   registrar: string;
-  id?: string | null;
-  administrativeCity?: string | null;
-  administrativeCountry?: string | null;
-  administrativeEmail?: string | null;
-  administrativeFax?: string | null;
-  administrativeFaxExt?: string | null;
-  administrativeId?: string | null;
-  administrativeName?: string | null;
-  administrativeOrg?: string | null;
-  administrativePhone?: string | null;
-  administrativePhoneExt?: string | null;
-  administrativePostalCode?: string | null;
-  administrativeProvince?: string | null;
-  administrativeReferralUrl?: string | null;
-  administrativeStreet?: string | null;
-  billingCity?: string | null;
-  billingCountry?: string | null;
-  billingEmail?: string | null;
-  billingFax?: string | null;
-  billingFaxExt?: string | null;
-  billingId?: string | null;
-  billingName?: string | null;
-  billingOrg?: string | null;
-  billingPhone?: string | null;
-  billingPhoneExt?: string | null;
-  billingPostalCode?: string | null;
-  billingProvince?: string | null;
-  billingReferralUrl?: string | null;
-  billingStreet?: string | null;
-  createdDate?: string | null;
-  createdDateRaw?: string | null;
-  expirationDate?: string | null;
-  expirationDateRaw?: string | null;
-  registrantCity?: string | null;
-  registrantCountry?: string | null;
-  registrantEmail?: string | null;
-  registrantFax?: string | null;
-  registrantFaxExt?: string | null;
-  registrantId?: string | null;
-  registrantName?: string | null;
-  registrantOrg?: string | null;
-  registrantPhone?: string | null;
-  registrantPhoneExt?: string | null;
-  registrantPostalCode?: string | null;
-  registrantProvince?: string | null;
-  registrantReferralUrl?: string | null;
-  registrantStreet?: string | null;
-  registrarCity?: string | null;
-  registrarCountry?: string | null;
-  registrarEmail?: string | null;
-  registrarFax?: string | null;
-  registrarFaxExt?: string | null;
-  registrarId?: string | null;
-  registrarName?: string | null;
-  registrarOrg?: string | null;
-  registrarPhone?: string | null;
-  registrarPhoneExt?: string | null;
-  registrarPostalCode?: string | null;
-  registrarProvince?: string | null;
-  registrarReferralUrl?: string | null;
-  registrarStreet?: string | null;
-  status?: WhoisGetResponseStatusList | null;
-  technicalCity?: string | null;
-  technicalCountry?: string | null;
-  technicalEmail?: string | null;
-  technicalFax?: string | null;
-  technicalFaxExt?: string | null;
-  technicalId?: string | null;
-  technicalName?: string | null;
-  technicalOrg?: string | null;
-  technicalPhone?: string | null;
-  technicalPhoneExt?: string | null;
-  technicalPostalCode?: string | null;
-  technicalProvince?: string | null;
-  technicalReferralUrl?: string | null;
-  technicalStreet?: string | null;
-  updatedDate?: string | null;
-  updatedDateRaw?: string | null;
-  whoisServer?: string | null;
+  id?: string | null | undefined;
+  administrativeCity?: string | null | undefined;
+  administrativeCountry?: string | null | undefined;
+  administrativeEmail?: string | null | undefined;
+  administrativeFax?: string | null | undefined;
+  administrativeFaxExt?: string | null | undefined;
+  administrativeId?: string | null | undefined;
+  administrativeName?: string | null | undefined;
+  administrativeOrg?: string | null | undefined;
+  administrativePhone?: string | null | undefined;
+  administrativePhoneExt?: string | null | undefined;
+  administrativePostalCode?: string | null | undefined;
+  administrativeProvince?: string | null | undefined;
+  administrativeReferralUrl?: string | null | undefined;
+  administrativeStreet?: string | null | undefined;
+  billingCity?: string | null | undefined;
+  billingCountry?: string | null | undefined;
+  billingEmail?: string | null | undefined;
+  billingFax?: string | null | undefined;
+  billingFaxExt?: string | null | undefined;
+  billingId?: string | null | undefined;
+  billingName?: string | null | undefined;
+  billingOrg?: string | null | undefined;
+  billingPhone?: string | null | undefined;
+  billingPhoneExt?: string | null | undefined;
+  billingPostalCode?: string | null | undefined;
+  billingProvince?: string | null | undefined;
+  billingReferralUrl?: string | null | undefined;
+  billingStreet?: string | null | undefined;
+  createdDate?: string | null | undefined;
+  createdDateRaw?: string | null | undefined;
+  expirationDate?: string | null | undefined;
+  expirationDateRaw?: string | null | undefined;
+  registrantCity?: string | null | undefined;
+  registrantCountry?: string | null | undefined;
+  registrantEmail?: string | null | undefined;
+  registrantFax?: string | null | undefined;
+  registrantFaxExt?: string | null | undefined;
+  registrantId?: string | null | undefined;
+  registrantName?: string | null | undefined;
+  registrantOrg?: string | null | undefined;
+  registrantPhone?: string | null | undefined;
+  registrantPhoneExt?: string | null | undefined;
+  registrantPostalCode?: string | null | undefined;
+  registrantProvince?: string | null | undefined;
+  registrantReferralUrl?: string | null | undefined;
+  registrantStreet?: string | null | undefined;
+  registrarCity?: string | null | undefined;
+  registrarCountry?: string | null | undefined;
+  registrarEmail?: string | null | undefined;
+  registrarFax?: string | null | undefined;
+  registrarFaxExt?: string | null | undefined;
+  registrarId?: string | null | undefined;
+  registrarName?: string | null | undefined;
+  registrarOrg?: string | null | undefined;
+  registrarPhone?: string | null | undefined;
+  registrarPhoneExt?: string | null | undefined;
+  registrarPostalCode?: string | null | undefined;
+  registrarProvince?: string | null | undefined;
+  registrarReferralUrl?: string | null | undefined;
+  registrarStreet?: string | null | undefined;
+  status?: WhoisGetResponseStatusList | null | undefined;
+  technicalCity?: string | null | undefined;
+  technicalCountry?: string | null | undefined;
+  technicalEmail?: string | null | undefined;
+  technicalFax?: string | null | undefined;
+  technicalFaxExt?: string | null | undefined;
+  technicalId?: string | null | undefined;
+  technicalName?: string | null | undefined;
+  technicalOrg?: string | null | undefined;
+  technicalPhone?: string | null | undefined;
+  technicalPhoneExt?: string | null | undefined;
+  technicalPostalCode?: string | null | undefined;
+  technicalProvince?: string | null | undefined;
+  technicalReferralUrl?: string | null | undefined;
+  technicalStreet?: string | null | undefined;
+  updatedDate?: string | null | undefined;
+  updatedDateRaw?: string | null | undefined;
+  whoisServer?: string | null | undefined;
 }
 export type AttackSurfaceReportIssuesListRequestIssueClassList = Array<string>;
 export type AttackSurfaceReportIssuesListRequestIssueClassNeqList = Array<string>;
@@ -835,22 +838,22 @@ export type AttackSurfaceReportIssuesListRequestSubjectNeqList = Array<string>;
 export interface ListAttackSurfaceReportIssuesRequest {
   /** Identifier. */
   accountId: string;
-  dismissed?: boolean;
-  issueClass?: AttackSurfaceReportIssuesListRequestIssueClassList;
-  issueClassNeq?: AttackSurfaceReportIssuesListRequestIssueClassNeqList;
-  issueType?: AttackSurfaceReportIssuesListRequestIssueTypeList;
-  issueTypeNeq?: AttackSurfaceReportIssuesListRequestIssueTypeNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: AttackSurfaceReportIssuesListRequestIssueClassList | undefined;
+  issueClassNeq?: AttackSurfaceReportIssuesListRequestIssueClassNeqList | undefined;
+  issueType?: AttackSurfaceReportIssuesListRequestIssueTypeList | undefined;
+  issueTypeNeq?: AttackSurfaceReportIssuesListRequestIssueTypeNeqList | undefined;
   /** Specifies the current page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** Sets the number of results per page of results. */
-  perPage?: number;
-  product?: AttackSurfaceReportIssuesListRequestProductList;
-  productNeq?: AttackSurfaceReportIssuesListRequestProductNeqList;
-  severity?: AttackSurfaceReportIssuesListRequestSeverityList;
-  severityNeq?: AttackSurfaceReportIssuesListRequestSeverityNeqList;
-  source?: AttackSurfaceReportIssuesListRequestSourceList;
-  subject?: AttackSurfaceReportIssuesListRequestSubjectList;
-  subjectNeq?: AttackSurfaceReportIssuesListRequestSubjectNeqList;
+  perPage?: number | undefined;
+  product?: AttackSurfaceReportIssuesListRequestProductList | undefined;
+  productNeq?: AttackSurfaceReportIssuesListRequestProductNeqList | undefined;
+  severity?: AttackSurfaceReportIssuesListRequestSeverityList | undefined;
+  severityNeq?: AttackSurfaceReportIssuesListRequestSeverityNeqList | undefined;
+  source?: AttackSurfaceReportIssuesListRequestSourceList | undefined;
+  subject?: AttackSurfaceReportIssuesListRequestSubjectList | undefined;
+  subjectNeq?: AttackSurfaceReportIssuesListRequestSubjectNeqList | undefined;
 }
 export type AttackSurfaceReportIssuesListResponseIssuesItemIssueType =
   | "compliance_violation"
@@ -861,8 +864,8 @@ export type AttackSurfaceReportIssuesListResponseIssuesItemIssueType =
   | "configuration_suggestion";
 export interface AttackSurfaceReportIssuesListResponseIssuesItemPayload {
   /** Describes the method used to detect insight. */
-  detectionMethod?: string | null;
-  zoneTag?: string | null;
+  detectionMethod?: string | null | undefined;
+  zoneTag?: string | null | undefined;
 }
 export type AttackSurfaceReportIssuesListResponseIssuesItemSeverity =
   | "Low"
@@ -875,73 +878,76 @@ export type AttackSurfaceReportIssuesListResponseIssuesItemUserClassification =
   | "accept_risk"
   | "other";
 export interface AttackSurfaceReportIssuesListResponseIssuesItem {
-  id?: string | null;
-  dismissed?: boolean | null;
+  id?: string | null | undefined;
+  dismissed?: boolean | null | undefined;
   /** Indicates whether the insight has a large payload that requires fetching via the context endpoint. */
-  hasExtendedContext?: boolean | null;
-  issueClass?: string | null;
-  issueType?: AttackSurfaceReportIssuesListResponseIssuesItemIssueType | null;
-  payload?: AttackSurfaceReportIssuesListResponseIssuesItemPayload | null;
-  resolveLink?: string | null;
-  resolveText?: string | null;
-  severity?: AttackSurfaceReportIssuesListResponseIssuesItemSeverity | null;
-  since?: string | null;
+  hasExtendedContext?: boolean | null | undefined;
+  issueClass?: string | null | undefined;
+  issueType?: AttackSurfaceReportIssuesListResponseIssuesItemIssueType | null | undefined;
+  payload?: AttackSurfaceReportIssuesListResponseIssuesItemPayload | null | undefined;
+  resolveLink?: string | null | undefined;
+  resolveText?: string | null | undefined;
+  severity?: AttackSurfaceReportIssuesListResponseIssuesItemSeverity | null | undefined;
+  since?: string | null | undefined;
   /** Who generated the insight. `cloudflare` for Cloudflare-generated insights, otherwise the partner. */
-  source?: AttackSurfaceReportIssuesListResponseIssuesItemSource | null;
+  source?: AttackSurfaceReportIssuesListResponseIssuesItemSource | null | undefined;
   /** The current status of the insight. */
-  status?: AttackSurfaceReportIssuesListResponseIssuesItemStatus | null;
-  subject?: string | null;
-  timestamp?: string | null;
+  status?: AttackSurfaceReportIssuesListResponseIssuesItemStatus | null | undefined;
+  subject?: string | null | undefined;
+  timestamp?: string | null | undefined;
   /** User-defined classification for the insight. Can be 'false_positive', 'accept_risk', 'other', or null. */
-  userClassification?: AttackSurfaceReportIssuesListResponseIssuesItemUserClassification | null;
+  userClassification?:
+    | AttackSurfaceReportIssuesListResponseIssuesItemUserClassification
+    | null
+    | undefined;
 }
 export type AttackSurfaceReportIssuesListResponseIssuesList =
   Array<AttackSurfaceReportIssuesListResponseIssuesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListAttackSurfaceReportIssuesResponse {
   /** Indicates the total number of results. */
-  count?: number | null;
-  issues?: AttackSurfaceReportIssuesListResponseIssuesList | null;
+  count?: number | null | undefined;
+  issues?: AttackSurfaceReportIssuesListResponseIssuesList | null | undefined;
   /** Specifies the current page within paginated list of results. */
-  page?: number | null;
+  page?: number | null | undefined;
   /** Sets the number of results per page of results. */
-  perPage?: number | null;
+  perPage?: number | null | undefined;
 }
 export interface DnsListRequestStartEndParams {
   /** Defaults to the current date. */
-  end?: string;
+  end?: string | undefined;
   /** Defaults to 30 days before the end parameter value. */
-  start?: string;
+  start?: string | undefined;
 }
 export interface ListDnsRequest {
   /** Identifier. */
   accountId: string;
-  ipv4?: string;
+  ipv4?: string | undefined;
   /** Requested page within paginated list of results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results requested. */
-  perPage?: number;
-  startEndParams?: DnsListRequestStartEndParams;
+  perPage?: number | undefined;
+  startEndParams?: DnsListRequestStartEndParams | undefined;
 }
 export interface DnsListResponseReverseRecordsItem {
   /** First seen date of the DNS record during the time period. */
-  firstSeen?: string | null;
+  firstSeen?: string | null | undefined;
   /** Hostname that the IP was observed resolving to. */
-  hostname?: string | null;
+  hostname?: string | null | undefined;
   /** Last seen date of the DNS record during the time period. */
-  lastSeen?: string | null;
+  lastSeen?: string | null | undefined;
 }
 export type DnsListResponseReverseRecordsList = Array<DnsListResponseReverseRecordsItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface ListDnsResponse {
   /** Total results returned based on your search parameters. */
-  count?: number | null;
+  count?: number | null | undefined;
   /** Current page within paginated list of results. */
-  page?: number | null;
+  page?: number | null | undefined;
   /** Number of results per page of results. */
-  perPage?: number | null;
+  perPage?: number | null | undefined;
   /** Reverse DNS look-ups observed during the time period. */
-  reverseRecords?: DnsListResponseReverseRecordsList | null;
+  reverseRecords?: DnsListResponseReverseRecordsList | null | undefined;
 }
 export interface ListIndicatorFeedPermissionsRequest {
   /** Identifier */
@@ -949,17 +955,17 @@ export interface ListIndicatorFeedPermissionsRequest {
 }
 export interface IndicatorFeedsPermissionsListResultItem {
   /** The unique identifier for the indicator feed */
-  id?: number | null;
+  id?: number | null | undefined;
   /** The description of the example test */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the indicator feed can be attributed to a provider */
-  isAttributable?: boolean | null;
+  isAttributable?: boolean | null | undefined;
   /** Whether the indicator feed can be downloaded */
-  isDownloadable?: boolean | null;
+  isDownloadable?: boolean | null | undefined;
   /** Whether the indicator feed is exposed to customers */
-  isPublic?: boolean | null;
+  isPublic?: boolean | null | undefined;
   /** The name of the indicator feed */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type IndicatorFeedsPermissionsListResultList =
   Array<IndicatorFeedsPermissionsListResultItem>;
@@ -970,28 +976,28 @@ export interface ListIndicatorFeedsRequest {
 }
 export interface IndicatorFeedsListResultItem {
   /** The unique identifier for the indicator feed */
-  id?: number | null;
+  id?: number | null | undefined;
   /** The date and time when the data entry was created */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The description of the example test */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the indicator feed can be attributed to a provider */
-  isAttributable?: boolean | null;
+  isAttributable?: boolean | null | undefined;
   /** Whether the indicator feed can be downloaded */
-  isDownloadable?: boolean | null;
+  isDownloadable?: boolean | null | undefined;
   /** Whether the indicator feed is exposed to customers */
-  isPublic?: boolean | null;
+  isPublic?: boolean | null | undefined;
   /** The date and time when the data entry was last modified */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The name of the indicator feed */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type IndicatorFeedsListResultList = Array<IndicatorFeedsListResultItem>;
 export interface ListIndicatorFeedsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: IndicatorFeedsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSinkholesRequest {
   /** An identifier for the resource. */
@@ -999,26 +1005,26 @@ export interface ListSinkholesRequest {
 }
 export interface SinkholesListResultItem {
   /** The unique identifier for the sinkhole. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The account tag that owns this sinkhole. */
-  accountTag?: string | null;
+  accountTag?: string | null | undefined;
   /** The date and time when the sinkhole was created. */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The date and time when the sinkhole was last modified. */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The name of the sinkhole. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The name of the R2 bucket to store results. */
-  r2Bucket?: string | null;
+  r2Bucket?: string | null | undefined;
   /** The id of the R2 instance. */
-  r2Id?: string | null;
+  r2Id?: string | null | undefined;
 }
 export type SinkholesListResultList = Array<SinkholesListResultItem>;
 export interface ListSinkholesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SinkholesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type IndicatorFeedsSnapshotsUpdateRequestCfAsyncUpload = "1";
 export interface PutIndicatorFeedSnapshotRequest {
@@ -1026,22 +1032,22 @@ export interface PutIndicatorFeedSnapshotRequest {
   accountId: string;
   /** Indicator feed ID */
   feedId: number;
-  cfAsyncUpload?: IndicatorFeedsSnapshotsUpdateRequestCfAsyncUpload | (string & {});
+  cfAsyncUpload?: IndicatorFeedsSnapshotsUpdateRequestCfAsyncUpload | (string & {}) | undefined;
   /** The file to upload. Either a plain STIX2/CRDF body or a gzipped one (recognised by 0x1f 0x8b magic bytes or a .gz filename suffix). */
-  source?: string;
+  source?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutIndicatorFeedSnapshotResponse {
   /** Feed id */
-  fileId?: number | null;
+  fileId?: number | null | undefined;
   /** Name of the file unified in our system */
-  filename?: string | null;
+  filename?: string | null | undefined;
   /** Account-relative polling path. Prepend `/accounts/{account_id}` using the same account identifier and API host as the upload request. The path omits the account segment because the service does not have your account identifier in this context. */
-  pollUrl?: string | null;
+  pollUrl?: string | null | undefined;
   /** Current status of the upload at the moment the request returned. This is NOT a terminal state: the file is unified inline, but the durable loader has only accepted it, so the upload is still `Unifying`. Poll `poll_url` until the status reaches a terminal value (`Unified` or `Error`). */
-  status?: string | null;
+  status?: string | null | undefined;
   /** Identifier of the upload row, for polling this upload to a terminal state via `poll_url`. */
-  uploadId?: number | null;
+  uploadId?: number | null | undefined;
 }
 export type AttackSurfaceReportIssuesSeverityRequestIssueClassList = Array<string>;
 export type AttackSurfaceReportIssuesSeverityRequestIssueClassNeqList = Array<string>;
@@ -1060,18 +1066,18 @@ export type AttackSurfaceReportIssuesSeverityRequestSubjectNeqList = Array<strin
 export interface SeverityAttackSurfaceReportIssueRequest {
   /** Identifier. */
   accountId: string;
-  dismissed?: boolean;
-  issueClass?: AttackSurfaceReportIssuesSeverityRequestIssueClassList;
-  issueClassNeq?: AttackSurfaceReportIssuesSeverityRequestIssueClassNeqList;
-  issueType?: AttackSurfaceReportIssuesSeverityRequestIssueTypeList;
-  issueTypeNeq?: AttackSurfaceReportIssuesSeverityRequestIssueTypeNeqList;
-  product?: AttackSurfaceReportIssuesSeverityRequestProductList;
-  productNeq?: AttackSurfaceReportIssuesSeverityRequestProductNeqList;
-  severity?: AttackSurfaceReportIssuesSeverityRequestSeverityList;
-  severityNeq?: AttackSurfaceReportIssuesSeverityRequestSeverityNeqList;
-  source?: AttackSurfaceReportIssuesSeverityRequestSourceList;
-  subject?: AttackSurfaceReportIssuesSeverityRequestSubjectList;
-  subjectNeq?: AttackSurfaceReportIssuesSeverityRequestSubjectNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: AttackSurfaceReportIssuesSeverityRequestIssueClassList | undefined;
+  issueClassNeq?: AttackSurfaceReportIssuesSeverityRequestIssueClassNeqList | undefined;
+  issueType?: AttackSurfaceReportIssuesSeverityRequestIssueTypeList | undefined;
+  issueTypeNeq?: AttackSurfaceReportIssuesSeverityRequestIssueTypeNeqList | undefined;
+  product?: AttackSurfaceReportIssuesSeverityRequestProductList | undefined;
+  productNeq?: AttackSurfaceReportIssuesSeverityRequestProductNeqList | undefined;
+  severity?: AttackSurfaceReportIssuesSeverityRequestSeverityList | undefined;
+  severityNeq?: AttackSurfaceReportIssuesSeverityRequestSeverityNeqList | undefined;
+  source?: AttackSurfaceReportIssuesSeverityRequestSourceList | undefined;
+  subject?: AttackSurfaceReportIssuesSeverityRequestSubjectList | undefined;
+  subjectNeq?: AttackSurfaceReportIssuesSeverityRequestSubjectNeqList | undefined;
 }
 export type AttackSurfaceReportIssuesSeverityResultItem = AttackSurfaceReportIssuesClassResultItem;
 export type AttackSurfaceReportIssuesSeverityResultList =
@@ -1094,18 +1100,18 @@ export type AttackSurfaceReportIssuesTypeRequestSubjectNeqList = Array<string>;
 export interface TypeAttackSurfaceReportIssueRequest {
   /** Identifier. */
   accountId: string;
-  dismissed?: boolean;
-  issueClass?: AttackSurfaceReportIssuesTypeRequestIssueClassList;
-  issueClassNeq?: AttackSurfaceReportIssuesTypeRequestIssueClassNeqList;
-  issueType?: AttackSurfaceReportIssuesTypeRequestIssueTypeList;
-  issueTypeNeq?: AttackSurfaceReportIssuesTypeRequestIssueTypeNeqList;
-  product?: AttackSurfaceReportIssuesTypeRequestProductList;
-  productNeq?: AttackSurfaceReportIssuesTypeRequestProductNeqList;
-  severity?: AttackSurfaceReportIssuesTypeRequestSeverityList;
-  severityNeq?: AttackSurfaceReportIssuesTypeRequestSeverityNeqList;
-  source?: AttackSurfaceReportIssuesTypeRequestSourceList;
-  subject?: AttackSurfaceReportIssuesTypeRequestSubjectList;
-  subjectNeq?: AttackSurfaceReportIssuesTypeRequestSubjectNeqList;
+  dismissed?: boolean | undefined;
+  issueClass?: AttackSurfaceReportIssuesTypeRequestIssueClassList | undefined;
+  issueClassNeq?: AttackSurfaceReportIssuesTypeRequestIssueClassNeqList | undefined;
+  issueType?: AttackSurfaceReportIssuesTypeRequestIssueTypeList | undefined;
+  issueTypeNeq?: AttackSurfaceReportIssuesTypeRequestIssueTypeNeqList | undefined;
+  product?: AttackSurfaceReportIssuesTypeRequestProductList | undefined;
+  productNeq?: AttackSurfaceReportIssuesTypeRequestProductNeqList | undefined;
+  severity?: AttackSurfaceReportIssuesTypeRequestSeverityList | undefined;
+  severityNeq?: AttackSurfaceReportIssuesTypeRequestSeverityNeqList | undefined;
+  source?: AttackSurfaceReportIssuesTypeRequestSourceList | undefined;
+  subject?: AttackSurfaceReportIssuesTypeRequestSubjectList | undefined;
+  subjectNeq?: AttackSurfaceReportIssuesTypeRequestSubjectNeqList | undefined;
 }
 export type AttackSurfaceReportIssuesTypeResultItem = AttackSurfaceReportIssuesClassResultItem;
 export type AttackSurfaceReportIssuesTypeResultList =
@@ -1117,34 +1123,34 @@ export interface UpdateIndicatorFeedRequest {
   /** Indicator feed ID */
   feedId: number;
   /** The new description of the feed */
-  description?: string;
+  description?: string | undefined;
   /** The new is_attributable value of the feed */
-  isAttributable?: boolean;
+  isAttributable?: boolean | undefined;
   /** The new is_downloadable value of the feed */
-  isDownloadable?: boolean;
+  isDownloadable?: boolean | undefined;
   /** The new is_public value of the feed */
-  isPublic?: boolean;
+  isPublic?: boolean | undefined;
   /** The new name of the feed */
-  name?: string;
+  name?: string | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface UpdateIndicatorFeedResponse {
   /** The unique identifier for the indicator feed */
-  id?: number | null;
+  id?: number | null | undefined;
   /** The date and time when the data entry was created */
-  createdOn?: string | null;
+  createdOn?: string | null | undefined;
   /** The description of the example test */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Whether the indicator feed can be attributed to a provider */
-  isAttributable?: boolean | null;
+  isAttributable?: boolean | null | undefined;
   /** Whether the indicator feed can be downloaded */
-  isDownloadable?: boolean | null;
+  isDownloadable?: boolean | null | undefined;
   /** Whether the indicator feed is exposed to customers */
-  isPublic?: boolean | null;
+  isPublic?: boolean | null | undefined;
   /** The date and time when the data entry was last modified */
-  modifiedOn?: string | null;
+  modifiedOn?: string | null | undefined;
   /** The name of the indicator feed */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface UpdateSinkholeRequest {
   /** An identifier for the resource. */
@@ -1153,11 +1159,11 @@ export interface UpdateSinkholeRequest {
   /** The name of the sinkhole. */
   name: string;
   /** The name of the R2 bucket to store results. Required if you want to store large request bodies in R2. */
-  r2Bucket?: string;
+  r2Bucket?: string | undefined;
   /** The id of the R2 instance. Required if you want to store large request bodies in R2. */
-  r2Id?: string;
+  r2Id?: string | undefined;
   /** The secret key for the R2 API token. Required if you want to store large request bodies in R2. */
-  r2Secret?: string;
+  r2Secret?: string | undefined;
 }
 export type UpdateSinkholeResponse = unknown;
 export interface UpdateSinkholesIngressRequest {

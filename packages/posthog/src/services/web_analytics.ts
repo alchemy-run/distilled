@@ -57,15 +57,15 @@ export type ContentAutopilotSnapshotContentBoundariesList = Array<string>;
 export type ContentAutopilotSnapshotBrandRulesList = Array<string>;
 export interface ContentAutopilotSnapshot {
   /** Site domain used for the run. */
-  domain?: string;
+  domain?: string | undefined;
   /** Confidence level based on the available data sources. * `standard` - Standard * `lower` - Lower */
-  confidence?: ContentAutopilotSnapshotConfidenceEnum;
+  confidence?: ContentAutopilotSnapshotConfidenceEnum | undefined;
   /** Public sources authorized for this run. */
-  source_urls?: ContentAutopilotSnapshotSourceUrlsList;
+  source_urls?: ContentAutopilotSnapshotSourceUrlsList | undefined;
   /** Site paths authorized for this run. */
-  content_boundaries?: ContentAutopilotSnapshotContentBoundariesList;
+  content_boundaries?: ContentAutopilotSnapshotContentBoundariesList | undefined;
   /** Editorial rules captured for this run. */
-  brand_rules?: ContentAutopilotSnapshotBrandRulesList;
+  brand_rules?: ContentAutopilotSnapshotBrandRulesList | undefined;
 }
 export interface ContentAutopilotError {
   /** Stable machine-readable error code. */
@@ -112,9 +112,9 @@ export interface ContentAutopilotEvidence {
   /** Plain-language explanation of the supporting evidence. */
   explanation: string;
   /** Page supported by this evidence. */
-  page_url?: string;
+  page_url?: string | undefined;
   /** Search query supported by this evidence. */
-  query?: string;
+  query?: string | undefined;
 }
 /** Why this opportunity was selected. */
 export type ContentAutopilotOpportunityEvidenceList = Array<ContentAutopilotEvidence>;
@@ -146,7 +146,7 @@ export interface ContentAutopilotCitationGap {
   /** Checks whose answer cited the site. */
   cited_checks: number;
   /** Checks whose answer named the site's brand or cited the site. */
-  mentioned_checks?: number;
+  mentioned_checks?: number | undefined;
   /** Share of checks that cited the site, from 0 to 1. */
   citation_rate: number;
   /** Engines that answered the prompt. */
@@ -225,9 +225,9 @@ export interface ContentAutopilotPackage {
   /** Portable source notes included with the export. */
   source_notes: ContentAutopilotPackageSourceNotesList;
   /** JSON-LD structured data to embed in the page, such as an FAQPage document. */
-  json_ld?: string;
+  json_ld?: string | undefined;
   /** Suggested llms.txt entry for the page. */
-  llms_txt_line?: string;
+  llms_txt_line?: string | undefined;
 }
 export interface EditWebAnalyticsContentAutopilotProposalRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -286,29 +286,29 @@ export type ContentAutopilotBriefQuestionsToAnswerList = Array<string>;
 export type ContentAutopilotBriefCompetitorCoverageList = Array<string>;
 export interface ContentAutopilotBrief {
   /** What the person asking wants to know or decide. */
-  intent?: string;
+  intent?: string | undefined;
   /** Who the content is for. */
-  audience?: string;
+  audience?: string | undefined;
   /** Whether the brief recommends new_content or page_improvement. */
-  recommended_type?: string;
+  recommended_type?: string | undefined;
   /** Site page the brief chose to improve. Empty for a new page. */
-  target_page?: string;
+  target_page?: string | undefined;
   /** Site pages the brief asked to read for facts. */
-  site_pages_to_read?: ContentAutopilotBriefSitePagesToReadList;
+  site_pages_to_read?: ContentAutopilotBriefSitePagesToReadList | undefined;
   /** Products the brief asked to research for a comparison. */
-  competitors_to_research?: ContentAutopilotBriefCompetitorsToResearchList;
+  competitors_to_research?: ContentAutopilotBriefCompetitorsToResearchList | undefined;
   /** Working title for the page. */
-  working_title?: string;
+  working_title?: string | undefined;
   /** Planned sections, in order. */
-  outline?: ContentAutopilotBriefOutlineList;
+  outline?: ContentAutopilotBriefOutlineList | undefined;
   /** Questions the page must answer. */
-  questions_to_answer?: ContentAutopilotBriefQuestionsToAnswerList;
+  questions_to_answer?: ContentAutopilotBriefQuestionsToAnswerList | undefined;
   /** Topics the cited competitor pages cover that the site's pages don't. */
-  competitor_coverage?: ContentAutopilotBriefCompetitorCoverageList;
+  competitor_coverage?: ContentAutopilotBriefCompetitorCoverageList | undefined;
   /** What AI answer engines currently say, including what they get wrong. */
-  engine_answer_summary?: string;
+  engine_answer_summary?: string | undefined;
   /** What the question means, when AI answer engines misread which product or company it asks about. */
-  disambiguation?: string;
+  disambiguation?: string | undefined;
 }
 /** * `site` - site * `competitor` - competitor */
 export type ContentAutopilotSourceLedgerEntryKindEnum = "site" | "competitor";
@@ -320,7 +320,7 @@ export interface ContentAutopilotSourceLedgerEntry {
   /** Short quote from the source page. */
   quote: string;
   /** Whether the source is one of the site's pages or a competitor's own page. * `site` - site * `competitor` - competitor */
-  kind?: ContentAutopilotSourceLedgerEntryKindEnum;
+  kind?: ContentAutopilotSourceLedgerEntryKindEnum | undefined;
 }
 /** Factual claims in the draft and the site pages that support them. */
 export type ContentAutopilotProposalSourceLedgerList = Array<ContentAutopilotSourceLedgerEntry>;
@@ -452,69 +452,69 @@ export interface WebAnalyticsRecapRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true (default), include period-over-period change for each metric comparing against the prior equal-length period. Set to false to skip the comparison query. */
-  compare?: boolean;
+  compare?: boolean | undefined;
   /** Lookback window in days (1-90). Defaults to 7. */
-  days?: number;
+  days?: number | undefined;
 }
 /** * `Up` - Up * `Down` - Down */
 export type WoWChangeDirectionEnum = "Up" | "Down";
 export interface WoWChange {
   /** Absolute percentage change, rounded to nearest integer. */
-  percent?: number;
+  percent?: number | undefined;
   /** Direction of the change relative to the prior period. * `Up` - Up * `Down` - Down */
-  direction?: WoWChangeDirectionEnum;
+  direction?: WoWChangeDirectionEnum | undefined;
   /** Hex color indicating whether the change is a positive or negative signal. */
-  color?: string;
+  color?: string | undefined;
   /** Short label, e.g. 'Up 12%'. */
-  text?: string;
+  text?: string | undefined;
   /** Verbose label, e.g. 'Up 12% from prior period'. */
-  long_text?: string;
+  long_text?: string | undefined;
 }
 export interface NumericMetric {
   /** Value for the most recent period. */
-  current?: number;
+  current?: number | undefined;
   /** Value for the prior period, if available. */
-  previous?: number | null;
+  previous?: number | null | undefined;
   /** Period-over-period change, null when not meaningful. */
-  change?: WoWChange | null;
+  change?: WoWChange | null | undefined;
 }
 export interface DurationMetric {
   /** Human-readable duration, e.g. '2m 34s'. */
-  current?: string;
+  current?: string | undefined;
   /** Prior-period duration, e.g. '2m 10s'. */
-  previous?: string | null;
+  previous?: string | null | undefined;
   /** Period-over-period change, null when not meaningful. */
-  change?: WoWChange | null;
+  change?: WoWChange | null | undefined;
 }
 export interface TopPage {
   /** Host for the page, if recorded. */
-  host?: string;
+  host?: string | undefined;
   /** URL path. */
-  path?: string;
+  path?: string | undefined;
   /** Unique visitors in the period. */
-  visitors?: number;
+  visitors?: number | undefined;
   /** Period-over-period change in visitors, null when not meaningful. */
-  change?: WoWChange | null;
+  change?: WoWChange | null | undefined;
 }
 /** Top 5 pages by unique visitors. */
 export type WebAnalyticsRecapResponseTopPagesList = Array<TopPage>;
 export interface TopSource {
   /** Initial referring domain. */
-  name?: string;
+  name?: string | undefined;
   /** Unique visitors from this source. */
-  visitors?: number;
+  visitors?: number | undefined;
   /** Period-over-period change in visitors, null when not meaningful. */
-  change?: WoWChange | null;
+  change?: WoWChange | null | undefined;
 }
 /** Top 5 traffic sources by unique visitors. */
 export type WebAnalyticsRecapResponseTopSourcesList = Array<TopSource>;
 export interface Goal {
   /** Goal name (action name). */
-  name?: string;
+  name?: string | undefined;
   /** Total conversions in the period. */
-  conversions?: number;
+  conversions?: number | undefined;
   /** Period-over-period change in conversions, null when not meaningful. */
-  change?: WoWChange | null;
+  change?: WoWChange | null | undefined;
 }
 /** Goal conversions. */
 export type WebAnalyticsRecapResponseGoalsList = Array<Goal>;
@@ -602,9 +602,9 @@ export interface WebAnalyticsWeeklyDigestRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** When true (default), include period-over-period change for each metric comparing against the prior equal-length period. Set to false to skip the comparison query (faster). */
-  compare?: boolean;
+  compare?: boolean | undefined;
   /** Lookback window in days (1-90). Defaults to 7. */
-  days?: number;
+  days?: number | undefined;
 }
 /** Top 5 pages by unique visitors. */
 export type WeeklyDigestResponseTopPagesList = Array<TopPage>;
@@ -614,25 +614,25 @@ export type WeeklyDigestResponseTopSourcesList = Array<TopSource>;
 export type WeeklyDigestResponseGoalsList = Array<Goal>;
 export interface WeeklyDigestResponse {
   /** Unique visitors. */
-  visitors?: NumericMetric;
+  visitors?: NumericMetric | undefined;
   /** Total pageviews. */
-  pageviews?: NumericMetric;
+  pageviews?: NumericMetric | undefined;
   /** Total sessions. */
-  sessions?: NumericMetric;
+  sessions?: NumericMetric | undefined;
   /** Bounce rate (0-100). */
-  bounce_rate?: NumericMetric;
+  bounce_rate?: NumericMetric | undefined;
   /** Average session duration. */
-  avg_session_duration?: DurationMetric;
+  avg_session_duration?: DurationMetric | undefined;
   /** Top 5 pages by unique visitors. */
-  top_pages?: WeeklyDigestResponseTopPagesList;
+  top_pages?: WeeklyDigestResponseTopPagesList | undefined;
   /** Top 5 traffic sources by unique visitors. */
-  top_sources?: WeeklyDigestResponseTopSourcesList;
+  top_sources?: WeeklyDigestResponseTopSourcesList | undefined;
   /** Goal conversions. */
-  goals?: WeeklyDigestResponseGoalsList;
+  goals?: WeeklyDigestResponseGoalsList | undefined;
   /** Period, filters and metric definitions behind the numbers, and a status that explains a zero. */
-  metadata?: DigestMetadata;
+  metadata?: DigestMetadata | undefined;
   /** Link to the Web analytics dashboard for this project. */
-  dashboard_url?: string;
+  dashboard_url?: string | undefined;
 }
 export type CancelWebAnalyticsContentAutopilotRunError = PosthogOpError;
 /** Cancel a content autopilot run Stops a pending or generating run without creating content writes. */

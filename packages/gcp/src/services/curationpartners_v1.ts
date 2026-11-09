@@ -89,17 +89,17 @@ export interface ActivateCuratorsCuratedPackagesRequest {
   /** Required. The name of the curated package to activate. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Request body */
-  body?: ActivateCuratedPackageRequest;
+  body?: ActivateCuratedPackageRequest | undefined;
 }
 export type CuratedPackageStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE";
 /** Represents an amount of money with its currency type. */
 export interface Money {
   /** The whole units of the amount. For example if `currencyCode` is `"USD"`, then 1 unit is one US dollar. */
-  units?: string;
+  units?: string | undefined;
   /** Number of nano (10^-9) units of the amount. The value must be between -999,999,999 and +999,999,999 inclusive. If `units` is positive, `nanos` must be positive or zero. If `units` is zero, `nanos` can be positive, zero, or negative. If `units` is negative, `nanos` must be negative or zero. For example $-1.75 is represented as `units`=-1 and `nanos`=-750,000,000. */
-  nanos?: number;
+  nanos?: number | undefined;
   /** The three-letter currency code defined in ISO 4217. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
 }
 export type PackageTargetingIncludedOpenMeasurementTypesItemEnum =
   | "OPEN_MEASUREMENT_TYPE_UNSPECIFIED"
@@ -111,9 +111,9 @@ export type StringList_ = Array<string>;
 /** Represents the size of the video player that can be targeted. Both width and height are required to be set to non-zero values. */
 export interface VideoPlayerSizeTargeting {
   /** Required. The minimum width of the video player in pixels. */
-  minimumWidth?: string;
+  minimumWidth?: string | undefined;
   /** Required. The minimum height of the video player in pixels. */
-  minimumHeight?: string;
+  minimumHeight?: string | undefined;
 }
 export type PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum =
   | "MAXIMUM_VIDEO_AD_DURATION_UNSPECIFIED"
@@ -151,9 +151,9 @@ export type VideoPlcmtTargetingVideoPlcmtTypesItemEnumList = Array<
 /** Defines targeting criteria based on the video placement type, often corresponding to the IAB OpenRTB 'plcmt' field. */
 export interface VideoPlcmtTargeting {
   /** Required. The selection type for the list of video plcmts. */
-  selectionType?: VideoPlcmtTargetingSelectionTypeEnum | (string & {});
+  selectionType?: VideoPlcmtTargetingSelectionTypeEnum | (string & {}) | undefined;
   /** Required. The list of targeted video plcmts types. If empty, inventory will be targeted regardless of video plcmt type. */
-  videoPlcmtTypes?: VideoPlcmtTargetingVideoPlcmtTypesItemEnumList;
+  videoPlcmtTypes?: VideoPlcmtTargetingVideoPlcmtTypesItemEnumList | undefined;
 }
 export type PackageVideoTargetingIncludedMimeTypesItemEnum =
   | "VIDEO_MIME_TYPE_UNSPECIFIED"
@@ -177,32 +177,34 @@ export type PackageVideoTargetingIncludedPlaybackMethodsItemEnumList = Array<
 /** Video specific targeting criteria. */
 export interface PackageVideoTargeting {
   /** Optional. The targeted video player size. If unset, inventory will be targeted regardless of video player size. */
-  includedPlayerSizeTargeting?: VideoPlayerSizeTargeting;
+  includedPlayerSizeTargeting?: VideoPlayerSizeTargeting | undefined;
   /** Optional. The targeted minimum predicted completion rate percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% completion rate. An unset value indicates inventory will be targeted regardless of predicted completion rate. */
-  minimumPredictedCompletionRatePercentage?: string;
+  minimumPredictedCompletionRatePercentage?: string | undefined;
   /** Optional. The targeted maximum video ad duration. If unset, inventory will be targeted regardless of maximum video ad duration. */
   includedMaximumAdDurationTargeting?:
     | PackageVideoTargetingIncludedMaximumAdDurationTargetingEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The targeted video ad position types. If empty, inventory will be targeted regardless of video ad position type. */
-  includedPositionTypes?: PackageVideoTargetingIncludedPositionTypesItemEnumList;
+  includedPositionTypes?: PackageVideoTargetingIncludedPositionTypesItemEnumList | undefined;
   /** Optional. The targeted video delivery method. If unset, inventory will be targeted regardless of video delivery method. */
   includedContentDeliveryMethod?:
     | PackageVideoTargetingIncludedContentDeliveryMethodEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The targeted video plcmt types. If unset, inventory will be targeted regardless of video plcmt type. */
-  plcmtTargeting?: VideoPlcmtTargeting;
+  plcmtTargeting?: VideoPlcmtTargeting | undefined;
   /** Optional. The list of targeted video mime types using the IANA published MIME type strings (https://www.iana.org/assignments/media-types/media-types.xhtml). If empty, inventory will be targeted regardless of video mime type. */
-  includedMimeTypes?: PackageVideoTargetingIncludedMimeTypesItemEnumList;
+  includedMimeTypes?: PackageVideoTargetingIncludedMimeTypesItemEnumList | undefined;
   /** Optional. The list of targeted video playback methods. If empty, inventory will be targeted regardless of video playback method. */
-  includedPlaybackMethods?: PackageVideoTargetingIncludedPlaybackMethodsItemEnumList;
+  includedPlaybackMethods?: PackageVideoTargetingIncludedPlaybackMethodsItemEnumList | undefined;
 }
 /** Defines targeting criteria for handling the IAB audience and content Taxonomy ID space. */
 export interface TaxonomyTargeting {
   /** Optional. The list of excluded content taxonomy IDs. */
-  excludedTaxonomyIds?: StringList_;
+  excludedTaxonomyIds?: StringList_ | undefined;
   /** Optional. The list of targeted content taxonomy IDs. */
-  targetedTaxonomyIds?: StringList_;
+  targetedTaxonomyIds?: StringList_ | undefined;
 }
 export type StringTargetingDimensionSelectionTypeEnum =
   | "SELECTION_TYPE_UNSPECIFIED"
@@ -211,25 +213,25 @@ export type StringTargetingDimensionSelectionTypeEnum =
 /** Generic targeting with string values. */
 export interface StringTargetingDimension {
   /** Required. How the items in this list should be targeted. */
-  selectionType?: StringTargetingDimensionSelectionTypeEnum | (string & {});
+  selectionType?: StringTargetingDimensionSelectionTypeEnum | (string & {}) | undefined;
   /** Required. The values specified. */
-  values?: StringList_;
+  values?: StringList_ | undefined;
 }
 /** Represents targeting about publisher provided signals. Different publisher provided signals types will be logically OR'ed. */
 export interface PackagePublisherProvidedSignalsTargeting {
   /** Optional. The list of targeted or excluded audience IDs. Based off of IAB Audience Taxonomy version 1.1 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Audience%20Taxonomies/Audience%20Taxonomy%201.1.tsv) */
-  audienceTargeting?: TaxonomyTargeting;
+  audienceTargeting?: TaxonomyTargeting | undefined;
   /** Optional. The list of targeted or excluded content IDs. Based off of IAB Content Taxonomy version 2.2 (https://github.com/InteractiveAdvertisingBureau/Taxonomies/blob/main/Content%20Taxonomies/Content%20Taxonomy%202.2.tsv) */
-  contentTargeting?: TaxonomyTargeting;
+  contentTargeting?: TaxonomyTargeting | undefined;
   /** Optional. The list of targeted and excluded video and audio signals IDs. These are additional signals supported by publisher provided signals. */
-  videoAndAudioSignalsTargeting?: StringTargetingDimension;
+  videoAndAudioSignalsTargeting?: StringTargetingDimension | undefined;
 }
 /** Generic targeting used for targeting dimensions that contains a list of included and excluded numeric IDs. This cannot be filtered using list filter syntax. */
 export interface CriteriaTargeting {
   /** A list of numeric IDs to be included. */
-  targetedCriteriaIds?: StringList_;
+  targetedCriteriaIds?: StringList_ | undefined;
   /** A list of numeric IDs to be excluded. */
-  excludedCriteriaIds?: StringList_;
+  excludedCriteriaIds?: StringList_ | undefined;
 }
 export type PackageTargetingIncludedAuthorizedSellerStatusesItemEnum =
   | "AUTHORIZED_SELLER_STATUS_UNSPECIFIED"
@@ -278,21 +280,21 @@ export type PackageTargetingIncludedDeviceTypesItemEnumList = Array<
 /** Represents targeting about where the ads can appear, for example, certain sites or mobile applications. Different placement targeting types will be logically OR'ed. */
 export interface PackagePlacementTargeting {
   /** Optional. The list of targeted or excluded URLs. The domains should have the http/https stripped (for example, google.com), and can contain a max of 5 paths per url. */
-  uriTargeting?: StringTargetingDimension;
+  uriTargeting?: StringTargetingDimension | undefined;
   /** Optional. The list of targeted or excluded mobile application IDs that publishers own. Currently, only Android and Apple apps are supported. Android App ID, for example, com.google.android.apps.maps, can be found in Google Play Store URL. iOS App ID (which is a number) can be found at the end of iTunes store URL. First party mobile applications is either included or excluded. */
-  mobileAppTargeting?: StringTargetingDimension;
+  mobileAppTargeting?: StringTargetingDimension | undefined;
   /** Optional. The list of targeted mobile app categories. */
-  includedMobileAppCategoryTargeting?: StringList_;
+  includedMobileAppCategoryTargeting?: StringList_ | undefined;
 }
 export type AdSizeTypeEnum = "TYPE_UNSPECIFIED" | "PIXEL" | "INTERSTITIAL" | "NATIVE" | "FLUID";
 /** Represents size of a single ad slot, or a creative. */
 export interface AdSize {
   /** The width of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  width?: string;
+  width?: string | undefined;
   /** The height of the ad slot in pixels. This field will be present only when size type is `PIXEL`. */
-  height?: string;
+  height?: string | undefined;
   /** The type of the ad slot size. */
-  type?: AdSizeTypeEnum | (string & {});
+  type?: AdSizeTypeEnum | (string & {}) | undefined;
 }
 export type AdSizeList = Array<AdSize>;
 export type PackageTargetingIncludedEnvironmentEnum =
@@ -302,47 +304,56 @@ export type PackageTargetingIncludedEnvironmentEnum =
 /** Targeting criteria for curated and auction packages. */
 export interface PackageTargeting {
   /** Optional. The list of targeted open measurement types. If empty, inventory will be targeted regardless of Open Measurement support. */
-  includedOpenMeasurementTypes?: PackageTargetingIncludedOpenMeasurementTypesItemEnumList;
+  includedOpenMeasurementTypes?:
+    | PackageTargetingIncludedOpenMeasurementTypesItemEnumList
+    | undefined;
   /** Optional. The active data segments to be targeted. If unset, inventory will be targeted regardless of data segments. Format: `curators/{account_id}/dataSegments/{data_segment_id}` */
-  includedDataSegments?: StringList_;
+  includedDataSegments?: StringList_ | undefined;
   /** Optional. Video specific targeting criteria. */
-  videoTargeting?: PackageVideoTargeting;
+  videoTargeting?: PackageVideoTargeting | undefined;
   /** Optional. The targeted minimum predicted viewability percentage. This value must be a multiple of 10 between 10 and 90 (inclusive). For example, 10 is valid, but 0, 15, and 100 are not. A value of 10 means that the configuration will only match adslots for which we predict at least 10% viewability. An unset value indicates inventory will be targeted regardless of predicted viewability. */
-  minimumPredictedViewabilityPercentage?: string;
+  minimumPredictedViewabilityPercentage?: string | undefined;
   /** Optional. The publisher provided signals to target. If unset, inventory will be targeted regardless of publisher provided signals. */
-  publisherProvidedSignalsTargeting?: PackagePublisherProvidedSignalsTargeting;
+  publisherProvidedSignalsTargeting?: PackagePublisherProvidedSignalsTargeting | undefined;
   /** Optional. The geo criteria IDs to be included or excluded as defined in https://storage.googleapis.com/adx-rtb-dictionaries/geo-table.csv. If unset, inventory will be targeted regardless of geo. */
-  geoTargeting?: CriteriaTargeting;
+  geoTargeting?: CriteriaTargeting | undefined;
   /** Optional. The languages to target. If unset, inventory will be targeted regardless of language. See https://developers.google.com/google-ads/api/data/codes-formats#languages for the list of supported language codes. */
-  languageTargeting?: StringTargetingDimension;
+  languageTargeting?: StringTargetingDimension | undefined;
   /** Optional. The included list of targeted authorized seller statuses. If empty, inventory will be targeted regardless of seller status. */
-  includedAuthorizedSellerStatuses?: PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList;
+  includedAuthorizedSellerStatuses?:
+    | PackageTargetingIncludedAuthorizedSellerStatusesItemEnumList
+    | undefined;
   /** Optional. The verticals included or excluded as defined in https://developers.google.com/authorized-buyers/rtb/downloads/publisher-verticals. If unset, inventory will be targeted regardless of vertical. */
-  verticalTargeting?: CriteriaTargeting;
+  verticalTargeting?: CriteriaTargeting | undefined;
   /** Optional. The targeted accelerated mobile page type. If unset, inventory will be targeted regardless of AMP status. */
   includedAcceleratedMobilePageType?:
     | PackageTargetingIncludedAcceleratedMobilePageTypeEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. The list of targeted restricted categories. If empty, inventory will be targeted regardless of restricted categories. */
-  includedRestrictedCategories?: PackageTargetingIncludedRestrictedCategoriesItemEnumList;
+  includedRestrictedCategories?:
+    | PackageTargetingIncludedRestrictedCategoriesItemEnumList
+    | undefined;
   /** Optional. The targeted publishers. If unset, inventory will be targeted regardless of publisher. Publishers are identified by their publisher ID from ads.txt / app-ads.txt. See https://iabtechlab.com/ads-txt/ and https://iabtechlab.com/app-ads-txt/ for more details. */
-  publisherTargeting?: StringTargetingDimension;
+  publisherTargeting?: StringTargetingDimension | undefined;
   /** Optional. The targeted native inventory types. If empty, inventory will be targeted regardless of native inventory type. */
-  includedNativeInventoryTypes?: PackageTargetingIncludedNativeInventoryTypesItemEnumList;
+  includedNativeInventoryTypes?:
+    | PackageTargetingIncludedNativeInventoryTypesItemEnumList
+    | undefined;
   /** Optional. The targeted rewarded type. If unset, inventory will be targeted regardless of rewarded type. */
-  includedRewardedType?: PackageTargetingIncludedRewardedTypeEnum | (string & {});
+  includedRewardedType?: PackageTargetingIncludedRewardedTypeEnum | (string & {}) | undefined;
   /** Optional. The targeted minimum predicted click through rate, ranging in values [10, 10000] (0.01% - 10%). A value of 50 means that the configuration will only match adslots for which we predict at least 0.05% click through rate. An unset value indicates inventory will be targeted regardless of predicted click through rate. */
-  minimumPredictedClickThroughRatePercentageMillis?: string;
+  minimumPredictedClickThroughRatePercentageMillis?: string | undefined;
   /** Optional. The creative format to target. If unset, all creative markup types are targeted. */
-  includedCreativeFormat?: PackageTargetingIncludedCreativeFormatEnum | (string & {});
+  includedCreativeFormat?: PackageTargetingIncludedCreativeFormatEnum | (string & {}) | undefined;
   /** Optional. The list of included device types to target. If empty, all device types are targeted. */
-  includedDeviceTypes?: PackageTargetingIncludedDeviceTypesItemEnumList;
+  includedDeviceTypes?: PackageTargetingIncludedDeviceTypesItemEnumList | undefined;
   /** Optional. Placement targeting information, for example, URL, mobile applications. */
-  placementTargeting?: PackagePlacementTargeting;
+  placementTargeting?: PackagePlacementTargeting | undefined;
   /** Optional. The list of ad sizes to target. If unset, inventory will be targeted regardless of ad size. Curated packages supports `PIXEL` and `INTERSTITIAL` ad sizes. */
-  includedAdSizes?: AdSizeList;
+  includedAdSizes?: AdSizeList | undefined;
   /** Optional. The environment to target. If unspecified, all environments are targeted. */
-  includedEnvironment?: PackageTargetingIncludedEnvironmentEnum | (string & {});
+  includedEnvironment?: PackageTargetingIncludedEnvironmentEnum | (string & {}) | undefined;
 }
 export type CuratedPackageCurationFeeVisibilityEnum =
   | "CURATION_FEE_VISIBILITY_UNSPECIFIED"
@@ -351,34 +362,34 @@ export type CuratedPackageCurationFeeVisibilityEnum =
 /** Settings for controlling access to a curated package. */
 export interface AccessControlSettings {
   /** Required. Immutable. The list of media planners that are explicitly granted access to the curated package. Eligible media planners can be found in the mediaPlanners.list method. Only a single media planner may be allowlisted at this time. Format: `mediaPlanners/{mediaPlannerAccountId}` */
-  allowlistedMediaPlanners?: StringList_;
+  allowlistedMediaPlanners?: StringList_ | undefined;
 }
 /** Represents a curated package of inventory created and managed by a Curator. */
 export interface CuratedPackage {
   /** Required. The display name assigned to the curated package by the curator. Can be used to filter the response of the curatedPackages.list method. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The timestamp when the curated package was created. Can be used to filter the response of the curatedPackages.list method. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The state of the curated package. Can be used to filter the response of the curatedPackages.list method. */
-  state?: CuratedPackageStateEnum | (string & {});
+  state?: CuratedPackageStateEnum | (string & {}) | undefined;
   /** Output only. The timestamp when the curated package was last updated. Can be used to filter the response of the curatedPackages.list method. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string;
+  millipercentOfMediaFee?: string | undefined;
   /** Optional. The CPM fee charged by the curator to buyers using this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  feeCpm?: Money;
+  feeCpm?: Money | undefined;
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Targeting criteria for the curated package. */
-  targeting?: PackageTargeting;
+  targeting?: PackageTargeting | undefined;
   /** Optional. Immutable. The visibility of the combined curation package fee and data segment fees (the total curation fee). */
-  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {});
+  curationFeeVisibility?: CuratedPackageCurationFeeVisibilityEnum | (string & {}) | undefined;
   /** Optional. A description of the curated package, provided by the curator. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. The minimum CPM a buyer has to bid to participate in auctions for inventory in this curated package. Can be used to filter the response of the curatedPackages.list method. */
-  floorPriceCpm?: Money;
+  floorPriceCpm?: Money | undefined;
   /** Required. Settings for controlling access to the curated package. Access to this curated package is limited to the allowlisted media planners and the creator. Buyers and bidders can not be allowlisted for or have direct access to this resource. */
-  accessSettings?: AccessControlSettings;
+  accessSettings?: AccessControlSettings | undefined;
 }
 /** Request message for activating a data segment */
 export type ActivateDataSegmentRequest = ActivateCuratedPackageRequest;
@@ -386,37 +397,37 @@ export interface ActivateCuratorsDataSegmentsRequest {
   /** Required. Name of data segment to activate. Format: `curators/{accountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
   /** Request body */
-  body?: ActivateCuratedPackageRequest;
+  body?: ActivateCuratedPackageRequest | undefined;
 }
 export type DataSegmentStateEnum = "STATE_UNSPECIFIED" | "ACTIVE" | "INACTIVE" | "SUSPENDED";
 /** Defines an identifier for a segment of inventory that can be targeted by curators or media planners in the deals or auction packages UI. Curation of inventory is done by curators on external platforms. -- Next ID: 9 -- */
 export interface DataSegment {
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. Format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The state of the data segment. */
-  state?: DataSegmentStateEnum | (string & {});
+  state?: DataSegmentStateEnum | (string & {}) | undefined;
   /** Output only. Time the data segment was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. The fee will be charged as a percentage of the impression cost, represented in millipercent. For example, 1% is represented as 1000. */
-  millipercentOfMediaFee?: string;
+  millipercentOfMediaFee?: string | undefined;
   /** Output only. Time the data segment was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Immutable. The ID of the User List wrapped by this Data Segment. Curators with a linked Data Partner account can create a data segment that wraps a user list owned by the linked Data Partner account. User lists can be uploaded and managed using the [Data Manager API](https://developers.google.com/data-manager/api/data-partners/audiences). Linking a user list to a data segment lets you define a segment of inventory that is based on an audience you create. */
-  userListId?: string;
+  userListId?: string | undefined;
   /** Optional. A fixed fee charged per thousand impressions. Once set, the currency code cannot be changed. */
-  cpmFee?: Money;
+  cpmFee?: Money | undefined;
 }
 export interface CreateCuratorsCuratedPackagesRequest {
   /** Required. The parent curator account where this curated package will be created. Format: `curators/{accountId}` */
   parent: string;
   /** Request body */
-  body?: CuratedPackage;
+  body?: CuratedPackage | undefined;
 }
 export interface CreateCuratorsDataSegmentsRequest {
   /** Required. The parent resource where this data segment will be created. Format: `curators/{accountId}` */
   parent: string;
   /** Request body */
-  body?: DataSegment;
+  body?: DataSegment | undefined;
 }
 export type FieldMetricEnum =
   | "METRIC_UNSPECIFIED"
@@ -464,16 +475,16 @@ export type FieldDimensionEnum =
 /** A dimension or a metric in a report. */
 export interface Field {
   /** The metric this field represents. */
-  metric?: FieldMetricEnum | (string & {});
+  metric?: FieldMetricEnum | (string & {}) | undefined;
   /** The dimension this field represents. */
-  dimension?: FieldDimensionEnum | (string & {});
+  dimension?: FieldDimensionEnum | (string & {}) | undefined;
 }
 /** Represents a sorting in a report. */
 export interface Sort {
   /** Optional. The sort order. If true the sort will be descending. */
-  descending?: boolean;
+  descending?: boolean | undefined;
   /** Required. A field (dimension or metric) to sort by. */
-  field?: Field;
+  field?: Field | undefined;
 }
 export type SortList = Array<Sort>;
 export type ReportDefinitionDimensionsItemEnum =
@@ -557,30 +568,30 @@ export type DateRangeRelativeEnum =
 /** Represents a whole or partial calendar date, such as a birthday. The time of day and time zone are either specified elsewhere or are insignificant. The date is relative to the Gregorian Calendar. This can represent one of the following: * A full date, with non-zero year, month, and day values. * A month and day, with a zero year (for example, an anniversary). * A year on its own, with a zero month and a zero day. * A year and month, with a zero day (for example, a credit card expiration date). Related types: * google.type.TimeOfDay * google.type.DateTime * google.protobuf.Timestamp */
 export interface Curationpartners_Date {
   /** Year of the date. Must be from 1 to 9999, or 0 to specify a date without a year. */
-  year?: number;
+  year?: number | undefined;
   /** Day of a month. Must be from 1 to 31 and valid for the year and month, or 0 to specify a year by itself or a year and month where the day isn't significant. */
-  day?: number;
+  day?: number | undefined;
   /** Month of a year. Must be from 1 to 12, or 0 to specify a year without a month and day. */
-  month?: number;
+  month?: number | undefined;
 }
 /** A date range between two fixed dates (inclusive of end date). */
 export interface FixedDateRange {
   /** Required. The start date of this date range. */
-  startDate?: Curationpartners_Date;
+  startDate?: Curationpartners_Date | undefined;
   /** Required. The end date (inclusive) of this date range. */
-  endDate?: Curationpartners_Date;
+  endDate?: Curationpartners_Date | undefined;
 }
 /** A date range for a report. */
 export interface DateRange {
   /** A relative date range. */
-  relative?: DateRangeRelativeEnum | (string & {});
+  relative?: DateRangeRelativeEnum | (string & {}) | undefined;
   /** A fixed date range. */
-  fixed?: FixedDateRange;
+  fixed?: FixedDateRange | undefined;
 }
 /** A list of filters. */
 export interface FilterList {
   /** Required. A list of filters. */
-  filters?: FilterList_;
+  filters?: FilterList_ | undefined;
 }
 export type FieldFilterOperationEnum =
   | "IN"
@@ -598,54 +609,54 @@ export type DoubleList_ = Array<number>;
 /** A list of double values. */
 export interface DoubleList {
   /** The values */
-  values?: DoubleList_;
+  values?: DoubleList_ | undefined;
 }
 /** A list of integer values. */
 export interface IntList {
   /** The values */
-  values?: StringList_;
+  values?: StringList_ | undefined;
 }
 /** A list of string values. */
 export type StringList = IntList;
 /** Represents a single value in a report. */
 export interface ReportValue {
   /** For bytes values. */
-  bytesValue?: string;
+  bytesValue?: string | undefined;
   /** For boolean values. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** For double values. */
-  doubleValue?: number;
+  doubleValue?: number | undefined;
   /** For lists of double values. */
-  doubleListValue?: DoubleList;
+  doubleListValue?: DoubleList | undefined;
   /** For lists of integer values. */
-  intListValue?: IntList;
+  intListValue?: IntList | undefined;
   /** For lists of string values. */
-  stringListValue?: IntList;
+  stringListValue?: IntList | undefined;
   /** For string values. */
-  stringValue?: string;
+  stringValue?: string | undefined;
   /** For integer values. */
-  intValue?: string;
+  intValue?: string | undefined;
 }
 export type ReportValueList = Array<ReportValue>;
 /** A filter on a specific field. */
 export interface FieldFilter {
   /** Required. The operation of this filter. */
-  operation?: FieldFilterOperationEnum | (string & {});
+  operation?: FieldFilterOperationEnum | (string & {}) | undefined;
   /** Required. Values to filter to. */
-  values?: ReportValueList;
+  values?: ReportValueList | undefined;
   /** Required. The field to filter on. */
-  field?: Field;
+  field?: Field | undefined;
 }
 /** A filter over one or more fields. */
 export interface Filter {
   /** A filter whose result is negated. */
-  notFilter?: Filter;
+  notFilter?: Filter | undefined;
   /** A list of filters whose results are OR-ed. */
-  orFilter?: FilterList;
+  orFilter?: FilterList | undefined;
   /** A list of filters whose results are AND-ed. */
-  andFilter?: FilterList;
+  andFilter?: FilterList | undefined;
   /** A filter on a single field. */
-  fieldFilter?: FieldFilter;
+  fieldFilter?: FieldFilter | undefined;
 }
 export type FilterList_ = Array<Filter>;
 export type ReportDefinitionTimeZoneSourceEnum =
@@ -656,44 +667,44 @@ export type ReportDefinitionTimeZoneSourceEnum =
 /** The definition of how a report should be run. */
 export interface ReportDefinition {
   /** Optional. Default sorts to apply to this report. */
-  sorts?: SortList;
+  sorts?: SortList | undefined;
   /** Required. The list of dimensions to report on. If empty, the report will have no dimensions, and any metrics will be totals. */
-  dimensions?: ReportDefinitionDimensionsItemEnumList;
+  dimensions?: ReportDefinitionDimensionsItemEnumList | undefined;
   /** Optional. If time_zone_source is PROVIDED, this is the time zone to use for this report. Leave empty for any other time zone source. Time zone in IANA format. For example, "America/New_York". */
-  timeZone?: string;
+  timeZone?: string | undefined;
   /** Required. The list of metrics to report on. If empty, the report will have no metrics. */
-  metrics?: ReportDefinitionMetricsItemEnumList;
+  metrics?: ReportDefinitionMetricsItemEnumList | undefined;
   /** Required. The primary date range of this report. */
-  dateRange?: DateRange;
+  dateRange?: DateRange | undefined;
   /** Optional. The filters for this report. */
-  filters?: FilterList_;
+  filters?: FilterList_ | undefined;
   /** Optional. Where to get the time zone for this report. Defaults to using the Pacific time zone (PT). If source is PROVIDED, the time_zone field in the report definition must also set a time zone. */
-  timeZoneSource?: ReportDefinitionTimeZoneSourceEnum | (string & {});
+  timeZoneSource?: ReportDefinitionTimeZoneSourceEnum | (string & {}) | undefined;
   /** Optional. The ISO 4217 currency code for this report. Defaults to account currency code if not specified. */
-  currencyCode?: string;
+  currencyCode?: string | undefined;
 }
 /** The `Report` resource. */
 export interface Report {
   /** Output only. The instant this report was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The locale of this report. Locale is set from the user's locale at the time of the request. Locale can't be modified. */
-  locale?: string;
+  locale?: string | undefined;
   /** Output only. The instant this report was last modified. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. The report definition of the report. */
-  reportDefinition?: ReportDefinition;
+  reportDefinition?: ReportDefinition | undefined;
   /** Optional. Display name for the report. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Identifier. The resource name of the report. Report resource name have the form: `curators/{account_id}/reports/{report_id}` */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Report ID. */
-  reportId?: string;
+  reportId?: string | undefined;
 }
 export interface CreateCuratorsReportsRequest {
   /** Required. The parent resource where this `Report` will be created. Format: `curators/{account_id}` */
   parent: string;
   /** Request body */
-  body?: Report;
+  body?: Report | undefined;
 }
 /** Request message for DeactivateCuratedPackage. */
 export type DeactivateCuratedPackageRequest = ActivateCuratedPackageRequest;
@@ -701,7 +712,7 @@ export interface DeactivateCuratorsCuratedPackagesRequest {
   /** Required. The name of the curated package to deactivate. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Request body */
-  body?: ActivateCuratedPackageRequest;
+  body?: ActivateCuratedPackageRequest | undefined;
 }
 /** Request message for deactivating a data segment */
 export type DeactivateDataSegmentRequest = ActivateCuratedPackageRequest;
@@ -709,7 +720,7 @@ export interface DeactivateCuratorsDataSegmentsRequest {
   /** Required. Name of data segment to deactivate. Format: `curators/{accountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
   /** Request body */
-  body?: ActivateCuratedPackageRequest;
+  body?: ActivateCuratedPackageRequest | undefined;
 }
 export interface DeleteCuratorsReportsRequest {
   /** Required. Resource name of the report to delete. Format: `curators/{account_id}/reports/{report_id}` */
@@ -719,39 +730,39 @@ export interface DeleteCuratorsReportsRequest {
 export interface Empty {}
 export interface FetchRowsCuratorsReportsResultsRequest {
   /** Optional. A page token, received from a previous `FetchReportResultRows` call. Provide this to retrieve the second and subsequent batches of rows. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of rows to return. The service may return fewer than this value. If unspecified, at most 1,000 rows will be returned. The maximum value is 10,000; values greater than 10,000 will be reduced to 10,000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The report result being fetched. Format: `curators/{account_id}/reports/{report_id}/results/{report_result_id}` */
   name: string;
 }
 /** Contains all metric values requested for a single date range and set of column dimension values (returned in the columns field of the response). The order of the metrics in each field corresponds to the order of the metrics specified in the request. */
 export interface MetricValueGroup {
   /** Data for the PRIMARY MetricValueType. */
-  primaryValues?: ReportValueList;
+  primaryValues?: ReportValueList | undefined;
 }
 export type MetricValueGroupList = Array<MetricValueGroup>;
 /** A row of report data. */
 export interface Row {
   /** The length of the metric_value_groups field will be equal to the length of the date_ranges field in the fetch response. The metric_value_groups field is ordered such that each index corresponds to the date_range at the same index. For example, given date_ranges [x, y], metric_value_groups will have a length of two. The first entry in metric_value_groups represents the metrics for date x and the second entry in metric_value_groups represents the metrics for date y. */
-  metricValueGroups?: MetricValueGroupList;
+  metricValueGroups?: MetricValueGroupList | undefined;
   /** The order of the dimension values is the same as the order of the dimensions specified in the request. */
-  dimensionValues?: ReportValueList;
+  dimensionValues?: ReportValueList | undefined;
 }
 export type RowList = Array<Row>;
 export type FixedDateRangeList = Array<FixedDateRange>;
 /** The response message for the fetch report result rows endpoint. */
 export interface FetchReportResultRowsResponse {
   /** The total number of rows available from this report. Useful for pagination. Only returned with the first page of results (when page_token is not included in the request). */
-  totalRowCount?: number;
+  totalRowCount?: number | undefined;
   /** Up to `page_size` rows of report data. */
-  rows?: RowList;
+  rows?: RowList | undefined;
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The time at which the report was scheduled to run. For non-scheduled reports, this is the time at which the report was requested to be run. */
-  runTime?: string;
+  runTime?: string | undefined;
   /** The computed fixed date ranges this report includes. Only returned with the first page of results (when page_token is not included in the request). */
-  dateRanges?: FixedDateRangeList;
+  dateRanges?: FixedDateRangeList | undefined;
 }
 export interface GetCuratorsCuratedPackagesRequest {
   /** Required. The name of the curated package to retrieve. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
@@ -774,133 +785,133 @@ export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface ListCuratorsCuratedPackagesRequest {
   /** Optional. Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * displayName * createTime * updateTime * state * feeCpm.currencyCode * feeCpm.units * feeCpm.nanos * floorPriceCpm.currencyCode * floorPriceCpm.units * floorPriceCpm.nanos */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The parent curator account which owns this collection of curated packages. Format: `curators/{accountId}` */
   parent: string;
   /** Optional. A page token, received from a previous `ListCuratedPackages` call. Provide this to retrieve the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type CuratedPackageList = Array<CuratedPackage>;
 /** Response message for ListCuratedPackages. */
 export interface ListCuratedPackagesResponse {
   /** A token to retrieve the next page of results. Pass this value in the ListCuratedPackagesRequest.pageToken field in the subsequent call to `ListCuratedPackages` method to retrieve the next page of results. If empty, then there are no more results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of curated packages. */
-  curatedPackages?: CuratedPackageList;
+  curatedPackages?: CuratedPackageList | undefined;
 }
 export interface ListCuratorsDataSegmentsRequest {
   /** Required. Name of the parent curator that can access the data segment. Format: `curators/{accountId}` */
   parent: string;
   /** Optional. The page token as returned. ListDataSegmentsResponse.nextPageToken */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Requested page size. The server may return fewer results than requested. Max allowed page size is 500. If unspecified, the server will default to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type DataSegmentList = Array<DataSegment>;
 /** Response message for listing data segments. */
 export interface ListDataSegmentsResponse {
   /** Continuation token for fetching the next page of results. Pass this value in the ListDataSegmentsRequest.pageToken field in the subsequent call to the `ListDataSegments` method to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of data segments. */
-  dataSegments?: DataSegmentList;
+  dataSegments?: DataSegmentList | undefined;
 }
 export interface ListCuratorsReportsRequest {
   /** Optional. Expression to specify sorting order. See syntax details at https://developers.google.com/ad-manager/api/beta/filters#order */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent, which owns this collection of reports. Format: `curators/{account_id}` */
   parent: string;
   /** Optional. A page token, received from a previous `ListReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReports` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of `Reports` to return. The service may return fewer than this value. If unspecified, at most 50 `Reports` will be returned. The maximum value is 1000; values greater than 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Number of individual resources to skip while paginating. */
-  skip?: number;
+  skip?: number | undefined;
   /** Optional. Expression to filter the response. See syntax details at https://developers.google.com/ad-manager/api/beta/filters */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ReportList = Array<Report>;
 /** Response object for `ListReportsResponse` containing matching `Report` objects. */
 export interface ListReportsResponse {
   /** Total number of `Report` objects. If a filter was included in the request, this reflects the total number after the filtering is applied. `total_size` won't be calculated in the response unless it has been included in a response field mask. The response field mask can be provided to the method by using the URL parameter `$fields` or `fields`, or by using the HTTP/gRPC header `X-Goog-FieldMask`. For more information, see https://developers.google.com/ad-manager/api/beta/field-masks */
-  totalSize?: number;
+  totalSize?: number | undefined;
   /** The `Report` objects from the specified network. */
-  reports?: ReportList;
+  reports?: ReportList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListMediaPlannersRequest {
   /** Optional. A token identifying a page of results the server should return.This value is received from a previous `ListMediaPlanners` call in ListMediaPlannersResponse.nextPageToken. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of media planners to return. If unspecified, at most 100 media planners will be returned. The maximum value is 500; values above 500 will be coerced to 500. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional query string using the [Cloud API list filtering syntax](/authorized-buyers/apis/guides/list-filters). Supported columns for filtering are: * `name` * `displayName` * `ancestorNames` */
-  filter?: string;
+  filter?: string | undefined;
 }
 /** Represents a media planner account. */
 export interface MediaPlanner {
   /** Output only. The display name of the media planner. Can be used to filter the response of the mediaPlanners.list method. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Account ID of the media planner. */
-  accountId?: string;
+  accountId?: string | undefined;
   /** Identifier. The unique resource name of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}`. Can be used to filter the response of the mediaPlanners.list method. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The ancestor names of the media planner. Format: `mediaPlanners/{mediaPlannerAccountId}`. Can be used to filter the response of the mediaPlanners.list method. */
-  ancestorNames?: StringList_;
+  ancestorNames?: StringList_ | undefined;
 }
 export type MediaPlannerList = Array<MediaPlanner>;
 /** A response containing media planner account information. */
 export interface ListMediaPlannersResponse {
   /** A token which can be passed to a subsequent call to the ListMediaPlanners method to retrieve the next page of results in ListMediaPlannersRequest.page_token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of media planners. */
-  mediaPlanners?: MediaPlannerList;
+  mediaPlanners?: MediaPlannerList | undefined;
 }
 export interface PatchCuratorsCuratedPackagesRequest {
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement (the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Identifier. The unique resource name for the curated package. Format: `curators/{accountId}/curatedPackages/{curatedPackageId}` */
   name: string;
   /** Request body */
-  body?: CuratedPackage;
+  body?: CuratedPackage | undefined;
 }
 export interface PatchCuratorsDataSegmentsRequest {
   /** Immutable. Identifier. The unique identifier for the data segment. Account ID corresponds to the account ID that created the segment. Format: `curators/{curatorAccountId}/dataSegments/{curatorDataSegmentId}` */
   name: string;
   /** Optional. List of fields to be updated. If empty or unspecified, the service will update all fields populated in the update request excluding the output only fields and primitive fields with default value. Note that explicit field mask is required in order to reset a primitive field back to its default value, for example, false for boolean fields, 0 for integer fields. A special field mask consisting of a single path "*" can be used to indicate full replacement(the equivalent of PUT method), updatable fields unset or unspecified in the input will be cleared or set to default value. Output only fields will be ignored regardless of the value of updateMask. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: DataSegment;
+  body?: DataSegment | undefined;
 }
 export interface PatchCuratorsReportsRequest {
   /** Identifier. The resource name of the report. Report resource name have the form: `curators/{account_id}/reports/{report_id}` */
   name: string;
   /** Optional. The list of fields to update. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Report;
+  body?: Report | undefined;
 }
 /** Request message for a running a report. */
 export type RunReportRequest = ActivateCuratedPackageRequest;
@@ -908,7 +919,7 @@ export interface RunCuratorsReportsRequest {
   /** Required. The report to run. Format: `curators/{account_id}/reports/{report_id}` */
   name: string;
   /** Request body */
-  body?: ActivateCuratedPackageRequest;
+  body?: ActivateCuratedPackageRequest | undefined;
 }
 export type ActivateCuratorsCuratedPackagesError =
   | NotFound

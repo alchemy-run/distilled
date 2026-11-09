@@ -40,15 +40,15 @@ export type TeamMCPGatewayConfigAgentDefaultPreset = MCPPolicyPresetEnum | Blank
 export type TeamMCPGatewayConfigRegisteredTemplateIdsList = Array<string>;
 export interface TeamMCPGatewayConfig {
   /** Whether non-admin members may register custom MCP servers with the gateway. */
-  allow_custom_servers?: boolean;
+  allow_custom_servers?: boolean | undefined;
   /** Whether non-admin members may share their available MCP connections with agents and manage agent tool policies. */
-  allow_member_agent_access?: boolean;
+  allow_member_agent_access?: boolean | undefined;
   /** Whether servers with no gateway registration -- including catalog templates published later -- are enabled for the team. A registered server's own toggle always wins. */
-  default_servers_enabled?: boolean;
+  default_servers_enabled?: boolean | undefined;
   /** Baseline preset for members. Empty until an admin applies one from Team settings. * `allow` - Allow all * `user` - Member decides * `ask` - Ask for destructive * `block` - Block destructive */
-  member_default_preset?: TeamMCPGatewayConfigMemberDefaultPreset;
+  member_default_preset?: TeamMCPGatewayConfigMemberDefaultPreset | undefined;
   /** Baseline preset deriving default policies for tools an agent has no explicit row for. * `allow` - Allow all * `user` - Member decides * `ask` - Ask for destructive * `block` - Block destructive */
-  agent_default_preset?: TeamMCPGatewayConfigAgentDefaultPreset;
+  agent_default_preset?: TeamMCPGatewayConfigAgentDefaultPreset | undefined;
   /** Catalog template ids that already have a gateway registration, including registrations hidden from the requesting member. Clients use this list to avoid presenting disabled or revoked templates as new. */
   registered_template_ids: TeamMCPGatewayConfigRegisteredTemplateIdsList;
   /** Whether the requesting user can administer the gateway (org admin or explicit project admin). */
@@ -74,30 +74,30 @@ export interface CreateMcpGatewayRuleRequest {
   /** Short rule name shown wherever the rule locks a tool. */
   name: string;
   /** Why this guardrail exists. */
-  description?: string;
+  description?: string | undefined;
   /** Audience the rule constrains. * `everyone` - Everyone * `members` - Members * `agents` - Agents */
-  applies_to?: AppliesToEnum | (string & {});
+  applies_to?: AppliesToEnum | (string & {}) | undefined;
   /** State the rule forces on matching tools. * `needs_approval` - Require approval * `do_not_use` - Block */
-  effect?: EffectEnum | (string & {});
+  effect?: EffectEnum | (string & {}) | undefined;
   /** fnmatch pattern against tool names. Blank matches destructive tools heuristically. */
-  tool_pattern?: string;
+  tool_pattern?: string | undefined;
   /** Disabled rules are kept but not evaluated. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface MCPOrgRule {
   id: string;
   /** Short rule name shown wherever the rule locks a tool. */
   name: string;
   /** Why this guardrail exists. */
-  description?: string;
+  description?: string | undefined;
   /** Audience the rule constrains. * `everyone` - Everyone * `members` - Members * `agents` - Agents */
-  applies_to?: AppliesToEnum;
+  applies_to?: AppliesToEnum | undefined;
   /** State the rule forces on matching tools. * `needs_approval` - Require approval * `do_not_use` - Block */
-  effect?: EffectEnum;
+  effect?: EffectEnum | undefined;
   /** fnmatch pattern against tool names. Blank matches destructive tools heuristically. */
-  tool_pattern?: string;
+  tool_pattern?: string | undefined;
   /** Disabled rules are kept but not evaluated. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   created_at: string;
   updated_at: string;
 }
@@ -119,11 +119,11 @@ export interface CreateMcpGatewayServersPolicyRequest {
   /** A UUID string identifying this mcp gateway server. */
   id: string;
   /** Which scope to resolve: the team default, one member, or one agent. * `team` - Team default * `member` - Member * `agent` - Agent */
-  scope_type?: ScopeTypeEnum | (string & {});
+  scope_type?: ScopeTypeEnum | (string & {}) | undefined;
   /** Member scope target. Defaults to the requesting user. */
-  scope_user_id?: number;
+  scope_user_id?: number | undefined;
   /** Agent scope target. Required when scope_type is agent. */
-  scope_service_account_id?: string;
+  scope_service_account_id?: string | undefined;
   /** Per-tool states to upsert for the scope. At most 1,000 entries per request. */
   policies: CreateMcpGatewayServersPolicyRequestPoliciesList;
 }
@@ -157,8 +157,8 @@ export interface ResolvedToolPolicy {
 export type PaginatedResolvedToolPolicyListResultsList = Array<ResolvedToolPolicy>;
 export interface PaginatedResolvedToolPolicyList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedResolvedToolPolicyListResultsList;
 }
 export interface CreateMcpGatewayServersSetTemplateEnabledRequest {
@@ -193,15 +193,15 @@ export type RoleAtOrganizationEnum =
   | "other";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** One member's personal connection to a gateway server. */
 export interface GatewayConnection {
@@ -308,11 +308,11 @@ export interface CreateMcpGatewayServiceAccountsAccessRequest {
   /** True shares the caller's own connection with the agent, false removes the caller's share. */
   enabled: boolean;
   /** Applies to the caller's own share, and only alongside enabled=true. 'personal' lets the agent use the connection when it works for the caller. 'team' lets it use the connection for the whole project's agent runs, including runs nobody started. It never lets another person use the connection. Defaults to personal, so re-sharing without this field resets the caller's share to personal. * `personal` - Personal * `team` - Team */
-  scope?: MCPAgentGrantScopeEnum | (string & {});
+  scope?: MCPAgentGrantScopeEnum | (string & {}) | undefined;
   /** Only valid with enabled=false. Removes every member's share of this server with this agent, along with the agent's tool policies for it. Project admins only. */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Optional agent-scope tool policies to set alongside the grant. At most 1,000 entries per request. */
-  policies?: CreateMcpGatewayServiceAccountsAccessRequestPoliciesList;
+  policies?: CreateMcpGatewayServiceAccountsAccessRequestPoliciesList | undefined;
 }
 export type AgentKeyEnum = "support" | "scout" | "workflow";
 /** Gateway servers configured for this agent. */
@@ -410,7 +410,7 @@ export interface GetMcpGatewayAuditCountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only count calls made by this service account. */
-  actor_service_account_id?: string;
+  actor_service_account_id?: string | undefined;
 }
 export interface AuditCounts {
   /** Every audited tool call visible to the requesting user. */
@@ -461,11 +461,11 @@ export interface GetMcpGatewayServersToolRequest {
   /** A UUID string identifying this mcp gateway server. */
   id: string;
   /** Agent scope target. Required when scope_type is agent. */
-  scope_service_account_id?: string;
+  scope_service_account_id?: string | undefined;
   /** Which scope to resolve: the team default, one member, or one agent. * `team` - Team default * `member` - Member * `agent` - Agent */
-  scope_type?: GetMcpGatewayServersToolRequestScopeType | (string & {});
+  scope_type?: GetMcpGatewayServersToolRequestScopeType | (string & {}) | undefined;
   /** Member scope target. Defaults to the requesting user. */
-  scope_user_id?: number;
+  scope_user_id?: number | undefined;
 }
 export interface GetMcpGatewayServiceAccountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -478,19 +478,19 @@ export interface ListMcpGatewayAuditRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only calls made by this service account. */
-  actor_service_account_id?: string;
+  actor_service_account_id?: string | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** all, agents (agent calls only), approvals (approved or pending), or blocked. * `all` - all * `agents` - agents * `approvals` - approvals * `blocked` - blocked */
-  quick_filter?: ListMcpGatewayAuditRequestQuickFilter | (string & {});
+  quick_filter?: ListMcpGatewayAuditRequestQuickFilter | (string & {}) | undefined;
 }
 export type PaginatedMCPAuditEventListResultsList = Array<MCPAuditEvent>;
 export interface PaginatedMCPAuditEventList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedMCPAuditEventListResultsList;
 }
 export interface ListMcpGatewayConfigRequest {
@@ -501,60 +501,60 @@ export interface ListMcpGatewayMembersRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedGatewayMemberSummaryListResultsList = Array<GatewayMemberSummary>;
 export interface PaginatedGatewayMemberSummaryList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedGatewayMemberSummaryListResultsList;
 }
 export interface ListMcpGatewayRulesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedMCPOrgRuleListResultsList = Array<MCPOrgRule>;
 export interface PaginatedMCPOrgRuleList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedMCPOrgRuleListResultsList;
 }
 export interface ListMcpGatewayServersRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedMCPGatewayServerListResultsList = Array<MCPGatewayServer>;
 export interface PaginatedMCPGatewayServerList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedMCPGatewayServerListResultsList;
 }
 export interface ListMcpGatewayServiceAccountsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedMCPServiceAccountListResultsList = Array<MCPServiceAccount>;
 export interface PaginatedMCPServiceAccountList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedMCPServiceAccountListResultsList;
 }
 /** * `members` - members * `agents` - agents */
@@ -579,15 +579,17 @@ export interface McpGatewayConfigUpdateSettingsCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whether non-admin members may register custom MCP servers. */
-  allow_custom_servers?: boolean;
+  allow_custom_servers?: boolean | undefined;
   /** Whether non-admin members may share their available MCP connections with agents and manage agent tool policies. */
-  allow_member_agent_access?: boolean;
+  allow_member_agent_access?: boolean | undefined;
   /** Whether servers with no gateway registration -- including catalog templates published later -- are enabled for the team. A registered server's own toggle always wins. */
-  default_servers_enabled?: boolean;
+  default_servers_enabled?: boolean | undefined;
   /** Baseline preset for members. * `allow` - Allow all * `user` - Member decides * `ask` - Ask for destructive * `block` - Block destructive */
-  member_default_preset?: McpGatewayConfigUpdateSettingsCreateRequestMemberDefaultPreset;
+  member_default_preset?:
+    | McpGatewayConfigUpdateSettingsCreateRequestMemberDefaultPreset
+    | undefined;
   /** Baseline preset for agents. * `allow` - Allow all * `user` - Member decides * `ask` - Ask for destructive * `block` - Block destructive */
-  agent_default_preset?: McpGatewayConfigUpdateSettingsCreateRequestAgentDefaultPreset;
+  agent_default_preset?: McpGatewayConfigUpdateSettingsCreateRequestAgentDefaultPreset | undefined;
 }
 export interface McpGatewayRulesDestroyRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -611,15 +613,15 @@ export interface UpdateMcpGatewayRuleRequest {
   /** Short rule name shown wherever the rule locks a tool. */
   name: string;
   /** Why this guardrail exists. */
-  description?: string;
+  description?: string | undefined;
   /** Audience the rule constrains. * `everyone` - Everyone * `members` - Members * `agents` - Agents */
-  applies_to?: AppliesToEnum | (string & {});
+  applies_to?: AppliesToEnum | (string & {}) | undefined;
   /** State the rule forces on matching tools. * `needs_approval` - Require approval * `do_not_use` - Block */
-  effect?: EffectEnum | (string & {});
+  effect?: EffectEnum | (string & {}) | undefined;
   /** fnmatch pattern against tool names. Blank matches destructive tools heuristically. */
-  tool_pattern?: string;
+  tool_pattern?: string | undefined;
   /** Disabled rules are kept but not evaluated. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface UpdateMcpGatewayRulesPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -627,17 +629,17 @@ export interface UpdateMcpGatewayRulesPartialRequest {
   /** A UUID string identifying this mcp org rule. */
   id: string;
   /** Short rule name shown wherever the rule locks a tool. */
-  name?: string;
+  name?: string | undefined;
   /** Why this guardrail exists. */
-  description?: string;
+  description?: string | undefined;
   /** Audience the rule constrains. * `everyone` - Everyone * `members` - Members * `agents` - Agents */
-  applies_to?: AppliesToEnum | (string & {});
+  applies_to?: AppliesToEnum | (string & {}) | undefined;
   /** State the rule forces on matching tools. * `needs_approval` - Require approval * `do_not_use` - Block */
-  effect?: EffectEnum | (string & {});
+  effect?: EffectEnum | (string & {}) | undefined;
   /** fnmatch pattern against tool names. Blank matches destructive tools heuristically. */
-  tool_pattern?: string;
+  tool_pattern?: string | undefined;
   /** Disabled rules are kept but not evaluated. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface UpdateMcpGatewayServerRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -645,23 +647,23 @@ export interface UpdateMcpGatewayServerRequest {
   /** A UUID string identifying this mcp gateway server. */
   id: string;
   /** Display name shown across the gateway. */
-  name?: string;
+  name?: string | undefined;
   /** Short description shown on server cards. */
-  description?: string;
+  description?: string | undefined;
   /** Catalog category used for filter chips. * `business` - Business Operations * `data` - Data & Analytics * `design` - Design & Content * `dev` - Developer Tools & APIs * `infra` - Infrastructure * `productivity` - Productivity & Collaboration */
-  category?: MCPServerCategoryEnum | (string & {});
+  category?: MCPServerCategoryEnum | (string & {}) | undefined;
   /** Whether the team can see and call the server. Turning it off also blocks agent access. */
-  is_team_enabled?: boolean;
+  is_team_enabled?: boolean | undefined;
 }
 export interface MCPGatewayServerUpdate {
   /** Display name shown across the gateway. */
-  name?: string;
+  name?: string | undefined;
   /** Short description shown on server cards. */
-  description?: string;
+  description?: string | undefined;
   /** Catalog category used for filter chips. * `business` - Business Operations * `data` - Data & Analytics * `design` - Design & Content * `dev` - Developer Tools & APIs * `infra` - Infrastructure * `productivity` - Productivity & Collaboration */
-  category?: MCPServerCategoryEnum;
+  category?: MCPServerCategoryEnum | undefined;
   /** Whether the team can see and call the server. Turning it off also blocks agent access. */
-  is_team_enabled?: boolean;
+  is_team_enabled?: boolean | undefined;
 }
 export interface UpdateMcpGatewayServersPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -669,13 +671,13 @@ export interface UpdateMcpGatewayServersPartialRequest {
   /** A UUID string identifying this mcp gateway server. */
   id: string;
   /** Display name shown across the gateway. */
-  name?: string;
+  name?: string | undefined;
   /** Short description shown on server cards. */
-  description?: string;
+  description?: string | undefined;
   /** Catalog category used for filter chips. * `business` - Business Operations * `data` - Data & Analytics * `design` - Design & Content * `dev` - Developer Tools & APIs * `infra` - Infrastructure * `productivity` - Productivity & Collaboration */
-  category?: MCPServerCategoryEnum | (string & {});
+  category?: MCPServerCategoryEnum | (string & {}) | undefined;
   /** Whether the team can see and call the server. Turning it off also blocks agent access. */
-  is_team_enabled?: boolean;
+  is_team_enabled?: boolean | undefined;
 }
 export interface UpdateMcpGatewayServiceAccountRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -683,11 +685,11 @@ export interface UpdateMcpGatewayServiceAccountRequest {
   /** A UUID string identifying this mcp service account. */
   id: string;
   /** active, or paused (all MCP access off). * `active` - Active * `paused` - Paused */
-  status?: MCPServiceAccountStatusEnum | (string & {});
+  status?: MCPServiceAccountStatusEnum | (string & {}) | undefined;
 }
 export interface MCPServiceAccountUpdate {
   /** active, or paused (all MCP access off). * `active` - Active * `paused` - Paused */
-  status?: MCPServiceAccountStatusEnum;
+  status?: MCPServiceAccountStatusEnum | undefined;
 }
 export interface UpdateMcpGatewayServiceAccountsPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -695,7 +697,7 @@ export interface UpdateMcpGatewayServiceAccountsPartialRequest {
   /** A UUID string identifying this mcp service account. */
   id: string;
   /** active, or paused (all MCP access off). * `active` - Active * `paused` - Paused */
-  status?: MCPServiceAccountStatusEnum | (string & {});
+  status?: MCPServiceAccountStatusEnum | (string & {}) | undefined;
 }
 export type CreateMcpGatewayConfigSetAllServersEnabledError = PosthogOpError;
 /** Enable or disable every MCP server for the team (admin-only): flips each registered server and the default for untouched catalog servers, so newly published templates follow the same posture. */

@@ -38,21 +38,21 @@ export interface AcceptOwnershipRequestProperties {
   /** The friendly name of the subscription. */
   displayName: string;
   /** Management group Id for the subscription. */
-  managementGroupId?: string;
+  managementGroupId?: string | undefined;
   /** Tags for the subscription */
-  tags?: AcceptOwnershipRequestPropertiesTagsMap;
+  tags?: AcceptOwnershipRequestPropertiesTagsMap | undefined;
 }
 export interface AcceptSubscriptionOwnershipRequest {
   /** Subscription Id. */
   subscriptionId: string;
   /** Accept subscription ownership request properties. */
-  properties?: AcceptOwnershipRequestProperties;
+  properties?: AcceptOwnershipRequestProperties | undefined;
 }
 export interface AcceptSubscriptionOwnershipResponse {
   /** GET this URL to retrieve the status of the asynchronous operation. */
-  location?: string;
+  location?: string | undefined;
   /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface AcceptSubscriptionOwnershipStatusRequest {
   /** Subscription Id. */
@@ -67,17 +67,17 @@ export type AcceptOwnershipStatusResponseTagsMap = { [key: string]: string | und
 /** Subscription Accept Ownership Response */
 export interface AcceptOwnershipStatusResponse {
   /** Newly created subscription Id. */
-  subscriptionId?: string;
-  acceptOwnershipState?: AcceptOwnershipState;
-  provisioningState?: ProvisioningState;
+  subscriptionId?: string | undefined;
+  acceptOwnershipState?: AcceptOwnershipState | undefined;
+  provisioningState?: ProvisioningState | undefined;
   /** UPN of the billing owner */
-  billingOwner?: string;
+  billingOwner?: string | undefined;
   /** Tenant Id of the subscription */
-  subscriptionTenantId?: string;
+  subscriptionTenantId?: string | undefined;
   /** The display name of the subscription. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Tags for the subscription */
-  tags?: AcceptOwnershipStatusResponseTagsMap;
+  tags?: AcceptOwnershipStatusResponseTagsMap | undefined;
 }
 export interface CancelSubscriptionRequest {
   /** Subscription Id. */
@@ -86,7 +86,7 @@ export interface CancelSubscriptionRequest {
 /** The ID of the canceled subscription */
 export interface CanceledSubscriptionId {
   /** The ID of the canceled subscription */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 /** The workload type of the subscription. It can be either Production or DevTest. */
 export type Workload = "Production" | "DevTest";
@@ -95,32 +95,32 @@ export type PutAliasRequestAdditionalPropertiesTagsMap = { [key: string]: string
 /** Put subscription additional properties. */
 export interface PutAliasRequestAdditionalProperties {
   /** Management group Id for the subscription. */
-  managementGroupId?: string;
+  managementGroupId?: string | undefined;
   /** Tenant Id of the subscription */
-  subscriptionTenantId?: string;
+  subscriptionTenantId?: string | undefined;
   /** Owner Id of the subscription */
-  subscriptionOwnerId?: string;
+  subscriptionOwnerId?: string | undefined;
   /** Tags for the subscription */
-  tags?: PutAliasRequestAdditionalPropertiesTagsMap;
+  tags?: PutAliasRequestAdditionalPropertiesTagsMap | undefined;
 }
 /** Put subscription properties. */
 export interface PutAliasRequestProperties {
   /** The friendly name of the subscription. */
-  displayName?: string;
-  workload?: Workload | (string & {});
-  billingScope?: string;
+  displayName?: string | undefined;
+  workload?: Workload | (string & {}) | undefined;
+  billingScope?: string | undefined;
   /** This parameter can be used to create alias for existing subscription Id */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Reseller Id */
-  resellerId?: string;
+  resellerId?: string | undefined;
   /** Put alias request additional properties. */
-  additionalProperties?: PutAliasRequestAdditionalProperties;
+  additionalProperties?: PutAliasRequestAdditionalProperties | undefined;
 }
 export interface CreateAliasRequest {
   /** AliasName is the name for the subscription creation request. Note that this is not the same as subscription name and this doesn't have any other lifecycle need beyond the request for subscription creation. */
   aliasName: string;
   /** Put alias request properties. */
-  properties?: PutAliasRequestProperties;
+  properties?: PutAliasRequestProperties | undefined;
 }
 /** The provisioning state of the resource. */
 export type SubscriptionAliasResponsePropertiesProvisioningState =
@@ -132,26 +132,26 @@ export type SubscriptionAliasResponsePropertiesTagsMap = { [key: string]: string
 /** Put subscription creation result properties. */
 export interface SubscriptionAliasResponseProperties {
   /** Newly created subscription Id. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** The display name of the subscription. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The provisioning state of the resource. */
-  provisioningState?: SubscriptionAliasResponsePropertiesProvisioningState;
+  provisioningState?: SubscriptionAliasResponsePropertiesProvisioningState | undefined;
   /** Url to accept ownership of the subscription. */
-  acceptOwnershipUrl?: string;
-  acceptOwnershipState?: AcceptOwnershipState;
-  billingScope?: string;
-  workload?: Workload;
+  acceptOwnershipUrl?: string | undefined;
+  acceptOwnershipState?: AcceptOwnershipState | undefined;
+  billingScope?: string | undefined;
+  workload?: Workload | undefined;
   /** Reseller Id */
-  resellerId?: string;
+  resellerId?: string | undefined;
   /** Owner Id of the subscription */
-  subscriptionOwnerId?: string;
+  subscriptionOwnerId?: string | undefined;
   /** The Management Group Id. */
-  managementGroupId?: string;
+  managementGroupId?: string | undefined;
   /** Created Time */
-  createdTime?: string;
+  createdTime?: string | undefined;
   /** Tags for the subscription */
-  tags?: SubscriptionAliasResponsePropertiesTagsMap;
+  tags?: SubscriptionAliasResponsePropertiesTagsMap | undefined;
 }
 /** The type of identity that created the resource. */
 export type SubscriptionAliasResponseSystemDataCreatedByType =
@@ -168,30 +168,30 @@ export type SubscriptionAliasResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SubscriptionAliasResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SubscriptionAliasResponseSystemDataCreatedByType;
+  createdByType?: SubscriptionAliasResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SubscriptionAliasResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: SubscriptionAliasResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Subscription Information with the alias. */
 export interface SubscriptionAliasResponse {
   /** Fully qualified ID for the alias resource. */
-  id?: string;
+  id?: string | undefined;
   /** Alias ID. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type, Microsoft.Subscription/aliases. */
-  type?: string;
+  type?: string | undefined;
   /** Subscription Alias response properties. */
-  properties?: SubscriptionAliasResponseProperties;
+  properties?: SubscriptionAliasResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: SubscriptionAliasResponseSystemData;
+  systemData?: SubscriptionAliasResponseSystemData | undefined;
 }
 export interface DeleteAliasRequest {
   /** AliasName is the name for the subscription creation request. Note that this is not the same as subscription name and this doesn't have any other lifecycle need beyond the request for subscription creation. */
@@ -205,7 +205,7 @@ export interface EnableSubscriptionRequest {
 /** The ID of the subscriptions that is being enabled */
 export interface EnabledSubscriptionId {
   /** The ID of the subscriptions that is being enabled */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 export interface GetAliasRequest {
   /** AliasName is the name for the subscription creation request. Note that this is not the same as subscription name and this doesn't have any other lifecycle need beyond the request for subscription creation. */
@@ -218,9 +218,9 @@ export interface GetBillingAccountPolicyRequest {
 /** Billing account service tenant. */
 export interface ServiceTenantResponse {
   /** Service tenant id. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Service tenant name. */
-  tenantName?: string;
+  tenantName?: string | undefined;
 }
 /** Service tenant for the billing account. */
 export type BillingAccountPoliciesResponsePropertiesServiceTenantsList =
@@ -228,9 +228,9 @@ export type BillingAccountPoliciesResponsePropertiesServiceTenantsList =
 /** Put billing account policies response properties. */
 export interface BillingAccountPoliciesResponseProperties {
   /** Service tenant for the billing account. */
-  serviceTenants?: BillingAccountPoliciesResponsePropertiesServiceTenantsList;
+  serviceTenants?: BillingAccountPoliciesResponsePropertiesServiceTenantsList | undefined;
   /** Determine if the transfers are allowed for the billing account */
-  allowTransfers?: boolean;
+  allowTransfers?: boolean | undefined;
 }
 /** The type of identity that created the resource. */
 export type BillingAccountPoliciesResponseSystemDataCreatedByType =
@@ -247,30 +247,30 @@ export type BillingAccountPoliciesResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface BillingAccountPoliciesResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: BillingAccountPoliciesResponseSystemDataCreatedByType;
+  createdByType?: BillingAccountPoliciesResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: BillingAccountPoliciesResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: BillingAccountPoliciesResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Billing account policies information. */
 export interface BillingAccountPoliciesResponse {
   /** Fully qualified ID for the policy. */
-  id?: string;
+  id?: string | undefined;
   /** Policy name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Billing account policies response properties. */
-  properties?: BillingAccountPoliciesResponseProperties;
+  properties?: BillingAccountPoliciesResponseProperties | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: BillingAccountPoliciesResponseSystemData;
+  systemData?: BillingAccountPoliciesResponseSystemData | undefined;
 }
 export interface GetSubscriptionOperationRequest {
   /** The operation ID, which can be found from the Location field in the generate recommendation response header. */
@@ -279,11 +279,11 @@ export interface GetSubscriptionOperationRequest {
 /** The created subscription object. */
 export interface SubscriptionCreationResult {
   /** The link to the new subscription. Use this link to check the status of subscription creation operation. */
-  subscriptionLink?: string;
+  subscriptionLink?: string | undefined;
   /** The URL where the status of the asynchronous operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The amount of delay to use while the status of the operation is checked. The value is expressed in seconds. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetSubscriptionPolicyPolicyForTenantRequest {}
 /** List of user objectIds that are exempted from the set subscription tenant policies for the user's tenant. */
@@ -291,13 +291,13 @@ export type TenantPolicyExemptedPrincipalsList = Array<string>;
 /** Tenant policy. */
 export interface TenantPolicy {
   /** Policy Id. */
-  policyId?: string;
+  policyId?: string | undefined;
   /** Blocks the leaving of subscriptions from user's tenant. */
-  blockSubscriptionsLeavingTenant?: boolean;
+  blockSubscriptionsLeavingTenant?: boolean | undefined;
   /** Blocks the entering of subscriptions into user's tenant. */
-  blockSubscriptionsIntoTenant?: boolean;
+  blockSubscriptionsIntoTenant?: boolean | undefined;
   /** List of user objectIds that are exempted from the set subscription tenant policies for the user's tenant. */
-  exemptedPrincipals?: TenantPolicyExemptedPrincipalsList;
+  exemptedPrincipals?: TenantPolicyExemptedPrincipalsList | undefined;
 }
 /** The type of identity that created the resource. */
 export type GetTenantPolicyResponseSystemDataCreatedByType =
@@ -314,30 +314,30 @@ export type GetTenantPolicyResponseSystemDataLastModifiedByType =
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface GetTenantPolicyResponseSystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: GetTenantPolicyResponseSystemDataCreatedByType;
+  createdByType?: GetTenantPolicyResponseSystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: GetTenantPolicyResponseSystemDataLastModifiedByType;
+  lastModifiedByType?: GetTenantPolicyResponseSystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** Tenant policy Information. */
 export interface GetTenantPolicyResponse {
   /** Policy Id. */
-  id?: string;
+  id?: string | undefined;
   /** Policy name. */
-  name?: string;
+  name?: string | undefined;
   /** Resource type. */
-  type?: string;
+  type?: string | undefined;
   /** Tenant policy properties. */
-  properties?: TenantPolicy;
+  properties?: TenantPolicy | undefined;
   /** Metadata pertaining to creation and last modification of the resource. */
-  systemData?: GetTenantPolicyResponseSystemData;
+  systemData?: GetTenantPolicyResponseSystemData | undefined;
 }
 export interface ListAliasRequest {}
 /** The list of alias. */
@@ -345,39 +345,39 @@ export type SubscriptionAliasListResultValueList = Array<SubscriptionAliasRespon
 /** The list of aliases. */
 export interface SubscriptionAliasListResult {
   /** The list of alias. */
-  value?: SubscriptionAliasListResultValueList;
+  value?: SubscriptionAliasListResultValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that represents the operation. */
 export interface OperationDisplay {
   /** Service provider: Microsoft.Subscription */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource on which the operation is performed: Profile, endpoint, etc. */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation type: Read, write, delete, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Localized friendly description for the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the operation is a data action */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** The object that represents the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of operations. */
 export type OperationListResultValueList = Array<Operation>;
 /** Result of the request to list operations. It contains a list of operations and a URL link to get the next set of results. */
 export interface OperationListResult {
   /** List of operations. */
-  value?: OperationListResultValueList;
+  value?: OperationListResultValueList | undefined;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSubscriptionPolicyPolicyForTenantRequest {}
 /** The list of tenant policies. */
@@ -385,30 +385,32 @@ export type GetTenantPolicyListResponseValueList = Array<GetTenantPolicyResponse
 /** Tenant policy information list. */
 export interface GetTenantPolicyListResponse {
   /** The list of tenant policies. */
-  value?: GetTenantPolicyListResponseValueList;
+  value?: GetTenantPolicyListResponseValueList | undefined;
   /** The link (url) to the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface RenameSubscriptionRequest {
   /** Subscription Id. */
   subscriptionId: string;
   /** New subscription name */
-  subscriptionName?: string;
+  subscriptionName?: string | undefined;
 }
 /** The ID of the subscriptions that is being renamed */
 export interface RenamedSubscriptionId {
   /** The ID of the subscriptions that is being renamed */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
 }
 /** List of user objectIds that are exempted from the set subscription tenant policies for the user's tenant. */
 export type SubscriptionPolicyAddUpdatePolicyForTenantRequestExemptedPrincipalsList = Array<string>;
 export interface SubscriptionPolicyAddUpdatePolicyForTenantRequest {
   /** Blocks the leaving of subscriptions from user's tenant. */
-  blockSubscriptionsLeavingTenant?: boolean;
+  blockSubscriptionsLeavingTenant?: boolean | undefined;
   /** Blocks the entering of subscriptions into user's tenant. */
-  blockSubscriptionsIntoTenant?: boolean;
+  blockSubscriptionsIntoTenant?: boolean | undefined;
   /** List of user objectIds that are exempted from the set subscription tenant policies for the user's tenant. */
-  exemptedPrincipals?: SubscriptionPolicyAddUpdatePolicyForTenantRequestExemptedPrincipalsList;
+  exemptedPrincipals?:
+    | SubscriptionPolicyAddUpdatePolicyForTenantRequestExemptedPrincipalsList
+    | undefined;
 }
 export type AcceptSubscriptionOwnershipError = AzureOpError;
 /** Accept subscription ownership. */

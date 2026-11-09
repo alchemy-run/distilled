@@ -86,134 +86,134 @@ export class NotFound
 /** Represents a string that might be shortened to a specified length. */
 export interface TruncatableString {
   /** Optional. The shortened string. For example, if the original string is 500 bytes long and the limit of the string is 128 bytes, then `value` contains the first 128 bytes of the 500-byte string. Truncation always happens on a UTF8 character boundary. If there are multi-byte characters in the string, then the length of the shortened string might be less than the size limit. */
-  value?: string;
+  value?: string | undefined;
   /** Optional. The number of bytes removed from the original string. If this value is 0, then the string was not shortened. */
-  truncatedByteCount?: number;
+  truncatedByteCount?: number | undefined;
 }
 /** Binary module. */
 export interface Module {
   /** Optional. For example: main binary, kernel modules, and dynamic libraries such as libc.so, sharedlib.so (up to 256 bytes). */
-  module?: TruncatableString;
+  module?: TruncatableString | undefined;
   /** Optional. A unique identifier for the module, usually a hash of its contents (up to 128 bytes). */
-  buildId?: TruncatableString;
+  buildId?: TruncatableString | undefined;
 }
 /** Represents a single stack frame in a stack trace. */
 export interface StackFrame {
   /** Optional. The line number in `file_name` where the function call appears. */
-  lineNumber?: string;
+  lineNumber?: string | undefined;
   /** Optional. An un-mangled function name, if `function_name` is mangled. To get information about name mangling, run [this search](https://www.google.com/search?q=cxx+name+mangling). The name can be fully-qualified (up to 1024 bytes). */
-  originalFunctionName?: TruncatableString;
+  originalFunctionName?: TruncatableString | undefined;
   /** Optional. The fully-qualified name that uniquely identifies the function or method that is active in this frame (up to 1024 bytes). */
-  functionName?: TruncatableString;
+  functionName?: TruncatableString | undefined;
   /** Optional. The column number where the function call appears, if available. This is important in JavaScript because of its anonymous functions. */
-  columnNumber?: string;
+  columnNumber?: string | undefined;
   /** Optional. The name of the source file where the function call appears (up to 256 bytes). */
-  fileName?: TruncatableString;
+  fileName?: TruncatableString | undefined;
   /** Optional. The version of the deployed source code (up to 128 bytes). */
-  sourceVersion?: TruncatableString;
+  sourceVersion?: TruncatableString | undefined;
   /** Optional. The binary module from where the code was loaded. */
-  loadModule?: Module;
+  loadModule?: Module | undefined;
 }
 export type StackFrameList = Array<StackFrame>;
 /** A collection of stack frames, which can be truncated. */
 export interface StackFrames {
   /** Optional. Stack frames in this call stack. */
-  frame?: StackFrameList;
+  frame?: StackFrameList | undefined;
   /** Optional. The number of stack frames that were dropped because there were too many stack frames. If this value is 0, then no stack frames were dropped. */
-  droppedFramesCount?: number;
+  droppedFramesCount?: number | undefined;
 }
 /** A call stack appearing in a trace. */
 export interface StackTrace {
   /** Optional. Stack frames in this stack trace. A maximum of 128 frames are allowed. */
-  stackFrames?: StackFrames;
+  stackFrames?: StackFrames | undefined;
   /** Optional. The hash ID is used to conserve network bandwidth for duplicate stack traces within a single trace. Often multiple spans will have identical stack traces. The first occurrence of a stack trace should contain both the `stackFrame` content and a value in `stackTraceHashId`. Subsequent spans within the same request can refer to that stack trace by only setting `stackTraceHashId`. */
-  stackTraceHashId?: string;
+  stackTraceHashId?: string | undefined;
 }
 /** The allowed types for `[VALUE]` in a `[KEY]:[VALUE]` attribute. */
 export interface AttributeValue {
   /** Optional. A Boolean value represented by `true` or `false`. */
-  boolValue?: boolean;
+  boolValue?: boolean | undefined;
   /** Optional. A 64-bit signed integer. */
-  intValue?: string;
+  intValue?: string | undefined;
   /** Optional. A string up to 256 bytes long. */
-  stringValue?: TruncatableString;
+  stringValue?: TruncatableString | undefined;
 }
 export type AttributeValueMap = { [key: string]: AttributeValue | undefined };
 /** A set of attributes as key-value pairs. */
 export interface Attributes {
   /** Optional. The number of attributes that were discarded. Attributes can be discarded because their keys are too long or because there are too many attributes. If this value is 0 then all attributes are valid. */
-  droppedAttributesCount?: number;
+  droppedAttributesCount?: number | undefined;
   /** Optional. A set of attributes. Each attribute's key can be up to 128 bytes long. The value can be a string up to 256 bytes, a signed 64-bit integer, or the boolean values `true` or `false`. For example: "/instance_id": { "string_value": { "value": "my-instance" } } "/http/request_bytes": { "int_value": 300 } "example.com/myattribute": { "bool_value": false } */
-  attributeMap?: AttributeValueMap;
+  attributeMap?: AttributeValueMap | undefined;
 }
 /** Text annotation with a set of attributes. */
 export interface Annotation {
   /** Optional. A user-supplied message describing the event. The maximum length for the description is 256 bytes. */
-  description?: TruncatableString;
+  description?: TruncatableString | undefined;
   /** Optional. A set of attributes on the annotation. You can have up to 4 attributes per Annotation. */
-  attributes?: Attributes;
+  attributes?: Attributes | undefined;
 }
 export type MessageEventTypeEnum = "TYPE_UNSPECIFIED" | "SENT" | "RECEIVED";
 /** An event describing a message sent/received between Spans. */
 export interface MessageEvent {
   /** Optional. Type of MessageEvent. Indicates whether the message was sent or received. */
-  type?: MessageEventTypeEnum | (string & {});
+  type?: MessageEventTypeEnum | (string & {}) | undefined;
   /** Optional. The number of uncompressed bytes sent or received. */
-  uncompressedSizeBytes?: string;
+  uncompressedSizeBytes?: string | undefined;
   /** Optional. The number of compressed bytes sent or received. If missing, the compressed size is assumed to be the same size as the uncompressed size. */
-  compressedSizeBytes?: string;
+  compressedSizeBytes?: string | undefined;
   /** Optional. An identifier for the MessageEvent's message that can be used to match `SENT` and `RECEIVED` MessageEvents. */
-  id?: string;
+  id?: string | undefined;
 }
 /** A time-stamped annotation or message event in the Span. */
 export interface TimeEvent {
   /** Text annotation with a set of attributes. */
-  annotation?: Annotation;
+  annotation?: Annotation | undefined;
   /** An event describing a message sent/received between Spans. */
-  messageEvent?: MessageEvent;
+  messageEvent?: MessageEvent | undefined;
   /** Optional. The timestamp indicating the time the event occurred. */
-  time?: string;
+  time?: string | undefined;
 }
 export type TimeEventList = Array<TimeEvent>;
 /** A collection of `TimeEvent`s. A `TimeEvent` is a time-stamped annotation on the span, consisting of either user-supplied key:value pairs, or details of a message sent/received between Spans. */
 export interface TimeEvents {
   /** Optional. The number of dropped annotations in all the included time events. If the value is 0, then no annotations were dropped. */
-  droppedAnnotationsCount?: number;
+  droppedAnnotationsCount?: number | undefined;
   /** Optional. The number of dropped message events in all the included time events. If the value is 0, then no message events were dropped. */
-  droppedMessageEventsCount?: number;
+  droppedMessageEventsCount?: number | undefined;
   /** Optional. A collection of `TimeEvent`s. */
-  timeEvent?: TimeEventList;
+  timeEvent?: TimeEventList | undefined;
 }
 export type LinkTypeEnum = "TYPE_UNSPECIFIED" | "CHILD_LINKED_SPAN" | "PARENT_LINKED_SPAN";
 /** A pointer from the current span to another span in the same trace or in a different trace. For example, this can be used in batching operations, where a single batch handler processes multiple requests from different traces or when the handler receives a request from a different project. */
 export interface Link {
   /** Optional. The `[TRACE_ID]` for a trace within a project. */
-  traceId?: string;
+  traceId?: string | undefined;
   /** Optional. The relationship of the current span relative to the linked span. */
-  type?: LinkTypeEnum | (string & {});
+  type?: LinkTypeEnum | (string & {}) | undefined;
   /** Optional. A set of attributes on the link. Up to 32 attributes can be specified per link. */
-  attributes?: Attributes;
+  attributes?: Attributes | undefined;
   /** Optional. The `[SPAN_ID]` for a span within a trace. */
-  spanId?: string;
+  spanId?: string | undefined;
 }
 export type LinkList = Array<Link>;
 /** A collection of links, which are references from this span to a span in the same or different trace. */
 export interface Links {
   /** Optional. A collection of links. */
-  link?: LinkList;
+  link?: LinkList | undefined;
   /** Optional. The number of dropped links after the maximum size was enforced. If this value is 0, then no links were dropped. */
-  droppedLinksCount?: number;
+  droppedLinksCount?: number | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 export type SpanSpanKindEnum =
   | "SPAN_KIND_UNSPECIFIED"
@@ -225,45 +225,45 @@ export type SpanSpanKindEnum =
 /** A span represents a single operation within a trace. Spans can be nested to form a trace tree. Often, a trace contains a root span that describes the end-to-end latency, and one or more subspans for its sub-operations. A trace can also contain multiple root spans, or none at all. Spans do not need to be contiguous. There might be gaps or overlaps between spans in a trace. */
 export interface Span {
   /** Required. The end time of the span. On the client side, this is the time kept by the local machine where the span execution ends. On the server side, this is the time when the server application handler stops running. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Optional. Set this parameter to indicate whether this span is in the same process as its parent. If you do not set this parameter, Trace is unable to take advantage of this helpful information. */
-  sameProcessAsParentSpan?: boolean;
+  sameProcessAsParentSpan?: boolean | undefined;
   /** Optional. The `[SPAN_ID]` of this span's parent span. If this is a root span, then this field must be empty. */
-  parentSpanId?: string;
+  parentSpanId?: string | undefined;
   /** Required. A description of the span's operation (up to 128 bytes). Cloud Trace displays the description in the Cloud console. For example, the display name can be a qualified method name or a file name and a line number where the operation is called. A best practice is to use the same display name within an application and at the same call point. This makes it easier to correlate spans in different traces. */
-  displayName?: TruncatableString;
+  displayName?: TruncatableString | undefined;
   /** Optional. Stack trace captured at the start of the span. */
-  stackTrace?: StackTrace;
+  stackTrace?: StackTrace | undefined;
   /** Optional. A set of time events. You can have up to 32 annotations and 128 message events per span. */
-  timeEvents?: TimeEvents;
+  timeEvents?: TimeEvents | undefined;
   /** Optional. The number of child spans that were generated while this span was active. If set, allows implementation to detect missing child spans. */
-  childSpanCount?: number;
+  childSpanCount?: number | undefined;
   /** Optional. Links associated with the span. You can have up to 128 links per Span. */
-  links?: Links;
+  links?: Links | undefined;
   /** Optional. The final status for this span. */
-  status?: Status;
+  status?: Status | undefined;
   /** Optional. Distinguishes between spans generated in a particular context. For example, two spans with the same name may be distinguished using `CLIENT` (caller) and `SERVER` (callee) to identify an RPC call. */
-  spanKind?: SpanSpanKindEnum | (string & {});
+  spanKind?: SpanSpanKindEnum | (string & {}) | undefined;
   /** Identifier. The resource name of the span in the following format: * `projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/[SPAN_ID]` `[TRACE_ID]` is a unique identifier for a trace within a project; it is a 32-character hexadecimal encoding of a 16-byte array. It should not be zero. `[SPAN_ID]` is a unique identifier for a span within a trace; it is a 16-character hexadecimal encoding of an 8-byte array. It should not be zero. . */
-  name?: string;
+  name?: string | undefined;
   /** Optional. A set of attributes on the span. You can have up to 32 attributes per span. */
-  attributes?: Attributes;
+  attributes?: Attributes | undefined;
   /** Required. The `[SPAN_ID]` portion of the span's resource name. */
-  spanId?: string;
+  spanId?: string | undefined;
   /** Required. The start time of the span. On the client side, this is the time kept by the local machine where the span execution starts. On the server side, this is the time when the server's application handler starts running. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export type SpanList = Array<Span>;
 /** The request message for the `BatchWriteSpans` method. */
 export interface BatchWriteSpansRequest {
   /** Required. A list of new spans. The span names must not match existing spans, otherwise the results are undefined. */
-  spans?: SpanList;
+  spans?: SpanList | undefined;
 }
 export interface BatchWriteProjectsTracesRequest {
   /** Required. The name of the project where the spans belong. The format is `projects/[PROJECT_ID]`. */
   name: string;
   /** Request body */
-  body?: BatchWriteSpansRequest;
+  body?: BatchWriteSpansRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -271,7 +271,7 @@ export interface CreateSpanProjectsTracesSpansRequest {
   /** Identifier. The resource name of the span in the following format: * `projects/[PROJECT_ID]/traces/[TRACE_ID]/spans/[SPAN_ID]` `[TRACE_ID]` is a unique identifier for a trace within a project; it is a 32-character hexadecimal encoding of a 16-byte array. It should not be zero. `[SPAN_ID]` is a unique identifier for a span within a trace; it is a 16-character hexadecimal encoding of an 8-byte array. It should not be zero. . */
   name: string;
   /** Request body */
-  body?: Span;
+  body?: Span | undefined;
 }
 export type BatchWriteProjectsTracesError =
   | NotFound

@@ -185,17 +185,17 @@ export interface AssetsUpsertHashesRequest {
 export interface AssetsUpsertHashesResponse {}
 export interface ProjectsCreateRequestBuildConfig {
   /** Enable build caching for the project. */
-  buildCaching?: boolean;
+  buildCaching?: boolean | undefined;
   /** Command used to build project. */
-  buildCommand?: string;
+  buildCommand?: string | undefined;
   /** Output directory of the build. */
-  destinationDir?: string;
+  destinationDir?: string | undefined;
   /** Directory to run the command. */
-  rootDir?: string;
+  rootDir?: string | undefined;
   /** The classifying tag for analytics. */
-  webAnalyticsTag?: string;
+  webAnalyticsTag?: string | undefined;
   /** The auth token for analytics. */
-  webAnalyticsToken?: string;
+  webAnalyticsToken?: string | undefined;
 }
 export interface ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue {
   projectId: string;
@@ -266,9 +266,9 @@ export interface ProjectsCreateRequestDeploymentConfigsPreviewServicesValue {
   /** The Service name. */
   service: string;
   /** The entrypoint to bind to. */
-  entrypoint?: string;
+  entrypoint?: string | undefined;
   /** The Service environment. */
-  environment?: string;
+  environment?: string | undefined;
 }
 export type ProjectsCreateRequestDeploymentConfigsPreviewServicesMap = {
   [key: string]: ProjectsCreateRequestDeploymentConfigsPreviewServicesValue | undefined;
@@ -285,49 +285,57 @@ export type ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsMap = 
 };
 export interface ProjectsCreateRequestDeploymentConfigsPreview {
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsMap;
+  aiBindings?: ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsMap | undefined;
   /** Whether to always use the latest compatibility date for Pages Functions. */
-  alwaysUseLatestCompatibilityDate?: boolean;
+  alwaysUseLatestCompatibilityDate?: boolean | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMap;
+  analyticsEngineDatasets?:
+    | ProjectsCreateRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMap
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsCreateRequestDeploymentConfigsPreviewBrowsersMap;
+  browsers?: ProjectsCreateRequestDeploymentConfigsPreviewBrowsersMap | undefined;
   /** The major version of the build image to use for Pages Functions. Version 1 is retired and its projects are moved to version 3. Once a project's builds have been moved, a request that sets version 1 is rejected. */
-  buildImageMajorVersion?: number;
+  buildImageMajorVersion?: number | undefined;
   /** Compatibility date used for Pages Functions. */
-  compatibilityDate?: string;
+  compatibilityDate?: string | undefined;
   /** Compatibility flags used for Pages Functions. */
-  compatibilityFlags?: ProjectsCreateRequestDeploymentConfigsPreviewCompatibilityFlagsList;
+  compatibilityFlags?:
+    | ProjectsCreateRequestDeploymentConfigsPreviewCompatibilityFlagsList
+    | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsCreateRequestDeploymentConfigsPreviewD1DatabasesMap;
+  d1Databases?: ProjectsCreateRequestDeploymentConfigsPreviewD1DatabasesMap | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesMap;
+  durableObjectNamespaces?:
+    | ProjectsCreateRequestDeploymentConfigsPreviewDurableObjectNamespacesMap
+    | undefined;
   /** Environment variables used for builds and Pages Functions. */
-  envVars?: UntypedBindingMap;
+  envVars?: UntypedBindingMap | undefined;
   /** Whether to fail open when the deployment config cannot be applied. */
-  failOpen?: boolean;
+  failOpen?: boolean | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsMap;
+  hyperdriveBindings?:
+    | ProjectsCreateRequestDeploymentConfigsPreviewHyperdriveBindingsMap
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsCreateRequestDeploymentConfigsPreviewKvNamespacesMap;
+  kvNamespaces?: ProjectsCreateRequestDeploymentConfigsPreviewKvNamespacesMap | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesMap;
+  mtlsCertificates?: ProjectsCreateRequestDeploymentConfigsPreviewMtlsCertificatesMap | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersMap;
+  queueProducers?: ProjectsCreateRequestDeploymentConfigsPreviewQueueProducersMap | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsCreateRequestDeploymentConfigsPreviewR2BucketsMap;
+  r2Buckets?: ProjectsCreateRequestDeploymentConfigsPreviewR2BucketsMap | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsCreateRequestDeploymentConfigsPreviewServicesMap;
+  services?: ProjectsCreateRequestDeploymentConfigsPreviewServicesMap | undefined;
   /** All new projects now use the Standard usage model. */
-  usageModel?: ProjectsCreateRequestDeploymentConfigsPreviewUsageModel | (string & {});
+  usageModel?: ProjectsCreateRequestDeploymentConfigsPreviewUsageModel | (string & {}) | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsMap;
+  vectorizeBindings?: ProjectsCreateRequestDeploymentConfigsPreviewVectorizeBindingsMap | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string;
+  wranglerConfigHash?: string | undefined;
 }
 export type ProjectsCreateRequestDeploymentConfigsProductionAiBindingsValue =
   ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue;
@@ -396,55 +404,70 @@ export type ProjectsCreateRequestDeploymentConfigsProductionVectorizeBindingsMap
 };
 export interface ProjectsCreateRequestDeploymentConfigsProduction {
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsCreateRequestDeploymentConfigsProductionAiBindingsMap;
+  aiBindings?: ProjectsCreateRequestDeploymentConfigsProductionAiBindingsMap | undefined;
   /** Whether to always use the latest compatibility date for Pages Functions. */
-  alwaysUseLatestCompatibilityDate?: boolean;
+  alwaysUseLatestCompatibilityDate?: boolean | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsCreateRequestDeploymentConfigsProductionAnalyticsEngineDatasetsMap;
+  analyticsEngineDatasets?:
+    | ProjectsCreateRequestDeploymentConfigsProductionAnalyticsEngineDatasetsMap
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsCreateRequestDeploymentConfigsProductionBrowsersMap;
+  browsers?: ProjectsCreateRequestDeploymentConfigsProductionBrowsersMap | undefined;
   /** The major version of the build image to use for Pages Functions. Version 1 is retired and its projects are moved to version 3. Once a project's builds have been moved, a request that sets version 1 is rejected. */
-  buildImageMajorVersion?: number;
+  buildImageMajorVersion?: number | undefined;
   /** Compatibility date used for Pages Functions. */
-  compatibilityDate?: string;
+  compatibilityDate?: string | undefined;
   /** Compatibility flags used for Pages Functions. */
-  compatibilityFlags?: ProjectsCreateRequestDeploymentConfigsProductionCompatibilityFlagsList;
+  compatibilityFlags?:
+    | ProjectsCreateRequestDeploymentConfigsProductionCompatibilityFlagsList
+    | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsCreateRequestDeploymentConfigsProductionD1DatabasesMap;
+  d1Databases?: ProjectsCreateRequestDeploymentConfigsProductionD1DatabasesMap | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsCreateRequestDeploymentConfigsProductionDurableObjectNamespacesMap;
+  durableObjectNamespaces?:
+    | ProjectsCreateRequestDeploymentConfigsProductionDurableObjectNamespacesMap
+    | undefined;
   /** Environment variables used for builds and Pages Functions. */
-  envVars?: UntypedBindingMap;
+  envVars?: UntypedBindingMap | undefined;
   /** Whether to fail open when the deployment config cannot be applied. */
-  failOpen?: boolean;
+  failOpen?: boolean | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsCreateRequestDeploymentConfigsProductionHyperdriveBindingsMap;
+  hyperdriveBindings?:
+    | ProjectsCreateRequestDeploymentConfigsProductionHyperdriveBindingsMap
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsCreateRequestDeploymentConfigsProductionKvNamespacesMap;
+  kvNamespaces?: ProjectsCreateRequestDeploymentConfigsProductionKvNamespacesMap | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsCreateRequestDeploymentConfigsProductionMtlsCertificatesMap;
+  mtlsCertificates?:
+    | ProjectsCreateRequestDeploymentConfigsProductionMtlsCertificatesMap
+    | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsCreateRequestDeploymentConfigsProductionQueueProducersMap;
+  queueProducers?: ProjectsCreateRequestDeploymentConfigsProductionQueueProducersMap | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsCreateRequestDeploymentConfigsProductionR2BucketsMap;
+  r2Buckets?: ProjectsCreateRequestDeploymentConfigsProductionR2BucketsMap | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsCreateRequestDeploymentConfigsProductionServicesMap;
+  services?: ProjectsCreateRequestDeploymentConfigsProductionServicesMap | undefined;
   /** All new projects now use the Standard usage model. */
-  usageModel?: ProjectsCreateRequestDeploymentConfigsProductionUsageModel | (string & {});
+  usageModel?:
+    | ProjectsCreateRequestDeploymentConfigsProductionUsageModel
+    | (string & {})
+    | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsCreateRequestDeploymentConfigsProductionVectorizeBindingsMap;
+  vectorizeBindings?:
+    | ProjectsCreateRequestDeploymentConfigsProductionVectorizeBindingsMap
+    | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string;
+  wranglerConfigHash?: string | undefined;
 }
 export interface ProjectsCreateRequestDeploymentConfigs {
   /** Configs for preview deploys. */
-  preview?: ProjectsCreateRequestDeploymentConfigsPreview;
+  preview?: ProjectsCreateRequestDeploymentConfigsPreview | undefined;
   /** Configs for production deploys. */
-  production?: ProjectsCreateRequestDeploymentConfigsProduction;
+  production?: ProjectsCreateRequestDeploymentConfigsProduction | undefined;
 }
 export type ProjectsCreateRequestSourceConfigPathExcludesList = Array<string>;
 export type ProjectsCreateRequestSourceConfigPathIncludesList = Array<string>;
@@ -453,33 +476,34 @@ export type ProjectsCreateRequestSourceConfigPreviewBranchIncludesList = Array<s
 export type ProjectsCreateRequestSourceConfigPreviewDeploymentSetting = "all" | "none" | "custom";
 export interface ProjectsCreateRequestSourceConfig {
   /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
-  deploymentsEnabled?: boolean;
+  deploymentsEnabled?: boolean | undefined;
   /** The owner of the repository. */
-  owner?: string;
+  owner?: string | undefined;
   /** The owner ID of the repository. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported. */
-  pathExcludes?: ProjectsCreateRequestSourceConfigPathExcludesList;
+  pathExcludes?: ProjectsCreateRequestSourceConfigPathExcludesList | undefined;
   /** A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported. */
-  pathIncludes?: ProjectsCreateRequestSourceConfigPathIncludesList;
+  pathIncludes?: ProjectsCreateRequestSourceConfigPathIncludesList | undefined;
   /** Whether to enable PR comments. */
-  prCommentsEnabled?: boolean;
+  prCommentsEnabled?: boolean | undefined;
   /** A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
-  previewBranchExcludes?: ProjectsCreateRequestSourceConfigPreviewBranchExcludesList;
+  previewBranchExcludes?: ProjectsCreateRequestSourceConfigPreviewBranchExcludesList | undefined;
   /** A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
-  previewBranchIncludes?: ProjectsCreateRequestSourceConfigPreviewBranchIncludesList;
+  previewBranchIncludes?: ProjectsCreateRequestSourceConfigPreviewBranchIncludesList | undefined;
   /** Controls whether commits to preview branches trigger a preview deployment. */
   previewDeploymentSetting?:
     | ProjectsCreateRequestSourceConfigPreviewDeploymentSetting
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The production branch of the repository. */
-  productionBranch?: string;
+  productionBranch?: string | undefined;
   /** Whether to trigger a production deployment on commits to the production branch. */
-  productionDeploymentsEnabled?: boolean;
+  productionDeploymentsEnabled?: boolean | undefined;
   /** The ID of the repository. */
-  repoId?: string;
+  repoId?: string | undefined;
   /** The name of the repository. */
-  repoName?: string;
+  repoName?: string | undefined;
 }
 export type ProjectsCreateRequestSourceType = "github" | "gitlab";
 export interface ProjectsCreateRequestSource {
@@ -495,11 +519,11 @@ export interface CreateProjectRequest {
   /** Production branch of the project. Used to identify production deployments. */
   productionBranch: string;
   /** Configs for the project build process. */
-  buildConfig?: ProjectsCreateRequestBuildConfig;
+  buildConfig?: ProjectsCreateRequestBuildConfig | undefined;
   /** Configs for deployments in a project. */
-  deploymentConfigs?: ProjectsCreateRequestDeploymentConfigs;
+  deploymentConfigs?: ProjectsCreateRequestDeploymentConfigs | undefined;
   /** Configs for the project source control. */
-  source?: ProjectsCreateRequestSource;
+  source?: ProjectsCreateRequestSource | undefined;
 }
 export type ProjectsCreateResponseCanonicalDeploymentAliasesList = Array<string>;
 export interface ProjectsCreateResponseCanonicalDeploymentBuildConfig {
@@ -508,13 +532,13 @@ export interface ProjectsCreateResponseCanonicalDeploymentBuildConfig {
   /** The auth token for analytics. */
   webAnalyticsToken: string;
   /** Enable build caching for the project. */
-  buildCaching?: boolean | null;
+  buildCaching?: boolean | null | undefined;
   /** Command used to build project. */
-  buildCommand?: string | null;
+  buildCommand?: string | null | undefined;
   /** Assets output directory of the build. */
-  destinationDir?: string | null;
+  destinationDir?: string | null | undefined;
   /** Directory to run the command. */
-  rootDir?: string | null;
+  rootDir?: string | null | undefined;
 }
 export interface ProjectsCreateResponseCanonicalDeploymentDeploymentTriggerMetadata {
   /** Where the trigger happened. */
@@ -671,9 +695,9 @@ export interface ProjectsCreateResponseCanonicalDeployment {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsCreateResponseCanonicalDeploymentSkipReason | null;
+  skipReason?: ProjectsCreateResponseCanonicalDeploymentSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export type ProjectsCreateResponseDeploymentConfigsPreviewCompatibilityFlagsList = Array<string>;
 export type ProjectsCreateResponseDeploymentConfigsPreviewUsageModel =
@@ -736,7 +760,7 @@ export interface ProjectsCreateResponseDeploymentConfigsPreviewServicesValue {
   /** The Service name. */
   service: string;
   /** The entrypoint to bind to. */
-  entrypoint?: string | null;
+  entrypoint?: string | null | undefined;
 }
 export type ProjectsCreateResponseDeploymentConfigsPreviewServicesMap = {
   [key: string]: ProjectsCreateResponseDeploymentConfigsPreviewServicesValue | undefined;
@@ -762,35 +786,53 @@ export interface ProjectsCreateResponseDeploymentConfigsPreview {
   /** All new projects now use the Standard usage model. */
   usageModel: ProjectsCreateResponseDeploymentConfigsPreviewUsageModel;
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsCreateResponseDeploymentConfigsPreviewAiBindingsMap | null;
+  aiBindings?: ProjectsCreateResponseDeploymentConfigsPreviewAiBindingsMap | null | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsCreateResponseDeploymentConfigsPreviewAnalyticsEngineDatasetsMap | null;
+  analyticsEngineDatasets?:
+    | ProjectsCreateResponseDeploymentConfigsPreviewAnalyticsEngineDatasetsMap
+    | null
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsCreateResponseDeploymentConfigsPreviewBrowsersMap | null;
+  browsers?: ProjectsCreateResponseDeploymentConfigsPreviewBrowsersMap | null | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsCreateResponseDeploymentConfigsPreviewD1DatabasesMap | null;
+  d1Databases?: ProjectsCreateResponseDeploymentConfigsPreviewD1DatabasesMap | null | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsCreateResponseDeploymentConfigsPreviewDurableObjectNamespacesMap | null;
+  durableObjectNamespaces?:
+    | ProjectsCreateResponseDeploymentConfigsPreviewDurableObjectNamespacesMap
+    | null
+    | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsCreateResponseDeploymentConfigsPreviewHyperdriveBindingsMap | null;
+  hyperdriveBindings?:
+    | ProjectsCreateResponseDeploymentConfigsPreviewHyperdriveBindingsMap
+    | null
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsCreateResponseDeploymentConfigsPreviewKvNamespacesMap | null;
+  kvNamespaces?: ProjectsCreateResponseDeploymentConfigsPreviewKvNamespacesMap | null | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsCreateResponseDeploymentConfigsPreviewMtlsCertificatesMap | null;
+  mtlsCertificates?:
+    | ProjectsCreateResponseDeploymentConfigsPreviewMtlsCertificatesMap
+    | null
+    | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsCreateResponseDeploymentConfigsPreviewQueueProducersMap | null;
+  queueProducers?:
+    | ProjectsCreateResponseDeploymentConfigsPreviewQueueProducersMap
+    | null
+    | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsCreateResponseDeploymentConfigsPreviewR2BucketsMap | null;
+  r2Buckets?: ProjectsCreateResponseDeploymentConfigsPreviewR2BucketsMap | null | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsCreateResponseDeploymentConfigsPreviewServicesMap | null;
+  services?: ProjectsCreateResponseDeploymentConfigsPreviewServicesMap | null | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsCreateResponseDeploymentConfigsPreviewVectorizeBindingsMap | null;
+  vectorizeBindings?:
+    | ProjectsCreateResponseDeploymentConfigsPreviewVectorizeBindingsMap
+    | null
+    | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string | null;
+  wranglerConfigHash?: string | null | undefined;
 }
 export type ProjectsCreateResponseDeploymentConfigsProductionCompatibilityFlagsList = Array<string>;
 export type ProjectsCreateResponseDeploymentConfigsProductionUsageModel =
@@ -873,35 +915,56 @@ export interface ProjectsCreateResponseDeploymentConfigsProduction {
   /** All new projects now use the Standard usage model. */
   usageModel: ProjectsCreateResponseDeploymentConfigsProductionUsageModel;
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsCreateResponseDeploymentConfigsProductionAiBindingsMap | null;
+  aiBindings?: ProjectsCreateResponseDeploymentConfigsProductionAiBindingsMap | null | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsCreateResponseDeploymentConfigsProductionAnalyticsEngineDatasetsMap | null;
+  analyticsEngineDatasets?:
+    | ProjectsCreateResponseDeploymentConfigsProductionAnalyticsEngineDatasetsMap
+    | null
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsCreateResponseDeploymentConfigsProductionBrowsersMap | null;
+  browsers?: ProjectsCreateResponseDeploymentConfigsProductionBrowsersMap | null | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsCreateResponseDeploymentConfigsProductionD1DatabasesMap | null;
+  d1Databases?: ProjectsCreateResponseDeploymentConfigsProductionD1DatabasesMap | null | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsCreateResponseDeploymentConfigsProductionDurableObjectNamespacesMap | null;
+  durableObjectNamespaces?:
+    | ProjectsCreateResponseDeploymentConfigsProductionDurableObjectNamespacesMap
+    | null
+    | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsCreateResponseDeploymentConfigsProductionHyperdriveBindingsMap | null;
+  hyperdriveBindings?:
+    | ProjectsCreateResponseDeploymentConfigsProductionHyperdriveBindingsMap
+    | null
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsCreateResponseDeploymentConfigsProductionKvNamespacesMap | null;
+  kvNamespaces?:
+    | ProjectsCreateResponseDeploymentConfigsProductionKvNamespacesMap
+    | null
+    | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsCreateResponseDeploymentConfigsProductionMtlsCertificatesMap | null;
+  mtlsCertificates?:
+    | ProjectsCreateResponseDeploymentConfigsProductionMtlsCertificatesMap
+    | null
+    | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsCreateResponseDeploymentConfigsProductionQueueProducersMap | null;
+  queueProducers?:
+    | ProjectsCreateResponseDeploymentConfigsProductionQueueProducersMap
+    | null
+    | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsCreateResponseDeploymentConfigsProductionR2BucketsMap | null;
+  r2Buckets?: ProjectsCreateResponseDeploymentConfigsProductionR2BucketsMap | null | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsCreateResponseDeploymentConfigsProductionServicesMap | null;
+  services?: ProjectsCreateResponseDeploymentConfigsProductionServicesMap | null | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsCreateResponseDeploymentConfigsProductionVectorizeBindingsMap | null;
+  vectorizeBindings?:
+    | ProjectsCreateResponseDeploymentConfigsProductionVectorizeBindingsMap
+    | null
+    | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string | null;
+  wranglerConfigHash?: string | null | undefined;
 }
 export interface ProjectsCreateResponseDeploymentConfigs {
   /** Configs for preview deploys. */
@@ -1077,9 +1140,9 @@ export interface ProjectsCreateResponseLatestDeployment {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsCreateResponseLatestDeploymentSkipReason | null;
+  skipReason?: ProjectsCreateResponseLatestDeploymentSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export type ProjectsCreateResponseBuildConfig =
   ProjectsCreateResponseCanonicalDeploymentBuildConfig;
@@ -1156,15 +1219,15 @@ export interface CreateProjectResponse {
   /** Whether the project uses functions. */
   usesFunctions: boolean;
   /** Configs for the project build process. */
-  buildConfig?: ProjectsCreateResponseCanonicalDeploymentBuildConfig | null;
+  buildConfig?: ProjectsCreateResponseCanonicalDeploymentBuildConfig | null | undefined;
   /** Present when the project is set to a retired build image major version and its builds have been moved to a newer one. `build_image_major_version` in `deployment_configs` then reports the version the builds run on. */
-  buildImageAutoUpgrade?: ProjectsCreateResponseBuildImageAutoUpgrade | null;
+  buildImageAutoUpgrade?: ProjectsCreateResponseBuildImageAutoUpgrade | null | undefined;
   /** A list of associated custom domains for the project. */
-  domains?: ProjectsCreateResponseDomainsList | null;
+  domains?: ProjectsCreateResponseDomainsList | null | undefined;
   /** Configs for the project source control. */
-  source?: ProjectsCreateResponseSource | null;
+  source?: ProjectsCreateResponseSource | null | undefined;
   /** The Cloudflare subdomain associated with the project. */
-  subdomain?: string | null;
+  subdomain?: string | null | undefined;
 }
 export interface CreateProjectDeploymentRequest {
   /** Identifier. */
@@ -1172,31 +1235,31 @@ export interface CreateProjectDeploymentRequest {
   /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Headers configuration file for the deployment. */
-  headers?: unknown;
+  headers?: unknown | undefined;
   /** Redirects configuration file for the deployment. */
-  redirects?: unknown;
+  redirects?: unknown | undefined;
   /** Routes configuration file defining routing rules. */
-  routesJson?: unknown;
+  routesJson?: unknown | undefined;
   /** Worker bundle file in multipart/form-data format. Mutually exclusive with `_worker.js`. Cannot specify both `_worker.js` and `_worker.bundle` in the same request. Maximum size: 25 MiB. */
-  workerBundle?: unknown;
+  workerBundle?: unknown | undefined;
   /** Worker JavaScript file. Mutually exclusive with `_worker.bundle`. Cannot specify both `_worker.js` and `_worker.bundle` in the same request. */
-  workerJs?: unknown;
+  workerJs?: unknown | undefined;
   /** Git branch to deploy. Uses the branch's `HEAD`; defaults to the project's production branch. */
-  branch?: string;
+  branch?: string | undefined;
   /** Whether the associated Git working tree has uncommitted changes. Provide `true` or `false`. */
-  commitDirty?: boolean;
+  commitDirty?: boolean | undefined;
   /** Git commit SHA associated with the deployment. */
-  commitHash?: string;
+  commitHash?: string | undefined;
   /** Git commit message associated with the deployment. */
-  commitMessage?: string;
+  commitMessage?: string | undefined;
   /** Functions routing configuration file. */
-  functionsFilepathRoutingConfigJson?: unknown;
+  functionsFilepathRoutingConfigJson?: unknown | undefined;
   /** JSON-encoded object mapping deployment file paths to their uploaded content hashes. Required for Direct Upload deployments. Maximum 20,000 entries. */
-  manifest?: string;
+  manifest?: string | undefined;
   /** The build output directory path. */
-  pagesBuildOutputDir?: string;
+  pagesBuildOutputDir?: string | undefined;
   /** Hash of the Wrangler configuration file used for this deployment. */
-  wranglerConfigHash?: string;
+  wranglerConfigHash?: string | undefined;
 }
 export type ProjectsDeploymentsCreateResponseAliasesList = Array<string>;
 export type ProjectsDeploymentsCreateResponseBuildConfig =
@@ -1347,9 +1410,9 @@ export interface CreateProjectDeploymentResponse {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsDeploymentsCreateResponseSkipReason | null;
+  skipReason?: ProjectsDeploymentsCreateResponseSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export interface CreateProjectDomainRequest {
   /** Identifier. */
@@ -1377,9 +1440,9 @@ export type ProjectsDomainsCreateResponseValidationDataStatus =
 export interface ProjectsDomainsCreateResponseValidationData {
   method: ProjectsDomainsCreateResponseValidationDataMethod;
   status: ProjectsDomainsCreateResponseValidationDataStatus;
-  errorMessage?: string | null;
-  txtName?: string | null;
-  txtValue?: string | null;
+  errorMessage?: string | null | undefined;
+  txtName?: string | null | undefined;
+  txtValue?: string | null | undefined;
 }
 export type ProjectsDomainsCreateResponseVerificationDataStatus =
   | "pending"
@@ -1389,7 +1452,7 @@ export type ProjectsDomainsCreateResponseVerificationDataStatus =
   | "error";
 export interface ProjectsDomainsCreateResponseVerificationData {
   status: ProjectsDomainsCreateResponseVerificationDataStatus;
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateProjectDomainResponse {
@@ -1417,14 +1480,14 @@ export interface CreateProjectsDeploymentsTailRequest {
   /** UUID of the Pages deployment, as returned by deployment list or create operations. */
   deploymentId: string;
   /** Filters to apply to the tail session. */
-  filters?: CreateProjectsDeploymentsTailRequestFiltersList;
+  filters?: CreateProjectsDeploymentsTailRequestFiltersList | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateProjectsDeploymentsTailResponse {
   /** Identifier of the tail session. */
   id: string;
   /** Optional WebSocket URL to connect to for receiving tail events, when returned by the tail service. */
-  url?: string | null;
+  url?: string | null | undefined;
 }
 export interface DeleteProjectRequest {
   /** Identifier. */
@@ -1441,7 +1504,7 @@ export interface DeleteProjectDeploymentRequest {
   /** UUID of the Pages deployment, as returned by deployment list or create operations. */
   deploymentId: string;
   /** Allow deletion when a non-production deployment has an active alias. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export type DeleteProjectDeploymentResponse = unknown;
 export interface DeleteProjectDomainRequest {
@@ -1620,9 +1683,9 @@ export interface ProjectsGetResponseCanonicalDeployment {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsGetResponseCanonicalDeploymentSkipReason | null;
+  skipReason?: ProjectsGetResponseCanonicalDeploymentSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export type ProjectsGetResponseDeploymentConfigsPreviewCompatibilityFlagsList = Array<string>;
 export type ProjectsGetResponseDeploymentConfigsPreviewUsageModel =
@@ -1705,35 +1768,50 @@ export interface ProjectsGetResponseDeploymentConfigsPreview {
   /** All new projects now use the Standard usage model. */
   usageModel: ProjectsGetResponseDeploymentConfigsPreviewUsageModel;
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsGetResponseDeploymentConfigsPreviewAiBindingsMap | null;
+  aiBindings?: ProjectsGetResponseDeploymentConfigsPreviewAiBindingsMap | null | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsGetResponseDeploymentConfigsPreviewAnalyticsEngineDatasetsMap | null;
+  analyticsEngineDatasets?:
+    | ProjectsGetResponseDeploymentConfigsPreviewAnalyticsEngineDatasetsMap
+    | null
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsGetResponseDeploymentConfigsPreviewBrowsersMap | null;
+  browsers?: ProjectsGetResponseDeploymentConfigsPreviewBrowsersMap | null | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsGetResponseDeploymentConfigsPreviewD1DatabasesMap | null;
+  d1Databases?: ProjectsGetResponseDeploymentConfigsPreviewD1DatabasesMap | null | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsGetResponseDeploymentConfigsPreviewDurableObjectNamespacesMap | null;
+  durableObjectNamespaces?:
+    | ProjectsGetResponseDeploymentConfigsPreviewDurableObjectNamespacesMap
+    | null
+    | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsGetResponseDeploymentConfigsPreviewHyperdriveBindingsMap | null;
+  hyperdriveBindings?:
+    | ProjectsGetResponseDeploymentConfigsPreviewHyperdriveBindingsMap
+    | null
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsGetResponseDeploymentConfigsPreviewKvNamespacesMap | null;
+  kvNamespaces?: ProjectsGetResponseDeploymentConfigsPreviewKvNamespacesMap | null | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsGetResponseDeploymentConfigsPreviewMtlsCertificatesMap | null;
+  mtlsCertificates?:
+    | ProjectsGetResponseDeploymentConfigsPreviewMtlsCertificatesMap
+    | null
+    | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsGetResponseDeploymentConfigsPreviewQueueProducersMap | null;
+  queueProducers?: ProjectsGetResponseDeploymentConfigsPreviewQueueProducersMap | null | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsGetResponseDeploymentConfigsPreviewR2BucketsMap | null;
+  r2Buckets?: ProjectsGetResponseDeploymentConfigsPreviewR2BucketsMap | null | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsGetResponseDeploymentConfigsPreviewServicesMap | null;
+  services?: ProjectsGetResponseDeploymentConfigsPreviewServicesMap | null | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsGetResponseDeploymentConfigsPreviewVectorizeBindingsMap | null;
+  vectorizeBindings?:
+    | ProjectsGetResponseDeploymentConfigsPreviewVectorizeBindingsMap
+    | null
+    | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string | null;
+  wranglerConfigHash?: string | null | undefined;
 }
 export type ProjectsGetResponseDeploymentConfigsProductionCompatibilityFlagsList = Array<string>;
 export type ProjectsGetResponseDeploymentConfigsProductionUsageModel =
@@ -1816,35 +1894,53 @@ export interface ProjectsGetResponseDeploymentConfigsProduction {
   /** All new projects now use the Standard usage model. */
   usageModel: ProjectsGetResponseDeploymentConfigsProductionUsageModel;
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsGetResponseDeploymentConfigsProductionAiBindingsMap | null;
+  aiBindings?: ProjectsGetResponseDeploymentConfigsProductionAiBindingsMap | null | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsGetResponseDeploymentConfigsProductionAnalyticsEngineDatasetsMap | null;
+  analyticsEngineDatasets?:
+    | ProjectsGetResponseDeploymentConfigsProductionAnalyticsEngineDatasetsMap
+    | null
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsGetResponseDeploymentConfigsProductionBrowsersMap | null;
+  browsers?: ProjectsGetResponseDeploymentConfigsProductionBrowsersMap | null | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsGetResponseDeploymentConfigsProductionD1DatabasesMap | null;
+  d1Databases?: ProjectsGetResponseDeploymentConfigsProductionD1DatabasesMap | null | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsGetResponseDeploymentConfigsProductionDurableObjectNamespacesMap | null;
+  durableObjectNamespaces?:
+    | ProjectsGetResponseDeploymentConfigsProductionDurableObjectNamespacesMap
+    | null
+    | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsGetResponseDeploymentConfigsProductionHyperdriveBindingsMap | null;
+  hyperdriveBindings?:
+    | ProjectsGetResponseDeploymentConfigsProductionHyperdriveBindingsMap
+    | null
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsGetResponseDeploymentConfigsProductionKvNamespacesMap | null;
+  kvNamespaces?: ProjectsGetResponseDeploymentConfigsProductionKvNamespacesMap | null | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsGetResponseDeploymentConfigsProductionMtlsCertificatesMap | null;
+  mtlsCertificates?:
+    | ProjectsGetResponseDeploymentConfigsProductionMtlsCertificatesMap
+    | null
+    | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsGetResponseDeploymentConfigsProductionQueueProducersMap | null;
+  queueProducers?:
+    | ProjectsGetResponseDeploymentConfigsProductionQueueProducersMap
+    | null
+    | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsGetResponseDeploymentConfigsProductionR2BucketsMap | null;
+  r2Buckets?: ProjectsGetResponseDeploymentConfigsProductionR2BucketsMap | null | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsGetResponseDeploymentConfigsProductionServicesMap | null;
+  services?: ProjectsGetResponseDeploymentConfigsProductionServicesMap | null | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsGetResponseDeploymentConfigsProductionVectorizeBindingsMap | null;
+  vectorizeBindings?:
+    | ProjectsGetResponseDeploymentConfigsProductionVectorizeBindingsMap
+    | null
+    | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string | null;
+  wranglerConfigHash?: string | null | undefined;
 }
 export interface ProjectsGetResponseDeploymentConfigs {
   /** Configs for preview deploys. */
@@ -2020,9 +2116,9 @@ export interface ProjectsGetResponseLatestDeployment {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsGetResponseLatestDeploymentSkipReason | null;
+  skipReason?: ProjectsGetResponseLatestDeploymentSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export type ProjectsGetResponseBuildConfig = ProjectsCreateResponseCanonicalDeploymentBuildConfig;
 export type ProjectsGetResponseBuildImageAutoUpgrade = ProjectsCreateResponseBuildImageAutoUpgrade;
@@ -2093,15 +2189,15 @@ export interface GetProjectResponse {
   /** Whether the project uses functions. */
   usesFunctions: boolean;
   /** Configs for the project build process. */
-  buildConfig?: ProjectsCreateResponseCanonicalDeploymentBuildConfig | null;
+  buildConfig?: ProjectsCreateResponseCanonicalDeploymentBuildConfig | null | undefined;
   /** Present when the project is set to a retired build image major version and its builds have been moved to a newer one. `build_image_major_version` in `deployment_configs` then reports the version the builds run on. */
-  buildImageAutoUpgrade?: ProjectsCreateResponseBuildImageAutoUpgrade | null;
+  buildImageAutoUpgrade?: ProjectsCreateResponseBuildImageAutoUpgrade | null | undefined;
   /** A list of associated custom domains for the project. */
-  domains?: ProjectsGetResponseDomainsList | null;
+  domains?: ProjectsGetResponseDomainsList | null | undefined;
   /** Configs for the project source control. */
-  source?: ProjectsGetResponseSource | null;
+  source?: ProjectsGetResponseSource | null | undefined;
   /** The Cloudflare subdomain associated with the project. */
-  subdomain?: string | null;
+  subdomain?: string | null | undefined;
 }
 export interface GetProjectDeploymentRequest {
   /** Identifier. */
@@ -2260,9 +2356,9 @@ export interface GetProjectDeploymentResponse {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsDeploymentsGetResponseSkipReason | null;
+  skipReason?: ProjectsDeploymentsGetResponseSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export interface GetProjectDeploymentHistoryLogRequest {
   /** Identifier. */
@@ -2310,9 +2406,9 @@ export type ProjectsDomainsGetResponseValidationDataStatus =
 export interface ProjectsDomainsGetResponseValidationData {
   method: ProjectsDomainsGetResponseValidationDataMethod;
   status: ProjectsDomainsGetResponseValidationDataStatus;
-  errorMessage?: string | null;
-  txtName?: string | null;
-  txtValue?: string | null;
+  errorMessage?: string | null | undefined;
+  txtName?: string | null | undefined;
+  txtValue?: string | null | undefined;
 }
 export type ProjectsDomainsGetResponseVerificationDataStatus =
   | "pending"
@@ -2322,7 +2418,7 @@ export type ProjectsDomainsGetResponseVerificationDataStatus =
   | "error";
 export interface ProjectsDomainsGetResponseVerificationData {
   status: ProjectsDomainsGetResponseVerificationDataStatus;
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetProjectDomainResponse {
@@ -2344,11 +2440,11 @@ export interface ListProjectDeploymentsRequest {
   /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Deployment environment to return. Valid values are `production` and `preview`. */
-  env?: ProjectsDeploymentsListRequestEnv | (string & {});
+  env?: ProjectsDeploymentsListRequestEnv | (string & {}) | undefined;
   /** Page number of results to return. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ProjectsDeploymentsListResultItemAliasesList = Array<string>;
 export type ProjectsDeploymentsListResultItemBuildConfig =
@@ -2498,16 +2594,16 @@ export interface ProjectsDeploymentsListResultItem {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsDeploymentsListResultItemSkipReason | null;
+  skipReason?: ProjectsDeploymentsListResultItemSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export type ProjectsDeploymentsListResultList = Array<ProjectsDeploymentsListResultItem>;
 export interface ListProjectDeploymentsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ProjectsDeploymentsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListProjectDomainsRequest {
   /** Identifier. */
@@ -2533,9 +2629,9 @@ export type ProjectsDomainsListResultItemValidationDataStatus =
 export interface ProjectsDomainsListResultItemValidationData {
   method: ProjectsDomainsListResultItemValidationDataMethod;
   status: ProjectsDomainsListResultItemValidationDataStatus;
-  errorMessage?: string | null;
-  txtName?: string | null;
-  txtValue?: string | null;
+  errorMessage?: string | null | undefined;
+  txtName?: string | null | undefined;
+  txtValue?: string | null | undefined;
 }
 export type ProjectsDomainsListResultItemVerificationDataStatus =
   | "pending"
@@ -2545,7 +2641,7 @@ export type ProjectsDomainsListResultItemVerificationDataStatus =
   | "error";
 export interface ProjectsDomainsListResultItemVerificationData {
   status: ProjectsDomainsListResultItemVerificationDataStatus;
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
 }
 export interface ProjectsDomainsListResultItem {
   id: string;
@@ -2564,15 +2660,15 @@ export interface ListProjectDomainsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ProjectsDomainsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListProjectsRequest {
   /** Identifier. */
   accountId: string;
   /** Page number of results to return. */
-  page?: number;
+  page?: number | undefined;
   /** Number of results to return per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type ProjectsListResultItemCanonicalDeploymentAliasesList = Array<string>;
 export type ProjectsListResultItemCanonicalDeploymentBuildConfig =
@@ -2724,9 +2820,9 @@ export interface ProjectsListResultItemCanonicalDeployment {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsListResultItemCanonicalDeploymentSkipReason | null;
+  skipReason?: ProjectsListResultItemCanonicalDeploymentSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export type ProjectsListResultItemDeploymentConfigsPreviewCompatibilityFlagsList = Array<string>;
 export type ProjectsListResultItemDeploymentConfigsPreviewUsageModel =
@@ -2809,35 +2905,53 @@ export interface ProjectsListResultItemDeploymentConfigsPreview {
   /** All new projects now use the Standard usage model. */
   usageModel: ProjectsListResultItemDeploymentConfigsPreviewUsageModel;
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsListResultItemDeploymentConfigsPreviewAiBindingsMap | null;
+  aiBindings?: ProjectsListResultItemDeploymentConfigsPreviewAiBindingsMap | null | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsListResultItemDeploymentConfigsPreviewAnalyticsEngineDatasetsMap | null;
+  analyticsEngineDatasets?:
+    | ProjectsListResultItemDeploymentConfigsPreviewAnalyticsEngineDatasetsMap
+    | null
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsListResultItemDeploymentConfigsPreviewBrowsersMap | null;
+  browsers?: ProjectsListResultItemDeploymentConfigsPreviewBrowsersMap | null | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsListResultItemDeploymentConfigsPreviewD1DatabasesMap | null;
+  d1Databases?: ProjectsListResultItemDeploymentConfigsPreviewD1DatabasesMap | null | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsListResultItemDeploymentConfigsPreviewDurableObjectNamespacesMap | null;
+  durableObjectNamespaces?:
+    | ProjectsListResultItemDeploymentConfigsPreviewDurableObjectNamespacesMap
+    | null
+    | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsListResultItemDeploymentConfigsPreviewHyperdriveBindingsMap | null;
+  hyperdriveBindings?:
+    | ProjectsListResultItemDeploymentConfigsPreviewHyperdriveBindingsMap
+    | null
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsListResultItemDeploymentConfigsPreviewKvNamespacesMap | null;
+  kvNamespaces?: ProjectsListResultItemDeploymentConfigsPreviewKvNamespacesMap | null | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsListResultItemDeploymentConfigsPreviewMtlsCertificatesMap | null;
+  mtlsCertificates?:
+    | ProjectsListResultItemDeploymentConfigsPreviewMtlsCertificatesMap
+    | null
+    | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsListResultItemDeploymentConfigsPreviewQueueProducersMap | null;
+  queueProducers?:
+    | ProjectsListResultItemDeploymentConfigsPreviewQueueProducersMap
+    | null
+    | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsListResultItemDeploymentConfigsPreviewR2BucketsMap | null;
+  r2Buckets?: ProjectsListResultItemDeploymentConfigsPreviewR2BucketsMap | null | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsListResultItemDeploymentConfigsPreviewServicesMap | null;
+  services?: ProjectsListResultItemDeploymentConfigsPreviewServicesMap | null | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsListResultItemDeploymentConfigsPreviewVectorizeBindingsMap | null;
+  vectorizeBindings?:
+    | ProjectsListResultItemDeploymentConfigsPreviewVectorizeBindingsMap
+    | null
+    | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string | null;
+  wranglerConfigHash?: string | null | undefined;
 }
 export type ProjectsListResultItemDeploymentConfigsProductionCompatibilityFlagsList = Array<string>;
 export type ProjectsListResultItemDeploymentConfigsProductionUsageModel =
@@ -2920,35 +3034,56 @@ export interface ProjectsListResultItemDeploymentConfigsProduction {
   /** All new projects now use the Standard usage model. */
   usageModel: ProjectsListResultItemDeploymentConfigsProductionUsageModel;
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsListResultItemDeploymentConfigsProductionAiBindingsMap | null;
+  aiBindings?: ProjectsListResultItemDeploymentConfigsProductionAiBindingsMap | null | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsListResultItemDeploymentConfigsProductionAnalyticsEngineDatasetsMap | null;
+  analyticsEngineDatasets?:
+    | ProjectsListResultItemDeploymentConfigsProductionAnalyticsEngineDatasetsMap
+    | null
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsListResultItemDeploymentConfigsProductionBrowsersMap | null;
+  browsers?: ProjectsListResultItemDeploymentConfigsProductionBrowsersMap | null | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsListResultItemDeploymentConfigsProductionD1DatabasesMap | null;
+  d1Databases?: ProjectsListResultItemDeploymentConfigsProductionD1DatabasesMap | null | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsListResultItemDeploymentConfigsProductionDurableObjectNamespacesMap | null;
+  durableObjectNamespaces?:
+    | ProjectsListResultItemDeploymentConfigsProductionDurableObjectNamespacesMap
+    | null
+    | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsListResultItemDeploymentConfigsProductionHyperdriveBindingsMap | null;
+  hyperdriveBindings?:
+    | ProjectsListResultItemDeploymentConfigsProductionHyperdriveBindingsMap
+    | null
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsListResultItemDeploymentConfigsProductionKvNamespacesMap | null;
+  kvNamespaces?:
+    | ProjectsListResultItemDeploymentConfigsProductionKvNamespacesMap
+    | null
+    | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsListResultItemDeploymentConfigsProductionMtlsCertificatesMap | null;
+  mtlsCertificates?:
+    | ProjectsListResultItemDeploymentConfigsProductionMtlsCertificatesMap
+    | null
+    | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsListResultItemDeploymentConfigsProductionQueueProducersMap | null;
+  queueProducers?:
+    | ProjectsListResultItemDeploymentConfigsProductionQueueProducersMap
+    | null
+    | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsListResultItemDeploymentConfigsProductionR2BucketsMap | null;
+  r2Buckets?: ProjectsListResultItemDeploymentConfigsProductionR2BucketsMap | null | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsListResultItemDeploymentConfigsProductionServicesMap | null;
+  services?: ProjectsListResultItemDeploymentConfigsProductionServicesMap | null | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsListResultItemDeploymentConfigsProductionVectorizeBindingsMap | null;
+  vectorizeBindings?:
+    | ProjectsListResultItemDeploymentConfigsProductionVectorizeBindingsMap
+    | null
+    | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string | null;
+  wranglerConfigHash?: string | null | undefined;
 }
 export interface ProjectsListResultItemDeploymentConfigs {
   /** Configs for preview deploys. */
@@ -3124,9 +3259,9 @@ export interface ProjectsListResultItemLatestDeployment {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsListResultItemLatestDeploymentSkipReason | null;
+  skipReason?: ProjectsListResultItemLatestDeploymentSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export type ProjectsListResultItemBuildConfig =
   ProjectsCreateResponseCanonicalDeploymentBuildConfig;
@@ -3198,22 +3333,22 @@ export interface ProjectsListResultItem {
   /** Whether the project uses functions. */
   usesFunctions: boolean;
   /** Configs for the project build process. */
-  buildConfig?: ProjectsCreateResponseCanonicalDeploymentBuildConfig | null;
+  buildConfig?: ProjectsCreateResponseCanonicalDeploymentBuildConfig | null | undefined;
   /** Present when the project is set to a retired build image major version and its builds have been moved to a newer one. `build_image_major_version` in `deployment_configs` then reports the version the builds run on. */
-  buildImageAutoUpgrade?: ProjectsCreateResponseBuildImageAutoUpgrade | null;
+  buildImageAutoUpgrade?: ProjectsCreateResponseBuildImageAutoUpgrade | null | undefined;
   /** A list of associated custom domains for the project. */
-  domains?: ProjectsListResultItemDomainsList | null;
+  domains?: ProjectsListResultItemDomainsList | null | undefined;
   /** Configs for the project source control. */
-  source?: ProjectsListResultItemSource | null;
+  source?: ProjectsListResultItemSource | null | undefined;
   /** The Cloudflare subdomain associated with the project. */
-  subdomain?: string | null;
+  subdomain?: string | null | undefined;
 }
 export type ProjectsListResultList = Array<ProjectsListResultItem>;
 export interface ListProjectsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ProjectsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type ProjectsEditRequestBuildConfig = ProjectsCreateRequestBuildConfig;
 export type ProjectsEditRequestDeploymentConfigsPreviewAiBindingsValue =
@@ -3283,49 +3418,55 @@ export type ProjectsEditRequestDeploymentConfigsPreviewVectorizeBindingsMap = {
 };
 export interface ProjectsEditRequestDeploymentConfigsPreview {
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsEditRequestDeploymentConfigsPreviewAiBindingsMap;
+  aiBindings?: ProjectsEditRequestDeploymentConfigsPreviewAiBindingsMap | undefined;
   /** Whether to always use the latest compatibility date for Pages Functions. */
-  alwaysUseLatestCompatibilityDate?: boolean;
+  alwaysUseLatestCompatibilityDate?: boolean | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsEditRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMap;
+  analyticsEngineDatasets?:
+    | ProjectsEditRequestDeploymentConfigsPreviewAnalyticsEngineDatasetsMap
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsEditRequestDeploymentConfigsPreviewBrowsersMap;
+  browsers?: ProjectsEditRequestDeploymentConfigsPreviewBrowsersMap | undefined;
   /** The major version of the build image to use for Pages Functions. Version 1 is retired and its projects are moved to version 3. Once a project's builds have been moved, a request that sets version 1 is rejected. */
-  buildImageMajorVersion?: number;
+  buildImageMajorVersion?: number | undefined;
   /** Compatibility date used for Pages Functions. */
-  compatibilityDate?: string;
+  compatibilityDate?: string | undefined;
   /** Compatibility flags used for Pages Functions. */
-  compatibilityFlags?: ProjectsEditRequestDeploymentConfigsPreviewCompatibilityFlagsList;
+  compatibilityFlags?:
+    | ProjectsEditRequestDeploymentConfigsPreviewCompatibilityFlagsList
+    | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsEditRequestDeploymentConfigsPreviewD1DatabasesMap;
+  d1Databases?: ProjectsEditRequestDeploymentConfigsPreviewD1DatabasesMap | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsEditRequestDeploymentConfigsPreviewDurableObjectNamespacesMap;
+  durableObjectNamespaces?:
+    | ProjectsEditRequestDeploymentConfigsPreviewDurableObjectNamespacesMap
+    | undefined;
   /** Environment variables used for builds and Pages Functions. */
-  envVars?: UntypedBindingMap;
+  envVars?: UntypedBindingMap | undefined;
   /** Whether to fail open when the deployment config cannot be applied. */
-  failOpen?: boolean;
+  failOpen?: boolean | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsEditRequestDeploymentConfigsPreviewHyperdriveBindingsMap;
+  hyperdriveBindings?: ProjectsEditRequestDeploymentConfigsPreviewHyperdriveBindingsMap | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsEditRequestDeploymentConfigsPreviewKvNamespacesMap;
+  kvNamespaces?: ProjectsEditRequestDeploymentConfigsPreviewKvNamespacesMap | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsEditRequestDeploymentConfigsPreviewMtlsCertificatesMap;
+  mtlsCertificates?: ProjectsEditRequestDeploymentConfigsPreviewMtlsCertificatesMap | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsEditRequestDeploymentConfigsPreviewQueueProducersMap;
+  queueProducers?: ProjectsEditRequestDeploymentConfigsPreviewQueueProducersMap | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsEditRequestDeploymentConfigsPreviewR2BucketsMap;
+  r2Buckets?: ProjectsEditRequestDeploymentConfigsPreviewR2BucketsMap | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsEditRequestDeploymentConfigsPreviewServicesMap;
+  services?: ProjectsEditRequestDeploymentConfigsPreviewServicesMap | undefined;
   /** All new projects now use the Standard usage model. */
-  usageModel?: ProjectsEditRequestDeploymentConfigsPreviewUsageModel | (string & {});
+  usageModel?: ProjectsEditRequestDeploymentConfigsPreviewUsageModel | (string & {}) | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsEditRequestDeploymentConfigsPreviewVectorizeBindingsMap;
+  vectorizeBindings?: ProjectsEditRequestDeploymentConfigsPreviewVectorizeBindingsMap | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string;
+  wranglerConfigHash?: string | undefined;
 }
 export type ProjectsEditRequestDeploymentConfigsProductionAiBindingsValue =
   ProjectsCreateRequestDeploymentConfigsPreviewAiBindingsValue;
@@ -3394,55 +3535,65 @@ export type ProjectsEditRequestDeploymentConfigsProductionVectorizeBindingsMap =
 };
 export interface ProjectsEditRequestDeploymentConfigsProduction {
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsEditRequestDeploymentConfigsProductionAiBindingsMap;
+  aiBindings?: ProjectsEditRequestDeploymentConfigsProductionAiBindingsMap | undefined;
   /** Whether to always use the latest compatibility date for Pages Functions. */
-  alwaysUseLatestCompatibilityDate?: boolean;
+  alwaysUseLatestCompatibilityDate?: boolean | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsEditRequestDeploymentConfigsProductionAnalyticsEngineDatasetsMap;
+  analyticsEngineDatasets?:
+    | ProjectsEditRequestDeploymentConfigsProductionAnalyticsEngineDatasetsMap
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsEditRequestDeploymentConfigsProductionBrowsersMap;
+  browsers?: ProjectsEditRequestDeploymentConfigsProductionBrowsersMap | undefined;
   /** The major version of the build image to use for Pages Functions. Version 1 is retired and its projects are moved to version 3. Once a project's builds have been moved, a request that sets version 1 is rejected. */
-  buildImageMajorVersion?: number;
+  buildImageMajorVersion?: number | undefined;
   /** Compatibility date used for Pages Functions. */
-  compatibilityDate?: string;
+  compatibilityDate?: string | undefined;
   /** Compatibility flags used for Pages Functions. */
-  compatibilityFlags?: ProjectsEditRequestDeploymentConfigsProductionCompatibilityFlagsList;
+  compatibilityFlags?:
+    | ProjectsEditRequestDeploymentConfigsProductionCompatibilityFlagsList
+    | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsEditRequestDeploymentConfigsProductionD1DatabasesMap;
+  d1Databases?: ProjectsEditRequestDeploymentConfigsProductionD1DatabasesMap | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsEditRequestDeploymentConfigsProductionDurableObjectNamespacesMap;
+  durableObjectNamespaces?:
+    | ProjectsEditRequestDeploymentConfigsProductionDurableObjectNamespacesMap
+    | undefined;
   /** Environment variables used for builds and Pages Functions. */
-  envVars?: UntypedBindingMap;
+  envVars?: UntypedBindingMap | undefined;
   /** Whether to fail open when the deployment config cannot be applied. */
-  failOpen?: boolean;
+  failOpen?: boolean | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsEditRequestDeploymentConfigsProductionHyperdriveBindingsMap;
+  hyperdriveBindings?:
+    | ProjectsEditRequestDeploymentConfigsProductionHyperdriveBindingsMap
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsEditRequestDeploymentConfigsProductionKvNamespacesMap;
+  kvNamespaces?: ProjectsEditRequestDeploymentConfigsProductionKvNamespacesMap | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsEditRequestDeploymentConfigsProductionMtlsCertificatesMap;
+  mtlsCertificates?: ProjectsEditRequestDeploymentConfigsProductionMtlsCertificatesMap | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsEditRequestDeploymentConfigsProductionQueueProducersMap;
+  queueProducers?: ProjectsEditRequestDeploymentConfigsProductionQueueProducersMap | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsEditRequestDeploymentConfigsProductionR2BucketsMap;
+  r2Buckets?: ProjectsEditRequestDeploymentConfigsProductionR2BucketsMap | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsEditRequestDeploymentConfigsProductionServicesMap;
+  services?: ProjectsEditRequestDeploymentConfigsProductionServicesMap | undefined;
   /** All new projects now use the Standard usage model. */
-  usageModel?: ProjectsEditRequestDeploymentConfigsProductionUsageModel | (string & {});
+  usageModel?: ProjectsEditRequestDeploymentConfigsProductionUsageModel | (string & {}) | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsEditRequestDeploymentConfigsProductionVectorizeBindingsMap;
+  vectorizeBindings?:
+    | ProjectsEditRequestDeploymentConfigsProductionVectorizeBindingsMap
+    | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string;
+  wranglerConfigHash?: string | undefined;
 }
 export interface ProjectsEditRequestDeploymentConfigs {
   /** Configs for preview deploys. */
-  preview?: ProjectsEditRequestDeploymentConfigsPreview;
+  preview?: ProjectsEditRequestDeploymentConfigsPreview | undefined;
   /** Configs for production deploys. */
-  production?: ProjectsEditRequestDeploymentConfigsProduction;
+  production?: ProjectsEditRequestDeploymentConfigsProduction | undefined;
 }
 export type ProjectsEditRequestSourceConfigPathExcludesList = Array<string>;
 export type ProjectsEditRequestSourceConfigPathIncludesList = Array<string>;
@@ -3451,33 +3602,34 @@ export type ProjectsEditRequestSourceConfigPreviewBranchIncludesList = Array<str
 export type ProjectsEditRequestSourceConfigPreviewDeploymentSetting = "all" | "none" | "custom";
 export interface ProjectsEditRequestSourceConfig {
   /** Use `production_deployments_enabled` and `preview_deployment_setting` for more granular control. */
-  deploymentsEnabled?: boolean;
+  deploymentsEnabled?: boolean | undefined;
   /** The owner of the repository. */
-  owner?: string;
+  owner?: string | undefined;
   /** The owner ID of the repository. */
-  ownerId?: string;
+  ownerId?: string | undefined;
   /** A list of paths that should be excluded from triggering a preview deployment. Wildcard syntax (`*`) is supported. */
-  pathExcludes?: ProjectsEditRequestSourceConfigPathExcludesList;
+  pathExcludes?: ProjectsEditRequestSourceConfigPathExcludesList | undefined;
   /** A list of paths that should be watched to trigger a preview deployment. Wildcard syntax (`*`) is supported. */
-  pathIncludes?: ProjectsEditRequestSourceConfigPathIncludesList;
+  pathIncludes?: ProjectsEditRequestSourceConfigPathIncludesList | undefined;
   /** Whether to enable PR comments. */
-  prCommentsEnabled?: boolean;
+  prCommentsEnabled?: boolean | undefined;
   /** A list of branches that should not trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
-  previewBranchExcludes?: ProjectsEditRequestSourceConfigPreviewBranchExcludesList;
+  previewBranchExcludes?: ProjectsEditRequestSourceConfigPreviewBranchExcludesList | undefined;
   /** A list of branches that should trigger a preview deployment. Wildcard syntax (`*`) is supported. Must be used with `preview_deployment_setting` set to `custom`. */
-  previewBranchIncludes?: ProjectsEditRequestSourceConfigPreviewBranchIncludesList;
+  previewBranchIncludes?: ProjectsEditRequestSourceConfigPreviewBranchIncludesList | undefined;
   /** Controls whether commits to preview branches trigger a preview deployment. */
   previewDeploymentSetting?:
     | ProjectsEditRequestSourceConfigPreviewDeploymentSetting
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** The production branch of the repository. */
-  productionBranch?: string;
+  productionBranch?: string | undefined;
   /** Whether to trigger a production deployment on commits to the production branch. */
-  productionDeploymentsEnabled?: boolean;
+  productionDeploymentsEnabled?: boolean | undefined;
   /** The ID of the repository. */
-  repoId?: string;
+  repoId?: string | undefined;
   /** The name of the repository. */
-  repoName?: string;
+  repoName?: string | undefined;
 }
 export type ProjectsEditRequestSourceType = "github" | "gitlab";
 export interface ProjectsEditRequestSource {
@@ -3491,15 +3643,15 @@ export interface PatchProjectRequest {
   /** Name of the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
   projectName: string;
   /** Configs for the project build process. */
-  buildConfig?: ProjectsCreateRequestBuildConfig;
+  buildConfig?: ProjectsCreateRequestBuildConfig | undefined;
   /** Configs for deployments in a project. */
-  deploymentConfigs?: ProjectsEditRequestDeploymentConfigs;
+  deploymentConfigs?: ProjectsEditRequestDeploymentConfigs | undefined;
   /** Name for the Pages project. Must begin with a lowercase letter or digit and contain only lowercase letters, digits, and hyphens. */
-  name?: string;
+  name?: string | undefined;
   /** Production branch of the project. Used to identify production deployments. */
-  productionBranch?: string;
+  productionBranch?: string | undefined;
   /** Configs for the project source control. */
-  source?: ProjectsEditRequestSource;
+  source?: ProjectsEditRequestSource | undefined;
 }
 export type ProjectsEditResponseCanonicalDeploymentAliasesList = Array<string>;
 export type ProjectsEditResponseCanonicalDeploymentBuildConfig =
@@ -3651,9 +3803,9 @@ export interface ProjectsEditResponseCanonicalDeployment {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsEditResponseCanonicalDeploymentSkipReason | null;
+  skipReason?: ProjectsEditResponseCanonicalDeploymentSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export type ProjectsEditResponseDeploymentConfigsPreviewCompatibilityFlagsList = Array<string>;
 export type ProjectsEditResponseDeploymentConfigsPreviewUsageModel =
@@ -3736,35 +3888,50 @@ export interface ProjectsEditResponseDeploymentConfigsPreview {
   /** All new projects now use the Standard usage model. */
   usageModel: ProjectsEditResponseDeploymentConfigsPreviewUsageModel;
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsEditResponseDeploymentConfigsPreviewAiBindingsMap | null;
+  aiBindings?: ProjectsEditResponseDeploymentConfigsPreviewAiBindingsMap | null | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsEditResponseDeploymentConfigsPreviewAnalyticsEngineDatasetsMap | null;
+  analyticsEngineDatasets?:
+    | ProjectsEditResponseDeploymentConfigsPreviewAnalyticsEngineDatasetsMap
+    | null
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsEditResponseDeploymentConfigsPreviewBrowsersMap | null;
+  browsers?: ProjectsEditResponseDeploymentConfigsPreviewBrowsersMap | null | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsEditResponseDeploymentConfigsPreviewD1DatabasesMap | null;
+  d1Databases?: ProjectsEditResponseDeploymentConfigsPreviewD1DatabasesMap | null | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsEditResponseDeploymentConfigsPreviewDurableObjectNamespacesMap | null;
+  durableObjectNamespaces?:
+    | ProjectsEditResponseDeploymentConfigsPreviewDurableObjectNamespacesMap
+    | null
+    | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsEditResponseDeploymentConfigsPreviewHyperdriveBindingsMap | null;
+  hyperdriveBindings?:
+    | ProjectsEditResponseDeploymentConfigsPreviewHyperdriveBindingsMap
+    | null
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsEditResponseDeploymentConfigsPreviewKvNamespacesMap | null;
+  kvNamespaces?: ProjectsEditResponseDeploymentConfigsPreviewKvNamespacesMap | null | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsEditResponseDeploymentConfigsPreviewMtlsCertificatesMap | null;
+  mtlsCertificates?:
+    | ProjectsEditResponseDeploymentConfigsPreviewMtlsCertificatesMap
+    | null
+    | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsEditResponseDeploymentConfigsPreviewQueueProducersMap | null;
+  queueProducers?: ProjectsEditResponseDeploymentConfigsPreviewQueueProducersMap | null | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsEditResponseDeploymentConfigsPreviewR2BucketsMap | null;
+  r2Buckets?: ProjectsEditResponseDeploymentConfigsPreviewR2BucketsMap | null | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsEditResponseDeploymentConfigsPreviewServicesMap | null;
+  services?: ProjectsEditResponseDeploymentConfigsPreviewServicesMap | null | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsEditResponseDeploymentConfigsPreviewVectorizeBindingsMap | null;
+  vectorizeBindings?:
+    | ProjectsEditResponseDeploymentConfigsPreviewVectorizeBindingsMap
+    | null
+    | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string | null;
+  wranglerConfigHash?: string | null | undefined;
 }
 export type ProjectsEditResponseDeploymentConfigsProductionCompatibilityFlagsList = Array<string>;
 export type ProjectsEditResponseDeploymentConfigsProductionUsageModel =
@@ -3847,35 +4014,53 @@ export interface ProjectsEditResponseDeploymentConfigsProduction {
   /** All new projects now use the Standard usage model. */
   usageModel: ProjectsEditResponseDeploymentConfigsProductionUsageModel;
   /** Constellation bindings used for Pages Functions. */
-  aiBindings?: ProjectsEditResponseDeploymentConfigsProductionAiBindingsMap | null;
+  aiBindings?: ProjectsEditResponseDeploymentConfigsProductionAiBindingsMap | null | undefined;
   /** Analytics Engine bindings used for Pages Functions. */
-  analyticsEngineDatasets?: ProjectsEditResponseDeploymentConfigsProductionAnalyticsEngineDatasetsMap | null;
+  analyticsEngineDatasets?:
+    | ProjectsEditResponseDeploymentConfigsProductionAnalyticsEngineDatasetsMap
+    | null
+    | undefined;
   /** Browser bindings used for Pages Functions. */
-  browsers?: ProjectsEditResponseDeploymentConfigsProductionBrowsersMap | null;
+  browsers?: ProjectsEditResponseDeploymentConfigsProductionBrowsersMap | null | undefined;
   /** D1 databases used for Pages Functions. */
-  d1Databases?: ProjectsEditResponseDeploymentConfigsProductionD1DatabasesMap | null;
+  d1Databases?: ProjectsEditResponseDeploymentConfigsProductionD1DatabasesMap | null | undefined;
   /** Durable Object namespaces used for Pages Functions. */
-  durableObjectNamespaces?: ProjectsEditResponseDeploymentConfigsProductionDurableObjectNamespacesMap | null;
+  durableObjectNamespaces?:
+    | ProjectsEditResponseDeploymentConfigsProductionDurableObjectNamespacesMap
+    | null
+    | undefined;
   /** Hyperdrive bindings used for Pages Functions. */
-  hyperdriveBindings?: ProjectsEditResponseDeploymentConfigsProductionHyperdriveBindingsMap | null;
+  hyperdriveBindings?:
+    | ProjectsEditResponseDeploymentConfigsProductionHyperdriveBindingsMap
+    | null
+    | undefined;
   /** KV namespaces used for Pages Functions. */
-  kvNamespaces?: ProjectsEditResponseDeploymentConfigsProductionKvNamespacesMap | null;
+  kvNamespaces?: ProjectsEditResponseDeploymentConfigsProductionKvNamespacesMap | null | undefined;
   /** Limits for Pages Functions. */
-  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null;
+  limits?: ProjectsCreateRequestDeploymentConfigsPreviewLimits | null | undefined;
   /** mTLS bindings used for Pages Functions. */
-  mtlsCertificates?: ProjectsEditResponseDeploymentConfigsProductionMtlsCertificatesMap | null;
+  mtlsCertificates?:
+    | ProjectsEditResponseDeploymentConfigsProductionMtlsCertificatesMap
+    | null
+    | undefined;
   /** Placement setting used for Pages Functions. */
-  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null;
+  placement?: ProjectsCreateRequestDeploymentConfigsPreviewPlacement | null | undefined;
   /** Queue Producer bindings used for Pages Functions. */
-  queueProducers?: ProjectsEditResponseDeploymentConfigsProductionQueueProducersMap | null;
+  queueProducers?:
+    | ProjectsEditResponseDeploymentConfigsProductionQueueProducersMap
+    | null
+    | undefined;
   /** R2 buckets used for Pages Functions. */
-  r2Buckets?: ProjectsEditResponseDeploymentConfigsProductionR2BucketsMap | null;
+  r2Buckets?: ProjectsEditResponseDeploymentConfigsProductionR2BucketsMap | null | undefined;
   /** Services used for Pages Functions. */
-  services?: ProjectsEditResponseDeploymentConfigsProductionServicesMap | null;
+  services?: ProjectsEditResponseDeploymentConfigsProductionServicesMap | null | undefined;
   /** Vectorize bindings used for Pages Functions. */
-  vectorizeBindings?: ProjectsEditResponseDeploymentConfigsProductionVectorizeBindingsMap | null;
+  vectorizeBindings?:
+    | ProjectsEditResponseDeploymentConfigsProductionVectorizeBindingsMap
+    | null
+    | undefined;
   /** Hash of the Wrangler configuration used for the deployment. */
-  wranglerConfigHash?: string | null;
+  wranglerConfigHash?: string | null | undefined;
 }
 export interface ProjectsEditResponseDeploymentConfigs {
   /** Configs for preview deploys. */
@@ -4051,9 +4236,9 @@ export interface ProjectsEditResponseLatestDeployment {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsEditResponseLatestDeploymentSkipReason | null;
+  skipReason?: ProjectsEditResponseLatestDeploymentSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export type ProjectsEditResponseBuildConfig = ProjectsCreateResponseCanonicalDeploymentBuildConfig;
 export type ProjectsEditResponseBuildImageAutoUpgrade = ProjectsCreateResponseBuildImageAutoUpgrade;
@@ -4124,15 +4309,15 @@ export interface PatchProjectResponse {
   /** Whether the project uses functions. */
   usesFunctions: boolean;
   /** Configs for the project build process. */
-  buildConfig?: ProjectsCreateResponseCanonicalDeploymentBuildConfig | null;
+  buildConfig?: ProjectsCreateResponseCanonicalDeploymentBuildConfig | null | undefined;
   /** Present when the project is set to a retired build image major version and its builds have been moved to a newer one. `build_image_major_version` in `deployment_configs` then reports the version the builds run on. */
-  buildImageAutoUpgrade?: ProjectsCreateResponseBuildImageAutoUpgrade | null;
+  buildImageAutoUpgrade?: ProjectsCreateResponseBuildImageAutoUpgrade | null | undefined;
   /** A list of associated custom domains for the project. */
-  domains?: ProjectsEditResponseDomainsList | null;
+  domains?: ProjectsEditResponseDomainsList | null | undefined;
   /** Configs for the project source control. */
-  source?: ProjectsEditResponseSource | null;
+  source?: ProjectsEditResponseSource | null | undefined;
   /** The Cloudflare subdomain associated with the project. */
-  subdomain?: string | null;
+  subdomain?: string | null | undefined;
 }
 export interface PatchProjectDomainRequest {
   /** Identifier. */
@@ -4160,9 +4345,9 @@ export type ProjectsDomainsEditResponseValidationDataStatus =
 export interface ProjectsDomainsEditResponseValidationData {
   method: ProjectsDomainsEditResponseValidationDataMethod;
   status: ProjectsDomainsEditResponseValidationDataStatus;
-  errorMessage?: string | null;
-  txtName?: string | null;
-  txtValue?: string | null;
+  errorMessage?: string | null | undefined;
+  txtName?: string | null | undefined;
+  txtValue?: string | null | undefined;
 }
 export type ProjectsDomainsEditResponseVerificationDataStatus =
   | "pending"
@@ -4172,7 +4357,7 @@ export type ProjectsDomainsEditResponseVerificationDataStatus =
   | "error";
 export interface ProjectsDomainsEditResponseVerificationData {
   status: ProjectsDomainsEditResponseVerificationDataStatus;
-  errorMessage?: string | null;
+  errorMessage?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchProjectDomainResponse {
@@ -4362,9 +4547,9 @@ export interface RetryProjectDeploymentResponse {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsDeploymentsRetryResponseSkipReason | null;
+  skipReason?: ProjectsDeploymentsRetryResponseSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export interface RollbackProjectDeploymentRequest {
   /** Identifier. */
@@ -4525,9 +4710,9 @@ export interface RollbackProjectDeploymentResponse {
   /** The live URL to view this deployment. */
   url: string;
   /** Why the deployment was skipped. */
-  skipReason?: ProjectsDeploymentsRollbackResponseSkipReason | null;
+  skipReason?: ProjectsDeploymentsRollbackResponseSkipReason | null | undefined;
   /** Whether the deployment uses functions. */
-  usesFunctions?: boolean | null;
+  usesFunctions?: boolean | null | undefined;
 }
 export interface UploadAssetRequestBodyItemMetadata {
   /** MIME type for the uploaded file. */

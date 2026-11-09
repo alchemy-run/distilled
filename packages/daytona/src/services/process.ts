@@ -54,13 +54,13 @@ export class SessionNotFound
 
 export type CreatePtySessionRequestEnvsMap = { [key: string]: string | undefined };
 export interface CreatePtySessionRequest {
-  cols?: number;
-  cwd?: string;
-  envs?: CreatePtySessionRequestEnvsMap;
-  id?: string;
+  cols?: number | undefined;
+  cwd?: string | undefined;
+  envs?: CreatePtySessionRequestEnvsMap | undefined;
+  id?: string | undefined;
   /** Don't start PTY until first client connects */
-  lazyStart?: boolean;
-  rows?: number;
+  lazyStart?: boolean | undefined;
+  rows?: number | undefined;
 }
 export interface PtyCreateResponse {
   sessionId: string;
@@ -85,19 +85,19 @@ export type ExecuteCommandRequestEnvsMap = { [key: string]: string | undefined }
 export interface ExecuteCommandRequest {
   command: string;
   /** Current working directory */
-  cwd?: string;
+  cwd?: string | undefined;
   /** Environment variables to set for the command */
-  envs?: ExecuteCommandRequestEnvsMap;
+  envs?: ExecuteCommandRequestEnvsMap | undefined;
   /** Timeout in seconds, defaults to 10 seconds */
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export interface ExecuteResponse {
-  exitCode?: number;
+  exitCode?: number | undefined;
   result: string;
 }
 export interface GetEntrypointLogsRequest {
   /** Follow logs in real-time (WebSocket only) */
-  follow?: boolean;
+  follow?: boolean | undefined;
 }
 export interface SessionCommandLogsResponse {
   output: string;
@@ -107,7 +107,7 @@ export interface SessionCommandLogsResponse {
 export interface GetEntrypointSessionRequest {}
 export interface Command {
   command: string;
-  exitCode?: number;
+  exitCode?: number | undefined;
   id: string;
 }
 export type SessionCommandsList = Array<Command>;
@@ -147,7 +147,7 @@ export interface GetSessionCommandLogsRequest {
   /** Command ID */
   commandId: string;
   /** Follow logs in real-time (WebSocket only) */
-  follow?: boolean;
+  follow?: boolean | undefined;
 }
 export interface ListPtySessionsRequest {}
 export type PtyListResponseSessionsList = Array<PtySessionInfo>;
@@ -166,34 +166,34 @@ export interface ResizePtySessionRequest {
 export type RunCodeRequestArgvList = Array<string>;
 export type RunCodeRequestEnvsMap = { [key: string]: string | undefined };
 export interface RunCodeRequest {
-  argv?: RunCodeRequestArgvList;
+  argv?: RunCodeRequestArgvList | undefined;
   code: string;
-  envs?: RunCodeRequestEnvsMap;
+  envs?: RunCodeRequestEnvsMap | undefined;
   /** python, javascript, typescript */
   language: string;
-  timeout?: number;
+  timeout?: number | undefined;
 }
 export type ChartElementOutliersList = Array<number>;
 export type ChartElementPointsItemList = Array<number>;
 export type ChartElementPointsList = Array<ChartElementPointsItemList>;
 export interface ChartElement {
-  angle?: number;
-  first_quartile?: number;
-  group?: string;
-  label?: string;
-  max?: number;
-  median?: number;
-  min?: number;
-  outliers?: ChartElementOutliersList;
-  png?: string;
-  points?: ChartElementPointsList;
-  radius?: number;
-  third_quartile?: number;
-  title?: string;
-  type?: string;
-  value?: string;
-  x_label?: string;
-  y_label?: string;
+  angle?: number | undefined;
+  first_quartile?: number | undefined;
+  group?: string | undefined;
+  label?: string | undefined;
+  max?: number | undefined;
+  median?: number | undefined;
+  min?: number | undefined;
+  outliers?: ChartElementOutliersList | undefined;
+  png?: string | undefined;
+  points?: ChartElementPointsList | undefined;
+  radius?: number | undefined;
+  third_quartile?: number | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  value?: string | undefined;
+  x_label?: string | undefined;
+  y_label?: string | undefined;
 }
 export type ChartElementsList = Array<ChartElement>;
 export type ChartXTickLabelsList = Array<string>;
@@ -201,27 +201,27 @@ export type ChartXTicksList = Array<number>;
 export type ChartYTickLabelsList = Array<string>;
 export type ChartYTicksList = Array<number>;
 export interface Chart {
-  elements?: ChartElementsList;
-  png?: string;
-  title?: string;
-  type?: string;
-  x_label?: string;
-  x_scale?: string;
-  x_tick_labels?: ChartXTickLabelsList;
-  x_ticks?: ChartXTicksList;
-  y_label?: string;
-  y_scale?: string;
-  y_tick_labels?: ChartYTickLabelsList;
-  y_ticks?: ChartYTicksList;
+  elements?: ChartElementsList | undefined;
+  png?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  x_label?: string | undefined;
+  x_scale?: string | undefined;
+  x_tick_labels?: ChartXTickLabelsList | undefined;
+  x_ticks?: ChartXTicksList | undefined;
+  y_label?: string | undefined;
+  y_scale?: string | undefined;
+  y_tick_labels?: ChartYTickLabelsList | undefined;
+  y_ticks?: ChartYTicksList | undefined;
 }
 export type CodeRunArtifactsChartsList = Array<Chart>;
 export interface CodeRunArtifacts {
-  charts?: CodeRunArtifactsChartsList;
+  charts?: CodeRunArtifactsChartsList | undefined;
 }
 export interface CodeRunResponse {
-  artifacts?: CodeRunArtifacts;
-  exitCode?: number;
-  result?: string;
+  artifacts?: CodeRunArtifacts | undefined;
+  exitCode?: number | undefined;
+  result?: string | undefined;
 }
 export interface SendInputRequest {
   /** Session ID */
@@ -234,17 +234,17 @@ export interface SendInputResponse {}
 export interface SessionExecuteCommandRequest {
   /** Session ID */
   sessionId: string;
-  async?: boolean;
+  async?: boolean | undefined;
   command: string;
-  runAsync?: boolean;
-  suppressInputEcho?: boolean;
+  runAsync?: boolean | undefined;
+  suppressInputEcho?: boolean | undefined;
 }
 export interface SessionExecuteResponse {
   cmdId: string;
-  exitCode?: number;
-  output?: string;
-  stderr?: string;
-  stdout?: string;
+  exitCode?: number | undefined;
+  output?: string | undefined;
+  stderr?: string | undefined;
+  stdout?: string | undefined;
 }
 export type CreatePtySessionError = DaytonaOpError;
 /** Create a new PTY session Create a new pseudo-terminal session with specified configuration */

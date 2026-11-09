@@ -62,9 +62,9 @@ export type DataWarehouseTableFormatEnum =
   | "DeltaS3Wrapper";
 export interface CredentialInput {
   /** Access key ID for the bucket the files live in (an AWS access key ID, a Google Cloud HMAC key, or the equivalent for another S3-compatible store). */
-  access_key?: string;
+  access_key?: string | undefined;
   /** Secret for the access key. Stored encrypted and never returned by the API. */
-  access_secret?: string | Redacted.Redacted<string>;
+  access_secret?: string | Redacted.Redacted<string> | undefined;
 }
 /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
 export type CreateWarehouseTableRequestOptionsMap = { [key: string]: unknown | undefined };
@@ -72,16 +72,16 @@ export interface CreateWarehouseTableRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whether the table is soft-deleted and hidden from queries. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name the table is queried by in HogQL. Must be unique within the project, and must start with a letter or underscore and contain only letters, numbers, and underscores. */
-  name?: string;
+  name?: string | undefined;
   /** File format of the objects the pattern matches. Every matched file must share this format. * `CSV` - CSV * `CSVWithNames` - CSVWithNames * `Parquet` - Parquet * `JSONEachRow` - JSON * `Delta` - Delta * `DeltaS3Wrapper` - DeltaS3Wrapper */
-  format?: DataWarehouseTableFormatEnum | (string & {});
+  format?: DataWarehouseTableFormatEnum | (string & {}) | undefined;
   /** HTTPS URL of the files to read, with `*` matching any part of a path segment (e.g. `https://your-bucket.s3.amazonaws.com/orders/*.parquet`). All matched files are read as one table. Must point at a bucket you control, not at PostHog's own storage. */
-  url_pattern?: string;
-  credential?: CredentialInput;
+  url_pattern?: string | undefined;
+  credential?: CredentialInput | undefined;
   /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
-  options?: CreateWarehouseTableRequestOptionsMap;
+  options?: CreateWarehouseTableRequestOptionsMap | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -98,15 +98,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving * `source` - source * `materialized_view` - materialized_view * `demo` - demo */
 export type DataWarehouseTableCreatedViaEnum =
@@ -119,9 +119,9 @@ export type DataWarehouseTableCreatedViaEnum =
   | "materialized_view"
   | "demo";
 export interface CredentialOutput {
-  id?: string;
-  created_by?: UserBasic | null;
-  created_at?: string;
+  id?: string | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
 }
 export type TableOutputColumnsItemMap = { [key: string]: unknown | undefined };
 export type TableOutputColumnsList = Array<TableOutputColumnsItemMap>;
@@ -1483,40 +1483,40 @@ export type ExternalDataSourceTypeEnum =
   | "LettrLabs"
   | "GrafanaIRM";
 export interface SimpleExternalDataSourceSerializers {
-  id?: string;
-  created_at?: string;
-  created_by?: number | null;
-  status?: string;
-  source_type?: ExternalDataSourceTypeEnum;
+  id?: string | undefined;
+  created_at?: string | undefined;
+  created_by?: number | null | undefined;
+  status?: string | undefined;
+  source_type?: ExternalDataSourceTypeEnum | undefined;
 }
 export type TableOutputExternalSchemaMap = { [key: string]: unknown | undefined };
 /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
 export type TableOutputOptionsMap = { [key: string]: unknown | undefined };
 /** Mixin for serializers to add user access control fields */
 export interface TableOutput {
-  id?: string;
+  id?: string | undefined;
   /** Whether the table is soft-deleted and hidden from queries. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name the table is queried by in HogQL. Must be unique within the project, and must start with a letter or underscore and contain only letters, numbers, and underscores. */
-  name?: string;
+  name?: string | undefined;
   /** Dotted name the table is queried by in HogQL (e.g. `googleanalytics.devices` or `postgres.<prefix>.<table>`), as opposed to `name`, which is the underlying storage identifier. */
-  hogql_name?: string;
+  hogql_name?: string | undefined;
   /** File format of the objects the pattern matches. Every matched file must share this format. * `CSV` - CSV * `CSVWithNames` - CSVWithNames * `Parquet` - Parquet * `JSONEachRow` - JSON * `Delta` - Delta * `DeltaS3Wrapper` - DeltaS3Wrapper */
-  format?: DataWarehouseTableFormatEnum;
-  created_by?: UserBasic | null;
-  created_at?: string;
+  format?: DataWarehouseTableFormatEnum | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
   /** Where the table came from: `web` for the in-app UI, `api` for direct API callers, `mcp` for agent/MCP tool calls, `wizard` for the setup agent, `self_driving` for a self-driving run, `source` for a table a data source syncs, `materialized_view` for the table behind a materialized view, and `demo` for a demo project's sample table. Set server-side from the request, never from the request body. Null on tables created before this was recorded. * `web` - web * `api` - api * `mcp` - mcp * `wizard` - wizard * `self_driving` - self_driving * `source` - source * `materialized_view` - materialized_view * `demo` - demo */
-  created_via?: DataWarehouseTableCreatedViaEnum | null;
+  created_via?: DataWarehouseTableCreatedViaEnum | null | undefined;
   /** HTTPS URL of the files to read, with `*` matching any part of a path segment (e.g. `https://your-bucket.s3.amazonaws.com/orders/*.parquet`). All matched files are read as one table. Must point at a bucket you control, not at PostHog's own storage. */
-  url_pattern?: string;
-  credential?: CredentialOutput;
-  columns?: TableOutputColumnsList;
-  external_data_source?: SimpleExternalDataSourceSerializers;
-  external_schema?: TableOutputExternalSchemaMap | null;
+  url_pattern?: string | undefined;
+  credential?: CredentialOutput | undefined;
+  columns?: TableOutputColumnsList | undefined;
+  external_data_source?: SimpleExternalDataSourceSerializers | undefined;
+  external_schema?: TableOutputExternalSchemaMap | null | undefined;
   /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
-  options?: TableOutputOptionsMap;
+  options?: TableOutputOptionsMap | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
 export type CreateWarehouseTablesFileRequestOptionsMap = { [key: string]: unknown | undefined };
@@ -1524,16 +1524,16 @@ export interface CreateWarehouseTablesFileRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Whether the table is soft-deleted and hidden from queries. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name the table is queried by in HogQL. Must be unique within the project, and must start with a letter or underscore and contain only letters, numbers, and underscores. */
-  name?: string;
+  name?: string | undefined;
   /** File format of the objects the pattern matches. Every matched file must share this format. * `CSV` - CSV * `CSVWithNames` - CSVWithNames * `Parquet` - Parquet * `JSONEachRow` - JSON * `Delta` - Delta * `DeltaS3Wrapper` - DeltaS3Wrapper */
-  format?: DataWarehouseTableFormatEnum | (string & {});
+  format?: DataWarehouseTableFormatEnum | (string & {}) | undefined;
   /** HTTPS URL of the files to read, with `*` matching any part of a path segment (e.g. `https://your-bucket.s3.amazonaws.com/orders/*.parquet`). All matched files are read as one table. Must point at a bucket you control, not at PostHog's own storage. */
-  url_pattern?: string;
-  credential?: CredentialInput;
+  url_pattern?: string | undefined;
+  credential?: CredentialInput | undefined;
   /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
-  options?: CreateWarehouseTablesFileRequestOptionsMap;
+  options?: CreateWarehouseTablesFileRequestOptionsMap | undefined;
 }
 export interface CreateWarehouseTablesFileResponse {}
 export interface GetWarehouseTableRequest {
@@ -1546,18 +1546,18 @@ export interface ListWarehouseTablesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** A search term. */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedTableListOutputResultsList = Array<TableOutput>;
 export interface PaginatedTableListOutput {
-  count?: number;
-  next?: string | null;
-  previous?: string | null;
-  results?: PaginatedTableListOutputResultsList;
+  count?: number | undefined;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
+  results?: PaginatedTableListOutputResultsList | undefined;
 }
 /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
 export type UpdateWarehouseTableRequestOptionsMap = { [key: string]: unknown | undefined };
@@ -1567,16 +1567,16 @@ export interface UpdateWarehouseTableRequest {
   /** A UUID string identifying this data warehouse table. */
   id: string;
   /** Whether the table is soft-deleted and hidden from queries. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name the table is queried by in HogQL. Must be unique within the project, and must start with a letter or underscore and contain only letters, numbers, and underscores. */
-  name?: string;
+  name?: string | undefined;
   /** File format of the objects the pattern matches. Every matched file must share this format. * `CSV` - CSV * `CSVWithNames` - CSVWithNames * `Parquet` - Parquet * `JSONEachRow` - JSON * `Delta` - Delta * `DeltaS3Wrapper` - DeltaS3Wrapper */
-  format?: DataWarehouseTableFormatEnum | (string & {});
+  format?: DataWarehouseTableFormatEnum | (string & {}) | undefined;
   /** HTTPS URL of the files to read, with `*` matching any part of a path segment (e.g. `https://your-bucket.s3.amazonaws.com/orders/*.parquet`). All matched files are read as one table. Must point at a bucket you control, not at PostHog's own storage. */
-  url_pattern?: string;
-  credential?: CredentialInput;
+  url_pattern?: string | undefined;
+  credential?: CredentialInput | undefined;
   /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
-  options?: UpdateWarehouseTableRequestOptionsMap;
+  options?: UpdateWarehouseTableRequestOptionsMap | undefined;
 }
 /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
 export type UpdateWarehouseTablesPartialRequestOptionsMap = { [key: string]: unknown | undefined };
@@ -1586,16 +1586,16 @@ export interface UpdateWarehouseTablesPartialRequest {
   /** A UUID string identifying this data warehouse table. */
   id: string;
   /** Whether the table is soft-deleted and hidden from queries. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name the table is queried by in HogQL. Must be unique within the project, and must start with a letter or underscore and contain only letters, numbers, and underscores. */
-  name?: string;
+  name?: string | undefined;
   /** File format of the objects the pattern matches. Every matched file must share this format. * `CSV` - CSV * `CSVWithNames` - CSVWithNames * `Parquet` - Parquet * `JSONEachRow` - JSON * `Delta` - Delta * `DeltaS3Wrapper` - DeltaS3Wrapper */
-  format?: DataWarehouseTableFormatEnum | (string & {});
+  format?: DataWarehouseTableFormatEnum | (string & {}) | undefined;
   /** HTTPS URL of the files to read, with `*` matching any part of a path segment (e.g. `https://your-bucket.s3.amazonaws.com/orders/*.parquet`). All matched files are read as one table. Must point at a bucket you control, not at PostHog's own storage. */
-  url_pattern?: string;
-  credential?: CredentialInput;
+  url_pattern?: string | undefined;
+  credential?: CredentialInput | undefined;
   /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
-  options?: UpdateWarehouseTablesPartialRequestOptionsMap;
+  options?: UpdateWarehouseTablesPartialRequestOptionsMap | undefined;
 }
 /** * `csv` - csv * `json` - json * `parquet` - parquet */
 export type CreateTableFromUploadFileFormatEnum = "csv" | "json" | "parquet";
@@ -1635,16 +1635,16 @@ export interface WarehouseTablesUpdateSchemaCreateRequest {
   /** A UUID string identifying this data warehouse table. */
   id: string;
   /** Whether the table is soft-deleted and hidden from queries. */
-  deleted?: boolean | null;
+  deleted?: boolean | null | undefined;
   /** Name the table is queried by in HogQL. Must be unique within the project, and must start with a letter or underscore and contain only letters, numbers, and underscores. */
-  name?: string;
+  name?: string | undefined;
   /** File format of the objects the pattern matches. Every matched file must share this format. * `CSV` - CSV * `CSVWithNames` - CSVWithNames * `Parquet` - Parquet * `JSONEachRow` - JSON * `Delta` - Delta * `DeltaS3Wrapper` - DeltaS3Wrapper */
-  format?: DataWarehouseTableFormatEnum | (string & {});
+  format?: DataWarehouseTableFormatEnum | (string & {}) | undefined;
   /** HTTPS URL of the files to read, with `*` matching any part of a path segment (e.g. `https://your-bucket.s3.amazonaws.com/orders/*.parquet`). All matched files are read as one table. Must point at a bucket you control, not at PostHog's own storage. */
-  url_pattern?: string;
-  credential?: CredentialInput;
+  url_pattern?: string | undefined;
+  credential?: CredentialInput | undefined;
   /** Per-format read options. The only one read today is `csv_allow_double_quotes` (boolean), for CSV files that quote fields with doubled quotes. */
-  options?: WarehouseTablesUpdateSchemaCreateRequestOptionsMap;
+  options?: WarehouseTablesUpdateSchemaCreateRequestOptionsMap | undefined;
 }
 export interface WarehouseTablesUpdateSchemaCreateResponse {}
 /** How the file will be read when the table is created. */

@@ -57,22 +57,22 @@ export interface CreateMicrofrontendsGroupWithApplicationsRequestDefaultApp {
   /** The id of the project that will be used as the default app for the new microfrontend group */
   projectId: string;
   /** The default route for the default app of the new microfrontend group */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
 }
 export interface CreateMicrofrontendsGroupWithApplicationsRequestOtherApplicationsItem {
   /** The id of the project that will be used in the new microfrontend group */
   projectId: string;
   /** The default route for the application in the new microfrontend group */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
 }
 /** The list of other applications that will be used in the new microfrontend group */
 export type CreateMicrofrontendsGroupWithApplicationsRequestOtherApplicationsList =
   Array<CreateMicrofrontendsGroupWithApplicationsRequestOtherApplicationsItem>;
 export interface CreateMicrofrontendsGroupWithApplicationsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
   /** The name of the microfrontends group that will be used to identify the group */
   groupName: string;
   /** The default app for the new microfrontend group */
@@ -96,9 +96,9 @@ export interface GetMicrofrontendsConfigRequest {
   /** The unique deployment identifier */
   deploymentId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetMicrofrontendsConfigResponseConfigApplicationsValueCase0DevelopmentLocal =
   | string
@@ -107,15 +107,15 @@ export type GetMicrofrontendsConfigResponseConfigApplicationsValueCase0Developme
 export interface GetMicrofrontendsConfigResponseConfigApplicationsValueCase0Development {
   /** Fallback for local development, could point to any environment. This is required for the default app. This value is used as the fallback for child apps as well if they do not have a fallback. If passing a string, include the protocol (optional), host (required) and port (optional). For example: `https://this.ismyhost:8080`. If omitted, the protocol defaults to HTTPS. If omitted, the port defaults to `80` for HTTP and `443` for HTTPS. See https://vercel.com/docs/microfrontends/local-development. */
   fallback: string;
-  local?: GetMicrofrontendsConfigResponseConfigApplicationsValueCase0DevelopmentLocal;
+  local?: GetMicrofrontendsConfigResponseConfigApplicationsValueCase0DevelopmentLocal | undefined;
   /** The task to run when starting the development server. Should reference a script in the package.json of the application. The default value is "dev". See https://vercel.com/docs/microfrontends/local-development. */
-  task?: string;
+  task?: string | undefined;
 }
 export interface GetMicrofrontendsConfigResponseConfigApplicationsValueCase0 {
   /** Development configuration for the default application. */
   development: GetMicrofrontendsConfigResponseConfigApplicationsValueCase0Development;
   /** The name used to run the application, e.g. the `name` field in the `package.json`. This is used by the local proxy to map the application config to the locally running app. This is only necessary when the application name does not match the `name` used in `package.json`. See https://vercel.com/docs/microfrontends/configuration#application-naming. */
-  packageName?: string;
+  packageName?: string | undefined;
   projectId: string;
 }
 export type GetMicrofrontendsConfigResponseConfigApplicationsValueCase1DevelopmentLocal =
@@ -124,10 +124,10 @@ export type GetMicrofrontendsConfigResponseConfigApplicationsValueCase1Developme
 /** Development configuration for the child application. */
 export interface GetMicrofrontendsConfigResponseConfigApplicationsValueCase1Development {
   /** Fallback for local development, could point to any environment. If not provided for child apps, the fallback of the default app will be used. If passing a string, include the protocol (optional), host (required) and port (optional). For example: `https://this.ismyhost:8080`. If omitted, the protocol defaults to HTTPS. If omitted, the port defaults to `80` for HTTP and `443` for HTTPS. See https://vercel.com/docs/microfrontends/local-development. */
-  fallback?: string;
-  local?: GetMicrofrontendsConfigResponseConfigApplicationsValueCase1DevelopmentLocal;
+  fallback?: string | undefined;
+  local?: GetMicrofrontendsConfigResponseConfigApplicationsValueCase1DevelopmentLocal | undefined;
   /** The task to run when starting the development server. Should reference a script in the package.json of the application. The default value is "dev". See https://vercel.com/docs/microfrontends/local-development. */
-  task?: string;
+  task?: string | undefined;
 }
 /** A list of path expressions that are routed to this application. See https://vercel.com/docs/microfrontends/path-routing#supported-path-expressions. */
 export type GetMicrofrontendsConfigResponseConfigApplicationsValueCase1RoutingItemPathsList =
@@ -135,9 +135,9 @@ export type GetMicrofrontendsConfigResponseConfigApplicationsValueCase1RoutingIt
 /** Groups of path expressions that are routed to this application. See https://vercel.com/docs/microfrontends/path-routing. */
 export interface GetMicrofrontendsConfigResponseConfigApplicationsValueCase1RoutingItem {
   /** The name of the feature flag that controls routing for this group of paths. See https://vercel.com/docs/microfrontends/path-routing#routing-changes-safely-with-flags. */
-  flag?: string;
+  flag?: string | undefined;
   /** Group name for the paths. */
-  group?: string;
+  group?: string | undefined;
   /** A list of path expressions that are routed to this application. See https://vercel.com/docs/microfrontends/path-routing#supported-path-expressions. */
   paths: GetMicrofrontendsConfigResponseConfigApplicationsValueCase1RoutingItemPathsList;
 }
@@ -146,11 +146,11 @@ export type GetMicrofrontendsConfigResponseConfigApplicationsValueCase1RoutingLi
   Array<GetMicrofrontendsConfigResponseConfigApplicationsValueCase1RoutingItem>;
 export interface GetMicrofrontendsConfigResponseConfigApplicationsValueCase1 {
   /** The name of the asset prefix to use instead of the auto-generated name. The asset prefix is used to prefix all paths to static assets, such as JS, CSS, or images that are served by a specific application. It is necessary to ensure there are no conflicts with other applications on the same domain. An auto-generated asset prefix of the form `vc-ap-<hash>` is used when this field is not provided. When this field is provided, `/${assetPrefix}/:path*` must also be added to the list of paths in the `routing` field. Changing the asset prefix after a microfrontend application has already been deployed is not a forwards and backwards compatible change, and the asset prefix should be added to the `routing` field and deployed before setting the `assetPrefix` field. The default value is the auto-generated asset prefix of the form `vc-ap-<hash>`. See https://vercel.com/docs/microfrontends/path-routing#asset-prefix. */
-  assetPrefix?: string;
+  assetPrefix?: string | undefined;
   /** Development configuration for the child application. */
-  development?: GetMicrofrontendsConfigResponseConfigApplicationsValueCase1Development;
+  development?: GetMicrofrontendsConfigResponseConfigApplicationsValueCase1Development | undefined;
   /** The name used to run the application, e.g. the `name` field in the `package.json`. This is used by the local proxy to map the application config to the locally running app. This is only necessary when the application name does not match the `name` used in `package.json`. See https://vercel.com/docs/microfrontends/configuration#application-naming. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Groups of path expressions that are routed to this application. See https://vercel.com/docs/microfrontends/path-routing. */
   routing: GetMicrofrontendsConfigResponseConfigApplicationsValueCase1RoutingList;
   projectId: string;
@@ -164,21 +164,21 @@ export type GetMicrofrontendsConfigResponseConfigApplicationsMap = {
 /** Optional configuration options for the microfrontend. */
 export interface GetMicrofrontendsConfigResponseConfigOptions {
   /** If you want to disable the overrides for the site. For example, if you are managing rewrites between applications externally, you may wish to disable the overrides on the toolbar as they will have no effect. See https://vercel.com/docs/microfrontends/managing-microfrontends/vercel-toolbar#routing-overrides. */
-  disableOverrides?: boolean;
+  disableOverrides?: boolean | undefined;
   /** The port number used by the local proxy server. The default value is 3024. See https://vercel.com/docs/microfrontends/local-development. */
-  localProxyPort?: number;
+  localProxyPort?: number | undefined;
 }
 /** The version of the microfrontends config schema. */
 export type GetMicrofrontendsConfigResponseConfigVersion = "1";
 /** projectIds are added when the config is uploaded to s3 deployment assets. */
 export interface GetMicrofrontendsConfigResponseConfig {
   /** See https://openapi.vercel.sh/microfrontends.json. */
-  _schema?: string;
+  _schema?: string | undefined;
   applications: GetMicrofrontendsConfigResponseConfigApplicationsMap;
   /** Optional configuration options for the microfrontend. */
-  options?: GetMicrofrontendsConfigResponseConfigOptions;
+  options?: GetMicrofrontendsConfigResponseConfigOptions | undefined;
   /** The version of the microfrontends config schema. */
-  version?: GetMicrofrontendsConfigResponseConfigVersion;
+  version?: GetMicrofrontendsConfigResponseConfigVersion | undefined;
 }
 export interface GetMicrofrontendsConfigResponse {
   /** projectIds are added when the config is uploaded to s3 deployment assets. */
@@ -188,9 +188,9 @@ export interface GetMicrofrontendsConfigForProjectRequest {
   /** The name or ID of the project */
   projectIdOrName: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase0DevelopmentLocal =
   | string
@@ -199,15 +199,17 @@ export type GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase
 export interface GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase0Development {
   /** Fallback for local development, could point to any environment. This is required for the default app. This value is used as the fallback for child apps as well if they do not have a fallback. If passing a string, include the protocol (optional), host (required) and port (optional). For example: `https://this.ismyhost:8080`. If omitted, the protocol defaults to HTTPS. If omitted, the port defaults to `80` for HTTP and `443` for HTTPS. See https://vercel.com/docs/microfrontends/local-development. */
   fallback: string;
-  local?: GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase0DevelopmentLocal;
+  local?:
+    | GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase0DevelopmentLocal
+    | undefined;
   /** The task to run when starting the development server. Should reference a script in the package.json of the application. The default value is "dev". See https://vercel.com/docs/microfrontends/local-development. */
-  task?: string;
+  task?: string | undefined;
 }
 export interface GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase0 {
   /** Development configuration for the default application. */
   development: GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase0Development;
   /** The name used to run the application, e.g. the `name` field in the `package.json`. This is used by the local proxy to map the application config to the locally running app. This is only necessary when the application name does not match the `name` used in `package.json`. See https://vercel.com/docs/microfrontends/configuration#application-naming. */
-  packageName?: string;
+  packageName?: string | undefined;
   projectId: string;
 }
 export type GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1DevelopmentLocal =
@@ -216,10 +218,12 @@ export type GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase
 /** Development configuration for the child application. */
 export interface GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1Development {
   /** Fallback for local development, could point to any environment. If not provided for child apps, the fallback of the default app will be used. If passing a string, include the protocol (optional), host (required) and port (optional). For example: `https://this.ismyhost:8080`. If omitted, the protocol defaults to HTTPS. If omitted, the port defaults to `80` for HTTP and `443` for HTTPS. See https://vercel.com/docs/microfrontends/local-development. */
-  fallback?: string;
-  local?: GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1DevelopmentLocal;
+  fallback?: string | undefined;
+  local?:
+    | GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1DevelopmentLocal
+    | undefined;
   /** The task to run when starting the development server. Should reference a script in the package.json of the application. The default value is "dev". See https://vercel.com/docs/microfrontends/local-development. */
-  task?: string;
+  task?: string | undefined;
 }
 /** A list of path expressions that are routed to this application. See https://vercel.com/docs/microfrontends/path-routing#supported-path-expressions. */
 export type GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1RoutingItemPathsList =
@@ -227,9 +231,9 @@ export type GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase
 /** Groups of path expressions that are routed to this application. See https://vercel.com/docs/microfrontends/path-routing. */
 export interface GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1RoutingItem {
   /** The name of the feature flag that controls routing for this group of paths. See https://vercel.com/docs/microfrontends/path-routing#routing-changes-safely-with-flags. */
-  flag?: string;
+  flag?: string | undefined;
   /** Group name for the paths. */
-  group?: string;
+  group?: string | undefined;
   /** A list of path expressions that are routed to this application. See https://vercel.com/docs/microfrontends/path-routing#supported-path-expressions. */
   paths: GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1RoutingItemPathsList;
 }
@@ -238,11 +242,13 @@ export type GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase
   Array<GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1RoutingItem>;
 export interface GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1 {
   /** The name of the asset prefix to use instead of the auto-generated name. The asset prefix is used to prefix all paths to static assets, such as JS, CSS, or images that are served by a specific application. It is necessary to ensure there are no conflicts with other applications on the same domain. An auto-generated asset prefix of the form `vc-ap-<hash>` is used when this field is not provided. When this field is provided, `/${assetPrefix}/:path*` must also be added to the list of paths in the `routing` field. Changing the asset prefix after a microfrontend application has already been deployed is not a forwards and backwards compatible change, and the asset prefix should be added to the `routing` field and deployed before setting the `assetPrefix` field. The default value is the auto-generated asset prefix of the form `vc-ap-<hash>`. See https://vercel.com/docs/microfrontends/path-routing#asset-prefix. */
-  assetPrefix?: string;
+  assetPrefix?: string | undefined;
   /** Development configuration for the child application. */
-  development?: GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1Development;
+  development?:
+    | GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1Development
+    | undefined;
   /** The name used to run the application, e.g. the `name` field in the `package.json`. This is used by the local proxy to map the application config to the locally running app. This is only necessary when the application name does not match the `name` used in `package.json`. See https://vercel.com/docs/microfrontends/configuration#application-naming. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Groups of path expressions that are routed to this application. See https://vercel.com/docs/microfrontends/path-routing. */
   routing: GetMicrofrontendsConfigForProjectResponseConfigApplicationsValueCase1RoutingList;
   projectId: string;
@@ -261,12 +267,12 @@ export type GetMicrofrontendsConfigForProjectResponseConfigVersion = "1";
 /** projectIds are added when the config is uploaded to s3 deployment assets. */
 export interface GetMicrofrontendsConfigForProjectResponseConfig {
   /** See https://openapi.vercel.sh/microfrontends.json. */
-  _schema?: string;
+  _schema?: string | undefined;
   applications: GetMicrofrontendsConfigForProjectResponseConfigApplicationsMap;
   /** Optional configuration options for the microfrontend. */
-  options?: GetMicrofrontendsConfigResponseConfigOptions;
+  options?: GetMicrofrontendsConfigResponseConfigOptions | undefined;
   /** The version of the microfrontends config schema. */
-  version?: GetMicrofrontendsConfigForProjectResponseConfigVersion;
+  version?: GetMicrofrontendsConfigForProjectResponseConfigVersion | undefined;
 }
 export interface GetMicrofrontendsConfigForProjectResponse {
   /** projectIds are added when the config is uploaded to s3 deployment assets. */
@@ -274,17 +280,17 @@ export interface GetMicrofrontendsConfigForProjectResponse {
 }
 export interface GetMicrofrontendsGroupsRequest {
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetMicrofrontendsGroupsResponse = unknown;
 export interface GetMicrofrontendsInGroupRequest {
   groupId: string;
   /** The Team identifier to perform the request on behalf of. */
-  teamId?: string;
+  teamId?: string | undefined;
   /** The Team slug to perform the request on behalf of. */
-  slug?: string;
+  slug?: string | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemAliasItemConfiguredBy =
   | "A"
@@ -314,8 +320,8 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeployment
   type: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentBranchMatcherType;
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentBuildsItem {
-  dest?: string;
-  src?: string;
+  dest?: string | undefined;
+  src?: string | undefined;
   use: string;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentBuildsList =
@@ -331,8 +337,8 @@ export type GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentCheck
   | "running";
 export interface GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentCreator {
   email: string;
-  githubLogin?: string;
-  gitlabLogin?: string;
+  githubLogin?: string | undefined;
+  gitlabLogin?: string | undefined;
   uid: string;
   username: string;
 }
@@ -343,14 +349,16 @@ export type GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentOidcT
   Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentOidcTokenClaims {
   aud: string;
-  custom_environment_id?: string;
-  deployment_id?: string;
+  custom_environment_id?: string | undefined;
+  deployment_id?: string | undefined;
   environment: string;
   iss: string;
-  mfe_group_ids?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentOidcTokenClaimsMfeGroupIdsList;
+  mfe_group_ids?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentOidcTokenClaimsMfeGroupIdsList
+    | undefined;
   owner: string;
   owner_id: string;
-  plan?: string;
+  plan?: string | undefined;
   project: string;
   project_id: string;
   scope: string;
@@ -374,44 +382,62 @@ export type GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentReady
   | "STAGED";
 export type GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentType = "LAMBDAS";
 export interface GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeployment {
-  alias?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAliasList;
-  aliasAssigned?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAliasAssigned | null;
-  aliasError?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAliasError | null;
-  aliasFinal?: string | null;
-  automaticAliases?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAutomaticAliasesList;
-  branchMatcher?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentBranchMatcher;
-  buildingAt?: number;
-  builds?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentBuildsList;
-  checksConclusion?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentChecksConclusion;
-  checksState?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentChecksState;
-  connectBuildsEnabled?: boolean;
-  connectConfigurationId?: string;
+  alias?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAliasList | undefined;
+  aliasAssigned?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAliasAssigned
+    | null
+    | undefined;
+  aliasError?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAliasError
+    | null
+    | undefined;
+  aliasFinal?: string | null | undefined;
+  automaticAliases?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAutomaticAliasesList
+    | undefined;
+  branchMatcher?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentBranchMatcher
+    | undefined;
+  buildingAt?: number | undefined;
+  builds?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentBuildsList | undefined;
+  checksConclusion?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentChecksConclusion
+    | undefined;
+  checksState?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentChecksState
+    | undefined;
+  connectBuildsEnabled?: boolean | undefined;
+  connectConfigurationId?: string | undefined;
   createdAt: number;
   createdIn: string;
   creator: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentCreator | null;
-  deletedAt?: number;
+  deletedAt?: number | undefined;
   deploymentHostname: string;
-  forced?: boolean;
+  forced?: boolean | undefined;
   id: string;
-  meta?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentMetaMap;
-  monorepoManager?: string | null;
+  meta?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentMetaMap | undefined;
+  monorepoManager?: string | null | undefined;
   name: string;
-  oidcTokenClaims?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentOidcTokenClaims;
+  oidcTokenClaims?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentOidcTokenClaims
+    | undefined;
   plan: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentPlan;
   /** Whether or not preview comments are enabled for the deployment */
-  previewCommentsEnabled?: boolean;
+  previewCommentsEnabled?: boolean | undefined;
   private: boolean;
-  readyAt?: number;
+  readyAt?: number | undefined;
   readyState: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentReadyState;
-  readySubstate?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentReadySubstate;
-  requestedAt?: number;
-  target?: string | null;
-  teamId?: string | null;
+  readySubstate?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentReadySubstate
+    | undefined;
+  requestedAt?: number | undefined;
+  target?: string | null | undefined;
+  teamId?: string | null | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentType;
   url: string;
   /** Present for user creators; omitted for app/integration/system creators. */
-  userId?: string;
-  withCache?: boolean;
+  userId?: string | undefined;
+  withCache?: boolean | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemAliasItemEnvironment =
   | "preview"
@@ -426,36 +452,42 @@ export type GetMicrofrontendsInGroupResponseProjectsItemAliasItemTarget =
   | "PRODUCTION"
   | "STAGING";
 export interface GetMicrofrontendsInGroupResponseProjectsItemAliasItem {
-  configuredBy?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemConfiguredBy | null;
-  configuredChangedAt?: number | null;
-  createdAt?: number | null;
+  configuredBy?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemConfiguredBy
+    | null
+    | undefined;
+  configuredChangedAt?: number | null | undefined;
+  createdAt?: number | null | undefined;
   deployment: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeployment | null;
   domain: string;
   environment: GetMicrofrontendsInGroupResponseProjectsItemAliasItemEnvironment;
-  gitBranch?: string | null;
-  redirect?: string | null;
-  redirectStatusCode?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemRedirectStatusCode | null;
+  gitBranch?: string | null | undefined;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemRedirectStatusCode
+    | null
+    | undefined;
   target: GetMicrofrontendsInGroupResponseProjectsItemAliasItemTarget;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemAliasList =
   Array<GetMicrofrontendsInGroupResponseProjectsItemAliasItem>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemAnalytics {
-  canceledAt?: number | null;
+  canceledAt?: number | null | undefined;
   disabledAt: number;
   enabledAt: number;
   id: string;
-  paidAt?: number;
-  sampleRatePercent?: number | null;
-  spendLimitInDollars?: number | null;
+  paidAt?: number | undefined;
+  sampleRatePercent?: number | null | undefined;
+  spendLimitInDollars?: number | null | undefined;
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItemBlobs {
   /** Marks the team-level, Vercel-managed default blob project (`vercel-blob-default-project`) that orphan blob stores are scoped to when connected without an explicit project. Set only by internal storage flows and immutable after creation -- guards rely on it to protect the connected stores from being lost when the project is deleted or transferred. */
-  isDefaultApp?: boolean;
+  isDefaultApp?: boolean | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsItemAwsSubnetIdsList =
   Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsItemAws {
-  securityGroupId?: string;
+  securityGroupId?: string | undefined;
   subnetIds: GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsItemAwsSubnetIdsList;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsItemEnvIdCase1 =
@@ -465,11 +497,11 @@ export type GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsIte
   | string
   | GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsItemEnvIdCase1;
 export interface GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsItem {
-  aws?: GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsItemAws;
+  aws?: GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsItemAws | undefined;
   buildsEnabled: boolean;
   connectConfigurationId: string;
   createdAt: number;
-  dc?: string;
+  dc?: string | undefined;
   envId: GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsItemEnvId;
   passive: boolean;
   updatedAt: number;
@@ -479,7 +511,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsLis
 export type GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0Type = "user";
 export interface GetMicrofrontendsInGroupResponseProjectsItemCreatorCase0ViaCase0App {
   /** The protocol-facing OAuth client ID. This may differ from {@link id} when Client ID Metadata Documents (CIMD) are used. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** The internal ID of the Vercel App backing this principal. */
   id: string;
 }
@@ -537,17 +569,17 @@ export type GetMicrofrontendsInGroupResponseProjectsItemCreator =
 export type GetMicrofrontendsInGroupResponseProjectsItemCronsDefinitionsItemSource = "api";
 export interface GetMicrofrontendsInGroupResponseProjectsItemCronsDefinitionsItem {
   /** A human-readable description of what this cron job does. */
-  description?: string;
+  description?: string | undefined;
   /** The hostname that should be used. */
   host: string;
   /** Whether the host was inferred from the production deployment URL rather than explicitly provided. */
-  hostInferred?: boolean;
+  hostInferred?: boolean | undefined;
   /** The path that should be called for the cronjob. */
   path: string;
   /** The cron expression. */
   schedule: string;
   /** The origin of this definition. 'api' means created via the API. Undefined means it originated from a deployment (vercel.json). */
-  source?: GetMicrofrontendsInGroupResponseProjectsItemCronsDefinitionsItemSource;
+  source?: GetMicrofrontendsInGroupResponseProjectsItemCronsDefinitionsItemSource | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemCronsDefinitionsList =
   Array<GetMicrofrontendsInGroupResponseProjectsItemCronsDefinitionsItem>;
@@ -594,16 +626,21 @@ export type GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemDo
 /** List of domains associated with this environment */
 export interface GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemDomainsItem {
   apexName: string;
-  createdAt?: number;
-  customEnvironmentId?: string | null;
-  gitBranch?: string | null;
+  createdAt?: number | undefined;
+  customEnvironmentId?: string | null | undefined;
+  gitBranch?: string | null | undefined;
   name: string;
   projectId: string;
-  redirect?: string | null;
-  redirectStatusCode?: GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemDomainsItemRedirectStatusCode | null;
-  updatedAt?: number;
+  redirect?: string | null | undefined;
+  redirectStatusCode?:
+    | GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemDomainsItemRedirectStatusCode
+    | null
+    | undefined;
+  updatedAt?: number | undefined;
   /** A list of verification challenges, one of which must be completed to verify the domain for use on the project. After the challenge is complete `POST /projects/:idOrName/domains/:domain/verify` to verify the domain. Possible challenges: - If `verification.type = TXT` the `verification.domain` will be checked for a TXT record matching `verification.value`. */
-  verification?: GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemDomainsItemVerificationList;
+  verification?:
+    | GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemDomainsItemVerificationList
+    | undefined;
   /** `true` if the domain is verified for use with the project. If `false` it will not be used as an alias on this project until the challenge in `verification` is completed. */
   verified: boolean;
 }
@@ -618,15 +655,21 @@ export type GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemTy
 /** Internal representation of a custom environment with all required properties */
 export interface GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItem {
   /** Configuration for matching git branches to this environment */
-  branchMatcher?: GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemBranchMatcher;
+  branchMatcher?:
+    | GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemBranchMatcher
+    | undefined;
   /** Timestamp when the environment was created */
   createdAt: number;
   /** List of aliases for the current deployment */
-  currentDeploymentAliases?: GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemCurrentDeploymentAliasesList;
+  currentDeploymentAliases?:
+    | GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemCurrentDeploymentAliasesList
+    | undefined;
   /** Optional description of the environment's purpose */
-  description?: string;
+  description?: string | undefined;
   /** List of domains associated with this environment */
-  domains?: GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemDomainsList;
+  domains?:
+    | GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItemDomainsList
+    | undefined;
   /** Unique identifier for the custom environment (format: env_*) */
   id: string;
   /** URL-friendly name of the environment */
@@ -639,8 +682,8 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsI
 export type GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsList =
   Array<GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsItem>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemDataCache {
-  storageSizeBytes?: number | null;
-  unlimited?: boolean;
+  storageSizeBytes?: number | null | undefined;
+  unlimited?: boolean | undefined;
   userDisabled: boolean;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildMachineElasticReason =
@@ -674,7 +717,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBui
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildQueue {
-  configuration?: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildQueueConfiguration;
+  configuration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildQueueConfiguration
+    | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigFunctionDefaultMemoryType =
   | "performance"
@@ -684,33 +729,45 @@ export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigFun
 export type GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigFunctionDefaultRegionsList =
   Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfig {
-  buildMachineElasticLastUpdated?: number;
-  buildMachineElasticReason?: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildMachineElasticReason;
-  buildMachineElasticTransition?: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildMachineElasticTransition;
-  buildMachineSelection?: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildMachineSelection;
-  buildMachineType?: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildMachineType;
-  buildQueue?: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildQueue;
-  elasticConcurrencyEnabled?: boolean;
-  enableFunctionsBeta?: boolean;
-  fluid?: boolean;
-  functionDefaultMemoryType?: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigFunctionDefaultMemoryType;
+  buildMachineElasticLastUpdated?: number | undefined;
+  buildMachineElasticReason?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildMachineElasticReason
+    | undefined;
+  buildMachineElasticTransition?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildMachineElasticTransition
+    | undefined;
+  buildMachineSelection?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildMachineSelection
+    | undefined;
+  buildMachineType?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildMachineType
+    | undefined;
+  buildQueue?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigBuildQueue
+    | undefined;
+  elasticConcurrencyEnabled?: boolean | undefined;
+  enableFunctionsBeta?: boolean | undefined;
+  fluid?: boolean | undefined;
+  functionDefaultMemoryType?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigFunctionDefaultMemoryType
+    | undefined;
   functionDefaultRegions: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfigFunctionDefaultRegionsList;
-  functionDefaultTimeout?: number;
-  functionZeroConfigFailover?: boolean;
-  isNSNBDisabled?: boolean;
+  functionDefaultTimeout?: number | undefined;
+  functionZeroConfigFailover?: boolean | undefined;
+  isNSNBDisabled?: boolean | undefined;
 }
 /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemDeploymentExpiration {
   /** Minimum number of production deployments to keep for this project, even if they are over the production expiration limit. */
-  deploymentsToKeep?: number;
+  deploymentsToKeep?: number | undefined;
   /** Number of days to keep non-production deployments (mostly preview deployments) before soft deletion. */
-  expirationDays?: number;
+  expirationDays?: number | undefined;
   /** Number of days to keep canceled deployments before soft deletion. */
-  expirationDaysCanceled?: number;
+  expirationDaysCanceled?: number | undefined;
   /** Number of days to keep errored deployments before soft deletion. */
-  expirationDaysErrored?: number;
+  expirationDaysErrored?: number | undefined;
   /** Number of days to keep production deployments before soft deletion. */
-  expirationDaysProduction?: number;
+  expirationDaysProduction?: number | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyDeploymentSourcesItemEnvironmentsItemCase0Target =
   | "preview"
@@ -777,14 +834,14 @@ export type GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourc
 export interface GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourcesItemSourcesItemCase0 {
   org: string;
   provider: GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourcesItemSourcesItemCase0Provider;
-  repo?: string;
+  repo?: string | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourcesItemSourcesItemCase1Provider =
   "gitlab";
 /** Allowlist entry for GitLab, which uses nested groups rather than a flat org/repo. `namespace` is the full group path (e.g. `group` or `group/subgroup`); `project` is the leaf project name. Omit `project` to match any project under the namespace. Namespace is matched case-insensitively. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourcesItemSourcesItemCase1 {
   namespace: string;
-  project?: string;
+  project?: string | undefined;
   provider: GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourcesItemSourcesItemCase1Provider;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourcesItemSourcesItem =
@@ -802,8 +859,14 @@ export type GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourc
   Array<GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourcesItem>;
 /** Project shape. `null` on a rule list clears the project's override for that rule type (fall back to team for every env); omitting is equivalent. Setting `deploymentPolicy` itself to `null` clears every override at once. Kept structurally distinct from {@link TeamDeploymentPolicy} so the two storage locations don't share a type by accident. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicy {
-  deploymentSources?: GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyDeploymentSourcesList | null;
-  gitSources?: GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourcesList | null;
+  deploymentSources?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyDeploymentSourcesList
+    | null
+    | undefined;
+  gitSources?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicyGitSourcesList
+    | null
+    | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemDismissedToastsItemAction =
   | "accept"
@@ -992,32 +1055,37 @@ export type GetMicrofrontendsInGroupResponseProjectsItemEnvItemType =
 /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
 export type GetMicrofrontendsInGroupResponseProjectsItemEnvItemVisibility = "config" | "secret";
 export interface GetMicrofrontendsInGroupResponseProjectsItemEnvItem {
-  comment?: string;
-  configurationId?: string | null;
-  contentHint?: GetMicrofrontendsInGroupResponseProjectsItemEnvItemContentHint | null;
-  createdAt?: number;
-  createdBy?: string | null;
-  customEnvironmentIds?: GetMicrofrontendsInGroupResponseProjectsItemEnvItemCustomEnvironmentIdsList;
-  decrypted?: boolean;
-  edgeConfigId?: string | null;
-  edgeConfigTokenId?: string | null;
-  gitBranch?: string;
-  id?: string;
+  comment?: string | undefined;
+  configurationId?: string | null | undefined;
+  contentHint?: GetMicrofrontendsInGroupResponseProjectsItemEnvItemContentHint | null | undefined;
+  createdAt?: number | undefined;
+  createdBy?: string | null | undefined;
+  customEnvironmentIds?:
+    | GetMicrofrontendsInGroupResponseProjectsItemEnvItemCustomEnvironmentIdsList
+    | undefined;
+  decrypted?: boolean | undefined;
+  edgeConfigId?: string | null | undefined;
+  edgeConfigTokenId?: string | null | undefined;
+  gitBranch?: string | undefined;
+  id?: string | undefined;
   /** Similar to `contentHints`, but should not be exposed to the user. */
-  internalContentHint?: GetMicrofrontendsInGroupResponseProjectsItemEnvItemInternalContentHint | null;
+  internalContentHint?:
+    | GetMicrofrontendsInGroupResponseProjectsItemEnvItemInternalContentHint
+    | null
+    | undefined;
   key: string;
   /** Legacy now-encryption ciphertext, present after migration swaps value/vsmValue */
-  legacyValue?: string;
+  legacyValue?: string | undefined;
   /** This is used to identify variables that have been migrated from type secret to sensitive. */
-  sunsetSecretId?: string;
-  target?: GetMicrofrontendsInGroupResponseProjectsItemEnvItemTarget;
+  sunsetSecretId?: string | undefined;
+  target?: GetMicrofrontendsInGroupResponseProjectsItemEnvItemTarget | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemEnvItemType;
-  updatedAt?: number;
-  updatedBy?: string | null;
+  updatedAt?: number | undefined;
+  updatedBy?: string | null | undefined;
   value: string;
   /** User-facing config/secret model. When set, authoritative for new code paths. Legacy rows omit this field and callers fall back to existing `type` behavior. */
-  visibility?: GetMicrofrontendsInGroupResponseProjectsItemEnvItemVisibility;
-  vsmValue?: string;
+  visibility?: GetMicrofrontendsInGroupResponseProjectsItemEnvItemVisibility | undefined;
+  vsmValue?: string | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemEnvList =
   Array<GetMicrofrontendsInGroupResponseProjectsItemEnvItem>;
@@ -1035,7 +1103,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemExpiration =
   | GetMicrofrontendsInGroupResponseProjectsItemExpirationCase0
   | GetMicrofrontendsInGroupResponseProjectsItemExpirationCase1;
 export interface GetMicrofrontendsInGroupResponseProjectsItemFeatures {
-  webAnalytics?: boolean;
+  webAnalytics?: boolean | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemFramework =
   | "actix-web"
@@ -1131,18 +1199,20 @@ export type GetMicrofrontendsInGroupResponseProjectsItemGitProviderOptionsCreate
   | "enabled";
 export interface GetMicrofrontendsInGroupResponseProjectsItemGitProviderOptions {
   /** Configuration for consolidated git commit status reporting. When enabled, Vercel will post a single consolidated commit status instead of individual statuses for each deployment. */
-  consolidatedGitCommitStatus?: GetMicrofrontendsInGroupResponseProjectsItemGitProviderOptionsConsolidatedGitCommitStatus;
+  consolidatedGitCommitStatus?:
+    | GetMicrofrontendsInGroupResponseProjectsItemGitProviderOptionsConsolidatedGitCommitStatus
+    | undefined;
   /** Whether the Vercel bot should automatically create GitHub deployments https://docs.github.com/en/rest/deployments/deployments#about-deployments NOTE: repository-dispatch events should be used instead */
   createDeployments: GetMicrofrontendsInGroupResponseProjectsItemGitProviderOptionsCreateDeployments;
   /** Whether the Vercel bot should not automatically create GitHub repository-dispatch events on deployment events. https://vercel.com/docs/git/vercel-for-github#repository-dispatch-events - `true`: disable repository-dispatch events for this project (explicit override of the team setting). - `false`: enable repository-dispatch events for this project (explicit override of the team setting). - absent: inherit from `team.disableRepositoryDispatchEvents`. */
-  disableRepositoryDispatchEvents?: boolean;
+  disableRepositoryDispatchEvents?: boolean | undefined;
   /** Whether Vercel should post commit statuses for this project. When omitted, commit statuses remain enabled. */
-  gitCommitStatus?: boolean;
+  gitCommitStatus?: boolean | undefined;
   /** Whether the project requires commits to be signed & verified before deployments will be created. - `true`: require verified commits for this project (explicit override of the team setting). - `false`: do not require verified commits (explicit override of the team setting). - absent: inherit from `team.requireVerifiedCommits`. */
-  requireVerifiedCommits?: boolean;
+  requireVerifiedCommits?: boolean | undefined;
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesItemCase0 {
-  expiry?: number;
+  expiry?: number | undefined;
   src: string;
   status: number;
 }
@@ -1179,7 +1249,7 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesItemC
 export interface GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesItemCase1 {
   has: GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesItemCase1HasList;
   mitigate: GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesItemCase1Mitigate;
-  src?: string;
+  src?: string | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesItem =
   | GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesItemCase0
@@ -1188,8 +1258,8 @@ export type GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesList =
   Array<GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesItem>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemIpBucketsItem {
   bucket: string;
-  default?: boolean;
-  supportUntil?: number;
+  default?: boolean | undefined;
+  supportUntil?: number | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemIpBucketsList =
   Array<GetMicrofrontendsInGroupResponseProjectsItemIpBucketsItem>;
@@ -1212,10 +1282,12 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemJobsTypecheck {
   targets: GetMicrofrontendsInGroupResponseProjectsItemJobsTypecheckTargetsList;
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItemJobs {
-  flag_definitions_present?: GetMicrofrontendsInGroupResponseProjectsItemJobsFlagDefinitionsPresent;
-  lint?: GetMicrofrontendsInGroupResponseProjectsItemJobsLint;
-  mfe_config_present?: GetMicrofrontendsInGroupResponseProjectsItemJobsMfeConfigPresent;
-  typecheck?: GetMicrofrontendsInGroupResponseProjectsItemJobsTypecheck;
+  flag_definitions_present?:
+    | GetMicrofrontendsInGroupResponseProjectsItemJobsFlagDefinitionsPresent
+    | undefined;
+  lint?: GetMicrofrontendsInGroupResponseProjectsItemJobsLint | undefined;
+  mfe_config_present?: GetMicrofrontendsInGroupResponseProjectsItemJobsMfeConfigPresent | undefined;
+  typecheck?: GetMicrofrontendsInGroupResponseProjectsItemJobsTypecheck | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemLastAliasRequestJobStatus =
   | "failed"
@@ -1229,7 +1301,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLastAliasRequestType =
 export interface GetMicrofrontendsInGroupResponseProjectsItemLastAliasRequest {
   fromDeploymentId: string | null;
   /** If rolling back from a rolling release, fromDeploymentId captures the "base" of that rolling release, and fromRollingReleaseId captures the "target" of that rolling release. */
-  fromRollingReleaseId?: string;
+  fromRollingReleaseId?: string | undefined;
   jobStatus: GetMicrofrontendsInGroupResponseProjectsItemLastAliasRequestJobStatus;
   requestedAt: number;
   toDeploymentId: string;
@@ -1277,14 +1349,16 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemOid
   Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemOidcTokenClaims {
   aud: string;
-  custom_environment_id?: string;
-  deployment_id?: string;
+  custom_environment_id?: string | undefined;
+  deployment_id?: string | undefined;
   environment: string;
   iss: string;
-  mfe_group_ids?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemOidcTokenClaimsMfeGroupIdsList;
+  mfe_group_ids?:
+    | GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemOidcTokenClaimsMfeGroupIdsList
+    | undefined;
   owner: string;
   owner_id: string;
-  plan?: string;
+  plan?: string | undefined;
   project: string;
   project_id: string;
   scope: string;
@@ -1308,49 +1382,67 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemRea
   | "STAGED";
 export type GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemType = "LAMBDAS";
 export interface GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItem {
-  alias?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemAliasList;
-  aliasAssigned?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemAliasAssigned | null;
-  aliasError?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAliasError | null;
-  aliasFinal?: string | null;
-  automaticAliases?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemAutomaticAliasesList;
-  branchMatcher?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemBranchMatcher;
-  buildingAt?: number;
-  builds?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemBuildsList;
-  checksConclusion?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemChecksConclusion;
-  checksState?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemChecksState;
-  connectBuildsEnabled?: boolean;
-  connectConfigurationId?: string;
+  alias?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemAliasList | undefined;
+  aliasAssigned?:
+    | GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemAliasAssigned
+    | null
+    | undefined;
+  aliasError?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAliasError
+    | null
+    | undefined;
+  aliasFinal?: string | null | undefined;
+  automaticAliases?:
+    | GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemAutomaticAliasesList
+    | undefined;
+  branchMatcher?:
+    | GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemBranchMatcher
+    | undefined;
+  buildingAt?: number | undefined;
+  builds?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemBuildsList | undefined;
+  checksConclusion?:
+    | GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemChecksConclusion
+    | undefined;
+  checksState?:
+    | GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemChecksState
+    | undefined;
+  connectBuildsEnabled?: boolean | undefined;
+  connectConfigurationId?: string | undefined;
   createdAt: number;
   createdIn: string;
   creator: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentCreator | null;
-  deletedAt?: number;
+  deletedAt?: number | undefined;
   deploymentHostname: string;
-  forced?: boolean;
+  forced?: boolean | undefined;
   id: string;
-  meta?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemMetaMap;
-  monorepoManager?: string | null;
+  meta?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemMetaMap | undefined;
+  monorepoManager?: string | null | undefined;
   name: string;
-  oidcTokenClaims?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemOidcTokenClaims;
+  oidcTokenClaims?:
+    | GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemOidcTokenClaims
+    | undefined;
   plan: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemPlan;
   /** Whether or not preview comments are enabled for the deployment */
-  previewCommentsEnabled?: boolean;
+  previewCommentsEnabled?: boolean | undefined;
   private: boolean;
-  readyAt?: number;
+  readyAt?: number | undefined;
   readyState: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemReadyState;
-  readySubstate?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemReadySubstate;
-  requestedAt?: number;
-  target?: string | null;
-  teamId?: string | null;
+  readySubstate?:
+    | GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemReadySubstate
+    | undefined;
+  requestedAt?: number | undefined;
+  target?: string | null | undefined;
+  teamId?: string | null | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItemType;
   url: string;
   /** Present for user creators; omitted for app/integration/system creators. */
-  userId?: string;
-  withCache?: boolean;
+  userId?: string | undefined;
+  withCache?: boolean | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsList =
   Array<GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsItem>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem {
-  createdAt?: number;
+  createdAt?: number | undefined;
   id: string;
   name: string;
   ref: string;
@@ -1360,18 +1452,18 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksList
   Array<GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem>;
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase0Type = "github";
 export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase0 {
-  createdAt?: number;
+  createdAt?: number | undefined;
   deployHooks: GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksList;
   gitCredentialId: string;
   org: string;
   productionBranch: string;
-  repo?: string;
-  repoId?: number;
+  repo?: string | undefined;
+  repoId?: number | undefined;
   /** A new field, should be included in all new project links, is being added just in time when a deployment is created. This is needed for Protected Git scopes. */
-  repoOwnerId?: number;
-  sourceless?: boolean;
+  repoOwnerId?: number | undefined;
+  sourceless?: boolean | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemLinkCase0Type;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase1DeployHooksItem =
   GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem;
@@ -1379,18 +1471,18 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase1DeployHooksList
   Array<GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem>;
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase1Type = "github-limited";
 export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase1 {
-  createdAt?: number;
+  createdAt?: number | undefined;
   deployHooks: GetMicrofrontendsInGroupResponseProjectsItemLinkCase1DeployHooksList;
   gitCredentialId: string;
   org: string;
   productionBranch: string;
-  repo?: string;
-  repoId?: number;
+  repo?: string | undefined;
+  repoId?: number | undefined;
   /** A new field, should be included in all new project links, is being added just in time when a deployment is created. This is needed for Protected Git scopes. */
-  repoOwnerId?: number;
-  sourceless?: boolean;
+  repoOwnerId?: number | undefined;
+  sourceless?: boolean | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemLinkCase1Type;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase2DeployHooksItem =
   GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem;
@@ -1398,19 +1490,19 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase2DeployHooksList
   Array<GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem>;
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase2Type = "github-custom-host";
 export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase2 {
-  createdAt?: number;
+  createdAt?: number | undefined;
   deployHooks: GetMicrofrontendsInGroupResponseProjectsItemLinkCase2DeployHooksList;
   gitCredentialId: string;
   host: string;
   org: string;
   productionBranch: string;
-  repo?: string;
-  repoId?: number;
+  repo?: string | undefined;
+  repoId?: number | undefined;
   /** A new field, should be included in all new project links, is being added just in time when a deployment is created. This is needed for Protected Git scopes. */
-  repoOwnerId?: number;
-  sourceless?: boolean;
+  repoOwnerId?: number | undefined;
+  sourceless?: boolean | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemLinkCase2Type;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase3DeployHooksItem =
   GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem;
@@ -1418,7 +1510,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase3DeployHooksList
   Array<GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem>;
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase3Type = "gitlab";
 export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase3 {
-  createdAt?: number;
+  createdAt?: number | undefined;
   deployHooks: GetMicrofrontendsInGroupResponseProjectsItemLinkCase3DeployHooksList;
   gitCredentialId: string;
   productionBranch: string;
@@ -1427,11 +1519,11 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase3 {
   projectNamespace: string;
   projectNameWithNamespace: string;
   /** A new field, should be included in all new project links, is being added just in time when a deployment is created. This is needed for Protected Git scopes. This is the id of the top level group that a namespace belongs to. Gitlab supports group nesting (up to 20 levels). */
-  projectOwnerId?: number;
+  projectOwnerId?: number | undefined;
   projectUrl: string;
-  sourceless?: boolean;
+  sourceless?: boolean | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemLinkCase3Type;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase4DeployHooksItem =
   GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem;
@@ -1439,16 +1531,16 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase4DeployHooksList
   Array<GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem>;
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase4Type = "bitbucket";
 export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase4 {
-  createdAt?: number;
+  createdAt?: number | undefined;
   deployHooks: GetMicrofrontendsInGroupResponseProjectsItemLinkCase4DeployHooksList;
   gitCredentialId: string;
   name: string;
   owner: string;
   productionBranch: string;
   slug: string;
-  sourceless?: boolean;
+  sourceless?: boolean | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemLinkCase4Type;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
   uuid: string;
   workspaceUuid: string;
 }
@@ -1458,16 +1550,16 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase5DeployHooksList
   Array<GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem>;
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase5Type = "vercel";
 export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase5 {
-  createdAt?: number;
+  createdAt?: number | undefined;
   deployHooks: GetMicrofrontendsInGroupResponseProjectsItemLinkCase5DeployHooksList;
   gitCredentialId: string;
   org: string;
   productionBranch: string;
   repo: string;
   repoId: string;
-  sourceless?: boolean;
+  sourceless?: boolean | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemLinkCase5Type;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase6DeployHooksItem =
   GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem;
@@ -1475,16 +1567,16 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase6DeployHooksList
   Array<GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem>;
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase6Type = "v0";
 export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase6 {
-  createdAt?: number;
+  createdAt?: number | undefined;
   deployHooks: GetMicrofrontendsInGroupResponseProjectsItemLinkCase6DeployHooksList;
   gitCredentialId: string;
   org: string;
   productionBranch: string;
   repo: string;
   repoId: string;
-  sourceless?: boolean;
+  sourceless?: boolean | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemLinkCase6Type;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase7DeployHooksItem =
   GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem;
@@ -1492,7 +1584,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase7DeployHooksList
   Array<GetMicrofrontendsInGroupResponseProjectsItemLinkCase0DeployHooksItem>;
 export type GetMicrofrontendsInGroupResponseProjectsItemLinkCase7Type = "cursor-origin";
 export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase7 {
-  createdAt?: number;
+  createdAt?: number | undefined;
   deployHooks: GetMicrofrontendsInGroupResponseProjectsItemLinkCase7DeployHooksList;
   gitCredentialId: string;
   /** Owner (namespace) slug, e.g. `acme`. */
@@ -1503,9 +1595,9 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemLinkCase7 {
   repo: string;
   /** Origin repository id. */
   repoId: string;
-  sourceless?: boolean;
+  sourceless?: boolean | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemLinkCase7Type;
-  updatedAt?: number;
+  updatedAt?: number | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemLink =
   | GetMicrofrontendsInGroupResponseProjectsItemLinkCase0
@@ -1521,11 +1613,11 @@ export type GetMicrofrontendsInGroupResponseProjectsItemMicrofrontendsCase0Group
   Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemMicrofrontendsCase0 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** Whether microfrontends are enabled for this project. */
   enabled: boolean;
   /** Whether the project was part of the legacy limits for hobby and pro-trial before billing was added. This field is only set when the team is upgraded to a paid plan and we are backfilling the subscription status. We cap the subscription to 2 projects and set this field for the 3rd project. When this field is set, the project is not charged for and we do not call any billing APIs for this project. */
-  freeProjectForLegacyLimits?: boolean;
+  freeProjectForLegacyLimits?: boolean | undefined;
   /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
   groupIds: GetMicrofrontendsInGroupResponseProjectsItemMicrofrontendsCase0GroupIdsList;
   isDefaultApp: boolean;
@@ -1537,18 +1629,18 @@ export type GetMicrofrontendsInGroupResponseProjectsItemMicrofrontendsCase1Group
   Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemMicrofrontendsCase1 {
   /** A path that is used to take screenshots and as the default path in preview links when a domain for this microfrontend is shown in the UI. Includes the leading slash, e.g. `/docs` */
-  defaultRoute?: string;
+  defaultRoute?: string | undefined;
   /** Whether to add microfrontends routing to aliases. This means domains in this project will route as a microfrontend. */
-  doNotRouteWithMicrofrontendsRouting?: boolean;
+  doNotRouteWithMicrofrontendsRouting?: boolean | undefined;
   /** Whether microfrontends are enabled for this project. */
   enabled: boolean;
   /** Whether the project was part of the legacy limits for hobby and pro-trial before billing was added. This field is only set when the team is upgraded to a paid plan and we are backfilling the subscription status. We cap the subscription to 2 projects and set this field for the 3rd project. When this field is set, the project is not charged for and we do not call any billing APIs for this project. */
-  freeProjectForLegacyLimits?: boolean;
+  freeProjectForLegacyLimits?: boolean | undefined;
   /** The group IDs of microfrontends that this project belongs to. Each microfrontend project must belong to a microfrontends group that is the set of microfrontends that are used together. */
   groupIds: GetMicrofrontendsInGroupResponseProjectsItemMicrofrontendsCase1GroupIdsList;
-  isDefaultApp?: boolean;
+  isDefaultApp?: boolean | undefined;
   /** Whether observability data should be routed to this microfrontend project or a root project. */
-  routeObservabilityToThisProject?: boolean;
+  routeObservabilityToThisProject?: boolean | undefined;
   /** Timestamp when the microfrontends settings were last updated. */
   updatedAt: number;
 }
@@ -1556,7 +1648,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemMicrofrontendsCase2Group
   Array<unknown>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemMicrofrontendsCase2 {
   enabled: boolean;
-  freeProjectForLegacyLimits?: boolean;
+  freeProjectForLegacyLimits?: boolean | undefined;
   groupIds: GetMicrofrontendsInGroupResponseProjectsItemMicrofrontendsCase2GroupIdsList;
   updatedAt: number;
 }
@@ -1580,9 +1672,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemOidcTokenConfigIssuerMod
   | "team";
 export interface GetMicrofrontendsInGroupResponseProjectsItemOidcTokenConfig {
   /** Whether or not to generate OpenID Connect JSON Web Tokens. */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** - team: `https://oidc.vercel.com/[team_slug]` - global: `https://oidc.vercel.com` */
-  issuerMode?: GetMicrofrontendsInGroupResponseProjectsItemOidcTokenConfigIssuerMode;
+  issuerMode?: GetMicrofrontendsInGroupResponseProjectsItemOidcTokenConfigIssuerMode | undefined;
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItemOptionsAllowlistPathsItem {
   value: string;
@@ -2434,583 +2526,1029 @@ export type GetMicrofrontendsInGroupResponseProjectsItemPermissionsWorkflowRunDa
 /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemPermissions {
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  accessGroup?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAccessGroupList;
+  accessGroup?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAccessGroupList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  agent?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAgentList;
+  agent?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAgentList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayApiKey?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiKeyList;
+  aiGatewayApiKey?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiKeyList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayApiKeyBypassAll?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiKeyBypassAllList;
+  aiGatewayApiKeyBypassAll?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiKeyBypassAllList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayApiKeyOwnedBySelf?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiKeyOwnedBySelfList;
+  aiGatewayApiKeyOwnedBySelf?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiKeyOwnedBySelfList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayApiKeySpendAttribution?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiKeySpendAttributionList;
+  aiGatewayApiKeySpendAttribution?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiKeySpendAttributionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayApiKeyZdrExemption?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiKeyZdrExemptionList;
+  aiGatewayApiKeyZdrExemption?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayApiKeyZdrExemptionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayBudget?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayBudgetList;
+  aiGatewayBudget?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayBudgetList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayCredits?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayCreditsList;
+  aiGatewayCredits?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayCreditsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayGuardrails?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayGuardrailsList;
+  aiGatewayGuardrails?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayGuardrailsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayPrivateModels?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayPrivateModelsList;
+  aiGatewayPrivateModels?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayPrivateModelsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayRules?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayRulesList;
+  aiGatewayRules?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayRulesList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewaySettings?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewaySettingsList;
+  aiGatewaySettings?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewaySettingsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayTranscripts?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayTranscriptsList;
+  aiGatewayTranscripts?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayTranscriptsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayTranscriptsSettings?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayTranscriptsSettingsList;
+  aiGatewayTranscriptsSettings?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayTranscriptsSettingsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayUsage?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayUsageList;
+  aiGatewayUsage?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayUsageList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aiGatewayVirtualModelConfigs?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayVirtualModelConfigsList;
+  aiGatewayVirtualModelConfigs?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAiGatewayVirtualModelConfigsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  alertRules?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAlertRulesList;
+  alertRules?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAlertRulesList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  alerts?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAlertsList;
+  alerts?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAlertsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aliasGlobal?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAliasGlobalList;
+  aliasGlobal?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAliasGlobalList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aliasProject?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAliasProjectList;
+  aliasProject?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAliasProjectList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  aliasProtectionBypass?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAliasProtectionBypassList;
+  aliasProtectionBypass?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAliasProtectionBypassList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  analytics?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAnalyticsList;
+  analytics?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAnalyticsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  analyticsSampling?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAnalyticsSamplingList;
+  analyticsSampling?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAnalyticsSamplingList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  analyticsUsage?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAnalyticsUsageList;
+  analyticsUsage?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsAnalyticsUsageList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  apiKey?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsApiKeyList;
+  apiKey?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsApiKeyList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  apiKeyAiGateway?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsApiKeyAiGatewayList;
+  apiKeyAiGateway?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsApiKeyAiGatewayList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  apiKeyOwnedBySelf?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsApiKeyOwnedBySelfList;
+  apiKeyOwnedBySelf?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsApiKeyOwnedBySelfList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  auditLog?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAuditLogList;
+  auditLog?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAuditLogList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  automation?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAutomationList;
+  automation?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsAutomationList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  billingAddress?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingAddressList;
+  billingAddress?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingAddressList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  billingInformation?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingInformationList;
+  billingInformation?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingInformationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  billingInvoice?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingInvoiceList;
+  billingInvoice?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingInvoiceList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  billingInvoiceEmailRecipient?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingInvoiceEmailRecipientList;
+  billingInvoiceEmailRecipient?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingInvoiceEmailRecipientList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  billingInvoiceLanguage?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingInvoiceLanguageList;
+  billingInvoiceLanguage?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingInvoiceLanguageList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  billingPlan?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingPlanList;
+  billingPlan?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingPlanList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  billingPurchaseOrder?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingPurchaseOrderList;
+  billingPurchaseOrder?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingPurchaseOrderList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  billingRefund?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingRefundList;
+  billingRefund?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingRefundList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  billingTaxId?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingTaxIdList;
+  billingTaxId?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBillingTaxIdList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  blob?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBlobList;
+  blob?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBlobList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  blobStoreTokenSet?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBlobStoreTokenSetList;
+  blobStoreTokenSet?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBlobStoreTokenSetList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  budget?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBudgetList;
+  budget?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBudgetList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  buildMachine?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBuildMachineList;
+  buildMachine?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBuildMachineList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  buildMachineDefault?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBuildMachineDefaultList;
+  buildMachineDefault?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBuildMachineDefaultList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  bulkRedirects?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsBulkRedirectsList;
+  bulkRedirects?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsBulkRedirectsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  cacheArtifact?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsCacheArtifactList;
+  cacheArtifact?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsCacheArtifactList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  cacheArtifactUsageEvent?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsCacheArtifactUsageEventList;
+  cacheArtifactUsageEvent?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsCacheArtifactUsageEventList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  ciInvocations?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsCiInvocationsList;
+  ciInvocations?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsCiInvocationsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  ciLogs?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsCiLogsList;
+  ciLogs?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsCiLogsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  codeChecks?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsCodeChecksList;
+  codeChecks?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsCodeChecksList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  codeOwners?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsCodeOwnersList;
+  codeOwners?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsCodeOwnersList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  concurrentBuilds?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConcurrentBuildsList;
+  concurrentBuilds?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsConcurrentBuildsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  connect?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnectList;
+  connect?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnectList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  connectConfiguration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnectConfigurationList;
+  connectConfiguration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnectConfigurationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  connectConfigurationLink?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnectConfigurationLinkList;
+  connectConfigurationLink?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnectConfigurationLinkList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  connectLogs?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnectLogsList;
+  connectLogs?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnectLogsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  connexClient?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexClientList;
+  connexClient?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexClientList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  connexClientProject?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexClientProjectList;
+  connexClientProject?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexClientProjectList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  connexContact?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexContactList;
+  connexContact?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexContactList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  connexInstallation?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexInstallationList;
+  connexInstallation?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexInstallationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  connexToken?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexTokenList;
+  connexToken?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsConnexTokenList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  cursorOriginInstallation?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsCursorOriginInstallationList;
+  cursorOriginInstallation?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsCursorOriginInstallationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  dataCacheBillingSettings?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDataCacheBillingSettingsList;
+  dataCacheBillingSettings?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDataCacheBillingSettingsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  dataCacheNamespace?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDataCacheNamespaceList;
+  dataCacheNamespace?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDataCacheNamespaceList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  defaultDeploymentProtection?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDefaultDeploymentProtectionList;
+  defaultDeploymentProtection?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDefaultDeploymentProtectionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deployment?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentList;
+  deployment?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentBuildLogs?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentBuildLogsList;
+  deploymentBuildLogs?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentBuildLogsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentCheck?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentCheckList;
+  deploymentCheck?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentCheckList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentCheckPreview?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentCheckPreviewList;
+  deploymentCheckPreview?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentCheckPreviewList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentCheckReRunFromProductionBranch?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentCheckReRunFromProductionBranchList;
+  deploymentCheckReRunFromProductionBranch?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentCheckReRunFromProductionBranchList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentPolicy?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentPolicyList;
+  deploymentPolicy?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentPolicyList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentPreview?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentPreviewList;
+  deploymentPreview?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentPreviewList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentPrivate?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentPrivateList;
+  deploymentPrivate?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentPrivateList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentProductionGit?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentProductionGitList;
+  deploymentProductionGit?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentProductionGitList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentPromote?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentPromoteList;
+  deploymentPromote?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentPromoteList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentProtectionException?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentProtectionExceptionList;
+  deploymentProtectionException?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentProtectionExceptionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentRollback?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentRollbackList;
+  deploymentRollback?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentRollbackList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  deploymentV0?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentV0List;
+  deploymentV0?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDeploymentV0List
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  domain?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainList;
+  domain?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  domainAcceptDelegation?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainAcceptDelegationList;
+  domainAcceptDelegation?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainAcceptDelegationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  domainAuthCodes?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainAuthCodesList;
+  domainAuthCodes?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainAuthCodesList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  domainCertificate?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainCertificateList;
+  domainCertificate?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainCertificateList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  domainCheckConfig?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainCheckConfigList;
+  domainCheckConfig?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainCheckConfigList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  domainMove?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainMoveList;
+  domainMove?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainMoveList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  domainPurchase?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainPurchaseList;
+  domainPurchase?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainPurchaseList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  domainRecord?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainRecordList;
+  domainRecord?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainRecordList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  domainTransferIn?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainTransferInList;
+  domainTransferIn?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsDomainTransferInList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  drain?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDrainList;
+  drain?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsDrainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  edgeCacheNamespace?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeCacheNamespaceList;
+  edgeCacheNamespace?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeCacheNamespaceList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  edgeConfig?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigList;
+  edgeConfig?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  edgeConfigItem?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigItemList;
+  edgeConfigItem?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigItemList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  edgeConfigSchema?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigSchemaList;
+  edgeConfigSchema?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigSchemaList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  edgeConfigToken?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigTokenList;
+  edgeConfigToken?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsEdgeConfigTokenList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  endpointVerification?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEndpointVerificationList;
+  endpointVerification?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsEndpointVerificationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  environments?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEnvironmentsList;
+  environments?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsEnvironmentsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  event?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEventList;
+  event?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsEventList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  fileUpload?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsFileUploadList;
+  fileUpload?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsFileUploadList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  flagsExplorerSubscription?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsFlagsExplorerSubscriptionList;
+  flagsExplorerSubscription?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsFlagsExplorerSubscriptionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  gitCredentialGrant?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsGitCredentialGrantList;
+  gitCredentialGrant?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsGitCredentialGrantList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  gitRepository?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsGitRepositoryList;
+  gitRepository?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsGitRepositoryList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  imageOptimizationNewPrice?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsImageOptimizationNewPriceList;
+  imageOptimizationNewPrice?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsImageOptimizationNewPriceList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationList;
+  integration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationAccount?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationAccountList;
+  integrationAccount?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationAccountList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationConfiguration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationConfigurationList;
+  integrationConfiguration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationConfigurationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationConfigurationProjects?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationConfigurationProjectsList;
+  integrationConfigurationProjects?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationConfigurationProjectsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationConfigurationRole?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationConfigurationRoleList;
+  integrationConfigurationRole?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationConfigurationRoleList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationConfigurationTransfer?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationConfigurationTransferList;
+  integrationConfigurationTransfer?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationConfigurationTransferList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationDeploymentAction?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationDeploymentActionList;
+  integrationDeploymentAction?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationDeploymentActionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationEvent?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationEventList;
+  integrationEvent?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationEventList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationLog?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationLogList;
+  integrationLog?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationLogList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationPullRequest?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationPullRequestList;
+  integrationPullRequest?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationPullRequestList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationResource?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationResourceList;
+  integrationResource?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationResourceList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationResourceData?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationResourceDataList;
+  integrationResourceData?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationResourceDataList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationResourceReplCommand?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationResourceReplCommandList;
+  integrationResourceReplCommand?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationResourceReplCommandList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationResourceSecrets?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationResourceSecretsList;
+  integrationResourceSecrets?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationResourceSecretsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationSSOSession?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationSSOSessionList;
+  integrationSSOSession?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationSSOSessionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationStoreTokenSet?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationStoreTokenSetList;
+  integrationStoreTokenSet?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationStoreTokenSetList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationStrict?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationStrictList;
+  integrationStrict?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationStrictList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  integrationVercelConfigurationOverride?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationVercelConfigurationOverrideList;
+  integrationVercelConfigurationOverride?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsIntegrationVercelConfigurationOverrideList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  ipBlocking?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIpBlockingList;
+  ipBlocking?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsIpBlockingList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  job?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsJobList;
+  job?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsJobList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  jobGlobal?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsJobGlobalList;
+  jobGlobal?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsJobGlobalList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  kmsIssuer?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsKmsIssuerList;
+  kmsIssuer?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsKmsIssuerList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  kmsProjectGrant?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsKmsProjectGrantList;
+  kmsProjectGrant?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsKmsProjectGrantList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  logDrain?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsLogDrainList;
+  logDrain?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsLogDrainList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  logs?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsLogsList;
+  logs?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsLogsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  logsPreset?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsLogsPresetList;
+  logsPreset?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsLogsPresetList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  marketplaceBillingData?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceBillingDataList;
+  marketplaceBillingData?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceBillingDataList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  marketplaceExperimentationEdgeConfigData?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceExperimentationEdgeConfigDataList;
+  marketplaceExperimentationEdgeConfigData?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceExperimentationEdgeConfigDataList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  marketplaceExperimentationItem?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceExperimentationItemList;
+  marketplaceExperimentationItem?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceExperimentationItemList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  marketplaceFlexCommit?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceFlexCommitList;
+  marketplaceFlexCommit?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceFlexCommitList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  marketplaceInstallationMember?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceInstallationMemberList;
+  marketplaceInstallationMember?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceInstallationMemberList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  marketplaceInvoice?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceInvoiceList;
+  marketplaceInvoice?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceInvoiceList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  marketplaceSettings?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceSettingsList;
+  marketplaceSettings?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMarketplaceSettingsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  messageboard?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardList;
+  messageboard?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  messageboardSpace?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardSpaceList;
+  messageboardSpace?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardSpaceList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  messageboardTask?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardTaskList;
+  messageboardTask?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMessageboardTaskList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  Monitoring?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMonitoringList;
+  Monitoring?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMonitoringList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  monitoringAlert?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMonitoringAlertList;
+  monitoringAlert?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMonitoringAlertList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  monitoringChart?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMonitoringChartList;
+  monitoringChart?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMonitoringChartList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  monitoringQuery?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMonitoringQueryList;
+  monitoringQuery?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMonitoringQueryList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  monitoringSettings?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsMonitoringSettingsList;
+  monitoringSettings?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsMonitoringSettingsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationCustomerBudget?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationCustomerBudgetList;
+  notificationCustomerBudget?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationCustomerBudgetList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationDeploymentFailed?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDeploymentFailedList;
+  notificationDeploymentFailed?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDeploymentFailedList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationDomainConfiguration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainConfigurationList;
+  notificationDomainConfiguration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainConfigurationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationDomainExpire?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainExpireList;
+  notificationDomainExpire?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainExpireList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationDomainMoved?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainMovedList;
+  notificationDomainMoved?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainMovedList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationDomainPurchase?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainPurchaseList;
+  notificationDomainPurchase?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainPurchaseList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationDomainRenewal?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainRenewalList;
+  notificationDomainRenewal?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainRenewalList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationDomainTransfer?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainTransferList;
+  notificationDomainTransfer?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainTransferList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationDomainUnverified?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainUnverifiedList;
+  notificationDomainUnverified?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationDomainUnverifiedList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  NotificationMonitoringAlert?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationMonitoringAlertList;
+  NotificationMonitoringAlert?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationMonitoringAlertList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationPaymentFailed?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationPaymentFailedList;
+  notificationPaymentFailed?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationPaymentFailedList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationPreferences?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationPreferencesList;
+  notificationPreferences?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationPreferencesList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationStatementOfReasons?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationStatementOfReasonsList;
+  notificationStatementOfReasons?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationStatementOfReasonsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  notificationUsageAlert?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationUsageAlertList;
+  notificationUsageAlert?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsNotificationUsageAlertList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  oauth2Application?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOauth2ApplicationList;
+  oauth2Application?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsOauth2ApplicationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  oauth2Connection?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOauth2ConnectionList;
+  oauth2Connection?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsOauth2ConnectionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  observabilityConfiguration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsObservabilityConfigurationList;
+  observabilityConfiguration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsObservabilityConfigurationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  observabilityData?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsObservabilityDataList;
+  observabilityData?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsObservabilityDataList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  observabilityFunnel?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsObservabilityFunnelList;
+  observabilityFunnel?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsObservabilityFunnelList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  observabilityNotebook?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsObservabilityNotebookList;
+  observabilityNotebook?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsObservabilityNotebookList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  oidcFederationPolicy?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOidcFederationPolicyList;
+  oidcFederationPolicy?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsOidcFederationPolicyList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  onDemandBuild?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOnDemandBuildList;
+  onDemandBuild?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsOnDemandBuildList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  onDemandConcurrency?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOnDemandConcurrencyList;
+  onDemandConcurrency?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsOnDemandConcurrencyList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  openTelemetryEndpoint?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOpenTelemetryEndpointList;
+  openTelemetryEndpoint?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsOpenTelemetryEndpointList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  optionsAllowlist?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOptionsAllowlistList;
+  optionsAllowlist?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsOptionsAllowlistList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  organization?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOrganizationList;
+  organization?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsOrganizationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  organizationDomain?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOrganizationDomainList;
+  organizationDomain?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsOrganizationDomainList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  organizationTeam?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOrganizationTeamList;
+  organizationTeam?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsOrganizationTeamList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  ownEvent?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOwnEventList;
+  ownEvent?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsOwnEventList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  pageIntegrity?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPageIntegrityList;
+  pageIntegrity?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsPageIntegrityList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  passwordProtection?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPasswordProtectionList;
+  passwordProtection?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsPasswordProtectionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  passwordProtectionInvoiceItem?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPasswordProtectionInvoiceItemList;
+  passwordProtectionInvoiceItem?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsPasswordProtectionInvoiceItemList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  paymentMethod?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPaymentMethodList;
+  paymentMethod?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsPaymentMethodList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  permissions?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPermissionsList;
+  permissions?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPermissionsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  postgres?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPostgresList;
+  postgres?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPostgresList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  postgresStoreTokenSet?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPostgresStoreTokenSetList;
+  postgresStoreTokenSet?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsPostgresStoreTokenSetList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  previewDeploymentSuffix?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPreviewDeploymentSuffixList;
+  previewDeploymentSuffix?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsPreviewDeploymentSuffixList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  privateCloudAccount?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPrivateCloudAccountList;
+  privateCloudAccount?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsPrivateCloudAccountList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  privateLinkEndpoint?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsPrivateLinkEndpointList;
+  privateLinkEndpoint?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsPrivateLinkEndpointList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  productionAliasProtectionBypass?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProductionAliasProtectionBypassList;
+  productionAliasProtectionBypass?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProductionAliasProtectionBypassList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  productionShareableLink?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProductionShareableLinkList;
+  productionShareableLink?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProductionShareableLinkList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  project?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectList;
+  project?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectAccessGroup?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectAccessGroupList;
+  projectAccessGroup?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectAccessGroupList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectAnalyticsSampling?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectAnalyticsSamplingList;
+  projectAnalyticsSampling?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectAnalyticsSamplingList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectAnalyticsUsage?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectAnalyticsUsageList;
+  projectAnalyticsUsage?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectAnalyticsUsageList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectCheck?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectCheckList;
+  projectCheck?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectCheckList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectCheckRun?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectCheckRunList;
+  projectCheckRun?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectCheckRunList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectDeploymentExpiration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDeploymentExpirationList;
+  projectDeploymentExpiration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDeploymentExpirationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectDeploymentHook?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDeploymentHookList;
+  projectDeploymentHook?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDeploymentHookList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectDeploymentProtectionStrict?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDeploymentProtectionStrictList;
+  projectDeploymentProtectionStrict?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDeploymentProtectionStrictList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectDomain?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDomainList;
+  projectDomain?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDomainList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectDomainCheckConfig?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDomainCheckConfigList;
+  projectDomainCheckConfig?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDomainCheckConfigList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectDomainMove?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDomainMoveList;
+  projectDomainMove?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDomainMoveList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectDomainVerify?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDomainVerifyList;
+  projectDomainVerify?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectDomainVerifyList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectEnvVars?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectEnvVarsList;
+  projectEnvVars?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectEnvVarsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectEnvVarsProduction?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectEnvVarsProductionList;
+  projectEnvVarsProduction?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectEnvVarsProductionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectEnvVarsUnownedByIntegration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectEnvVarsUnownedByIntegrationList;
+  projectEnvVarsUnownedByIntegration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectEnvVarsUnownedByIntegrationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectEvent?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectEventList;
+  projectEvent?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectEventList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectFlags?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectFlagsList;
+  projectFlags?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectFlagsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectFlagsProduction?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectFlagsProductionList;
+  projectFlagsProduction?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectFlagsProductionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectFlagsSdkKey?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectFlagsSdkKeyList;
+  projectFlagsSdkKey?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectFlagsSdkKeyList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectFromV0?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectFromV0List;
+  projectFromV0?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectFromV0List
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectId?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectIdList;
+  projectId?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectIdList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectIntegrationConfiguration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectIntegrationConfigurationList;
+  projectIntegrationConfiguration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectIntegrationConfigurationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectLink?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectLinkList;
+  projectLink?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectLinkList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectMember?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectMemberList;
+  projectMember?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectMemberList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectMonitoring?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectMonitoringList;
+  projectMonitoring?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectMonitoringList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectOIDCToken?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectOIDCTokenList;
+  projectOIDCToken?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectOIDCTokenList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectPermissions?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectPermissionsList;
+  projectPermissions?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectPermissionsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectProductionBranch?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectProductionBranchList;
+  projectProductionBranch?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectProductionBranchList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectProtectionBypass?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectProtectionBypassList;
+  projectProtectionBypass?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectProtectionBypassList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectRollingRelease?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectRollingReleaseList;
+  projectRollingRelease?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectRollingReleaseList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectRoutes?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectRoutesList;
+  projectRoutes?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectRoutesList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectSetting?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectSettingList;
+  projectSetting?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectSettingList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectSupportCase?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectSupportCaseList;
+  projectSupportCase?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectSupportCaseList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectSupportCaseComment?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectSupportCaseCommentList;
+  projectSupportCaseComment?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectSupportCaseCommentList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectTier?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectTierList;
+  projectTier?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectTierList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectTransfer?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectTransferList;
+  projectTransfer?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectTransferList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectTransferIn?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectTransferInList;
+  projectTransferIn?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectTransferInList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectTransferOut?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectTransferOutList;
+  projectTransferOut?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectTransferOutList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectTransferRequest?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectTransferRequestList;
+  projectTransferRequest?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectTransferRequestList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  projectUsage?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectUsageList;
+  projectUsage?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProjectUsageList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  proTrialOnboarding?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsProTrialOnboardingList;
+  proTrialOnboarding?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsProTrialOnboardingList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  rateLimit?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsRateLimitList;
+  rateLimit?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsRateLimitList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  redis?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsRedisList;
+  redis?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsRedisList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  redisStoreTokenSet?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsRedisStoreTokenSetList;
+  redisStoreTokenSet?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsRedisStoreTokenSetList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  remoteCaching?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsRemoteCachingList;
+  remoteCaching?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsRemoteCachingList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  repository?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsRepositoryList;
+  repository?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsRepositoryList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  samlConfig?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSamlConfigList;
+  samlConfig?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSamlConfigList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  schedule?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsScheduleList;
+  schedule?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsScheduleList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  seawallConfig?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSeawallConfigList;
+  seawallConfig?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSeawallConfigList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  secret?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSecretList;
+  secret?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSecretList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  securityConfig?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSecurityConfigList;
+  securityConfig?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSecurityConfigList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  securityPlusConfiguration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSecurityPlusConfigurationList;
+  securityPlusConfiguration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSecurityPlusConfigurationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  sensitiveEnvironmentVariablePolicy?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSensitiveEnvironmentVariablePolicyList;
+  sensitiveEnvironmentVariablePolicy?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSensitiveEnvironmentVariablePolicyList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  setting?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSettingList;
+  setting?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSettingList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  shareableLink?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsShareableLinkList;
+  shareableLink?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsShareableLinkList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  shareableLinkStrict?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsShareableLinkStrictList;
+  shareableLinkStrict?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsShareableLinkStrictList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  sharedEnvVarConnection?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSharedEnvVarConnectionList;
+  sharedEnvVarConnection?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSharedEnvVarConnectionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  sharedEnvVars?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSharedEnvVarsList;
+  sharedEnvVars?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSharedEnvVarsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  sharedEnvVarsProduction?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSharedEnvVarsProductionList;
+  sharedEnvVarsProduction?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSharedEnvVarsProductionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  skewProtection?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSkewProtectionList;
+  skewProtection?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSkewProtectionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  space?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSpaceList;
+  space?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSpaceList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  spaceRun?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSpaceRunList;
+  spaceRun?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSpaceRunList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  storeIsLocked?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsStoreIsLockedList;
+  storeIsLocked?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsStoreIsLockedList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  storeTokenSetSensitive?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsStoreTokenSetSensitiveList;
+  storeTokenSetSensitive?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsStoreTokenSetSensitiveList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  storeTransfer?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsStoreTransferList;
+  storeTransfer?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsStoreTransferList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  supportCase?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSupportCaseList;
+  supportCase?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSupportCaseList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  supportCaseComment?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsSupportCaseCommentList;
+  supportCaseComment?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsSupportCaseCommentList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  team?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamList;
+  team?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamAccessRequest?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamAccessRequestList;
+  teamAccessRequest?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamAccessRequestList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamFellowMembership?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamFellowMembershipList;
+  teamFellowMembership?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamFellowMembershipList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamGitExclusivity?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamGitExclusivityList;
+  teamGitExclusivity?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamGitExclusivityList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamInvite?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamInviteList;
+  teamInvite?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamInviteList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamInviteCode?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamInviteCodeList;
+  teamInviteCode?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamInviteCodeList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamInviteLink?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamInviteLinkList;
+  teamInviteLink?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamInviteLinkList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamJoin?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamJoinList;
+  teamJoin?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamJoinList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamMemberMfaStatus?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamMemberMfaStatusList;
+  teamMemberMfaStatus?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamMemberMfaStatusList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamMicrofrontends?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamMicrofrontendsList;
+  teamMicrofrontends?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamMicrofrontendsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamOwnMembership?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamOwnMembershipList;
+  teamOwnMembership?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamOwnMembershipList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamOwnMembershipDisconnectSAML?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamOwnMembershipDisconnectSAMLList;
+  teamOwnMembershipDisconnectSAML?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamOwnMembershipDisconnectSAMLList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamSudo?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamSudoList;
+  teamSudo?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamSudoList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  teamTokenInvalidation?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamTokenInvalidationList;
+  teamTokenInvalidation?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTeamTokenInvalidationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  token?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTokenList;
+  token?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTokenList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  toolbarComment?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsToolbarCommentList;
+  toolbarComment?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsToolbarCommentList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  trustedIps?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTrustedIpsList;
+  trustedIps?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTrustedIpsList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  trustedSources?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsTrustedSourcesList;
+  trustedSources?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsTrustedSourcesList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  usage?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUsageList;
+  usage?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUsageList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  usageCycle?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUsageCycleList;
+  usageCycle?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUsageCycleList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  user?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUserList;
+  user?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUserList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  userConnection?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUserConnectionList;
+  userConnection?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsUserConnectionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  userMfaConfiguration?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUserMfaConfigurationList;
+  userMfaConfiguration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsUserMfaConfigurationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  userPreference?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUserPreferenceList;
+  userPreference?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsUserPreferenceList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  userSudo?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUserSudoList;
+  userSudo?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsUserSudoList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  v0Chat?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsV0ChatList;
+  v0Chat?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsV0ChatList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  vcrRepository?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsVcrRepositoryList;
+  vcrRepository?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsVcrRepositoryList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  vercelAppInstallation?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsVercelAppInstallationList;
+  vercelAppInstallation?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsVercelAppInstallationList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  vercelAppInstallationRequest?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsVercelAppInstallationRequestList;
+  vercelAppInstallationRequest?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsVercelAppInstallationRequestList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  vercelAuth?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsVercelAuthList;
+  vercelAuth?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsVercelAuthList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  vercelRun?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsVercelRunList;
+  vercelRun?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsVercelRunList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  vpcPeeringConnection?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsVpcPeeringConnectionList;
+  vpcPeeringConnection?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsVpcPeeringConnectionList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  webAnalytics?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsWebAnalyticsList;
+  webAnalytics?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsWebAnalyticsList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  webAnalyticsPlan?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsWebAnalyticsPlanList;
+  webAnalyticsPlan?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsWebAnalyticsPlanList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  webAuthn?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsWebAuthnList;
+  webAuthn?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsWebAuthnList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  webhook?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsWebhookList;
+  webhook?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsWebhookList | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  webhook_event?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsWebhookEventList;
+  webhook_event?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsWebhookEventList
+    | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  workflowRunData?: GetMicrofrontendsInGroupResponseProjectsItemPermissionsWorkflowRunDataList;
+  workflowRunData?:
+    | GetMicrofrontendsInGroupResponseProjectsItemPermissionsWorkflowRunDataList
+    | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemProtectionBypassValueCase0Scope =
   "integration-automation-bypass";
@@ -3027,9 +3565,9 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemProtectionBypassVal
   createdAt: number;
   createdBy: string;
   /** When there was only one bypass, it was automatically set as an env var on deployments. With multiple bypasses, there is always one bypass that is selected as the default, and gets set as an env var on deployments. As this is a new field, undefined means that the bypass is the env var. If there are any automation bypasses, exactly one must be the env var. */
-  isEnvVar?: boolean;
+  isEnvVar?: boolean | undefined;
   /** Optional note about the bypass to be displayed in the UI */
-  note?: string;
+  note?: string | undefined;
   scope: GetMicrofrontendsInGroupResponseProjectsItemProtectionBypassValueCase1Scope;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemProtectionBypassValue =
@@ -3039,10 +3577,10 @@ export type GetMicrofrontendsInGroupResponseProjectsItemProtectionBypassMap = {
   [key: string]: GetMicrofrontendsInGroupResponseProjectsItemProtectionBypassValue | undefined;
 };
 export interface GetMicrofrontendsInGroupResponseProjectsItemProtectionConfigSandboxUrls {
-  inheritDeploymentProtection?: boolean;
+  inheritDeploymentProtection?: boolean | undefined;
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItemProtectionConfig {
-  sandboxUrls?: GetMicrofrontendsInGroupResponseProjectsItemProtectionConfigSandboxUrls;
+  sandboxUrls?: GetMicrofrontendsInGroupResponseProjectsItemProtectionConfigSandboxUrls | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachineElasticReason =
   | "basic-floor"
@@ -3075,7 +3613,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildQueue
   | "SKIP_NAMESPACE_QUEUE"
   | "WAIT_FOR_NAMESPACE_QUEUE";
 export interface GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildQueue {
-  configuration?: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildQueueConfiguration;
+  configuration?:
+    | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildQueueConfiguration
+    | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigFunctionDefaultMemoryType =
   | "performance"
@@ -3085,20 +3625,30 @@ export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigFunctionDe
 export type GetMicrofrontendsInGroupResponseProjectsItemResourceConfigFunctionDefaultRegionsList =
   Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemResourceConfig {
-  buildMachineElasticLastUpdated?: number;
-  buildMachineElasticReason?: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachineElasticReason;
-  buildMachineElasticTransition?: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachineElasticTransition;
-  buildMachineSelection?: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachineSelection;
-  buildMachineType?: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachineType;
-  buildQueue?: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildQueue;
-  elasticConcurrencyEnabled?: boolean;
-  enableFunctionsBeta?: boolean;
-  fluid?: boolean;
-  functionDefaultMemoryType?: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigFunctionDefaultMemoryType;
+  buildMachineElasticLastUpdated?: number | undefined;
+  buildMachineElasticReason?:
+    | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachineElasticReason
+    | undefined;
+  buildMachineElasticTransition?:
+    | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachineElasticTransition
+    | undefined;
+  buildMachineSelection?:
+    | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachineSelection
+    | undefined;
+  buildMachineType?:
+    | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildMachineType
+    | undefined;
+  buildQueue?: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigBuildQueue | undefined;
+  elasticConcurrencyEnabled?: boolean | undefined;
+  enableFunctionsBeta?: boolean | undefined;
+  fluid?: boolean | undefined;
+  functionDefaultMemoryType?:
+    | GetMicrofrontendsInGroupResponseProjectsItemResourceConfigFunctionDefaultMemoryType
+    | undefined;
   functionDefaultRegions: GetMicrofrontendsInGroupResponseProjectsItemResourceConfigFunctionDefaultRegionsList;
-  functionDefaultTimeout?: number;
-  functionZeroConfigFailover?: boolean;
-  isNSNBDisabled?: boolean;
+  functionDefaultTimeout?: number | undefined;
+  functionZeroConfigFailover?: boolean | undefined;
+  isNSNBDisabled?: boolean | undefined;
 }
 /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemRollbackDescription {
@@ -3127,13 +3677,17 @@ export type GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateChecks
 /** The checks to evaluate. An empty array means nothing is evaluated. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateChecksItem {
   /** Request paths to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Matched exactly against the request path with any query string removed; no prefix or glob matching. Defaults to `[]` when omitted. */
-  excludePaths?: GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateChecksItemExcludePathsList;
+  excludePaths?:
+    | GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateChecksItemExcludePathsList
+    | undefined;
   /** Response status codes to ignore entirely -- dropped from both the numerator (errors) and the denominator (total requests). Defaults to `[]` when omitted. */
-  excludeStatusCodes?: GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateChecksItemExcludeStatusCodesList;
+  excludeStatusCodes?:
+    | GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateChecksItemExcludeStatusCodesList
+    | undefined;
   /** Seconds of ingest lag to allow for: the query's upper bound is `now() - this value`, so the check never reads a window that is still filling. Defaults to `30` when omitted. */
-  ingestWatermarkSeconds?: number;
+  ingestWatermarkSeconds?: number | undefined;
   /** Minimum number of requests required in the window before the check can fail. Below this, the check is inconclusive rather than failing, so low-traffic stages don't gate on noise. Defaults to `100` when omitted. */
-  minSampleSize?: number;
+  minSampleSize?: number | undefined;
   /** The metric this check evaluates. */
   type: GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGateChecksItemType;
 }
@@ -3151,18 +3705,18 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGate 
   /** Whether automated gating is enabled for this project's rollouts. */
   enabled: boolean;
   /** How many failing evaluations within {@link windowSize} trip the gate. Defaults to `3` when omitted. */
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   /** How many of the most recent evaluations {@link failureThreshold} is counted against. Defaults to `5` when omitted. */
-  windowSize?: number;
+  windowSize?: number | undefined;
 }
 /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseStagesItem {
   /** Duration in minutes for automatic advancement to the next stage */
-  duration?: number;
+  duration?: number | undefined;
   /** Whether to linearly shift traffic over the duration of this stage */
-  linearShift?: boolean;
+  linearShift?: boolean | undefined;
   /** Whether or not this stage requires manual approval to proceed */
-  requireApproval?: boolean;
+  requireApproval?: boolean | undefined;
   /** The percentage of traffic to serve to the canary deployment (0-100) */
   targetPercentage: number;
 }
@@ -3172,11 +3726,11 @@ export type GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseStagesList
 /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
 export interface GetMicrofrontendsInGroupResponseProjectsItemRollingRelease {
   /** Whether the request served by a canary deployment should return a header indicating a canary was served. Defaults to `false` when omitted. */
-  canaryResponseHeader?: boolean;
+  canaryResponseHeader?: boolean | undefined;
   /** Automated gating configuration. Omitted (the default) means no gating is configured, which is equivalent to `enabled: false`. */
-  gate?: GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGate;
+  gate?: GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseGate | undefined;
   /** An array of all the stages required during a deployment release. Each stage defines a target percentage and advancement rules. The final stage must always have targetPercentage: 100. */
-  stages?: GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseStagesList | null;
+  stages?: GetMicrofrontendsInGroupResponseProjectsItemRollingReleaseStagesList | null | undefined;
   /** The environment that the release targets, currently only supports production. Adding in case we want to configure with alias groups or custom environments. */
   target: string;
 }
@@ -3223,8 +3777,10 @@ export type GetMicrofrontendsInGroupResponseProjectsItemSandboxRegion =
   | "syd1"
   | "yul1";
 export interface GetMicrofrontendsInGroupResponseProjectsItemSandbox {
-  failoverRegions?: GetMicrofrontendsInGroupResponseProjectsItemSandboxFailoverRegionsList;
-  region?: GetMicrofrontendsInGroupResponseProjectsItemSandboxRegion;
+  failoverRegions?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSandboxFailoverRegionsList
+    | undefined;
+  region?: GetMicrofrontendsInGroupResponseProjectsItemSandboxRegion | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemSecurityFirewallBypassIpsList =
   Array<string>;
@@ -3238,7 +3794,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesAiBo
   | "deny"
   | "log";
 export interface GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesAiBots {
-  action?: GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesAiBotsAction;
+  action?: GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesAiBotsAction | undefined;
   active: boolean;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesBotFilterAction =
@@ -3246,7 +3802,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesBotF
   | "deny"
   | "log";
 export interface GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesBotFilter {
-  action?: GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesBotFilterAction;
+  action?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesBotFilterAction
+    | undefined;
   active: boolean;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesOwaspAction =
@@ -3254,7 +3812,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesOwas
   | "deny"
   | "log";
 export interface GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesOwasp {
-  action?: GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesOwaspAction;
+  action?: GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesOwaspAction | undefined;
   active: boolean;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesTrafficSourcesAction =
@@ -3262,7 +3820,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesTraf
   | "deny"
   | "log";
 export interface GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesTrafficSources {
-  action?: GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesTrafficSourcesAction;
+  action?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesTrafficSourcesAction
+    | undefined;
   active: boolean;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesVercelRulesetAction =
@@ -3270,7 +3830,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesVerc
   | "deny"
   | "log";
 export interface GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesVercelRuleset {
-  action?: GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesVercelRulesetAction;
+  action?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRulesVercelRulesetAction
+    | undefined;
   active: boolean;
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRules {
@@ -3305,7 +3867,10 @@ export type GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRat
 export type GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRateLimitKeysList =
   Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRateLimit {
-  action?: GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRateLimitAction | null;
+  action?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRateLimitAction
+    | null
+    | undefined;
   algo: GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRateLimitAlgo;
   keys: GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRateLimitKeysList;
   limit: number;
@@ -3317,32 +3882,45 @@ export interface GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsVal
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValue {
   action: GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueAction;
-  actionDuration?: string | null;
-  bypassSystem?: boolean | null;
-  logHeaders?: GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueLogHeaders;
-  rateLimit?: GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRateLimit | null;
-  redirect?: GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRedirect | null;
+  actionDuration?: string | null | undefined;
+  bypassSystem?: boolean | null | undefined;
+  logHeaders?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueLogHeaders
+    | undefined;
+  rateLimit?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRateLimit
+    | null
+    | undefined;
+  redirect?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValueRedirect
+    | null
+    | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsMap = {
   [key: string]: GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsValue | undefined;
 };
 export interface GetMicrofrontendsInGroupResponseProjectsItemSecurity {
-  attackModeActiveUntil?: number | null;
-  attackModeEnabled?: boolean;
-  attackModeUpdatedAt?: number;
-  botIdEnabled?: boolean;
-  firewallBypassIps?: GetMicrofrontendsInGroupResponseProjectsItemSecurityFirewallBypassIpsList;
-  firewallConfigVersion?: number;
-  firewallEnabled?: boolean;
-  firewallSeawallEnabled?: boolean;
-  firewallUpdatedAt?: number;
-  ja3Enabled?: boolean;
-  ja4Enabled?: boolean;
-  log_headers?: GetMicrofrontendsInGroupResponseProjectsItemSecurityLogHeaders;
-  managedRules?: GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRules | null;
+  attackModeActiveUntil?: number | null | undefined;
+  attackModeEnabled?: boolean | undefined;
+  attackModeUpdatedAt?: number | undefined;
+  botIdEnabled?: boolean | undefined;
+  firewallBypassIps?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSecurityFirewallBypassIpsList
+    | undefined;
+  firewallConfigVersion?: number | undefined;
+  firewallEnabled?: boolean | undefined;
+  firewallSeawallEnabled?: boolean | undefined;
+  firewallUpdatedAt?: number | undefined;
+  ja3Enabled?: boolean | undefined;
+  ja4Enabled?: boolean | undefined;
+  log_headers?: GetMicrofrontendsInGroupResponseProjectsItemSecurityLogHeaders | undefined;
+  managedRules?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSecurityManagedRules
+    | null
+    | undefined;
   /** Whether Page Integrity is enabled for this project. Used by the metadata service to gate DynamoDB lookups against the page-integrity-inventory table. */
-  pageIntegrityEnabled?: boolean;
-  rulesets?: GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsMap;
+  pageIntegrityEnabled?: boolean | undefined;
+  rulesets?: GetMicrofrontendsInGroupResponseProjectsItemSecurityRulesetsMap | undefined;
 }
 /** Framework slug, when the service has one (omitted otherwise). */
 export type GetMicrofrontendsInGroupResponseProjectsItemServicesItemFramework =
@@ -3428,27 +4006,27 @@ export type GetMicrofrontendsInGroupResponseProjectsItemServicesItemServiceType 
   | "worker";
 export interface GetMicrofrontendsInGroupResponseProjectsItemServicesItem {
   /** Framework slug, when the service has one (omitted otherwise). */
-  framework?: GetMicrofrontendsInGroupResponseProjectsItemServicesItemFramework;
+  framework?: GetMicrofrontendsInGroupResponseProjectsItemServicesItemFramework | undefined;
   /** Generic runtime, e.g. 'node' | 'python' | 'go' | 'ruby' | 'rust' (Service.runtime). Omitted for static builds. */
-  runtime?: string;
+  runtime?: string | undefined;
   /** Service name from the deployment (Service.name). */
   serviceName: string;
   /** Service kind (Service.type). Omitted for schemas that do not define one. */
-  serviceType?: GetMicrofrontendsInGroupResponseProjectsItemServicesItemServiceType;
+  serviceType?: GetMicrofrontendsInGroupResponseProjectsItemServicesItemServiceType | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemServicesList =
   Array<GetMicrofrontendsInGroupResponseProjectsItemServicesItem>;
 export type GetMicrofrontendsInGroupResponseProjectsItemSkewProtectionAllowedDomainsList =
   Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemSpeedInsights {
-  canceledAt?: number;
+  canceledAt?: number | undefined;
   /** When the first free (not Speed Insights Plus) production data point was observed, in ms. Set once by subscriber-analytics-events; projects that already had data before this field shipped get it backfilled on their next batch, so it reads "first free data point observed", not necessarily "first ever". */
-  dataReceivedAt?: number;
-  disabledAt?: number;
-  enabledAt?: number;
-  hasData?: boolean;
+  dataReceivedAt?: number | undefined;
+  disabledAt?: number | undefined;
+  enabledAt?: number | undefined;
+  hasData?: boolean | undefined;
   id: string;
-  paidAt?: number;
+  paidAt?: number | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemSsoProtectionApril2026SecurityIncidentMigrationAppliedFrom =
   | "all"
@@ -3466,8 +4044,14 @@ export type GetMicrofrontendsInGroupResponseProjectsItemSsoProtectionDeploymentT
   | "preview"
   | "prod_deployment_urls_and_all_previews";
 export interface GetMicrofrontendsInGroupResponseProjectsItemSsoProtection {
-  april2026SecurityIncidentMigrationAppliedFrom?: GetMicrofrontendsInGroupResponseProjectsItemSsoProtectionApril2026SecurityIncidentMigrationAppliedFrom | null;
-  cve55182MigrationAppliedFrom?: GetMicrofrontendsInGroupResponseProjectsItemSsoProtectionCve55182MigrationAppliedFrom | null;
+  april2026SecurityIncidentMigrationAppliedFrom?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSsoProtectionApril2026SecurityIncidentMigrationAppliedFrom
+    | null
+    | undefined;
+  cve55182MigrationAppliedFrom?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSsoProtectionCve55182MigrationAppliedFrom
+    | null
+    | undefined;
   deploymentType: GetMicrofrontendsInGroupResponseProjectsItemSsoProtectionDeploymentType;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemStaticIpsRegionsList = Array<string>;
@@ -3517,14 +4101,16 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTargetsValueOidcTokenCla
   Array<string>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemTargetsValueOidcTokenClaims {
   aud: string;
-  custom_environment_id?: string;
-  deployment_id?: string;
+  custom_environment_id?: string | undefined;
+  deployment_id?: string | undefined;
   environment: string;
   iss: string;
-  mfe_group_ids?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueOidcTokenClaimsMfeGroupIdsList;
+  mfe_group_ids?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTargetsValueOidcTokenClaimsMfeGroupIdsList
+    | undefined;
   owner: string;
   owner_id: string;
-  plan?: string;
+  plan?: string | undefined;
   project: string;
   project_id: string;
   scope: string;
@@ -3548,44 +4134,56 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTargetsValueReadySubstat
   | "STAGED";
 export type GetMicrofrontendsInGroupResponseProjectsItemTargetsValueType = "LAMBDAS";
 export interface GetMicrofrontendsInGroupResponseProjectsItemTargetsValue {
-  alias?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueAliasList;
-  aliasAssigned?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueAliasAssigned | null;
-  aliasError?: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAliasError | null;
-  aliasFinal?: string | null;
-  automaticAliases?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueAutomaticAliasesList;
-  branchMatcher?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueBranchMatcher;
-  buildingAt?: number;
-  builds?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueBuildsList;
-  checksConclusion?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueChecksConclusion;
-  checksState?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueChecksState;
-  connectBuildsEnabled?: boolean;
-  connectConfigurationId?: string;
+  alias?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueAliasList | undefined;
+  aliasAssigned?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTargetsValueAliasAssigned
+    | null
+    | undefined;
+  aliasError?:
+    | GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentAliasError
+    | null
+    | undefined;
+  aliasFinal?: string | null | undefined;
+  automaticAliases?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTargetsValueAutomaticAliasesList
+    | undefined;
+  branchMatcher?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueBranchMatcher | undefined;
+  buildingAt?: number | undefined;
+  builds?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueBuildsList | undefined;
+  checksConclusion?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTargetsValueChecksConclusion
+    | undefined;
+  checksState?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueChecksState | undefined;
+  connectBuildsEnabled?: boolean | undefined;
+  connectConfigurationId?: string | undefined;
   createdAt: number;
   createdIn: string;
   creator: GetMicrofrontendsInGroupResponseProjectsItemAliasItemDeploymentCreator | null;
-  deletedAt?: number;
+  deletedAt?: number | undefined;
   deploymentHostname: string;
-  forced?: boolean;
+  forced?: boolean | undefined;
   id: string;
-  meta?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueMetaMap;
-  monorepoManager?: string | null;
+  meta?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueMetaMap | undefined;
+  monorepoManager?: string | null | undefined;
   name: string;
-  oidcTokenClaims?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueOidcTokenClaims;
+  oidcTokenClaims?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTargetsValueOidcTokenClaims
+    | undefined;
   plan: GetMicrofrontendsInGroupResponseProjectsItemTargetsValuePlan;
   /** Whether or not preview comments are enabled for the deployment */
-  previewCommentsEnabled?: boolean;
+  previewCommentsEnabled?: boolean | undefined;
   private: boolean;
-  readyAt?: number;
+  readyAt?: number | undefined;
   readyState: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueReadyState;
-  readySubstate?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueReadySubstate;
-  requestedAt?: number;
-  target?: string | null;
-  teamId?: string | null;
+  readySubstate?: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueReadySubstate | undefined;
+  requestedAt?: number | undefined;
+  target?: string | null | undefined;
+  teamId?: string | null | undefined;
   type: GetMicrofrontendsInGroupResponseProjectsItemTargetsValueType;
   url: string;
   /** Present for user creators; omitted for app/integration/system creators. */
-  userId?: string;
-  withCache?: boolean;
+  userId?: string | undefined;
+  withCache?: boolean | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemTargetsMap = {
   [key: string]: GetMicrofrontendsInGroupResponseProjectsItemTargetsValue | null | undefined;
@@ -3601,20 +4199,22 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesItem
   | "production";
 export interface GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesItem {
   /** Which tracing destination this rule applies to. `internal` is the hidden Vercel production-tracing drain (internal delivery); `external` is any customer-configured drain. Derived from the owning drain's delivery type when project tracing is computed; absent on configs persisted before this field existed. */
-  destination?: GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesItemDestination;
-  env?: GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesItemEnv;
+  destination?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesItemDestination
+    | undefined;
+  env?: GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesItemEnv | undefined;
   rate: number;
-  requestPath?: string;
+  requestPath?: string | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesList =
   Array<GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesItem>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemTracing {
-  domains?: string;
-  ignorePaths?: GetMicrofrontendsInGroupResponseProjectsItemTracingIgnorePathsList;
-  samplingRules?: GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesList;
+  domains?: string | undefined;
+  ignorePaths?: GetMicrofrontendsInGroupResponseProjectsItemTracingIgnorePathsList | undefined;
+  samplingRules?: GetMicrofrontendsInGroupResponseProjectsItemTracingSamplingRulesList | undefined;
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItemTrustedIpsCase0AddressesItem {
-  note?: string;
+  note?: string | undefined;
   value: string;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemTrustedIpsCase0AddressesList =
@@ -3652,7 +4252,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvid
   Array<string>;
 /** The target envs on the current project that may be accessed. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemToCase0 {
-  preset?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemToCase0Preset;
+  preset?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemToCase0Preset
+    | undefined;
   /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
   slugs: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemToCase0SlugsList;
 }
@@ -3665,7 +4267,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvid
 export interface GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemToCase1 {
   preset: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemToCase1Preset;
   /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
-  slugs?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemToCase1SlugsList;
+  slugs?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemToCase1SlugsList
+    | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemTo =
   | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemToCase0
@@ -3681,7 +4285,7 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvid
 export interface GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItem {
   to: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemTo;
   claims: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItemClaimsMap;
-  label?: string;
+  label?: string | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueList =
   Array<GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersValueItem>;
@@ -3697,7 +4301,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsVa
   Array<string>;
 /** The source envs on the trusted project that are allowed to access `to`. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemFromCase0 {
-  preset?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemFromCase0Preset;
+  preset?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemFromCase0Preset
+    | undefined;
   /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
   slugs: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemFromCase0SlugsList;
 }
@@ -3710,7 +4316,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsVa
 export interface GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemFromCase1 {
   preset: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemFromCase1Preset;
   /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
-  slugs?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemFromCase1SlugsList;
+  slugs?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemFromCase1SlugsList
+    | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemFrom =
   | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemFromCase0
@@ -3722,7 +4330,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsVa
   Array<string>;
 /** The target envs on the current project that may be accessed. */
 export interface GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemToCase0 {
-  preset?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemToCase0Preset;
+  preset?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemToCase0Preset
+    | undefined;
   /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
   slugs: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemToCase0SlugsList;
 }
@@ -3735,7 +4345,9 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsVa
 export interface GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemToCase1 {
   preset: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemToCase1Preset;
   /** System environment slugs (`production`, `preview`) and/or custom environment slugs defined on the referenced project. */
-  slugs?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemToCase1SlugsList;
+  slugs?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemToCase1SlugsList
+    | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemTo =
   | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItemToCase0
@@ -3750,8 +4362,10 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsVa
   Array<GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowItem>;
 export interface GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValue {
   /** Optional overrides for the default same-env-by-slug matching. Provide explicit rules to allow cross-env access or presets. An empty array denies all access and is only allowed for the current project. */
-  customAllow?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowList;
-  label?: string;
+  customAllow?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsValueCustomAllowList
+    | undefined;
+  label?: string | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsMap = {
   [key: string]:
@@ -3760,133 +4374,151 @@ export type GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsMa
 };
 export interface GetMicrofrontendsInGroupResponseProjectsItemTrustedSources {
   /** Allow same-team Vercel CI access to preview and production deployments built from the CI run's repository, using the deployment source rather than the current project repository link. Defaults to enabled when not stored; omitted or null Trusted Sources updates preserve the stored value. */
-  enableVercelCiSameRepository?: boolean;
-  oidcProviders?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersMap;
-  projects?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsMap;
+  enableVercelCiSameRepository?: boolean | undefined;
+  oidcProviders?:
+    | GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesOidcProvidersMap
+    | undefined;
+  projects?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSourcesProjectsMap | undefined;
 }
 /** Billing mode. Always 'flat' for flat-rate projects. */
 export type GetMicrofrontendsInGroupResponseProjectsItemUsageStatusKind = "flat";
 export interface GetMicrofrontendsInGroupResponseProjectsItemUsageStatus {
   /** Timestamp until which throttling is bypassed (project pays list rates for overage). */
-  bypassThrottleUntil?: number;
+  bypassThrottleUntil?: number | undefined;
   /** Timestamp until which the project has exceeded its CDN allowance. */
-  exceededAllowanceUntil?: number;
+  exceededAllowanceUntil?: number | undefined;
   /** Billing mode. Always 'flat' for flat-rate projects. */
   kind: GetMicrofrontendsInGroupResponseProjectsItemUsageStatusKind;
   /** Synced from `team.billing.usageStatus.throttled`. When `true`, the team has throttled all of its projects regardless of `throttled`. The effective throttle the CDN enforces is `throttled || teamThrottled`. */
-  teamThrottled?: boolean;
+  teamThrottled?: boolean | undefined;
   /** Per-project throttle, set explicitly for this project (e.g. via the per-project Flat Rate CDN endpoint). */
-  throttled?: boolean;
+  throttled?: boolean | undefined;
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItemWebAnalytics {
-  canceledAt?: number;
-  disabledAt?: number;
-  enabledAt?: number;
-  hasData?: boolean;
+  canceledAt?: number | undefined;
+  disabledAt?: number | undefined;
+  enabledAt?: number | undefined;
+  hasData?: boolean | undefined;
   id: string;
 }
 export interface GetMicrofrontendsInGroupResponseProjectsItem {
   accountId: string;
   alias: GetMicrofrontendsInGroupResponseProjectsItemAliasList;
-  analytics?: GetMicrofrontendsInGroupResponseProjectsItemAnalytics;
-  appliedCve55182Migration?: boolean;
-  autoAssignCustomDomains?: boolean;
-  autoAssignCustomDomainsUpdatedBy?: string;
-  autoExposeSystemEnvs?: boolean;
-  avatar?: string | null;
-  blobs?: GetMicrofrontendsInGroupResponseProjectsItemBlobs;
-  buildCommand?: string | null;
-  commandForIgnoringBuildStep?: string | null;
-  concurrencyBucketName?: string;
-  connectBuildsEnabled?: boolean;
-  connectConfigurationId?: string | null;
-  connectConfigurations?: GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsList | null;
-  createdAt?: number;
-  creator?: GetMicrofrontendsInGroupResponseProjectsItemCreator;
-  crons?: GetMicrofrontendsInGroupResponseProjectsItemCrons;
-  customEnvironments?: GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsList;
-  customerSupportCodeVisibility?: boolean;
-  dataCache?: GetMicrofrontendsInGroupResponseProjectsItemDataCache;
+  analytics?: GetMicrofrontendsInGroupResponseProjectsItemAnalytics | undefined;
+  appliedCve55182Migration?: boolean | undefined;
+  autoAssignCustomDomains?: boolean | undefined;
+  autoAssignCustomDomainsUpdatedBy?: string | undefined;
+  autoExposeSystemEnvs?: boolean | undefined;
+  avatar?: string | null | undefined;
+  blobs?: GetMicrofrontendsInGroupResponseProjectsItemBlobs | undefined;
+  buildCommand?: string | null | undefined;
+  commandForIgnoringBuildStep?: string | null | undefined;
+  concurrencyBucketName?: string | undefined;
+  connectBuildsEnabled?: boolean | undefined;
+  connectConfigurationId?: string | null | undefined;
+  connectConfigurations?:
+    | GetMicrofrontendsInGroupResponseProjectsItemConnectConfigurationsList
+    | null
+    | undefined;
+  createdAt?: number | undefined;
+  creator?: GetMicrofrontendsInGroupResponseProjectsItemCreator | undefined;
+  crons?: GetMicrofrontendsInGroupResponseProjectsItemCrons | undefined;
+  customEnvironments?:
+    | GetMicrofrontendsInGroupResponseProjectsItemCustomEnvironmentsList
+    | undefined;
+  customerSupportCodeVisibility?: boolean | undefined;
+  dataCache?: GetMicrofrontendsInGroupResponseProjectsItemDataCache | undefined;
   defaultResourceConfig: GetMicrofrontendsInGroupResponseProjectsItemDefaultResourceConfig;
   /** Retention policies for deployments. These are enforced at the project level, but we also maintain an instance of this at the team level as a default policy that gets applied to new projects. */
   deploymentExpiration: GetMicrofrontendsInGroupResponseProjectsItemDeploymentExpiration;
   /** Project shape. `null` on a rule list clears the project's override for that rule type (fall back to team for every env); omitting is equivalent. Setting `deploymentPolicy` itself to `null` clears every override at once. Kept structurally distinct from {@link TeamDeploymentPolicy} so the two storage locations don't share a type by accident. */
-  deploymentPolicy?: GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicy | null;
-  devCommand?: string | null;
+  deploymentPolicy?:
+    | GetMicrofrontendsInGroupResponseProjectsItemDeploymentPolicy
+    | null
+    | undefined;
+  devCommand?: string | null | undefined;
   directoryListing: boolean;
-  dismissedToasts?: GetMicrofrontendsInGroupResponseProjectsItemDismissedToastsList;
-  enableAffectedProjectsDeployments?: boolean;
-  enableExternalRewriteCaching?: boolean;
-  enablePreviewFeedback?: boolean | null;
-  enableProductionFeedback?: boolean | null;
-  env?: GetMicrofrontendsInGroupResponseProjectsItemEnvList;
-  expiration?: GetMicrofrontendsInGroupResponseProjectsItemExpiration;
-  features?: GetMicrofrontendsInGroupResponseProjectsItemFeatures;
-  framework?: GetMicrofrontendsInGroupResponseProjectsItemFramework | null;
-  gitComments?: GetMicrofrontendsInGroupResponseProjectsItemGitComments;
-  gitForkProtection?: boolean;
-  gitLFS?: boolean;
-  gitProviderOptions?: GetMicrofrontendsInGroupResponseProjectsItemGitProviderOptions;
-  hasActiveBranches?: boolean;
-  hasDeployments?: boolean;
+  dismissedToasts?: GetMicrofrontendsInGroupResponseProjectsItemDismissedToastsList | undefined;
+  enableAffectedProjectsDeployments?: boolean | undefined;
+  enableExternalRewriteCaching?: boolean | undefined;
+  enablePreviewFeedback?: boolean | null | undefined;
+  enableProductionFeedback?: boolean | null | undefined;
+  env?: GetMicrofrontendsInGroupResponseProjectsItemEnvList | undefined;
+  expiration?: GetMicrofrontendsInGroupResponseProjectsItemExpiration | undefined;
+  features?: GetMicrofrontendsInGroupResponseProjectsItemFeatures | undefined;
+  framework?: GetMicrofrontendsInGroupResponseProjectsItemFramework | null | undefined;
+  gitComments?: GetMicrofrontendsInGroupResponseProjectsItemGitComments | undefined;
+  gitForkProtection?: boolean | undefined;
+  gitLFS?: boolean | undefined;
+  gitProviderOptions?: GetMicrofrontendsInGroupResponseProjectsItemGitProviderOptions | undefined;
+  hasActiveBranches?: boolean | undefined;
+  hasDeployments?: boolean | undefined;
   id: string;
-  installCommand?: string | null;
-  internalRoutes?: GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesList;
-  ipBuckets?: GetMicrofrontendsInGroupResponseProjectsItemIpBucketsList;
-  jobs?: GetMicrofrontendsInGroupResponseProjectsItemJobs;
-  lastAliasRequest?: GetMicrofrontendsInGroupResponseProjectsItemLastAliasRequest | null;
-  lastRollbackTarget?: unknown | null;
-  latestDeployments?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsList;
-  link?: GetMicrofrontendsInGroupResponseProjectsItemLink;
-  live?: boolean;
-  microfrontends?: GetMicrofrontendsInGroupResponseProjectsItemMicrofrontends;
+  installCommand?: string | null | undefined;
+  internalRoutes?: GetMicrofrontendsInGroupResponseProjectsItemInternalRoutesList | undefined;
+  ipBuckets?: GetMicrofrontendsInGroupResponseProjectsItemIpBucketsList | undefined;
+  jobs?: GetMicrofrontendsInGroupResponseProjectsItemJobs | undefined;
+  lastAliasRequest?:
+    | GetMicrofrontendsInGroupResponseProjectsItemLastAliasRequest
+    | null
+    | undefined;
+  lastRollbackTarget?: unknown | null | undefined;
+  latestDeployments?: GetMicrofrontendsInGroupResponseProjectsItemLatestDeploymentsList | undefined;
+  link?: GetMicrofrontendsInGroupResponseProjectsItemLink | undefined;
+  live?: boolean | undefined;
+  microfrontends?: GetMicrofrontendsInGroupResponseProjectsItemMicrofrontends | undefined;
   name: string;
   nodeVersion: GetMicrofrontendsInGroupResponseProjectsItemNodeVersion;
-  oidcTokenConfig?: GetMicrofrontendsInGroupResponseProjectsItemOidcTokenConfig;
-  optionsAllowlist?: GetMicrofrontendsInGroupResponseProjectsItemOptionsAllowlist | null;
-  outputDirectory?: string | null;
-  passiveConnectConfigurationId?: string | null;
-  passport?: GetMicrofrontendsInGroupResponseProjectsItemPassport | null;
-  passwordProtection?: unknown | null;
-  paused?: boolean;
+  oidcTokenConfig?: GetMicrofrontendsInGroupResponseProjectsItemOidcTokenConfig | undefined;
+  optionsAllowlist?:
+    | GetMicrofrontendsInGroupResponseProjectsItemOptionsAllowlist
+    | null
+    | undefined;
+  outputDirectory?: string | null | undefined;
+  passiveConnectConfigurationId?: string | null | undefined;
+  passport?: GetMicrofrontendsInGroupResponseProjectsItemPassport | null | undefined;
+  passwordProtection?: unknown | null | undefined;
+  paused?: boolean | undefined;
   /** Requested and authorized operations when `checkPermissions` is used. Legacy `includePermissions` responses contain a broader, non-authoritative permission summary. */
-  permissions?: GetMicrofrontendsInGroupResponseProjectsItemPermissions;
-  productionDeploymentsFastLane?: boolean;
-  protectedSourcemaps?: boolean;
-  protectionBypass?: GetMicrofrontendsInGroupResponseProjectsItemProtectionBypassMap;
-  protectionConfig?: GetMicrofrontendsInGroupResponseProjectsItemProtectionConfig;
+  permissions?: GetMicrofrontendsInGroupResponseProjectsItemPermissions | undefined;
+  productionDeploymentsFastLane?: boolean | undefined;
+  protectedSourcemaps?: boolean | undefined;
+  protectionBypass?: GetMicrofrontendsInGroupResponseProjectsItemProtectionBypassMap | undefined;
+  protectionConfig?: GetMicrofrontendsInGroupResponseProjectsItemProtectionConfig | undefined;
   resourceConfig: GetMicrofrontendsInGroupResponseProjectsItemResourceConfig;
   /** Description of why a project was rolled back, and by whom. Note that lastAliasRequest contains the from/to details of the rollback. */
-  rollbackDescription?: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescription;
+  rollbackDescription?: GetMicrofrontendsInGroupResponseProjectsItemRollbackDescription | undefined;
   /** Project-level rolling release configuration that defines how deployments should be gradually rolled out */
-  rollingRelease?: GetMicrofrontendsInGroupResponseProjectsItemRollingRelease | null;
-  rootDirectory?: string | null;
-  sandbox?: GetMicrofrontendsInGroupResponseProjectsItemSandbox;
-  security?: GetMicrofrontendsInGroupResponseProjectsItemSecurity;
-  serverlessFunctionZeroConfigFailover?: boolean;
-  services?: GetMicrofrontendsInGroupResponseProjectsItemServicesList;
-  skewProtectionAllowedDomains?: GetMicrofrontendsInGroupResponseProjectsItemSkewProtectionAllowedDomainsList;
-  skewProtectionBoundaryAt?: number;
-  skewProtectionMaxAge?: number;
-  skipGitConnectDuringLink?: boolean;
-  sourceFilesOutsideRootDirectory?: boolean;
-  speedInsights?: GetMicrofrontendsInGroupResponseProjectsItemSpeedInsights;
-  ssoProtection?: GetMicrofrontendsInGroupResponseProjectsItemSsoProtection | null;
-  staticIps?: GetMicrofrontendsInGroupResponseProjectsItemStaticIps;
-  targets?: GetMicrofrontendsInGroupResponseProjectsItemTargetsMap;
-  tier?: GetMicrofrontendsInGroupResponseProjectsItemTier;
-  tracing?: GetMicrofrontendsInGroupResponseProjectsItemTracing;
-  transferCompletedAt?: number;
-  transferredFromAccountId?: string;
-  transferStartedAt?: number;
-  transferToAccountId?: string;
-  trustedIps?: GetMicrofrontendsInGroupResponseProjectsItemTrustedIps | null;
-  trustedSources?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSources | null;
-  updatedAt?: number;
-  usageStatus?: GetMicrofrontendsInGroupResponseProjectsItemUsageStatus;
-  v0?: boolean;
-  v0Created?: boolean;
-  webAnalytics?: GetMicrofrontendsInGroupResponseProjectsItemWebAnalytics;
+  rollingRelease?: GetMicrofrontendsInGroupResponseProjectsItemRollingRelease | null | undefined;
+  rootDirectory?: string | null | undefined;
+  sandbox?: GetMicrofrontendsInGroupResponseProjectsItemSandbox | undefined;
+  security?: GetMicrofrontendsInGroupResponseProjectsItemSecurity | undefined;
+  serverlessFunctionZeroConfigFailover?: boolean | undefined;
+  services?: GetMicrofrontendsInGroupResponseProjectsItemServicesList | undefined;
+  skewProtectionAllowedDomains?:
+    | GetMicrofrontendsInGroupResponseProjectsItemSkewProtectionAllowedDomainsList
+    | undefined;
+  skewProtectionBoundaryAt?: number | undefined;
+  skewProtectionMaxAge?: number | undefined;
+  skipGitConnectDuringLink?: boolean | undefined;
+  sourceFilesOutsideRootDirectory?: boolean | undefined;
+  speedInsights?: GetMicrofrontendsInGroupResponseProjectsItemSpeedInsights | undefined;
+  ssoProtection?: GetMicrofrontendsInGroupResponseProjectsItemSsoProtection | null | undefined;
+  staticIps?: GetMicrofrontendsInGroupResponseProjectsItemStaticIps | undefined;
+  targets?: GetMicrofrontendsInGroupResponseProjectsItemTargetsMap | undefined;
+  tier?: GetMicrofrontendsInGroupResponseProjectsItemTier | undefined;
+  tracing?: GetMicrofrontendsInGroupResponseProjectsItemTracing | undefined;
+  transferCompletedAt?: number | undefined;
+  transferredFromAccountId?: string | undefined;
+  transferStartedAt?: number | undefined;
+  transferToAccountId?: string | undefined;
+  trustedIps?: GetMicrofrontendsInGroupResponseProjectsItemTrustedIps | null | undefined;
+  trustedSources?: GetMicrofrontendsInGroupResponseProjectsItemTrustedSources | null | undefined;
+  updatedAt?: number | undefined;
+  usageStatus?: GetMicrofrontendsInGroupResponseProjectsItemUsageStatus | undefined;
+  v0?: boolean | undefined;
+  v0Created?: boolean | undefined;
+  webAnalytics?: GetMicrofrontendsInGroupResponseProjectsItemWebAnalytics | undefined;
 }
 export type GetMicrofrontendsInGroupResponseProjectsList =
   Array<GetMicrofrontendsInGroupResponseProjectsItem>;

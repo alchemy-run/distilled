@@ -29,9 +29,9 @@ export interface CreateFeatureRequestProductAreasRequest {
   /** Team-maintained product area name. */
   name: string;
   /** Position in product area selectors. Lower values appear first. */
-  display_order?: number;
+  display_order?: number | undefined;
   /** Whether editors can select this product area for new requests. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
 }
 export interface FeatureRequestProductArea {
   /** Stable product area ID. */
@@ -39,9 +39,9 @@ export interface FeatureRequestProductArea {
   /** Team-maintained product area name. */
   name: string;
   /** Position in product area selectors. Lower values appear first. */
-  display_order?: number;
+  display_order?: number | undefined;
   /** Whether editors can select this product area for new requests. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
   /** When the product area was created. */
   created_at: string;
   /** When the product area was last updated. */
@@ -51,7 +51,7 @@ export interface ListFeatureRequestProductAreasRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Include inactive product areas. Defaults to false. */
-  include_inactive?: boolean;
+  include_inactive?: boolean | undefined;
 }
 export type ListFeatureRequestProductAreasResponseBodyList = Array<FeatureRequestProductArea>;
 export type ListFeatureRequestProductAreasResponse = ListFeatureRequestProductAreasResponseBodyList;
@@ -62,20 +62,20 @@ export interface UpdateFeatureRequestProductAreasRequest {
   /** Team-maintained product area name. */
   name: string;
   /** Position in product area selectors. Lower values appear first. */
-  display_order?: number;
+  display_order?: number | undefined;
   /** Whether editors can select this product area for new requests. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
 }
 export interface UpdateFeatureRequestProductAreasPartialRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   id: string;
   /** Team-maintained product area name. */
-  name?: string;
+  name?: string | undefined;
   /** Position in product area selectors. Lower values appear first. */
-  display_order?: number;
+  display_order?: number | undefined;
   /** Whether editors can select this product area for new requests. */
-  is_active?: boolean;
+  is_active?: boolean | undefined;
 }
 export type CreateFeatureRequestProductAreasError = PosthogOpError;
 export const createFeatureRequestProductAreas: API.OperationMethod<

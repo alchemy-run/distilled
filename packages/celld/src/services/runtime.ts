@@ -65,7 +65,7 @@ export interface DeleteKvInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -92,13 +92,13 @@ export interface DeleteKvOutput {
 }
 export interface D1ExecPayload {
   sql: string;
-  rows?: boolean;
+  rows?: boolean | undefined;
 }
 export interface ExecD1Input {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -119,16 +119,16 @@ export type JsonValues = Array<unknown>;
 export type Rows = Array<JsonValues>;
 /** Native SQL engine result; row values and engine metadata retain their JSON types. */
 export interface D1ResultSet {
-  columns?: Strings;
-  rows?: Rows;
-  meta?: unknown;
+  columns?: Strings | undefined;
+  rows?: Rows | undefined;
+  meta?: unknown | undefined;
 }
 export type D1ResultSets = Array<D1ResultSet>;
 /** Duration is in milliseconds. Result sets are present only when exec.rows is true. */
 export interface ExecD1Result {
   count: number;
   duration: number;
-  results?: D1ResultSets;
+  results?: D1ResultSets | undefined;
 }
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface ExecD1Output {
@@ -136,15 +136,15 @@ export interface ExecD1Output {
 }
 export interface D1Statement {
   sql: string;
-  params?: JsonValues;
-  first?: boolean;
+  params?: JsonValues | undefined;
+  first?: boolean | undefined;
 }
 export type D1StatementList = Array<D1Statement>;
 export interface ExecuteD1StatementsInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -170,7 +170,7 @@ export interface GetKvInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -191,14 +191,14 @@ export interface GetKvInput {
 export interface GetKvResult {
   found: boolean;
   /** A JSON array of byte integers for inline values, or a base64 string for large values. Absent when found is false. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** base64 for large values; absent for inline byte arrays. */
-  value_encoding?: string;
-  tag?: string;
+  value_encoding?: string | undefined;
+  tag?: string | undefined;
   /** Stored JSON text, not a decoded metadata object. May be null. */
-  metadata?: string | null;
+  metadata?: string | null | undefined;
   /** Expiration in Unix milliseconds; may be null. */
-  expiration?: number | null;
+  expiration?: number | null | undefined;
 }
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
 export interface GetKvOutput {
@@ -209,7 +209,7 @@ export interface GetKvInfoInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -240,7 +240,7 @@ export interface GetQueueInfoInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -261,7 +261,7 @@ export interface GetQueueInfoResult {
   backlog_count: number;
   backlog_bytes: number;
   /** Unix milliseconds; null when no message exists. */
-  oldest_message_timestamp?: number | null;
+  oldest_message_timestamp?: number | null | undefined;
   stored: number;
   paused: boolean;
 }
@@ -274,7 +274,7 @@ export interface ListKvInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -290,17 +290,17 @@ export interface ListKvInput {
   /** HMAC-SHA256 hex signature over newline-separated domain cells-peer-request-v1, version 5, method POST, exact path and query, body hash, source, target, timestamp and nonce, with no trailing newline. */
   peer_signature: string;
   op: KvListOperation | (string & {});
-  prefix?: string;
+  prefix?: string | undefined;
   limit: number;
   /** Exclusive last key name from the previous page, not a binding cursor. */
-  after?: string;
+  after?: string | undefined;
 }
 export interface KvKey {
   name: string;
   /** Stored JSON text; may be null. */
-  metadata?: string | null;
+  metadata?: string | null | undefined;
   /** Unix milliseconds; may be null. */
-  expiration?: number | null;
+  expiration?: number | null | undefined;
 }
 export type KvKeys = Array<KvKey>;
 export interface ListKvResult {
@@ -315,13 +315,13 @@ export interface D1Migration {
   name: string;
   sql: string;
   /** Defaults to d1_migrations when omitted or empty. */
-  table?: string;
+  table?: string | undefined;
 }
 export interface MigrateD1Input {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -347,7 +347,7 @@ export interface PauseQueueInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -368,7 +368,7 @@ export interface QueuePausedResult {
   backlog_count: number;
   backlog_bytes: number;
   /** Unix milliseconds; null when no message exists. */
-  oldest_message_timestamp?: number | null;
+  oldest_message_timestamp?: number | null | undefined;
   paused: boolean;
 }
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
@@ -380,7 +380,7 @@ export interface PeekQueueInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -397,7 +397,7 @@ export interface PeekQueueInput {
   peer_signature: string;
   op: PeekQueueOperation | (string & {});
   /** Defaults to 10; valid values are 1 through 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface QueueMessage {
   id: string;
@@ -410,11 +410,11 @@ export interface QueueMessage {
   /** moving, purging, leased, visible or delayed. */
   state: string;
   /** Unix milliseconds; null unless actively leased. */
-  leased_until?: number | null;
+  leased_until?: number | null | undefined;
   /** May be null. */
-  transfer_target?: string | null;
+  transfer_target?: string | null | undefined;
   /** May be null. */
-  dead_letter_source?: string | null;
+  dead_letter_source?: string | null | undefined;
 }
 export type QueueMessages = Array<QueueMessage>;
 export interface PeekQueueResult {
@@ -429,7 +429,7 @@ export interface PurgeQueueInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -450,7 +450,7 @@ export interface QueueMetrics {
   backlog_count: number;
   backlog_bytes: number;
   /** Unix milliseconds; null when no message exists. */
-  oldest_message_timestamp?: number | null;
+  oldest_message_timestamp?: number | null | undefined;
 }
 export interface PurgeQueueResult {
   deleted: number;
@@ -467,7 +467,7 @@ export interface PutKvInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -485,13 +485,13 @@ export interface PutKvInput {
   op: KvPutOperation | (string & {});
   key: string;
   /** Defaults to bytes. */
-  tag?: string;
+  tag?: string | undefined;
   /** JSON-encoded metadata text, not an object. */
-  metadata?: string;
+  metadata?: string | undefined;
   /** Absolute Unix expiration in seconds. */
-  expiration?: number;
+  expiration?: number | undefined;
   /** Relative expiry in seconds. The wire key is expirationTtl, as used by the source handler. */
-  expiration_ttl?: number;
+  expiration_ttl?: number | undefined;
   value: Bytes;
 }
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
@@ -503,7 +503,7 @@ export interface PutKvBase64Input {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -521,13 +521,13 @@ export interface PutKvBase64Input {
   op: PutKvBase64Operation | (string & {});
   key: string;
   /** Defaults to bytes. */
-  tag?: string;
+  tag?: string | undefined;
   /** JSON-encoded metadata text, not an object. */
-  metadata?: string;
+  metadata?: string | undefined;
   /** Absolute Unix expiration in seconds. */
-  expiration?: number;
+  expiration?: number | undefined;
   /** Relative expiry in seconds. The wire key is expirationTtl, as used by the source handler. */
-  expiration_ttl?: number;
+  expiration_ttl?: number | undefined;
   value: string;
 }
 /** The actual HTTP JSON envelope is {"result": ...}; nested arrays or scalars are not top-level raw responses. */
@@ -539,7 +539,7 @@ export interface RedriveQueueInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */
@@ -556,7 +556,7 @@ export interface RedriveQueueInput {
   peer_signature: string;
   op: RedriveQueueOperation | (string & {});
   /** Defaults to 100; valid values are 1 through 100. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface RedriveQueueResult {
   redriven: number;
@@ -571,7 +571,7 @@ export interface ResumeQueueInput {
   /** Reserved-class cell scope derived by Celld, not a database, namespace or queue display name. */
   scope: string;
   /** Optional cell identity name; include the exact encoded query string in the peer signature. */
-  name?: string;
+  name?: string | undefined;
   /** Peer protocol version; send the string 5. */
   peer_version: string;
   /** Source node name or operator identity, validated as a node name. */

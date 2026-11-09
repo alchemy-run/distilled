@@ -90,9 +90,9 @@ export interface InsertArchiveRequest {
 /** JSON response template for groups migration API. */
 export interface Groups {
   /** The status of the insert request. */
-  responseCode?: string;
+  responseCode?: string | undefined;
   /** The kind of insert resource this is. */
-  kind?: string;
+  kind?: string | undefined;
 }
 export type InsertArchiveError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Inserts a new mail into the archive of the Google group. */

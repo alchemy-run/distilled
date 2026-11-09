@@ -52,11 +52,11 @@ export interface ConfirmIpServiceTerminationRequest {
   /** The internal name of your IP services */
   serviceName: string;
   /** Commentary about your termination request */
-  commentary?: string;
+  commentary?: string | undefined;
   /** What next after your termination request */
-  futureUse?: ServiceTerminationFutureUseEnum | (string & {});
+  futureUse?: ServiceTerminationFutureUseEnum | (string & {}) | undefined;
   /** Reason of your termination request */
-  reason?: ServiceTerminationReasonEnum | (string & {});
+  reason?: ServiceTerminationReasonEnum | (string & {}) | undefined;
   /** The termination token sent by email to the admin contact */
   token: string;
 }
@@ -69,7 +69,7 @@ export interface CreateIpBringYourOwnIpAggregateRequest {
 /** Information about routing */
 export interface IpRoutedTo {
   /** Service where ip is routed to */
-  serviceName?: string | null;
+  serviceName?: string | null | undefined;
 }
 /** different task operation */
 export type IpTaskFunctionEnum =
@@ -90,21 +90,21 @@ export type IpTaskStatusEnum =
 /** IP tasks */
 export interface IpIpTask {
   /** Details of this task */
-  comment?: string | null;
+  comment?: string | null | undefined;
   /** Destination for moveFloatingIp tasks */
-  destination?: IpRoutedTo | null;
+  destination?: IpRoutedTo | null | undefined;
   /** Completion date */
-  doneDate?: string | null;
+  doneDate?: string | null | undefined;
   /** Function name */
-  function?: IpTaskFunctionEnum;
+  function?: IpTaskFunctionEnum | undefined;
   /** last update */
-  lastUpdate?: string | null;
+  lastUpdate?: string | null | undefined;
   /** Task Creation date */
-  startDate?: string;
+  startDate?: string | undefined;
   /** Task status */
-  status?: IpTaskStatusEnum;
+  status?: IpTaskStatusEnum | undefined;
   /** the id of the task */
-  taskId?: number;
+  taskId?: number | undefined;
 }
 export interface CreateIpBringYourOwnIpSliceRequest {
   ip: string;
@@ -124,7 +124,7 @@ export interface CreateIpDelegationRequest {
 /** Your reverse delegations on IPv6 subnet */
 export interface IpReverseDelegation {
   /** NS target for delegation */
-  target?: string;
+  target?: string | undefined;
 }
 export interface CreateIpFirewallRequest {
   ip: string;
@@ -134,10 +134,10 @@ export interface CreateIpFirewallRequest {
 export type IpFirewallStateEnum = "disableFirewallPending" | "enableFirewallPending" | "ok";
 /** Your IP on firewall */
 export interface IpFirewallIp {
-  enabled?: boolean;
-  ipOnFirewall?: string;
+  enabled?: boolean | undefined;
+  ipOnFirewall?: string | undefined;
   /** Current state of your ip on firewall */
-  state?: IpFirewallStateEnum;
+  state?: IpFirewallStateEnum | undefined;
 }
 /** Possible values for action */
 export type IpFirewallActionEnum = "deny" | "permit";
@@ -170,9 +170,9 @@ export type IpFirewallTCPOptionEnum = "established" | "syn";
 /** Possible option for TCP */
 export interface IpFirewallOptionTCP {
   /** TCP fragments */
-  fragments?: boolean | null;
+  fragments?: boolean | null | undefined;
   /** TCP option */
-  option?: IpFirewallTCPOptionEnum | (string & {}) | null;
+  option?: IpFirewallTCPOptionEnum | (string & {}) | null | undefined;
 }
 export interface CreateIpFirewallRuleRequest {
   ip: string;
@@ -180,48 +180,48 @@ export interface CreateIpFirewallRuleRequest {
   /** Action on this rule */
   action: IpFirewallActionEnum | (string & {});
   /** Destination port for your rule. Only with TCP/UDP protocol */
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   /** Network protocol */
   protocol: IpFirewallProtocolEnum | (string & {});
   /** Sequence number of your rule */
   sequence: IpFirewallSequenceRangeEnum | (number & {});
   /** Source ip for your rule. Any if not set */
-  source?: string;
+  source?: string | undefined;
   /** Source port for your rule. Only with TCP/UDP protocol */
-  sourcePort?: number;
+  sourcePort?: number | undefined;
   /** Option on your rule. Can only be used with TCP protocol */
-  tcpOption?: IpFirewallOptionTCP;
+  tcpOption?: IpFirewallOptionTCP | undefined;
 }
 /** Possible values for firewall rule state */
 export type IpFirewallRuleStateEnum = "creationPending" | "ok" | "removalPending";
 /** Rule on ip */
 export interface IpFirewallNetworkRule {
   /** Action on this rule */
-  action?: IpFirewallActionEnum;
-  creationDate?: string;
+  action?: IpFirewallActionEnum | undefined;
+  creationDate?: string | undefined;
   /** Destination ip for your rule */
-  destination?: string;
+  destination?: string | undefined;
   /** Destination port range for your rule. Only with TCP/UDP protocol */
-  destinationPort?: string | null;
+  destinationPort?: string | null | undefined;
   /** Fragments option */
-  fragments?: boolean | null;
+  fragments?: boolean | null | undefined;
   /** Network protocol */
-  protocol?: IpFirewallProtocolEnum;
-  rule?: string;
-  sequence?: number;
+  protocol?: IpFirewallProtocolEnum | undefined;
+  rule?: string | undefined;
+  sequence?: number | undefined;
   /** Source ip for your rule */
-  source?: string;
+  source?: string | undefined;
   /** Source port range for your rule. Only with TCP/UDP protocol */
-  sourcePort?: string | null;
+  sourcePort?: string | null | undefined;
   /** Current state of your rule */
-  state?: IpFirewallRuleStateEnum;
+  state?: IpFirewallRuleStateEnum | undefined;
   /** TCP option on your rule */
-  tcpOption?: string | null;
+  tcpOption?: string | null | undefined;
 }
 /** Start and end points (inclusive) of a range */
 export interface ComplexTypeRangeLong {
-  from?: number;
-  to?: number;
+  from?: number | undefined;
+  to?: number | undefined;
 }
 /** Possible values for game rule protocol */
 export type IpGameMitigationRuleProtocolEnum =
@@ -257,11 +257,11 @@ export type IpGameMitigationRuleStateEnum = "createRulePending" | "deleteRulePen
 /** Rule on ip:ports */
 export interface IpGameMitigationRule {
   /** ID of the rule */
-  id?: number;
-  ports?: ComplexTypeRangeLong;
-  protocol?: IpGameMitigationRuleProtocolEnum;
+  id?: number | undefined;
+  ports?: ComplexTypeRangeLong | undefined;
+  protocol?: IpGameMitigationRuleProtocolEnum | undefined;
   /** Current state of your rule */
-  state?: IpGameMitigationRuleStateEnum;
+  state?: IpGameMitigationRuleStateEnum | undefined;
 }
 export interface CreateIpMigrationTokenRequest {
   ip: string;
@@ -271,9 +271,9 @@ export interface CreateIpMigrationTokenRequest {
 /** IP migration to OVH */
 export interface IpIpMigrationToken {
   /** destination customer ID */
-  customerId?: string;
+  customerId?: string | undefined;
   /** migration token */
-  token?: string;
+  token?: string | undefined;
 }
 export interface CreateIpMitigationRequest {
   ip: string;
@@ -284,12 +284,12 @@ export type IpMitigationStateEnum = "creationPending" | "ok" | "removalPending";
 /** Your IP on mitigation */
 export interface IpMitigationIp {
   /** Set on true if your ip is on auto-mitigation */
-  auto?: boolean;
-  ipOnMitigation?: string;
+  auto?: boolean | undefined;
+  ipOnMitigation?: string | undefined;
   /** Set on true if your ip is on permanent mitigation */
-  permanent?: boolean;
+  permanent?: boolean | undefined;
   /** Current state of your ip on mitigation */
-  state?: IpMitigationStateEnum;
+  state?: IpMitigationStateEnum | undefined;
 }
 /** Possible values for auto mitigation timeout (minutes) */
 export type IpMitigationProfileAutoMitigationTimeOutEnum = 0 | 15 | 60 | 360 | 1560;
@@ -304,10 +304,10 @@ export type IpMitigationProfileStateEnum = "ok" | "tasksPending";
 /** Mitigation profile for your ip */
 export interface IpMitigationProfile {
   /** Delay to wait before remove ip from auto mitigation after an attack */
-  autoMitigationTimeOut?: IpMitigationProfileAutoMitigationTimeOutEnum;
-  ipMitigationProfile?: string;
+  autoMitigationTimeOut?: IpMitigationProfileAutoMitigationTimeOutEnum | undefined;
+  ipMitigationProfile?: string | undefined;
   /** Current state of your mitigation profile */
-  state?: IpMitigationProfileStateEnum;
+  state?: IpMitigationProfileStateEnum | undefined;
 }
 export interface CreateIpParkRequest {
   ip: string;
@@ -319,18 +319,18 @@ export interface CreateIpReverseRequest {
 }
 /** Your reverse records on IP */
 export interface IpReverseIp {
-  ipReverse?: string;
-  reverse?: string;
+  ipReverse?: string | undefined;
+  reverse?: string | undefined;
 }
 export interface CreateIpServiceChangeContactRequest {
   /** The internal name of your IP services */
   serviceName: string;
   /** The contact to set as admin contact */
-  contactAdmin?: string;
+  contactAdmin?: string | undefined;
   /** The contact to set as billing contact */
-  contactBilling?: string;
+  contactBilling?: string | undefined;
   /** The contact to set as tech contact */
-  contactTech?: string;
+  contactTech?: string | undefined;
 }
 export type CreateIpServiceChangeContactResponseBodyList = Array<number>;
 export type CreateIpServiceChangeContactResponse = CreateIpServiceChangeContactResponseBodyList;
@@ -640,13 +640,13 @@ export type IamResourceMetadataTagsMap = { [key: string]: string | undefined };
 /** IAM resource metadata embedded in services models */
 export interface IamResourceMetadata {
   /** Resource display name */
-  displayName?: string | null;
+  displayName?: string | null | undefined;
   /** Unique identifier of the resource */
-  id?: string;
+  id?: string | undefined;
   /** Resource tags. Tags that were internally computed are prefixed with ovh: */
-  tags?: IamResourceMetadataTagsMap | null;
+  tags?: IamResourceMetadataTagsMap | null | undefined;
   /** Unique resource name used in policies */
-  urn?: string;
+  urn?: string | undefined;
 }
 /** Region names */
 export type CoreTypesRegionCodenameEnum =
@@ -731,29 +731,29 @@ export type IpIpVersionEnum = 4 | 6;
 /** Your IP */
 export interface IpIpWithIAM {
   /** Is this IP part of the Bring your own IP program (alpha) */
-  bringYourOwnIp?: boolean;
+  bringYourOwnIp?: boolean | undefined;
   /** Where is the IP used/usable (alpha) */
-  campus?: string | null;
-  canBeTerminated?: boolean;
-  country?: CoreTypesCountryEnum | null;
+  campus?: string | null | undefined;
+  canBeTerminated?: boolean | undefined;
+  country?: CoreTypesCountryEnum | null | undefined;
   /** Custom description on your ip */
-  description?: string | null;
+  description?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
-  ip?: string;
+  iam?: IamResourceMetadata | null | undefined;
+  ip?: string | undefined;
   /** Is this IP an Additional IP (alpha) */
-  isAdditionalIp?: boolean;
+  isAdditionalIp?: boolean | undefined;
   /** IP block organisation Id */
-  organisationId?: string | null;
+  organisationId?: string | null | undefined;
   /** Where is the IP used/usable, in the form of region codenames (alpha) */
-  regions?: IpIpWithIAMRegionsList | null;
+  regions?: IpIpWithIAMRegionsList | null | undefined;
   /** Regional Internet Registry of the IP (alpha) */
-  rir?: string | null;
+  rir?: string | null | undefined;
   /** Routage information */
-  routedTo?: IpRoutedTo | null;
-  type?: IpIpTypeEnum;
+  routedTo?: IpRoutedTo | null | undefined;
+  type?: IpIpTypeEnum | undefined;
   /** Version of the IP (alpha) */
-  version?: IpIpVersionEnum;
+  version?: IpIpVersionEnum | undefined;
 }
 export interface GetIpAntihackRequest {
   ip: string;
@@ -765,15 +765,15 @@ export type IpBlockedIpStateEnum = "blocked" | "unblocking";
 /** Blocked IP information */
 export interface IpBlockedIp {
   /** The last blocking date */
-  blockedSince?: string;
+  blockedSince?: string | undefined;
   /** your IP */
-  ipBlocked?: string;
+  ipBlocked?: string | undefined;
   /** Logs */
-  logs?: string | null;
+  logs?: string | null | undefined;
   /** this IP address state */
-  state?: IpBlockedIpStateEnum;
+  state?: IpBlockedIpStateEnum | undefined;
   /** Time (in seconds) remaining before you can request your IP to be unblocked */
-  time?: number;
+  time?: number | undefined;
 }
 export interface GetIpArpRequest {
   ip: string;
@@ -785,15 +785,15 @@ export type IpArpStateEnum = "blocked" | "unblocking";
 /** ARP blocked IP information */
 export interface IpArpBlockedIp {
   /** The last blocking date */
-  blockedSince?: string;
+  blockedSince?: string | undefined;
   /** your IP */
-  ipBlocked?: string;
+  ipBlocked?: string | undefined;
   /** ARP logs */
-  logs?: string | null;
+  logs?: string | null | undefined;
   /** this IP address state */
-  state?: IpArpStateEnum;
+  state?: IpArpStateEnum | undefined;
   /** Time (in seconds) remaining before you can request your IP to be unblocked */
-  time?: number;
+  time?: number | undefined;
 }
 export interface GetIpDelegationRequest {
   ip: string;
@@ -824,13 +824,13 @@ export type IpGameMitigationSupportedProtocolsList = Array<IpGameMitigationRuleP
 /** GAME Anti-DDoS */
 export interface IpGameMitigation {
   /** Firewall mode : in UDP, only allow traffic matching your rules (as well as established traffic). If not enabled, traffic to ports not defined in your rules will be permited. TCP traffic is unaffected by this. */
-  firewallModeEnabled?: boolean;
-  ipOnGame?: string;
+  firewallModeEnabled?: boolean | undefined;
+  ipOnGame?: string | undefined;
   /** Maximum number of rules for this IP */
-  maxRules?: number;
-  state?: IpGameMitigationStateEnum;
+  maxRules?: number | undefined;
+  state?: IpGameMitigationStateEnum | undefined;
   /** List of protocols available on this IP */
-  supportedProtocols?: IpGameMitigationSupportedProtocolsList;
+  supportedProtocols?: IpGameMitigationSupportedProtocolsList | undefined;
 }
 export interface GetIpGameRuleRequest {
   ip: string;
@@ -859,15 +859,15 @@ export type IpAntiphishingStateEnum = "blocked" | "blocking" | "unblocked" | "un
 /** Phishing URLs hosted on your IP */
 export interface IpAntiphishing {
   /** Date of the event */
-  creationDate?: string;
+  creationDate?: string | undefined;
   /** Internal ID of the phishing entry */
-  id?: number;
+  id?: number | undefined;
   /** IP address hosting the phishing URL */
-  ipOnAntiphishing?: string;
+  ipOnAntiphishing?: string | undefined;
   /** Current state of the phishing */
-  state?: IpAntiphishingStateEnum;
+  state?: IpAntiphishingStateEnum | undefined;
   /** Phishing URL */
-  urlPhishing?: string;
+  urlPhishing?: string | undefined;
 }
 export interface GetIpReverseRequest {
   ip: string;
@@ -878,8 +878,8 @@ export interface GetIpRipeRequest {
 }
 /** IP block RIPE informations */
 export interface IpRipeInfos {
-  description?: string | null;
-  netname?: string | null;
+  description?: string | null | undefined;
+  netname?: string | null | undefined;
 }
 export interface GetIpServiceRequest {
   /** The internal name of your IP services */
@@ -887,18 +887,18 @@ export interface GetIpServiceRequest {
 }
 /** Your IP linked to service */
 export interface IpServiceIpWithIAM {
-  canBeTerminated?: boolean;
-  country?: CoreTypesCountryEnum | null;
+  canBeTerminated?: boolean | undefined;
+  country?: CoreTypesCountryEnum | null | undefined;
   /** Custom description on your ip */
-  description?: string | null;
+  description?: string | null | undefined;
   /** IAM resource metadata */
-  iam?: IamResourceMetadata | null;
-  ip?: string;
+  iam?: IamResourceMetadata | null | undefined;
+  ip?: string | undefined;
   /** IP block organisation Id */
-  organisationId?: string | null;
+  organisationId?: string | null | undefined;
   /** Routage information */
-  routedTo?: IpRoutedTo | null;
-  type?: IpIpTypeEnum;
+  routedTo?: IpRoutedTo | null | undefined;
+  type?: IpIpTypeEnum | undefined;
 }
 export interface GetIpServiceServiceInfosRequest {
   /** The internal name of your IP services */
@@ -909,15 +909,15 @@ export type ServicesServicePossibleRenewPeriodList = Array<number>;
 /** Map a possible renew for a specific service */
 export interface ServiceRenewType {
   /** The service is automatically renewed */
-  automatic?: boolean;
+  automatic?: boolean | undefined;
   /** The service will be deleted at expiration */
-  deleteAtExpiration?: boolean;
+  deleteAtExpiration?: boolean | undefined;
   /** The service forced to be renewed */
-  forced?: boolean;
+  forced?: boolean | undefined;
   /** The service needs to be manually renewed and paid */
-  manualPayment?: boolean | null;
+  manualPayment?: boolean | null | undefined;
   /** period of renew in month */
-  period?: number | null;
+  period?: number | null | undefined;
 }
 /** Detailed renewal type of a service */
 export type ServiceRenewalTypeEnum =
@@ -939,21 +939,21 @@ export type ServiceStateEnum =
 /** Details about a Service */
 export interface ServicesService {
   /** Indicates that the service can be set up to be deleted at expiration */
-  canDeleteAtExpiration?: boolean;
-  contactAdmin?: string;
-  contactBilling?: string;
-  contactTech?: string;
-  creation?: string;
-  domain?: string;
-  engagedUpTo?: string | null;
-  expiration?: string;
+  canDeleteAtExpiration?: boolean | undefined;
+  contactAdmin?: string | undefined;
+  contactBilling?: string | undefined;
+  contactTech?: string | undefined;
+  creation?: string | undefined;
+  domain?: string | undefined;
+  engagedUpTo?: string | null | undefined;
+  expiration?: string | undefined;
   /** All the possible renew period of your service in month */
-  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null;
+  possibleRenewPeriod?: ServicesServicePossibleRenewPeriodList | null | undefined;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
-  renewalType?: ServiceRenewalTypeEnum;
-  serviceId?: number;
-  status?: ServiceStateEnum;
+  renew?: ServiceRenewType | null | undefined;
+  renewalType?: ServiceRenewalTypeEnum | undefined;
+  serviceId?: number | undefined;
+  status?: ServiceStateEnum | undefined;
 }
 export interface GetIpSpamRequest {
   ip: string;
@@ -965,13 +965,13 @@ export type IpSpamStateEnum = "blockedForSpam" | "unblocked" | "unblocking";
 /** Your IP spam stats */
 export interface IpSpamIp {
   /** Last date the ip was blocked */
-  date?: string;
+  date?: string | undefined;
   /** IP address which is sending spam */
-  ipSpamming?: string;
+  ipSpamming?: string | undefined;
   /** Current state of the ip */
-  state?: IpSpamStateEnum;
+  state?: IpSpamStateEnum | undefined;
   /** Time (in seconds) while the IP will be blocked */
-  time?: number;
+  time?: number | undefined;
 }
 export interface GetIpTaskRequest {
   ip: string;
@@ -984,35 +984,35 @@ export type ListIpRequestIamTagsValueList = Array<IamResourceTagFilterInput>;
 export type ListIpRequestIamTagsMap = { [key: string]: ListIpRequestIamTagsValueList | undefined };
 export interface ListIpRequest {
   /** Filter the value of campus property (ilike) (alpha) */
-  campus?: string;
+  campus?: string | undefined;
   /** Filter the value of description property (like) */
-  description?: string;
+  description?: string | undefined;
   /** Filter resources on IAM tags */
-  iamTags?: ListIpRequestIamTagsMap;
+  iamTags?: ListIpRequestIamTagsMap | undefined;
   /** Filter the value of ip property (contains or equals) */
-  ip?: string;
+  ip?: string | undefined;
   /** Filter the value of isAdditionalIp property (=) (alpha) */
-  isAdditionalIp?: boolean;
+  isAdditionalIp?: boolean | undefined;
   /** Filter the value of routedTo.serviceName property (like) */
-  routedTo_serviceName?: string;
+  routedTo_serviceName?: string | undefined;
   /** Filter the value of type property (=) */
-  type?: IpIpTypeEnum | (string & {});
+  type?: IpIpTypeEnum | (string & {}) | undefined;
   /** Filter the value of version property (=) (alpha) */
-  version?: IpIpVersionEnum | (number & {});
+  version?: IpIpVersionEnum | (number & {}) | undefined;
 }
 export type ListIpResponseBodyList = Array<string>;
 export type ListIpResponse = ListIpResponseBodyList;
 export interface ListIpAntihackRequest {
   ip: string;
   /** Filter the value of state property (=) */
-  state?: IpBlockedIpStateEnum | (string & {});
+  state?: IpBlockedIpStateEnum | (string & {}) | undefined;
 }
 export type ListIpAntihackResponseBodyList = Array<string>;
 export type ListIpAntihackResponse = ListIpAntihackResponseBodyList;
 export interface ListIpArpRequest {
   ip: string;
   /** Filter the value of state property (=) */
-  state?: IpArpStateEnum | (string & {});
+  state?: IpArpStateEnum | (string & {}) | undefined;
 }
 export type ListIpArpResponseBodyList = Array<string>;
 export type ListIpArpResponse = ListIpArpResponseBodyList;
@@ -1024,9 +1024,9 @@ export type IpByoipAggregationPreviewChildrenIpsList = Array<string>;
 /** Preview of an IP aggregation on BYOIP Additional IPs */
 export interface IpByoipAggregationPreview {
   /** Aggregation Additional IP that will be created */
-  aggregationIp?: string;
+  aggregationIp?: string | undefined;
   /** Existing Additional IP(s) that will be aggregated */
-  childrenIps?: IpByoipAggregationPreviewChildrenIpsList;
+  childrenIps?: IpByoipAggregationPreviewChildrenIpsList | undefined;
 }
 export type ListIpBringYourOwnIpAggregateResponseBodyList = Array<IpByoipAggregationPreview>;
 export type ListIpBringYourOwnIpAggregateResponse = ListIpBringYourOwnIpAggregateResponseBodyList;
@@ -1038,9 +1038,9 @@ export type IpByoipSlicingPreviewChildrenIpsList = Array<string>;
 /** Preview of an IP slicing on BYOIP Additional IPs */
 export interface IpByoipSlicingPreview {
   /** Additional IP(s) that will be created */
-  childrenIps?: IpByoipSlicingPreviewChildrenIpsList;
+  childrenIps?: IpByoipSlicingPreviewChildrenIpsList | undefined;
   /** Slicing size */
-  slicingSize?: number;
+  slicingSize?: number | undefined;
 }
 export type ListIpBringYourOwnIpSliceResponseBodyList = Array<IpByoipSlicingPreview>;
 export type ListIpBringYourOwnIpSliceResponse = ListIpBringYourOwnIpSliceResponseBodyList;
@@ -1124,13 +1124,13 @@ export type IpCampusEnum =
 /** Campus of an IP address */
 export interface IpCampus {
   /** List of RIRs whose IPs can be imported in the campus */
-  bringYourOwnIpSupportedRirForIp?: IpCampusBringYourOwnIpSupportedRirForIpList;
+  bringYourOwnIpSupportedRirForIp?: IpCampusBringYourOwnIpSupportedRirForIpList | undefined;
   /** List of datacenters in the campus */
-  datacenters?: IpCampusDatacentersList;
+  datacenters?: IpCampusDatacentersList | undefined;
   /** Description of the campus */
-  description?: string;
+  description?: string | undefined;
   /** Campus name */
-  name?: IpCampusEnum;
+  name?: IpCampusEnum | undefined;
 }
 export type ListIpCampusResponseBodyList = Array<IpCampus>;
 export type ListIpCampusResponse = ListIpCampusResponseBodyList;
@@ -1142,9 +1142,9 @@ export type ListIpDelegationResponse = ListIpDelegationResponseBodyList;
 export interface ListIpFirewallRequest {
   ip: string;
   /** Filter the value of enabled property (=) */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Filter the value of state property (=) */
-  state?: IpFirewallStateEnum | (string & {});
+  state?: IpFirewallStateEnum | (string & {}) | undefined;
 }
 export type ListIpFirewallResponseBodyList = Array<string>;
 export type ListIpFirewallResponse = ListIpFirewallResponseBodyList;
@@ -1152,7 +1152,7 @@ export interface ListIpFirewallRuleRequest {
   ip: string;
   ipOnFirewall: string;
   /** Filter the value of state property (=) */
-  state?: IpFirewallRuleStateEnum | (string & {});
+  state?: IpFirewallRuleStateEnum | (string & {}) | undefined;
 }
 export type ListIpFirewallRuleResponseBodyList = Array<number>;
 export type ListIpFirewallRuleResponse = ListIpFirewallRuleResponseBodyList;
@@ -1170,65 +1170,65 @@ export type ListIpGameRuleResponse = ListIpGameRuleResponseBodyList;
 export interface ListIpLicenseCloudLinuxRequest {
   ip: string;
   /** Filter the value of ipAddress property (=) */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type ListIpLicenseCloudLinuxResponseBodyList = Array<string>;
 export type ListIpLicenseCloudLinuxResponse = ListIpLicenseCloudLinuxResponseBodyList;
 export interface ListIpLicenseCpanelRequest {
   ip: string;
   /** Filter the value of ipAddress property (=) */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type ListIpLicenseCpanelResponseBodyList = Array<string>;
 export type ListIpLicenseCpanelResponse = ListIpLicenseCpanelResponseBodyList;
 export interface ListIpLicenseDirectadminRequest {
   ip: string;
   /** Filter the value of ipAddress property (=) */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type ListIpLicenseDirectadminResponseBodyList = Array<string>;
 export type ListIpLicenseDirectadminResponse = ListIpLicenseDirectadminResponseBodyList;
 export interface ListIpLicensePleskRequest {
   ip: string;
   /** Filter the value of ipAddress property (=) */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type ListIpLicensePleskResponseBodyList = Array<string>;
 export type ListIpLicensePleskResponse = ListIpLicensePleskResponseBodyList;
 export interface ListIpLicenseSqlserverRequest {
   ip: string;
   /** Filter the value of ipAddress property (=) */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type ListIpLicenseSqlserverResponseBodyList = Array<string>;
 export type ListIpLicenseSqlserverResponse = ListIpLicenseSqlserverResponseBodyList;
 export interface ListIpLicenseVirtuozzoRequest {
   ip: string;
   /** Filter the value of ipAddress property (=) */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type ListIpLicenseVirtuozzoResponseBodyList = Array<string>;
 export type ListIpLicenseVirtuozzoResponse = ListIpLicenseVirtuozzoResponseBodyList;
 export interface ListIpLicenseWindowsRequest {
   ip: string;
   /** Filter the value of ipAddress property (=) */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type ListIpLicenseWindowsResponseBodyList = Array<string>;
 export type ListIpLicenseWindowsResponse = ListIpLicenseWindowsResponseBodyList;
 export interface ListIpLicenseWorklightRequest {
   ip: string;
   /** Filter the value of ipAddress property (=) */
-  ipAddress?: string;
+  ipAddress?: string | undefined;
 }
 export type ListIpLicenseWorklightResponseBodyList = Array<string>;
 export type ListIpLicenseWorklightResponse = ListIpLicenseWorklightResponseBodyList;
 export interface ListIpMitigationRequest {
   ip: string;
   /** Filter the value of auto property (=) */
-  auto?: boolean;
+  auto?: boolean | undefined;
   /** Filter the value of state property (=) */
-  state?: IpMitigationStateEnum | (string & {});
+  state?: IpMitigationStateEnum | (string & {}) | undefined;
 }
 export type ListIpMitigationResponseBodyList = Array<string>;
 export type ListIpMitigationResponse = ListIpMitigationResponseBodyList;
@@ -1245,9 +1245,9 @@ export type IpDestinationNexthopList = Array<string>;
 /** A structure given service and its nexthops as a destination for failover ips */
 export interface IpDestination {
   /** Nexthops available on this service */
-  nexthop?: IpDestinationNexthopList | null;
+  nexthop?: IpDestinationNexthopList | null | undefined;
   /** Service destination */
-  service?: string;
+  service?: string | undefined;
 }
 /** list of public cloud projects */
 export type IpDestinationsCloudProjectList = Array<IpDestination>;
@@ -1264,24 +1264,24 @@ export type IpDestinationsVpsList = Array<IpDestination>;
 /** A structure given all services allowed as a destination for this ip */
 export interface IpDestinations {
   /** list of public cloud projects */
-  cloudProject?: IpDestinationsCloudProjectList | null;
+  cloudProject?: IpDestinationsCloudProjectList | null | undefined;
   /** list of dedicated clouds */
-  dedicatedCloud?: IpDestinationsDedicatedCloudList | null;
+  dedicatedCloud?: IpDestinationsDedicatedCloudList | null | undefined;
   /** list of dedicated servers */
-  dedicatedServer?: IpDestinationsDedicatedServerList | null;
+  dedicatedServer?: IpDestinationsDedicatedServerList | null | undefined;
   /** list of hosting reseller services */
-  hostingReseller?: IpDestinationsHostingResellerList | null;
+  hostingReseller?: IpDestinationsHostingResellerList | null | undefined;
   /** list of load balancing services */
-  ipLoadbalancing?: IpDestinationsIpLoadbalancingList | null;
+  ipLoadbalancing?: IpDestinationsIpLoadbalancingList | null | undefined;
   /** list of vps */
-  vps?: IpDestinationsVpsList | null;
+  vps?: IpDestinationsVpsList | null | undefined;
 }
 export interface ListIpPhishingRequest {
   ip: string;
   /** Filter the value of ipOnAntiphishing property (within or equals) */
-  ipOnAntiphishing?: string;
+  ipOnAntiphishing?: string | undefined;
   /** Filter the value of state property (=) */
-  state?: IpAntiphishingStateEnum | (string & {});
+  state?: IpAntiphishingStateEnum | (string & {}) | undefined;
 }
 export type ListIpPhishingResponseBodyList = Array<number>;
 export type ListIpPhishingResponse = ListIpPhishingResponseBodyList;
@@ -1296,14 +1296,14 @@ export type ListIpServiceRequestIamTagsMap = {
 };
 export interface ListIpServiceRequest {
   /** Filter resources on IAM tags */
-  iamTags?: ListIpServiceRequestIamTagsMap;
+  iamTags?: ListIpServiceRequestIamTagsMap | undefined;
 }
 export type ListIpServiceResponseBodyList = Array<string>;
 export type ListIpServiceResponse = ListIpServiceResponseBodyList;
 export interface ListIpSpamRequest {
   ip: string;
   /** Filter the value of state property (=) */
-  state?: IpSpamStateEnum | (string & {});
+  state?: IpSpamStateEnum | (string & {}) | undefined;
 }
 export type ListIpSpamResponseBodyList = Array<string>;
 export type ListIpSpamResponse = ListIpSpamResponseBodyList;
@@ -1319,98 +1319,98 @@ export interface ListIpSpamStatsRequest {
 /** Spam's target information */
 export interface IpSpamTarget {
   /** Timestamp when the email was sent */
-  date?: number;
+  date?: number | undefined;
   /** IP address of the target */
-  destinationIp?: string;
+  destinationIp?: string | undefined;
   /** The message-id of the email */
-  messageId?: string;
+  messageId?: string | undefined;
   /** Spam score for the email */
-  spamscore?: number;
+  spamscore?: number | undefined;
 }
 /** Detailed list of the spams */
 export type IpSpamStatsDetectedSpamsList = Array<IpSpamTarget>;
 /** Spam statistics about an IP address */
 export interface IpSpamStats {
   /** Average spam score. */
-  averageSpamscore?: number | null;
+  averageSpamscore?: number | null | undefined;
   /** Detailed list of the spams */
-  detectedSpams?: IpSpamStatsDetectedSpamsList | null;
+  detectedSpams?: IpSpamStatsDetectedSpamsList | null | undefined;
   /** Number of spams sent */
-  numberOfSpams?: number;
+  numberOfSpams?: number | undefined;
   /** Time when the IP address was blocked */
-  timestamp?: number;
+  timestamp?: number | undefined;
   /** Number of emails sent */
-  total?: number;
+  total?: number | undefined;
 }
 export type ListIpSpamStatsResponseBodyList = Array<IpSpamStats>;
 export type ListIpSpamStatsResponse = ListIpSpamStatsResponseBodyList;
 export interface ListIpTaskRequest {
   ip: string;
   /** Filter the value of function property (=) */
-  function?: IpTaskFunctionEnum | (string & {});
+  function?: IpTaskFunctionEnum | (string & {}) | undefined;
   /** Filter the value of status property (=) */
-  status?: IpTaskStatusEnum | (string & {});
+  status?: IpTaskStatusEnum | (string & {}) | undefined;
 }
 export type ListIpTaskResponseBodyList = Array<number>;
 export type ListIpTaskResponse = ListIpTaskResponseBodyList;
 export interface MoveIpRequest {
   ip: string;
   /** Nexthop of destination service */
-  nexthop?: string;
+  nexthop?: string | undefined;
   /** Service destination */
   to: string;
 }
 export interface PutIpRequest {
   ip: string;
   /** Custom description on your ip */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface PutIpResponse {}
 export interface PutIpFirewallRequest {
   ip: string;
   ipOnFirewall: string;
-  enabled?: boolean;
+  enabled?: boolean | undefined;
 }
 export interface PutIpFirewallResponse {}
 export interface PutIpGameRequest {
   ip: string;
   ipOnGame: string;
   /** Firewall mode : in UDP, only allow traffic matching your rules (as well as established traffic). If not enabled, traffic to ports not defined in your rules will be permited. TCP traffic is unaffected by this. */
-  firewallModeEnabled?: boolean;
+  firewallModeEnabled?: boolean | undefined;
 }
 export interface PutIpGameResponse {}
 export interface PutIpMitigationRequest {
   ip: string;
   ipOnMitigation: string;
   /** Set on true if your ip is on permanent mitigation */
-  permanent?: boolean;
+  permanent?: boolean | undefined;
 }
 export interface PutIpMitigationResponse {}
 export interface PutIpMitigationProfileRequest {
   ip: string;
   ipMitigationProfile: string;
   /** Delay to wait before remove ip from auto mitigation after an attack */
-  autoMitigationTimeOut?: IpMitigationProfileAutoMitigationTimeOutEnum | (number & {});
+  autoMitigationTimeOut?: IpMitigationProfileAutoMitigationTimeOutEnum | (number & {}) | undefined;
 }
 export interface PutIpMitigationProfileResponse {}
 export interface PutIpRipeRequest {
   ip: string;
-  description?: string | null;
-  netname?: string | null;
+  description?: string | null | undefined;
+  netname?: string | null | undefined;
 }
 export interface PutIpRipeResponse {}
 export interface PutIpServiceRequest {
   /** The internal name of your IP services */
   serviceName: string;
   /** Custom description on your ip */
-  description?: string | null;
+  description?: string | null | undefined;
 }
 export interface PutIpServiceResponse {}
 export interface PutIpServiceServiceInfosRequest {
   /** The internal name of your IP services */
   serviceName: string;
   /** Way of handling the renew */
-  renew?: ServiceRenewType | null;
+  renew?: ServiceRenewType | null | undefined;
 }
 export interface PutIpServiceServiceInfosResponse {}
 export interface TerminateIpServiceRequest {

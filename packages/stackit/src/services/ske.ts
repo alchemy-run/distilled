@@ -53,11 +53,11 @@ export interface CreateKubeconfigRequest {
   projectId: string;
   region: string;
   clusterName: string;
-  expirationSeconds?: string;
+  expirationSeconds?: string | undefined;
 }
 export interface Kubeconfig {
-  expirationTimestamp?: string;
-  kubeconfig?: string;
+  expirationTimestamp?: string | undefined;
+  kubeconfig?: string | undefined;
 }
 export interface IDP {
   /** Enable IDP integration for the cluster. */
@@ -66,7 +66,7 @@ export interface IDP {
   type: string;
 }
 export interface Access {
-  idp?: IDP;
+  idp?: IDP | undefined;
 }
 export interface Audit {
   /** Enable cluster audit log forwarding to a Telemetry Router. U+26A0 Note: This feature is in private preview. Enabling audit logging is only possible for enabled accounts. Otherwise the request will be rejected. */
@@ -90,9 +90,9 @@ export interface DNS {
   /** Enables the dns extension. */
   enabled: boolean;
   /** Enables Gateway API support for ExternalDNS. The CRDs must be installed by the user. Once installed, ExternalDNS will be configured at the next cluster reconcile. */
-  gatewayApi?: boolean;
+  gatewayApi?: boolean | undefined;
   /** Array of domain filters for ExternalDNS, e.g., *.runs.onstackit.cloud. */
-  zones?: DNSZonesList;
+  zones?: DNSZonesList | undefined;
 }
 export interface Observability {
   /** Enables the Observability extension. */
@@ -101,15 +101,15 @@ export interface Observability {
   instanceId: string;
 }
 export interface Extension {
-  acl?: ACL;
-  applicationLoadBalancer?: ApplicationLoadBalancer;
-  dns?: DNS;
-  observability?: Observability;
+  acl?: ACL | undefined;
+  applicationLoadBalancer?: ApplicationLoadBalancer | undefined;
+  dns?: DNS | undefined;
+  observability?: Observability | undefined;
 }
 export interface HibernationSchedule {
   end: string;
   start: string;
-  timezone?: string;
+  timezone?: string | undefined;
 }
 export type HibernationSchedulesList = Array<HibernationSchedule>;
 export interface Hibernation {
@@ -122,39 +122,39 @@ export interface Kubernetes {
 /** Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long. */
 export type CreateOrUpdateClusterRequestLabelsMap = { [key: string]: string | undefined };
 export interface MaintenanceAutoUpdate {
-  kubernetesVersion?: boolean;
-  machineImageVersion?: boolean;
+  kubernetesVersion?: boolean | undefined;
+  machineImageVersion?: boolean | undefined;
 }
 export interface TimeWindow {
   end: string;
   start: string;
 }
 export interface Maintenance {
-  autoUpdate?: MaintenanceAutoUpdate;
-  timeWindow?: TimeWindow;
+  autoUpdate?: MaintenanceAutoUpdate | undefined;
+  timeWindow?: TimeWindow | undefined;
 }
 /** CNI to use for the cluster. Only one type of CNI can be used. The type of CNI is immutable after creation. Defaults to calico */
 export interface CNI {
   /** configuration options for the Calico CNI */
-  calico?: unknown;
+  calico?: unknown | undefined;
 }
 /** The access scope of the Control Plane. It defines if the Kubernetes control plane is public or only available inside a STACKIT Network Area. U+26A0 Warning: Changing the access scope on an existing cluster directly impacts its network exposure (e.g., making a private cluster publicly accessible) U+26A0 Note: This feature is in private preview. Supplying this object is only permitted for enabled accounts. If your account does not have access, the request will be rejected. */
 export type AccessScope = "PUBLIC" | "SNA";
 export interface V2ControlPlaneNetwork {
-  accessScope?: AccessScope | (string & {});
+  accessScope?: AccessScope | (string & {}) | undefined;
 }
 /** PodAddressRanges contains the CIDRs that are used to allocate Pod IPs from. Currently only 1 range is allowed. Immutable after creation. */
 export type NetworkPodAddressRangesList = Array<string>;
 /** ServiceAddressRanges contains the CIDRs that are used to allocate Service ClusterIPs from. Currently only 1 range is allowed. Immutable after creation. */
 export type NetworkServiceAddressRangesList = Array<string>;
 export interface Network {
-  cni?: CNI;
-  controlPlane?: V2ControlPlaneNetwork;
-  id?: string;
+  cni?: CNI | undefined;
+  controlPlane?: V2ControlPlaneNetwork | undefined;
+  id?: string | undefined;
   /** PodAddressRanges contains the CIDRs that are used to allocate Pod IPs from. Currently only 1 range is allowed. Immutable after creation. */
-  podAddressRanges?: NetworkPodAddressRangesList;
+  podAddressRanges?: NetworkPodAddressRangesList | undefined;
   /** ServiceAddressRanges contains the CIDRs that are used to allocate Service ClusterIPs from. Currently only 1 range is allowed. Immutable after creation. */
-  serviceAddressRanges?: NetworkServiceAddressRangesList;
+  serviceAddressRanges?: NetworkServiceAddressRangesList | undefined;
 }
 export type NodepoolAvailabilityZonesList = Array<string>;
 export interface Kata {
@@ -163,12 +163,12 @@ export interface Kata {
 }
 export type CRIName = "containerd";
 export interface CRI {
-  kata?: Kata;
-  name?: CRIName | (string & {});
+  kata?: Kata | undefined;
+  name?: CRIName | (string & {}) | undefined;
 }
 export interface NodepoolKubernetes {
   /** Override the Kubernetes version for the Kubelet of this Nodepool. Version must be equal or lower than the version of the cluster. Only one minor version difference to the version of the cluster is allowed. Downgrade of existing Nodepools is prohibited. */
-  version?: string;
+  version?: string | undefined;
 }
 export type NodepoolLabelsMap = { [key: string]: string | undefined };
 /** For valid names and versions please take a look at [provider-options](#tag/ProviderOptions/operation/SkeService_GetProviderOptions) `machineImages`. */
@@ -185,31 +185,31 @@ export type TaintEffect = "NoSchedule" | "PreferNoSchedule" | "NoExecute";
 export interface Taint {
   effect: TaintEffect | (string & {});
   key: string;
-  value?: string;
+  value?: string | undefined;
 }
 export type NodepoolTaintsList = Array<Taint>;
 export interface Volume {
   size: number;
   /** For valid values please take a look at [provider-options](#tag/ProviderOptions/operation/SkeService_GetProviderOptions) `volumeTypes`. */
-  type?: string;
+  type?: string | undefined;
 }
 export interface Nodepool {
   /** This needs to be true for at least one node pool. */
-  allowSystemComponents?: boolean;
+  allowSystemComponents?: boolean | undefined;
   availabilityZones: NodepoolAvailabilityZonesList;
-  cri?: CRI;
-  kubernetes?: NodepoolKubernetes;
-  labels?: NodepoolLabelsMap;
+  cri?: CRI | undefined;
+  kubernetes?: NodepoolKubernetes | undefined;
+  labels?: NodepoolLabelsMap | undefined;
   machine: Machine;
-  maxSurge?: number;
-  maxUnavailable?: number;
+  maxSurge?: number | undefined;
+  maxUnavailable?: number | undefined;
   /** Maximum number of nodes in the pool. During runtime, the cluster will never scale beyond 1000 nodes, even if the total maximum would allow for a larger cluster. */
   maximum: number;
   /** Minimum number of nodes in the pool. The sum of all minima must not exceed 1000. */
   minimum: number;
   /** Maximum 15 chars */
   name: string;
-  taints?: NodepoolTaintsList;
+  taints?: NodepoolTaintsList | undefined;
   volume: Volume;
 }
 export type CreateOrUpdateClusterRequestNodepoolsList = Array<Nodepool>;
@@ -232,11 +232,11 @@ export type CredentialsRotationStatePhase =
   | "COMPLETED";
 export interface CredentialsRotationState {
   /** Format: `2024-02-15T11:06:29Z` */
-  lastCompletionTime?: string;
+  lastCompletionTime?: string | undefined;
   /** Format: `2024-02-15T11:06:29Z` */
-  lastInitiationTime?: string;
+  lastInitiationTime?: string | undefined;
   /** Phase of the credentials rotation. `NEVER` indicates that no credentials rotation has been performed using the new credentials rotation endpoints yet. */
-  phase?: CredentialsRotationStatePhase | (string & {});
+  phase?: CredentialsRotationStatePhase | (string & {}) | undefined;
 }
 /** The outgoing network ranges (in CIDR notation) of traffic originating from workload on the cluster. */
 export type ClusterStatusEgressAddressRangesList = Array<string>;
@@ -255,32 +255,32 @@ export type RuntimeErrorCode =
   | "SKE_DNS_ZONE_NOT_FOUND";
 export interface RuntimeError {
   /** - Code: `SKE_UNSPECIFIED` Message: "An error occurred. Please open a support ticket if this error persists." - Code: `SKE_TMP_AUTH_ERROR` Message: "Authentication failed. This is a temporary error. Please wait while the system recovers." - Code: `SKE_QUOTA_EXCEEDED` Message: "Your project's resource quotas are exhausted. Please make sure your quota is sufficient for the ordered cluster." - Code: `SKE_OBSERVABILITY_INSTANCE_NOT_FOUND` Message: "The provided Observability instance could not be found." - Code: `SKE_RATE_LIMITS` Message: "While provisioning your cluster, request rate limits where incurred. Please wait while the system recovers." - Code: `SKE_INFRA_ERROR` Message: "An error occurred with the underlying infrastructure. Please open a support ticket if this error persists." - Code: `SKE_REMAINING_RESOURCES` Message: "There are remaining Kubernetes resources in your cluster that prevent deletion. Please make sure to remove them." - Code: `SKE_CONFIGURATION_PROBLEM` Message: "A configuration error occurred. Please open a support ticket if this error persists." - Code: `SKE_UNREADY_NODES` Message: "Not all worker nodes are ready. Please open a support ticket if this error persists." - Code: `SKE_API_SERVER_ERROR` Message: "The Kubernetes API server is not reporting readiness. Please open a support ticket if this error persists." - Code: `SKE_DNS_ZONE_NOT_FOUND` Message: "The provided DNS zone for the STACKIT DNS extension could not be found. Please ensure you defined a valid domain that belongs to a STACKIT DNS zone." */
-  code?: RuntimeErrorCode | (string & {});
-  details?: string;
-  message?: string;
+  code?: RuntimeErrorCode | (string & {}) | undefined;
+  details?: string | undefined;
+  message?: string | undefined;
 }
 export interface ClusterError {
   /** Possible values: `"SKE_INFRA_SNA_NETWORK_NOT_FOUND"`, `"SKE_INFRA_SNA_NETWORK_NO_ROUTER"`, `"SKE_NODE_NO_VALID_HOST_FOUND"`, `"SKE_NODE_MISCONFIGURED_PDB"`, `"SKE_NODE_MACHINE_TYPE_NOT_FOUND"`, `"SKE_NETWORK_NO_DNS_CONFIGURED"`, `"SKE_NETWORK_NO_AVAILABLE_IPS"`, `"SKE_NODE_MEMORY_PRESSURE"`, `"SKE_NODE_DISK_PRESSURE"`, `"SKE_NODE_PID_PRESSURE"`, `"SKE_OBSERVABILITY_INSTANCE_NOT_FOUND"`, `"SKE_OBSERVABILITY_INSTANCE_NOT_READY"`, `"SKE_DNS_ZONE_NOT_FOUND"`, `"SKE_SNA_DOES_NOT_SUPPORT_SERVICE_ROUTES"`, `"SKE_FETCHING_ERRORS_NOT_POSSIBLE"` */
-  code?: string;
-  message?: string;
+  code?: string | undefined;
+  message?: string | undefined;
 }
 export type ClusterStatusErrorsList = Array<ClusterError>;
 export interface ExpirationStatusKubernetes {
-  expirationDate?: string;
-  version?: string;
+  expirationDate?: string | undefined;
+  version?: string | undefined;
 }
 export interface ExpirationStatusNodepool {
-  kubernetesExpirationDate?: string;
-  kubernetesVersion?: string;
-  name?: string;
-  osExpirationDate?: string;
-  osName?: string;
-  osVersion?: string;
+  kubernetesExpirationDate?: string | undefined;
+  kubernetesVersion?: string | undefined;
+  name?: string | undefined;
+  osExpirationDate?: string | undefined;
+  osName?: string | undefined;
+  osVersion?: string | undefined;
 }
 export type ExpirationStatusNodepoolsList = Array<ExpirationStatusNodepool>;
 export interface ExpirationStatus {
-  kubernetes?: ExpirationStatusKubernetes;
-  nodepools?: ExpirationStatusNodepoolsList;
+  kubernetes?: ExpirationStatusKubernetes | undefined;
+  nodepools?: ExpirationStatusNodepoolsList | undefined;
 }
 /** The network ranges (in CIDR notation) used by nodes of the cluster. */
 export type ClusterStatusNodeAddressRangesList = Array<string>;
@@ -289,59 +289,59 @@ export type ClusterStatusPodAddressRangesList = Array<string>;
 /** The network ranges (in CIDR notation) used by services of the cluster. */
 export type ClusterStatusServiceAddressRangesList = Array<string>;
 export interface ClusterStatus {
-  aggregated?: ClusterStatusState | (string & {});
+  aggregated?: ClusterStatusState | (string & {}) | undefined;
   /** Format: `2024-02-15T11:06:29Z` */
-  creationTime?: string;
-  credentialsRotation?: CredentialsRotationState;
+  creationTime?: string | undefined;
+  credentialsRotation?: CredentialsRotationState | undefined;
   /** The outgoing network ranges (in CIDR notation) of traffic originating from workload on the cluster. */
-  egressAddressRanges?: ClusterStatusEgressAddressRangesList;
-  error?: RuntimeError;
-  errors?: ClusterStatusErrorsList;
-  expiration?: ExpirationStatus;
-  hibernated?: boolean;
-  identity?: string;
+  egressAddressRanges?: ClusterStatusEgressAddressRangesList | undefined;
+  error?: RuntimeError | undefined;
+  errors?: ClusterStatusErrorsList | undefined;
+  expiration?: ExpirationStatus | undefined;
+  hibernated?: boolean | undefined;
+  identity?: string | undefined;
   /** The network ranges (in CIDR notation) used by nodes of the cluster. */
-  nodeAddressRanges?: ClusterStatusNodeAddressRangesList;
+  nodeAddressRanges?: ClusterStatusNodeAddressRangesList | undefined;
   /** The network ranges (in CIDR notation) used by pods of the cluster. */
-  podAddressRanges?: ClusterStatusPodAddressRangesList;
-  serviceAccountIssuer?: string;
+  podAddressRanges?: ClusterStatusPodAddressRangesList | undefined;
+  serviceAccountIssuer?: string | undefined;
   /** The network ranges (in CIDR notation) used by services of the cluster. */
-  serviceAddressRanges?: ClusterStatusServiceAddressRangesList;
+  serviceAddressRanges?: ClusterStatusServiceAddressRangesList | undefined;
 }
 export interface CreateOrUpdateClusterRequest {
   projectId: string;
   region: string;
   /** Use lowercase alphanumeric characters or -, must start and end with an alphanumeric character, and be between 1 and 11 characters long. */
   clusterName: string;
-  access?: Access;
-  audit?: Audit;
-  extensions?: Extension;
-  hibernation?: Hibernation;
+  access?: Access | undefined;
+  audit?: Audit | undefined;
+  extensions?: Extension | undefined;
+  hibernation?: Hibernation | undefined;
   kubernetes: Kubernetes;
   /** Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long. */
-  labels?: CreateOrUpdateClusterRequestLabelsMap;
-  maintenance?: Maintenance;
-  network?: Network;
+  labels?: CreateOrUpdateClusterRequestLabelsMap | undefined;
+  maintenance?: Maintenance | undefined;
+  network?: Network | undefined;
   nodepools: CreateOrUpdateClusterRequestNodepoolsList;
-  status?: ClusterStatus;
+  status?: ClusterStatus | undefined;
 }
 /** Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long. */
 export type ClusterLabelsMap = { [key: string]: string | undefined };
 export type ClusterNodepoolsList = Array<Nodepool>;
 export interface Cluster {
-  access?: Access;
-  audit?: Audit;
-  extensions?: Extension;
-  hibernation?: Hibernation;
+  access?: Access | undefined;
+  audit?: Audit | undefined;
+  extensions?: Extension | undefined;
+  hibernation?: Hibernation | undefined;
   kubernetes: Kubernetes;
   /** Labels are key-value pairs. Keys may contain domain prefix separated by a slash(/) and must begin with an alphanumerical character. Values may be empty and if not empty, they must begin and end with an alphanumerical character. Keys can be between 1-314 characters long, whereas values can be 0-63 characters long. */
-  labels?: ClusterLabelsMap;
-  maintenance?: Maintenance;
+  labels?: ClusterLabelsMap | undefined;
+  maintenance?: Maintenance | undefined;
   /** Use lowercase alphanumeric characters or -, must start and end with an alphanumeric character, and be between 1 and 11 characters long. */
-  name?: string;
-  network?: Network;
+  name?: string | undefined;
+  network?: Network | undefined;
   nodepools: ClusterNodepoolsList;
-  status?: ClusterStatus;
+  status?: ClusterStatus | undefined;
 }
 export interface DeleteClusterRequest {
   projectId: string;
@@ -360,7 +360,7 @@ export interface GetIDPKubeconfigRequest {
   clusterName: string;
 }
 export interface IDPKubeconfig {
-  kubeconfig?: string;
+  kubeconfig?: string | undefined;
 }
 export interface GetLoginKubeconfigRequest {
   projectId: string;
@@ -368,7 +368,7 @@ export interface GetLoginKubeconfigRequest {
   clusterName: string;
 }
 export interface LoginKubeconfig {
-  kubeconfig?: string;
+  kubeconfig?: string | undefined;
 }
 export interface ListClustersRequest {
   projectId: string;
@@ -376,54 +376,54 @@ export interface ListClustersRequest {
 }
 export type ListClustersResponseItemsList = Array<Cluster>;
 export interface ListClustersResponse {
-  items?: ListClustersResponseItemsList;
+  items?: ListClustersResponseItemsList | undefined;
 }
 export type ListProviderOptionsRequestVersionState = "SUPPORTED";
 export interface ListProviderOptionsRequest {
   region: string;
-  versionState?: ListProviderOptionsRequestVersionState | (string & {});
+  versionState?: ListProviderOptionsRequestVersionState | (string & {}) | undefined;
 }
 export interface AvailabilityZone {
-  name?: string;
+  name?: string | undefined;
 }
 export type ProviderOptionsAvailabilityZonesList = Array<AvailabilityZone>;
 export type KubernetesVersionFeatureGatesMap = { [key: string]: string | undefined };
 export interface KubernetesVersion {
-  expirationDate?: string;
-  featureGates?: KubernetesVersionFeatureGatesMap;
-  state?: string;
-  version?: string;
+  expirationDate?: string | undefined;
+  featureGates?: KubernetesVersionFeatureGatesMap | undefined;
+  state?: string | undefined;
+  version?: string | undefined;
 }
 export type ProviderOptionsKubernetesVersionsList = Array<KubernetesVersion>;
 export type MachineImageVersionCriList = Array<CRI>;
 export interface MachineImageVersion {
-  cri?: MachineImageVersionCriList;
-  expirationDate?: string;
-  state?: string;
-  version?: string;
+  cri?: MachineImageVersionCriList | undefined;
+  expirationDate?: string | undefined;
+  state?: string | undefined;
+  version?: string | undefined;
 }
 export type MachineImageVersionsList = Array<MachineImageVersion>;
 export interface MachineImage {
-  name?: string;
-  versions?: MachineImageVersionsList;
+  name?: string | undefined;
+  versions?: MachineImageVersionsList | undefined;
 }
 export type ProviderOptionsMachineImagesList = Array<MachineImage>;
 export interface MachineType {
-  architecture?: string;
-  cpu?: number;
-  gpu?: number;
-  memory?: number;
-  name?: string;
+  architecture?: string | undefined;
+  cpu?: number | undefined;
+  gpu?: number | undefined;
+  memory?: number | undefined;
+  name?: string | undefined;
 }
 export type ProviderOptionsMachineTypesList = Array<MachineType>;
 export type VolumeType = AvailabilityZone;
 export type ProviderOptionsVolumeTypesList = Array<AvailabilityZone>;
 export interface ProviderOptions {
-  availabilityZones?: ProviderOptionsAvailabilityZonesList;
-  kubernetesVersions?: ProviderOptionsKubernetesVersionsList;
-  machineImages?: ProviderOptionsMachineImagesList;
-  machineTypes?: ProviderOptionsMachineTypesList;
-  volumeTypes?: ProviderOptionsVolumeTypesList;
+  availabilityZones?: ProviderOptionsAvailabilityZonesList | undefined;
+  kubernetesVersions?: ProviderOptionsKubernetesVersionsList | undefined;
+  machineImages?: ProviderOptionsMachineImagesList | undefined;
+  machineTypes?: ProviderOptionsMachineTypesList | undefined;
+  volumeTypes?: ProviderOptionsVolumeTypesList | undefined;
 }
 export interface StartCredentialsRotationRequest {
   projectId: string;

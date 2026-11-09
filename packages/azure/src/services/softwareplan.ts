@@ -34,7 +34,7 @@ const TELEMETRY = {
 /** The SKU to be applied for this resource */
 export interface Sku {
   /** Name of the SKU to be applied */
-  name?: string;
+  name?: string | undefined;
 }
 /** Hybrid use benefit properties */
 export interface HybridUseBenefitPropertiesInput {}
@@ -46,32 +46,32 @@ export interface CreateHybridUseBenefitRequest {
   /** Hybrid use benefit SKU */
   sku: Sku;
   /** Property bag for a hybrid use benefit response */
-  properties?: HybridUseBenefitPropertiesInput;
+  properties?: HybridUseBenefitPropertiesInput | undefined;
 }
 /** Represent the current state of the Reservation. */
 export type ProvisioningState = "Succeeded" | "Cancelled" | "Failed";
 /** Hybrid use benefit properties */
 export interface HybridUseBenefitProperties {
   /** Provisioning state */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Created date */
-  createdDate?: string;
+  createdDate?: string | undefined;
   /** Last updated date */
-  lastUpdatedDate?: string;
+  lastUpdatedDate?: string | undefined;
 }
 export interface CreateHybridUseBenefitResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Hybrid use benefit SKU */
   sku: Sku;
   /** Indicates the revision of the hybrid use benefit */
-  etag?: number;
+  etag?: number | undefined;
   /** Property bag for a hybrid use benefit response */
-  properties?: HybridUseBenefitProperties;
+  properties?: HybridUseBenefitProperties | undefined;
 }
 export interface DeleteHybridUseBenefitRequest {
   /** The scope at which the operation is performed. This is limited to Microsoft.Compute/virtualMachines and Microsoft.Compute/hostGroups/hosts for now */
@@ -88,47 +88,47 @@ export interface GetHybridUseBenefitRequest {
 }
 export interface GetHybridUseBenefitResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Hybrid use benefit SKU */
   sku: Sku;
   /** Indicates the revision of the hybrid use benefit */
-  etag?: number;
+  etag?: number | undefined;
   /** Property bag for a hybrid use benefit response */
-  properties?: HybridUseBenefitProperties;
+  properties?: HybridUseBenefitProperties | undefined;
 }
 export interface ListHybridUseBenefitRequest {
   /** The scope at which the operation is performed. This is limited to Microsoft.Compute/virtualMachines and Microsoft.Compute/hostGroups/hosts for now */
   scope: string;
   /** Supports applying filter on the type of SKU */
-  _filter?: string;
+  _filter?: string | undefined;
 }
 /** Response on GET of a hybrid use benefit */
 export interface HybridUseBenefitModel {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Hybrid use benefit SKU */
   sku: Sku;
   /** Indicates the revision of the hybrid use benefit */
-  etag?: number;
+  etag?: number | undefined;
   /** Property bag for a hybrid use benefit response */
-  properties?: HybridUseBenefitProperties;
+  properties?: HybridUseBenefitProperties | undefined;
 }
 /** List of hybrid use benefits */
 export type HybridUseBenefitListResultValueList = Array<HybridUseBenefitModel>;
 /** List of hybrid use benefits */
 export interface HybridUseBenefitListResult {
   /** List of hybrid use benefits */
-  value?: HybridUseBenefitListResultValueList;
+  value?: HybridUseBenefitListResultValueList | undefined;
   /** Url to get the next page of items. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListHybridUseBenefitRevisionRequest {
   /** The scope at which the operation is performed. This is limited to Microsoft.Compute/virtualMachines and Microsoft.Compute/hostGroups/hosts for now */
@@ -143,31 +143,31 @@ export interface ListOperationsRequest {
 /** Display fields for an operation. */
 export interface OperationDisplay {
   /** Resource Provider name */
-  provider?: string;
+  provider?: string | undefined;
   /** Resource that is acted upon */
-  resource?: string;
+  resource?: string | undefined;
   /** Operation to be performed */
-  operation?: string;
+  operation?: string | undefined;
   /** Description of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** Operation response. */
 export interface OperationResponse {
   /** Name of the operation */
-  name?: string;
+  name?: string | undefined;
   /** Display properties for the operation */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** Origin of the response */
-  origin?: string;
+  origin?: string | undefined;
 }
 /** List of all operations */
 export type OperationListValueList = Array<OperationResponse>;
 /** List all the operations. */
 export interface OperationList {
   /** List of all operations */
-  value?: OperationListValueList;
+  value?: OperationListValueList | undefined;
   /** Url to get the next page of items. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface RegisterSoftwarePlanRequest {
   /** The ID of the target subscription. */
@@ -182,21 +182,21 @@ export interface UpdateHybridUseBenefitRequest {
   /** Hybrid use benefit SKU */
   sku: Sku;
   /** Property bag for a hybrid use benefit response */
-  properties?: HybridUseBenefitPropertiesInput;
+  properties?: HybridUseBenefitPropertiesInput | undefined;
 }
 export interface UpdateHybridUseBenefitResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Hybrid use benefit SKU */
   sku: Sku;
   /** Indicates the revision of the hybrid use benefit */
-  etag?: number;
+  etag?: number | undefined;
   /** Property bag for a hybrid use benefit response */
-  properties?: HybridUseBenefitProperties;
+  properties?: HybridUseBenefitProperties | undefined;
 }
 export type CreateHybridUseBenefitError = AzureOpError;
 /** Create a new hybrid use benefit under a given scope */

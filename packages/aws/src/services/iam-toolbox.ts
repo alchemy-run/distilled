@@ -118,27 +118,27 @@ export class ValidationException
   ).pipe(C.withBadRequestError) {}
 export interface GetRequestAuthorizationDetailsInput {
   authorizationId: string;
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type AuthorizationContext = { [key: string]: any | undefined };
 export type EvaluatedEffect = "ALLOW" | "EXPLICIT_DENY" | "IMPLICIT_DENY" | (string & {});
 export type StatementEffect = "ALLOW" | "DENY" | (string & {});
 export interface MatchedStatement {
-  sid?: string;
-  evaluatedEffect?: StatementEffect;
+  sid?: string | undefined;
+  evaluatedEffect?: StatementEffect | undefined;
 }
 export type MatchedStatementList = MatchedStatement[];
 export interface MatchedPolicy {
   uri: string;
-  matchedStatements?: MatchedStatement[];
+  matchedStatements?: MatchedStatement[] | undefined;
 }
 export type MatchedPolicyList = MatchedPolicy[];
 export interface Evaluation {
   action: string;
   resource: string;
-  context?: { [key: string]: any | undefined };
-  evaluatedEffect?: EvaluatedEffect;
-  matchedPolicies?: MatchedPolicy[];
+  context?: { [key: string]: any | undefined } | undefined;
+  evaluatedEffect?: EvaluatedEffect | undefined;
+  matchedPolicies?: MatchedPolicy[] | undefined;
 }
 export type Evaluations = Evaluation[];
 export type PolicyType =
@@ -151,21 +151,21 @@ export type PolicyType =
   | "VPC_ENDPOINT_POLICY"
   | (string & {});
 export interface AttachedTo {
-  arn?: string;
+  arn?: string | undefined;
 }
 export type AttachedToList = AttachedTo[];
 export interface PolicyInfo {
-  type?: PolicyType;
-  inline?: boolean;
-  uri?: string;
-  attachedTo?: AttachedTo[];
+  type?: PolicyType | undefined;
+  inline?: boolean | undefined;
+  uri?: string | undefined;
+  attachedTo?: AttachedTo[] | undefined;
 }
 export type PolicyInfoList = PolicyInfo[];
 export interface GetRequestAuthorizationDetailsOutput {
   requestContext: { [key: string]: any | undefined };
   evaluations: Evaluation[];
   policies: PolicyInfo[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export type GetRequestAuthorizationDetailsError =
   | AccessDeniedException

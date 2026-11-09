@@ -31,11 +31,11 @@ export type EnvironmentRole =
   | "ENVIRONMENT_ROLE_MODAL_ADMINISTERED_OBSERVER"
   | "ENVIRONMENT_ROLE_CUSTOM";
 export interface SetUserGroupEnvironmentRequest {
-  environmentId?: string;
-  userGroupId?: string;
-  role?: EnvironmentRole | (string & {});
+  environmentId?: string | undefined;
+  userGroupId?: string | undefined;
+  role?: EnvironmentRole | (string & {}) | undefined;
   /** Custom role (`rd-`). */
-  environmentRoleDefinitionId?: string;
+  environmentRoleDefinitionId?: string | undefined;
 }
 export interface SetUserGroupEnvironmentResponse {}
 export type SetUserGroupEnvironmentError = ModalOpError;

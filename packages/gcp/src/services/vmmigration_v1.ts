@@ -86,37 +86,37 @@ export class NotFound
 /** Request message for 'AddGroupMigration' request. */
 export interface AddGroupMigrationRequest {
   /** The full path name of the MigratingVm to add. */
-  migratingVm?: string;
+  migratingVm?: string | undefined;
 }
 export interface AddGroupMigrationProjectsLocationsGroupsRequest {
   /** Required. The full path name of the Group to add to. */
   group: string;
   /** Request body */
-  body?: AddGroupMigrationRequest;
+  body?: AddGroupMigrationRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 /** Request message for 'CancelImageImportJob' request. */
 export interface CancelImageImportJobRequest {}
@@ -124,7 +124,7 @@ export interface CancelProjectsLocationsImageImportsImageImportJobsRequest {
   /** Required. The image import job id. */
   name: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export type CancelOperationRequest = CancelImageImportJobRequest;
@@ -132,7 +132,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -142,7 +142,7 @@ export interface CancelProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Required. The name of the DiskMigrationJob. */
   name: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 /** Request message for 'CancelCloneJob' request. */
 export type CancelCloneJobRequest = CancelImageImportJobRequest;
@@ -150,7 +150,7 @@ export interface CancelProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
   /** Required. The clone job id */
   name: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 /** Request message for 'CancelCutoverJob' request. */
 export type CancelCutoverJobRequest = CancelImageImportJobRequest;
@@ -158,7 +158,7 @@ export interface CancelProjectsLocationsSourcesMigratingVmsCutoverJobsRequest {
   /** Required. The cutover job id */
   name: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 export type GroupMigrationTargetTypeEnum =
   | "MIGRATION_TARGET_TYPE_UNSPECIFIED"
@@ -167,46 +167,46 @@ export type GroupMigrationTargetTypeEnum =
 /** Describes message for 'Group' resource. The Group is a collections of several MigratingVms. */
 export interface Group {
   /** Display name is a user defined name for this group which can be updated. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The Group name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The update time timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** User-provided description of the group. */
-  description?: string;
+  description?: string | undefined;
   /** Immutable. The target type of this group. */
-  migrationTargetType?: GroupMigrationTargetTypeEnum | (string & {});
+  migrationTargetType?: GroupMigrationTargetTypeEnum | (string & {}) | undefined;
   /** Output only. The create time timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
 }
 export interface CreateProjectsLocationsGroupsRequest {
   /** Required. The Group's parent. */
   parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The group identifier. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** Request body */
-  body?: Group;
+  body?: Group | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 export type StringList = Array<string>;
 /** Service account to assign to the instance created by the machine image. */
 export interface ServiceAccount {
   /** Optional. The list of scopes to be made available for this service account. */
-  scopes?: StringList;
+  scopes?: StringList | undefined;
   /** Required. The email address of the service account. */
-  email?: string;
+  email?: string | undefined;
 }
 /** Parameters overriding decisions based on the source machine image configurations. */
 export interface MachineImageParametersOverrides {
   /** Optional. The machine type to create the MachineImage with. If empty, the service will choose a relevant machine type based on the information from the source image. For more information about machine types, please refer to https://cloud.google.com/compute/docs/machine-resource. */
-  machineType?: string;
+  machineType?: string | undefined;
 }
 /** Encryption message describes the details of the applied encryption. */
 export interface Encryption {
   /** Required. The name of the encryption key that is stored in Google Cloud KMS. */
-  kmsKey?: string;
+  kmsKey?: string | undefined;
 }
 export type ImageImportOsAdaptationParametersBootConversionEnum =
   | "BOOT_CONVERSION_UNSPECIFIED"
@@ -215,9 +215,9 @@ export type ImageImportOsAdaptationParametersBootConversionEnum =
 /** AdaptationModifier a modifier to be used for configuration of the OS adaptation process. */
 export interface AdaptationModifier {
   /** Optional. The value of the modifier. The actual value depends on the modifier and can also be empty. */
-  value?: string;
+  value?: string | undefined;
   /** Optional. The modifier name. */
-  modifier?: string;
+  modifier?: string | undefined;
 }
 export type AdaptationModifierList = Array<AdaptationModifier>;
 export type ImageImportOsAdaptationParametersLicenseTypeEnum =
@@ -227,13 +227,13 @@ export type ImageImportOsAdaptationParametersLicenseTypeEnum =
 /** Parameters affecting the OS adaptation process. */
 export interface ImageImportOsAdaptationParameters {
   /** Optional. By default the image will keep its existing boot option. Setting this property will trigger an internal process which will convert the image from using the existing boot option to another. The size of the boot disk might be increased to allow the conversion */
-  bootConversion?: ImageImportOsAdaptationParametersBootConversionEnum | (string & {});
+  bootConversion?: ImageImportOsAdaptationParametersBootConversionEnum | (string & {}) | undefined;
   /** Optional. Set to true in order to generalize the imported image. The generalization process enables co-existence of multiple VMs created from the same image. For Windows, generalizing the image removes computer-specific information such as installed drivers and the computer security identifier (SID). */
-  generalize?: boolean;
+  generalize?: boolean | undefined;
   /** Optional. Modifiers to be used as configuration of the OS adaptation process. */
-  adaptationModifiers?: AdaptationModifierList;
+  adaptationModifiers?: AdaptationModifierList | undefined;
   /** Optional. Choose which type of license to apply to the imported image. */
-  licenseType?: ImageImportOsAdaptationParametersLicenseTypeEnum | (string & {});
+  licenseType?: ImageImportOsAdaptationParametersLicenseTypeEnum | (string & {}) | undefined;
 }
 /** Mentions that the machine image import is not using OS adaptation process. */
 export type SkipOsAdaptation = CancelImageImportJobRequest;
@@ -244,57 +244,57 @@ export type NetworkInterfaceNetworkTierEnum =
 /** NetworkInterface represents a NIC of a VM. */
 export interface NetworkInterface {
   /** Optional. The external IP to define in the NIC. */
-  externalIp?: string;
+  externalIp?: string | undefined;
   /** Optional. The internal IP to define in the NIC. The formats accepted are: `ephemeral` \ ipv4 address \ a named address resource full path. */
-  internalIp?: string;
+  internalIp?: string | undefined;
   /** Optional. The network to connect the NIC to. */
-  network?: string;
+  network?: string | undefined;
   /** Optional. The subnetwork to connect the NIC to. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** Optional. The networking tier used for optimizing connectivity between instances and systems on the internet. Applies only for external ephemeral IP addresses. If left empty, will default to PREMIUM. */
-  networkTier?: NetworkInterfaceNetworkTierEnum | (string & {});
+  networkTier?: NetworkInterfaceNetworkTierEnum | (string & {}) | undefined;
 }
 export type NetworkInterfaceList = Array<NetworkInterface>;
 export type ShieldedInstanceConfigSecureBootEnum = "SECURE_BOOT_UNSPECIFIED" | "TRUE" | "FALSE";
 /** Shielded instance configuration. */
 export interface ShieldedInstanceConfig {
   /** Optional. Defines whether the instance created by the machine image has integrity monitoring enabled. This can be set to true only if the image boot option is EFI, and vTPM is enabled. */
-  enableIntegrityMonitoring?: boolean;
+  enableIntegrityMonitoring?: boolean | undefined;
   /** Optional. Defines whether the instance created by the machine image has Secure Boot enabled. This can be set to true only if the image boot option is EFI. */
-  secureBoot?: ShieldedInstanceConfigSecureBootEnum | (string & {});
+  secureBoot?: ShieldedInstanceConfigSecureBootEnum | (string & {}) | undefined;
   /** Optional. Defines whether the instance created by the machine image has vTPM enabled. This can be set to true only if the image boot option is EFI. */
-  enableVtpm?: boolean;
+  enableVtpm?: boolean | undefined;
 }
 /** The target details of the machine image resource that will be created by the image import job. */
 export interface MachineImageTargetDetails {
   /** Required. Reference to the TargetProject resource that represents the target project in which the imported machine image will be created. */
-  targetProject?: string;
+  targetProject?: string | undefined;
   /** Optional. The labels to apply to the instance created by the machine image. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. The service account to assign to the instance created by the machine image. */
-  serviceAccount?: ServiceAccount;
+  serviceAccount?: ServiceAccount | undefined;
   /** Optional. The tags to apply to the instance created by the machine image. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Required. The name of the machine image to be created. */
-  machineImageName?: string;
+  machineImageName?: string | undefined;
   /** Optional. Parameters overriding decisions based on the source machine image configurations. */
-  machineImageParametersOverrides?: MachineImageParametersOverrides;
+  machineImageParametersOverrides?: MachineImageParametersOverrides | undefined;
   /** Immutable. The encryption to apply to the machine image. If the Image Import resource has an encryption, this field must be set to the same encryption key. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Optional. Use to set the parameters relevant for the OS adaptation process. */
-  osAdaptationParameters?: ImageImportOsAdaptationParameters;
+  osAdaptationParameters?: ImageImportOsAdaptationParameters | undefined;
   /** Optional. An optional description of the machine image. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Use to skip OS adaptation process. */
-  skipOsAdaptation?: CancelImageImportJobRequest;
+  skipOsAdaptation?: CancelImageImportJobRequest | undefined;
   /** Optional. The network interfaces to create with the instance created by the machine image. Internal and external IP addresses, and network tiers are ignored for machine image import. */
-  networkInterfaces?: NetworkInterfaceList;
+  networkInterfaces?: NetworkInterfaceList | undefined;
   /** Optional. Set to true to set the machine image storageLocations to the single region of the import job. When false, the closest multi-region is selected. */
-  singleRegionStorage?: boolean;
+  singleRegionStorage?: boolean | undefined;
   /** Optional. Shielded instance configuration. */
-  shieldedInstanceConfig?: ShieldedInstanceConfig;
+  shieldedInstanceConfig?: ShieldedInstanceConfig | undefined;
   /** Optional. Additional licenses to assign to the instance created by the machine image. Format: https://www.googleapis.com/compute/v1/projects/PROJECT_ID/global/licenses/LICENSE_NAME Or https://www.googleapis.com/compute/beta/projects/PROJECT_ID/global/licenses/LICENSE_NAME */
-  additionalLicenses?: StringList;
+  additionalLicenses?: StringList | undefined;
 }
 /** LoadingImageSourceFilesStep contains specific step details. */
 export type LoadingImageSourceFilesStep = CancelImageImportJobRequest;
@@ -307,47 +307,47 @@ export type AdaptingOSStep = CancelImageImportJobRequest;
 /** ImageImportStep holds information about the image import step progress. */
 export interface ImageImportStep {
   /** Loading source files step. */
-  loadingSourceFiles?: CancelImageImportJobRequest;
+  loadingSourceFiles?: CancelImageImportJobRequest | undefined;
   /** Creating image step. */
-  creatingImage?: CancelImageImportJobRequest;
+  creatingImage?: CancelImageImportJobRequest | undefined;
   /** Initializing step. */
-  initializing?: CancelImageImportJobRequest;
+  initializing?: CancelImageImportJobRequest | undefined;
   /** Output only. The time the step has started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Adapting OS step. */
-  adaptingOs?: CancelImageImportJobRequest;
+  adaptingOs?: CancelImageImportJobRequest | undefined;
   /** Output only. The time the step has ended. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type ImageImportStepList = Array<ImageImportStep>;
 /** Provides a localized error message that is safe to return to the user which can be attached to an RPC error. */
 export interface LocalizedMessage {
   /** The localized error message in the above locale. */
-  message?: string;
+  message?: string | undefined;
   /** The locale used following the specification defined at https://www.rfc-editor.org/rfc/bcp/bcp47.txt. Examples are: "en-US", "fr-CH", "es-MX" */
-  locale?: string;
+  locale?: string | undefined;
 }
 export type MigrationWarningCodeEnum = "WARNING_CODE_UNSPECIFIED" | "ADAPTATION_WARNING";
 /** Describes a URL link. */
 export interface Link {
   /** The URL of the link. */
-  url?: string;
+  url?: string | undefined;
   /** Describes what the link offers. */
-  description?: string;
+  description?: string | undefined;
 }
 export type LinkList = Array<Link>;
 /** Represents migration resource warning information that can be used with google.rpc.Status message. MigrationWarning is used to present the user with warning information in migration operations. */
 export interface MigrationWarning {
   /** Output only. The localized warning message. */
-  warningMessage?: LocalizedMessage;
+  warningMessage?: LocalizedMessage | undefined;
   /** Output only. Suggested action for solving the warning. */
-  actionItem?: LocalizedMessage;
+  actionItem?: LocalizedMessage | undefined;
   /** The warning code. */
-  code?: MigrationWarningCodeEnum | (string & {});
+  code?: MigrationWarningCodeEnum | (string & {}) | undefined;
   /** The time the warning occurred. */
-  warningTime?: string;
+  warningTime?: string | undefined;
   /** Output only. URL(s) pointing to additional information on handling the current warning. */
-  helpLinks?: LinkList;
+  helpLinks?: LinkList | undefined;
 }
 export type MigrationWarningList = Array<MigrationWarning>;
 export type ImageImportJobStateEnum =
@@ -361,206 +361,206 @@ export type ImageImportJobStateEnum =
 /** Used when the image import is not using OS adaptation process. */
 export interface DataDiskImageImport {
   /** Optional. A list of guest OS features to apply to the imported image. These features are flags that are used by Compute Engine to enable certain capabilities for virtual machine instances that are created from the image. This field does not change the OS of the image; it only marks the image with the specified features. The user must ensure that the OS is compatible with the features. For a list of available features, see https://cloud.google.com/compute/docs/images/create-custom#guest-os-features. */
-  guestOsFeatures?: StringList;
+  guestOsFeatures?: StringList | undefined;
 }
 /** The target details of the image resource that will be created by the import job. */
 export interface DiskImageTargetDetails {
   /** Optional. Additional licenses to assign to the image. Format: https://www.googleapis.com/compute/v1/projects/PROJECT_ID/global/licenses/LICENSE_NAME Or https://www.googleapis.com/compute/beta/projects/PROJECT_ID/global/licenses/LICENSE_NAME */
-  additionalLicenses?: StringList;
+  additionalLicenses?: StringList | undefined;
   /** Optional. An optional description of the image. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. A map of labels to associate with the image. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Immutable. The encryption to apply to the image. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Optional. Set to true to set the image storageLocations to the single region of the import job. When false, the closest multi-region is selected. */
-  singleRegionStorage?: boolean;
+  singleRegionStorage?: boolean | undefined;
   /** Required. Reference to the TargetProject resource that represents the target project in which the imported image will be created. */
-  targetProject?: string;
+  targetProject?: string | undefined;
   /** Optional. Use to set the parameters relevant for the OS adaptation process. */
-  osAdaptationParameters?: ImageImportOsAdaptationParameters;
+  osAdaptationParameters?: ImageImportOsAdaptationParameters | undefined;
   /** Optional. The name of the image family to which the new image belongs. */
-  familyName?: string;
+  familyName?: string | undefined;
   /** Required. The name of the image to be created. */
-  imageName?: string;
+  imageName?: string | undefined;
   /** Optional. Use to skip OS adaptation process. */
-  dataDiskImageImport?: DataDiskImageImport;
+  dataDiskImageImport?: DataDiskImageImport | undefined;
 }
 export type StatusList = Array<Status>;
 /** ImageImportJob describes the progress and result of an image import. */
 export interface ImageImportJob {
   /** Output only. Target details used to import a machine image. */
-  machineImageTargetDetails?: MachineImageTargetDetails;
+  machineImageTargetDetails?: MachineImageTargetDetails | undefined;
   /** Output only. The resource paths of the resources created by the image import job. */
-  createdResources?: StringList;
+  createdResources?: StringList | undefined;
   /** Output only. The time the image import was ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. The image import steps list representing its progress. */
-  steps?: ImageImportStepList;
+  steps?: ImageImportStepList | undefined;
   /** Output only. Warnings that occurred during the image import. */
-  warnings?: MigrationWarningList;
+  warnings?: MigrationWarningList | undefined;
   /** Output only. The state of the image import. */
-  state?: ImageImportJobStateEnum | (string & {});
+  state?: ImageImportJobStateEnum | (string & {}) | undefined;
   /** Output only. Target details used to import a disk image. */
-  diskImageTargetDetails?: DiskImageTargetDetails;
+  diskImageTargetDetails?: DiskImageTargetDetails | undefined;
   /** Output only. The resource path of the ImageImportJob. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time the image import was created (as an API call, not when it was actually created in the target). */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Provides details on the error that led to the image import state in case of an error. */
-  errors?: StatusList;
+  errors?: StatusList | undefined;
   /** Output only. The path to the Cloud Storage file from which the image should be imported. */
-  cloudStorageUri?: string;
+  cloudStorageUri?: string | undefined;
 }
 export type ImageImportJobList = Array<ImageImportJob>;
 /** ImageImport describes the configuration of the image import to run. */
 export interface ImageImport {
   /** Output only. The resource path of the ImageImport. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The result of the most recent runs for this ImageImport. All jobs for this ImageImport can be listed via ListImageImportJobs. */
-  recentImageImportJobs?: ImageImportJobList;
+  recentImageImportJobs?: ImageImportJobList | undefined;
   /** Immutable. Target details for importing a machine image, will be used by ImageImportJob. */
-  machineImageTargetDefaults?: MachineImageTargetDetails;
+  machineImageTargetDefaults?: MachineImageTargetDetails | undefined;
   /** Output only. The time the image import was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Immutable. The encryption details used by the image import process during the image adaptation for Compute Engine. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Immutable. The path to the Cloud Storage file from which the image should be imported. */
-  cloudStorageUri?: string;
+  cloudStorageUri?: string | undefined;
   /** Immutable. Target details for importing a disk image, will be used by ImageImportJob. */
-  diskImageTargetDefaults?: DiskImageTargetDetails;
+  diskImageTargetDefaults?: DiskImageTargetDetails | undefined;
 }
 export interface CreateProjectsLocationsImageImportsRequest {
   /** Required. The image import identifier. This value maximum length is 63 characters, and valid characters are /a-z-/. It must start with an english letter and must not end with a hyphen. */
-  imageImportId?: string;
+  imageImportId?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The ImageImport's parent. */
   parent: string;
   /** Request body */
-  body?: ImageImport;
+  body?: ImageImport | undefined;
 }
 /** Message describing Azure Credentials using tenant ID, client ID and secret. */
 export interface ClientSecretCredentials {
   /** Azure client ID. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Input only. Azure client secret. */
-  clientSecret?: string;
+  clientSecret?: string | undefined;
   /** Azure tenant ID. */
-  tenantId?: string;
+  tenantId?: string | undefined;
 }
 export type AzureSourceDetailsStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "FAILED" | "ACTIVE";
 /** AzureSourceDetails message describes a specific source details for the Azure source type. */
 export interface AzureSourceDetails {
   /** User specified tags to add to every M2VM generated resource in Azure. These tags will be set in addition to the default tags that are set as part of the migration process. The tags must not begin with the reserved prefix `m4ce` or `m2vm`. */
-  migrationResourcesUserTags?: StringMap;
+  migrationResourcesUserTags?: StringMap | undefined;
   /** Azure Credentials using tenant ID, client ID and secret. */
-  clientSecretCreds?: ClientSecretCredentials;
+  clientSecretCreds?: ClientSecretCredentials | undefined;
   /** Immutable. The Azure location (region) that the source VMs will be migrated from. */
-  azureLocation?: string;
+  azureLocation?: string | undefined;
   /** Immutable. Azure subscription ID. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** Output only. The ID of the Azure resource group that contains all resources related to the migration process of this source. */
-  resourceGroupId?: string;
+  resourceGroupId?: string | undefined;
   /** Output only. Provides details on the state of the Source in case of an error. */
-  error?: Status;
+  error?: Status | undefined;
   /** Output only. State of the source as determined by the health check. */
-  state?: AzureSourceDetailsStateEnum | (string & {});
+  state?: AzureSourceDetailsStateEnum | (string & {}) | undefined;
 }
 export type AwsSourceDetailsStateEnum = "STATE_UNSPECIFIED" | "PENDING" | "FAILED" | "ACTIVE";
 /** Tag is an AWS tag representation. */
 export interface Tag {
   /** Required. Value of tag. */
-  value?: string;
+  value?: string | undefined;
   /** Required. Key of tag. */
-  key?: string;
+  key?: string | undefined;
 }
 export type TagList = Array<Tag>;
 /** Message describing AWS Credentials using access key id and secret. */
 export interface AccessKeyCredentials {
   /** Input only. AWS secret access key. */
-  secretAccessKey?: string;
+  secretAccessKey?: string | undefined;
   /** AWS access key ID. */
-  accessKeyId?: string;
+  accessKeyId?: string | undefined;
   /** Input only. AWS session token. Used only when AWS security token service (STS) is responsible for creating the temporary credentials. */
-  sessionToken?: string;
+  sessionToken?: string | undefined;
 }
 /** AwsSourceDetails message describes a specific source details for the AWS source type. */
 export interface AwsSourceDetails {
   /** Output only. State of the source as determined by the health check. */
-  state?: AwsSourceDetailsStateEnum | (string & {});
+  state?: AwsSourceDetailsStateEnum | (string & {}) | undefined;
   /** AWS resource tags to limit the scope of the source inventory. */
-  inventoryTagList?: TagList;
+  inventoryTagList?: TagList | undefined;
   /** AWS Credentials using access key id and secret. */
-  accessKeyCreds?: AccessKeyCredentials;
+  accessKeyCreds?: AccessKeyCredentials | undefined;
   /** Output only. Provides details on the state of the Source in case of an error. */
-  error?: Status;
+  error?: Status | undefined;
   /** Output only. The source's public IP. All communication initiated by this source will originate from this IP. */
-  publicIp?: string;
+  publicIp?: string | undefined;
   /** User specified tags to add to every M2VM generated resource in AWS. These tags will be set in addition to the default tags that are set as part of the migration process. The tags must not begin with the reserved prefix `m2vm`. */
-  migrationResourcesUserTags?: StringMap;
+  migrationResourcesUserTags?: StringMap | undefined;
   /** Immutable. The AWS region that the source VMs will be migrated from. */
-  awsRegion?: string;
+  awsRegion?: string | undefined;
   /** AWS security group names to limit the scope of the source inventory. */
-  inventorySecurityGroupNames?: StringList;
+  inventorySecurityGroupNames?: StringList | undefined;
 }
 /** VmwareSourceDetails message describes a specific source details for the vmware source type. */
 export interface VmwareSourceDetails {
   /** The credentials username. */
-  username?: string;
+  username?: string | undefined;
   /** The ip address of the vcenter this Source represents. */
-  vcenterIp?: string;
+  vcenterIp?: string | undefined;
   /** The thumbprint representing the certificate for the vcenter. */
-  thumbprint?: string;
+  thumbprint?: string | undefined;
   /** Input only. The credentials password. This is write only and can not be read in a GET operation. */
-  password?: string;
+  password?: string | undefined;
   /** The hostname of the vcenter. */
-  resolvedVcenterHost?: string;
+  resolvedVcenterHost?: string | undefined;
 }
 /** Source message describes a specific vm migration Source resource. It contains the source environment information. */
 export interface Source {
   /** Azure type source details. */
-  azure?: AzureSourceDetails;
+  azure?: AzureSourceDetails | undefined;
   /** AWS type source details. */
-  aws?: AwsSourceDetails;
+  aws?: AwsSourceDetails | undefined;
   /** Output only. The create time timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The labels of the source. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Vmware type source details. */
-  vmware?: VmwareSourceDetails;
+  vmware?: VmwareSourceDetails | undefined;
   /** Output only. The Source name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The update time timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** User-provided description of the source. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Immutable. The encryption details of the source data stored by the service. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
 }
 export interface CreateProjectsLocationsSourcesRequest {
   /** Required. The Source's parent. */
   parent: string;
   /** Required. The source identifier. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: Source;
+  body?: Source | undefined;
 }
 export type UpgradeStatusStateEnum = "STATE_UNSPECIFIED" | "RUNNING" | "FAILED" | "SUCCEEDED";
 /** UpgradeStatus contains information about upgradeAppliance operation. */
 export interface UpgradeStatus {
   /** The time the operation was started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Provides details on the state of the upgrade operation in case of an error. */
-  error?: Status;
+  error?: Status | undefined;
   /** The version to upgrade to. */
-  version?: string;
+  version?: string | undefined;
   /** The version from which we upgraded. */
-  previousVersion?: string;
+  previousVersion?: string | undefined;
   /** The state of the upgradeAppliance operation. */
-  state?: UpgradeStatusStateEnum | (string & {});
+  state?: UpgradeStatusStateEnum | (string & {}) | undefined;
 }
 export type DatacenterConnectorStateEnum =
   | "STATE_UNSPECIFIED"
@@ -571,61 +571,61 @@ export type DatacenterConnectorStateEnum =
 /** Describes an appliance version. */
 export interface ApplianceVersion {
   /** Link to a page that contains the version release notes. */
-  releaseNotesUri?: string;
+  releaseNotesUri?: string | undefined;
   /** The appliance version. */
-  version?: string;
+  version?: string | undefined;
   /** A link for downloading the version. */
-  uri?: string;
+  uri?: string | undefined;
   /** Determine whether it's critical to upgrade the appliance to this version. */
-  critical?: boolean;
+  critical?: boolean | undefined;
 }
 /** Holds information about the available versions for upgrade. */
 export interface AvailableUpdates {
   /** The newest deployable version of the appliance. The current appliance can't be updated into this version, and the owner must manually deploy this OVA to a new appliance. */
-  newDeployableAppliance?: ApplianceVersion;
+  newDeployableAppliance?: ApplianceVersion | undefined;
   /** The latest version for in place update. The current appliance can be updated to this version using the API or m4c CLI. */
-  inPlaceUpdate?: ApplianceVersion;
+  inPlaceUpdate?: ApplianceVersion | undefined;
 }
 /** DatacenterConnector message describes a connector between the Source and Google Cloud, which is installed on a vmware datacenter (an OVA vm installed by the user) to connect the Datacenter to Google Cloud and support vm migration data transfer. */
 export interface DatacenterConnector {
   /** Output only. The status of the current / last upgradeAppliance operation. */
-  upgradeStatus?: UpgradeStatus;
+  upgradeStatus?: UpgradeStatus | undefined;
   /** Output only. The time the state was last set. */
-  stateTime?: string;
+  stateTime?: string | undefined;
   /** Output only. The connector's name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The communication channel between the datacenter connector and Google Cloud. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** The service account to use in the connector when communicating with the cloud. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Output only. State of the DatacenterConnector, as determined by the health checks. */
-  state?: DatacenterConnectorStateEnum | (string & {});
+  state?: DatacenterConnectorStateEnum | (string & {}) | undefined;
   /** Output only. Appliance last installed update bundle version. This is the version of the automatically updatable components on the appliance. */
-  applianceSoftwareVersion?: string;
+  applianceSoftwareVersion?: string | undefined;
   /** Output only. The last time the connector was updated with an API call. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. Appliance OVA version. This is the OVA which is manually installed by the user and contains the infrastructure for the automatically updatable components on the appliance. */
-  applianceInfrastructureVersion?: string;
+  applianceInfrastructureVersion?: string | undefined;
   /** Output only. The time the connector was created (as an API call, not when it was actually installed). */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The available versions for updating this appliance. */
-  availableVersions?: AvailableUpdates;
+  availableVersions?: AvailableUpdates | undefined;
   /** Output only. Provides details on the state of the Datacenter Connector in case of an error. */
-  error?: Status;
+  error?: Status | undefined;
   /** Immutable. A unique key for this connector. This key is internal to the OVA connector and is supplied with its creation during the registration process and can not be modified. */
-  registrationId?: string;
+  registrationId?: string | undefined;
   /** The version running in the DatacenterConnector. This is supplied by the OVA connector during the registration process and can not be modified. */
-  version?: string;
+  version?: string | undefined;
 }
 export interface CreateProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The datacenterConnector identifier. */
-  datacenterConnectorId?: string;
+  datacenterConnectorId?: string | undefined;
   /** Required. The DatacenterConnector's parent. Required. The Source in where the new DatacenterConnector will be created. For example: `projects/my-project/locations/us-central1/sources/my-source` */
   parent: string;
   /** Request body */
-  body?: DatacenterConnector;
+  body?: DatacenterConnector | undefined;
 }
 /** CopyingSourceDiskSnapshotStep contains specific step details. */
 export type CopyingSourceDiskSnapshotStep = CancelImageImportJobRequest;
@@ -636,15 +636,15 @@ export type ProvisioningTargetDiskStep = CancelImageImportJobRequest;
 /** DiskMigrationStep holds information about the disk migration step progress. */
 export interface DiskMigrationStep {
   /** Copying source disk snapshot step. */
-  copyingSourceDiskSnapshot?: CancelImageImportJobRequest;
+  copyingSourceDiskSnapshot?: CancelImageImportJobRequest | undefined;
   /** Output only. The time the step has started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. The time the step has ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Creating source disk snapshot step. */
-  creatingSourceDiskSnapshot?: CancelImageImportJobRequest;
+  creatingSourceDiskSnapshot?: CancelImageImportJobRequest | undefined;
   /** Creating target disk step. */
-  provisioningTargetDisk?: CancelImageImportJobRequest;
+  provisioningTargetDisk?: CancelImageImportJobRequest | undefined;
 }
 export type DiskMigrationStepList = Array<DiskMigrationStep>;
 export type AwsSourceDiskDetailsDiskTypeEnum =
@@ -659,13 +659,13 @@ export type AwsSourceDiskDetailsDiskTypeEnum =
 /** Represents the source AWS Disk details. */
 export interface AwsSourceDiskDetails {
   /** Optional. Output only. A map of AWS volume tags. */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** Output only. Size in GiB. */
-  sizeGib?: string;
+  sizeGib?: string | undefined;
   /** Required. AWS volume ID. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Optional. Output only. Disk type. */
-  diskType?: AwsSourceDiskDetailsDiskTypeEnum | (string & {});
+  diskType?: AwsSourceDiskDetailsDiskTypeEnum | (string & {}) | undefined;
 }
 export type ComputeEngineDiskDiskTypeEnum =
   | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
@@ -677,24 +677,24 @@ export type ComputeEngineDiskDiskTypeEnum =
 /** Compute Engine disk target details. */
 export interface ComputeEngineDisk {
   /** Optional. Target Compute Engine Disk ID. This is the resource ID segment of the Compute Engine Disk to create. In the resource name compute/v1/projects/{project}/zones/{zone}/disks/disk1 "disk1" is the resource ID for the disk. */
-  diskId?: string;
+  diskId?: string | undefined;
   /** Required. The Compute Engine zone in which to create the disk. Should be of the form: projects/{target-project}/locations/{zone} */
-  zone?: string;
+  zone?: string | undefined;
   /** Optional. Replication zones of the regional disk. Should be of the form: projects/{target-project}/locations/{replica-zone} Currently only one replica zone is supported. */
-  replicaZones?: StringList;
+  replicaZones?: StringList | undefined;
   /** Required. The disk type to use. */
-  diskType?: ComputeEngineDiskDiskTypeEnum | (string & {});
+  diskType?: ComputeEngineDiskDiskTypeEnum | (string & {}) | undefined;
 }
 /** Details of the target disk in Compute Engine. */
 export interface DiskMigrationJobTargetDetails {
   /** Optional. A map of labels to associate with the disk. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. The target disk. */
-  targetDisk?: ComputeEngineDisk;
+  targetDisk?: ComputeEngineDisk | undefined;
   /** Required. The name of the resource of type TargetProject which represents the Compute Engine project in which to create the disk. Should be of the form: projects/{project}/locations/global/targetProjects/{target-project} */
-  targetProject?: string;
+  targetProject?: string | undefined;
   /** Optional. The encryption to apply to the disk. If the DiskMigrationJob parent Source resource has an encryption, this field must be set to the same encryption key. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
 }
 export type DiskMigrationJobStateEnum =
   | "STATE_UNSPECIFIED"
@@ -707,45 +707,45 @@ export type DiskMigrationJobStateEnum =
 /** Describes the disk which will be migrated from the source environment. The source disk has to be unattached. */
 export interface DiskMigrationJob {
   /** Output only. Identifier. The identifier of the DiskMigrationJob. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The disk migration steps list representing its progress. */
-  steps?: DiskMigrationStepList;
+  steps?: DiskMigrationStepList | undefined;
   /** Output only. The last time the DiskMigrationJob resource was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Details of the unattached AWS source disk. */
-  awsSourceDiskDetails?: AwsSourceDiskDetails;
+  awsSourceDiskDetails?: AwsSourceDiskDetails | undefined;
   /** Required. Details of the target Disk in Compute Engine. */
-  targetDetails?: DiskMigrationJobTargetDetails;
+  targetDetails?: DiskMigrationJobTargetDetails | undefined;
   /** Output only. State of the DiskMigrationJob. */
-  state?: DiskMigrationJobStateEnum | (string & {});
+  state?: DiskMigrationJobStateEnum | (string & {}) | undefined;
   /** Output only. The time the DiskMigrationJob resource was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Provides details on the errors that led to the disk migration job's state in case of an error. */
-  errors?: StatusList;
+  errors?: StatusList | undefined;
 }
 export interface CreateProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Required. The DiskMigrationJob's parent. */
   parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The DiskMigrationJob identifier. The maximum length of this value is 63 characters. Valid characters are lower case Latin letters, digits and hyphen. It must start with a Latin letter and must not end with a hyphen. */
-  diskMigrationJobId?: string;
+  diskMigrationJobId?: string | undefined;
   /** Request body */
-  body?: DiskMigrationJob;
+  body?: DiskMigrationJob | undefined;
 }
 /** Expiration holds information about the expiration of a MigratingVm. */
 export interface Expiration {
   /** Output only. Describes whether the expiration can be extended. */
-  extendable?: boolean;
+  extendable?: boolean | undefined;
   /** Output only. The number of times expiration was extended. */
-  extensionCount?: number;
+  extensionCount?: number | undefined;
   /** Output only. Timestamp of when this resource is considered expired. */
-  expireTime?: string;
+  expireTime?: string | undefined;
 }
 /** ReplicationSync contain information about the last replica sync to the cloud. */
 export interface ReplicationSync {
   /** The most updated snapshot created time in the source that finished replication. */
-  lastSyncTime?: string;
+  lastSyncTime?: string | undefined;
 }
 export type ComputeEngineTargetDetailsDiskTypeEnum =
   | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
@@ -762,9 +762,9 @@ export type AppliedLicenseTypeEnum = "TYPE_UNSPECIFIED" | "NONE" | "PAYG" | "BYO
 /** AppliedLicense holds the license data returned by adaptation module report. */
 export interface AppliedLicense {
   /** The OS license returned from the adaptation module's report. */
-  osLicense?: string;
+  osLicense?: string | undefined;
   /** The license type that was used in OS adaptation. */
-  type?: AppliedLicenseTypeEnum | (string & {});
+  type?: AppliedLicenseTypeEnum | (string & {}) | undefined;
 }
 export type ComputeEngineTargetDetailsBootConversionEnum =
   | "BOOT_CONVERSION_UNSPECIFIED"
@@ -778,11 +778,11 @@ export type SchedulingNodeAffinityOperatorEnum = "OPERATOR_UNSPECIFIED" | "IN" |
 /** Node Affinity: the configuration of desired nodes onto which this Instance could be scheduled. Based on https://cloud.google.com/compute/docs/reference/rest/v1/instances/setScheduling */
 export interface SchedulingNodeAffinity {
   /** The operator to use for the node resources specified in the `values` parameter. */
-  operator?: SchedulingNodeAffinityOperatorEnum | (string & {});
+  operator?: SchedulingNodeAffinityOperatorEnum | (string & {}) | undefined;
   /** Corresponds to the label values of Node resource. */
-  values?: StringList;
+  values?: StringList | undefined;
   /** The label key of Node resource to reference. */
-  key?: string;
+  key?: string | undefined;
 }
 export type SchedulingNodeAffinityList = Array<SchedulingNodeAffinity>;
 export type ComputeSchedulingRestartTypeEnum =
@@ -796,66 +796,66 @@ export type ComputeSchedulingOnHostMaintenanceEnum =
 /** Scheduling information for VM on maintenance/restart behaviour and node allocation in sole tenant nodes. Options for instance behavior when the host machine undergoes maintenance that may temporarily impact instance performance. */
 export interface ComputeScheduling {
   /** A set of node affinity and anti-affinity configurations for sole tenant nodes. */
-  nodeAffinities?: SchedulingNodeAffinityList;
+  nodeAffinities?: SchedulingNodeAffinityList | undefined;
   /** Whether the Instance should be automatically restarted whenever it is terminated by Compute Engine (not terminated by user). This configuration is identical to `automaticRestart` field in Compute Engine create instance under scheduling. It was changed to an enum (instead of a boolean) to match the default value in Compute Engine which is automatic restart. */
-  restartType?: ComputeSchedulingRestartTypeEnum | (string & {});
+  restartType?: ComputeSchedulingRestartTypeEnum | (string & {}) | undefined;
   /** How the instance should behave when the host machine undergoes maintenance that may temporarily impact instance performance. */
-  onHostMaintenance?: ComputeSchedulingOnHostMaintenanceEnum | (string & {});
+  onHostMaintenance?: ComputeSchedulingOnHostMaintenanceEnum | (string & {}) | undefined;
   /** The minimum number of virtual CPUs this instance will consume when running on a sole-tenant node. Ignored if no node_affinites are configured. */
-  minNodeCpus?: number;
+  minNodeCpus?: number | undefined;
 }
 /** ComputeEngineTargetDetails is a collection of details for creating a VM in a target Compute Engine project. */
 export interface ComputeEngineTargetDetails {
   /** Optional. Modifiers to be used as configuration of the OS adaptation process. */
-  adaptationModifiers?: AdaptationModifierList;
+  adaptationModifiers?: AdaptationModifierList | undefined;
   /** The disk type to use in the VM. */
-  diskType?: ComputeEngineTargetDetailsDiskTypeEnum | (string & {});
+  diskType?: ComputeEngineTargetDetailsDiskTypeEnum | (string & {}) | undefined;
   /** The license type to use in OS adaptation. */
-  licenseType?: ComputeEngineTargetDetailsLicenseTypeEnum | (string & {});
+  licenseType?: ComputeEngineTargetDetailsLicenseTypeEnum | (string & {}) | undefined;
   /** The service account to associate the VM with. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** A map of labels to associate with the VM. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The machine type to create the VM with. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** The OS license returned from the adaptation module report. */
-  appliedLicense?: AppliedLicense;
+  appliedLicense?: AppliedLicense | undefined;
   /** The hostname to assign to the VM. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** The zone in which to create the VM. */
-  zone?: string;
+  zone?: string | undefined;
   /** Defines whether the instance has Secure Boot enabled. This can be set to true only if the VM boot option is EFI. */
-  secureBoot?: boolean;
+  secureBoot?: boolean | undefined;
   /** A list of network tags to associate with the VM. */
-  networkTags?: StringList;
+  networkTags?: StringList | undefined;
   /** Optional. The encryption to apply to the VM disks. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Additional licenses to assign to the VM. */
-  additionalLicenses?: StringList;
+  additionalLicenses?: StringList | undefined;
   /** Optional. Defines whether the instance has integrity monitoring enabled. */
-  enableIntegrityMonitoring?: boolean;
+  enableIntegrityMonitoring?: boolean | undefined;
   /** The metadata key/value pairs to assign to the VM. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Optional. By default the virtual machine will keep its existing boot option. Setting this property will trigger an internal process which will convert the virtual machine from using the existing boot option to another. */
-  bootConversion?: ComputeEngineTargetDetailsBootConversionEnum | (string & {});
+  bootConversion?: ComputeEngineTargetDetailsBootConversionEnum | (string & {}) | undefined;
   /** The name of the VM to create. */
-  vmName?: string;
+  vmName?: string | undefined;
   /** List of NICs connected to this VM. */
-  networkInterfaces?: NetworkInterfaceList;
+  networkInterfaces?: NetworkInterfaceList | undefined;
   /** Optional. The storage pool used for the VM disks. If specified this will be the storage pool in which the disk is created. This is the full path of the storage pool resource, for example: "projects/my-project/zones/us-central1-a/storagePools/my-storage-pool". The storage pool must be in the same project and zone as the target disks. The storage pool's type must match the disk type. */
-  storagePool?: string;
+  storagePool?: string | undefined;
   /** Optional. Defines whether the instance has vTPM enabled. */
-  enableVtpm?: boolean;
+  enableVtpm?: boolean | undefined;
   /** The Google Cloud target project ID or project name. */
-  project?: string;
+  project?: string | undefined;
   /** The machine type series to create the VM with. */
-  machineTypeSeries?: string;
+  machineTypeSeries?: string | undefined;
   /** Optional. Additional replica zones of the target regional disks. If this list is not empty a regional disk will be created. The first supported zone would be the one stated in the zone field. The rest are taken from this list. Please refer to the [regional disk creation API](https://cloud.google.com/compute/docs/regions-zones/global-regional-zonal-resources) for further details about regional vs zonal disks. If not specified, a zonal disk will be created in the same zone the VM is created. */
-  diskReplicaZones?: StringList;
+  diskReplicaZones?: StringList | undefined;
   /** The VM Boot Option, as set in the source VM. */
-  bootOption?: ComputeEngineTargetDetailsBootOptionEnum | (string & {});
+  bootOption?: ComputeEngineTargetDetailsBootOptionEnum | (string & {}) | undefined;
   /** Compute instance scheduling information (if empty default is used). */
-  computeScheduling?: ComputeScheduling;
+  computeScheduling?: ComputeScheduling | undefined;
 }
 export type CloneJobStateEnum =
   | "STATE_UNSPECIFIED"
@@ -873,61 +873,61 @@ export type InstantiatingMigratedVMStep = CancelImageImportJobRequest;
 /** CloneStep holds information about the clone step progress. */
 export interface CloneStep {
   /** Preparing VM disks step. */
-  preparingVmDisks?: CancelImageImportJobRequest;
+  preparingVmDisks?: CancelImageImportJobRequest | undefined;
   /** Instantiating migrated VM step. */
-  instantiatingMigratedVm?: CancelImageImportJobRequest;
+  instantiatingMigratedVm?: CancelImageImportJobRequest | undefined;
   /** The time the step has started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The time the step has ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Adapting OS step. */
-  adaptingOs?: CancelImageImportJobRequest;
+  adaptingOs?: CancelImageImportJobRequest | undefined;
 }
 export type CloneStepList = Array<CloneStep>;
 /** Details for the VM created VM as part of disks migration. */
 export interface DisksMigrationVmTargetDetails {
   /** Output only. The URI of the Compute Engine VM. */
-  vmUri?: string;
+  vmUri?: string | undefined;
 }
 /** Details for a disks-only migration. */
 export type DisksMigrationDisksTargetDetails = CancelImageImportJobRequest;
 /** Details of a created Persistent Disk. */
 export interface PersistentDisk {
   /** Output only. The ordinal number of the source VM disk. */
-  sourceDiskNumber?: number;
+  sourceDiskNumber?: number | undefined;
   /** Output only. The URI of the Persistent Disk. */
-  diskUri?: string;
+  diskUri?: string | undefined;
 }
 export type PersistentDiskList = Array<PersistentDisk>;
 /** ComputeEngineDisksTargetDetails is a collection of created Persistent Disks details. */
 export interface ComputeEngineDisksTargetDetails {
   /** Details for the VM the migrated data disks are attached to. */
-  vmTargetDetails?: DisksMigrationVmTargetDetails;
+  vmTargetDetails?: DisksMigrationVmTargetDetails | undefined;
   /** Details of the disks-only migration target. */
-  disksTargetDetails?: CancelImageImportJobRequest;
+  disksTargetDetails?: CancelImageImportJobRequest | undefined;
   /** The details of each created Persistent Disk. */
-  disks?: PersistentDiskList;
+  disks?: PersistentDiskList | undefined;
 }
 /** CloneJob describes the process of creating a clone of a MigratingVM to the requested target based on the latest successful uploaded snapshots. While the migration cycles of a MigratingVm take place, it is possible to verify the uploaded VM can be started in the cloud, by creating a clone. The clone can be created without any downtime, and it is created using the latest snapshots which are already in the cloud. The cloneJob is only responsible for its work, not its products, which means once it is finished, it will never touch the instance it created. It will only delete it in case of the CloneJob being cancelled or upon failure to clone. */
 export interface CloneJob {
   /** Output only. The time the clone job was created (as an API call, not when it was actually created in the target). */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The name of the clone. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Provides details for the errors that led to the Clone Job's state. */
-  error?: Status;
+  error?: Status | undefined;
   /** Output only. Details of the target VM in Compute Engine. */
-  computeEngineTargetDetails?: ComputeEngineTargetDetails;
+  computeEngineTargetDetails?: ComputeEngineTargetDetails | undefined;
   /** Output only. State of the clone job. */
-  state?: CloneJobStateEnum | (string & {});
+  state?: CloneJobStateEnum | (string & {}) | undefined;
   /** Output only. The clone steps list representing its progress. */
-  steps?: CloneStepList;
+  steps?: CloneStepList | undefined;
   /** Output only. The time the clone job was ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. The time the state was last updated. */
-  stateTime?: string;
+  stateTime?: string | undefined;
   /** Output only. Details of the target Persistent Disks in Compute Engine. */
-  computeEngineDisksTargetDetails?: ComputeEngineDisksTargetDetails;
+  computeEngineDisksTargetDetails?: ComputeEngineDisksTargetDetails | undefined;
 }
 export type CloneJobList = Array<CloneJob>;
 /** InitializingReplicationStep contains specific step details. */
@@ -935,28 +935,28 @@ export type InitializingReplicationStep = CancelImageImportJobRequest;
 /** ReplicatingStep contains specific step details. */
 export interface ReplicatingStep {
   /** The source disks replication rate for the last 30 minutes in bytes per second. */
-  lastThirtyMinutesAverageBytesPerSecond?: string;
+  lastThirtyMinutesAverageBytesPerSecond?: string | undefined;
   /** Replicated bytes in the step. */
-  replicatedBytes?: string;
+  replicatedBytes?: string | undefined;
   /** Total bytes to be handled in the step. */
-  totalBytes?: string;
+  totalBytes?: string | undefined;
   /** The source disks replication rate for the last 2 minutes in bytes per second. */
-  lastTwoMinutesAverageBytesPerSecond?: string;
+  lastTwoMinutesAverageBytesPerSecond?: string | undefined;
 }
 /** PostProcessingStep contains specific step details. */
 export type PostProcessingStep = CancelImageImportJobRequest;
 /** CycleStep holds information about a step progress. */
 export interface CycleStep {
   /** Initializing replication step. */
-  initializingReplication?: CancelImageImportJobRequest;
+  initializingReplication?: CancelImageImportJobRequest | undefined;
   /** Replicating step. */
-  replicating?: ReplicatingStep;
+  replicating?: ReplicatingStep | undefined;
   /** Post processing step. */
-  postProcessing?: CancelImageImportJobRequest;
+  postProcessing?: CancelImageImportJobRequest | undefined;
   /** The time the cycle step has started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The time the cycle step has ended. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type CycleStepList = Array<CycleStep>;
 export type ReplicationCycleStateEnum =
@@ -968,34 +968,34 @@ export type ReplicationCycleStateEnum =
 /** ReplicationCycle contains information about the current replication cycle status. */
 export interface ReplicationCycle {
   /** The time the replication cycle has started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The current progress in percentage of this cycle. Was replaced by 'steps' field, which breaks down the cycle progression more accurately. */
-  progressPercent?: number;
+  progressPercent?: number | undefined;
   /** The time the replication cycle has ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The identifier of the ReplicationCycle. */
-  name?: string;
+  name?: string | undefined;
   /** The cycle's steps list representing its progress. */
-  steps?: CycleStepList;
+  steps?: CycleStepList | undefined;
   /** The accumulated duration the replication cycle was paused. */
-  totalPauseDuration?: string;
+  totalPauseDuration?: string | undefined;
   /** The cycle's ordinal number. */
-  cycleNumber?: number;
+  cycleNumber?: number | undefined;
   /** State of the ReplicationCycle. */
-  state?: ReplicationCycleStateEnum | (string & {});
+  state?: ReplicationCycleStateEnum | (string & {}) | undefined;
   /** Output only. Provides details on the state of the cycle in case of an error. */
-  error?: Status;
+  error?: Status | undefined;
   /** Output only. Warnings that occurred during the cycle. */
-  warnings?: MigrationWarningList;
+  warnings?: MigrationWarningList | undefined;
 }
 /** The details of an AWS instance disk. */
 export interface AwsDiskDetails {
   /** Output only. AWS volume ID. */
-  volumeId?: string;
+  volumeId?: string | undefined;
   /** Output only. The ordinal number of the disk. */
-  diskNumber?: number;
+  diskNumber?: number | undefined;
   /** Output only. Size in GB. */
-  sizeGb?: string;
+  sizeGb?: string | undefined;
 }
 export type AwsDiskDetailsList = Array<AwsDiskDetails>;
 export type AwsSourceVmDetailsArchitectureEnum =
@@ -1013,28 +1013,28 @@ export type VmCapabilitiesOsCapabilitiesItemEnumList = Array<
 /** Migrating VM source information about the VM capabilities needed for some Compute Engine features. */
 export interface VmCapabilities {
   /** Output only. Unordered list. List of certain VM OS capabilities needed for some Compute Engine features. */
-  osCapabilities?: VmCapabilitiesOsCapabilitiesItemEnumList;
+  osCapabilities?: VmCapabilitiesOsCapabilitiesItemEnumList | undefined;
   /** Output only. The last time OS capabilities list was updated. */
-  lastOsCapabilitiesUpdateTime?: string;
+  lastOsCapabilitiesUpdateTime?: string | undefined;
 }
 export type AwsSourceVmDetailsFirmwareEnum = "FIRMWARE_UNSPECIFIED" | "EFI" | "BIOS";
 /** Represent the source AWS VM details. */
 export interface AwsSourceVmDetails {
   /** Output only. The disks attached to the source VM. */
-  disks?: AwsDiskDetailsList;
+  disks?: AwsDiskDetailsList | undefined;
   /** Output only. The total size of the disks being migrated in bytes. */
-  committedStorageBytes?: string;
+  committedStorageBytes?: string | undefined;
   /** Output only. The VM architecture. */
-  architecture?: AwsSourceVmDetailsArchitectureEnum | (string & {});
+  architecture?: AwsSourceVmDetailsArchitectureEnum | (string & {}) | undefined;
   /** Output only. Information about VM capabilities needed for some Compute Engine features. */
-  vmCapabilitiesInfo?: VmCapabilities;
+  vmCapabilitiesInfo?: VmCapabilities | undefined;
   /** Output only. The firmware type of the source VM. */
-  firmware?: AwsSourceVmDetailsFirmwareEnum | (string & {});
+  firmware?: AwsSourceVmDetailsFirmwareEnum | (string & {}) | undefined;
 }
 /** CutoverForecast holds information about future CutoverJobs of a MigratingVm. */
 export interface CutoverForecast {
   /** Output only. Estimation of the CutoverJob duration. */
-  estimatedCutoverJobDuration?: string;
+  estimatedCutoverJobDuration?: string | undefined;
 }
 export type AzureSourceVmDetailsArchitectureEnum =
   | "VM_ARCHITECTURE_UNSPECIFIED"
@@ -1044,34 +1044,34 @@ export type AzureSourceVmDetailsFirmwareEnum = "FIRMWARE_UNSPECIFIED" | "EFI" | 
 /** The details of an Azure VM disk. */
 export interface AzureDiskDetails {
   /** Output only. Size in GB. */
-  sizeGb?: string;
+  sizeGb?: string | undefined;
   /** Output only. The ordinal number of the disk. */
-  diskNumber?: number;
+  diskNumber?: number | undefined;
   /** Output only. Azure disk ID. */
-  diskId?: string;
+  diskId?: string | undefined;
 }
 export type AzureDiskDetailsList = Array<AzureDiskDetails>;
 /** Represent the source Azure VM details. */
 export interface AzureSourceVmDetails {
   /** Output only. The VM architecture. */
-  architecture?: AzureSourceVmDetailsArchitectureEnum | (string & {});
+  architecture?: AzureSourceVmDetailsArchitectureEnum | (string & {}) | undefined;
   /** Output only. The firmware type of the source VM. */
-  firmware?: AzureSourceVmDetailsFirmwareEnum | (string & {});
+  firmware?: AzureSourceVmDetailsFirmwareEnum | (string & {}) | undefined;
   /** Output only. The disks attached to the source VM. */
-  disks?: AzureDiskDetailsList;
+  disks?: AzureDiskDetailsList | undefined;
   /** Output only. Information about VM capabilities needed for some Compute Engine features. */
-  vmCapabilitiesInfo?: VmCapabilities;
+  vmCapabilitiesInfo?: VmCapabilities | undefined;
   /** Output only. The total size of the disks being migrated in bytes. */
-  committedStorageBytes?: string;
+  committedStorageBytes?: string | undefined;
 }
 /** The details of a Vmware VM disk. */
 export interface VmwareDiskDetails {
   /** Output only. Size in GB. */
-  sizeGb?: string;
+  sizeGb?: string | undefined;
   /** Output only. The ordinal number of the disk. */
-  diskNumber?: number;
+  diskNumber?: number | undefined;
   /** Output only. The disk label. */
-  label?: string;
+  label?: string | undefined;
 }
 export type VmwareDiskDetailsList = Array<VmwareDiskDetails>;
 export type VmwareSourceVmDetailsArchitectureEnum =
@@ -1082,27 +1082,27 @@ export type VmwareSourceVmDetailsFirmwareEnum = "FIRMWARE_UNSPECIFIED" | "EFI" |
 /** Represent the source Vmware VM details. */
 export interface VmwareSourceVmDetails {
   /** Output only. The disks attached to the source VM. */
-  disks?: VmwareDiskDetailsList;
+  disks?: VmwareDiskDetailsList | undefined;
   /** Output only. The VM architecture. */
-  architecture?: VmwareSourceVmDetailsArchitectureEnum | (string & {});
+  architecture?: VmwareSourceVmDetailsArchitectureEnum | (string & {}) | undefined;
   /** Output only. Information about VM capabilities needed for some Compute Engine features. */
-  vmCapabilitiesInfo?: VmCapabilities;
+  vmCapabilitiesInfo?: VmCapabilities | undefined;
   /** Output only. The firmware type of the source VM. */
-  firmware?: VmwareSourceVmDetailsFirmwareEnum | (string & {});
+  firmware?: VmwareSourceVmDetailsFirmwareEnum | (string & {}) | undefined;
   /** Output only. The total size of the disks being migrated in bytes. */
-  committedStorageBytes?: string;
+  committedStorageBytes?: string | undefined;
 }
 /** A policy for scheduling replications. */
 export interface SchedulePolicy {
   /** The idle duration between replication stages. */
-  idleDuration?: string;
+  idleDuration?: string | undefined;
   /** A flag to indicate whether to skip OS adaptation during the replication sync. OS adaptation is a process where the VM's operating system undergoes changes and adaptations to fully function on Compute Engine. */
-  skipOsAdaptation?: boolean;
+  skipOsAdaptation?: boolean | undefined;
 }
 /** Contains details about the image source used to create the disk. */
 export interface DiskImageDefaults {
   /** Required. The Image resource used when creating the disk. */
-  sourceImage?: string;
+  sourceImage?: string | undefined;
 }
 export type BootDiskDefaultsDiskTypeEnum =
   | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
@@ -1114,50 +1114,50 @@ export type BootDiskDefaultsDiskTypeEnum =
 /** BootDiskDefaults hold information about the boot disk of a VM. */
 export interface BootDiskDefaults {
   /** The image to use when creating the disk. */
-  image?: DiskImageDefaults;
+  image?: DiskImageDefaults | undefined;
   /** Optional. The type of disk provisioning to use for the VM. */
-  diskType?: BootDiskDefaultsDiskTypeEnum | (string & {});
+  diskType?: BootDiskDefaultsDiskTypeEnum | (string & {}) | undefined;
   /** Optional. The encryption to apply to the boot disk. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Optional. The name of the disk. */
-  diskName?: string;
+  diskName?: string | undefined;
   /** Optional. Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disk-x, where x is a number assigned by Google Compute Engine. This field is only applicable for persistent disks. */
-  deviceName?: string;
+  deviceName?: string | undefined;
 }
 /** Details for creation of a VM that migrated data disks will be attached to. */
 export interface DisksMigrationVmTargetDefaults {
   /** Optional. The encryption to apply to the VM. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Optional. Defines whether the instance has integrity monitoring enabled. */
-  enableIntegrityMonitoring?: boolean;
+  enableIntegrityMonitoring?: boolean | undefined;
   /** Optional. The service account to associate the VM with. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Defines whether the instance has Secure Boot enabled. This can be set to true only if the VM boot option is EFI. */
-  secureBoot?: boolean;
+  secureBoot?: boolean | undefined;
   /** Optional. A map of labels to associate with the VM. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. The machine type series to create the VM with. For presentation only. */
-  machineTypeSeries?: string;
+  machineTypeSeries?: string | undefined;
   /** Optional. Additional licenses to assign to the VM. */
-  additionalLicenses?: StringList;
+  additionalLicenses?: StringList | undefined;
   /** Optional. Compute instance scheduling information (if empty default is used). */
-  computeScheduling?: ComputeScheduling;
+  computeScheduling?: ComputeScheduling | undefined;
   /** Required. The machine type to create the VM with. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Optional. Details of the boot disk of the VM. */
-  bootDiskDefaults?: BootDiskDefaults;
+  bootDiskDefaults?: BootDiskDefaults | undefined;
   /** Required. The name of the VM to create. */
-  vmName?: string;
+  vmName?: string | undefined;
   /** Optional. NICs to attach to the VM. */
-  networkInterfaces?: NetworkInterfaceList;
+  networkInterfaces?: NetworkInterfaceList | undefined;
   /** Optional. The metadata key/value pairs to assign to the VM. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Optional. A list of network tags to associate with the VM. */
-  networkTags?: StringList;
+  networkTags?: StringList | undefined;
   /** Optional. Defines whether the instance has vTPM enabled. */
-  enableVtpm?: boolean;
+  enableVtpm?: boolean | undefined;
   /** Optional. The hostname to assign to the VM. */
-  hostname?: string;
+  hostname?: string | undefined;
 }
 export type PersistentDiskDefaultsDiskTypeEnum =
   | "COMPUTE_ENGINE_DISK_TYPE_UNSPECIFIED"
@@ -1169,22 +1169,22 @@ export type PersistentDiskDefaultsDiskTypeEnum =
 /** Details for attachment of the disk to a VM. */
 export interface VmAttachmentDetails {
   /** Optional. Specifies a unique device name of your choice that is reflected into the /dev/disk/by-id/google-* tree of a Linux operating system running within the instance. If not specified, the server chooses a default device name to apply to this disk, in the form persistent-disk-x, where x is a number assigned by Google Compute Engine. This field is only applicable for persistent disks. */
-  deviceName?: string;
+  deviceName?: string | undefined;
 }
 /** Details for creation of a Persistent Disk. */
 export interface PersistentDiskDefaults {
   /** Required. The ordinal number of the source VM disk. */
-  sourceDiskNumber?: number;
+  sourceDiskNumber?: number | undefined;
   /** A map of labels to associate with the Persistent Disk. */
-  additionalLabels?: StringMap;
+  additionalLabels?: StringMap | undefined;
   /** The disk type to use. */
-  diskType?: PersistentDiskDefaultsDiskTypeEnum | (string & {});
+  diskType?: PersistentDiskDefaultsDiskTypeEnum | (string & {}) | undefined;
   /** Optional. The encryption to apply to the disk. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** Optional. The name of the Persistent Disk to create. */
-  diskName?: string;
+  diskName?: string | undefined;
   /** Optional. Details for attachment of the disk to a VM. Used when the disk is set to be attached to a target VM. */
-  vmAttachmentDetails?: VmAttachmentDetails;
+  vmAttachmentDetails?: VmAttachmentDetails | undefined;
 }
 export type PersistentDiskDefaultsList = Array<PersistentDiskDefaults>;
 /** Details for a disk only migration. */
@@ -1192,15 +1192,15 @@ export type DisksMigrationDisksTargetDefaults = CancelImageImportJobRequest;
 /** ComputeEngineDisksTargetDefaults is a collection of details for creating Persistent Disks in a target Compute Engine project. */
 export interface ComputeEngineDisksTargetDefaults {
   /** Details of the VM migration target. */
-  vmTargetDefaults?: DisksMigrationVmTargetDefaults;
+  vmTargetDefaults?: DisksMigrationVmTargetDefaults | undefined;
   /** The details of each Persistent Disk to create. */
-  disks?: PersistentDiskDefaultsList;
+  disks?: PersistentDiskDefaultsList | undefined;
   /** Details of the disk only migration target. */
-  disksTargetDefaults?: CancelImageImportJobRequest;
+  disksTargetDefaults?: CancelImageImportJobRequest | undefined;
   /** The full path of the resource of type TargetProject which represents the Compute Engine project in which to create the Persistent Disks. */
-  targetProject?: string;
+  targetProject?: string | undefined;
   /** The zone in which to create the Persistent Disks. */
-  zone?: string;
+  zone?: string | undefined;
 }
 export type ComputeEngineTargetDefaultsLicenseTypeEnum =
   | "COMPUTE_ENGINE_LICENSE_TYPE_DEFAULT"
@@ -1224,76 +1224,76 @@ export type ComputeEngineTargetDefaultsDiskTypeEnum =
 /** ComputeEngineTargetDefaults is a collection of details for creating a VM in a target Compute Engine project. */
 export interface ComputeEngineTargetDefaults {
   /** Defines whether the instance has Secure Boot enabled. This can be set to true only if the VM boot option is EFI. */
-  secureBoot?: boolean;
+  secureBoot?: boolean | undefined;
   /** Optional. Defines whether the instance has integrity monitoring enabled. This can be set to true only if the VM boot option is EFI, and vTPM is enabled. */
-  enableIntegrityMonitoring?: boolean;
+  enableIntegrityMonitoring?: boolean | undefined;
   /** Output only. The OS license returned from the adaptation module report. */
-  appliedLicense?: AppliedLicense;
+  appliedLicense?: AppliedLicense | undefined;
   /** Optional. The service account to associate the VM with. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Immutable. The encryption to apply to the VM disks. */
-  encryption?: Encryption;
+  encryption?: Encryption | undefined;
   /** The name of the VM to create. */
-  vmName?: string;
+  vmName?: string | undefined;
   /** A list of network tags to associate with the VM. */
-  networkTags?: StringList;
+  networkTags?: StringList | undefined;
   /** The machine type to create the VM with. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Additional licenses to assign to the VM. */
-  additionalLicenses?: StringList;
+  additionalLicenses?: StringList | undefined;
   /** The license type to use in OS adaptation. */
-  licenseType?: ComputeEngineTargetDefaultsLicenseTypeEnum | (string & {});
+  licenseType?: ComputeEngineTargetDefaultsLicenseTypeEnum | (string & {}) | undefined;
   /** The full path of the resource of type TargetProject which represents the Compute Engine project in which to create this VM. */
-  targetProject?: string;
+  targetProject?: string | undefined;
   /** Optional. The details of each disk to create. */
-  disks?: PersistentDiskDefaultsList;
+  disks?: PersistentDiskDefaultsList | undefined;
   /** Optional. AdaptationModifiers are the set of modifiers used during OS adaptation. */
-  adaptationModifiers?: AdaptationModifierList;
+  adaptationModifiers?: AdaptationModifierList | undefined;
   /** A map of labels to associate with the VM. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** The metadata key/value pairs to assign to the VM. */
-  metadata?: StringMap;
+  metadata?: StringMap | undefined;
   /** Compute instance scheduling information (if empty default is used). */
-  computeScheduling?: ComputeScheduling;
+  computeScheduling?: ComputeScheduling | undefined;
   /** The hostname to assign to the VM. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Optional. Additional replica zones of the target regional disks. If this list is not empty a regional disk will be created. The first supported zone would be the one stated in the zone field. The rest are taken from this list. Please refer to the [regional disk creation API](https://cloud.google.com/compute/docs/regions-zones/global-regional-zonal-resources) for further details about regional vs zonal disks. If not specified, a zonal disk will be created in the same zone the VM is created. */
-  diskReplicaZones?: StringList;
+  diskReplicaZones?: StringList | undefined;
   /** Output only. The VM Boot Option, as set in the source VM. */
-  bootOption?: ComputeEngineTargetDefaultsBootOptionEnum | (string & {});
+  bootOption?: ComputeEngineTargetDefaultsBootOptionEnum | (string & {}) | undefined;
   /** The machine type series to create the VM with. */
-  machineTypeSeries?: string;
+  machineTypeSeries?: string | undefined;
   /** The zone in which to create the VM. */
-  zone?: string;
+  zone?: string | undefined;
   /** Optional. By default the virtual machine will keep its existing boot option. Setting this property will trigger an internal process which will convert the virtual machine from using the existing boot option to another. */
-  bootConversion?: ComputeEngineTargetDefaultsBootConversionEnum | (string & {});
+  bootConversion?: ComputeEngineTargetDefaultsBootConversionEnum | (string & {}) | undefined;
   /** Optional. If specified this will be the storage pool in which the disk is created. This is the full path of the storage pool resource, for example: "projects/my-project/zones/us-central1-a/storagePools/my-storage-pool". The storage pool must be in the same project and zone as the target disks. The storage pool's type must match the disk type. */
-  storagePool?: string;
+  storagePool?: string | undefined;
   /** The disk type to use in the VM. */
-  diskType?: ComputeEngineTargetDefaultsDiskTypeEnum | (string & {});
+  diskType?: ComputeEngineTargetDefaultsDiskTypeEnum | (string & {}) | undefined;
   /** Optional. Defines whether the instance has vTPM enabled. This can be set to true only if the VM boot option is EFI. */
-  enableVtpm?: boolean;
+  enableVtpm?: boolean | undefined;
   /** List of NICs connected to this VM. */
-  networkInterfaces?: NetworkInterfaceList;
+  networkInterfaces?: NetworkInterfaceList | undefined;
 }
 /** ShuttingDownSourceVMStep contains specific step details. */
 export type ShuttingDownSourceVMStep = CancelImageImportJobRequest;
 /** CutoverStep holds information about the cutover step progress. */
 export interface CutoverStep {
   /** Shutting down VM step. */
-  shuttingDownSourceVm?: CancelImageImportJobRequest;
+  shuttingDownSourceVm?: CancelImageImportJobRequest | undefined;
   /** Final sync step. */
-  finalSync?: ReplicationCycle;
+  finalSync?: ReplicationCycle | undefined;
   /** The time the step has started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Preparing VM disks step. */
-  preparingVmDisks?: CancelImageImportJobRequest;
+  preparingVmDisks?: CancelImageImportJobRequest | undefined;
   /** Instantiating migrated VM step. */
-  instantiatingMigratedVm?: CancelImageImportJobRequest;
+  instantiatingMigratedVm?: CancelImageImportJobRequest | undefined;
   /** The time the step has ended. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** A replication cycle prior cutover step. */
-  previousReplicationCycle?: ReplicationCycle;
+  previousReplicationCycle?: ReplicationCycle | undefined;
 }
 export type CutoverStepList = Array<CutoverStep>;
 export type CutoverJobStateEnum =
@@ -1308,27 +1308,27 @@ export type CutoverJobStateEnum =
 /** CutoverJob message describes a cutover of a migrating VM. The CutoverJob is the operation of shutting down the VM, creating a snapshot and cloning the VM using the replicated snapshot. */
 export interface CutoverJob {
   /** Output only. The time the state was last updated. */
-  stateTime?: string;
+  stateTime?: string | undefined;
   /** Output only. The time the cutover job was created (as an API call, not when it was actually created in the target). */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The cutover steps list representing its progress. */
-  steps?: CutoverStepList;
+  steps?: CutoverStepList | undefined;
   /** Output only. Details of the target Persistent Disks in Compute Engine. */
-  computeEngineDisksTargetDetails?: ComputeEngineDisksTargetDetails;
+  computeEngineDisksTargetDetails?: ComputeEngineDisksTargetDetails | undefined;
   /** Output only. The current progress in percentage of the cutover job. */
-  progressPercent?: number;
+  progressPercent?: number | undefined;
   /** Output only. The time the cutover job had finished. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** Output only. A message providing possible extra details about the current state. */
-  stateMessage?: string;
+  stateMessage?: string | undefined;
   /** Output only. Details of the target VM in Compute Engine. */
-  computeEngineTargetDetails?: ComputeEngineTargetDetails;
+  computeEngineTargetDetails?: ComputeEngineTargetDetails | undefined;
   /** Output only. State of the cutover job. */
-  state?: CutoverJobStateEnum | (string & {});
+  state?: CutoverJobStateEnum | (string & {}) | undefined;
   /** Output only. The name of the cutover job. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Provides details for the errors that led to the Cutover Job's state. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export type CutoverJobList = Array<CutoverJob>;
 export type MigratingVmStateEnum =
@@ -1349,103 +1349,103 @@ export type MigratingVmStateEnum =
 /** MigratingVm describes the VM that will be migrated from a Source environment and its replication state. */
 export interface MigratingVm {
   /** The unique ID of the VM in the source. The VM's name in vSphere can be changed, so this is not the VM's name but rather its moRef id. This id is of the form vm-. */
-  sourceVmId?: string;
+  sourceVmId?: string | undefined;
   /** Output only. Provides details about the expiration state of the migrating VM. */
-  expiration?: Expiration;
+  expiration?: Expiration | undefined;
   /** Output only. The last time the migrating VM resource was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The identifier of the MigratingVm. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The most updated snapshot created time in the source that finished replication. */
-  lastSync?: ReplicationSync;
+  lastSync?: ReplicationSync | undefined;
   /** Output only. The recent clone jobs performed on the migrating VM. This field holds the vm's last completed clone job and the vm's running clone job, if one exists. Note: To have this field populated you need to explicitly request it via the "view" parameter of the Get/List request. */
-  recentCloneJobs?: CloneJobList;
+  recentCloneJobs?: CloneJobList | undefined;
   /** Output only. Details of the last replication cycle. This will be updated whenever a replication cycle is finished and is not to be confused with last_sync which is only updated on successful replication cycles. */
-  lastReplicationCycle?: ReplicationCycle;
+  lastReplicationCycle?: ReplicationCycle | undefined;
   /** The description attached to the migrating VM by the user. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. Details of the VM from an AWS source. */
-  awsSourceVmDetails?: AwsSourceVmDetails;
+  awsSourceVmDetails?: AwsSourceVmDetails | undefined;
   /** The display name attached to the MigratingVm by the user. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Provides details of future CutoverJobs of a MigratingVm. Set to empty when cutover forecast is unavailable. */
-  cutoverForecast?: CutoverForecast;
+  cutoverForecast?: CutoverForecast | undefined;
   /** Output only. Details of the VM from an Azure source. */
-  azureSourceVmDetails?: AzureSourceVmDetails;
+  azureSourceVmDetails?: AzureSourceVmDetails | undefined;
   /** Output only. Provides details on the state of the Migrating VM in case of an error in replication. */
-  error?: Status;
+  error?: Status | undefined;
   /** The labels of the migrating VM. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Details of the VM from a Vmware source. */
-  vmwareSourceVmDetails?: VmwareSourceVmDetails;
+  vmwareSourceVmDetails?: VmwareSourceVmDetails | undefined;
   /** The replication schedule policy. */
-  policy?: SchedulePolicy;
+  policy?: SchedulePolicy | undefined;
   /** Details of the target Persistent Disks in Compute Engine. */
-  computeEngineDisksTargetDefaults?: ComputeEngineDisksTargetDefaults;
+  computeEngineDisksTargetDefaults?: ComputeEngineDisksTargetDefaults | undefined;
   /** Output only. Details of the current running replication cycle. */
-  currentSyncInfo?: ReplicationCycle;
+  currentSyncInfo?: ReplicationCycle | undefined;
   /** Details of the target VM in Compute Engine. */
-  computeEngineTargetDefaults?: ComputeEngineTargetDefaults;
+  computeEngineTargetDefaults?: ComputeEngineTargetDefaults | undefined;
   /** Output only. The time the migrating VM was created (this refers to this resource and not to the time it was installed in the source). */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The last time the migrating VM state was updated. */
-  stateTime?: string;
+  stateTime?: string | undefined;
   /** Output only. The group this migrating vm is included in, if any. The group is represented by the full path of the appropriate Group resource. */
-  group?: string;
+  group?: string | undefined;
   /** Output only. The recent cutover jobs performed on the migrating VM. This field holds the vm's last completed cutover job and the vm's running cutover job, if one exists. Note: To have this field populated you need to explicitly request it via the "view" parameter of the Get/List request. */
-  recentCutoverJobs?: CutoverJobList;
+  recentCutoverJobs?: CutoverJobList | undefined;
   /** Output only. State of the MigratingVm. */
-  state?: MigratingVmStateEnum | (string & {});
+  state?: MigratingVmStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The MigratingVm's parent. */
   parent: string;
   /** Required. The migratingVm identifier. */
-  migratingVmId?: string;
+  migratingVmId?: string | undefined;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: MigratingVm;
+  body?: MigratingVm | undefined;
 }
 export interface CreateProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
   /** Required. The clone job identifier. */
-  cloneJobId?: string;
+  cloneJobId?: string | undefined;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The Clone's parent. */
   parent: string;
   /** Request body */
-  body?: CloneJob;
+  body?: CloneJob | undefined;
 }
 export interface CreateProjectsLocationsSourcesMigratingVmsCutoverJobsRequest {
   /** Required. The Cutover's parent. */
   parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The cutover job identifier. */
-  cutoverJobId?: string;
+  cutoverJobId?: string | undefined;
   /** Request body */
-  body?: CutoverJob;
+  body?: CutoverJob | undefined;
 }
 export type UtilizationReportTimeFrameEnum = "TIME_FRAME_UNSPECIFIED" | "WEEK" | "MONTH" | "YEAR";
 /** Utilization metrics values for a single VM. */
 export interface VmUtilizationMetrics {
   /** Max disk IO rate, in kilobytes per second. */
-  diskIoRateMaxKbps?: string;
+  diskIoRateMaxKbps?: string | undefined;
   /** Average network throughput (combined transmit-rates and receive-rates), in kilobytes per second. */
-  networkThroughputAverageKbps?: string;
+  networkThroughputAverageKbps?: string | undefined;
   /** Average disk IO rate, in kilobytes per second. */
-  diskIoRateAverageKbps?: string;
+  diskIoRateAverageKbps?: string | undefined;
   /** Max CPU usage, percent. */
-  cpuMaxPercent?: number;
+  cpuMaxPercent?: number | undefined;
   /** Max memory usage, percent. */
-  memoryMaxPercent?: number;
+  memoryMaxPercent?: number | undefined;
   /** Average CPU usage, percent. */
-  cpuAveragePercent?: number;
+  cpuAveragePercent?: number | undefined;
   /** Average memory usage, percent. */
-  memoryAveragePercent?: number;
+  memoryAveragePercent?: number | undefined;
   /** Max network throughput (combined transmit-rates and receive-rates), in kilobytes per second. */
-  networkThroughputMaxKbps?: string;
+  networkThroughputMaxKbps?: string | undefined;
 }
 export type VmwareVmDetailsPowerStateEnum = "POWER_STATE_UNSPECIFIED" | "ON" | "OFF" | "SUSPENDED";
 export type VmwareVmDetailsBootOptionEnum = "BOOT_OPTION_UNSPECIFIED" | "EFI" | "BIOS";
@@ -1456,110 +1456,110 @@ export type VmwareVmDetailsArchitectureEnum =
 /** VmwareVmDetails describes a VM in vCenter. */
 export interface VmwareVmDetails {
   /** The VM's id in the source (note that this is not the MigratingVm's id). This is the moref id of the VM. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** The number of cpus in the VM. */
-  cpuCount?: number;
+  cpuCount?: number | undefined;
   /** The id of the vCenter's datacenter this VM is contained in. */
-  datacenterId?: string;
+  datacenterId?: string | undefined;
   /** The power state of the VM at the moment list was taken. */
-  powerState?: VmwareVmDetailsPowerStateEnum | (string & {});
+  powerState?: VmwareVmDetailsPowerStateEnum | (string & {}) | undefined;
   /** The display name of the VM. Note that this is not necessarily unique. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The VM Boot Option. */
-  bootOption?: VmwareVmDetailsBootOptionEnum | (string & {});
+  bootOption?: VmwareVmDetailsBootOptionEnum | (string & {}) | undefined;
   /** The VM's OS. See for example https://vdc-repo.vmware.com/vmwb-repository/dcr-public/da47f910-60ac-438b-8b9b-6122f4d14524/16b7274a-bf8b-4b4c-a05e-746f2aa93c8c/doc/vim.vm.GuestOsDescriptor.GuestOsIdentifier.html for types of strings this might hold. */
-  guestDescription?: string;
+  guestDescription?: string | undefined;
   /** The number of disks the VM has. */
-  diskCount?: number;
+  diskCount?: number | undefined;
   /** The size of the memory of the VM in MB. */
-  memoryMb?: number;
+  memoryMb?: number | undefined;
   /** The unique identifier of the VM in vCenter. */
-  uuid?: string;
+  uuid?: string | undefined;
   /** The descriptive name of the vCenter's datacenter this VM is contained in. */
-  datacenterDescription?: string;
+  datacenterDescription?: string | undefined;
   /** Output only. The CPU architecture. */
-  architecture?: VmwareVmDetailsArchitectureEnum | (string & {});
+  architecture?: VmwareVmDetailsArchitectureEnum | (string & {}) | undefined;
   /** The total size of the storage allocated to the VM in MB. */
-  committedStorageMb?: string;
+  committedStorageMb?: string | undefined;
 }
 /** Utilization information of a single VM. */
 export interface VmUtilizationInfo {
   /** Utilization metrics for this VM. */
-  utilization?: VmUtilizationMetrics;
+  utilization?: VmUtilizationMetrics | undefined;
   /** The VM's ID in the source. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** The description of the VM in a Source of type Vmware. */
-  vmwareVmDetails?: VmwareVmDetails;
+  vmwareVmDetails?: VmwareVmDetails | undefined;
 }
 export type VmUtilizationInfoList = Array<VmUtilizationInfo>;
 export type UtilizationReportStateEnum = "STATE_UNSPECIFIED" | "CREATING" | "SUCCEEDED" | "FAILED";
 /** Utilization report details the utilization (CPU, memory, etc.) of selected source VMs. */
 export interface UtilizationReport {
   /** Output only. The time the report was created (this refers to the time of the request, not the time the report creation completed). */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The time the state was last set. */
-  stateTime?: string;
+  stateTime?: string | undefined;
   /** Time frame of the report. */
-  timeFrame?: UtilizationReportTimeFrameEnum | (string & {});
+  timeFrame?: UtilizationReportTimeFrameEnum | (string & {}) | undefined;
   /** The report display name, as assigned by the user. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Total number of VMs included in the report. */
-  vmCount?: number;
+  vmCount?: number | undefined;
   /** Output only. The point in time when the time frame ends. Notice that the time frame is counted backwards. For instance if the "frame_end_time" value is 2021/01/20 and the time frame is WEEK then the report covers the week between 2021/01/20 and 2021/01/14. */
-  frameEndTime?: string;
+  frameEndTime?: string | undefined;
   /** List of utilization information per VM. When sent as part of the request, the "vm_id" field is used in order to specify which VMs to include in the report. In that case all other fields are ignored. */
-  vms?: VmUtilizationInfoList;
+  vms?: VmUtilizationInfoList | undefined;
   /** Output only. Provides details on the state of the report in case of an error. */
-  error?: Status;
+  error?: Status | undefined;
   /** Output only. The report unique name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Current state of the report. */
-  state?: UtilizationReportStateEnum | (string & {});
+  state?: UtilizationReportStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsSourcesUtilizationReportsRequest {
   /** Required. The Utilization Report's parent. */
   parent: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The ID to use for the report, which will become the final component of the reports's resource name. This value maximum length is 63 characters, and valid characters are /a-z-/. It must start with an english letter and must not end with a hyphen. */
-  utilizationReportId?: string;
+  utilizationReportId?: string | undefined;
   /** Request body */
-  body?: UtilizationReport;
+  body?: UtilizationReport | undefined;
 }
 /** TargetProject message represents a target Compute Engine project for a migration or a clone. */
 export interface TargetProject {
   /** The target project's description. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The name of the target project. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The time this target project resource was created (not related to when the Compute Engine project it points to was created). */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Required. The target project ID (number) or project name. */
-  project?: string;
+  project?: string | undefined;
   /** Output only. The last time the target project resource was updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 export interface CreateProjectsLocationsTargetProjectsRequest {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The TargetProject's parent. */
   parent: string;
   /** Required. The target_project identifier. */
-  targetProjectId?: string;
+  targetProjectId?: string | undefined;
   /** Request body */
-  body?: TargetProject;
+  body?: TargetProject | undefined;
 }
 export interface DeleteProjectsLocationsGroupsRequest {
   /** Required. The Group name. */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsImageImportsRequest {
   /** Required. The ImageImport name. */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and t he request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -1567,7 +1567,7 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsSourcesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The Source name. */
   name: string;
 }
@@ -1575,7 +1575,7 @@ export interface DeleteProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** Required. The DatacenterConnector name. */
   name: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Required. The name of the DiskMigrationJob. */
@@ -1587,7 +1587,7 @@ export interface DeleteProjectsLocationsSourcesMigratingVmsRequest {
 }
 export interface DeleteProjectsLocationsSourcesUtilizationReportsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The Utilization Report name. */
   name: string;
 }
@@ -1595,7 +1595,7 @@ export interface DeleteProjectsLocationsTargetProjectsRequest {
   /** Required. The TargetProject name. */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 /** Request message for 'ExtendMigrationRequest' request. */
 export type ExtendMigrationRequest = CancelImageImportJobRequest;
@@ -1603,26 +1603,26 @@ export interface ExtendMigrationProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   migratingVm: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 export interface FetchInventoryProjectsLocationsSourcesRequest {
   /** A page token, received from a previous `FetchInventory` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchInventory` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The name of the Source. */
   source: string;
   /** If this flag is set to true, the source will be queried instead of using cached results. Using this flag will make the call slower. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** The maximum number of VMs to return. The service may return fewer than this value. For AWS source: If unspecified, at most 500 VMs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. For VMWare source: If unspecified, all VMs will be returned. There is no limit for maximum value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** A message describing a data disk. */
 export interface Disk {
   /** The disk size in GB. */
-  sizeGb?: number;
+  sizeGb?: number | undefined;
   /** The disk name. */
-  name?: string;
+  name?: string | undefined;
   /** The disk's Logical Unit Number (LUN). */
-  lun?: number;
+  lun?: number | undefined;
 }
 export type DiskList = Array<Disk>;
 export type AzureVmDetailsPowerStateEnum =
@@ -1638,22 +1638,22 @@ export type AzureVmDetailsBootOptionEnum = "BOOT_OPTION_UNSPECIFIED" | "EFI" | "
 /** A message describing the OS disk. */
 export interface OSDisk {
   /** The disk's full name. */
-  name?: string;
+  name?: string | undefined;
   /** The disk's type. */
-  type?: string;
+  type?: string | undefined;
   /** The disk's size in GB. */
-  sizeGb?: number;
+  sizeGb?: number | undefined;
 }
 /** A message describing the VM's OS. Including OS, Publisher, Offer and Plan if applicable. */
 export interface OSDescription {
   /** OS publisher. */
-  publisher?: string;
+  publisher?: string | undefined;
   /** OS plan. */
-  plan?: string;
+  plan?: string | undefined;
   /** OS type. */
-  type?: string;
+  type?: string | undefined;
   /** OS offer. */
-  offer?: string;
+  offer?: string | undefined;
 }
 export type AzureVmDetailsArchitectureEnum =
   | "VM_ARCHITECTURE_UNSPECIFIED"
@@ -1662,39 +1662,39 @@ export type AzureVmDetailsArchitectureEnum =
 /** AzureVmDetails describes a VM in Azure. */
 export interface AzureVmDetails {
   /** The VM's ComputerName. */
-  computerName?: string;
+  computerName?: string | undefined;
   /** Description of the data disks. */
-  disks?: DiskList;
+  disks?: DiskList | undefined;
   /** The power state of the VM at the moment list was taken. */
-  powerState?: AzureVmDetailsPowerStateEnum;
+  powerState?: AzureVmDetailsPowerStateEnum | undefined;
   /** The number of cpus the VM has. */
-  cpuCount?: number;
+  cpuCount?: number | undefined;
   /** The number of disks the VM has, including OS disk. */
-  diskCount?: number;
+  diskCount?: number | undefined;
   /** The tags of the VM. */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** The VM Boot Option. */
-  bootOption?: AzureVmDetailsBootOptionEnum;
+  bootOption?: AzureVmDetailsBootOptionEnum | undefined;
   /** The memory size of the VM in MB. */
-  memoryMb?: number;
+  memoryMb?: number | undefined;
   /** Description of the OS disk. */
-  osDisk?: OSDisk;
+  osDisk?: OSDisk | undefined;
   /** VM size as configured in Azure. Determines the VM's hardware spec. */
-  vmSize?: string;
+  vmSize?: string | undefined;
   /** The VM full path in Azure. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** Description of the OS. */
-  osDescription?: OSDescription;
+  osDescription?: OSDescription | undefined;
   /** The CPU architecture. */
-  architecture?: AzureVmDetailsArchitectureEnum;
+  architecture?: AzureVmDetailsArchitectureEnum | undefined;
   /** The total size of the storage allocated to the VM in MB. */
-  committedStorageMb?: string;
+  committedStorageMb?: string | undefined;
 }
 export type AzureVmDetailsList = Array<AzureVmDetails>;
 /** AzureVmsDetails describes VMs in Azure. */
 export interface AzureVmsDetails {
   /** The details of the Azure VMs. */
-  details?: AzureVmDetailsList;
+  details?: AzureVmDetailsList | undefined;
 }
 export type AwsVmDetailsVirtualizationTypeEnum =
   | "VM_VIRTUALIZATION_TYPE_UNSPECIFIED"
@@ -1704,9 +1704,9 @@ export type AwsVmDetailsBootOptionEnum = "BOOT_OPTION_UNSPECIFIED" | "EFI" | "BI
 /** AwsSecurityGroup describes a security group of an AWS VM. */
 export interface AwsSecurityGroup {
   /** The AWS security group name. */
-  name?: string;
+  name?: string | undefined;
   /** The AWS security group id. */
-  id?: string;
+  id?: string | undefined;
 }
 export type AwsSecurityGroupList = Array<AwsSecurityGroup>;
 export type AwsVmDetailsArchitectureEnum =
@@ -1724,68 +1724,68 @@ export type AwsVmDetailsPowerStateEnum =
 /** AwsVmDetails describes a VM in AWS. */
 export interface AwsVmDetails {
   /** The id of the AWS's source this VM is connected to. */
-  sourceId?: string;
+  sourceId?: string | undefined;
   /** The VM's OS. */
-  osDescription?: string;
+  osDescription?: string | undefined;
   /** The VPC ID the VM belongs to. */
-  vpcId?: string;
+  vpcId?: string | undefined;
   /** The number of CPU cores the VM has. */
-  cpuCount?: number;
+  cpuCount?: number | undefined;
   /** The number of vCPUs the VM has. It is calculated as the number of CPU cores * threads per CPU the VM has. */
-  vcpuCount?: number;
+  vcpuCount?: number | undefined;
   /** The AWS zone of the VM. */
-  zone?: string;
+  zone?: string | undefined;
   /** The tags of the VM. */
-  tags?: StringMap;
+  tags?: StringMap | undefined;
   /** The display name of the VM. Note that this value is not necessarily unique. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The descriptive name of the AWS's source this VM is connected to. */
-  sourceDescription?: string;
+  sourceDescription?: string | undefined;
   /** The number of disks the VM has. */
-  diskCount?: number;
+  diskCount?: number | undefined;
   /** The instance type of the VM. */
-  instanceType?: string;
+  instanceType?: string | undefined;
   /** The virtualization type. */
-  virtualizationType?: AwsVmDetailsVirtualizationTypeEnum;
+  virtualizationType?: AwsVmDetailsVirtualizationTypeEnum | undefined;
   /** The memory size of the VM in MB. */
-  memoryMb?: number;
+  memoryMb?: number | undefined;
   /** The VM ID in AWS. */
-  vmId?: string;
+  vmId?: string | undefined;
   /** The total size of the storage allocated to the VM in MB. */
-  committedStorageMb?: string;
+  committedStorageMb?: string | undefined;
   /** The VM Boot Option. */
-  bootOption?: AwsVmDetailsBootOptionEnum;
+  bootOption?: AwsVmDetailsBootOptionEnum | undefined;
   /** The security groups the VM belongs to. */
-  securityGroups?: AwsSecurityGroupList;
+  securityGroups?: AwsSecurityGroupList | undefined;
   /** The CPU architecture. */
-  architecture?: AwsVmDetailsArchitectureEnum;
+  architecture?: AwsVmDetailsArchitectureEnum | undefined;
   /** Output only. The power state of the VM at the moment list was taken. */
-  powerState?: AwsVmDetailsPowerStateEnum;
+  powerState?: AwsVmDetailsPowerStateEnum | undefined;
 }
 export type AwsVmDetailsList = Array<AwsVmDetails>;
 /** AWSVmsDetails describes VMs in AWS. */
 export interface AwsVmsDetails {
   /** The details of the AWS VMs. */
-  details?: AwsVmDetailsList;
+  details?: AwsVmDetailsList | undefined;
 }
 export type VmwareVmDetailsList = Array<VmwareVmDetails>;
 /** VmwareVmsDetails describes VMs in vCenter. */
 export interface VmwareVmsDetails {
   /** The details of the vmware VMs. */
-  details?: VmwareVmDetailsList;
+  details?: VmwareVmDetailsList | undefined;
 }
 /** Response message for fetchInventory. */
 export interface FetchInventoryResponse {
   /** Output only. The timestamp when the source was last queried (if the result is from the cache). */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The description of the VMs in a Source of type Azure. */
-  azureVms?: AzureVmsDetails;
+  azureVms?: AzureVmsDetails | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The description of the VMs in a Source of type AWS. */
-  awsVms?: AwsVmsDetails;
+  awsVms?: AwsVmsDetails | undefined;
   /** The description of the VMs in a Source of type Vmware. */
-  vmwareVms?: VmwareVmsDetails;
+  vmwareVms?: VmwareVmsDetails | undefined;
 }
 export type FetchStorageInventoryProjectsLocationsSourcesTypeEnum =
   | "STORAGE_TYPE_UNSPECIFIED"
@@ -1793,30 +1793,30 @@ export type FetchStorageInventoryProjectsLocationsSourcesTypeEnum =
   | "SNAPSHOTS";
 export interface FetchStorageInventoryProjectsLocationsSourcesRequest {
   /** Optional. The maximum number of VMs to return. The service may return fewer than this value. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The type of the storage inventory to fetch. */
-  type?: FetchStorageInventoryProjectsLocationsSourcesTypeEnum | (string & {});
+  type?: FetchStorageInventoryProjectsLocationsSourcesTypeEnum | (string & {}) | undefined;
   /** Optional. A page token, received from a previous `FetchStorageInventory` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `FetchStorageInventory` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. If this flag is set to true, the source will be queried instead of using cached results. Using this flag will make the call slower. */
-  forceRefresh?: boolean;
+  forceRefresh?: boolean | undefined;
   /** Required. The name of the Source. */
   source: string;
 }
 /** SourceStorageResource describes a storage resource in the source. */
 export interface SourceStorageResource {
   /** Source AWS volume details. */
-  awsDiskDetails?: AwsSourceDiskDetails;
+  awsDiskDetails?: AwsSourceDiskDetails | undefined;
 }
 export type SourceStorageResourceList = Array<SourceStorageResource>;
 /** Response message for fetchStorageInventory. */
 export interface FetchStorageInventoryResponse {
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. The timestamp when the source was last queried (if the result is from the cache). */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The list of storage resources in the source. */
-  resources?: SourceStorageResourceList;
+  resources?: SourceStorageResourceList | undefined;
 }
 /** Request message for 'FinalizeMigration' request. */
 export type FinalizeMigrationRequest = CancelImageImportJobRequest;
@@ -1824,7 +1824,7 @@ export interface FinalizeMigrationProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   migratingVm: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1833,15 +1833,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
 }
 export interface GetProjectsLocationsGroupsRequest {
   /** Required. The group name. */
@@ -1879,7 +1879,7 @@ export interface GetProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   name: string;
   /** Optional. The level of details of the migrating VM. */
-  view?: GetProjectsLocationsSourcesMigratingVmsViewEnum | (string & {});
+  view?: GetProjectsLocationsSourcesMigratingVmsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
   /** Required. The name of the CloneJob. */
@@ -1901,7 +1901,7 @@ export interface GetProjectsLocationsSourcesUtilizationReportsRequest {
   /** Required. The Utilization Report name. */
   name: string;
   /** Optional. The level of details of the report. Defaults to FULL */
-  view?: GetProjectsLocationsSourcesUtilizationReportsViewEnum | (string & {});
+  view?: GetProjectsLocationsSourcesUtilizationReportsViewEnum | (string & {}) | undefined;
 }
 export interface GetProjectsLocationsTargetProjectsRequest {
   /** Required. The TargetProject name. */
@@ -1909,33 +1909,33 @@ export interface GetProjectsLocationsTargetProjectsRequest {
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsGroupsRequest {
   /** Optional. The filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. the order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The maximum number of groups to return. The service may return fewer than this value. If unspecified, at most 500 groups will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. A page token, received from a previous `ListGroups` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListGroups` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of groups. */
   parent: string;
 }
@@ -1943,130 +1943,130 @@ export type GroupList = Array<Group>;
 /** Response message for 'ListGroups' request. */
 export interface ListGroupsResponse {
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. The list of groups response. */
-  groups?: GroupList;
+  groups?: GroupList | undefined;
 }
 export interface ListProjectsLocationsImageImportsRequest {
   /** Required. The parent, which owns this collection of targets. */
   parent: string;
   /** Optional. A page token, received from a previous `ListImageImports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListImageImports` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of targets to return. The service may return fewer than this value. If unspecified, at most 500 targets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The filter request (according to AIP-160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The order by fields for the result (according to AIP-132). Currently ordering is only possible by "name" field. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type ImageImportList = Array<ImageImport>;
 /** Response message for 'ListImageImports' call. */
 export interface ListImageImportsResponse {
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Output only. The list of target response. */
-  imageImports?: ImageImportList;
+  imageImports?: ImageImportList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsImageImportsImageImportJobsRequest {
   /** Optional. The maximum number of targets to return. The service may return fewer than this value. If unspecified, at most 500 targets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListImageImportJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListImageImportJobs` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The filter request (according to AIP-160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The order by fields for the result (according to AIP-132). Currently ordering is only possible by "name" field. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent, which owns this collection of targets. */
   parent: string;
 }
 /** Response message for 'ListImageImportJobs' call. */
 export interface ListImageImportJobsResponse {
   /** Output only. The list of target response. */
-  imageImportJobs?: ImageImportJobList;
+  imageImportJobs?: ImageImportJobList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
 }
 export interface ListProjectsLocationsSourcesRequest {
   /** Optional. the order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. The parent, which owns this collection of sources. */
   parent: string;
   /** Optional. The maximum number of sources to return. The service may return fewer than this value. If unspecified, at most 500 sources will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. A page token, received from a previous `ListSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListSources` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type SourceList = Array<Source>;
 /** Response message for 'ListSources' request. */
 export interface ListSourcesResponse {
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Output only. The list of sources response. */
-  sources?: SourceList;
+  sources?: SourceList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** Required. The parent, which owns this collection of connectors. */
   parent: string;
   /** Optional. the order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The maximum number of connectors to return. The service may return fewer than this value. If unspecified, at most 500 sources will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. A page token, received from a previous `ListDatacenterConnectors` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListDatacenterConnectors` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The filter request. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type DatacenterConnectorList = Array<DatacenterConnector>;
 /** Response message for 'ListDatacenterConnectors' request. */
 export interface ListDatacenterConnectorsResponse {
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Output only. The list of sources response. */
-  datacenterConnectors?: DatacenterConnectorList;
+  datacenterConnectors?: DatacenterConnectorList | undefined;
 }
 export interface ListProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Optional. The filter request (according to AIP-160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. A page token, received from a previous `ListDiskMigrationJobs` call. Provide this to retrieve the subsequent page. When paginating, all parameters provided to `ListDiskMigrationJobs` except `page_size` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Ordering of the result list. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The maximum number of disk migration jobs to return. The service may return fewer than this value. If unspecified, at most 500 disk migration jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent, which owns this collection of DiskMigrationJobs. */
   parent: string;
 }
@@ -2074,11 +2074,11 @@ export type DiskMigrationJobList = Array<DiskMigrationJob>;
 /** Response message for 'ListDiskMigrationJobs' request. */
 export interface ListDiskMigrationJobsResponse {
   /** Optional. Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. The list of the disk migration jobs. */
-  diskMigrationJobs?: DiskMigrationJobList;
+  diskMigrationJobs?: DiskMigrationJobList | undefined;
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export type ListProjectsLocationsSourcesMigratingVmsViewEnum =
   | "MIGRATING_VM_VIEW_UNSPECIFIED"
@@ -2086,15 +2086,15 @@ export type ListProjectsLocationsSourcesMigratingVmsViewEnum =
   | "MIGRATING_VM_VIEW_FULL";
 export interface ListProjectsLocationsSourcesMigratingVmsRequest {
   /** Optional. the order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. A page token, received from a previous `ListMigratingVms` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListMigratingVms` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of migrating VMs to return. The service may return fewer than this value. If unspecified, at most 500 migrating VMs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. The filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The level of details of each migrating VM. */
-  view?: ListProjectsLocationsSourcesMigratingVmsViewEnum | (string & {});
+  view?: ListProjectsLocationsSourcesMigratingVmsViewEnum | (string & {}) | undefined;
   /** Required. The parent, which owns this collection of MigratingVms. */
   parent: string;
 }
@@ -2102,75 +2102,75 @@ export type MigratingVmList = Array<MigratingVm>;
 /** Response message for 'ListMigratingVms' request. */
 export interface ListMigratingVmsResponse {
   /** Output only. The list of Migrating VMs response. */
-  migratingVms?: MigratingVmList;
+  migratingVms?: MigratingVmList | undefined;
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSourcesMigratingVmsCloneJobsRequest {
   /** Optional. The maximum number of clone jobs to return. The service may return fewer than this value. If unspecified, at most 500 clone jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent, which owns this collection of source VMs. */
   parent: string;
   /** Required. A page token, received from a previous `ListCloneJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCloneJobs` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. the order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 /** Response message for 'ListCloneJobs' request. */
 export interface ListCloneJobsResponse {
   /** Output only. The list of clone jobs response. */
-  cloneJobs?: CloneJobList;
+  cloneJobs?: CloneJobList | undefined;
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsSourcesMigratingVmsCutoverJobsRequest {
   /** Optional. the order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent, which owns this collection of migrating VMs. */
   parent: string;
   /** Required. A page token, received from a previous `ListCutoverJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListCutoverJobs` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. The maximum number of cutover jobs to return. The service may return fewer than this value. If unspecified, at most 500 cutover jobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Response message for 'ListCutoverJobs' request. */
 export interface ListCutoverJobsResponse {
   /** Output only. The list of cutover jobs response. */
-  cutoverJobs?: CutoverJobList;
+  cutoverJobs?: CutoverJobList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsSourcesMigratingVmsReplicationCyclesRequest {
   /** Required. The parent, which owns this collection of ReplicationCycles. */
   parent: string;
   /** Optional. the order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. A page token, received from a previous `ListReplicationCycles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListReplicationCycles` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of replication cycles to return. The service may return fewer than this value. If unspecified, at most 100 migrating VMs will be returned. The maximum value is 100; values above 100 will be coerced to 100. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ReplicationCycleList = Array<ReplicationCycle>;
 /** Response message for 'ListReplicationCycles' request. */
 export interface ListReplicationCyclesResponse {
   /** Output only. The list of replication cycles response. */
-  replicationCycles?: ReplicationCycleList;
+  replicationCycles?: ReplicationCycleList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export type ListProjectsLocationsSourcesUtilizationReportsViewEnum =
   | "UTILIZATION_REPORT_VIEW_UNSPECIFIED"
@@ -2178,15 +2178,15 @@ export type ListProjectsLocationsSourcesUtilizationReportsViewEnum =
   | "FULL";
 export interface ListProjectsLocationsSourcesUtilizationReportsRequest {
   /** Optional. The filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. A page token, received from a previous `ListUtilizationReports` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListUtilizationReports` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of reports to return. The service may return fewer than this value. If unspecified, at most 500 reports will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. the order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. The level of details of each report. Defaults to BASIC. */
-  view?: ListProjectsLocationsSourcesUtilizationReportsViewEnum | (string & {});
+  view?: ListProjectsLocationsSourcesUtilizationReportsViewEnum | (string & {}) | undefined;
   /** Required. The Utilization Reports parent. */
   parent: string;
 }
@@ -2194,21 +2194,21 @@ export type UtilizationReportList = Array<UtilizationReport>;
 /** Response message for 'ListUtilizationReports' request. */
 export interface ListUtilizationReportsResponse {
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Output only. The list of reports. */
-  utilizationReports?: UtilizationReportList;
+  utilizationReports?: UtilizationReportList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsTargetProjectsRequest {
   /** Optional. The filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Required. A page token, received from a previous `ListTargets` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListTargets` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of targets to return. The service may return fewer than this value. If unspecified, at most 500 targets will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. the order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent, which owns this collection of targets. */
   parent: string;
 }
@@ -2216,61 +2216,61 @@ export type TargetProjectList = Array<TargetProject>;
 /** Response message for 'ListTargetProjects' call. */
 export interface ListTargetProjectsResponse {
   /** Output only. Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** Output only. A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Output only. The list of target response. */
-  targetProjects?: TargetProjectList;
+  targetProjects?: TargetProjectList | undefined;
 }
 export interface PatchProjectsLocationsGroupsRequest {
   /** Output only. The Group name. */
   name: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Field mask is used to specify the fields to be overwritten in the Group resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: Group;
+  body?: Group | undefined;
 }
 export interface PatchProjectsLocationsSourcesRequest {
   /** Field mask is used to specify the fields to be overwritten in the Source resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. The Source name. */
   name: string;
   /** Request body */
-  body?: Source;
+  body?: Source | undefined;
 }
 export interface PatchProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request timed out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the DiskMigrationJob resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask, then a mask equivalent to all fields that are populated (have a non-empty value), will be implied. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Output only. Identifier. The identifier of the DiskMigrationJob. */
   name: string;
   /** Request body */
-  body?: DiskMigrationJob;
+  body?: DiskMigrationJob | undefined;
 }
 export interface PatchProjectsLocationsSourcesMigratingVmsRequest {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Output only. The identifier of the MigratingVm. */
   name: string;
   /** Field mask is used to specify the fields to be overwritten in the MigratingVm resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: MigratingVm;
+  body?: MigratingVm | undefined;
 }
 export interface PatchProjectsLocationsTargetProjectsRequest {
   /** Output only. The name of the target project. */
   name: string;
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Field mask is used to specify the fields to be overwritten in the TargetProject resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: TargetProject;
+  body?: TargetProject | undefined;
 }
 /** Request message for 'PauseMigration' request. */
 export type PauseMigrationRequest = CancelImageImportJobRequest;
@@ -2278,18 +2278,18 @@ export interface PauseMigrationProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   migratingVm: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 /** Request message for 'RemoveMigration' request. */
 export interface RemoveGroupMigrationRequest {
   /** The MigratingVm to remove. */
-  migratingVm?: string;
+  migratingVm?: string | undefined;
 }
 export interface RemoveGroupMigrationProjectsLocationsGroupsRequest {
   /** Required. The name of the Group. */
   group: string;
   /** Request body */
-  body?: RemoveGroupMigrationRequest;
+  body?: RemoveGroupMigrationRequest | undefined;
 }
 /** Request message for 'ResumeMigration' request. */
 export type ResumeMigrationRequest = CancelImageImportJobRequest;
@@ -2297,7 +2297,7 @@ export interface ResumeMigrationProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   migratingVm: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 /** Request message for 'RunDiskMigrationJobRequest' request. */
 export type RunDiskMigrationJobRequest = CancelImageImportJobRequest;
@@ -2305,7 +2305,7 @@ export interface RunProjectsLocationsSourcesDiskMigrationJobsRequest {
   /** Required. The name of the DiskMigrationJob. */
   name: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 /** Request message for 'StartMigrationRequest' request. */
 export type StartMigrationRequest = CancelImageImportJobRequest;
@@ -2313,18 +2313,18 @@ export interface StartMigrationProjectsLocationsSourcesMigratingVmsRequest {
   /** Required. The name of the MigratingVm. */
   migratingVm: string;
   /** Request body */
-  body?: CancelImageImportJobRequest;
+  body?: CancelImageImportJobRequest | undefined;
 }
 /** Request message for 'UpgradeAppliance' request. */
 export interface UpgradeApplianceRequest {
   /** A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface UpgradeApplianceProjectsLocationsSourcesDatacenterConnectorsRequest {
   /** Required. The DatacenterConnector name. */
   datacenterConnector: string;
   /** Request body */
-  body?: UpgradeApplianceRequest;
+  body?: UpgradeApplianceRequest | undefined;
 }
 export type AddGroupMigrationProjectsLocationsGroupsError =
   | NotFound

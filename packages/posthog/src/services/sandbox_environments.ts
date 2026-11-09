@@ -63,19 +63,19 @@ export interface CreateSandboxRequest {
   /** Display name for the environment. */
   name: string;
   /** Network access policy: trusted (default allowlist), full (unrestricted), or custom. * `trusted` - Trusted * `full` - Full * `custom` - Custom */
-  network_access_level?: SandboxEnvironmentNetworkAccessLevelEnum | (string & {});
+  network_access_level?: SandboxEnvironmentNetworkAccessLevelEnum | (string & {}) | undefined;
   /** Allowed domains for custom network access. */
-  allowed_domains?: CreateSandboxRequestAllowedDomainsList;
+  allowed_domains?: CreateSandboxRequestAllowedDomainsList | undefined;
   /** Whether to include default trusted domains (GitHub, npm, PyPI). */
-  include_default_domains?: boolean;
+  include_default_domains?: boolean | undefined;
   /** Repositories this environment applies to (format: org/repo). */
-  repositories?: CreateSandboxRequestRepositoriesList;
+  repositories?: CreateSandboxRequestRepositoriesList | undefined;
   /** Encrypted environment variables (write-only, never returned in responses). */
-  environment_variables?: unknown;
+  environment_variables?: unknown | undefined;
   /** If true, only the creator can see this environment; otherwise the whole team can. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Custom base image for this environment's sandboxes (Modal VM runtime only); null uses the default base. */
-  custom_image_id?: string | null;
+  custom_image_id?: string | null | undefined;
 }
 export type SandboxEnvironmentDTOAllowedDomainsList = Array<string>;
 export type SandboxEnvironmentDTORepositoriesList = Array<string>;
@@ -91,31 +91,31 @@ export interface TaskUserBasicInfo {
   first_name: string;
   last_name: string;
   email: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null;
-  role_at_organization?: string | null;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: TaskUserBasicInfoHedgehogConfigMap | null | undefined;
+  role_at_organization?: string | null | undefined;
 }
 /** A sandbox environment, as returned by list, detail, create and update. */
 export interface SandboxEnvironmentDTO {
   id: string;
   name: string;
   network_access_level: string;
-  allowed_domains?: SandboxEnvironmentDTOAllowedDomainsList;
+  allowed_domains?: SandboxEnvironmentDTOAllowedDomainsList | undefined;
   include_default_domains: boolean;
-  repositories?: SandboxEnvironmentDTORepositoriesList;
+  repositories?: SandboxEnvironmentDTORepositoriesList | undefined;
   /** Whether any environment variables are set on this environment. */
-  has_environment_variables?: boolean;
+  has_environment_variables?: boolean | undefined;
   /** Names of the environment variables that are set, sorted. Values are write-only and never returned. */
-  environment_variable_keys?: SandboxEnvironmentDTOEnvironmentVariableKeysList;
+  environment_variable_keys?: SandboxEnvironmentDTOEnvironmentVariableKeysList | undefined;
   private: boolean;
   internal: boolean;
-  effective_domains?: SandboxEnvironmentDTOEffectiveDomainsList;
-  created_by?: TaskUserBasicInfo | null;
-  created_at?: string | null;
-  updated_at?: string | null;
-  custom_image_id?: string | null;
-  custom_image_name?: string | null;
-  custom_image_status?: string | null;
+  effective_domains?: SandboxEnvironmentDTOEffectiveDomainsList | undefined;
+  created_by?: TaskUserBasicInfo | null | undefined;
+  created_at?: string | null | undefined;
+  updated_at?: string | null | undefined;
+  custom_image_id?: string | null | undefined;
+  custom_image_name?: string | null | undefined;
+  custom_image_status?: string | null | undefined;
 }
 export interface GetSandboxRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -126,15 +126,15 @@ export interface ListSandboxRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedSandboxEnvironmentDTOListResultsList = Array<SandboxEnvironmentDTO>;
 export interface PaginatedSandboxEnvironmentDTOList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedSandboxEnvironmentDTOListResultsList;
 }
 export interface SandboxDestroyRequest {
@@ -152,21 +152,21 @@ export interface UpdateSandboxPartialRequest {
   project_id: string;
   id: string;
   /** Display name for the environment. */
-  name?: string;
+  name?: string | undefined;
   /** Network access policy: trusted (default allowlist), full (unrestricted), or custom. * `trusted` - Trusted * `full` - Full * `custom` - Custom */
-  network_access_level?: SandboxEnvironmentNetworkAccessLevelEnum | (string & {});
+  network_access_level?: SandboxEnvironmentNetworkAccessLevelEnum | (string & {}) | undefined;
   /** Allowed domains for custom network access. */
-  allowed_domains?: UpdateSandboxPartialRequestAllowedDomainsList;
+  allowed_domains?: UpdateSandboxPartialRequestAllowedDomainsList | undefined;
   /** Whether to include default trusted domains (GitHub, npm, PyPI). */
-  include_default_domains?: boolean;
+  include_default_domains?: boolean | undefined;
   /** Repositories this environment applies to (format: org/repo). */
-  repositories?: UpdateSandboxPartialRequestRepositoriesList;
+  repositories?: UpdateSandboxPartialRequestRepositoriesList | undefined;
   /** Encrypted environment variables (write-only, never returned in responses). */
-  environment_variables?: unknown;
+  environment_variables?: unknown | undefined;
   /** If true, only the creator can see this environment; otherwise the whole team can. */
-  private?: boolean;
+  private?: boolean | undefined;
   /** Custom base image for this environment's sandboxes (Modal VM runtime only); null uses the default base. */
-  custom_image_id?: string | null;
+  custom_image_id?: string | null | undefined;
 }
 export type CreateSandboxError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** API for managing sandbox environments that control network access for task runs. */

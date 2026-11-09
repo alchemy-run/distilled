@@ -86,58 +86,58 @@ export class NotFound
 /** Request to create a script project. */
 export interface CreateProjectRequest {
   /** The title for the project. */
-  title?: string;
+  title?: string | undefined;
   /** The Drive ID of a parent file that the created script project is bound to. This is usually the ID of a Google Doc, Google Sheet, Google Form, or Google Slides file. If not set, a standalone script project is created. */
-  parentId?: string;
+  parentId?: string | undefined;
 }
 export interface CreateProjectsRequest {
   /** Request body */
-  body?: CreateProjectRequest;
+  body?: CreateProjectRequest | undefined;
 }
 /** A simple user profile resource. */
 export interface GoogleAppsScriptTypeUser {
   /** The user's domain. */
-  domain?: string;
+  domain?: string | undefined;
   /** The user's display name. */
-  name?: string;
+  name?: string | undefined;
   /** The user's photo. */
-  photoUrl?: string;
+  photoUrl?: string | undefined;
   /** The user's identifying email address. */
-  email?: string;
+  email?: string | undefined;
 }
 /** The script project resource. */
 export interface Project {
   /** The script project's Drive ID. */
-  scriptId?: string;
+  scriptId?: string | undefined;
   /** The parent's Drive ID that the script will be attached to. This is usually the ID of a Google Document or Google Sheet. This field is optional, and if not set, a stand-alone script will be created. */
-  parentId?: string;
+  parentId?: string | undefined;
   /** The title for the project. */
-  title?: string;
+  title?: string | undefined;
   /** User who last modified the script. */
-  lastModifyUser?: GoogleAppsScriptTypeUser;
+  lastModifyUser?: GoogleAppsScriptTypeUser | undefined;
   /** User who originally created the script. */
-  creator?: GoogleAppsScriptTypeUser;
+  creator?: GoogleAppsScriptTypeUser | undefined;
   /** When the script was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** When the script was last updated. */
-  updateTime?: string;
+  updateTime?: string | undefined;
 }
 /** Metadata the defines how a deployment is configured. */
 export interface DeploymentConfig {
   /** The script project's Drive ID. */
-  scriptId?: string;
+  scriptId?: string | undefined;
   /** The manifest file name for this deployment. */
-  manifestFileName?: string;
+  manifestFileName?: string | undefined;
   /** The version number on which this deployment is based. */
-  versionNumber?: number;
+  versionNumber?: number | undefined;
   /** The description for this deployment. */
-  description?: string;
+  description?: string | undefined;
 }
 export interface CreateProjectsDeploymentsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
   /** Request body */
-  body?: DeploymentConfig;
+  body?: DeploymentConfig | undefined;
 }
 export type EntryPointEntryPointTypeEnum =
   | "ENTRY_POINT_TYPE_UNSPECIFIED"
@@ -151,17 +151,17 @@ export type GoogleAppsScriptTypeAddOnEntryPointAddOnTypeEnum =
 /** An add-on entry point. */
 export interface GoogleAppsScriptTypeAddOnEntryPoint {
   /** The add-on's optional description. */
-  description?: string;
+  description?: string | undefined;
   /** The add-on's required list of supported container types. */
-  addOnType?: GoogleAppsScriptTypeAddOnEntryPointAddOnTypeEnum;
+  addOnType?: GoogleAppsScriptTypeAddOnEntryPointAddOnTypeEnum | undefined;
   /** The add-on's optional report issue URL. */
-  reportIssueUrl?: string;
+  reportIssueUrl?: string | undefined;
   /** The add-on's required title. */
-  title?: string;
+  title?: string | undefined;
   /** The add-on's optional help URL. */
-  helpUrl?: string;
+  helpUrl?: string | undefined;
   /** The add-on's required post install tip URL. */
-  postInstallTipUrl?: string;
+  postInstallTipUrl?: string | undefined;
 }
 export type GoogleAppsScriptTypeExecutionApiConfigAccessEnum =
   | "UNKNOWN_ACCESS"
@@ -172,12 +172,12 @@ export type GoogleAppsScriptTypeExecutionApiConfigAccessEnum =
 /** API executable entry point configuration. */
 export interface GoogleAppsScriptTypeExecutionApiConfig {
   /** Who has permission to run the API executable. */
-  access?: GoogleAppsScriptTypeExecutionApiConfigAccessEnum;
+  access?: GoogleAppsScriptTypeExecutionApiConfigAccessEnum | undefined;
 }
 /** An API executable entry point. */
 export interface GoogleAppsScriptTypeExecutionApiEntryPoint {
   /** The entry point's configuration. */
-  entryPointConfig?: GoogleAppsScriptTypeExecutionApiConfig;
+  entryPointConfig?: GoogleAppsScriptTypeExecutionApiConfig | undefined;
 }
 export type GoogleAppsScriptTypeWebAppConfigAccessEnum =
   | "UNKNOWN_ACCESS"
@@ -192,56 +192,56 @@ export type GoogleAppsScriptTypeWebAppConfigExecuteAsEnum =
 /** Web app entry point configuration. */
 export interface GoogleAppsScriptTypeWebAppConfig {
   /** Who has permission to run the web app. */
-  access?: GoogleAppsScriptTypeWebAppConfigAccessEnum;
+  access?: GoogleAppsScriptTypeWebAppConfigAccessEnum | undefined;
   /** Who to execute the web app as. */
-  executeAs?: GoogleAppsScriptTypeWebAppConfigExecuteAsEnum;
+  executeAs?: GoogleAppsScriptTypeWebAppConfigExecuteAsEnum | undefined;
 }
 /** A web application entry point. */
 export interface GoogleAppsScriptTypeWebAppEntryPoint {
   /** The entry point's configuration. */
-  entryPointConfig?: GoogleAppsScriptTypeWebAppConfig;
+  entryPointConfig?: GoogleAppsScriptTypeWebAppConfig | undefined;
   /** The URL for the web application. */
-  url?: string;
+  url?: string | undefined;
 }
 /** A configuration that defines how a deployment is accessed externally. */
 export interface EntryPoint {
   /** The type of the entry point. */
-  entryPointType?: EntryPointEntryPointTypeEnum;
+  entryPointType?: EntryPointEntryPointTypeEnum | undefined;
   /** Add-on properties. */
-  addOn?: GoogleAppsScriptTypeAddOnEntryPoint;
+  addOn?: GoogleAppsScriptTypeAddOnEntryPoint | undefined;
   /** An entry point specification for Apps Script API execution calls. */
-  executionApi?: GoogleAppsScriptTypeExecutionApiEntryPoint;
+  executionApi?: GoogleAppsScriptTypeExecutionApiEntryPoint | undefined;
   /** An entry point specification for web apps. */
-  webApp?: GoogleAppsScriptTypeWebAppEntryPoint;
+  webApp?: GoogleAppsScriptTypeWebAppEntryPoint | undefined;
 }
 export type EntryPointList = Array<EntryPoint>;
 /** Representation of a single script deployment. */
 export interface Deployment {
   /** The deployment configuration. */
-  deploymentConfig?: DeploymentConfig;
+  deploymentConfig?: DeploymentConfig | undefined;
   /** Last modified date time stamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The deployment ID for this deployment. */
-  deploymentId?: string;
+  deploymentId?: string | undefined;
   /** The deployment's entry points. */
-  entryPoints?: EntryPointList;
+  entryPoints?: EntryPointList | undefined;
 }
 /** A resource representing a script project version. A version is a "snapshot" of a script project and is similar to a read-only branched release. When creating deployments, the version to use must be specified. */
 export interface Version {
   /** The script project's Drive ID. */
-  scriptId?: string;
+  scriptId?: string | undefined;
   /** The description for this version. */
-  description?: string;
+  description?: string | undefined;
   /** When the version was created. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The incremental ID that is created by Apps Script when a version is created. This is system assigned number and is immutable once created. */
-  versionNumber?: number;
+  versionNumber?: number | undefined;
 }
 export interface CreateProjectsVersionsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
   /** Request body */
-  body?: Version;
+  body?: Version | undefined;
 }
 export interface DeleteProjectsDeploymentsRequest {
   /** The script project's Drive ID. */
@@ -255,47 +255,47 @@ export interface GetContentProjectsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
   /** The version number of the project to retrieve. If not provided, the project's HEAD version is returned. */
-  versionNumber?: number;
+  versionNumber?: number | undefined;
 }
 export type StringList = Array<string>;
 /** Represents a function in a script project. */
 export interface GoogleAppsScriptTypeFunction {
   /** The ordered list of parameter names of the function in the script project. */
-  parameters?: StringList;
+  parameters?: StringList | undefined;
   /** The function name in the script project. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleAppsScriptTypeFunctionList = Array<GoogleAppsScriptTypeFunction>;
 /** A set of functions. No duplicates are permitted. */
 export interface GoogleAppsScriptTypeFunctionSet {
   /** A list of functions composing the set. */
-  values?: GoogleAppsScriptTypeFunctionList;
+  values?: GoogleAppsScriptTypeFunctionList | undefined;
 }
 export type FileTypeEnum = "ENUM_TYPE_UNSPECIFIED" | "SERVER_JS" | "HTML" | "JSON";
 /** An individual file within a script project. A file is a third-party source code created by one or more developers. It can be a server-side JS code, HTML, or a configuration file. Each script project can contain multiple files. */
 export interface File {
   /** The name of the file. The file extension is not part of the file name, which can be identified from the type field. */
-  name?: string;
+  name?: string | undefined;
   /** Last modified date timestamp. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Creation date timestamp. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The defined set of functions in the script file, if any. */
-  functionSet?: GoogleAppsScriptTypeFunctionSet;
+  functionSet?: GoogleAppsScriptTypeFunctionSet | undefined;
   /** The user who modified the file most recently. The details visible in this object are controlled by the profile visibility settings of the last modifying user. */
-  lastModifyUser?: GoogleAppsScriptTypeUser;
+  lastModifyUser?: GoogleAppsScriptTypeUser | undefined;
   /** The file content. */
-  source?: string;
+  source?: string | undefined;
   /** The type of the file. */
-  type?: FileTypeEnum | (string & {});
+  type?: FileTypeEnum | (string & {}) | undefined;
 }
 export type FileList = Array<File>;
 /** The Content resource. */
 export interface Content {
   /** The list of script project files. One of the files is a script manifest; it must be named "appsscript", must have type of JSON, and include the manifest configurations for the project. */
-  files?: FileList;
+  files?: FileList | undefined;
   /** The script project's Drive ID. */
-  scriptId?: string;
+  scriptId?: string | undefined;
 }
 export type GetMetricsProjectsMetricsGranularityEnum =
   | "UNSPECIFIED_GRANULARITY"
@@ -303,30 +303,30 @@ export type GetMetricsProjectsMetricsGranularityEnum =
   | "DAILY";
 export interface GetMetricsProjectsRequest {
   /** Optional field indicating a specific deployment to retrieve metrics from. */
-  "metricsFilter.deploymentId"?: string;
+  "metricsFilter.deploymentId"?: string | undefined;
   /** Required field indicating what granularity of metrics are returned. */
-  metricsGranularity?: GetMetricsProjectsMetricsGranularityEnum | (string & {});
+  metricsGranularity?: GetMetricsProjectsMetricsGranularityEnum | (string & {}) | undefined;
   /** Required field indicating the script to get metrics for. */
   scriptId: string;
 }
 /** Metrics value that holds number of executions counted. */
 export interface MetricsValue {
   /** Required field indicating the start time of the interval. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Indicates the number of executions counted. */
-  value?: string;
+  value?: string | undefined;
   /** Required field indicating the end time of the interval. */
-  endTime?: string;
+  endTime?: string | undefined;
 }
 export type MetricsValueList = Array<MetricsValue>;
 /** Resource containing usage stats for a given script, based on the supplied filter and mask present in the request. */
 export interface Metrics {
   /** Number of active users. */
-  activeUsers?: MetricsValueList;
+  activeUsers?: MetricsValueList | undefined;
   /** Number of total executions. */
-  totalExecutions?: MetricsValueList;
+  totalExecutions?: MetricsValueList | undefined;
   /** Number of failed executions. */
-  failedExecutions?: MetricsValueList;
+  failedExecutions?: MetricsValueList | undefined;
 }
 export interface GetProjectsRequest {
   /** The script project's Drive ID. */
@@ -383,27 +383,29 @@ export type ListProcessesUserProcessFilter_typesEnumList = Array<
 >;
 export interface ListProcessesRequest {
   /** Optional field used to limit returned processes to those originating from a script function with the given function name. */
-  "userProcessFilter.functionName"?: string;
+  "userProcessFilter.functionName"?: string | undefined;
   /** Optional field used to limit returned processes to those having one of the specified user access levels. */
-  "userProcessFilter.userAccessLevels"?: ListProcessesUserProcessFilter_userAccessLevelsEnumList;
+  "userProcessFilter.userAccessLevels"?:
+    | ListProcessesUserProcessFilter_userAccessLevelsEnumList
+    | undefined;
   /** Optional field used to limit returned processes to those having one of the specified process statuses. */
-  "userProcessFilter.statuses"?: ListProcessesUserProcessFilter_statusesEnumList;
+  "userProcessFilter.statuses"?: ListProcessesUserProcessFilter_statusesEnumList | undefined;
   /** The maximum number of returned processes per page of results. Defaults to 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional field used to limit returned processes to those originating from projects with a specific deployment ID. */
-  "userProcessFilter.deploymentId"?: string;
+  "userProcessFilter.deploymentId"?: string | undefined;
   /** Optional field used to limit returned processes to those that were started on or after the given timestamp. */
-  "userProcessFilter.startTime"?: string;
+  "userProcessFilter.startTime"?: string | undefined;
   /** Optional field used to limit returned processes to those originating from projects with project names containing a specific string. */
-  "userProcessFilter.projectName"?: string;
+  "userProcessFilter.projectName"?: string | undefined;
   /** Optional field used to limit returned processes to those originating from projects with a specific script ID. */
-  "userProcessFilter.scriptId"?: string;
+  "userProcessFilter.scriptId"?: string | undefined;
   /** Optional field used to limit returned processes to those that completed on or before the given timestamp. */
-  "userProcessFilter.endTime"?: string;
+  "userProcessFilter.endTime"?: string | undefined;
   /** Optional field used to limit returned processes to those having one of the specified process types. */
-  "userProcessFilter.types"?: ListProcessesUserProcessFilter_typesEnumList;
+  "userProcessFilter.types"?: ListProcessesUserProcessFilter_typesEnumList | undefined;
   /** The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from a previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleAppsScriptTypeProcessProcessTypeEnum =
   | "PROCESS_TYPE_UNSPECIFIED"
@@ -440,61 +442,61 @@ export type GoogleAppsScriptTypeProcessUserAccessLevelEnum =
 /** Representation of a single script process execution that was started from the script editor, a trigger, an application, or using the Apps Script API. This is distinct from the `Operation` resource, which only represents executions started via the Apps Script API. */
 export interface GoogleAppsScriptTypeProcess {
   /** The executions type. */
-  processType?: GoogleAppsScriptTypeProcessProcessTypeEnum;
+  processType?: GoogleAppsScriptTypeProcessProcessTypeEnum | undefined;
   /** The executions status. */
-  processStatus?: GoogleAppsScriptTypeProcessProcessStatusEnum;
+  processStatus?: GoogleAppsScriptTypeProcessProcessStatusEnum | undefined;
   /** Time the execution started. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Duration the execution spent executing. */
-  duration?: string;
+  duration?: string | undefined;
   /** Which version of maestro to use to execute the script. */
-  runtimeVersion?: GoogleAppsScriptTypeProcessRuntimeVersionEnum;
+  runtimeVersion?: GoogleAppsScriptTypeProcessRuntimeVersionEnum | undefined;
   /** Name of the function the started the execution. */
-  functionName?: string;
+  functionName?: string | undefined;
   /** Name of the script being executed. */
-  projectName?: string;
+  projectName?: string | undefined;
   /** The executing users access level to the script. */
-  userAccessLevel?: GoogleAppsScriptTypeProcessUserAccessLevelEnum;
+  userAccessLevel?: GoogleAppsScriptTypeProcessUserAccessLevelEnum | undefined;
 }
 export type GoogleAppsScriptTypeProcessList = Array<GoogleAppsScriptTypeProcess>;
 /** Response with the list of Process resources. */
 export interface ListUserProcessesResponse {
   /** Token for the next page of results. If empty, there are no more pages remaining. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of processes matching request parameters. */
-  processes?: GoogleAppsScriptTypeProcessList;
+  processes?: GoogleAppsScriptTypeProcessList | undefined;
 }
 export interface ListProjectsDeploymentsRequest {
   /** The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from a previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The script project's Drive ID. */
   scriptId: string;
   /** The maximum number of deployments on each returned page. Defaults to 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type DeploymentList = Array<Deployment>;
 /** Response with the list of deployments for the specified Apps Script project. */
 export interface ListDeploymentsResponse {
   /** The token that can be used in the next call to get the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The list of deployments. */
-  deployments?: DeploymentList;
+  deployments?: DeploymentList | undefined;
 }
 export interface ListProjectsVersionsRequest {
   /** The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from a previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The script project's Drive ID. */
   scriptId: string;
   /** The maximum number of versions on each returned page. Defaults to 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type VersionList = Array<Version>;
 /** Response with the list of the versions for the specified script project. */
 export interface ListVersionsResponse {
   /** The list of versions. */
-  versions?: VersionList;
+  versions?: VersionList | undefined;
   /** The token use to fetch the next page of records. if not exist in the response, that means no more versions to list. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnum =
   | "USER_ACCESS_LEVEL_UNSPECIFIED"
@@ -535,81 +537,87 @@ export type ListScriptProcessesProcessesScriptProcessFilter_statusesEnumList = A
 >;
 export interface ListScriptProcessesProcessesRequest {
   /** Optional field used to limit returned processes to those having one of the specified user access levels. */
-  "scriptProcessFilter.userAccessLevels"?: ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnumList;
+  "scriptProcessFilter.userAccessLevels"?:
+    | ListScriptProcessesProcessesScriptProcessFilter_userAccessLevelsEnumList
+    | undefined;
   /** The token for continuing a previous list request on the next page. This should be set to the value of `nextPageToken` from a previous response. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional field used to limit returned processes to those having one of the specified process types. */
-  "scriptProcessFilter.types"?: ListScriptProcessesProcessesScriptProcessFilter_typesEnumList;
+  "scriptProcessFilter.types"?:
+    | ListScriptProcessesProcessesScriptProcessFilter_typesEnumList
+    | undefined;
   /** Optional field used to limit returned processes to those that were started on or after the given timestamp. */
-  "scriptProcessFilter.startTime"?: string;
+  "scriptProcessFilter.startTime"?: string | undefined;
   /** Optional field used to limit returned processes to those having one of the specified process statuses. */
-  "scriptProcessFilter.statuses"?: ListScriptProcessesProcessesScriptProcessFilter_statusesEnumList;
+  "scriptProcessFilter.statuses"?:
+    | ListScriptProcessesProcessesScriptProcessFilter_statusesEnumList
+    | undefined;
   /** Optional field used to limit returned processes to those that completed on or before the given timestamp. */
-  "scriptProcessFilter.endTime"?: string;
+  "scriptProcessFilter.endTime"?: string | undefined;
   /** The script ID of the project whose processes are listed. */
-  scriptId?: string;
+  scriptId?: string | undefined;
   /** Optional field used to limit returned processes to those originating from projects with a specific deployment ID. */
-  "scriptProcessFilter.deploymentId"?: string;
+  "scriptProcessFilter.deploymentId"?: string | undefined;
   /** The maximum number of returned processes per page of results. Defaults to 50. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional field used to limit returned processes to those originating from a script function with the given function name. */
-  "scriptProcessFilter.functionName"?: string;
+  "scriptProcessFilter.functionName"?: string | undefined;
 }
 /** Response with the list of Process resources. */
 export interface ListScriptProcessesResponse {
   /** List of processes matching request parameters. */
-  processes?: GoogleAppsScriptTypeProcessList;
+  processes?: GoogleAppsScriptTypeProcessList | undefined;
   /** Token for the next page of results. If empty, there are no more pages remaining. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type DocumentList = Array<unknown>;
 /** A request to run the function in a script. The script is identified by the specified `script_id`. Executing a function on a script returns results based on the implementation of the script. */
 export interface ExecutionRequest {
   /** If `true` and the user is an owner of the script, the script runs at the most recently saved version rather than the version deployed for use with the Apps Script API. Optional; default is `false`. */
-  devMode?: boolean;
+  devMode?: boolean | undefined;
   /** The parameters to be passed to the function being executed. The object type for each parameter should match the expected type in Apps Script. Parameters cannot be Apps Script-specific object types (such as a `Document` or a `Calendar`); they can only be primitive types such as `string`, `number`, `array`, `object`, or `boolean`. Optional. */
-  parameters?: DocumentList;
+  parameters?: DocumentList | undefined;
   /** The name of the function to execute in the given script. The name does not include parentheses or parameters. It can reference a function in an included library such as `Library.libFunction1`. */
-  function?: string;
+  function?: string | undefined;
   /** *Deprecated*. For use with Android add-ons only. An ID that represents the user's current session in the Android app for Google Docs or Sheets, included as extra data in the [Intent](https://developer.android.com/guide/components/intents-filters.html) that launches the add-on. When an Android add-on is run with a session state, it gains the privileges of a [bound](https://developers.google.com/apps-script/guides/bound) script--that is, it can access information like the user's current cursor position (in Docs) or selected cell (in Sheets). To retrieve the state, call `Intent.getStringExtra("com.google.android.apps.docs.addons.SessionState")`. Optional. */
-  sessionState?: string;
+  sessionState?: string | undefined;
 }
 export interface RunScriptsRequest {
   /** The script ID of the script to be executed. Find the script ID on the **Project settings** page under "IDs." As multiple executable APIs can be deployed in new IDE for same script, this field should be populated with DeploymentID generated while deploying in new IDE instead of script ID. */
   scriptId: string;
   /** Request body */
-  body?: ExecutionRequest;
+  body?: ExecutionRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** If a `run` call succeeds but the script function (or Apps Script itself) throws an exception, the response body's error field contains this `Status` object. */
 export interface Status {
   /** A developer-facing error message, which is in English. Any user-facing error message is localized and sent in the details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** An array that contains a single ExecutionError object that provides information about the nature of the error. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code. For this API, this value either: - 10, indicating a `SCRIPT_TIMEOUT` error, - 3, indicating an `INVALID_ARGUMENT` error, or - 1, indicating a `CANCELLED` execution. */
-  code?: number;
+  code?: number | undefined;
 }
 /** A representation of an execution of an Apps Script function started with run. The execution response does not arrive until the function finishes executing. The maximum execution runtime is listed in the [Apps Script quotas guide](/apps-script/guides/services/quotas#current_limitations). After execution has started, it can have one of four outcomes: - If the script function returns successfully, the response field contains an ExecutionResponse object with the function's return value in the object's `result` field. - If the script function (or Apps Script itself) throws an exception, the error field contains a Status object. The `Status` object's `details` field contains an array with a single ExecutionError object that provides information about the nature of the error. - If the execution has not yet completed, the done field is `false` and the neither the `response` nor `error` fields are present. - If the `run` call itself fails (for example, because of a malformed request or an authorization error), the method returns an HTTP response code in the 4XX range with a different format for the response body. Client libraries automatically convert a 4XX response into an exception class. */
 export interface Operation {
   /** If the script function returns successfully, this field contains an ExecutionResponse object with the function's return value. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** If a `run` call succeeds but the script function (or Apps Script itself) throws an exception, this field contains a Status object. The `Status` object's `details` field contains an array with a single ExecutionError object that provides information about the nature of the error. */
-  error?: Status;
+  error?: Status | undefined;
   /** This field indicates whether the script execution has completed. A completed execution has a populated `response` field containing the ExecutionResponse from function that was executed. */
-  done?: boolean;
+  done?: boolean | undefined;
 }
 export interface UpdateContentProjectsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
   /** Request body */
-  body?: Content;
+  body?: Content | undefined;
 }
 /** Request with deployment information to update an existing deployment. */
 export interface UpdateDeploymentRequest {
   /** The deployment configuration. */
-  deploymentConfig?: DeploymentConfig;
+  deploymentConfig?: DeploymentConfig | undefined;
 }
 export interface UpdateProjectsDeploymentsRequest {
   /** The deployment ID for this deployment. */
@@ -617,7 +625,7 @@ export interface UpdateProjectsDeploymentsRequest {
   /** The script project's Drive ID. */
   scriptId: string;
   /** Request body */
-  body?: UpdateDeploymentRequest;
+  body?: UpdateDeploymentRequest | undefined;
 }
 export type CreateProjectsError = NotFound | Forbidden | BadRequest | Conflict | GcpOpError;
 /** Creates a new, empty script project with no script files and a base manifest file. */

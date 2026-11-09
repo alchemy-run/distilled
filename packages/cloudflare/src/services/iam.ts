@@ -170,19 +170,19 @@ export interface CreateOauthClientRequest {
   /** The authentication method the client uses at the token endpoint. */
   tokenEndpointAuthMethod: OauthClientsCreateRequestTokenEndpointAuthMethod | (string & {});
   /** Array of allowed CORS origins. */
-  allowedCorsOrigins?: OauthClientsCreateRequestAllowedCorsOriginsList;
+  allowedCorsOrigins?: OauthClientsCreateRequestAllowedCorsOriginsList | undefined;
   /** URL of the home page of the client. */
-  clientUri?: string;
+  clientUri?: string | undefined;
   /** URL of the client's logo. */
-  logoUri?: string;
+  logoUri?: string | undefined;
   /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
-  optionalScopes?: OauthClientsCreateRequestOptionalScopesList;
+  optionalScopes?: OauthClientsCreateRequestOptionalScopesList | undefined;
   /** URL that points to a privacy policy document. */
-  policyUri?: string;
+  policyUri?: string | undefined;
   /** Array of allowed post-logout redirect URIs. */
-  postLogoutRedirectUris?: OauthClientsCreateRequestPostLogoutRedirectUrisList;
+  postLogoutRedirectUris?: OauthClientsCreateRequestPostLogoutRedirectUrisList | undefined;
   /** URL that points to a terms of service document. */
-  tosUri?: string;
+  tosUri?: string | undefined;
 }
 export type OauthClientsCreateResponseVisibility = "public" | "private";
 export type OauthClientsCreateResponseAllowedCorsOriginsList = Array<string>;
@@ -193,9 +193,9 @@ export type OauthClientsCreateResponseClientUriVerificationStatus =
   | "failed";
 export interface OauthClientsCreateResponseClientUriVerification {
   /** Current verification status for the client URI host. */
-  status?: OauthClientsCreateResponseClientUriVerificationStatus | null;
+  status?: OauthClientsCreateResponseClientUriVerificationStatus | null | undefined;
   /** Exact TXT record value that must be added to DNS to prove ownership of the client URI host. */
-  text?: string | null;
+  text?: string | null | undefined;
 }
 export type OauthClientsCreateResponseGrantTypesItem = "authorization_code" | "refresh_token";
 export type OauthClientsCreateResponseGrantTypesList =
@@ -218,43 +218,43 @@ export interface CreateOauthClientResponse {
   /** Visibility of the OAuth client. */
   visibility: OauthClientsCreateResponseVisibility;
   /** Array of allowed CORS origins. */
-  allowedCorsOrigins?: OauthClientsCreateResponseAllowedCorsOriginsList | null;
+  allowedCorsOrigins?: OauthClientsCreateResponseAllowedCorsOriginsList | null | undefined;
   /** Human-readable name of the OAuth client. */
-  clientName?: string | null;
+  clientName?: string | null | undefined;
   /** The client secret. This is the only time the secret is returned in a response. */
-  clientSecret?: string | null;
+  clientSecret?: string | null | undefined;
   /** URL of the home page of the client. */
-  clientUri?: string | null;
+  clientUri?: string | null | undefined;
   /** Client URI domain control verification state. */
-  clientUriVerification?: OauthClientsCreateResponseClientUriVerification | null;
+  clientUriVerification?: OauthClientsCreateResponseClientUriVerification | null | undefined;
   /** Timestamp when the OAuth client was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally. */
-  grantTypes?: OauthClientsCreateResponseGrantTypesList | null;
+  grantTypes?: OauthClientsCreateResponseGrantTypesList | null | undefined;
   /** Indicates whether the client has a rotated secret that has not yet been deleted. */
-  hasRotatedSecret?: boolean | null;
+  hasRotatedSecret?: boolean | null | undefined;
   /** URL of the client's logo. */
-  logoUri?: string | null;
+  logoUri?: string | null | undefined;
   /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
-  optionalScopes?: OauthClientsCreateResponseOptionalScopesList | null;
+  optionalScopes?: OauthClientsCreateResponseOptionalScopesList | null | undefined;
   /** URL that points to a privacy policy document. */
-  policyUri?: string | null;
+  policyUri?: string | null | undefined;
   /** Array of allowed post-logout redirect URIs. */
-  postLogoutRedirectUris?: OauthClientsCreateResponsePostLogoutRedirectUrisList | null;
+  postLogoutRedirectUris?: OauthClientsCreateResponsePostLogoutRedirectUrisList | null | undefined;
   /** Timestamp when the OAuth client was promoted to public visibility. */
-  promotedAt?: string | null;
+  promotedAt?: string | null | undefined;
   /** Array of allowed redirect URIs for the client. */
-  redirectUris?: OauthClientsCreateResponseRedirectUrisList | null;
+  redirectUris?: OauthClientsCreateResponseRedirectUrisList | null | undefined;
   /** Array of OAuth response types the client is allowed to use. */
-  responseTypes?: OauthClientsCreateResponseResponseTypesList | null;
+  responseTypes?: OauthClientsCreateResponseResponseTypesList | null | undefined;
   /** Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`. */
-  scopes?: OauthClientsCreateResponseScopesList | null;
+  scopes?: OauthClientsCreateResponseScopesList | null | undefined;
   /** The authentication method the client uses at the token endpoint. */
-  tokenEndpointAuthMethod?: OauthClientsCreateResponseTokenEndpointAuthMethod | null;
+  tokenEndpointAuthMethod?: OauthClientsCreateResponseTokenEndpointAuthMethod | null | undefined;
   /** URL that points to a terms of service document. */
-  tosUri?: string | null;
+  tosUri?: string | null | undefined;
   /** Timestamp when the OAuth client was last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface ResourceGroupsCreateRequestScopeObjectsItem {
   /** This is a combination of pre-defined resource name and identifier (like Zone ID etc.) */
@@ -287,8 +287,8 @@ export interface ResourceGroupsCreateResponseScope {
   objects: ResourceGroupsCreateResponseScopeObjectsList;
 }
 export interface ResourceGroupsCreateResponseMeta {
-  key?: string | null;
-  value?: string | null;
+  key?: string | null | undefined;
+  value?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateResourceGroupResponse {
@@ -297,9 +297,9 @@ export interface CreateResourceGroupResponse {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: ResourceGroupsCreateResponseScope;
   /** Attributes associated to the resource group. */
-  meta?: ResourceGroupsCreateResponseMeta | null;
+  meta?: ResourceGroupsCreateResponseMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface CreateSsoRequest {
   /** Account identifier tag. */
@@ -307,30 +307,30 @@ export interface CreateSsoRequest {
   /** Email domain of the new SSO connector */
   emailDomain: string;
   /** Begin the verification process after creation */
-  beginVerification?: boolean;
+  beginVerification?: boolean | undefined;
   /** Controls the display of FedRAMP language to the user during SSO login */
-  useFedrampLanguage?: boolean;
+  useFedrampLanguage?: boolean | undefined;
 }
 export type SsoCreateResponseVerificationStatus = "awaiting" | "pending" | "failed" | "verified";
 export interface SsoCreateResponseVerification {
   /** DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** The status of the verification code from the verification process. */
-  status?: SsoCreateResponseVerificationStatus | null;
+  status?: SsoCreateResponseVerificationStatus | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface CreateSsoResponse {
   /** SSO Connector identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Timestamp for the creation of the SSO connector */
-  createdOn?: string | null;
-  emailDomain?: string | null;
-  enabled?: boolean | null;
+  createdOn?: string | null | undefined;
+  emailDomain?: string | null | undefined;
+  enabled?: boolean | null | undefined;
   /** Timestamp for the last update of the SSO connector */
-  updatedOn?: string | null;
+  updatedOn?: string | null | undefined;
   /** Controls the display of FedRAMP language to the user during SSO login */
-  useFedrampLanguage?: boolean | null;
-  verification?: SsoCreateResponseVerification | null;
+  useFedrampLanguage?: boolean | null | undefined;
+  verification?: SsoCreateResponseVerification | null | undefined;
 }
 export type UserGroupsCreateRequestPoliciesItemAccess = "allow" | "deny";
 export interface UserGroupsCreateRequestPoliciesItemPermissionGroupsItem {
@@ -360,34 +360,34 @@ export interface CreateUserGroupRequest {
   /** Name of the User group. */
   name: string;
   /** Policies attached to the User group */
-  policies?: UserGroupsCreateRequestPoliciesList;
+  policies?: UserGroupsCreateRequestPoliciesList | undefined;
 }
 export type UserGroupsCreateResponsePoliciesItemAccess = "allow" | "deny";
 export interface UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta {
   /** A category used to group permission groups. */
-  category?: string | null;
+  category?: string | null | undefined;
   /** Indicates whether the permission group is deprecated. */
-  deprecated?: string | null;
+  deprecated?: string | null | undefined;
   /** Additional information about the permission group. */
-  description?: string | null;
+  description?: string | null | undefined;
   /** Indicates whether the permission group can be edited. */
-  editable?: string | null;
+  editable?: string | null | undefined;
   /** The planned end-of-life date and time, when provided. */
-  eolAt?: string | null;
+  eolAt?: string | null | undefined;
   /** A label identifying the permission group. */
-  label?: string | null;
+  label?: string | null | undefined;
   /** The scope associated with the permission group. */
-  scopes?: string | null;
+  scopes?: string | null | undefined;
   /** Indicates the permission group's availability or visibility. */
-  visibility?: string | null;
+  visibility?: string | null | undefined;
 }
 export interface UserGroupsCreateResponsePoliciesItemPermissionGroupsItem {
   /** Identifier of the permission group. */
   id: string;
   /** Attributes associated to the permission group. */
-  meta?: UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta | null | undefined;
   /** Name of the permission group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type UserGroupsCreateResponsePoliciesItemPermissionGroupsList =
   Array<UserGroupsCreateResponsePoliciesItemPermissionGroupsItem>;
@@ -409,21 +409,21 @@ export interface UserGroupsCreateResponsePoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: UserGroupsCreateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: ResourceGroupsCreateResponseMeta | null;
+  meta?: ResourceGroupsCreateResponseMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type UserGroupsCreateResponsePoliciesItemResourceGroupsList =
   Array<UserGroupsCreateResponsePoliciesItemResourceGroupsItem>;
 export interface UserGroupsCreateResponsePoliciesItem {
   /** Policy identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Allow or deny operations against the resources. */
-  access?: UserGroupsCreateResponsePoliciesItemAccess | null;
+  access?: UserGroupsCreateResponsePoliciesItemAccess | null | undefined;
   /** A set of permission groups that are specified to the policy. */
-  permissionGroups?: UserGroupsCreateResponsePoliciesItemPermissionGroupsList | null;
+  permissionGroups?: UserGroupsCreateResponsePoliciesItemPermissionGroupsList | null | undefined;
   /** A list of resource groups that the policy applies to. */
-  resourceGroups?: UserGroupsCreateResponsePoliciesItemResourceGroupsList | null;
+  resourceGroups?: UserGroupsCreateResponsePoliciesItemResourceGroupsList | null | undefined;
 }
 export type UserGroupsCreateResponsePoliciesList = Array<UserGroupsCreateResponsePoliciesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -437,7 +437,7 @@ export interface CreateUserGroupResponse {
   /** Name of the user group. */
   name: string;
   /** Policies attached to the User group */
-  policies?: UserGroupsCreateResponsePoliciesList | null;
+  policies?: UserGroupsCreateResponsePoliciesList | null | undefined;
 }
 export interface UserGroupsMembersCreateRequestMembersItem {
   /** The identifier of an existing account Member. */
@@ -457,16 +457,16 @@ export interface UserGroupsMembersCreateResultItem {
   /** Account member identifier. */
   id: string;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The member's status in the account. */
-  status?: UserGroupsMembersCreateResultItemStatus | null;
+  status?: UserGroupsMembersCreateResultItemStatus | null | undefined;
 }
 export type UserGroupsMembersCreateResultList = Array<UserGroupsMembersCreateResultItem>;
 export interface CreateUserGroupMemberResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserGroupsMembersCreateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface DeleteOauthClientRequest {
   /** Account identifier tag. */
@@ -537,9 +537,9 @@ export interface DeleteUserGroupMemberResponse {
   /** Account member identifier. */
   id: string;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The member's status in the account. */
-  status?: UserGroupsMembersDeleteResponseStatus | null;
+  status?: UserGroupsMembersDeleteResponseStatus | null | undefined;
 }
 export interface GetOauthClientRequest {
   /** Account identifier tag. */
@@ -556,9 +556,9 @@ export type OauthClientsGetResponseClientUriVerificationStatus =
   | "failed";
 export interface OauthClientsGetResponseClientUriVerification {
   /** Current verification status for the client URI host. */
-  status?: OauthClientsGetResponseClientUriVerificationStatus | null;
+  status?: OauthClientsGetResponseClientUriVerificationStatus | null | undefined;
   /** Exact TXT record value that must be added to DNS to prove ownership of the client URI host. */
-  text?: string | null;
+  text?: string | null | undefined;
 }
 export type OauthClientsGetResponseGrantTypesItem = "authorization_code" | "refresh_token";
 export type OauthClientsGetResponseGrantTypesList = Array<OauthClientsGetResponseGrantTypesItem>;
@@ -580,41 +580,41 @@ export interface GetOauthClientResponse {
   /** Visibility of the OAuth client. */
   visibility: OauthClientsGetResponseVisibility;
   /** Array of allowed CORS origins. */
-  allowedCorsOrigins?: OauthClientsGetResponseAllowedCorsOriginsList | null;
+  allowedCorsOrigins?: OauthClientsGetResponseAllowedCorsOriginsList | null | undefined;
   /** Human-readable name of the OAuth client. */
-  clientName?: string | null;
+  clientName?: string | null | undefined;
   /** URL of the home page of the client. */
-  clientUri?: string | null;
+  clientUri?: string | null | undefined;
   /** Client URI domain control verification state. */
-  clientUriVerification?: OauthClientsGetResponseClientUriVerification | null;
+  clientUriVerification?: OauthClientsGetResponseClientUriVerification | null | undefined;
   /** Timestamp when the OAuth client was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally. */
-  grantTypes?: OauthClientsGetResponseGrantTypesList | null;
+  grantTypes?: OauthClientsGetResponseGrantTypesList | null | undefined;
   /** Indicates whether the client has a rotated secret that has not yet been deleted. */
-  hasRotatedSecret?: boolean | null;
+  hasRotatedSecret?: boolean | null | undefined;
   /** URL of the client's logo. */
-  logoUri?: string | null;
+  logoUri?: string | null | undefined;
   /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
-  optionalScopes?: OauthClientsGetResponseOptionalScopesList | null;
+  optionalScopes?: OauthClientsGetResponseOptionalScopesList | null | undefined;
   /** URL that points to a privacy policy document. */
-  policyUri?: string | null;
+  policyUri?: string | null | undefined;
   /** Array of allowed post-logout redirect URIs. */
-  postLogoutRedirectUris?: OauthClientsGetResponsePostLogoutRedirectUrisList | null;
+  postLogoutRedirectUris?: OauthClientsGetResponsePostLogoutRedirectUrisList | null | undefined;
   /** Timestamp when the OAuth client was promoted to public visibility. */
-  promotedAt?: string | null;
+  promotedAt?: string | null | undefined;
   /** Array of allowed redirect URIs for the client. */
-  redirectUris?: OauthClientsGetResponseRedirectUrisList | null;
+  redirectUris?: OauthClientsGetResponseRedirectUrisList | null | undefined;
   /** Array of OAuth response types the client is allowed to use. */
-  responseTypes?: OauthClientsGetResponseResponseTypesList | null;
+  responseTypes?: OauthClientsGetResponseResponseTypesList | null | undefined;
   /** Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`. */
-  scopes?: OauthClientsGetResponseScopesList | null;
+  scopes?: OauthClientsGetResponseScopesList | null | undefined;
   /** The authentication method the client uses at the token endpoint. */
-  tokenEndpointAuthMethod?: OauthClientsGetResponseTokenEndpointAuthMethod | null;
+  tokenEndpointAuthMethod?: OauthClientsGetResponseTokenEndpointAuthMethod | null | undefined;
   /** URL that points to a terms of service document. */
-  tosUri?: string | null;
+  tosUri?: string | null | undefined;
   /** Timestamp when the OAuth client was last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface GetPermissionGroupRequest {
   /** Account identifier tag. */
@@ -629,9 +629,9 @@ export interface GetPermissionGroupResponse {
   /** Identifier of the permission group. */
   id: string;
   /** Attributes associated to the permission group. */
-  meta?: UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta | null;
+  meta?: UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta | null | undefined;
   /** Name of the permission group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface GetResourceGroupRequest {
   /** Account identifier tag. */
@@ -656,9 +656,9 @@ export interface GetResourceGroupResponse {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: ResourceGroupsGetResponseScope;
   /** Attributes associated to the resource group. */
-  meta?: ResourceGroupsCreateResponseMeta | null;
+  meta?: ResourceGroupsCreateResponseMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export interface GetSsoRequest {
   /** Account identifier tag. */
@@ -669,23 +669,23 @@ export interface GetSsoRequest {
 export type SsoGetResponseVerificationStatus = "awaiting" | "pending" | "failed" | "verified";
 export interface SsoGetResponseVerification {
   /** DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** The status of the verification code from the verification process. */
-  status?: SsoGetResponseVerificationStatus | null;
+  status?: SsoGetResponseVerificationStatus | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetSsoResponse {
   /** SSO Connector identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Timestamp for the creation of the SSO connector */
-  createdOn?: string | null;
-  emailDomain?: string | null;
-  enabled?: boolean | null;
+  createdOn?: string | null | undefined;
+  emailDomain?: string | null | undefined;
+  enabled?: boolean | null | undefined;
   /** Timestamp for the last update of the SSO connector */
-  updatedOn?: string | null;
+  updatedOn?: string | null | undefined;
   /** Controls the display of FedRAMP language to the user during SSO login */
-  useFedrampLanguage?: boolean | null;
-  verification?: SsoGetResponseVerification | null;
+  useFedrampLanguage?: boolean | null | undefined;
+  verification?: SsoGetResponseVerification | null | undefined;
 }
 export interface GetUserGroupRequest {
   /** Account identifier tag. */
@@ -718,21 +718,21 @@ export interface UserGroupsGetResponsePoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: UserGroupsGetResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: ResourceGroupsCreateResponseMeta | null;
+  meta?: ResourceGroupsCreateResponseMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type UserGroupsGetResponsePoliciesItemResourceGroupsList =
   Array<UserGroupsGetResponsePoliciesItemResourceGroupsItem>;
 export interface UserGroupsGetResponsePoliciesItem {
   /** Policy identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Allow or deny operations against the resources. */
-  access?: UserGroupsGetResponsePoliciesItemAccess | null;
+  access?: UserGroupsGetResponsePoliciesItemAccess | null | undefined;
   /** A set of permission groups that are specified to the policy. */
-  permissionGroups?: UserGroupsGetResponsePoliciesItemPermissionGroupsList | null;
+  permissionGroups?: UserGroupsGetResponsePoliciesItemPermissionGroupsList | null | undefined;
   /** A list of resource groups that the policy applies to. */
-  resourceGroups?: UserGroupsGetResponsePoliciesItemResourceGroupsList | null;
+  resourceGroups?: UserGroupsGetResponsePoliciesItemResourceGroupsList | null | undefined;
 }
 export type UserGroupsGetResponsePoliciesList = Array<UserGroupsGetResponsePoliciesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -746,7 +746,7 @@ export interface GetUserGroupResponse {
   /** Name of the user group. */
   name: string;
   /** Policies attached to the User group */
-  policies?: UserGroupsGetResponsePoliciesList | null;
+  policies?: UserGroupsGetResponsePoliciesList | null | undefined;
 }
 export interface GetUserGroupMemberRequest {
   /** Account identifier tag. */
@@ -759,26 +759,26 @@ export interface GetUserGroupMemberRequest {
 export type UserGroupsMembersGetResponseStatus = "accepted" | "pending";
 export interface UserGroupsMembersGetResponseUser {
   /** User identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** User's first name. */
-  firstName?: string | null;
+  firstName?: string | null | undefined;
   /** User's last name. */
-  lastName?: string | null;
+  lastName?: string | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetUserGroupMemberResponse {
   /** Account member identifier. */
   id: string;
   /** When the member was added to the user group. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The member's status in the account. */
-  status?: UserGroupsMembersGetResponseStatus | null;
+  status?: UserGroupsMembersGetResponseStatus | null | undefined;
   /** Details of the user associated with this membership. */
-  user?: UserGroupsMembersGetResponseUser | null;
+  user?: UserGroupsMembersGetResponseUser | null | undefined;
 }
 export interface ListOauthClientsRequest {
   /** Account identifier tag. */
@@ -793,9 +793,9 @@ export type OauthClientsListResultItemClientUriVerificationStatus =
   | "failed";
 export interface OauthClientsListResultItemClientUriVerification {
   /** Current verification status for the client URI host. */
-  status?: OauthClientsListResultItemClientUriVerificationStatus | null;
+  status?: OauthClientsListResultItemClientUriVerificationStatus | null | undefined;
   /** Exact TXT record value that must be added to DNS to prove ownership of the client URI host. */
-  text?: string | null;
+  text?: string | null | undefined;
 }
 export type OauthClientsListResultItemGrantTypesItem = "authorization_code" | "refresh_token";
 export type OauthClientsListResultItemGrantTypesList =
@@ -817,48 +817,48 @@ export interface OauthClientsListResultItem {
   /** Visibility of the OAuth client. */
   visibility: OauthClientsListResultItemVisibility;
   /** Array of allowed CORS origins. */
-  allowedCorsOrigins?: OauthClientsListResultItemAllowedCorsOriginsList | null;
+  allowedCorsOrigins?: OauthClientsListResultItemAllowedCorsOriginsList | null | undefined;
   /** Human-readable name of the OAuth client. */
-  clientName?: string | null;
+  clientName?: string | null | undefined;
   /** URL of the home page of the client. */
-  clientUri?: string | null;
+  clientUri?: string | null | undefined;
   /** Client URI domain control verification state. */
-  clientUriVerification?: OauthClientsListResultItemClientUriVerification | null;
+  clientUriVerification?: OauthClientsListResultItemClientUriVerification | null | undefined;
   /** Timestamp when the OAuth client was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally. */
-  grantTypes?: OauthClientsListResultItemGrantTypesList | null;
+  grantTypes?: OauthClientsListResultItemGrantTypesList | null | undefined;
   /** Indicates whether the client has a rotated secret that has not yet been deleted. */
-  hasRotatedSecret?: boolean | null;
+  hasRotatedSecret?: boolean | null | undefined;
   /** URL of the client's logo. */
-  logoUri?: string | null;
+  logoUri?: string | null | undefined;
   /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
-  optionalScopes?: OauthClientsListResultItemOptionalScopesList | null;
+  optionalScopes?: OauthClientsListResultItemOptionalScopesList | null | undefined;
   /** URL that points to a privacy policy document. */
-  policyUri?: string | null;
+  policyUri?: string | null | undefined;
   /** Array of allowed post-logout redirect URIs. */
-  postLogoutRedirectUris?: OauthClientsListResultItemPostLogoutRedirectUrisList | null;
+  postLogoutRedirectUris?: OauthClientsListResultItemPostLogoutRedirectUrisList | null | undefined;
   /** Timestamp when the OAuth client was promoted to public visibility. */
-  promotedAt?: string | null;
+  promotedAt?: string | null | undefined;
   /** Array of allowed redirect URIs for the client. */
-  redirectUris?: OauthClientsListResultItemRedirectUrisList | null;
+  redirectUris?: OauthClientsListResultItemRedirectUrisList | null | undefined;
   /** Array of OAuth response types the client is allowed to use. */
-  responseTypes?: OauthClientsListResultItemResponseTypesList | null;
+  responseTypes?: OauthClientsListResultItemResponseTypesList | null | undefined;
   /** Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`. */
-  scopes?: OauthClientsListResultItemScopesList | null;
+  scopes?: OauthClientsListResultItemScopesList | null | undefined;
   /** The authentication method the client uses at the token endpoint. */
-  tokenEndpointAuthMethod?: OauthClientsListResultItemTokenEndpointAuthMethod | null;
+  tokenEndpointAuthMethod?: OauthClientsListResultItemTokenEndpointAuthMethod | null | undefined;
   /** URL that points to a terms of service document. */
-  tosUri?: string | null;
+  tosUri?: string | null | undefined;
   /** Timestamp when the OAuth client was last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export type OauthClientsListResultList = Array<OauthClientsListResultItem>;
 export interface ListOauthClientsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OauthClientsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListOauthScopesRequest {}
 export type OauthScopesListResultItemScopesList = Array<string>;
@@ -868,30 +868,30 @@ export interface OauthScopesListResultItem {
   /** Human-readable name of the OAuth scope. */
   name: string;
   /** Category for grouping scopes in the UI. */
-  category?: string | null;
+  category?: string | null | undefined;
   /** The underlying resource scopes (Bach scopes) that define which resources this OAuth scope can act upon. */
-  scopes?: OauthScopesListResultItemScopesList | null;
+  scopes?: OauthScopesListResultItemScopesList | null | undefined;
 }
 export type OauthScopesListResultList = Array<OauthScopesListResultItem>;
 export interface ListOauthScopesResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: OauthScopesListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListPermissionGroupsRequest {
   /** Account identifier tag. */
   accountId: string;
   /** ID of the permission group to be fetched. */
-  id?: string;
+  id?: string | undefined;
   /** Label of the permission group to be fetched. */
-  label?: string;
+  label?: string | undefined;
   /** Name of the permission group to be fetched. */
-  name?: string;
+  name?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type PermissionGroupsListResultItemMeta =
   UserGroupsCreateResponsePoliciesItemPermissionGroupsItemMeta;
@@ -903,15 +903,15 @@ export interface ListPermissionGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: PermissionGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListResourceGroupsRequest {
   /** Account identifier tag. */
   accountId: string;
   /** ID of the resource group to be fetched. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the resource group to be fetched. */
-  name?: string;
+  name?: string | undefined;
 }
 export type ResourceGroupsListResultItemScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
@@ -930,16 +930,16 @@ export interface ResourceGroupsListResultItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: ResourceGroupsListResultItemScope;
   /** Attributes associated to the resource group. */
-  meta?: ResourceGroupsCreateResponseMeta | null;
+  meta?: ResourceGroupsCreateResponseMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type ResourceGroupsListResultList = Array<ResourceGroupsListResultItem>;
 export interface ListResourceGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: ResourceGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export interface ListSsosRequest {
   /** Account identifier tag. */
@@ -948,29 +948,29 @@ export interface ListSsosRequest {
 export type SsoListResultItemVerificationStatus = "awaiting" | "pending" | "failed" | "verified";
 export interface SsoListResultItemVerification {
   /** DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** The status of the verification code from the verification process. */
-  status?: SsoListResultItemVerificationStatus | null;
+  status?: SsoListResultItemVerificationStatus | null | undefined;
 }
 export interface SsoListResultItem {
   /** SSO Connector identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Timestamp for the creation of the SSO connector */
-  createdOn?: string | null;
-  emailDomain?: string | null;
-  enabled?: boolean | null;
+  createdOn?: string | null | undefined;
+  emailDomain?: string | null | undefined;
+  enabled?: boolean | null | undefined;
   /** Timestamp for the last update of the SSO connector */
-  updatedOn?: string | null;
+  updatedOn?: string | null | undefined;
   /** Controls the display of FedRAMP language to the user during SSO login */
-  useFedrampLanguage?: boolean | null;
-  verification?: SsoListResultItemVerification | null;
+  useFedrampLanguage?: boolean | null | undefined;
+  verification?: SsoListResultItemVerification | null | undefined;
 }
 export type SsoListResultList = Array<SsoListResultItem>;
 export interface ListSsosResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: SsoListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type UserGroupsMembersListRequestDirection = "asc" | "desc";
 export interface ListUserGroupMembersRequest {
@@ -979,46 +979,46 @@ export interface ListUserGroupMembersRequest {
   /** User Group identifier tag. */
   userGroupId: string;
   /** The sort order of returned user group members by email. */
-  direction?: UserGroupsMembersListRequestDirection | (string & {});
+  direction?: UserGroupsMembersListRequestDirection | (string & {}) | undefined;
   /** A string used for filtering members by partial email match. */
-  fuzzyEmail?: string;
+  fuzzyEmail?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type UserGroupsMembersListResultItemStatus = "accepted" | "pending";
 export interface UserGroupsMembersListResultItem {
   /** Account member identifier. */
   id: string;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The member's status in the account. */
-  status?: UserGroupsMembersListResultItemStatus | null;
+  status?: UserGroupsMembersListResultItemStatus | null | undefined;
 }
 export type UserGroupsMembersListResultList = Array<UserGroupsMembersListResultItem>;
 export interface ListUserGroupMembersResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserGroupsMembersListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type UserGroupsListRequestDirection = "asc" | "desc";
 export interface ListUserGroupsRequest {
   /** Account identifier tag. */
   accountId: string;
   /** ID of the user group to be fetched. */
-  id?: string;
+  id?: string | undefined;
   /** The sort order of returned user groups by name (ascending or descending). */
-  direction?: UserGroupsListRequestDirection | (string & {});
+  direction?: UserGroupsListRequestDirection | (string & {}) | undefined;
   /** A string used for searching for user groups containing that substring. */
-  fuzzyName?: string;
+  fuzzyName?: string | undefined;
   /** Name of the user group to be fetched. */
-  name?: string;
+  name?: string | undefined;
   /** Page number of paginated results. */
-  page?: number;
+  page?: number | undefined;
   /** Maximum number of results per page. */
-  perPage?: number;
+  perPage?: number | undefined;
 }
 export type UserGroupsListResultItemPoliciesItemAccess = "allow" | "deny";
 export type UserGroupsListResultItemPoliciesItemPermissionGroupsItemMeta =
@@ -1045,21 +1045,21 @@ export interface UserGroupsListResultItemPoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: UserGroupsListResultItemPoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: ResourceGroupsCreateResponseMeta | null;
+  meta?: ResourceGroupsCreateResponseMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type UserGroupsListResultItemPoliciesItemResourceGroupsList =
   Array<UserGroupsListResultItemPoliciesItemResourceGroupsItem>;
 export interface UserGroupsListResultItemPoliciesItem {
   /** Policy identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Allow or deny operations against the resources. */
-  access?: UserGroupsListResultItemPoliciesItemAccess | null;
+  access?: UserGroupsListResultItemPoliciesItemAccess | null | undefined;
   /** A set of permission groups that are specified to the policy. */
-  permissionGroups?: UserGroupsListResultItemPoliciesItemPermissionGroupsList | null;
+  permissionGroups?: UserGroupsListResultItemPoliciesItemPermissionGroupsList | null | undefined;
   /** A list of resource groups that the policy applies to. */
-  resourceGroups?: UserGroupsListResultItemPoliciesItemResourceGroupsList | null;
+  resourceGroups?: UserGroupsListResultItemPoliciesItemResourceGroupsList | null | undefined;
 }
 export type UserGroupsListResultItemPoliciesList = Array<UserGroupsListResultItemPoliciesItem>;
 export interface UserGroupsListResultItem {
@@ -1072,14 +1072,14 @@ export interface UserGroupsListResultItem {
   /** Name of the user group. */
   name: string;
   /** Policies attached to the User group */
-  policies?: UserGroupsListResultItemPoliciesList | null;
+  policies?: UserGroupsListResultItemPoliciesList | null | undefined;
 }
 export type UserGroupsListResultList = Array<UserGroupsListResultItem>;
 export interface ListUserGroupsResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserGroupsListResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type OauthClientsUpdateRequestAllowedCorsOriginsList = Array<string>;
 export type OauthClientsUpdateRequestGrantTypesItem = "authorization_code" | "refresh_token";
@@ -1105,33 +1105,36 @@ export interface PatchOauthClientRequest {
   /** The unique identifier for an OAuth client. */
   oauthClientId: string;
   /** Array of allowed CORS origins. */
-  allowedCorsOrigins?: OauthClientsUpdateRequestAllowedCorsOriginsList;
+  allowedCorsOrigins?: OauthClientsUpdateRequestAllowedCorsOriginsList | undefined;
   /** Human-readable name of the OAuth client. */
-  clientName?: string;
+  clientName?: string | undefined;
   /** URL of the home page of the client. */
-  clientUri?: string;
+  clientUri?: string | undefined;
   /** Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally. */
-  grantTypes?: OauthClientsUpdateRequestGrantTypesList;
+  grantTypes?: OauthClientsUpdateRequestGrantTypesList | undefined;
   /** URL of the client's logo. */
-  logoUri?: string;
+  logoUri?: string | undefined;
   /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
-  optionalScopes?: OauthClientsUpdateRequestOptionalScopesList;
+  optionalScopes?: OauthClientsUpdateRequestOptionalScopesList | undefined;
   /** URL that points to a privacy policy document. */
-  policyUri?: string;
+  policyUri?: string | undefined;
   /** Array of allowed post-logout redirect URIs. */
-  postLogoutRedirectUris?: OauthClientsUpdateRequestPostLogoutRedirectUrisList;
+  postLogoutRedirectUris?: OauthClientsUpdateRequestPostLogoutRedirectUrisList | undefined;
   /** Array of allowed redirect URIs for the client. */
-  redirectUris?: OauthClientsUpdateRequestRedirectUrisList;
+  redirectUris?: OauthClientsUpdateRequestRedirectUrisList | undefined;
   /** Array of OAuth response types the client is allowed to use. */
-  responseTypes?: OauthClientsUpdateRequestResponseTypesList;
+  responseTypes?: OauthClientsUpdateRequestResponseTypesList | undefined;
   /** Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`. */
-  scopes?: OauthClientsUpdateRequestScopesList;
+  scopes?: OauthClientsUpdateRequestScopesList | undefined;
   /** The authentication method the client uses at the token endpoint. */
-  tokenEndpointAuthMethod?: OauthClientsUpdateRequestTokenEndpointAuthMethod | (string & {});
+  tokenEndpointAuthMethod?:
+    | OauthClientsUpdateRequestTokenEndpointAuthMethod
+    | (string & {})
+    | undefined;
   /** URL that points to a terms of service document. */
-  tosUri?: string;
+  tosUri?: string | undefined;
   /** Promote the OAuth client from private to public visibility. Only `public` is accepted; demotion to `private` is not supported. Promotion requires a non-empty client name, logo URI, verified client URI host, and at least one non-identity scope. */
-  visibility?: OauthClientsUpdateRequestVisibility | (string & {});
+  visibility?: OauthClientsUpdateRequestVisibility | (string & {}) | undefined;
 }
 export type OauthClientsUpdateResponseVisibility = "public" | "private";
 export type OauthClientsUpdateResponseAllowedCorsOriginsList = Array<string>;
@@ -1142,9 +1145,9 @@ export type OauthClientsUpdateResponseClientUriVerificationStatus =
   | "failed";
 export interface OauthClientsUpdateResponseClientUriVerification {
   /** Current verification status for the client URI host. */
-  status?: OauthClientsUpdateResponseClientUriVerificationStatus | null;
+  status?: OauthClientsUpdateResponseClientUriVerificationStatus | null | undefined;
   /** Exact TXT record value that must be added to DNS to prove ownership of the client URI host. */
-  text?: string | null;
+  text?: string | null | undefined;
 }
 export type OauthClientsUpdateResponseGrantTypesItem = "authorization_code" | "refresh_token";
 export type OauthClientsUpdateResponseGrantTypesList =
@@ -1167,41 +1170,41 @@ export interface PatchOauthClientResponse {
   /** Visibility of the OAuth client. */
   visibility: OauthClientsUpdateResponseVisibility;
   /** Array of allowed CORS origins. */
-  allowedCorsOrigins?: OauthClientsUpdateResponseAllowedCorsOriginsList | null;
+  allowedCorsOrigins?: OauthClientsUpdateResponseAllowedCorsOriginsList | null | undefined;
   /** Human-readable name of the OAuth client. */
-  clientName?: string | null;
+  clientName?: string | null | undefined;
   /** URL of the home page of the client. */
-  clientUri?: string | null;
+  clientUri?: string | null | undefined;
   /** Client URI domain control verification state. */
-  clientUriVerification?: OauthClientsUpdateResponseClientUriVerification | null;
+  clientUriVerification?: OauthClientsUpdateResponseClientUriVerification | null | undefined;
   /** Timestamp when the OAuth client was created. */
-  createdAt?: string | null;
+  createdAt?: string | null | undefined;
   /** Array of OAuth grant types the client is allowed to use. `authorization_code` is required; `refresh_token` may be included optionally. */
-  grantTypes?: OauthClientsUpdateResponseGrantTypesList | null;
+  grantTypes?: OauthClientsUpdateResponseGrantTypesList | null | undefined;
   /** Indicates whether the client has a rotated secret that has not yet been deleted. */
-  hasRotatedSecret?: boolean | null;
+  hasRotatedSecret?: boolean | null | undefined;
   /** URL of the client's logo. */
-  logoUri?: string | null;
+  logoUri?: string | null | undefined;
   /** Scopes that the authorizing user may decline during consent. Each value must also appear in `scopes`. The scopes `openid`, `offline`, and `offline_access` cannot be optional. */
-  optionalScopes?: OauthClientsUpdateResponseOptionalScopesList | null;
+  optionalScopes?: OauthClientsUpdateResponseOptionalScopesList | null | undefined;
   /** URL that points to a privacy policy document. */
-  policyUri?: string | null;
+  policyUri?: string | null | undefined;
   /** Array of allowed post-logout redirect URIs. */
-  postLogoutRedirectUris?: OauthClientsUpdateResponsePostLogoutRedirectUrisList | null;
+  postLogoutRedirectUris?: OauthClientsUpdateResponsePostLogoutRedirectUrisList | null | undefined;
   /** Timestamp when the OAuth client was promoted to public visibility. */
-  promotedAt?: string | null;
+  promotedAt?: string | null | undefined;
   /** Array of allowed redirect URIs for the client. */
-  redirectUris?: OauthClientsUpdateResponseRedirectUrisList | null;
+  redirectUris?: OauthClientsUpdateResponseRedirectUrisList | null | undefined;
   /** Array of OAuth response types the client is allowed to use. */
-  responseTypes?: OauthClientsUpdateResponseResponseTypesList | null;
+  responseTypes?: OauthClientsUpdateResponseResponseTypesList | null | undefined;
   /** Array of OAuth scopes the client is allowed to request. Colon-delimited scopes are not accepted. Dot-delimited scopes are validated against available OAuth API scopes; simple identity scopes are allowed. Protocol scopes `offline_access` and `openid` are added or removed automatically based on `grant_types` and `response_types`. */
-  scopes?: OauthClientsUpdateResponseScopesList | null;
+  scopes?: OauthClientsUpdateResponseScopesList | null | undefined;
   /** The authentication method the client uses at the token endpoint. */
-  tokenEndpointAuthMethod?: OauthClientsUpdateResponseTokenEndpointAuthMethod | null;
+  tokenEndpointAuthMethod?: OauthClientsUpdateResponseTokenEndpointAuthMethod | null | undefined;
   /** URL that points to a terms of service document. */
-  tosUri?: string | null;
+  tosUri?: string | null | undefined;
   /** Timestamp when the OAuth client was last updated. */
-  updatedAt?: string | null;
+  updatedAt?: string | null | undefined;
 }
 export interface PatchSsoRequest {
   /** Account identifier tag. */
@@ -1209,30 +1212,30 @@ export interface PatchSsoRequest {
   /** SSO Connector identifier tag. */
   ssoConnectorId: string;
   /** SSO Connector enabled state */
-  enabled?: boolean;
+  enabled?: boolean | undefined;
   /** Controls the display of FedRAMP language to the user during SSO login */
-  useFedrampLanguage?: boolean;
+  useFedrampLanguage?: boolean | undefined;
 }
 export type SsoUpdateResponseVerificationStatus = "awaiting" | "pending" | "failed" | "verified";
 export interface SsoUpdateResponseVerification {
   /** DNS verification code. Add this entire string to the DNS TXT record of the email domain to validate ownership. */
-  code?: string | null;
+  code?: string | null | undefined;
   /** The status of the verification code from the verification process. */
-  status?: SsoUpdateResponseVerificationStatus | null;
+  status?: SsoUpdateResponseVerificationStatus | null | undefined;
 }
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PatchSsoResponse {
   /** SSO Connector identifier tag. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Timestamp for the creation of the SSO connector */
-  createdOn?: string | null;
-  emailDomain?: string | null;
-  enabled?: boolean | null;
+  createdOn?: string | null | undefined;
+  emailDomain?: string | null | undefined;
+  enabled?: boolean | null | undefined;
   /** Timestamp for the last update of the SSO connector */
-  updatedOn?: string | null;
+  updatedOn?: string | null | undefined;
   /** Controls the display of FedRAMP language to the user during SSO login */
-  useFedrampLanguage?: boolean | null;
-  verification?: SsoUpdateResponseVerification | null;
+  useFedrampLanguage?: boolean | null | undefined;
+  verification?: SsoUpdateResponseVerification | null | undefined;
 }
 export interface RotateSecretOauthClientRequest {
   /** Account identifier tag. */
@@ -1243,7 +1246,7 @@ export interface RotateSecretOauthClientRequest {
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface RotateSecretOauthClientResponse {
   /** The new client secret. */
-  clientSecret?: string | null;
+  clientSecret?: string | null | undefined;
 }
 export type ResourceGroupsUpdateRequestScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
@@ -1261,9 +1264,9 @@ export interface UpdateResourceGroupRequest {
   /** Resource Group identifier tag. */
   resourceGroupId: string;
   /** Name of the resource group */
-  name?: string;
+  name?: string | undefined;
   /** A scope is a combination of scope objects which provides additional context. */
-  scope?: ResourceGroupsUpdateRequestScope;
+  scope?: ResourceGroupsUpdateRequestScope | undefined;
 }
 export type ResourceGroupsUpdateResponseScopeObjectsItem =
   ResourceGroupsCreateRequestScopeObjectsItem;
@@ -1283,9 +1286,9 @@ export interface UpdateResourceGroupResponse {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: ResourceGroupsUpdateResponseScope;
   /** Attributes associated to the resource group. */
-  meta?: ResourceGroupsCreateResponseMeta | null;
+  meta?: ResourceGroupsCreateResponseMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type UserGroupsUpdateRequestPoliciesItemAccess = "allow" | "deny";
 export type UserGroupsUpdateRequestPoliciesItemPermissionGroupsItem =
@@ -1298,7 +1301,7 @@ export type UserGroupsUpdateRequestPoliciesItemResourceGroupsList =
   Array<UserGroupsCreateRequestPoliciesItemResourceGroupsItem>;
 export interface UserGroupsUpdateRequestPoliciesItem {
   /** Policy identifier. */
-  id?: string;
+  id?: string | undefined;
   /** Allow or deny operations against the resources. */
   access: UserGroupsUpdateRequestPoliciesItemAccess | (string & {});
   /** A set of permission groups that are specified to the policy. */
@@ -1313,9 +1316,9 @@ export interface UpdateUserGroupRequest {
   /** User Group identifier tag. */
   userGroupId: string;
   /** Name of the User group. */
-  name?: string;
+  name?: string | undefined;
   /** Policies attached to the User group */
-  policies?: UserGroupsUpdateRequestPoliciesList;
+  policies?: UserGroupsUpdateRequestPoliciesList | undefined;
 }
 export type UserGroupsUpdateResponsePoliciesItemAccess = "allow" | "deny";
 export type UserGroupsUpdateResponsePoliciesItemPermissionGroupsItemMeta =
@@ -1342,21 +1345,21 @@ export interface UserGroupsUpdateResponsePoliciesItemResourceGroupsItem {
   /** A scope is a combination of scope objects which provides additional context. */
   scope: UserGroupsUpdateResponsePoliciesItemResourceGroupsItemScope;
   /** Attributes associated to the resource group. */
-  meta?: ResourceGroupsCreateResponseMeta | null;
+  meta?: ResourceGroupsCreateResponseMeta | null | undefined;
   /** Name of the resource group. */
-  name?: string | null;
+  name?: string | null | undefined;
 }
 export type UserGroupsUpdateResponsePoliciesItemResourceGroupsList =
   Array<UserGroupsUpdateResponsePoliciesItemResourceGroupsItem>;
 export interface UserGroupsUpdateResponsePoliciesItem {
   /** Policy identifier. */
-  id?: string | null;
+  id?: string | null | undefined;
   /** Allow or deny operations against the resources. */
-  access?: UserGroupsUpdateResponsePoliciesItemAccess | null;
+  access?: UserGroupsUpdateResponsePoliciesItemAccess | null | undefined;
   /** A set of permission groups that are specified to the policy. */
-  permissionGroups?: UserGroupsUpdateResponsePoliciesItemPermissionGroupsList | null;
+  permissionGroups?: UserGroupsUpdateResponsePoliciesItemPermissionGroupsList | null | undefined;
   /** A list of resource groups that the policy applies to. */
-  resourceGroups?: UserGroupsUpdateResponsePoliciesItemResourceGroupsList | null;
+  resourceGroups?: UserGroupsUpdateResponsePoliciesItemResourceGroupsList | null | undefined;
 }
 export type UserGroupsUpdateResponsePoliciesList = Array<UserGroupsUpdateResponsePoliciesItem>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
@@ -1370,7 +1373,7 @@ export interface UpdateUserGroupResponse {
   /** Name of the user group. */
   name: string;
   /** Policies attached to the User group */
-  policies?: UserGroupsUpdateResponsePoliciesList | null;
+  policies?: UserGroupsUpdateResponsePoliciesList | null | undefined;
 }
 export type UserGroupsMembersUpdateRequestMembersItem = UserGroupsMembersCreateRequestMembersItem;
 export type UserGroupsMembersUpdateRequestMembersList =
@@ -1388,16 +1391,16 @@ export interface UserGroupsMembersUpdateResultItem {
   /** Account member identifier. */
   id: string;
   /** The contact email address of the user. */
-  email?: string | null;
+  email?: string | null | undefined;
   /** The member's status in the account. */
-  status?: UserGroupsMembersUpdateResultItemStatus | null;
+  status?: UserGroupsMembersUpdateResultItemStatus | null | undefined;
 }
 export type UserGroupsMembersUpdateResultList = Array<UserGroupsMembersUpdateResultItem>;
 export interface UpdateUserGroupMemberResponse {
   /** The unwrapped `result` payload of the v4 response envelope. */
   result: UserGroupsMembersUpdateResultList;
   /** Pagination info from the envelope's `result_info`. */
-  resultInfo?: ResultInfo | null;
+  resultInfo?: ResultInfo | null | undefined;
 }
 export type BeginVerificationSsoError = CloudflareOpError;
 /** Validates the user has added the DNS TXT record required for validating ownership of the domain they are trying to set up a connector for. */

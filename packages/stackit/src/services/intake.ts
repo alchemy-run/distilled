@@ -64,7 +64,7 @@ export interface DremioAuth {
 export type CatalogAuthType = "none" | "dremio";
 /** Configures authentication for the Iceberg catalog */
 export interface CatalogAuth {
-  dremio?: DremioAuth;
+  dremio?: DremioAuth | undefined;
   type: CatalogAuthType | (string & {});
 }
 /** List of Iceberg partitioning expressions to use when creating the target table. This setting can only be used when `partitioning` is set to `manual`. Partitioning configuration of an Intake can be changed after creation, but will only take effect once the table has been changed as well. In case of not updating the table to a new one, the old partitioning configuration will remain. See the [Apache Iceberg spec](https://iceberg.apache.org/spec/#partitioning) for more details. */
@@ -73,14 +73,14 @@ export type IntakeCatalogPartitionByList = Array<string>;
 export type PartitioningType = "none" | "intake-time" | "manual";
 /** The Iceberg catalog configuration */
 export interface IntakeCatalog {
-  auth?: CatalogAuth;
+  auth?: CatalogAuth | undefined;
   /** The namespace to which data shall be written. It will be automatically created, if it does not exist. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** List of Iceberg partitioning expressions to use when creating the target table. This setting can only be used when `partitioning` is set to `manual`. Partitioning configuration of an Intake can be changed after creation, but will only take effect once the table has been changed as well. In case of not updating the table to a new one, the old partitioning configuration will remain. See the [Apache Iceberg spec](https://iceberg.apache.org/spec/#partitioning) for more details. */
-  partitionBy?: IntakeCatalogPartitionByList | null;
-  partitioning?: PartitioningType | (string & {});
+  partitionBy?: IntakeCatalogPartitionByList | null | undefined;
+  partitioning?: PartitioningType | (string & {}) | undefined;
   /** The table name is a short name chosen by the user to identify the table in Iceberg. */
-  tableName?: string;
+  tableName?: string | undefined;
   /** The URI to the Iceberg catalog endpoint */
   uri: string;
   /** The Iceberg warehouse to connect to, required when the catalog has no default warehouse configured. */
@@ -95,13 +95,13 @@ export interface CreateIntakeRequest {
   regionId: CreateIntakeRequestRegionId | (string & {});
   catalog: IntakeCatalog;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** The unique id of the intake runner this intake should run on. */
   intakeRunnerId: string;
   /** Labels are a set of key-value pairs assigned to resources. */
-  labels?: CreateIntakeRequestLabelsMap | null;
+  labels?: CreateIntakeRequestLabelsMap | null | undefined;
 }
 /** Labels are a set of key-value pairs assigned to resources. */
 export type IntakeResponseLabelsMap = { [key: string]: string | undefined };
@@ -114,23 +114,23 @@ export interface IntakeResponse {
   /** The topic where undelivered messages are published (Dead Letter Queue). */
   deadLetterTopic: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** A human-readable description of the error, if the state is 'failed'. */
-  failure_message?: string;
+  failure_message?: string | undefined;
   /** A auto generated unique id which identifies the resource. */
   id: string;
   /** The unique id of the intake runner this intake is running on. */
   intakeRunnerId: string;
   /** Labels are a set of key-value pairs assigned to resources. */
-  labels?: IntakeResponseLabelsMap | null;
+  labels?: IntakeResponseLabelsMap | null | undefined;
   /** The current state of the resource. */
   state: IntakeResponseState;
   /** The topic to publish data to. */
   topic: string;
   /** Number of messages that failed delivery and were sent to the Dead Letter Queue. */
-  undeliveredMessageCount?: number;
+  undeliveredMessageCount?: number | undefined;
   /** The URI for reaching the resource. */
   uri: string;
 }
@@ -143,11 +143,11 @@ export interface CreateIntakeRunnerRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: CreateIntakeRunnerRequestRegionId | (string & {});
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** Labels are a set of key-value pairs assigned to resources. */
-  labels?: CreateIntakeRunnerRequestLabelsMap | null;
+  labels?: CreateIntakeRunnerRequestLabelsMap | null | undefined;
   /** The maximum size of a message in kibibytes (1 KiB = 1024 bytes). */
   maxMessageSizeKiB: number;
   /** The maximum number of messages per hour. */
@@ -161,13 +161,13 @@ export interface IntakeRunnerResponse {
   /** The point in time the resource was created. */
   create_time: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** A auto generated unique id which identifies the resource. */
   id: string;
   /** Labels are a set of key-value pairs assigned to resources. */
-  labels?: IntakeRunnerResponseLabelsMap | null;
+  labels?: IntakeRunnerResponseLabelsMap | null | undefined;
   /** The maximum size of a message in kibibytes (1 KiB = 1024 bytes). */
   maxMessageSizeKiB: number;
   /** The maximum number of messages per hour. */
@@ -190,14 +190,14 @@ export interface CreateIntakeUserRequest {
   /** The intake UUID. */
   intakeId: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** Labels are key-value pairs associated with the resource. */
-  labels?: CreateIntakeUserRequestLabelsMap | null;
+  labels?: CreateIntakeUserRequestLabelsMap | null | undefined;
   /** A password chosen by the user. The password must consist of at least of each of these categories: * lower case letter * upper case letter * number * other character */
   password: string | Redacted.Redacted<string>;
-  type?: UserType | (string & {});
+  type?: UserType | (string & {}) | undefined;
 }
 /** Configuration properties for supported clients. */
 export interface ClientConfig {
@@ -211,17 +211,17 @@ export type IntakeUserResponseLabelsMap = { [key: string]: string | undefined };
 /** The current state of the resource. */
 export type IntakeUserResponseState = "reconciling" | "active" | "deleting";
 export interface IntakeUserResponse {
-  clientConfig?: ClientConfig;
+  clientConfig?: ClientConfig | undefined;
   /** The point in time the resource was created. */
   create_time: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
   displayName: string;
   /** A auto generated unique id which identifies the resource. */
   id: string;
   /** Labels are a set of key-value pairs assigned to resources. */
-  labels?: IntakeUserResponseLabelsMap | null;
+  labels?: IntakeUserResponseLabelsMap | null | undefined;
   /** The current state of the resource. */
   state: IntakeUserResponseState;
   type: UserType;
@@ -237,7 +237,7 @@ export interface DeleteIntakeRequest {
   /** The intake UUID. */
   intakeId: string;
   /** If true, deletes all child resources. If false, the resource remains in a 'deletion state' while child resources exist. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteIntakeResponse {}
 export type DeleteIntakeRunnerRequestRegionId = "eu01" | "eu02";
@@ -249,7 +249,7 @@ export interface DeleteIntakeRunnerRequest {
   /** The intake runner UUID. */
   intakeRunnerId: string;
   /** If true, deletes all child resources. If false, the resource remains in a 'deletion state' while child resources exist. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteIntakeRunnerResponse {}
 export type DeleteIntakeUserRequestRegionId = "eu01" | "eu02";
@@ -300,15 +300,15 @@ export interface ListIntakeRunnersRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListIntakeRunnersRequestRegionId | (string & {});
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListIntakeRunnersResponseIntakeRunnersList = Array<IntakeRunnerResponse>;
 export interface ListIntakeRunnersResponse {
   intakeRunners: ListIntakeRunnersResponseIntakeRunnersList;
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListIntakesRequestRegionId = "eu01" | "eu02";
 export interface ListIntakesRequest {
@@ -317,15 +317,15 @@ export interface ListIntakesRequest {
   /** The STACKIT region name the resource is located in. */
   regionId: ListIntakesRequestRegionId | (string & {});
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListIntakesResponseIntakesList = Array<IntakeResponse>;
 export interface ListIntakesResponse {
   intakes: ListIntakesResponseIntakesList;
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type ListIntakeUsersRequestRegionId = "eu01" | "eu02";
 export interface ListIntakeUsersRequest {
@@ -336,27 +336,27 @@ export interface ListIntakeUsersRequest {
   /** The intake UUID. */
   intakeId: string;
   /** A token to retrieve the next page of results. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of items to return */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ListIntakeUsersResponseIntakeUsersList = Array<IntakeUserResponse>;
 export interface ListIntakeUsersResponse {
   intakeUsers: ListIntakeUsersResponseIntakeUsersList;
   /** A token to retrieve the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export type UpdateIntakeRequestRegionId = "eu01" | "eu02";
 export interface DremioAuthPatch {
   /** A Dremio personal access token for authentication */
-  personalAccessToken?: string;
+  personalAccessToken?: string | undefined;
   /** The URL to the Dremio instance's OAuth 2.0 token endpoint */
-  tokenEndpoint?: string;
+  tokenEndpoint?: string | undefined;
 }
 /** Configures authentication for the Iceberg catalog */
 export interface CatalogAuthPatch {
-  dremio?: DremioAuthPatch;
-  type?: CatalogAuthType | (string & {});
+  dremio?: DremioAuthPatch | undefined;
+  type?: CatalogAuthType | (string & {}) | undefined;
 }
 /** List of Iceberg partitioning expressions to use when creating the target table. This setting can only be used when `partitioning` is set to `manual`. See the [Apache Iceberg spec](https://iceberg.apache.org/spec/#partitioning) for more details. */
 export type IntakeCatalogPatchPartitionByList = Array<string>;
@@ -364,18 +364,18 @@ export type IntakeCatalogPatchPartitionByList = Array<string>;
 export type PartitioningUpdateType = "none" | "intake-time" | "manual";
 /** The Iceberg catalog configuration */
 export interface IntakeCatalogPatch {
-  auth?: CatalogAuthPatch;
+  auth?: CatalogAuthPatch | undefined;
   /** The namespace to which data shall be written. It will be automatically created, if it does not exist. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** List of Iceberg partitioning expressions to use when creating the target table. This setting can only be used when `partitioning` is set to `manual`. See the [Apache Iceberg spec](https://iceberg.apache.org/spec/#partitioning) for more details. */
-  partitionBy?: IntakeCatalogPatchPartitionByList | null;
-  partitioning?: PartitioningUpdateType | (string & {});
+  partitionBy?: IntakeCatalogPatchPartitionByList | null | undefined;
+  partitioning?: PartitioningUpdateType | (string & {}) | undefined;
   /** The table name is a short name chosen by the user to identify the table in Iceberg. */
-  tableName?: string;
+  tableName?: string | undefined;
   /** The URI to the Iceberg catalog endpoint */
-  uri?: string;
+  uri?: string | undefined;
   /** The Iceberg warehouse to connect to, required when the catalog has no default warehouse configured. */
-  warehouse?: string;
+  warehouse?: string | undefined;
 }
 /** Labels are key-value pairs associated with the resource. To update labels: - Provide a new set of key-value pairs to replace the existing labels. - Send empty object `{}` to remove all labels. - Omit this field to leave the labels unchanged. */
 export type UpdateIntakeRequestLabelsMap = { [key: string]: string | undefined };
@@ -386,15 +386,15 @@ export interface UpdateIntakeRequest {
   regionId: UpdateIntakeRequestRegionId | (string & {});
   /** The intake UUID. */
   intakeId: string;
-  catalog?: IntakeCatalogPatch;
+  catalog?: IntakeCatalogPatch | undefined;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** The unique id of the intake runner this intake should run on. */
   intakeRunnerId: string;
   /** Labels are key-value pairs associated with the resource. To update labels: - Provide a new set of key-value pairs to replace the existing labels. - Send empty object `{}` to remove all labels. - Omit this field to leave the labels unchanged. */
-  labels?: UpdateIntakeRequestLabelsMap | null;
+  labels?: UpdateIntakeRequestLabelsMap | null | undefined;
 }
 export type UpdateIntakeRunnerRequestRegionId = "eu01" | "eu02";
 /** Labels are key-value pairs associated with the resource. To update labels: - Provide a new set of key-value pairs to replace the existing labels. - Send empty object `{}` to remove all labels. - Omit this field to leave the labels unchanged. */
@@ -407,15 +407,15 @@ export interface UpdateIntakeRunnerRequest {
   /** The intake runner UUID. */
   intakeRunnerId: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Labels are key-value pairs associated with the resource. To update labels: - Provide a new set of key-value pairs to replace the existing labels. - Send empty object `{}` to remove all labels. - Omit this field to leave the labels unchanged. */
-  labels?: UpdateIntakeRunnerRequestLabelsMap | null;
+  labels?: UpdateIntakeRunnerRequestLabelsMap | null | undefined;
   /** The maximum size of a message in kibibytes (1 KiB = 1024 bytes). */
-  maxMessageSizeKiB?: number;
+  maxMessageSizeKiB?: number | undefined;
   /** The maximum number of messages per hour. */
-  maxMessagesPerHour?: number;
+  maxMessagesPerHour?: number | undefined;
 }
 export type UpdateIntakeUserRequestRegionId = "eu01" | "eu02";
 /** Labels are key-value pairs associated with the resource. To update labels: - Provide a new set of key-value pairs to replace the existing labels. - Send empty object `{}` to remove all labels. - Omit this field to leave the labels unchanged. */
@@ -430,14 +430,14 @@ export interface UpdateIntakeUserRequest {
   /** The intake user UUID. */
   intakeUserId: string;
   /** The description is a longer text chosen by the user to provide more context for the resource. */
-  description?: string;
+  description?: string | undefined;
   /** The display name is a short name chosen by the user to identify the resource. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Labels are key-value pairs associated with the resource. To update labels: - Provide a new set of key-value pairs to replace the existing labels. - Send empty object `{}` to remove all labels. - Omit this field to leave the labels unchanged. */
-  labels?: UpdateIntakeUserRequestLabelsMap | null;
+  labels?: UpdateIntakeUserRequestLabelsMap | null | undefined;
   /** A password chosen by the user. */
-  password?: string | Redacted.Redacted<string>;
-  type?: UserType | (string & {});
+  password?: string | Redacted.Redacted<string> | undefined;
+  type?: UserType | (string & {}) | undefined;
 }
 export type CreateIntakeError = BadRequest | Conflict | StackitOpError;
 /** Creates a new intake within the project. */

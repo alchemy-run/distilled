@@ -100,49 +100,49 @@ export class NotFound
 /** Request message for deleting an Execution. */
 export interface GoogleCloudRunV2CancelExecutionRequest {
   /** A system-generated fingerprint for this version of the resource. This may be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Indicates that the request should be validated without actually cancelling any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface CancelProjectsLocationsJobsExecutionsRequest {
   /** Required. The name of the Execution to cancel. Format: `projects/{project}/locations/{location}/jobs/{job}/executions/{execution}`, where `{project}` can be project id or number. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRunV2CancelExecutionRequest;
+  body?: GoogleCloudRunV2CancelExecutionRequest | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface GoogleRpcStatus {
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface GoogleLongrunningOperation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: GoogleRpcStatus;
+  error?: GoogleRpcStatus | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
 }
 export type StringList = Array<string>;
 /** Direct VPC egress settings. */
 export interface GoogleCloudRunV2NetworkInterface {
   /** Optional. The VPC network that the Cloud Run resource will be able to send traffic to. At least one of network or subnetwork must be specified. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If network is not specified, it will be looked up from the subnetwork. */
-  network?: string;
+  network?: string | undefined;
   /** Optional. The VPC subnetwork that the Cloud Run resource will get IPs from. At least one of network or subnetwork must be specified. If both network and subnetwork are specified, the given VPC subnetwork must belong to the given VPC network. If subnetwork is not specified, the subnetwork with the same name with the network will be used. */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
   /** Optional. Network tags applied to this Cloud Run resource. */
-  tags?: StringList;
+  tags?: StringList | undefined;
 }
 export type GoogleCloudRunV2NetworkInterfaceList = Array<GoogleCloudRunV2NetworkInterface>;
 export type GoogleCloudRunV2VpcAccessEgressEnum =
@@ -152,40 +152,40 @@ export type GoogleCloudRunV2VpcAccessEgressEnum =
 /** VPC Access settings. For more information on sending traffic to a VPC network, visit https://cloud.google.com/run/docs/configuring/connecting-vpc. */
 export interface GoogleCloudRunV2VpcAccess {
   /** VPC Access connector name. Format: `projects/{project}/locations/{location}/connectors/{connector}`, where `{project}` can be project id or number. For more information on sending traffic to a VPC network via a connector, visit https://cloud.google.com/run/docs/configuring/vpc-connectors. */
-  connector?: string;
+  connector?: string | undefined;
   /** Optional. Direct VPC egress settings. Currently only single network interface is supported. */
-  networkInterfaces?: GoogleCloudRunV2NetworkInterfaceList;
+  networkInterfaces?: GoogleCloudRunV2NetworkInterfaceList | undefined;
   /** Optional. Traffic VPC egress settings. If not provided, it defaults to PRIVATE_RANGES_ONLY. */
-  egress?: GoogleCloudRunV2VpcAccessEgressEnum | (string & {});
+  egress?: GoogleCloudRunV2VpcAccessEgressEnum | (string & {}) | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** VersionToPath maps a specific version of a secret to a relative file to mount to, relative to VolumeMount's mount_path. */
 export interface GoogleCloudRunV2VersionToPath {
   /** Required. The relative path of the secret in the container. */
-  path?: string;
+  path?: string | undefined;
   /** Integer octal mode bits to use on this file, must be a value between 01 and 0777 (octal). If 0 or not set, the Volume's default mode will be used. Notes * Internally, a umask of 0222 will be applied to any non-zero value. * This is an integer representation of the mode bits. So, the octal integer value should look exactly as the chmod numeric notation with a leading zero. Some examples: for chmod 640 (u=rw,g=r), set to 0640 (octal) or 416 (base-10). For chmod 755 (u=rwx,g=rx,o=rx), set to 0755 (octal) or 493 (base-10). * This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. */
-  mode?: number;
+  mode?: number | undefined;
   /** The Cloud Secret Manager secret version. Can be 'latest' for the latest value, or an integer or a secret alias for a specific version. */
-  version?: string;
+  version?: string | undefined;
 }
 export type GoogleCloudRunV2VersionToPathList = Array<GoogleCloudRunV2VersionToPath>;
 /** The secret's value will be presented as the content of a file whose name is defined in the item path. If no items are defined, the name of the file is the secret. */
 export interface GoogleCloudRunV2SecretVolumeSource {
   /** Integer representation of mode bits to use on created files by default. Must be a value between 0000 and 0777 (octal), defaulting to 0444. Directories within the path are not affected by this setting. Notes * Internally, a umask of 0222 will be applied to any non-zero value. * This is an integer representation of the mode bits. So, the octal integer value should look exactly as the chmod numeric notation with a leading zero. Some examples: for chmod 640 (u=rw,g=r), set to 0640 (octal) or 416 (base-10). For chmod 755 (u=rwx,g=rx,o=rx), set to 0755 (octal) or 493 (base-10). * This might be in conflict with other options that affect the file mode, like fsGroup, and the result can be other mode bits set. This might be in conflict with other options that affect the file mode, like fsGroup, and as a result, other mode bits could be set. */
-  defaultMode?: number;
+  defaultMode?: number | undefined;
   /** Required. The name of the secret in Cloud Secret Manager. Format: {secret} if the secret is in the same project. projects/{project}/secrets/{secret} if the secret is in a different project. */
-  secret?: string;
+  secret?: string | undefined;
   /** If unspecified, the volume will expose a file whose name is the secret, relative to VolumeMount.mount_path + VolumeMount.sub_path. If specified, the key will be used as the version to fetch from Cloud Secret Manager and the path will be the name of the file exposed in the volume. When items are defined, they must specify a path and a version. */
-  items?: GoogleCloudRunV2VersionToPathList;
+  items?: GoogleCloudRunV2VersionToPathList | undefined;
 }
 /** Represents a volume backed by a Cloud Storage bucket using Cloud Storage FUSE. */
 export interface GoogleCloudRunV2GCSVolumeSource {
   /** Cloud Storage Bucket name. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** If true, the volume will be mounted as read only for all mounts. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
   /** A list of additional flags to pass to the gcsfuse CLI. Options should be specified without the leading "--". */
-  mountOptions?: StringList;
+  mountOptions?: StringList | undefined;
 }
 export type GoogleCloudRunV2EmptyDirVolumeSourceMediumEnum =
   | "MEDIUM_UNSPECIFIED"
@@ -194,38 +194,38 @@ export type GoogleCloudRunV2EmptyDirVolumeSourceMediumEnum =
 /** In memory (tmpfs) ephemeral storage. It is ephemeral in the sense that when the sandbox is taken down, the data is destroyed with it (it does not persist across sandbox runs). */
 export interface GoogleCloudRunV2EmptyDirVolumeSource {
   /** Limit on the storage usable by this EmptyDir volume. The size limit is also applicable for memory medium. The maximum usage on memory medium EmptyDir would be the minimum value between the SizeLimit specified here and the sum of memory limits of all containers. The default is nil which means that the limit is undefined. More info: https://cloud.google.com/run/docs/configuring/in-memory-volumes#configure-volume. Info in Kubernetes: https://kubernetes.io/docs/concepts/storage/volumes/#emptydir */
-  sizeLimit?: string;
+  sizeLimit?: string | undefined;
   /** The medium on which the data is stored. Acceptable values today is only MEMORY or none. When none, the default will currently be backed by memory but could change over time. +optional */
-  medium?: GoogleCloudRunV2EmptyDirVolumeSourceMediumEnum | (string & {});
+  medium?: GoogleCloudRunV2EmptyDirVolumeSourceMediumEnum | (string & {}) | undefined;
 }
 /** Represents a set of Cloud SQL instances. Each one will be available under /cloudsql/[instance]. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. */
 export interface GoogleCloudRunV2CloudSqlInstance {
   /** A list of Cloud SQL instance connection names. Cloud Run uses these to establish connections to the specified Cloud SQL instances. While the SQL instance name itself is unique within a project, the full connection name requires the location for proper routing. Format: `{project}:{location}:{instance}` Example: `my-project:us-central1:my-instance` You can find this value on the instance's **Overview** page in the Google Cloud console or by using the following `gcloud` command: ```sh gcloud sql instances describe INSTANCE_NAME \ --format='value(connectionName)' ``` Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. */
-  instances?: StringList;
+  instances?: StringList | undefined;
 }
 /** Represents an NFS mount. */
 export interface GoogleCloudRunV2NFSVolumeSource {
   /** Hostname or IP address of the NFS server */
-  server?: string;
+  server?: string | undefined;
   /** Path that is exported by the NFS server. */
-  path?: string;
+  path?: string | undefined;
   /** If true, the volume will be mounted as read only for all mounts. */
-  readOnly?: boolean;
+  readOnly?: boolean | undefined;
 }
 /** Volume represents a named volume in a container. */
 export interface GoogleCloudRunV2Volume {
   /** Required. Volume's name. */
-  name?: string;
+  name?: string | undefined;
   /** Secret represents a secret that should populate this volume. */
-  secret?: GoogleCloudRunV2SecretVolumeSource;
+  secret?: GoogleCloudRunV2SecretVolumeSource | undefined;
   /** Persistent storage backed by a Google Cloud Storage bucket. */
-  gcs?: GoogleCloudRunV2GCSVolumeSource;
+  gcs?: GoogleCloudRunV2GCSVolumeSource | undefined;
   /** Ephemeral storage used as a shared volume. */
-  emptyDir?: GoogleCloudRunV2EmptyDirVolumeSource;
+  emptyDir?: GoogleCloudRunV2EmptyDirVolumeSource | undefined;
   /** For Cloud SQL volumes, contains the specific instances that should be mounted. Visit https://cloud.google.com/sql/docs/mysql/connect-run for more information on how to connect Cloud SQL and Cloud Run. */
-  cloudSqlInstance?: GoogleCloudRunV2CloudSqlInstance;
+  cloudSqlInstance?: GoogleCloudRunV2CloudSqlInstance | undefined;
   /** For NFS Voumes, contains the path to the nfs Volume */
-  nfs?: GoogleCloudRunV2NFSVolumeSource;
+  nfs?: GoogleCloudRunV2NFSVolumeSource | undefined;
 }
 export type GoogleCloudRunV2VolumeList = Array<GoogleCloudRunV2Volume>;
 export type GoogleCloudRunV2InstanceEncryptionKeyRevocationActionEnum =
@@ -235,14 +235,14 @@ export type GoogleCloudRunV2InstanceEncryptionKeyRevocationActionEnum =
 /** Hardware constraints configuration. */
 export interface GoogleCloudRunV2NodeSelector {
   /** Required. GPU accelerator type to attach to an instance. */
-  accelerator?: string;
+  accelerator?: string | undefined;
 }
 /** ContainerStatus holds the information of container name and image digest value. */
 export interface GoogleCloudRunV2ContainerStatus {
   /** ImageDigest holds the resolved digest for the image specified and resolved during the creation of Revision. This field holds the digest value regardless of whether a tag or digest was originally specified in the Container object. */
-  imageDigest?: string;
+  imageDigest?: string | undefined;
   /** The name of the container, if specified. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudRunV2ContainerStatusList = Array<GoogleCloudRunV2ContainerStatus>;
 export type GoogleCloudRunV2InstanceRestartPolicyEnum =
@@ -253,170 +253,170 @@ export type GoogleCloudRunV2InstanceRestartPolicyEnum =
 /** GRPCAction describes an action involving a GRPC port. */
 export interface GoogleCloudRunV2GRPCAction {
   /** Optional. Service is the name of the service to place in the gRPC HealthCheckRequest (see https://github.com/grpc/grpc/blob/master/doc/health-checking.md ). If this is not specified, the default behavior is defined by gRPC. */
-  service?: string;
+  service?: string | undefined;
   /** Optional. Port number of the gRPC service. Number must be in the range 1 to 65535. If not specified, defaults to the exposed port of the container, which is the value of container.ports[0].containerPort. */
-  port?: number;
+  port?: number | undefined;
 }
 /** TCPSocketAction describes an action based on opening a socket */
 export interface GoogleCloudRunV2TCPSocketAction {
   /** Optional. Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to the exposed port of the container, which is the value of container.ports[0].containerPort. */
-  port?: number;
+  port?: number | undefined;
 }
 /** HTTPHeader describes a custom header to be used in HTTP probes */
 export interface GoogleCloudRunV2HTTPHeader {
   /** Optional. The header field value */
-  value?: string;
+  value?: string | undefined;
   /** Required. The header field name */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudRunV2HTTPHeaderList = Array<GoogleCloudRunV2HTTPHeader>;
 /** HTTPGetAction describes an action based on HTTP Get requests. */
 export interface GoogleCloudRunV2HTTPGetAction {
   /** Optional. Path to access on the HTTP server. Defaults to '/'. */
-  path?: string;
+  path?: string | undefined;
   /** Optional. Custom headers to set in the request. HTTP allows repeated headers. */
-  httpHeaders?: GoogleCloudRunV2HTTPHeaderList;
+  httpHeaders?: GoogleCloudRunV2HTTPHeaderList | undefined;
   /** Optional. Port number to access on the container. Must be in the range 1 to 65535. If not specified, defaults to the exposed port of the container, which is the value of container.ports[0].containerPort. */
-  port?: number;
+  port?: number | undefined;
 }
 /** Probe describes a health check to be performed against a container to determine whether it is alive or ready to receive traffic. */
 export interface GoogleCloudRunV2Probe {
   /** Optional. Minimum consecutive failures for the probe to be considered failed after having succeeded. Defaults to 3. Minimum value is 1. */
-  failureThreshold?: number;
+  failureThreshold?: number | undefined;
   /** Optional. Number of seconds after which the probe times out. Defaults to 1 second. Minimum value is 1. Maximum value is 3600. Must be smaller than period_seconds. */
-  timeoutSeconds?: number;
+  timeoutSeconds?: number | undefined;
   /** Optional. GRPC specifies an action involving a gRPC port. Exactly one of httpGet, tcpSocket, or grpc must be specified. */
-  grpc?: GoogleCloudRunV2GRPCAction;
+  grpc?: GoogleCloudRunV2GRPCAction | undefined;
   /** Optional. TCPSocket specifies an action involving a TCP port. Exactly one of httpGet, tcpSocket, or grpc must be specified. */
-  tcpSocket?: GoogleCloudRunV2TCPSocketAction;
+  tcpSocket?: GoogleCloudRunV2TCPSocketAction | undefined;
   /** Optional. HTTPGet specifies the http request to perform. Exactly one of httpGet, tcpSocket, or grpc must be specified. */
-  httpGet?: GoogleCloudRunV2HTTPGetAction;
+  httpGet?: GoogleCloudRunV2HTTPGetAction | undefined;
   /** Optional. Number of seconds after the container has started before the probe is initiated. Defaults to 0 seconds. Minimum value is 0. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. */
-  initialDelaySeconds?: number;
+  initialDelaySeconds?: number | undefined;
   /** Optional. How often (in seconds) to perform the probe. Default to 10 seconds. Minimum value is 1. Maximum value for liveness probe is 3600. Maximum value for startup probe is 240. Must be greater or equal than timeout_seconds. */
-  periodSeconds?: number;
+  periodSeconds?: number | undefined;
 }
 /** VolumeMount describes a mounting of a Volume within a container. */
 export interface GoogleCloudRunV2VolumeMount {
   /** Required. This must match the Name of a Volume. */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Path within the volume from which the container's volume should be mounted. Defaults to "" (volume's root). This field is currently rejected in Secret volume mounts. */
-  subPath?: string;
+  subPath?: string | undefined;
   /** Required. Path within the container at which the volume should be mounted. Must not contain ':'. For Cloud SQL volumes, it can be left empty, or must otherwise be `/cloudsql`. All instances defined in the Volume will be available as `/cloudsql/[instance]`. For more information on Cloud SQL volumes, visit https://cloud.google.com/sql/docs/mysql/connect-run */
-  mountPath?: string;
+  mountPath?: string | undefined;
 }
 export type GoogleCloudRunV2VolumeMountList = Array<GoogleCloudRunV2VolumeMount>;
 /** Cloud Storage source. */
 export interface GoogleCloudRunV2CloudStorageSource {
   /** Required. The Cloud Storage object name. */
-  object?: string;
+  object?: string | undefined;
   /** Required. The Cloud Storage bucket name. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** Optional. The Cloud Storage object generation. */
-  generation?: string;
+  generation?: string | undefined;
 }
 /** Source file. */
 export interface GoogleCloudRunV2SourceFile {
   /** Required. Input only. Represents the exact, literal, and complete source code of the file. Placeholders like `...` or comments such as `# [rest of code]` should NEVER be used as omission. Every character in this field will be built into the final container. Any omission will result in a broken application. */
-  content?: string;
+  content?: string | undefined;
   /** Required. Input only. The file name for the source code. e.g., `"index.js"` or `"node_modules/dependency.js"`. The filename must be less than 255 characters and cannot contain `..`, `./`, `//`, or end with a `/`. Cloud Run will place the files in the container subdirectories, please use relative path to access the file. */
-  filename?: string;
+  filename?: string | undefined;
 }
 export type GoogleCloudRunV2SourceFileList = Array<GoogleCloudRunV2SourceFile>;
 /** Inlined source. */
 export interface GoogleCloudRunV2InlinedSource {
   /** Required. Input only. The source code. */
-  sources?: GoogleCloudRunV2SourceFileList;
+  sources?: GoogleCloudRunV2SourceFileList | undefined;
 }
 /** Source type for the container. */
 export interface GoogleCloudRunV2SourceCode {
   /** The source is a Cloud Storage bucket. */
-  cloudStorageSource?: GoogleCloudRunV2CloudStorageSource;
+  cloudStorageSource?: GoogleCloudRunV2CloudStorageSource | undefined;
   /** Optional. Input only. Source code inlined in the request. Cloud Run will store the inlined_source to Cloud Storage and replace the field with cloud_storage_source. This field is only supported in Cloud Run Service. */
-  inlinedSource?: GoogleCloudRunV2InlinedSource;
+  inlinedSource?: GoogleCloudRunV2InlinedSource | undefined;
 }
 /** ContainerPort represents a network port in a single container. */
 export interface GoogleCloudRunV2ContainerPort {
   /** If specified, used to specify which protocol to use. Allowed values are "http1" and "h2c". */
-  name?: string;
+  name?: string | undefined;
   /** Port number the container listens on. This must be a valid TCP port number, 0 < container_port < 65536. */
-  containerPort?: number;
+  containerPort?: number | undefined;
 }
 export type GoogleCloudRunV2ContainerPortList = Array<GoogleCloudRunV2ContainerPort>;
 /** SecretEnvVarSource represents a source for the value of an EnvVar. */
 export interface GoogleCloudRunV2SecretKeySelector {
   /** Required. The name of the secret in Cloud Secret Manager. Format: {secret_name} if the secret is in the same project. projects/{project}/secrets/{secret_name} if the secret is in a different project. */
-  secret?: string;
+  secret?: string | undefined;
   /** The Cloud Secret Manager secret version. Can be 'latest' for the latest version, an integer for a specific version, or a version alias. */
-  version?: string;
+  version?: string | undefined;
 }
 /** EnvVarSource represents a source for the value of an EnvVar. */
 export interface GoogleCloudRunV2EnvVarSource {
   /** Selects a secret and a specific version from Cloud Secret Manager. */
-  secretKeyRef?: GoogleCloudRunV2SecretKeySelector;
+  secretKeyRef?: GoogleCloudRunV2SecretKeySelector | undefined;
 }
 /** EnvVar represents an environment variable present in a Container. */
 export interface GoogleCloudRunV2EnvVar {
   /** Required. Name of the environment variable. Must not exceed 32768 characters. */
-  name?: string;
+  name?: string | undefined;
   /** Literal value of the environment variable. Defaults to "", and the maximum length is 32768 bytes. Variable references are not supported in Cloud Run. */
-  value?: string;
+  value?: string | undefined;
   /** Source for the environment variable's value. */
-  valueSource?: GoogleCloudRunV2EnvVarSource;
+  valueSource?: GoogleCloudRunV2EnvVarSource | undefined;
 }
 export type GoogleCloudRunV2EnvVarList = Array<GoogleCloudRunV2EnvVar>;
 /** ResourceRequirements describes the compute resource requirements. */
 export interface GoogleCloudRunV2ResourceRequirements {
   /** Only `memory`, `cpu` and `nvidia.com/gpu` keys in the map are supported. Notes: * The only supported values for CPU are '1', '2', '4', and '8'. Setting 4 CPU requires at least 2Gi of memory. For more information, go to https://cloud.google.com/run/docs/configuring/cpu. * For supported 'memory' values and syntax, go to https://cloud.google.com/run/docs/configuring/memory-limits * The only supported 'nvidia.com/gpu' value is '1'. */
-  limits?: StringMap;
+  limits?: StringMap | undefined;
   /** Determines whether CPU is only allocated during requests (true by default). However, if ResourceRequirements is set, the caller must explicitly set this field to true to preserve the default behavior. */
-  cpuIdle?: boolean;
+  cpuIdle?: boolean | undefined;
   /** Determines whether CPU should be boosted on startup of a new container instance above the requested CPU threshold, this can help reduce cold-start latency. */
-  startupCpuBoost?: boolean;
+  startupCpuBoost?: boolean | undefined;
 }
 /** Build information of the image. */
 export interface GoogleCloudRunV2BuildInfo {
   /** Output only. Source code location of the image. */
-  sourceLocation?: string;
+  sourceLocation?: string | undefined;
   /** Output only. Entry point of the function when the image is a Cloud Run function. */
-  functionTarget?: string;
+  functionTarget?: string | undefined;
 }
 /** A single application container. This specifies both the container to run, the command to run in the container and the arguments to supply to it. Note that additional arguments can be supplied by the system to the container at runtime. */
 export interface GoogleCloudRunV2Container {
   /** Optional. Indicates that this container can act as a sandbox supervisor and launch sandboxes. */
-  sandboxLauncher?: boolean;
+  sandboxLauncher?: boolean | undefined;
   /** Readiness probe to be used for health checks. */
-  readinessProbe?: GoogleCloudRunV2Probe;
+  readinessProbe?: GoogleCloudRunV2Probe | undefined;
   /** Startup probe of application within the container. All other probes are disabled if a startup probe is provided, until it succeeds. Container will not be added to service endpoints if the probe fails. */
-  startupProbe?: GoogleCloudRunV2Probe;
+  startupProbe?: GoogleCloudRunV2Probe | undefined;
   /** Volume to mount into the container's filesystem. */
-  volumeMounts?: GoogleCloudRunV2VolumeMountList;
+  volumeMounts?: GoogleCloudRunV2VolumeMountList | undefined;
   /** Name of the container specified as a DNS_LABEL (RFC 1123). */
-  name?: string;
+  name?: string | undefined;
   /** Optional. Location of the source. This field is only supported in Cloud Run Service. */
-  sourceCode?: GoogleCloudRunV2SourceCode;
+  sourceCode?: GoogleCloudRunV2SourceCode | undefined;
   /** Entrypoint array. Not executed within a shell. The docker image's ENTRYPOINT is used if this is not provided. */
-  command?: StringList;
+  command?: StringList | undefined;
   /** List of ports to expose from the container. Only a single port can be specified. The specified ports must be listening on all interfaces (0.0.0.0) within the container to be accessible. If omitted, a port number will be chosen and passed to the container through the PORT environment variable for the container to listen on. */
-  ports?: GoogleCloudRunV2ContainerPortList;
+  ports?: GoogleCloudRunV2ContainerPortList | undefined;
   /** Periodic probe of container liveness. Container will be restarted if the probe fails. */
-  livenessProbe?: GoogleCloudRunV2Probe;
+  livenessProbe?: GoogleCloudRunV2Probe | undefined;
   /** List of environment variables to set in the container. */
-  env?: GoogleCloudRunV2EnvVarList;
+  env?: GoogleCloudRunV2EnvVarList | undefined;
   /** Container's working directory. If not specified, the container runtime's default will be used, which might be configured in the container image. */
-  workingDir?: string;
+  workingDir?: string | undefined;
   /** Required. Name of the container image in Dockerhub, Google Artifact Registry, or Google Container Registry. If the host is not provided, Dockerhub is assumed. */
-  image?: string;
+  image?: string | undefined;
   /** Names of the containers that must start before this container. */
-  dependsOn?: StringList;
+  dependsOn?: StringList | undefined;
   /** Base image for this container. Only supported for services. If set, it indicates that the service is enrolled into automatic base image update. */
-  baseImageUri?: string;
+  baseImageUri?: string | undefined;
   /** Compute Resource requirements by this container. */
-  resources?: GoogleCloudRunV2ResourceRequirements;
+  resources?: GoogleCloudRunV2ResourceRequirements | undefined;
   /** Output only. The build info of the container image. */
-  buildInfo?: GoogleCloudRunV2BuildInfo;
+  buildInfo?: GoogleCloudRunV2BuildInfo | undefined;
   /** Arguments to the entrypoint. The docker image's CMD is used if this is not provided. */
-  args?: StringList;
+  args?: StringList | undefined;
 }
 export type GoogleCloudRunV2ContainerList = Array<GoogleCloudRunV2Container>;
 export type GoogleCloudRunV2ConditionExecutionReasonEnum =
@@ -479,23 +479,23 @@ export type GoogleCloudRunV2ConditionStateEnum =
 /** Defines a status condition for a resource. */
 export interface GoogleCloudRunV2Condition {
   /** Output only. A reason for the execution condition. */
-  executionReason?: GoogleCloudRunV2ConditionExecutionReasonEnum | (string & {});
+  executionReason?: GoogleCloudRunV2ConditionExecutionReasonEnum | (string & {}) | undefined;
   /** Output only. A reason for the revision condition. */
-  revisionReason?: GoogleCloudRunV2ConditionRevisionReasonEnum | (string & {});
+  revisionReason?: GoogleCloudRunV2ConditionRevisionReasonEnum | (string & {}) | undefined;
   /** Output only. A common (service-level) reason for this condition. */
-  reason?: GoogleCloudRunV2ConditionReasonEnum | (string & {});
+  reason?: GoogleCloudRunV2ConditionReasonEnum | (string & {}) | undefined;
   /** Output only. A reason for the instance condition. */
-  instanceReason?: GoogleCloudRunV2ConditionInstanceReasonEnum | (string & {});
+  instanceReason?: GoogleCloudRunV2ConditionInstanceReasonEnum | (string & {}) | undefined;
   /** How to interpret failures of this condition, one of Error, Warning, Info */
-  severity?: GoogleCloudRunV2ConditionSeverityEnum | (string & {});
+  severity?: GoogleCloudRunV2ConditionSeverityEnum | (string & {}) | undefined;
   /** Human readable message indicating details about the current status. */
-  message?: string;
+  message?: string | undefined;
   /** Last time the condition transitioned from one status to another. */
-  lastTransitionTime?: string;
+  lastTransitionTime?: string | undefined;
   /** type is used to communicate the status of the reconciliation process. See also: https://github.com/knative/serving/blob/main/docs/spec/errors.md#error-conditions-and-reporting Types common to all resources include: * "Ready": True when the Resource is ready. */
-  type?: string;
+  type?: string | undefined;
   /** State of the condition. */
-  state?: GoogleCloudRunV2ConditionStateEnum | (string & {});
+  state?: GoogleCloudRunV2ConditionStateEnum | (string & {}) | undefined;
 }
 export type GoogleCloudRunV2InstanceIngressEnum =
   | "INGRESS_TRAFFIC_UNSPECIFIED"
@@ -506,11 +506,11 @@ export type GoogleCloudRunV2InstanceIngressEnum =
 /** Settings for Binary Authorization feature. */
 export interface GoogleCloudRunV2BinaryAuthorization {
   /** Optional. If True, indicates to use the default project's binary authorization policy. If False, binary authorization will be disabled. */
-  useDefault?: boolean;
+  useDefault?: boolean | undefined;
   /** Optional. If present, indicates to use Breakglass using this justification. If use_default is False, then it must be empty. For more information on breakglass, see https://cloud.google.com/binary-authorization/docs/using-breakglass */
-  breakglassJustification?: string;
+  breakglassJustification?: string | undefined;
   /** Optional. The path to a binary authorization policy. Format: `projects/{project}/platforms/cloudRun/{policy-name}` */
-  policy?: string;
+  policy?: string | undefined;
 }
 export type GoogleCloudRunV2ConditionList = Array<GoogleCloudRunV2Condition>;
 export type GoogleCloudRunV2InstanceLaunchStageEnum =
@@ -525,94 +525,95 @@ export type GoogleCloudRunV2InstanceLaunchStageEnum =
 /** A Cloud Run Instance represents a single group of containers running in a region. */
 export interface GoogleCloudRunV2Instance {
   /** Arbitrary version identifier for the API client. */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
   /** Optional. VPC Access configuration to use for this Revision. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc. */
-  vpcAccess?: GoogleCloudRunV2VpcAccess;
+  vpcAccess?: GoogleCloudRunV2VpcAccess | undefined;
   /** Optional. True if GPU zonal redundancy is disabled on this instance. */
-  gpuZonalRedundancyDisabled?: boolean;
+  gpuZonalRedundancyDisabled?: boolean | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** If `encryption_key_revocation_action` is `SHUTDOWN`, the duration before shutting down all instances. The minimum increment is 1 hour. */
-  encryptionKeyShutdownDuration?: string;
-  labels?: StringMap;
+  encryptionKeyShutdownDuration?: string | undefined;
+  labels?: StringMap | undefined;
   /** Output only. For a deleted resource, the time after which it will be permamently deleted. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. Email address of the authenticated creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** Output only. A number that monotonically increases every time the user modifies the desired state. Please note that unlike v1, this is an `int64` value. As with most Google APIs, its JSON representation will be a `string` instead of an `integer`. */
-  generation?: string;
+  generation?: string | undefined;
   /** A list of Volumes to make available to containers. */
-  volumes?: GoogleCloudRunV2VolumeList;
+  volumes?: GoogleCloudRunV2VolumeList | undefined;
   /** Optional. IAP settings on the Instance. */
-  iapEnabled?: boolean;
+  iapEnabled?: boolean | undefined;
   /** The action to take if the encryption key is revoked. */
   encryptionKeyRevocationAction?:
     | GoogleCloudRunV2InstanceEncryptionKeyRevocationActionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. Disables public resolution of the default URI of this Instance. */
-  defaultUriDisabled?: boolean;
+  defaultUriDisabled?: boolean | undefined;
   /** Optional. The node selector for the instance. */
-  nodeSelector?: GoogleCloudRunV2NodeSelector;
+  nodeSelector?: GoogleCloudRunV2NodeSelector | undefined;
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Returns `true` if the Instance is currently being acted upon by the system to bring it into the desired state. When a new Instance is created, or an existing one is updated, Cloud Run will asynchronously perform all necessary steps to bring the Instance to the desired serving state. This process is called reconciliation. While reconciliation is in process, `observed_generation` will have a transient value that might mismatch the intended state. Once reconciliation is over (and this field is `false`), there are two possible outcomes: reconciliation succeeded and the serving state matches the Instance, or there was an error, and reconciliation failed. This state can be found in `terminal_condition.state`. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. Status information for each of the specified containers. The status includes the resolved digest for specified images. */
-  containerStatuses?: GoogleCloudRunV2ContainerStatusList;
+  containerStatuses?: GoogleCloudRunV2ContainerStatusList | undefined;
   /** Output only. The generation of this Instance currently serving traffic. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. Please note that unlike v1, this is an `int64` value. As with most Google APIs, its JSON representation will be a `string` instead of an `integer`. */
-  observedGeneration?: string;
+  observedGeneration?: string | undefined;
   /** Output only. Email address of the last authenticated modifier. */
-  lastModifier?: string;
+  lastModifier?: string | undefined;
   /** The fully qualified name of this Instance. In `CreateInstanceRequest`, this field is ignored, and instead composed from `CreateInstanceRequest.parent` and `CreateInstanceRequest.instance_id`. */
-  name?: string;
-  annotations?: StringMap;
+  name?: string | undefined;
+  annotations?: StringMap | undefined;
   /** Optional. A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. The Google Console URI to obtain logs for the Instance. */
-  logUri?: string;
+  logUri?: string | undefined;
   /** Optional. Restart policy for the Instance. */
-  restartPolicy?: GoogleCloudRunV2InstanceRestartPolicyEnum | (string & {});
+  restartPolicy?: GoogleCloudRunV2InstanceRestartPolicyEnum | (string & {}) | undefined;
   /** Optional. Enables SSH access to the Instance. */
-  sshEnabled?: boolean;
+  sshEnabled?: boolean | undefined;
   /** A reference to a customer managed encryption key (CMEK) to use to encrypt this container image. For more information, go to https://cloud.google.com/run/docs/securing/using-cmek */
-  encryptionKey?: string;
+  encryptionKey?: string | undefined;
   /** Optional. Disables IAM permission check for `run.routes.invoke` for callers of this Instance. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check. */
-  invokerIamDisabled?: boolean;
+  invokerIamDisabled?: boolean | undefined;
   /** Output only. Server assigned unique identifier for the trigger. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
-  serviceAccount?: string;
+  uid?: string | undefined;
+  serviceAccount?: string | undefined;
   /** Required. Holds the single container that defines the unit of execution for this Instance. */
-  containers?: GoogleCloudRunV2ContainerList;
+  containers?: GoogleCloudRunV2ContainerList | undefined;
   /** Output only. All URLs serving traffic for this Instance. */
-  urls?: StringList;
+  urls?: StringList | undefined;
   /** Output only. The Condition of this Instance, containing its readiness status, and detailed error information in case it did not reach a serving state. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  terminalCondition?: GoogleCloudRunV2Condition;
+  terminalCondition?: GoogleCloudRunV2Condition | undefined;
   /** Optional. Provides the ingress settings for this Instance. On output, returns the currently observed ingress settings, or `INGRESS_TRAFFIC_UNSPECIFIED` if no revision is active. */
-  ingress?: GoogleCloudRunV2InstanceIngressEnum | (string & {});
+  ingress?: GoogleCloudRunV2InstanceIngressEnum | (string & {}) | undefined;
   /** Settings for the Binary Authorization feature. */
-  binaryAuthorization?: GoogleCloudRunV2BinaryAuthorization;
+  binaryAuthorization?: GoogleCloudRunV2BinaryAuthorization | undefined;
   /** User-provided description of the Instance. This field currently has a 512-character limit. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The deletion time. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Output only. The Conditions of all other associated sub-resources. They contain additional diagnostics information in case the Instance does not reach its Serving state. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  conditions?: GoogleCloudRunV2ConditionList;
+  conditions?: GoogleCloudRunV2ConditionList | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** The launch stage as defined by [Google Cloud Platform Launch Stages](https://cloud.google.com/terms/launch-stages). Cloud Run supports `ALPHA`, `BETA`, and `GA`. If no value is specified, `GA` is assumed. Set the launch stage to a preview stage on input to allow use of preview features in that stage. On read (or output), describes whether the resource uses preview features. For example, if `ALPHA` is provided as input, but only `BETA` and `GA`-level features are used, this field will be `BETA` on output. */
-  launchStage?: GoogleCloudRunV2InstanceLaunchStageEnum | (string & {});
+  launchStage?: GoogleCloudRunV2InstanceLaunchStageEnum | (string & {}) | undefined;
   /** Arbitrary identifier for the API client. */
-  client?: string;
+  client?: string | undefined;
 }
 export interface CreateProjectsLocationsInstancesRequest {
   /** Required. The location and project in which this Instance should be created. */
   parent: string;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. The unique identifier for the Instance. It must begin with letter, and cannot end with hyphen; must contain fewer than 50 characters. The name of the instance becomes {parent}/instances/{instance_id}. If not provided, the server will generate a unique `instance_id`. */
-  instanceId?: string;
+  instanceId?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRunV2Instance;
+  body?: GoogleCloudRunV2Instance | undefined;
 }
 export type GoogleCloudRunV2TaskTemplateExecutionEnvironmentEnum =
   | "EXECUTION_ENVIRONMENT_UNSPECIFIED"
@@ -625,55 +626,58 @@ export type GoogleCloudRunV2WorkloadIdentityConfigIdentityTypeEnum =
 /** Workload identity settings. */
 export interface GoogleCloudRunV2WorkloadIdentityConfig {
   /** Optional. The Revision's SPIFFE workload identity. Enables provisioning of SPIFFE workload certificates. */
-  identity?: string;
+  identity?: string | undefined;
   /** Optional. The type of identity to use. */
-  identityType?: GoogleCloudRunV2WorkloadIdentityConfigIdentityTypeEnum | (string & {});
+  identityType?: GoogleCloudRunV2WorkloadIdentityConfigIdentityTypeEnum | (string & {}) | undefined;
   /** Optional. Controls whether an instance receives a MWLID certificate. Corresponds to the intention of the original --[no-]identity-certificate flag. */
-  identityCertificateEnabled?: boolean;
+  identityCertificateEnabled?: boolean | undefined;
 }
 /** TaskTemplate describes the data a task should have when created from a template. */
 export interface GoogleCloudRunV2TaskTemplate {
   /** A reference to a customer managed encryption key (CMEK) to use to encrypt this container image. For more information, go to https://cloud.google.com/run/docs/securing/using-cmek */
-  encryptionKey?: string;
+  encryptionKey?: string | undefined;
   /** Optional. Max allowed time duration the Task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout. Defaults to 600 seconds. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Holds the single container that defines the unit of execution for this task. */
-  containers?: GoogleCloudRunV2ContainerList;
+  containers?: GoogleCloudRunV2ContainerList | undefined;
   /** Optional. A list of Volumes to make available to containers. */
-  volumes?: GoogleCloudRunV2VolumeList;
+  volumes?: GoogleCloudRunV2VolumeList | undefined;
   /** Optional. VPC Access configuration to use for this Task. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc. */
-  vpcAccess?: GoogleCloudRunV2VpcAccess;
+  vpcAccess?: GoogleCloudRunV2VpcAccess | undefined;
   /** Optional. Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. The node selector for the task template. */
-  nodeSelector?: GoogleCloudRunV2NodeSelector;
+  nodeSelector?: GoogleCloudRunV2NodeSelector | undefined;
   /** Number of retries allowed per Task, before marking this Task failed. Defaults to 3. */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
   /** Optional. The execution environment being used to host this Task. */
-  executionEnvironment?: GoogleCloudRunV2TaskTemplateExecutionEnvironmentEnum | (string & {});
+  executionEnvironment?:
+    | GoogleCloudRunV2TaskTemplateExecutionEnvironmentEnum
+    | (string & {})
+    | undefined;
   /** Optional. True if GPU zonal redundancy is disabled on this task template. */
-  gpuZonalRedundancyDisabled?: boolean;
+  gpuZonalRedundancyDisabled?: boolean | undefined;
   /** Optional. The Task's workload identity settings. */
-  workloadIdentityConfig?: GoogleCloudRunV2WorkloadIdentityConfig;
+  workloadIdentityConfig?: GoogleCloudRunV2WorkloadIdentityConfig | undefined;
 }
 /** ExecutionTemplate describes the data an execution should have when created from a template. */
 export interface GoogleCloudRunV2ExecutionTemplate {
   /** Optional. Arbitrary version identifier for the API client. */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
   /** Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels. Cloud Run API v2 does not support labels with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected. All system labels in v1 now have a corresponding field in v2 ExecutionTemplate. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution. Defaults to 1. */
-  taskCount?: number;
+  taskCount?: number | undefined;
   /** Optional. If true, the system will start the execution within the next 12 hours depending on available capacity. */
-  delayExecution?: boolean;
+  delayExecution?: boolean | undefined;
   /** Optional. Arbitrary identifier for the API client. */
-  client?: string;
+  client?: string | undefined;
   /** Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. Cloud Run API v2 does not support annotations with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected. All system annotations in v1 now have a corresponding field in v2 ExecutionTemplate. This field follows Kubernetes annotations' namespacing, limits, and rules. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Required. Describes the task(s) that will be created when executing an execution. */
-  template?: GoogleCloudRunV2TaskTemplate;
+  template?: GoogleCloudRunV2TaskTemplate | undefined;
   /** Optional. Specifies the maximum desired number of tasks the execution should run at given time. When the job is run, if this field is 0 or unset, the maximum possible value will be used for that execution. The actual number of tasks running in steady state will be less than this number when there are fewer tasks waiting to be completed remaining, i.e. when the work left to do is less than max parallelism. */
-  parallelism?: number;
+  parallelism?: number | undefined;
 }
 export type GoogleCloudRunV2JobLaunchStageEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
@@ -694,15 +698,18 @@ export type GoogleCloudRunV2ExecutionReferenceCompletionStatusEnum =
 /** Reference to an Execution. Use /Executions.GetExecution with the given name to get full execution including the latest status. */
 export interface GoogleCloudRunV2ExecutionReference {
   /** Status for the execution completion. */
-  completionStatus?: GoogleCloudRunV2ExecutionReferenceCompletionStatusEnum | (string & {});
+  completionStatus?:
+    | GoogleCloudRunV2ExecutionReferenceCompletionStatusEnum
+    | (string & {})
+    | undefined;
   /** Name of the execution. */
-  name?: string;
+  name?: string | undefined;
   /** Creation timestamp of the execution. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Creation timestamp of the execution. */
-  completionTime?: string;
+  completionTime?: string | undefined;
   /** The deletion time of the execution. It is only populated as a response to a Delete request. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
 }
 export type GoogleCloudRunV2JobFunctionalTypeEnum =
   | "FUNCTIONAL_TYPE_UNSPECIFIED"
@@ -711,69 +718,69 @@ export type GoogleCloudRunV2JobFunctionalTypeEnum =
 /** Job represents the configuration of a single job, which references a container image that is run to completion. */
 export interface GoogleCloudRunV2Job {
   /** Arbitrary version identifier for the API client. */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
   /** Output only. Number of executions created for this job. */
-  executionCount?: number;
+  executionCount?: number | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** A unique string used as a suffix creating a new execution. The Job will become ready when the execution is successfully started. The sum of job name and token length must be fewer than 63 characters. */
-  startExecutionToken?: string;
+  startExecutionToken?: string | undefined;
   /** Output only. The Condition of this Job, containing its readiness status, and detailed error information in case it did not reach the desired state. */
-  terminalCondition?: GoogleCloudRunV2Condition;
+  terminalCondition?: GoogleCloudRunV2Condition | undefined;
   /** Required. The template used to create executions for this Job. */
-  template?: GoogleCloudRunV2ExecutionTemplate;
+  template?: GoogleCloudRunV2ExecutionTemplate | undefined;
   /** Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels. Cloud Run API v2 does not support labels with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected. All system labels in v1 now have a corresponding field in v2 Job. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Email address of the last authenticated modifier. */
-  lastModifier?: string;
+  lastModifier?: string | undefined;
   /** The launch stage as defined by [Google Cloud Platform Launch Stages](https://cloud.google.com/terms/launch-stages). Cloud Run supports `ALPHA`, `BETA`, and `GA`. If no value is specified, GA is assumed. Set the launch stage to a preview stage on input to allow use of preview features in that stage. On read (or output), describes whether the resource uses preview features. For example, if ALPHA is provided as input, but only BETA and GA-level features are used, this field will be BETA on output. */
-  launchStage?: GoogleCloudRunV2JobLaunchStageEnum | (string & {});
+  launchStage?: GoogleCloudRunV2JobLaunchStageEnum | (string & {}) | undefined;
   /** Output only. For a deleted resource, the time after which it will be permamently deleted. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. Email address of the authenticated creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The generation of this Job. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  observedGeneration?: string;
+  observedGeneration?: string | undefined;
   /** Output only. A number that monotonically increases every time the user modifies the desired state. */
-  generation?: string;
+  generation?: string | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Settings for the Binary Authorization feature. */
-  binaryAuthorization?: GoogleCloudRunV2BinaryAuthorization;
+  binaryAuthorization?: GoogleCloudRunV2BinaryAuthorization | undefined;
   /** Output only. Returns true if the Job is currently being acted upon by the system to bring it into the desired state. When a new Job is created, or an existing one is updated, Cloud Run will asynchronously perform all necessary steps to bring the Job to the desired state. This process is called reconciliation. While reconciliation is in process, `observed_generation` and `latest_succeeded_execution`, will have transient values that might mismatch the intended state: Once reconciliation is over (and this field is false), there are two possible outcomes: reconciliation succeeded and the state matches the Job, or there was an error, and reconciliation failed. This state can be found in `terminal_condition.state`. If reconciliation succeeded, the following fields will match: `observed_generation` and `generation`, `latest_succeeded_execution` and `latest_created_execution`. If reconciliation failed, `observed_generation` and `latest_succeeded_execution` will have the state of the last succeeded execution or empty for newly created Job. Additional information on the failure can be found in `terminal_condition` and `conditions`. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. The deletion time. It is only populated as a response to a Delete request. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** A unique string used as a suffix for creating a new execution. The Job will become ready when the execution is successfully completed. The sum of job name and token length must be fewer than 63 characters. */
-  runExecutionToken?: string;
+  runExecutionToken?: string | undefined;
   /** Output only. The Conditions of all other associated sub-resources. They contain additional diagnostics information in case the Job does not reach its desired state. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  conditions?: GoogleCloudRunV2ConditionList;
+  conditions?: GoogleCloudRunV2ConditionList | undefined;
   /** Output only. Name of the last created execution. */
-  latestCreatedExecution?: GoogleCloudRunV2ExecutionReference;
+  latestCreatedExecution?: GoogleCloudRunV2ExecutionReference | undefined;
   /** Optional. The functional type of the Job. */
-  functionalType?: GoogleCloudRunV2JobFunctionalTypeEnum | (string & {});
+  functionalType?: GoogleCloudRunV2JobFunctionalTypeEnum | (string & {}) | undefined;
   /** Output only. Server assigned unique identifier for the Execution. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Arbitrary identifier for the API client. */
-  client?: string;
+  client?: string | undefined;
   /** Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. Cloud Run API v2 does not support annotations with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected on new resources. All system annotations in v1 now have a corresponding field in v2 Job. This field follows Kubernetes annotations' namespacing, limits, and rules. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** The fully qualified name of this Job. Format: projects/{project}/locations/{location}/jobs/{job} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface CreateProjectsLocationsJobsRequest {
   /** Optional. The unique identifier for the Job. The name of the job becomes {parent}/jobs/{job_id}. If not provided, the server will generate a unique `job_id`. */
-  jobId?: string;
+  jobId?: string | undefined;
   /** Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The location and project in which this Job should be created. Format: projects/{project}/locations/{location}, where {project} can be project id or number. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRunV2Job;
+  body?: GoogleCloudRunV2Job | undefined;
 }
 export type GoogleCloudRunV2TrafficTargetTypeEnum =
   | "TRAFFIC_TARGET_ALLOCATION_TYPE_UNSPECIFIED"
@@ -782,21 +789,21 @@ export type GoogleCloudRunV2TrafficTargetTypeEnum =
 /** Holds a single traffic routing entry for the Service. Allocations can be done to a specific Revision name, or pointing to the latest Ready Revision. */
 export interface GoogleCloudRunV2TrafficTarget {
   /** Specifies percent of the traffic to this Revision. This defaults to zero if unspecified. */
-  percent?: number;
+  percent?: number | undefined;
   /** Indicates a string to be part of the URI to exclusively reference this target. */
-  tag?: string;
+  tag?: string | undefined;
   /** The allocation type for this traffic target. */
-  type?: GoogleCloudRunV2TrafficTargetTypeEnum | (string & {});
+  type?: GoogleCloudRunV2TrafficTargetTypeEnum | (string & {}) | undefined;
   /** Revision to which to send this portion of traffic, if traffic allocation is by revision. */
-  revision?: string;
+  revision?: string | undefined;
 }
 export type GoogleCloudRunV2TrafficTargetList = Array<GoogleCloudRunV2TrafficTarget>;
 /** Settings for multi-region deployment. */
 export interface GoogleCloudRunV2MultiRegionSettings {
   /** Optional. System-generated unique id for the multi-region Service. */
-  multiRegionId?: string;
+  multiRegionId?: string | undefined;
   /** Required. List of regions to deploy to, including primary region. */
-  regions?: StringList;
+  regions?: StringList | undefined;
 }
 export type GoogleCloudRunV2ServiceScalingScalingModeEnum =
   | "SCALING_MODE_UNSPECIFIED"
@@ -805,13 +812,13 @@ export type GoogleCloudRunV2ServiceScalingScalingModeEnum =
 /** Scaling settings applied at the service level rather than at the revision level. */
 export interface GoogleCloudRunV2ServiceScaling {
   /** Optional. total max instances for the service. This number of instances is divided among all revisions with specified traffic based on the percent of traffic they are receiving. */
-  maxInstanceCount?: number;
+  maxInstanceCount?: number | undefined;
   /** Optional. total instance count for the service in manual scaling mode. This number of instances is divided among all revisions with specified traffic based on the percent of traffic they are receiving. */
-  manualInstanceCount?: number;
+  manualInstanceCount?: number | undefined;
   /** Optional. The scaling mode for the service. */
-  scalingMode?: GoogleCloudRunV2ServiceScalingScalingModeEnum | (string & {});
+  scalingMode?: GoogleCloudRunV2ServiceScalingScalingModeEnum | (string & {}) | undefined;
   /** Optional. total min instances for the service. This number of instances is divided among all revisions with specified traffic based on the percent of traffic they are receiving. */
-  minInstanceCount?: number;
+  minInstanceCount?: number | undefined;
 }
 export type GoogleCloudRunV2ServiceFunctionalTypeEnum =
   | "FUNCTIONAL_TYPE_UNSPECIFIED"
@@ -826,18 +833,18 @@ export type GoogleCloudRunV2ServiceIngressEnum =
 /** Settings for revision-level scaling settings. */
 export interface GoogleCloudRunV2RevisionScaling {
   /** Optional. Determines a threshold for concurrency utilization before scaling begins. Accepted values are between `0.1` and `0.95` (inclusive) or `0.0` to disable concurrency utilization as threshold for scaling. CPU and concurrency scaling cannot both be disabled. */
-  concurrencyUtilization?: number;
+  concurrencyUtilization?: number | undefined;
   /** Optional. Maximum number of serving instances that this resource should have. When unspecified, the field is set to the server default value of 100. For more information see https://cloud.google.com/run/docs/configuring/max-instances */
-  maxInstanceCount?: number;
+  maxInstanceCount?: number | undefined;
   /** Optional. Minimum number of serving instances that this resource should have. */
-  minInstanceCount?: number;
+  minInstanceCount?: number | undefined;
   /** Optional. Determines a threshold for CPU utilization before scaling begins. Accepted values are between `0.1` and `0.90` (inclusive) or `0.0` to disable CPU utilization as threshold for scaling. CPU and concurrency scaling cannot both be disabled. */
-  cpuUtilization?: number;
+  cpuUtilization?: number | undefined;
 }
 /** Settings for Cloud Service Mesh. For more information see https://cloud.google.com/service-mesh/docs/overview. */
 export interface GoogleCloudRunV2ServiceMesh {
   /** The Mesh resource name. Format: `projects/{project}/locations/global/meshes/{mesh}`, where `{project}` can be project id or number. */
-  mesh?: string;
+  mesh?: string | undefined;
 }
 export type GoogleCloudRunV2RevisionTemplateEncryptionKeyRevocationActionEnum =
   | "ENCRYPTION_KEY_REVOCATION_ACTION_UNSPECIFIED"
@@ -850,72 +857,76 @@ export type GoogleCloudRunV2RevisionTemplateExecutionEnvironmentEnum =
 /** RevisionTemplate describes the data a revision should have when created from a template. */
 export interface GoogleCloudRunV2RevisionTemplate {
   /** A reference to a customer managed encryption key (CMEK) to use to encrypt this container image. For more information, go to https://cloud.google.com/run/docs/securing/using-cmek */
-  encryptionKey?: string;
+  encryptionKey?: string | undefined;
   /** Optional. Arbitrary version identifier for the API client. */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
   /** Optional. Disables health checking containers during deployment. */
-  healthCheckDisabled?: boolean;
+  healthCheckDisabled?: boolean | undefined;
   /** Optional. If encryption_key_revocation_action is SHUTDOWN, the duration before shutting down all instances. The minimum increment is 1 hour. */
-  encryptionKeyShutdownDuration?: string;
+  encryptionKeyShutdownDuration?: string | undefined;
   /** Optional. Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels. Cloud Run API v2 does not support labels with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected. All system labels in v1 now have a corresponding field in v2 RevisionTemplate. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Optional. Max allowed time for an instance to respond to a request. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Optional. Sets the maximum number of requests that each serving instance can receive. If not specified or 0, concurrency defaults to 80 when requested `CPU >= 1` and defaults to 1 when requested `CPU < 1`. */
-  maxInstanceRequestConcurrency?: number;
+  maxInstanceRequestConcurrency?: number | undefined;
   /** Optional. Scaling settings for this Revision. */
-  scaling?: GoogleCloudRunV2RevisionScaling;
+  scaling?: GoogleCloudRunV2RevisionScaling | undefined;
   /** Optional. The unique name for the revision. If this field is omitted, it will be automatically generated based on the Service name. */
-  revision?: string;
+  revision?: string | undefined;
   /** Optional. Enables service mesh connectivity. */
-  serviceMesh?: GoogleCloudRunV2ServiceMesh;
+  serviceMesh?: GoogleCloudRunV2ServiceMesh | undefined;
   /** Optional. The action to take if the encryption key is revoked. */
   encryptionKeyRevocationAction?:
     | GoogleCloudRunV2RevisionTemplateEncryptionKeyRevocationActionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Holds the list which define the units of execution for this Revision. */
-  containers?: GoogleCloudRunV2ContainerList;
+  containers?: GoogleCloudRunV2ContainerList | undefined;
   /** Optional. The Revision's workload identity settings. */
-  workloadIdentityConfig?: GoogleCloudRunV2WorkloadIdentityConfig;
+  workloadIdentityConfig?: GoogleCloudRunV2WorkloadIdentityConfig | undefined;
   /** Optional. Arbitrary identifier for the API client. */
-  client?: string;
+  client?: string | undefined;
   /** Optional. True if GPU zonal redundancy is disabled on this revision. */
-  gpuZonalRedundancyDisabled?: boolean;
+  gpuZonalRedundancyDisabled?: boolean | undefined;
   /** Optional. The node selector for the revision template. */
-  nodeSelector?: GoogleCloudRunV2NodeSelector;
+  nodeSelector?: GoogleCloudRunV2NodeSelector | undefined;
   /** Optional. Enable session affinity. */
-  sessionAffinity?: boolean;
+  sessionAffinity?: boolean | undefined;
   /** Optional. VPC Access configuration to use for this Revision. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc. */
-  vpcAccess?: GoogleCloudRunV2VpcAccess;
+  vpcAccess?: GoogleCloudRunV2VpcAccess | undefined;
   /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. Cloud Run API v2 does not support annotations with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected. All system annotations in v1 now have a corresponding field in v2 RevisionTemplate. This field follows Kubernetes annotations' namespacing, limits, and rules. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Optional. Email address of the IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has. If not provided, the revision will use the project's default service account. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. A list of Volumes to make available to containers. */
-  volumes?: GoogleCloudRunV2VolumeList;
+  volumes?: GoogleCloudRunV2VolumeList | undefined;
   /** Optional. The sandbox environment to host this Revision. */
-  executionEnvironment?: GoogleCloudRunV2RevisionTemplateExecutionEnvironmentEnum | (string & {});
+  executionEnvironment?:
+    | GoogleCloudRunV2RevisionTemplateExecutionEnvironmentEnum
+    | (string & {})
+    | undefined;
 }
 /** Describes the Build step of the function that builds a container from the given source. */
 export interface GoogleCloudRunV2BuildConfig {
   /** Optional. Name of the Cloud Build Custom Worker Pool that should be used to build the Cloud Run function. The format of this field is `projects/{project}/locations/{region}/workerPools/{workerPool}` where `{project}` and `{region}` are the project id and region respectively where the worker pool is defined and `{workerPool}` is the short name of the worker pool. */
-  workerPool?: string;
+  workerPool?: string | undefined;
   /** Optional. Sets whether the function will receive automatic base image updates. */
-  enableAutomaticUpdates?: boolean;
+  enableAutomaticUpdates?: boolean | undefined;
   /** Optional. User-provided build-time environment variables for the function */
-  environmentVariables?: StringMap;
+  environmentVariables?: StringMap | undefined;
   /** Optional. Artifact Registry URI to store the built image. */
-  imageUri?: string;
+  imageUri?: string | undefined;
   /** Optional. The name of the function (as defined in source code) that will be executed. Defaults to the resource name suffix, if not specified. For backward compatibility, if function with given name is not found, then the system will try to use function named "function". */
-  functionTarget?: string;
+  functionTarget?: string | undefined;
   /** Output only. The Cloud Build name of the latest successful deployment of the function. */
-  name?: string;
+  name?: string | undefined;
   /** The Cloud Storage bucket URI where the function source code is located. */
-  sourceLocation?: string;
+  sourceLocation?: string | undefined;
   /** Optional. The base image used to build the function. */
-  baseImage?: string;
+  baseImage?: string | undefined;
   /** Optional. Service account to be used for building the container. The format of this field is `projects/{projectId}/serviceAccounts/{serviceAccountEmail}`. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
 }
 export type GoogleCloudRunV2ServiceLaunchStageEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
@@ -933,109 +944,109 @@ export type GoogleCloudRunV2TrafficTargetStatusTypeEnum =
 /** Represents the observed state of a single `TrafficTarget` entry. */
 export interface GoogleCloudRunV2TrafficTargetStatus {
   /** Revision to which this traffic is sent. */
-  revision?: string;
+  revision?: string | undefined;
   /** Indicates the string used in the URI to exclusively reference this target. */
-  tag?: string;
+  tag?: string | undefined;
   /** The allocation type for this traffic target. */
-  type?: GoogleCloudRunV2TrafficTargetStatusTypeEnum | (string & {});
+  type?: GoogleCloudRunV2TrafficTargetStatusTypeEnum | (string & {}) | undefined;
   /** Displays the target URI. */
-  uri?: string;
+  uri?: string | undefined;
   /** Specifies percent of the traffic to this Revision. */
-  percent?: number;
+  percent?: number | undefined;
 }
 export type GoogleCloudRunV2TrafficTargetStatusList = Array<GoogleCloudRunV2TrafficTargetStatus>;
 /** Service acts as a top-level container that manages a set of configurations and revision templates which implement a network service. Service exists to provide a singular abstraction which can be access controlled, reasoned about, and which encapsulates software lifecycle decisions such as rollout policy and team resource ownership. */
 export interface GoogleCloudRunV2Service {
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Specifies how to distribute traffic over a collection of Revisions belonging to the Service. If traffic is empty or not provided, defaults to 100% traffic to the latest `Ready` Revision. */
-  traffic?: GoogleCloudRunV2TrafficTargetList;
+  traffic?: GoogleCloudRunV2TrafficTargetList | undefined;
   /** Output only. The deletion time. It is only populated as a response to a Delete request. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Output only. The Conditions of all other associated sub-resources. They contain additional diagnostics information in case the Service does not reach its Serving state. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  conditions?: GoogleCloudRunV2ConditionList;
+  conditions?: GoogleCloudRunV2ConditionList | undefined;
   /** Optional. Settings for multi-region deployment. */
-  multiRegionSettings?: GoogleCloudRunV2MultiRegionSettings;
+  multiRegionSettings?: GoogleCloudRunV2MultiRegionSettings | undefined;
   /** Optional. Specifies service-level scaling settings */
-  scaling?: GoogleCloudRunV2ServiceScaling;
+  scaling?: GoogleCloudRunV2ServiceScaling | undefined;
   /** One or more custom audiences that you want this service to support. Specify each custom audience as the full URL in a string. The custom audiences are encoded in the token and used to authenticate requests. For more information, see https://cloud.google.com/run/docs/configuring/custom-audiences. */
-  customAudiences?: StringList;
+  customAudiences?: StringList | undefined;
   /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. Cloud Run API v2 does not support annotations with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected in new resources. All system annotations in v1 now have a corresponding field in v2 Service. This field follows Kubernetes annotations' namespacing, limits, and rules. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. All URLs serving traffic for this Service. */
-  urls?: StringList;
+  urls?: StringList | undefined;
   /** Output only. Server assigned unique identifier for the trigger. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. The generation of this Service currently serving traffic. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. Please note that unlike v1, this is an int64 value. As with most Google APIs, its JSON representation will be a `string` instead of an `integer`. */
-  observedGeneration?: string;
+  observedGeneration?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Optional. The functional type of the Service. */
-  functionalType?: GoogleCloudRunV2ServiceFunctionalTypeEnum | (string & {});
+  functionalType?: GoogleCloudRunV2ServiceFunctionalTypeEnum | (string & {}) | undefined;
   /** Optional. Disables public resolution of the default URI of this service. */
-  defaultUriDisabled?: boolean;
+  defaultUriDisabled?: boolean | undefined;
   /** Optional. Provides the ingress settings for this Service. On output, returns the currently observed ingress settings, or INGRESS_TRAFFIC_UNSPECIFIED if no revision is active. */
-  ingress?: GoogleCloudRunV2ServiceIngressEnum | (string & {});
+  ingress?: GoogleCloudRunV2ServiceIngressEnum | (string & {}) | undefined;
   /** Optional. Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels. Cloud Run API v2 does not support labels with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected. All system labels in v1 now have a corresponding field in v2 Service. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Required. The template used to create revisions for this Service. */
-  template?: GoogleCloudRunV2RevisionTemplate;
+  template?: GoogleCloudRunV2RevisionTemplate | undefined;
   /** Output only. Returns true if the Service is currently being acted upon by the system to bring it into the desired state. When a new Service is created, or an existing one is updated, Cloud Run will asynchronously perform all necessary steps to bring the Service to the desired serving state. This process is called reconciliation. While reconciliation is in process, `observed_generation`, `latest_ready_revision`, `traffic_statuses`, and `uri` will have transient values that might mismatch the intended state: Once reconciliation is over (and this field is false), there are two possible outcomes: reconciliation succeeded and the serving state matches the Service, or there was an error, and reconciliation failed. This state can be found in `terminal_condition.state`. If reconciliation succeeded, the following fields will match: `traffic` and `traffic_statuses`, `observed_generation` and `generation`, `latest_ready_revision` and `latest_created_revision`. If reconciliation failed, `traffic_statuses`, `observed_generation`, and `latest_ready_revision` will have the state of the last serving revision, or empty for newly created Services. Additional information on the failure can be found in `terminal_condition` and `conditions`. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Optional. Enables SSH access to the Service. */
-  sshEnabled?: boolean;
+  sshEnabled?: boolean | undefined;
   /** Output only. Name of the latest revision that is serving traffic. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  latestReadyRevision?: string;
+  latestReadyRevision?: string | undefined;
   /** Output only. True if Cloud Run Threat Detection monitoring is enabled for the parent project of this Service. */
-  threatDetectionEnabled?: boolean;
+  threatDetectionEnabled?: boolean | undefined;
   /** Output only. Email address of the last authenticated modifier. */
-  lastModifier?: string;
+  lastModifier?: string | undefined;
   /** Optional. Configuration for building a Cloud Run function. */
-  buildConfig?: GoogleCloudRunV2BuildConfig;
+  buildConfig?: GoogleCloudRunV2BuildConfig | undefined;
   /** Optional. The launch stage as defined by [Google Cloud Platform Launch Stages](https://cloud.google.com/terms/launch-stages). Cloud Run supports `ALPHA`, `BETA`, and `GA`. If no value is specified, GA is assumed. Set the launch stage to a preview stage on input to allow use of preview features in that stage. On read (or output), describes whether the resource uses preview features. For example, if ALPHA is provided as input, but only BETA and GA-level features are used, this field will be BETA on output. */
-  launchStage?: GoogleCloudRunV2ServiceLaunchStageEnum | (string & {});
+  launchStage?: GoogleCloudRunV2ServiceLaunchStageEnum | (string & {}) | undefined;
   /** Output only. Name of the last created revision. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  latestCreatedRevision?: string;
+  latestCreatedRevision?: string | undefined;
   /** User-provided description of the Service. This field currently has a 512-character limit. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. Settings for the Binary Authorization feature. */
-  binaryAuthorization?: GoogleCloudRunV2BinaryAuthorization;
+  binaryAuthorization?: GoogleCloudRunV2BinaryAuthorization | undefined;
   /** Arbitrary identifier for the API client. */
-  client?: string;
+  client?: string | undefined;
   /** Output only. For a deleted resource, the time after which it will be permanently deleted. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Identifier. The fully qualified name of this Service. In CreateServiceRequest, this field is ignored, and instead composed from CreateServiceRequest.parent and CreateServiceRequest.service_id. Format: projects/{project}/locations/{location}/services/{service_id} */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Detailed status information for corresponding traffic targets. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  trafficStatuses?: GoogleCloudRunV2TrafficTargetStatusList;
+  trafficStatuses?: GoogleCloudRunV2TrafficTargetStatusList | undefined;
   /** Optional. A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. The main URI in which this Service is serving traffic. */
-  uri?: string;
+  uri?: string | undefined;
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. IAP settings on the Service. */
-  iapEnabled?: boolean;
+  iapEnabled?: boolean | undefined;
   /** Output only. Email address of the authenticated creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** Optional. Disables IAM permission check for run.routes.invoke for callers of this service. For more information, visit https://cloud.google.com/run/docs/securing/managing-access#invoker_check. */
-  invokerIamDisabled?: boolean;
+  invokerIamDisabled?: boolean | undefined;
   /** Output only. The Condition of this Service, containing its readiness status, and detailed error information in case it did not reach a serving state. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  terminalCondition?: GoogleCloudRunV2Condition;
+  terminalCondition?: GoogleCloudRunV2Condition | undefined;
   /** Output only. A number that monotonically increases every time the user modifies the desired state. Please note that unlike v1, this is an int64 value. As with most Google APIs, its JSON representation will be a `string` instead of an `integer`. */
-  generation?: string;
+  generation?: string | undefined;
   /** Arbitrary version identifier for the API client. */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
 }
 export interface CreateProjectsLocationsServicesRequest {
   /** Required. The location and project in which this service should be created. Format: projects/{project}/locations/{location}, where {project} can be project id or number. Only lowercase characters, digits, and hyphens. */
   parent: string;
   /** Optional. The unique identifier for the Service. It must begin with letter, and cannot end with hyphen; must contain fewer than 50 characters. The name of the service becomes {parent}/services/{service_id}. If not provided, the server will generate a unique `service_id`. */
-  serviceId?: string;
+  serviceId?: string | undefined;
   /** Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudRunV2Service;
+  body?: GoogleCloudRunV2Service | undefined;
 }
 export type GoogleCloudRunV2InstanceSplitStatusTypeEnum =
   | "INSTANCE_SPLIT_ALLOCATION_TYPE_UNSPECIFIED"
@@ -1044,17 +1055,17 @@ export type GoogleCloudRunV2InstanceSplitStatusTypeEnum =
 /** Represents the observed state of a single `InstanceSplit` entry. */
 export interface GoogleCloudRunV2InstanceSplitStatus {
   /** Specifies percent of the instance split to this Revision. */
-  percent?: number;
+  percent?: number | undefined;
   /** Revision to which this instance split is assigned. */
-  revision?: string;
+  revision?: string | undefined;
   /** The allocation type for this instance split. */
-  type?: GoogleCloudRunV2InstanceSplitStatusTypeEnum | (string & {});
+  type?: GoogleCloudRunV2InstanceSplitStatusTypeEnum | (string & {}) | undefined;
 }
 export type GoogleCloudRunV2InstanceSplitStatusList = Array<GoogleCloudRunV2InstanceSplitStatus>;
 /** Worker pool scaling settings. */
 export interface GoogleCloudRunV2WorkerPoolScaling {
   /** Optional. The total number of instances in manual scaling mode. */
-  manualInstanceCount?: number;
+  manualInstanceCount?: number | undefined;
 }
 export type GoogleCloudRunV2WorkerPoolRevisionTemplateEncryptionKeyRevocationActionEnum =
   | "ENCRYPTION_KEY_REVOCATION_ACTION_UNSPECIFIED"
@@ -1063,37 +1074,38 @@ export type GoogleCloudRunV2WorkerPoolRevisionTemplateEncryptionKeyRevocationAct
 /** WorkerPoolRevisionTemplate describes the data a worker pool revision should have when created from a template. */
 export interface GoogleCloudRunV2WorkerPoolRevisionTemplate {
   /** Optional. The node selector for the revision template. */
-  nodeSelector?: GoogleCloudRunV2NodeSelector;
+  nodeSelector?: GoogleCloudRunV2NodeSelector | undefined;
   /** Optional. VPC Access configuration to use for this Revision. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc. */
-  vpcAccess?: GoogleCloudRunV2VpcAccess;
+  vpcAccess?: GoogleCloudRunV2VpcAccess | undefined;
   /** Optional. Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels. Cloud Run API v2 does not support labels with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected. All system labels in v1 now have a corresponding field in v2 WorkerPoolRevisionTemplate. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** A reference to a customer managed encryption key (CMEK) to use to encrypt this container image. For more information, go to https://cloud.google.com/run/docs/securing/using-cmek */
-  encryptionKey?: string;
+  encryptionKey?: string | undefined;
   /** Optional. Arbitrary version identifier for the API client. */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
   /** Optional. The action to take if the encryption key is revoked. */
   encryptionKeyRevocationAction?:
     | GoogleCloudRunV2WorkerPoolRevisionTemplateEncryptionKeyRevocationActionEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
   /** Optional. True if GPU zonal redundancy is disabled on this worker pool. */
-  gpuZonalRedundancyDisabled?: boolean;
+  gpuZonalRedundancyDisabled?: boolean | undefined;
   /** Optional. The unique name for the revision. If this field is omitted, it will be automatically generated based on the WorkerPool name. */
-  revision?: string;
+  revision?: string | undefined;
   /** Optional. Enables service mesh connectivity. */
-  serviceMesh?: GoogleCloudRunV2ServiceMesh;
+  serviceMesh?: GoogleCloudRunV2ServiceMesh | undefined;
   /** Optional. If encryption_key_revocation_action is SHUTDOWN, the duration before shutting down all instances. The minimum increment is 1 hour. */
-  encryptionKeyShutdownDuration?: string;
+  encryptionKeyShutdownDuration?: string | undefined;
   /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. Cloud Run API v2 does not support annotations with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected. All system annotations in v1 now have a corresponding field in v2 WorkerPoolRevisionTemplate. This field follows Kubernetes annotations' namespacing, limits, and rules. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Optional. A list of Volumes to make available to containers. */
-  volumes?: GoogleCloudRunV2VolumeList;
+  volumes?: GoogleCloudRunV2VolumeList | undefined;
   /** Holds list of the containers that defines the unit of execution for this Revision. */
-  containers?: GoogleCloudRunV2ContainerList;
+  containers?: GoogleCloudRunV2ContainerList | undefined;
   /** Optional. Email address of the IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has. If not provided, the revision will use the project's default service account. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Optional. Arbitrary identifier for the API client. */
-  client?: string;
+  client?: string | undefined;
 }
 export type GoogleCloudRunV2WorkerPoolLaunchStageEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
@@ -1111,99 +1123,99 @@ export type GoogleCloudRunV2InstanceSplitTypeEnum =
 /** Holds a single instance split entry for the Worker. Allocations can be done to a specific Revision name, or pointing to the latest Ready Revision. */
 export interface GoogleCloudRunV2InstanceSplit {
   /** Specifies percent of the instance split to this Revision. This defaults to zero if unspecified. */
-  percent?: number;
+  percent?: number | undefined;
   /** The allocation type for this instance split. */
-  type?: GoogleCloudRunV2InstanceSplitTypeEnum | (string & {});
+  type?: GoogleCloudRunV2InstanceSplitTypeEnum | (string & {}) | undefined;
   /** Revision to which to assign this portion of instances, if split allocation is by revision. */
-  revision?: string;
+  revision?: string | undefined;
 }
 export type GoogleCloudRunV2InstanceSplitList = Array<GoogleCloudRunV2InstanceSplit>;
 /** WorkerPool acts as a top-level container that manages a set of configurations and revision templates which implement a pull-based workload. WorkerPool exists to provide a singular abstraction which can be access controlled, reasoned about, and which encapsulates software lifecycle decisions such as rollout policy and team resource ownership. */
 export interface GoogleCloudRunV2WorkerPool {
   /** Output only. The generation of this WorkerPool currently serving workloads. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. Please note that unlike v1, this is an int64 value. As with most Google APIs, its JSON representation will be a `string` instead of an `integer`. */
-  observedGeneration?: string;
+  observedGeneration?: string | undefined;
   /** Output only. Detailed status information for corresponding instance splits. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  instanceSplitStatuses?: GoogleCloudRunV2InstanceSplitStatusList;
+  instanceSplitStatuses?: GoogleCloudRunV2InstanceSplitStatusList | undefined;
   /** Optional. Settings for the Binary Authorization feature. */
-  binaryAuthorization?: GoogleCloudRunV2BinaryAuthorization;
+  binaryAuthorization?: GoogleCloudRunV2BinaryAuthorization | undefined;
   /** Output only. The Condition of this WorkerPool, containing its readiness status, and detailed error information in case it did not reach a serving state. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  terminalCondition?: GoogleCloudRunV2Condition;
+  terminalCondition?: GoogleCloudRunV2Condition | undefined;
   /** Output only. Name of the last created revision. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  latestCreatedRevision?: string;
+  latestCreatedRevision?: string | undefined;
   /** Output only. For a deleted resource, the time after which it will be permamently deleted. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. A number that monotonically increases every time the user modifies the desired state. Please note that unlike v1, this is an int64 value. As with most Google APIs, its JSON representation will be a `string` instead of an `integer`. */
-  generation?: string;
+  generation?: string | undefined;
   /** Output only. Returns true if the WorkerPool is currently being acted upon by the system to bring it into the desired state. When a new WorkerPool is created, or an existing one is updated, Cloud Run will asynchronously perform all necessary steps to bring the WorkerPool to the desired serving state. This process is called reconciliation. While reconciliation is in process, `observed_generation`, `latest_ready_revison`, `instance_split_statuses`, and `uri` will have transient values that might mismatch the intended state: Once reconciliation is over (and this field is false), there are two possible outcomes: reconciliation succeeded and the serving state matches the WorkerPool, or there was an error, and reconciliation failed. This state can be found in `terminal_condition.state`. If reconciliation succeeded, the following fields will match: `instance_splits` and `instance_split_statuses`, `observed_generation` and `generation`, `latest_ready_revision` and `latest_created_revision`. If reconciliation failed, `instance_split_statuses`, `observed_generation`, and `latest_ready_revision` will have the state of the last serving revision, or empty for newly created WorkerPools. Additional information on the failure can be found in `terminal_condition` and `conditions`. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Optional. Specifies worker-pool-level scaling settings */
-  scaling?: GoogleCloudRunV2WorkerPoolScaling;
+  scaling?: GoogleCloudRunV2WorkerPoolScaling | undefined;
   /** Optional. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. Cloud Run API v2 does not support annotations with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected in new resources. All system annotations in v1 now have a corresponding field in v2 WorkerPool. This field follows Kubernetes annotations' namespacing, limits, and rules. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Required. The template used to create revisions for this WorkerPool. */
-  template?: GoogleCloudRunV2WorkerPoolRevisionTemplate;
+  template?: GoogleCloudRunV2WorkerPoolRevisionTemplate | undefined;
   /** Arbitrary version identifier for the API client. */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
   /** Optional. Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels. Cloud Run API v2 does not support labels with `run.googleapis.com`, `cloud.googleapis.com`, `serving.knative.dev`, or `autoscaling.knative.dev` namespaces, and they will be rejected. All system labels in v1 now have a corresponding field in v2 WorkerPool. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Server assigned unique identifier for the trigger. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Arbitrary identifier for the API client. */
-  client?: string;
+  client?: string | undefined;
   /** Output only. Indicates whether Cloud Run Threat Detection monitoring is enabled for the parent project of this worker pool. */
-  threatDetectionEnabled?: boolean;
+  threatDetectionEnabled?: boolean | undefined;
   /** Output only. Email address of the authenticated creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Output only. Name of the latest revision that is serving workloads. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  latestReadyRevision?: string;
+  latestReadyRevision?: string | undefined;
   /** User-provided description of the WorkerPool. This field currently has a 512-character limit. */
-  description?: string;
+  description?: string | undefined;
   /** Output only. The deletion time. It is only populated as a response to a Delete request. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Deprecated: Not supported, and ignored by Cloud Run. */
-  customAudiences?: StringList;
+  customAudiences?: StringList | undefined;
   /** Output only. The Conditions of all other associated sub-resources. They contain additional diagnostics information in case the WorkerPool does not reach its Serving state. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  conditions?: GoogleCloudRunV2ConditionList;
+  conditions?: GoogleCloudRunV2ConditionList | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. The launch stage as defined by [Google Cloud Platform Launch Stages](https://cloud.google.com/terms/launch-stages). Cloud Run supports `ALPHA`, `BETA`, and `GA`. If no value is specified, GA is assumed. Set the launch stage to a preview stage on input to allow use of preview features in that stage. On read (or output), describes whether the resource uses preview features. For example, if ALPHA is provided as input, but only BETA and GA-level features are used, this field will be BETA on output. */
-  launchStage?: GoogleCloudRunV2WorkerPoolLaunchStageEnum | (string & {});
+  launchStage?: GoogleCloudRunV2WorkerPoolLaunchStageEnum | (string & {}) | undefined;
   /** The fully qualified name of this WorkerPool. In CreateWorkerPoolRequest, this field is ignored, and instead composed from CreateWorkerPoolRequest.parent and CreateWorkerPoolRequest.worker_id. Format: `projects/{project}/locations/{location}/workerPools/{worker_id}` */
-  name?: string;
+  name?: string | undefined;
   /** Optional. A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. Email address of the last authenticated modifier. */
-  lastModifier?: string;
+  lastModifier?: string | undefined;
   /** Optional. Specifies how to distribute instances over a collection of Revisions belonging to the WorkerPool. If instance split is empty or not provided, defaults to 100% instances assigned to the latest `Ready` Revision. */
-  instanceSplits?: GoogleCloudRunV2InstanceSplitList;
+  instanceSplits?: GoogleCloudRunV2InstanceSplitList | undefined;
 }
 export interface CreateProjectsLocationsWorkerPoolsRequest {
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or creating any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. The unique identifier for the WorkerPool. It must begin with letter, and cannot end with hyphen; must contain fewer than 50 characters. The name of the worker pool becomes `{parent}/workerPools/{worker_pool_id}`. If not provided, the server will generate a unique `worker_pool_id`. */
-  workerPoolId?: string;
+  workerPoolId?: string | undefined;
   /** Required. The location and project in which this worker pool should be created. Format: `projects/{project}/locations/{location}`, where `{project}` can be project id or number. Only lowercase characters, digits, and hyphens. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRunV2WorkerPool;
+  body?: GoogleCloudRunV2WorkerPool | undefined;
 }
 export interface DeleteProjectsLocationsInstancesRequest {
   /** Required. The name of the Instance to delete. */
   name: string;
   /** Optional. Indicates that the request should be validated without actually deleting any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
 }
 export interface DeleteProjectsLocationsJobsRequest {
   /** Indicates that the request should be validated without actually deleting any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. The full name of the Job. Format: projects/{project}/locations/{location}/jobs/{job}, where {project} can be project id or number. */
   name: string;
 }
@@ -1211,9 +1223,9 @@ export interface DeleteProjectsLocationsJobsExecutionsRequest {
   /** Required. The name of the Execution to delete. Format: `projects/{project}/locations/{location}/jobs/{job}/executions/{execution}`, where `{project}` can be project id or number. */
   name: string;
   /** A system-generated fingerprint for this version of the resource. This may be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Indicates that the request should be validated without actually deleting any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -1223,35 +1235,35 @@ export interface DeleteProjectsLocationsOperationsRequest {
 export interface GoogleProtobufEmpty {}
 export interface DeleteProjectsLocationsServicesRequest {
   /** A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Indicates that the request should be validated without actually deleting any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The full name of the Service. Format: projects/{project}/locations/{location}/services/{service}, where {project} can be project id or number. */
   name: string;
 }
 export interface DeleteProjectsLocationsServicesRevisionsRequest {
   /** A system-generated fingerprint for this version of the resource. This may be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. The name of the Revision to delete. Format: projects/{project}/locations/{location}/services/{service}/revisions/{revision} */
   name: string;
   /** Indicates that the request should be validated without actually deleting any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsWorkerPoolsRequest {
   /** A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Required. The full name of the WorkerPool. Format: `projects/{project}/locations/{location}/workerPools/{worker_pool}`, where `{project}` can be project id or number. */
   name: string;
   /** Optional. Indicates that the request should be validated without actually deleting any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface DeleteProjectsLocationsWorkerPoolsRevisionsRequest {
   /** Required. The name of the Revision to delete. Format: projects/{project}/locations/{location}/services/{service}/revisions/{revision} */
   name: string;
   /** A system-generated fingerprint for this version of the resource. This may be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Indicates that the request should be validated without actually deleting any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface ExportImageMetadataProjectsLocationsRequest {
   /** Required. The name of the resource of which image metadata should be exported. Format: `projects/{project_id_or_number}/locations/{location}/services/{service}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locations/{location}/jobs/{job}/executions/{execution}` for Execution */
@@ -1260,23 +1272,23 @@ export interface ExportImageMetadataProjectsLocationsRequest {
 /** Metadata represents the JSON encoded generated customer metadata. */
 export interface GoogleCloudRunV2Metadata {
   /** JSON encoded Google-generated Customer Metadata for a given resource/project. */
-  metadata?: string;
+  metadata?: string | undefined;
 }
 /** Request message for exporting Cloud Run image. */
 export interface GoogleCloudRunV2ExportImageRequest {
   /** Required. The export destination url (the Artifact Registry repo). */
-  destinationRepo?: string;
+  destinationRepo?: string | undefined;
 }
 export interface ExportImageProjectsLocationsRequest {
   /** Required. The name of the resource of which image metadata should be exported. Format: `projects/{project_id_or_number}/locations/{location}/services/{service}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locations/{location}/jobs/{job}/executions/{execution}` for Execution */
   name: string;
   /** Request body */
-  body?: GoogleCloudRunV2ExportImageRequest;
+  body?: GoogleCloudRunV2ExportImageRequest | undefined;
 }
 /** ExportImageResponse contains an operation Id to track the image export operation. */
 export interface GoogleCloudRunV2ExportImageResponse {
   /** An operation ID used to track the status of image exports tied to the original pod ID in the request. */
-  operationId?: string;
+  operationId?: string | undefined;
 }
 export interface ExportMetadataProjectsLocationsRequest {
   /** Required. The name of the resource of which metadata should be exported. Format: `projects/{project_id_or_number}/locations/{location}/services/{service}` for Service `projects/{project_id_or_number}/locations/{location}/services/{service}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locations/{location}/jobs/{job}/executions/{execution}` for Execution {project_id_or_number} may contains domain-scoped project IDs */
@@ -1297,15 +1309,15 @@ export interface Proto2BridgeMessageSet {}
 /** Wire-format for a Status object */
 export interface UtilStatusProto {
   /** Detail message copybara:strip_begin(b/383363683) copybara:strip_end_and_replace optional string message = 3; */
-  message?: string;
+  message?: string | undefined;
   /** copybara:strip_begin(b/383363683) copybara:strip_end_and_replace optional int32 canonical_code = 6; */
-  canonicalCode?: number;
+  canonicalCode?: number | undefined;
   /** message_set associates an arbitrary proto message with the status. copybara:strip_begin(b/383363683) copybara:strip_end_and_replace optional proto2.bridge.MessageSet message_set = 5; */
-  messageSet?: Proto2BridgeMessageSet;
+  messageSet?: Proto2BridgeMessageSet | undefined;
   /** copybara:strip_begin(b/383363683) Space to which this status belongs copybara:strip_end_and_replace optional string space = 2; // Space to which this status belongs */
-  space?: string;
+  space?: string | undefined;
   /** Numeric code drawn from the space specified below. Often, this is the canonical error space, and code is drawn from google3/util/task/codes.proto copybara:strip_begin(b/383363683) copybara:strip_end_and_replace optional int32 code = 1; */
-  code?: number;
+  code?: number | undefined;
 }
 export type GoogleCloudRunV2ImageExportStatusExportJobStateEnum =
   | "EXPORT_JOB_STATE_UNSPECIFIED"
@@ -1314,13 +1326,13 @@ export type GoogleCloudRunV2ImageExportStatusExportJobStateEnum =
 /** The status of an image export job. */
 export interface GoogleCloudRunV2ImageExportStatus {
   /** The status of the export task if done. */
-  status?: UtilStatusProto;
+  status?: UtilStatusProto | undefined;
   /** The exported image ID as it will appear in Artifact Registry. */
-  exportedImageDigest?: string;
+  exportedImageDigest?: string | undefined;
   /** Output only. Has the image export job finished (regardless of successful or failure). */
-  exportJobState?: GoogleCloudRunV2ImageExportStatusExportJobStateEnum;
+  exportJobState?: GoogleCloudRunV2ImageExportStatusExportJobStateEnum | undefined;
   /** The image tag as it will appear in Artifact Registry. */
-  tag?: string;
+  tag?: string | undefined;
 }
 export type GoogleCloudRunV2ImageExportStatusList = Array<GoogleCloudRunV2ImageExportStatus>;
 export type GoogleCloudRunV2ExportStatusResponseOperationStateEnum =
@@ -1330,11 +1342,11 @@ export type GoogleCloudRunV2ExportStatusResponseOperationStateEnum =
 /** ExportStatusResponse contains the status of image export operation, with the status of each image export job. */
 export interface GoogleCloudRunV2ExportStatusResponse {
   /** The status of each image export job. */
-  imageExportStatuses?: GoogleCloudRunV2ImageExportStatusList;
+  imageExportStatuses?: GoogleCloudRunV2ImageExportStatusList | undefined;
   /** Output only. The state of the overall export operation. */
-  operationState?: GoogleCloudRunV2ExportStatusResponseOperationStateEnum;
+  operationState?: GoogleCloudRunV2ExportStatusResponseOperationStateEnum | undefined;
   /** The operation id. */
-  operationId?: string;
+  operationId?: string | undefined;
 }
 export interface ExportStatusProjectsLocationsServicesRevisionsRequest {
   /** Required. The name of the resource of which image export operation status has to be fetched. Format: `projects/{project_id_or_number}/locations/{location}/services/{service}/revisions/{revision}` for Revision `projects/{project_id_or_number}/locations/{location}/jobs/{job}/executions/{execution}` for Execution */
@@ -1346,7 +1358,7 @@ export interface GetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export type GoogleIamV1AuditLogConfigLogTypeEnum =
   | "LOG_TYPE_UNSPECIFIED"
@@ -1356,60 +1368,60 @@ export type GoogleIamV1AuditLogConfigLogTypeEnum =
 /** Provides the configuration for logging a type of permissions. Example: { "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" } ] } This enables 'DATA_READ' and 'DATA_WRITE' logging, while exempting jose@example.com from DATA_READ logging. */
 export interface GoogleIamV1AuditLogConfig {
   /** The log type that this config enables. */
-  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {});
+  logType?: GoogleIamV1AuditLogConfigLogTypeEnum | (string & {}) | undefined;
   /** Specifies the identities that do not cause logging for this type of permission. Follows the same format of Binding.members. */
-  exemptedMembers?: StringList;
+  exemptedMembers?: StringList | undefined;
 }
 export type GoogleIamV1AuditLogConfigList = Array<GoogleIamV1AuditLogConfig>;
 /** Specifies the audit configuration for a service. The configuration determines which permission types are logged, and what identities, if any, are exempted from logging. An AuditConfig must have one or more AuditLogConfigs. If there are AuditConfigs for both `allServices` and a specific service, the union of the two AuditConfigs is used for that service: the log_types specified in each AuditConfig are enabled, and the exempted_members in each AuditLogConfig are exempted. Example Policy with multiple AuditConfigs: { "audit_configs": [ { "service": "allServices", "audit_log_configs": [ { "log_type": "DATA_READ", "exempted_members": [ "user:jose@example.com" ] }, { "log_type": "DATA_WRITE" }, { "log_type": "ADMIN_READ" } ] }, { "service": "sampleservice.googleapis.com", "audit_log_configs": [ { "log_type": "DATA_READ" }, { "log_type": "DATA_WRITE", "exempted_members": [ "user:aliya@example.com" ] } ] } ] } For sampleservice, this policy enables DATA_READ, DATA_WRITE and ADMIN_READ logging. It also exempts `jose@example.com` from DATA_READ logging, and `aliya@example.com` from DATA_WRITE logging. */
 export interface GoogleIamV1AuditConfig {
   /** Specifies a service that will be enabled for audit logging. For example, `storage.googleapis.com`, `cloudsql.googleapis.com`. `allServices` is a special value that covers all services. */
-  service?: string;
+  service?: string | undefined;
   /** The configuration for logging of each type of permission. */
-  auditLogConfigs?: GoogleIamV1AuditLogConfigList;
+  auditLogConfigs?: GoogleIamV1AuditLogConfigList | undefined;
 }
 export type GoogleIamV1AuditConfigList = Array<GoogleIamV1AuditConfig>;
 /** Represents a textual expression in the Common Expression Language (CEL) syntax. CEL is a C-like expression language. The syntax and semantics of CEL are documented at https://github.com/google/cel-spec. Example (Comparison): title: "Summary size limit" description: "Determines if a summary is less than 100 chars" expression: "document.summary.size() < 100" Example (Equality): title: "Requestor is owner" description: "Determines if requestor is the document owner" expression: "document.owner == request.auth.claims.email" Example (Logic): title: "Public documents" description: "Determine whether the document should be publicly visible" expression: "document.type != 'private' && document.type != 'internal'" Example (Data Manipulation): title: "Notification string" description: "Create a notification string with a timestamp." expression: "'New message received at ' + string(document.create_time)" The exact variables and functions that may be referenced within an expression are determined by the service that evaluates it. See the service documentation for additional information. */
 export interface GoogleTypeExpr {
   /** Optional. Description of the expression. This is a longer text which describes the expression, e.g. when hovered over it in a UI. */
-  description?: string;
+  description?: string | undefined;
   /** Optional. String indicating the location of the expression for error reporting, e.g. a file name and a position in the file. */
-  location?: string;
+  location?: string | undefined;
   /** Optional. Title for the expression, i.e. a short string describing its purpose. This can be used e.g. in UIs which allow to enter the expression. */
-  title?: string;
+  title?: string | undefined;
   /** Textual representation of an expression in Common Expression Language syntax. */
-  expression?: string;
+  expression?: string | undefined;
 }
 /** Associates `members`, or principals, with a `role`. */
 export interface GoogleIamV1Binding {
   /** Role that is assigned to the list of `members`, or principals. For example, `roles/viewer`, `roles/editor`, or `roles/owner`. For an overview of the IAM roles and permissions, see the [IAM documentation](https://cloud.google.com/iam/docs/roles-overview). For a list of the available pre-defined roles, see [here](https://cloud.google.com/iam/docs/understanding-roles). */
-  role?: string;
+  role?: string | undefined;
   /** Specifies the principals requesting access for a Google Cloud resource. `members` can have the following values: * `allUsers`: A special identifier that represents anyone who is on the internet; with or without a Google account. * `allAuthenticatedUsers`: A special identifier that represents anyone who is authenticated with a Google account or a service account. Does not include identities that come from external identity providers (IdPs) through identity federation. * `user:{emailid}`: An email address that represents a specific Google account. For example, `alice@example.com` . * `serviceAccount:{emailid}`: An email address that represents a Google service account. For example, `my-other-app@appspot.gserviceaccount.com`. * `serviceAccount:{projectid}.svc.id.goog[{namespace}/{kubernetes-sa}]`: An identifier for a [Kubernetes service account](https://cloud.google.com/kubernetes-engine/docs/how-to/kubernetes-service-accounts). For example, `my-project.svc.id.goog[my-namespace/my-kubernetes-sa]`. * `group:{emailid}`: An email address that represents a Google group. For example, `admins@example.com`. * `domain:{domain}`: The G Suite domain (primary) that represents all the users of that domain. For example, `google.com` or `example.com`. * `principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workforce identity pool. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/group/{group_id}`: All workforce identities in a group. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All workforce identities with a specific attribute value. * `principalSet://iam.googleapis.com/locations/global/workforcePools/{pool_id}/*`: All identities in a workforce identity pool. * `principal://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/subject/{subject_attribute_value}`: A single identity in a workload identity pool. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/group/{group_id}`: A workload identity pool group. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/attribute.{attribute_name}/{attribute_value}`: All identities in a workload identity pool with a certain attribute. * `principalSet://iam.googleapis.com/projects/{project_number}/locations/global/workloadIdentityPools/{pool_id}/*`: All identities in a workload identity pool. * `deleted:user:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a user that has been recently deleted. For example, `alice@example.com?uid=123456789012345678901`. If the user is recovered, this value reverts to `user:{emailid}` and the recovered user retains the role in the binding. * `deleted:serviceAccount:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a service account that has been recently deleted. For example, `my-other-app@appspot.gserviceaccount.com?uid=123456789012345678901`. If the service account is undeleted, this value reverts to `serviceAccount:{emailid}` and the undeleted service account retains the role in the binding. * `deleted:group:{emailid}?uid={uniqueid}`: An email address (plus unique identifier) representing a Google group that has been recently deleted. For example, `admins@example.com?uid=123456789012345678901`. If the group is recovered, this value reverts to `group:{emailid}` and the recovered group retains the role in the binding. * `deleted:principal://iam.googleapis.com/locations/global/workforcePools/{pool_id}/subject/{subject_attribute_value}`: Deleted single identity in a workforce identity pool. For example, `deleted:principal://iam.googleapis.com/locations/global/workforcePools/my-pool-id/subject/my-subject-attribute-value`. */
-  members?: StringList;
+  members?: StringList | undefined;
   /** The condition that is associated with this binding. If the condition evaluates to `true`, then this binding applies to the current request. If the condition evaluates to `false`, then this binding does not apply to the current request. However, a different role binding might grant the same role to one or more of the principals in this binding. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  condition?: GoogleTypeExpr;
+  condition?: GoogleTypeExpr | undefined;
 }
 export type GoogleIamV1BindingList = Array<GoogleIamV1Binding>;
 /** An Identity and Access Management (IAM) policy, which specifies access controls for Google Cloud resources. A `Policy` is a collection of `bindings`. A `binding` binds one or more `members`, or principals, to a single `role`. Principals can be user accounts, service accounts, Google groups, and domains (such as G Suite). A `role` is a named list of permissions; each `role` can be an IAM predefined role or a user-created custom role. For some types of Google Cloud resources, a `binding` can also specify a `condition`, which is a logical expression that allows access to a resource only if the expression evaluates to `true`. A condition can add constraints based on attributes of the request, the resource, or both. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). **JSON example:** ``` { "bindings": [ { "role": "roles/resourcemanager.organizationAdmin", "members": [ "user:mike@example.com", "group:admins@example.com", "domain:google.com", "serviceAccount:my-project-id@appspot.gserviceaccount.com" ] }, { "role": "roles/resourcemanager.organizationViewer", "members": [ "user:eve@example.com" ], "condition": { "title": "expirable access", "description": "Does not grant access after Sep 2020", "expression": "request.time < timestamp('2020-10-01T00:00:00.000Z')", } } ], "etag": "BwWWja0YfJA=", "version": 3 } ``` **YAML example:** ``` bindings: - members: - user:mike@example.com - group:admins@example.com - domain:google.com - serviceAccount:my-project-id@appspot.gserviceaccount.com role: roles/resourcemanager.organizationAdmin - members: - user:eve@example.com role: roles/resourcemanager.organizationViewer condition: title: expirable access description: Does not grant access after Sep 2020 expression: request.time < timestamp('2020-10-01T00:00:00.000Z') etag: BwWWja0YfJA= version: 3 ``` For a description of IAM and its features, see the [IAM documentation](https://cloud.google.com/iam/docs/). */
 export interface GoogleIamV1Policy {
   /** Specifies cloud audit logging configuration for this policy. */
-  auditConfigs?: GoogleIamV1AuditConfigList;
+  auditConfigs?: GoogleIamV1AuditConfigList | undefined;
   /** `etag` is used for optimistic concurrency control as a way to help prevent simultaneous updates of a policy from overwriting each other. It is strongly suggested that systems make use of the `etag` in the read-modify-write cycle to perform policy updates in order to avoid race conditions: An `etag` is returned in the response to `getIamPolicy`, and systems are expected to put that etag in the request to `setIamPolicy` to ensure that their change will be applied to the same version of the policy. **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. */
-  etag?: string;
+  etag?: string | undefined;
   /** Associates a list of `members`, or principals, with a `role`. Optionally, may specify a `condition` that determines how and when the `bindings` are applied. Each of the `bindings` must contain at least one principal. The `bindings` in a `Policy` can refer to up to 1,500 principals; up to 250 of these principals can be Google groups. Each occurrence of a principal counts towards these limits. For example, if the `bindings` grant 50 different roles to `user:alice@example.com`, and not to any other principal, then you can add another 1,450 principals to the `bindings` in the `Policy`. */
-  bindings?: GoogleIamV1BindingList;
+  bindings?: GoogleIamV1BindingList | undefined;
   /** Specifies the format of the policy. Valid values are `0`, `1`, and `3`. Requests that specify an invalid value are rejected. Any operation that affects conditional role bindings must specify version `3`. This requirement applies to the following operations: * Getting a policy that includes a conditional role binding * Adding a conditional role binding to a policy * Changing a conditional role binding in a policy * Removing any role binding, with or without a condition, from a policy that includes conditions **Important:** If you use IAM Conditions, you must include the `etag` field whenever you call `setIamPolicy`. If you omit this field, then IAM allows you to overwrite a version `3` policy with a version `1` policy, and all of the conditions in the version `3` policy are lost. If a policy does not include any conditions, operations on that policy may specify any valid version or leave the field unset. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  version?: number;
+  version?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsJobsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetIamPolicyProjectsLocationsServicesRequest {
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
 }
@@ -1417,7 +1429,7 @@ export interface GetIamPolicyProjectsLocationsWorkerPoolsRequest {
   /** REQUIRED: The resource for which the policy is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Optional. The maximum policy version that will be used to format the policy. Valid values are 0, 1, and 3. Requests specifying an invalid value will be rejected. Requests for policies with any conditional role bindings must specify version 3. Policies with no conditional role bindings may specify any valid value or leave the field unset. The policy in the response might use the policy version that you specified, or it might use a lower policy version. For example, if you specify version 3, but the policy has no conditional role bindings, the response uses version 1. To learn which resources support conditions in their IAM policies, see the [IAM documentation](https://cloud.google.com/iam/help/conditions/resource-policies). */
-  "options.requestedPolicyVersion"?: number;
+  "options.requestedPolicyVersion"?: number | undefined;
 }
 export interface GetProjectsLocationsInstancesRequest {
   /** Required. The name of the Instance to retrieve. */
@@ -1443,65 +1455,65 @@ export type GoogleCloudRunV2ExecutionLaunchStageEnum =
 /** Execution represents the configuration of a single execution. A execution an immutable resource that references a container image which is run to completion. */
 export interface GoogleCloudRunV2Execution {
   /** Output only. The number of actively running tasks. */
-  runningCount?: number;
+  runningCount?: number | undefined;
   /** Output only. URI where logs for this execution can be found in Cloud Console. */
-  logUri?: string;
+  logUri?: string | undefined;
   /** Output only. The name of the parent Job. */
-  job?: string;
+  job?: string | undefined;
   /** Output only. The number of tasks which reached phase Succeeded. */
-  succeededCount?: number;
+  succeededCount?: number | undefined;
   /** Output only. Arbitrary version identifier for the API client. */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
   /** Output only. Specifies the desired number of tasks the execution should run. Setting to 1 means that parallelism is limited to 1 and the success of that task signals the success of the execution. */
-  taskCount?: number;
+  taskCount?: number | undefined;
   /** Output only. Indicates whether the resource's reconciliation is still in progress. See comments in `Job.reconciling` for additional information on reconciliation process in Cloud Run. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. Specifies the maximum desired number of tasks the execution should run at any given time. Must be <= task_count. The actual number of tasks running in steady state will be less than this number when ((.spec.task_count - .status.successful) < .spec.parallelism), i.e. when the work left to do is less than max parallelism. */
-  parallelism?: number;
+  parallelism?: number | undefined;
   /** Output only. The generation of this Execution. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  observedGeneration?: string;
+  observedGeneration?: string | undefined;
   /** Output only. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. Represents time when the execution was completed. It is not guaranteed to be set in happens-before order across separate operations. */
-  completionTime?: string;
+  completionTime?: string | undefined;
   /** Output only. For a deleted resource, the deletion time. It is only populated as a response to a Delete request. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Output only. Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. The Condition of this Execution, containing its readiness status, and detailed error information in case it did not reach the desired state. */
-  conditions?: GoogleCloudRunV2ConditionList;
+  conditions?: GoogleCloudRunV2ConditionList | undefined;
   /** Output only. The number of tasks which have retried at least once. */
-  retriedCount?: number;
+  retriedCount?: number | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. A number that monotonically increases every time the user modifies the desired state. */
-  generation?: string;
+  generation?: string | undefined;
   /** Output only. The number of tasks which reached phase Failed. */
-  failedCount?: number;
+  failedCount?: number | undefined;
   /** Output only. Represents time when the execution was acknowledged by the execution controller. It is not guaranteed to be set in happens-before order across separate operations. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Represents time when the execution started to run. It is not guaranteed to be set in happens-before order across separate operations. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Email address of the authenticated creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** Output only. Arbitrary identifier for the API client. */
-  client?: string;
+  client?: string | undefined;
   /** Output only. For a deleted resource, the time after which it will be permamently deleted. It is only populated as a response to a Delete request. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. Server assigned unique identifier for the Execution. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. The unique name of this Execution. */
-  name?: string;
+  name?: string | undefined;
   /** The least stable launch stage needed to create this resource, as defined by [Google Cloud Platform Launch Stages](https://cloud.google.com/terms/launch-stages). Cloud Run supports `ALPHA`, `BETA`, and `GA`. Note that this value might not be what was used as input. For example, if ALPHA was provided as input in the parent resource, but only BETA and GA-level features are used, this field will be BETA. */
-  launchStage?: GoogleCloudRunV2ExecutionLaunchStageEnum;
+  launchStage?: GoogleCloudRunV2ExecutionLaunchStageEnum | undefined;
   /** Output only. The number of tasks which reached phase Cancelled. */
-  cancelledCount?: number;
+  cancelledCount?: number | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Output only. The template used to create tasks for this execution. */
-  template?: GoogleCloudRunV2TaskTemplate;
+  template?: GoogleCloudRunV2TaskTemplate | undefined;
 }
 export interface GetProjectsLocationsJobsExecutionsTasksRequest {
   /** Required. The full name of the Task. Format: projects/{project}/locations/{location}/jobs/{job}/executions/{execution}/tasks/{task} */
@@ -1514,82 +1526,82 @@ export type GoogleCloudRunV2TaskExecutionEnvironmentEnum =
 /** Result of a task attempt. */
 export interface GoogleCloudRunV2TaskAttemptResult {
   /** Output only. The status of this attempt. If the status code is OK, then the attempt succeeded. */
-  status?: GoogleRpcStatus;
+  status?: GoogleRpcStatus | undefined;
   /** Output only. The exit code of this attempt. This may be unset if the container was unable to exit cleanly with a code due to some other failure. See status field for possible failure details. At most one of exit_code or term_signal will be set. */
-  exitCode?: number;
+  exitCode?: number | undefined;
   /** Output only. Termination signal of the container. This is set to non-zero if the container is terminated by the system. At most one of exit_code or term_signal will be set. */
-  termSignal?: number;
+  termSignal?: number | undefined;
 }
 /** Task represents a single run of a container to completion. */
 export interface GoogleCloudRunV2Task {
   /** Output only. A reference to a customer managed encryption key (CMEK) to use to encrypt this container image. For more information, go to https://cloud.google.com/run/docs/securing/using-cmek */
-  encryptionKey?: string;
+  encryptionKey?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Output only. A number that monotonically increases every time the user modifies the desired state. */
-  generation?: string;
+  generation?: string | undefined;
   /** Output only. A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Output only. The unique name of this Task. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Represents time when the task was created by the system. It is not guaranteed to be set in happens-before order across separate operations. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The name of the parent Job. */
-  job?: string;
+  job?: string | undefined;
   /** Output only. Indicates whether the resource's reconciliation is still in progress. See comments in `Job.reconciling` for additional information on reconciliation process in Cloud Run. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** The execution environment being used to host this Task. */
-  executionEnvironment?: GoogleCloudRunV2TaskExecutionEnvironmentEnum;
+  executionEnvironment?: GoogleCloudRunV2TaskExecutionEnvironmentEnum | undefined;
   /** Output only. The node selector for the task. */
-  nodeSelector?: GoogleCloudRunV2NodeSelector;
+  nodeSelector?: GoogleCloudRunV2NodeSelector | undefined;
   /** Output only. For a deleted resource, the time after which it will be permamently deleted. It is only populated as a response to a Delete request. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** Output only. The number of times this Task was retried. Tasks are retried when they fail up to the maxRetries limit. */
-  retried?: number;
+  retried?: number | undefined;
   /** Output only. Result of the last attempt of this Task. */
-  lastAttemptResult?: GoogleCloudRunV2TaskAttemptResult;
+  lastAttemptResult?: GoogleCloudRunV2TaskAttemptResult | undefined;
   /** Output only. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Number of retries allowed per Task, before marking this Task failed. */
-  maxRetries?: number;
+  maxRetries?: number | undefined;
   /** Output only. The generation of this Task. See comments in `Job.reconciling` for additional information on reconciliation process in Cloud Run. */
-  observedGeneration?: string;
+  observedGeneration?: string | undefined;
   /** Output only. Index of the Task, unique per execution, and beginning at 0. */
-  index?: number;
+  index?: number | undefined;
   /** Output only. VPC Access configuration to use for this Task. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc. */
-  vpcAccess?: GoogleCloudRunV2VpcAccess;
+  vpcAccess?: GoogleCloudRunV2VpcAccess | undefined;
   /** Optional. The Task's workload identity settings. */
-  workloadIdentityConfig?: GoogleCloudRunV2WorkloadIdentityConfig;
+  workloadIdentityConfig?: GoogleCloudRunV2WorkloadIdentityConfig | undefined;
   /** Holds the single container that defines the unit of execution for this task. */
-  containers?: GoogleCloudRunV2ContainerList;
+  containers?: GoogleCloudRunV2ContainerList | undefined;
   /** Output only. Represents time when the task started to run. It is not guaranteed to be set in happens-before order across separate operations. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** Output only. Represents time when the task was scheduled to run by the system. It is not guaranteed to be set in happens-before order across separate operations. */
-  scheduledTime?: string;
+  scheduledTime?: string | undefined;
   /** Output only. The name of the parent Execution. */
-  execution?: string;
+  execution?: string | undefined;
   /** Output only. URI where logs for this execution can be found in Cloud Console. */
-  logUri?: string;
+  logUri?: string | undefined;
   /** Max allowed time duration the Task may be active before the system will actively try to mark it failed and kill associated containers. This applies per attempt of a task, meaning each retry can run for the full timeout. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Email address of the IAM service account associated with the Task of a Job. The service account represents the identity of the running task, and determines what permissions the task has. If not provided, the task will use the project's default service account. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Output only. Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Represents time when the Task was completed. It is not guaranteed to be set in happens-before order across separate operations. */
-  completionTime?: string;
+  completionTime?: string | undefined;
   /** A list of Volumes to make available to containers. */
-  volumes?: GoogleCloudRunV2VolumeList;
+  volumes?: GoogleCloudRunV2VolumeList | undefined;
   /** Output only. For a deleted resource, the deletion time. It is only populated as a response to a Delete request. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Output only. Server assigned unique identifier for the Task. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. The Condition of this Task, containing its readiness status, and detailed error information in case it did not reach the desired state. */
-  conditions?: GoogleCloudRunV2ConditionList;
+  conditions?: GoogleCloudRunV2ConditionList | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Optional. Output only. True if GPU zonal redundancy is disabled on this task. */
-  gpuZonalRedundancyDisabled?: boolean;
+  gpuZonalRedundancyDisabled?: boolean | undefined;
 }
 export interface GetProjectsLocationsOperationsRequest {
   /** The name of the operation resource. */
@@ -1610,7 +1622,7 @@ export type GoogleCloudRunV2RevisionExecutionEnvironmentEnum =
 /** Effective settings for the current revision */
 export interface GoogleCloudRunV2RevisionScalingStatus {
   /** The current number of min instances provisioned for this revision. */
-  desiredMinInstanceCount?: number;
+  desiredMinInstanceCount?: number | undefined;
 }
 export type GoogleCloudRunV2RevisionEncryptionKeyRevocationActionEnum =
   | "ENCRYPTION_KEY_REVOCATION_ACTION_UNSPECIFIED"
@@ -1628,79 +1640,81 @@ export type GoogleCloudRunV2RevisionLaunchStageEnum =
 /** A Revision is an immutable snapshot of code and configuration. A Revision references a container image. Revisions are only created by updates to its parent Service. */
 export interface GoogleCloudRunV2Revision {
   /** A list of Volumes to make available to containers. */
-  volumes?: GoogleCloudRunV2VolumeList;
+  volumes?: GoogleCloudRunV2VolumeList | undefined;
   /** Output only. The Google Console URI to obtain logs for the Revision. */
-  logUri?: string;
+  logUri?: string | undefined;
   /** If encryption_key_revocation_action is SHUTDOWN, the duration before shutting down all instances. The minimum increment is 1 hour. */
-  encryptionKeyShutdownDuration?: string;
+  encryptionKeyShutdownDuration?: string | undefined;
   /** The execution environment being used to host this Revision. */
-  executionEnvironment?: GoogleCloudRunV2RevisionExecutionEnvironmentEnum;
+  executionEnvironment?: GoogleCloudRunV2RevisionExecutionEnvironmentEnum | undefined;
   /** Sets the maximum number of requests that each serving instance can receive. */
-  maxInstanceRequestConcurrency?: number;
+  maxInstanceRequestConcurrency?: number | undefined;
   /** Output only. The current effective scaling settings for the revision. */
-  scalingStatus?: GoogleCloudRunV2RevisionScalingStatus;
+  scalingStatus?: GoogleCloudRunV2RevisionScalingStatus | undefined;
   /** Optional. Output only. True if GPU zonal redundancy is disabled on this revision. */
-  gpuZonalRedundancyDisabled?: boolean;
+  gpuZonalRedundancyDisabled?: boolean | undefined;
   /** Output only. Email address of the authenticated creator. */
-  creator?: string;
+  creator?: string | undefined;
   /** The action to take if the encryption key is revoked. */
-  encryptionKeyRevocationAction?: GoogleCloudRunV2RevisionEncryptionKeyRevocationActionEnum;
+  encryptionKeyRevocationAction?:
+    | GoogleCloudRunV2RevisionEncryptionKeyRevocationActionEnum
+    | undefined;
   /** Enable session affinity. */
-  sessionAffinity?: boolean;
+  sessionAffinity?: boolean | undefined;
   /** Output only. For a deleted resource, the time after which it will be permamently deleted. It is only populated as a response to a Delete request. */
-  expireTime?: string;
+  expireTime?: string | undefined;
   /** The least stable launch stage needed to create this resource, as defined by [Google Cloud Platform Launch Stages](https://cloud.google.com/terms/launch-stages). Cloud Run supports `ALPHA`, `BETA`, and `GA`. Note that this value might not be what was used as input. For example, if ALPHA was provided as input in the parent resource, but only BETA and GA-level features are used, this field will be BETA. */
-  launchStage?: GoogleCloudRunV2RevisionLaunchStageEnum;
+  launchStage?: GoogleCloudRunV2RevisionLaunchStageEnum | undefined;
   /** Max allowed time for an instance to respond to a request. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Output only. Arbitrary version identifier for the API client. */
-  clientVersion?: string;
+  clientVersion?: string | undefined;
   /** Output only. The creation time. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Unstructured key value map that can be used to organize and categorize objects. User-provided labels are shared with Google's billing system, so they can be used to filter, or break down billing charges by team, component, environment, state, etc. For more information, visit https://cloud.google.com/resource-manager/docs/creating-managing-labels or https://cloud.google.com/run/docs/configuring/labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. A number that monotonically increases every time the user modifies the desired state. */
-  generation?: string;
+  generation?: string | undefined;
   /** Email address of the IAM service account associated with the revision of the service. The service account represents the identity of the running revision, and determines what permissions the revision has. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Output only. The last-modified time. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. For a deleted resource, the deletion time. It is only populated as a response to a Delete request. */
-  deleteTime?: string;
+  deleteTime?: string | undefined;
   /** Output only. Indicates whether the resource's reconciliation is still in progress. See comments in `Service.reconciling` for additional information on reconciliation process in Cloud Run. */
-  reconciling?: boolean;
+  reconciling?: boolean | undefined;
   /** Output only. The Condition of this Revision, containing its readiness status, and detailed error information in case it did not reach a serving state. */
-  conditions?: GoogleCloudRunV2ConditionList;
+  conditions?: GoogleCloudRunV2ConditionList | undefined;
   /** Output only. Arbitrary identifier for the API client. */
-  client?: string;
+  client?: string | undefined;
   /** Output only. The unique name of this Revision. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Enables service mesh connectivity. */
-  serviceMesh?: GoogleCloudRunV2ServiceMesh;
+  serviceMesh?: GoogleCloudRunV2ServiceMesh | undefined;
   /** Optional. The Revision's workload identity settings. */
-  workloadIdentityConfig?: GoogleCloudRunV2WorkloadIdentityConfig;
+  workloadIdentityConfig?: GoogleCloudRunV2WorkloadIdentityConfig | undefined;
   /** VPC Access configuration for this Revision. For more information, visit https://cloud.google.com/run/docs/configuring/connecting-vpc. */
-  vpcAccess?: GoogleCloudRunV2VpcAccess;
+  vpcAccess?: GoogleCloudRunV2VpcAccess | undefined;
   /** Scaling settings for this revision. */
-  scaling?: GoogleCloudRunV2RevisionScaling;
+  scaling?: GoogleCloudRunV2RevisionScaling | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** A reference to a customer managed encryption key (CMEK) to use to encrypt this container image. For more information, go to https://cloud.google.com/run/docs/securing/using-cmek */
-  encryptionKey?: string;
+  encryptionKey?: string | undefined;
   /** Output only. Server assigned unique identifier for the Revision. The value is a UUID4 string and guaranteed to remain unchanged until the resource is deleted. */
-  uid?: string;
+  uid?: string | undefined;
   /** Output only. Unstructured key value map that may be set by external tools to store and arbitrary metadata. They are not queryable and should be preserved when modifying objects. */
-  annotations?: StringMap;
+  annotations?: StringMap | undefined;
   /** Output only. The generation of this Revision currently serving traffic. See comments in `reconciling` for additional information on reconciliation process in Cloud Run. */
-  observedGeneration?: string;
+  observedGeneration?: string | undefined;
   /** Output only. The name of the parent service. */
-  service?: string;
+  service?: string | undefined;
   /** The node selector for the revision. */
-  nodeSelector?: GoogleCloudRunV2NodeSelector;
+  nodeSelector?: GoogleCloudRunV2NodeSelector | undefined;
   /** Holds the list which define the units of execution for this Revision. */
-  containers?: GoogleCloudRunV2ContainerList;
+  containers?: GoogleCloudRunV2ContainerList | undefined;
 }
 export interface GetProjectsLocationsWorkerPoolsRequest {
   /** Required. The full name of the WorkerPool. Format: `projects/{project}/locations/{location}/workerPools/{worker_pool}`, where `{project}` can be project id or number. */
@@ -1712,47 +1726,47 @@ export interface GetProjectsLocationsWorkerPoolsRevisionsRequest {
 }
 export interface ListProjectsLocationsInstancesRequest {
   /** Optional. Maximum number of Instances to return in this call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. If true, returns deleted (but unexpired) resources along with active ones. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** Required. The location and project to list resources on. */
   parent: string;
   /** Optional. A page token received from a previous call to ListInstances. All other parameters must match. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudRunV2InstanceList = Array<GoogleCloudRunV2Instance>;
 /** Response message containing a list of Instances. */
 export interface GoogleCloudRunV2ListInstancesResponse {
   /** A token indicating there are more items than page_size. Use it in the next ListInstances request to continue. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The resulting list of Instances. */
-  instances?: GoogleCloudRunV2InstanceList;
+  instances?: GoogleCloudRunV2InstanceList | undefined;
 }
 export interface ListProjectsLocationsJobsRequest {
   /** Required. The location and project to list resources on. Format: projects/{project}/locations/{location}, where {project} can be project id or number. */
   parent: string;
   /** A page token received from a previous call to ListJobs. All other parameters must match. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** If true, returns deleted (but unexpired) resources along with active ones. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** Maximum number of Jobs to return in this call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type GoogleCloudRunV2JobList = Array<GoogleCloudRunV2Job>;
 /** Response message containing a list of Jobs. */
 export interface GoogleCloudRunV2ListJobsResponse {
   /** A token indicating there are more items than page_size. Use it in the next ListJobs request to continue. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The resulting list of Jobs. */
-  jobs?: GoogleCloudRunV2JobList;
+  jobs?: GoogleCloudRunV2JobList | undefined;
 }
 export interface ListProjectsLocationsJobsExecutionsRequest {
   /** Maximum number of Executions to return in this call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** If true, returns deleted (but unexpired) resources along with active ones. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** A page token received from a previous call to ListExecutions. All other parameters must match. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The Execution from which the Executions should be listed. To list all Executions across Jobs, use "-" instead of Job name. Format: `projects/{project}/locations/{location}/jobs/{job}`, where `{project}` can be project id or number. */
   parent: string;
 }
@@ -1760,17 +1774,17 @@ export type GoogleCloudRunV2ExecutionList = Array<GoogleCloudRunV2Execution>;
 /** Response message containing a list of Executions. */
 export interface GoogleCloudRunV2ListExecutionsResponse {
   /** The resulting list of Executions. */
-  executions?: GoogleCloudRunV2ExecutionList;
+  executions?: GoogleCloudRunV2ExecutionList | undefined;
   /** A token indicating there are more items than page_size. Use it in the next ListExecutions request to continue. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsJobsExecutionsTasksRequest {
   /** A page token received from a previous call to ListTasks. All other parameters must match. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of Tasks to return in this call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** If true, returns deleted (but unexpired) resources along with active ones. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** Required. The Execution from which the Tasks should be listed. To list all Tasks across Executions of a Job, use "-" instead of Execution name. To list all Tasks across Jobs, use "-" instead of Job name. Format: projects/{project}/locations/{location}/jobs/{job}/executions/{execution} */
   parent: string;
 }
@@ -1778,19 +1792,19 @@ export type GoogleCloudRunV2TaskList = Array<GoogleCloudRunV2Task>;
 /** Response message containing a list of Tasks. */
 export interface GoogleCloudRunV2ListTasksResponse {
   /** A token indicating there are more items than page_size. Use it in the next ListTasks request to continue. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The resulting list of Tasks. */
-  tasks?: GoogleCloudRunV2TaskList;
+  tasks?: GoogleCloudRunV2TaskList | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** Optional. A filter for matching the completed or in-progress operations. The supported formats of *filter* are: To query for only completed operations: done:true To query for only ongoing operations: done:false Must be empty to query for all of the latest operations for the given parent project. */
-  filter?: string;
+  filter?: string | undefined;
   /** Token identifying which result to start with, which is returned by a previous list call. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The maximum number of records that should be returned. Requested page size cannot exceed 100. If not set or set to less than or equal to 0, the default page size is 100. . */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. To query for all of the operations for a project. */
   name: string;
 }
@@ -1798,39 +1812,39 @@ export type GoogleLongrunningOperationList = Array<GoogleLongrunningOperation>;
 /** The response message for Operations.ListOperations. */
 export interface GoogleLongrunningListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: GoogleLongrunningOperationList;
+  operations?: GoogleLongrunningOperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsServicesRequest {
   /** Required. The location and project to list resources on. Location must be a valid Google Cloud region, and cannot be the "-" wildcard. Format: projects/{project}/locations/{location}, where {project} can be project id or number. */
   parent: string;
   /** If true, returns deleted (but unexpired) resources along with active ones. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** Maximum number of Services to return in this call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from a previous call to ListServices. All other parameters must match. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudRunV2ServiceList = Array<GoogleCloudRunV2Service>;
 /** Response message containing a list of Services. */
 export interface GoogleCloudRunV2ListServicesResponse {
   /** The resulting list of Services. */
-  services?: GoogleCloudRunV2ServiceList;
+  services?: GoogleCloudRunV2ServiceList | undefined;
   /** Output only. For global requests, returns the list of regions that could not be reached within the deadline. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token indicating there are more items than page_size. Use it in the next ListServices request to continue. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsServicesRevisionsRequest {
   /** A page token received from a previous call to ListRevisions. All other parameters must match. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** If true, returns deleted (but unexpired) resources along with active ones. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** Maximum number of revisions to return in this call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The Service from which the Revisions should be listed. To list all Revisions across Services, use "-" instead of Service name. Format: projects/{project}/locations/{location}/services/{service} */
   parent: string;
 }
@@ -1838,169 +1852,169 @@ export type GoogleCloudRunV2RevisionList = Array<GoogleCloudRunV2Revision>;
 /** Response message containing a list of Revisions. */
 export interface GoogleCloudRunV2ListRevisionsResponse {
   /** A token indicating there are more items than page_size. Use it in the next ListRevisions request to continue. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The resulting list of Revisions. */
-  revisions?: GoogleCloudRunV2RevisionList;
+  revisions?: GoogleCloudRunV2RevisionList | undefined;
 }
 export interface ListProjectsLocationsWorkerPoolsRequest {
   /** If true, returns deleted (but unexpired) resources along with active ones. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** Maximum number of WorkerPools to return in this call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The location and project to list resources on. Location must be a valid Google Cloud region, and cannot be the "-" wildcard. Format: `projects/{project}/locations/{location}`, where `{project}` can be project id or number. */
   parent: string;
   /** A page token received from a previous call to ListWorkerPools. All other parameters must match. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type GoogleCloudRunV2WorkerPoolList = Array<GoogleCloudRunV2WorkerPool>;
 /** Response message containing a list of WorkerPools. */
 export interface GoogleCloudRunV2ListWorkerPoolsResponse {
   /** The resulting list of WorkerPools. */
-  workerPools?: GoogleCloudRunV2WorkerPoolList;
+  workerPools?: GoogleCloudRunV2WorkerPoolList | undefined;
   /** A token indicating there are more items than page_size. Use it in the next ListWorkerPools request to continue. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsWorkerPoolsRevisionsRequest {
   /** A page token received from a previous call to ListRevisions. All other parameters must match. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The Service from which the Revisions should be listed. To list all Revisions across Services, use "-" instead of Service name. Format: projects/{project}/locations/{location}/services/{service} */
   parent: string;
   /** If true, returns deleted (but unexpired) resources along with active ones. */
-  showDeleted?: boolean;
+  showDeleted?: boolean | undefined;
   /** Maximum number of revisions to return in this call. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export interface PatchProjectsLocationsInstancesRequest {
   /** The fully qualified name of this Instance. In `CreateInstanceRequest`, this field is ignored, and instead composed from `CreateInstanceRequest.parent` and `CreateInstanceRequest.instance_id`. */
   name: string;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or updating any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set to `true`, and if the Instance does not exist, it will create a new one. The caller must have `run.instances.create` permissions if this is set to `true` and the Instance does not exist. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Request body */
-  body?: GoogleCloudRunV2Instance;
+  body?: GoogleCloudRunV2Instance | undefined;
 }
 export interface PatchProjectsLocationsJobsRequest {
   /** The fully qualified name of this Job. Format: projects/{project}/locations/{location}/jobs/{job} */
   name: string;
   /** Optional. If set to true, and if the Job does not exist, it will create a new one. Caller must have both create and update permissions for this call if this is set to true. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Indicates that the request should be validated and default values populated, without persisting the request or updating any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudRunV2Job;
+  body?: GoogleCloudRunV2Job | undefined;
 }
 export interface PatchProjectsLocationsServicesRequest {
   /** Optional. If set to true, a new revision will be created from the template even if the system doesn't detect any changes from the previously deployed revision. This may be useful for cases where the underlying resources need to be recreated or reinitialized. For example if the image is specified by label, but the underlying image digest has changed) or if the container performs deployment initialization work that needs to be performed again. */
-  forceNewRevision?: boolean;
+  forceNewRevision?: boolean | undefined;
   /** Identifier. The fully qualified name of this Service. In CreateServiceRequest, this field is ignored, and instead composed from CreateServiceRequest.parent and CreateServiceRequest.service_id. Format: projects/{project}/locations/{location}/services/{service_id} */
   name: string;
   /** Optional. If set to true, and if the Service does not exist, it will create a new one. The caller must have 'run.services.create' permissions if this is set to true and the Service does not exist. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** Optional. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Indicates that the request should be validated and default values populated, without persisting the request or updating any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudRunV2Service;
+  body?: GoogleCloudRunV2Service | undefined;
 }
 export interface PatchProjectsLocationsWorkerPoolsRequest {
   /** Optional. If set to true, and if the WorkerPool does not exist, it will create a new one. The caller must have 'run.workerpools.create' permissions if this is set to true and the WorkerPool does not exist. */
-  allowMissing?: boolean;
+  allowMissing?: boolean | undefined;
   /** The fully qualified name of this WorkerPool. In CreateWorkerPoolRequest, this field is ignored, and instead composed from CreateWorkerPoolRequest.parent and CreateWorkerPoolRequest.worker_id. Format: `projects/{project}/locations/{location}/workerPools/{worker_id}` */
   name: string;
   /** Optional. The list of fields to be updated. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. Indicates that the request should be validated and default values populated, without persisting the request or updating any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set to true, a new revision will be created from the template even if the system doesn't detect any changes from the previously deployed revision. This may be useful for cases where the underlying resources need to be recreated or reinitialized. For example if the image is specified by label, but the underlying image digest has changed) or if the container performs deployment initialization work that needs to be performed again. */
-  forceNewRevision?: boolean;
+  forceNewRevision?: boolean | undefined;
   /** Request body */
-  body?: GoogleCloudRunV2WorkerPool;
+  body?: GoogleCloudRunV2WorkerPool | undefined;
 }
 /** Per-container override specification. */
 export interface GoogleCloudRunV2ContainerOverride {
   /** Optional. Arguments to the entrypoint. Will replace existing args for override. */
-  args?: StringList;
+  args?: StringList | undefined;
   /** List of environment variables to set in the container. Will be merged with existing env for override. */
-  env?: GoogleCloudRunV2EnvVarList;
+  env?: GoogleCloudRunV2EnvVarList | undefined;
   /** Optional. True if the intention is to clear out existing args list. */
-  clearArgs?: boolean;
+  clearArgs?: boolean | undefined;
   /** The name of the container specified as a DNS_LABEL. */
-  name?: string;
+  name?: string | undefined;
 }
 export type GoogleCloudRunV2ContainerOverrideList = Array<GoogleCloudRunV2ContainerOverride>;
 /** RunJob Overrides that contains Execution fields to be overridden. */
 export interface GoogleCloudRunV2Overrides {
   /** Duration in seconds the task may be active before the system will actively try to mark it failed and kill associated containers. Will replace existing timeout_seconds value. */
-  timeout?: string;
+  timeout?: string | undefined;
   /** Per container override specification. */
-  containerOverrides?: GoogleCloudRunV2ContainerOverrideList;
+  containerOverrides?: GoogleCloudRunV2ContainerOverrideList | undefined;
   /** Optional. If true, the system will start the execution within the next 12 hours depending on available capacity. */
-  delayExecution?: boolean;
+  delayExecution?: boolean | undefined;
   /** Optional. The desired number of tasks the execution should run. Will replace existing task_count value. */
-  taskCount?: number;
+  taskCount?: number | undefined;
 }
 /** Request message to create a new Execution of a Job. */
 export interface GoogleCloudRunV2RunJobRequest {
   /** Indicates that the request should be validated without actually deleting any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** A system-generated fingerprint for this version of the resource. May be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Overrides specification for a given execution of a job. If provided, overrides will be applied to update the execution or task spec. */
-  overrides?: GoogleCloudRunV2Overrides;
+  overrides?: GoogleCloudRunV2Overrides | undefined;
 }
 export interface RunProjectsLocationsJobsRequest {
   /** Required. The full name of the Job. Format: projects/{project}/locations/{location}/jobs/{job}, where {project} can be project id or number. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRunV2RunJobRequest;
+  body?: GoogleCloudRunV2RunJobRequest | undefined;
 }
 /** Request message for `SetIamPolicy` method. */
 export interface GoogleIamV1SetIamPolicyRequest {
   /** OPTIONAL: A FieldMask specifying which fields of the policy to modify. Only the fields in the mask will be modified. If no mask is provided, the following default mask is used: `paths: "bindings, etag"` */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** REQUIRED: The complete policy to be applied to the `resource`. The size of the policy is limited to a few 10s of KB. An empty policy is a valid policy but certain Google Cloud services (such as Projects) might reject them. */
-  policy?: GoogleIamV1Policy;
+  policy?: GoogleIamV1Policy | undefined;
 }
 export interface SetIamPolicyProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest;
+  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsJobsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest;
+  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsServicesRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest;
+  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 export interface SetIamPolicyProjectsLocationsWorkerPoolsRequest {
   /** REQUIRED: The resource for which the policy is being specified. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1SetIamPolicyRequest;
+  body?: GoogleIamV1SetIamPolicyRequest | undefined;
 }
 /** Request message for starting an Instance. */
 export interface GoogleCloudRunV2StartInstanceRequest {
   /** Optional. A system-generated fingerprint for this version of the resource. This may be used to detect modification conflict during updates. */
-  etag?: string;
+  etag?: string | undefined;
   /** Optional. Indicates that the request should be validated without actually stopping any resources. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
 }
 export interface StartProjectsLocationsInstancesRequest {
   /** Required. The name of the Instance to start. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRunV2StartInstanceRequest;
+  body?: GoogleCloudRunV2StartInstanceRequest | undefined;
 }
 /** Request message for deleting an Instance. */
 export type GoogleCloudRunV2StopInstanceRequest = GoogleCloudRunV2StartInstanceRequest;
@@ -2008,35 +2022,35 @@ export interface StopProjectsLocationsInstancesRequest {
   /** Required. The name of the Instance to stop. */
   name: string;
   /** Request body */
-  body?: GoogleCloudRunV2StartInstanceRequest;
+  body?: GoogleCloudRunV2StartInstanceRequest | undefined;
 }
 /** Build the source using Docker. This means the source has a Dockerfile. */
 export type GoogleCloudRunV2DockerBuild = Proto2BridgeMessageSet;
 /** Location of the source in an archive file in Google Cloud Storage. */
 export interface GoogleCloudRunV2StorageSource {
   /** Optional. Google Cloud Storage generation for the object. If the generation is omitted, the latest generation will be used. */
-  generation?: string;
+  generation?: string | undefined;
   /** Required. Google Cloud Storage bucket containing the source (see [Bucket Name Requirements](https://cloud.google.com/storage/docs/bucket-naming#requirements)). */
-  bucket?: string;
+  bucket?: string | undefined;
   /** Required. Google Cloud Storage object containing the source. This object must be a gzipped archive file (`.tar.gz`) containing source to build. */
-  object?: string;
+  object?: string | undefined;
 }
 /** Build the source using Buildpacks. */
 export interface GoogleCloudRunV2BuildpacksBuild {
   /** Optional. Name of the function target if the source is a function source. Required for function builds. */
-  functionTarget?: string;
+  functionTarget?: string | undefined;
   /** Optional. cache_image_uri is the GCR/AR URL where the cache image will be stored. cache_image_uri is optional and omitting it will disable caching. This URL must be stable across builds. It is used to derive a build-specific temporary URL by substituting the tag with the build ID. The build will clean up the temporary image on a best-effort basis. */
-  cacheImageUri?: string;
+  cacheImageUri?: string | undefined;
   /** Optional. The base image to use for the build. */
-  baseImage?: string;
+  baseImage?: string | undefined;
   /** Optional. Whether or not the application container will be enrolled in automatic base image updates. When true, the application will be built on a scratch base image, so the base layers can be appended at run time. */
-  enableAutomaticUpdates?: boolean;
+  enableAutomaticUpdates?: boolean | undefined;
   /** The runtime name, e.g. 'go113'. Leave blank for generic builds. */
-  runtime?: string;
+  runtime?: string | undefined;
   /** Optional. project_descriptor stores the path to the project descriptor file. When empty, it means that there is no project descriptor file in the source. */
-  projectDescriptor?: string;
+  projectDescriptor?: string | undefined;
   /** Optional. User-provided build-time environment variables. */
-  environmentVariables?: StringMap;
+  environmentVariables?: StringMap | undefined;
 }
 export type GoogleCloudRunV2SubmitBuildRequestReleaseTrackEnum =
   | "LAUNCH_STAGE_UNSPECIFIED"
@@ -2050,101 +2064,101 @@ export type GoogleCloudRunV2SubmitBuildRequestReleaseTrackEnum =
 /** Request message for submitting a Build. */
 export interface GoogleCloudRunV2SubmitBuildRequest {
   /** Build the source using Docker. This means the source has a Dockerfile. */
-  dockerBuild?: Proto2BridgeMessageSet;
+  dockerBuild?: Proto2BridgeMessageSet | undefined;
   /** Optional. Additional tags to annotate the build. */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Optional. The client that initiated the build request. */
-  client?: string;
+  client?: string | undefined;
   /** Required. Artifact Registry URI to store the built image. */
-  imageUri?: string;
+  imageUri?: string | undefined;
   /** Optional. The service account to use for the build. If not set, the default Cloud Build service account for the project will be used. */
-  serviceAccount?: string;
+  serviceAccount?: string | undefined;
   /** Required. Source for the build. */
-  storageSource?: GoogleCloudRunV2StorageSource;
+  storageSource?: GoogleCloudRunV2StorageSource | undefined;
   /** Optional. Name of the Cloud Build Custom Worker Pool that should be used to build the function. The format of this field is `projects/{project}/locations/{region}/workerPools/{workerPool}` where `{project}` and `{region}` are the project id and region respectively where the worker pool is defined and `{workerPool}` is the short name of the worker pool. */
-  workerPool?: string;
+  workerPool?: string | undefined;
   /** Optional. The machine type from default pool to use for the build. If left blank, cloudbuild will use a sensible default. Currently only E2_HIGHCPU_8 is supported. If worker_pool is set, this field will be ignored. */
-  machineType?: string;
+  machineType?: string | undefined;
   /** Build the source using Buildpacks. */
-  buildpackBuild?: GoogleCloudRunV2BuildpacksBuild;
+  buildpackBuild?: GoogleCloudRunV2BuildpacksBuild | undefined;
   /** Optional. The release track of the client that initiated the build request. */
-  releaseTrack?: GoogleCloudRunV2SubmitBuildRequestReleaseTrackEnum | (string & {});
+  releaseTrack?: GoogleCloudRunV2SubmitBuildRequestReleaseTrackEnum | (string & {}) | undefined;
 }
 export interface SubmitProjectsLocationsBuildsRequest {
   /** Required. The project and location to build in. Location must be a region, e.g., 'us-central1' or 'global' if the global builder is to be used. Format: `projects/{project}/locations/{location}` */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRunV2SubmitBuildRequest;
+  body?: GoogleCloudRunV2SubmitBuildRequest | undefined;
 }
 /** Response message for submitting a Build. */
 export interface GoogleCloudRunV2SubmitBuildResponse {
   /** Warning message for the base image. */
-  baseImageWarning?: string;
+  baseImageWarning?: string | undefined;
   /** Cloud Build operation to be polled via CloudBuild API. */
-  buildOperation?: GoogleLongrunningOperation;
+  buildOperation?: GoogleLongrunningOperation | undefined;
   /** URI of the base builder image in Artifact Registry being used in the build. Used to opt into automatic base image updates. */
-  baseImageUri?: string;
+  baseImageUri?: string | undefined;
 }
 /** Request message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsRequest {
   /** The set of permissions to check for the `resource`. Permissions with wildcards (such as `*` or `storage.*`) are not allowed. For more information see [IAM Overview](https://cloud.google.com/iam/docs/overview#permissions). */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsInstancesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest;
+  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** Response message for `TestIamPermissions` method. */
 export interface GoogleIamV1TestIamPermissionsResponse {
   /** A subset of `TestPermissionsRequest.permissions` that the caller is allowed. */
-  permissions?: StringList;
+  permissions?: StringList | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsJobsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest;
+  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsServicesRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest;
+  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 export interface TestIamPermissionsProjectsLocationsWorkerPoolsRequest {
   /** REQUIRED: The resource for which the policy detail is being requested. See [Resource names](https://cloud.google.com/apis/design/resource_names) for the appropriate value for this field. */
   resource: string;
   /** Request body */
-  body?: GoogleIamV1TestIamPermissionsRequest;
+  body?: GoogleIamV1TestIamPermissionsRequest | undefined;
 }
 /** The request message for the UploadSource method. */
 export interface GoogleCloudRunV2UploadSourceRequest {
   /** The name of Cloud Run Service upload source archive will be used for. */
-  service?: string;
+  service?: string | undefined;
 }
 export interface UploadProjectsLocationsSourceUploadsRequest {
   /** Required. The project and location in which the source archive should be uploaded to, specified in the format `projects/*\/locations/*`. */
   parent: string;
   /** Request body */
-  body?: GoogleCloudRunV2UploadSourceRequest;
+  body?: GoogleCloudRunV2UploadSourceRequest | undefined;
 }
 /** The response message for the UploadSource method. */
 export interface GoogleCloudRunV2UploadSourceResponse {
   /** The Cloud Storage object path the source archive is uploaded to. */
-  cloudStorageSource?: GoogleCloudRunV2CloudStorageSource;
+  cloudStorageSource?: GoogleCloudRunV2CloudStorageSource | undefined;
 }
 /** The request message for Operations.WaitOperation. */
 export interface GoogleLongrunningWaitOperationRequest {
   /** The maximum duration to wait before timing out. If left blank, the wait will be at most the time permitted by the underlying HTTP/RPC protocol. If RPC context deadline is also specified, the shorter one will be used. */
-  timeout?: string;
+  timeout?: string | undefined;
 }
 export interface WaitProjectsLocationsOperationsRequest {
   /** The name of the operation resource to wait on. */
   name: string;
   /** Request body */
-  body?: GoogleLongrunningWaitOperationRequest;
+  body?: GoogleLongrunningWaitOperationRequest | undefined;
 }
 export type CancelProjectsLocationsJobsExecutionsError =
   | NotFound

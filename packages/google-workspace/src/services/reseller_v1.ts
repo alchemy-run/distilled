@@ -89,102 +89,102 @@ export interface ActivateSubscriptionsRequest {
 }
 export interface SubscriptionTrialSettings {
   /** Date when the trial ends. The value is in milliseconds using the UNIX Epoch format. See an example Epoch converter. */
-  trialEndTime?: string;
+  trialEndTime?: string | undefined;
   /** Determines if a subscription's plan is in a 30-day free trial or not: - `true` -- The plan is in trial. - `false` -- The plan is not in trial. */
-  isInTrial?: boolean;
+  isInTrial?: boolean | undefined;
 }
 /** JSON template for a subscription renewal settings. */
 export interface RenewalSettings {
   /** Identifies the resource as a subscription renewal setting. Value: `subscriptions#renewalSettings` */
-  kind?: string;
+  kind?: string | undefined;
   /** Renewal settings for the annual commitment plan. For more detailed information, see renewal options in the administrator help center. When renewing a subscription, the `renewalType` is a required property. */
-  renewalType?: string;
+  renewalType?: string | undefined;
 }
 /** JSON template for subscription seats. */
 export interface Seats {
   /** This is a required property and is exclusive to subscriptions with `FLEXIBLE` or `TRIAL` plans. This property sets the maximum number of licensed users allowed on a subscription. This quantity can be increased up to the maximum limit defined in the reseller's contract. The minimum quantity is the current number of users in the customer account. *Note: *G Suite subscriptions automatically assign a license to every user. */
-  maximumNumberOfSeats?: number;
+  maximumNumberOfSeats?: number | undefined;
   /** Read-only field containing the current number of users that are assigned a license for the product defined in `skuId`. This field's value is equivalent to the numerical count of users returned by the Enterprise License Manager API method: [`listForProductAndSku`](https://developers.google.com/workspace/admin/licensing/v1/reference/licenseAssignments/listForProductAndSku). */
-  licensedNumberOfSeats?: number;
+  licensedNumberOfSeats?: number | undefined;
   /** Identifies the resource as a subscription seat setting. Value: `subscriptions#seats` */
-  kind?: string;
+  kind?: string | undefined;
   /** This is a required property and is exclusive to subscriptions with `ANNUAL_MONTHLY_PAY` and `ANNUAL_YEARLY_PAY` plans. This property sets the maximum number of licenses assignable to users on a subscription. The reseller can add more licenses, but once set, the `numberOfSeats` cannot be reduced until renewal. The reseller is invoiced based on the `numberOfSeats` value regardless of how many of these user licenses are assigned. *Note: *Google Workspace subscriptions automatically assign a license to every user. */
-  numberOfSeats?: number;
+  numberOfSeats?: number | undefined;
 }
 export interface SubscriptionTransferInfo {
   /** The `skuId` of the current resold subscription. This is populated only when the customer has a subscription with a legacy SKU and the subscription resource is populated with the `skuId` of the SKU recommended for the transfer. */
-  currentLegacySkuId?: string;
+  currentLegacySkuId?: string | undefined;
   /** When inserting a subscription, this is the minimum number of seats listed in the transfer order for this product. For example, if the customer has 20 users, the reseller cannot place a transfer order of 15 seats. The minimum is 20 seats. */
-  minimumTransferableSeats?: number;
+  minimumTransferableSeats?: number | undefined;
   /** The time when transfer token or intent to transfer will expire. The time is in milliseconds using UNIX Epoch format. */
-  transferabilityExpirationTime?: string;
+  transferabilityExpirationTime?: string | undefined;
 }
 export type StringList = Array<string>;
 export interface SubscriptionPlanCommitmentInterval {
   /** An annual commitment plan's interval's `endTime` in milliseconds using the UNIX Epoch format. See an example Epoch converter. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** An annual commitment plan's interval's `startTime` in milliseconds using UNIX Epoch format. See an example Epoch converter. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 export interface SubscriptionPlan {
   /** In this version of the API, annual commitment plan's interval is one year. *Note: *When `billingMethod` value is `OFFLINE`, the subscription property object `plan.commitmentInterval` is omitted in all API responses. */
-  commitmentInterval?: SubscriptionPlanCommitmentInterval;
+  commitmentInterval?: SubscriptionPlanCommitmentInterval | undefined;
   /** The `isCommitmentPlan` property's boolean value identifies the plan as an annual commitment plan: - `true` -- The subscription's plan is an annual commitment plan. - `false` -- The plan is not an annual commitment plan. */
-  isCommitmentPlan?: boolean;
+  isCommitmentPlan?: boolean | undefined;
   /** The `planName` property is required. This is the name of the subscription's plan. For more information about the Google payment plans, see the API concepts. Possible values are: - `ANNUAL_MONTHLY_PAY` -- The annual commitment plan with monthly payments. *Caution: *`ANNUAL_MONTHLY_PAY` is returned as `ANNUAL` in all API responses. - `ANNUAL_YEARLY_PAY` -- The annual commitment plan with yearly payments - `FLEXIBLE` -- The flexible plan - `TRIAL` -- The 30-day free trial plan. A subscription in trial will be suspended after the 30th free day if no payment plan is assigned. Calling `changePlan` will assign a payment plan to a trial but will not activate the plan. A trial will automatically begin its assigned payment plan after its 30th free day or immediately after calling `startPaidService`. - `FREE` -- The free plan is exclusive to the Cloud Identity SKU and does not incur any billing. */
-  planName?: string;
+  planName?: string | undefined;
 }
 /** JSON template for a subscription. */
 export interface Subscription {
   /** Read-only external display name for a product's SKU assigned to a customer in the subscription. SKU names are subject to change at Google's discretion. For products and SKUs available in this version of the API, see Product and SKU IDs. */
-  skuName?: string;
+  skuName?: string | undefined;
   /** The G Suite annual commitment and flexible payment plans can be in a 30-day free trial. For more information, see the API concepts. */
-  trialSettings?: SubscriptionTrialSettings;
+  trialSettings?: SubscriptionTrialSettings | undefined;
   /** Primary domain name of the customer */
-  customerDomain?: string;
+  customerDomain?: string | undefined;
   /** Read-only field that returns the current billing method for a subscription. */
-  billingMethod?: string;
+  billingMethod?: string | undefined;
   /** This is an optional property. This purchase order (PO) information is for resellers to use for their company tracking usage. If a `purchaseOrderId` value is given it appears in the API responses and shows up in the invoice. The property accepts up to 80 plain text characters. */
-  purchaseOrderId?: string;
+  purchaseOrderId?: string | undefined;
   /** Google-issued code (100 char max) for discounted pricing on subscription plans. Deal code must be included in `insert` requests in order to receive discounted rate. This property is optional, regular pricing applies if left empty. */
-  dealCode?: string;
+  dealCode?: string | undefined;
   /** This property will always be returned in a response as the unique identifier generated by Google. In a request, this property can be either the primary domain or the unique identifier generated by Google. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Renewal settings for the annual commitment plan. For more detailed information, see renewal options in the administrator help center. */
-  renewalSettings?: RenewalSettings;
+  renewalSettings?: RenewalSettings | undefined;
   /** This is an optional property. */
-  status?: string;
+  status?: string | undefined;
   /** This is a required property. The number and limit of user seat licenses in the plan. */
-  seats?: Seats;
+  seats?: Seats | undefined;
   /** Read-only transfer related information for the subscription. For more information, see retrieve transferable subscriptions for a customer. */
-  transferInfo?: SubscriptionTransferInfo;
+  transferInfo?: SubscriptionTransferInfo | undefined;
   /** URL to customer's Subscriptions page in the Admin console. The read-only URL is generated by the API service. This is used if your client application requires the customer to complete a task using the Subscriptions page in the Admin console. */
-  resourceUiUrl?: string;
+  resourceUiUrl?: string | undefined;
   /** Identifies the resource as a Subscription. Value: `reseller#subscription` */
-  kind?: string;
+  kind?: string | undefined;
   /** The `subscriptionId` is the subscription identifier and is unique for each customer. This is a required property. Since a `subscriptionId` changes when a subscription is updated, we recommend not using this ID as a key for persistent data. Use the `subscriptionId` as described in retrieve all reseller subscriptions. */
-  subscriptionId?: string;
+  subscriptionId?: string | undefined;
   /** A required property. The `skuId` is a unique system identifier for a product's SKU assigned to a customer in the subscription. For products and SKUs available in this version of the API, see Product and SKU IDs. */
-  skuId?: string;
+  skuId?: string | undefined;
   /** Read-only field containing an enumerable of all the current suspension reasons for a subscription. It is possible for a subscription to have many concurrent, overlapping suspension reasons. A subscription's `STATUS` is `SUSPENDED` until all pending suspensions are removed. Possible options include: - `PENDING_TOS_ACCEPTANCE` - The customer has not logged in and accepted the G Suite Resold Terms of Services. - `RENEWAL_WITH_TYPE_CANCEL` - The customer's commitment ended and their service was cancelled at the end of their term. - `RESELLER_INITIATED` - A manual suspension invoked by a Reseller. - `TRIAL_ENDED` - The customer's trial expired without a plan selected. - `OTHER` - The customer is suspended for an internal Google reason (e.g. abuse or otherwise). */
-  suspensionReasons?: StringList;
+  suspensionReasons?: StringList | undefined;
   /** The `plan` property is required. In this version of the API, the G Suite plans are the flexible plan, annual commitment plan, and the 30-day free trial plan. For more information about the API"s payment plans, see the API concepts. */
-  plan?: SubscriptionPlan;
+  plan?: SubscriptionPlan | undefined;
   /** The `creationTime` property is the date when subscription was created. It is in milliseconds using the Epoch format. See an example Epoch converter. */
-  creationTime?: string;
+  creationTime?: string | undefined;
 }
 /** JSON template for the ChangePlan rpc request. */
 export interface ChangePlanRequest {
   /** Google-issued code (100 char max) for discounted pricing on subscription plans. Deal code must be included in `changePlan` request in order to receive discounted rate. This property is optional. If a deal code has already been added to a subscription, this property may be left empty and the existing discounted rate will still apply (if not empty, only provide the deal code that is already present on the subscription). If a deal code has never been added to a subscription and this property is left blank, regular pricing will apply. */
-  dealCode?: string;
+  dealCode?: string | undefined;
   /** Identifies the resource as a subscription change plan request. Value: `subscriptions#changePlanRequest` */
-  kind?: string;
+  kind?: string | undefined;
   /** This is a required property. The seats property is the number of user seat licenses. */
-  seats?: Seats;
+  seats?: Seats | undefined;
   /** The `planName` property is required. This is the name of the subscription's payment plan. For more information about the Google payment plans, see API concepts. Possible values are: - `ANNUAL_MONTHLY_PAY` - The annual commitment plan with monthly payments *Caution: *`ANNUAL_MONTHLY_PAY` is returned as `ANNUAL` in all API responses. - `ANNUAL_YEARLY_PAY` - The annual commitment plan with yearly payments - `FLEXIBLE` - The flexible plan - `TRIAL` - The 30-day free trial plan */
-  planName?: string;
+  planName?: string | undefined;
   /** This is an optional property. This purchase order (PO) information is for resellers to use for their company tracking usage. If a `purchaseOrderId` value is given it appears in the API responses and shows up in the invoice. The property accepts up to 80 plain text characters. */
-  purchaseOrderId?: string;
+  purchaseOrderId?: string | undefined;
 }
 export interface ChangePlanSubscriptionsRequest {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
@@ -192,7 +192,7 @@ export interface ChangePlanSubscriptionsRequest {
   /** This is a required property. The `subscriptionId` is the subscription identifier and is unique for each customer. Since a `subscriptionId` changes when a subscription is updated, we recommend to not use this ID as a key for persistent data. And the `subscriptionId` can be found using the retrieve all reseller subscriptions method. */
   subscriptionId: string;
   /** Request body */
-  body?: ChangePlanRequest;
+  body?: ChangePlanRequest | undefined;
 }
 export interface ChangeRenewalSettingsSubscriptionsRequest {
   /** This is a required property. The `subscriptionId` is the subscription identifier and is unique for each customer. Since a `subscriptionId` changes when a subscription is updated, we recommend to not use this ID as a key for persistent data. And the `subscriptionId` can be found using the retrieve all reseller subscriptions method. */
@@ -200,7 +200,7 @@ export interface ChangeRenewalSettingsSubscriptionsRequest {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
   customerId: string;
   /** Request body */
-  body?: RenewalSettings;
+  body?: RenewalSettings | undefined;
 }
 export interface ChangeSeatsSubscriptionsRequest {
   /** This is a required property. The `subscriptionId` is the subscription identifier and is unique for each customer. Since a `subscriptionId` changes when a subscription is updated, we recommend to not use this ID as a key for persistent data. And the `subscriptionId` can be found using the retrieve all reseller subscriptions method. */
@@ -208,7 +208,7 @@ export interface ChangeSeatsSubscriptionsRequest {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
   customerId: string;
   /** Request body */
-  body?: Seats;
+  body?: Seats | undefined;
 }
 export type DeleteSubscriptionsDeletionTypeEnum =
   | "deletion_type_undefined"
@@ -230,54 +230,54 @@ export interface GetCustomersRequest {
 /** JSON template for address of a customer. */
 export interface Address {
   /** For `countryCode` information, see the ISO 3166 country code elements. Verify that country is approved for resale of Google products. This property is required when creating a new customer. */
-  countryCode?: string;
+  countryCode?: string | undefined;
   /** The customer contact's name. This is required. */
-  contactName?: string;
+  contactName?: string | undefined;
   /** Line 2 of the address. */
-  addressLine2?: string;
+  addressLine2?: string | undefined;
   /** The company or company division name. This is required. */
-  organizationName?: string;
+  organizationName?: string | undefined;
   /** Line 3 of the address. */
-  addressLine3?: string;
+  addressLine3?: string | undefined;
   /** A `postalCode` example is a postal zip code such as `94043`. This property is required when creating a new customer. */
-  postalCode?: string;
+  postalCode?: string | undefined;
   /** An example of a `locality` value is the city of `San Francisco`. */
-  locality?: string;
+  locality?: string | undefined;
   /** An example of a `region` value is `CA` for the state of California. */
-  region?: string;
+  region?: string | undefined;
   /** Identifies the resource as a customer address. Value: `customers#address` */
-  kind?: string;
+  kind?: string | undefined;
   /** A customer's physical address. An address can be composed of one to three lines. The `addressline2` and `addressLine3` are optional. */
-  addressLine1?: string;
+  addressLine1?: string | undefined;
 }
 export type CustomerCustomerTypeEnum = "customerTypeUnspecified" | "domain" | "team";
 /** JSON template for primary admin in case of TEAM customers */
 export interface PrimaryAdmin {
   /** The business email of the primary administrator of the customer. The email verification link is sent to this email address at the time of customer creation. Primary administrators have access to the customer's Admin Console, including the ability to invite and evict users and manage the administrative needs of the customer. */
-  primaryEmail?: string;
+  primaryEmail?: string | undefined;
 }
 /** When a Google customer's account is registered with a reseller, the customer's subscriptions for Google services are managed by this reseller. A customer is described by a primary domain name and a physical address. */
 export interface Customer {
   /** Like the "Customer email" in the reseller tools, this email is the secondary contact used if something happens to the customer's service such as service outage or a security issue. This property is required when creating a new "domain" customer and should not use the same domain as `customerDomain`. The `alternateEmail` field is not necessary to create a "team" customer. */
-  alternateEmail?: string;
+  alternateEmail?: string | undefined;
   /** A customer's address information. Each field has a limit of 255 charcters. */
-  postalAddress?: Address;
+  postalAddress?: Address | undefined;
   /** Whether the customer's primary domain has been verified. */
-  customerDomainVerified?: boolean;
+  customerDomainVerified?: boolean | undefined;
   /** The customer's primary domain name string. `customerDomain` is required when creating a new customer. Do not include the `www` prefix in the domain when adding a customer. */
-  customerDomain?: string;
+  customerDomain?: string | undefined;
   /** Identifies the type of the customer. Acceptable values include: * `domain`: Implies a domain-verified customer (default). * `team`: Implies an email-verified customer. For more information, see [managed teams](https://support.google.com/a/users/answer/9939479). */
-  customerType?: CustomerCustomerTypeEnum | (string & {});
+  customerType?: CustomerCustomerTypeEnum | (string & {}) | undefined;
   /** This property will always be returned in a response as the unique identifier generated by Google. In a request, this property can be either the primary domain or the unique identifier generated by Google. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Identifies the resource as a customer. Value: `reseller#customer` */
-  kind?: string;
+  kind?: string | undefined;
   /** The first admin details of the customer, present in case of TEAM customer. */
-  primaryAdmin?: PrimaryAdmin;
+  primaryAdmin?: PrimaryAdmin | undefined;
   /** Customer contact phone number. Must start with "+" followed by the country code. The rest of the number can be contiguous numbers or respect the phone local format conventions, but it must be a real phone number and not, for example, "123". This field is silently ignored if invalid. */
-  phoneNumber?: string;
+  phoneNumber?: string | undefined;
   /** URL to customer's Admin console dashboard. The read-only URL is generated by the API service. This is used if your client application requires the customer to complete a task in the Admin console. */
-  resourceUiUrl?: string;
+  resourceUiUrl?: string | undefined;
 }
 export interface GetSubscriptionsRequest {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
@@ -289,65 +289,65 @@ export interface GetwatchdetailsResellernotifyRequest {}
 /** JSON template for resellernotify getwatchdetails response. */
 export interface ResellernotifyGetwatchdetailsResponse {
   /** Topic name of the PubSub */
-  topicName?: string;
+  topicName?: string | undefined;
   /** List of registered service accounts. */
-  serviceAccountEmailAddresses?: StringList;
+  serviceAccountEmailAddresses?: StringList | undefined;
 }
 export interface InsertCustomersRequest {
   /** The `customerAuthToken` query string is required when creating a resold account that transfers a direct customer's subscription or transfers another reseller customer's subscription to your reseller management. This is a hexadecimal authentication token needed to complete the subscription transfer. For more information, see the administrator help center. */
-  customerAuthToken?: string;
+  customerAuthToken?: string | undefined;
   /** Request body */
-  body?: Customer;
+  body?: Customer | undefined;
 }
 export type InsertSubscriptionsActionEnum = "actionUnspecified" | "buy" | "switch";
 export interface InsertSubscriptionsRequest {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
   customerId: string;
   /** The `customerAuthToken` query string is required when creating a resold account that transfers a direct customer's subscription or transfers another reseller customer's subscription to your reseller management. This is a hexadecimal authentication token needed to complete the subscription transfer. For more information, see the administrator help center. */
-  customerAuthToken?: string;
+  customerAuthToken?: string | undefined;
   /** The sku_id of the existing subscription to be upgraded or downgraded. This is required when action is SWITCH. */
-  sourceSkuId?: string;
+  sourceSkuId?: string | undefined;
   /** The intented insert action. Advised to set this when the customer already has a subscription for a different SKU in the same product. */
-  action?: InsertSubscriptionsActionEnum | (string & {});
+  action?: InsertSubscriptionsActionEnum | (string & {}) | undefined;
   /** Request body */
-  body?: Subscription;
+  body?: Subscription | undefined;
 }
 export interface ListSubscriptionsRequest {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
-  customerId?: string;
+  customerId?: string | undefined;
   /** Token to specify next page in the list */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The `customerAuthToken` query string is required when creating a resold account that transfers a direct customer's subscription or transfers another reseller customer's subscription to your reseller management. This is a hexadecimal authentication token needed to complete the subscription transfer. For more information, see the administrator help center. */
-  customerAuthToken?: string;
+  customerAuthToken?: string | undefined;
   /** When retrieving all of your subscriptions and filtering for specific customers, you can enter a prefix for a customer name. Using an example customer group that includes `exam.com`, `example20.com` and `example.com`: - `exa` -- Returns all customer names that start with 'exa' which could include `exam.com`, `example20.com`, and `example.com`. A name prefix is similar to using a regular expression's asterisk, exa*. - `example` -- Returns `example20.com` and `example.com`. */
-  customerNamePrefix?: string;
+  customerNamePrefix?: string | undefined;
   /** When retrieving a large list, the `maxResults` is the maximum number of results per page. The `nextPageToken` value takes you to the next page. The default is 20. */
-  maxResults?: number;
+  maxResults?: number | undefined;
 }
 export type SubscriptionList = Array<Subscription>;
 /** A subscription manages the relationship of a Google customer's payment plan with a product's SKU, user licenses, 30-day free trial status, and renewal options. A primary role of a reseller is to manage the Google customer's subscriptions. */
 export interface Subscriptions {
   /** The subscriptions in this page of results. */
-  subscriptions?: SubscriptionList;
+  subscriptions?: SubscriptionList | undefined;
   /** Identifies the resource as a collection of subscriptions. Value: reseller#subscriptions */
-  kind?: string;
+  kind?: string | undefined;
   /** The continuation token, used to page through large result sets. Provide this value in a subsequent request to return the next page of results. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface PatchCustomersRequest {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
   customerId: string;
   /** Request body */
-  body?: Customer;
+  body?: Customer | undefined;
 }
 export interface RegisterResellernotifyRequest {
   /** The service account which will own the created Cloud-PubSub topic. */
-  serviceAccountEmailAddress?: string;
+  serviceAccountEmailAddress?: string | undefined;
 }
 /** JSON template for resellernotify response. */
 export interface ResellernotifyResource {
   /** Topic name of the PubSub */
-  topicName?: string;
+  topicName?: string | undefined;
 }
 export interface StartPaidServiceSubscriptionsRequest {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
@@ -363,13 +363,13 @@ export interface SuspendSubscriptionsRequest {
 }
 export interface UnregisterResellernotifyRequest {
   /** The service account which owns the Cloud-PubSub topic. */
-  serviceAccountEmailAddress?: string;
+  serviceAccountEmailAddress?: string | undefined;
 }
 export interface UpdateCustomersRequest {
   /** This can be either the customer's primary domain name or the customer's unique identifier. If the domain name for a customer changes, the old domain name cannot be used to access the customer, but the customer's unique identifier (as returned by the API) can always be used. We recommend storing the unique identifier in your systems where applicable. */
   customerId: string;
   /** Request body */
-  body?: Customer;
+  body?: Customer | undefined;
 }
 export type ActivateSubscriptionsError =
   | NotFound

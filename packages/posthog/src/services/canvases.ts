@@ -68,13 +68,13 @@ export interface CanvasesConnectorsCallRequest {
   /** A UUID string identifying this canvas. */
   id: string;
   /** Single-use token from a needs_approval response. Submit only after the viewer approves this exact call. Expires after 15 minutes. */
-  approval_token?: string;
+  approval_token?: string | undefined;
   /** Declared provider id, e.g. 'github'. */
   provider: string;
   /** Declared tool name, e.g. 'list_pull_requests'. */
   tool: string;
   /** Tool arguments, validated against the tool's input schema. */
-  arguments?: CanvasesConnectorsCallRequestArgumentsMap;
+  arguments?: CanvasesConnectorsCallRequestArgumentsMap | undefined;
 }
 /** * `ok` - Ok * `not_connected` - Not Connected * `needs_reauth` - Needs Reauth * `needs_approval` - Needs Approval * `blocked` - Blocked * `tool_missing` - Tool Missing * `write_blocked` - Write Blocked * `upstream_error` - Upstream Error */
 export type ConnectorCallStatusEnum =
@@ -115,19 +115,19 @@ export type CanvasSourceEditOpEnum = "write" | "delete" | "rename" | "str_replac
 /** One file edit: replace text in a file, write a whole file, delete it, or rename it. */
 export interface CanvasSourceEditOperation {
   /** What to do. 'str_replace' replaces old_string with new_string inside the file: the default for changing an existing file. 'write' sets the file's complete content (new files, full rewrites). 'delete' removes the file. 'rename' moves it to new_path. When omitted, it follows the fields sent: old_string or new_string means 'str_replace', new_path means 'rename', non-null content means 'write', and content null means 'delete'. An operation with none of these fields is rejected. * `write` - Write * `delete` - Delete * `rename` - Rename * `str_replace` - Str Replace */
-  op?: CanvasSourceEditOpEnum | (string & {});
+  op?: CanvasSourceEditOpEnum | (string & {}) | undefined;
   /** Project-relative path of the file to edit (e.g. "src/canvas.tsx"). */
   path: string;
   /** For 'write': the file's complete new content. */
-  content?: string | null;
+  content?: string | null | undefined;
   /** For 'str_replace': the exact text to replace, copied from the file with a few surrounding lines so it matches one place only. If whitespace differs slightly, a unique line-by-line match is still accepted. */
-  old_string?: string;
+  old_string?: string | undefined;
   /** For 'str_replace': the text that replaces old_string. An empty string deletes old_string. */
-  new_string?: string;
+  new_string?: string | undefined;
   /** For 'str_replace': replace every exact match of old_string instead of requiring exactly one. */
-  replace_all?: boolean;
+  replace_all?: boolean | undefined;
   /** For 'rename': the file's new project-relative path. */
-  new_path?: string;
+  new_path?: string | undefined;
 }
 /** Edits applied in order to the canvas's current source project, all or nothing. May be empty when the edit only changes capabilities. */
 export type CanvasesEditCreateRequestOperationsList = Array<CanvasSourceEditOperation>;
@@ -144,10 +144,10 @@ export interface CanvasPostHogCapabilities {
   inlineQueries: boolean;
   captureEvents: CanvasPostHogCapabilitiesCaptureEventsList;
   /** State scopes the canvas may use via ph.state: 'user' (private to each viewer) and/or 'shared' (one value per canvas, team-visible). */
-  state?: CanvasPostHogCapabilitiesStateList;
+  state?: CanvasPostHogCapabilitiesStateList | undefined;
   /** Registered action verbs the canvas may invoke via ph.actions (e.g. 'annotations.create', 'tasks.create'). Each executes as the viewer; declaring one shows it in the promote review. */
-  actions?: CanvasPostHogCapabilitiesActionsList;
-  agentRequests?: boolean;
+  actions?: CanvasPostHogCapabilitiesActionsList | undefined;
+  agentRequests?: boolean | undefined;
 }
 export type CanvasNetworkCapabilitiesOriginsList = Array<string>;
 export interface CanvasNetworkCapabilities {
@@ -168,7 +168,7 @@ export interface CanvasCapabilities {
   posthog: CanvasPostHogCapabilities;
   network: CanvasNetworkCapabilities;
   /** Third-party providers the canvas reads through ph.connectors, each with the tools it may call. Every call runs with the viewer's own connection; declaring one shows it in the promote review. */
-  connectors?: CanvasCapabilitiesConnectorsList;
+  connectors?: CanvasCapabilitiesConnectorsList | undefined;
 }
 export interface CanvasesEditCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -176,13 +176,13 @@ export interface CanvasesEditCreateRequest {
   /** A UUID string identifying this canvas. */
   id: string;
   /** Edits applied in order to the canvas's current source project, all or nothing. May be empty when the edit only changes capabilities. */
-  operations?: CanvasesEditCreateRequestOperationsList;
+  operations?: CanvasesEditCreateRequestOperationsList | undefined;
   /** The project's complete new capabilities, replacing the current ones in the same publish. Send it when the change needs a capability the canvas does not declare yet, for example a new ph.state scope, insight, capture event, or network origin. Copy the current capabilities from canvas-source-retrieve and change only what you need. Omit to keep the current capabilities. */
-  capabilities?: CanvasCapabilities;
+  capabilities?: CanvasCapabilities | undefined;
   /** Short description of the change, stored on the appended version history entry. */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Optional new display name for the canvas. */
-  name?: string;
+  name?: string | undefined;
   /** Required optimistic-concurrency guard: the current_version_id the edits are based on (null when the canvas has never been published). Diff edits against a moved head are rejected with 409 version_conflict -- they cannot be published unguarded. */
   expected_current_version_id: string | null;
 }
@@ -218,9 +218,9 @@ export interface CanvasDiagnostic {
   /** Human-readable description of the problem and how to fix it. */
   message: string;
   /** Project-relative path of the file the diagnostic points at, when file-specific. */
-  path?: string;
+  path?: string | undefined;
   /** 1-based line number within `path`, when the diagnostic points at a specific line. */
-  line?: number;
+  line?: number | undefined;
 }
 /** Advisory (warning-severity) diagnostics recorded for the published project. */
 export type CanvasSourcePublishResponseDiagnosticsList = Array<CanvasDiagnostic>;
@@ -276,9 +276,9 @@ export interface CanvasPlacement {
   /** Placement lifecycle: 'pending' (box drawn, no prompt yet), 'generating' (an agent task is filling it), 'live' (renders its component), 'failed' (generation failed; re-prompt or remove). * `pending` - pending * `generating` - generating * `live` - live * `failed` - failed */
   status: CanvasPlacementStatusEnum | (string & {});
   /** Id of the component canvas this placement renders. Required once the placement is live. */
-  component?: string | null;
+  component?: string | null | undefined;
   /** Component version to render: "latest" (the default -- follows the component's published build) or a pinned source version id. */
-  version?: string | null;
+  version?: string | null | undefined;
   /** Left edge, in grid columns (0-based). */
   x: number;
   /** Top edge, in grid rows (0-based). */
@@ -288,49 +288,49 @@ export interface CanvasPlacement {
   /** Height, in grid rows. */
   h: number;
   /** Per-placement settings, validated against the component's configSchema. */
-  config?: CanvasPlacementConfigMap | null;
+  config?: CanvasPlacementConfigMap | null | undefined;
   /** For pending/generating/failed placements: what the user asked this box to become. */
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** Id of the agent task currently filling this placement, when one is running. */
-  generationTaskId?: string | null;
+  generationTaskId?: string | null | undefined;
 }
 /** Per-placement settings, validated against the component's configSchema. */
 export type CanvasPlacementChangesConfigMap = { [key: string]: unknown | undefined };
 /** Fields to merge into an existing placement (all optional; id cannot change). */
 export interface CanvasPlacementChanges {
   /** Placement lifecycle: 'pending' (box drawn, no prompt yet), 'generating' (an agent task is filling it), 'live' (renders its component), 'failed' (generation failed; re-prompt or remove). * `pending` - pending * `generating` - generating * `live` - live * `failed` - failed */
-  status?: CanvasPlacementStatusEnum | (string & {});
+  status?: CanvasPlacementStatusEnum | (string & {}) | undefined;
   /** Id of the component canvas this placement renders. Required once the placement is live. */
-  component?: string | null;
+  component?: string | null | undefined;
   /** Component version to render: "latest" (the default -- follows the component's published build) or a pinned source version id. */
-  version?: string | null;
+  version?: string | null | undefined;
   /** Left edge, in grid columns (0-based). */
-  x?: number;
+  x?: number | undefined;
   /** Top edge, in grid rows (0-based). */
-  y?: number;
+  y?: number | undefined;
   /** Width, in grid columns. */
-  w?: number;
+  w?: number | undefined;
   /** Height, in grid rows. */
-  h?: number;
+  h?: number | undefined;
   /** Per-placement settings, validated against the component's configSchema. */
-  config?: CanvasPlacementChangesConfigMap | null;
+  config?: CanvasPlacementChangesConfigMap | null | undefined;
   /** For pending/generating/failed placements: what the user asked this box to become. */
-  prompt?: string | null;
+  prompt?: string | null | undefined;
   /** Id of the agent task currently filling this placement, when one is running. */
-  generationTaskId?: string | null;
+  generationTaskId?: string | null | undefined;
 }
 /** One surgical layout operation. */
 export interface CanvasLayoutPatchOperation {
   /** The operation to apply. * `set_grid` - set_grid * `add_placement` - add_placement * `update_placement` - update_placement * `remove_placement` - remove_placement */
   op: CanvasLayoutOpEnum | (string & {});
   /** For set_grid: the new grid definition. */
-  grid?: CanvasGrid;
+  grid?: CanvasGrid | undefined;
   /** For add_placement: the placement to add. */
-  placement?: CanvasPlacement;
+  placement?: CanvasPlacement | undefined;
   /** For update_placement/remove_placement: the target placement id. */
-  id?: string;
+  id?: string | undefined;
   /** For update_placement: the fields to merge into the placement. */
-  changes?: CanvasPlacementChanges;
+  changes?: CanvasPlacementChanges | undefined;
 }
 /** Operations applied in order to the canvas's current layout, at most 64. */
 export type CanvasesLayoutPatchCreateRequestOperationsList = Array<CanvasLayoutPatchOperation>;
@@ -342,7 +342,7 @@ export interface CanvasesLayoutPatchCreateRequest {
   /** Operations applied in order to the canvas's current layout, at most 64. */
   operations: CanvasesLayoutPatchCreateRequestOperationsList;
   /** Short description of the change, stored on the appended version history entry. */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Required optimistic-concurrency guard: the current_version_id the operations are based on (null when the canvas has no layout versions yet). A moved head is rejected with 409 version_conflict -- patches cannot apply unguarded. */
   expected_current_version_id: string | null;
 }
@@ -376,9 +376,9 @@ export interface CanvasesLayoutPublishCreateRequest {
   /** The complete layout document to publish. */
   layout: CanvasLayout;
   /** Short description of the change, stored on the appended version history entry. */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Optimistic-concurrency guard: the current_version_id the layout was based on (null when the canvas has no versions yet). A moved head is rejected with 409 version_conflict. Omit to publish unguarded. */
-  expected_current_version_id?: string | null;
+  expected_current_version_id?: string | null | undefined;
 }
 /** Project files keyed by relative path (forward slashes, no '..'). */
 export type CanvasSourceProjectFilesMap = { [key: string]: string | undefined };
@@ -415,9 +415,9 @@ export interface CanvasComponentSize {
   /** Shortest height the component renders usefully at. */
   minH: number;
   /** Widest allowed width; omit for no cap below the grid's width. */
-  maxW?: number;
+  maxW?: number | undefined;
   /** Tallest allowed height; omit for no cap. */
-  maxH?: number;
+  maxH?: number | undefined;
 }
 /** JSON Schema ("type": "object") for a placement's config. The host validates each placement's config against it and passes the validated object to the widget at mount. */
 export type CanvasComponentMetaConfigSchemaMap = { [key: string]: unknown | undefined };
@@ -426,7 +426,7 @@ export interface CanvasComponentMeta {
   /** Grid-size contract for placements of this component. */
   size: CanvasComponentSize;
   /** JSON Schema ("type": "object") for a placement's config. The host validates each placement's config against it and passes the validated object to the widget at mount. */
-  configSchema?: CanvasComponentMetaConfigSchemaMap;
+  configSchema?: CanvasComponentMetaConfigSchemaMap | undefined;
 }
 /** A canvas's multi-file source project -- the canonical write format for canvas source. */
 export interface CanvasSourceProject {
@@ -435,17 +435,17 @@ export interface CanvasSourceProject {
   /** Project files keyed by relative path (forward slashes, no '..'). */
   files: CanvasSourceProjectFilesMap;
   /** Optional base64-encoded binary assets keyed by safe project-relative paths. */
-  assets?: CanvasSourceProjectAssetsMap;
+  assets?: CanvasSourceProjectAssetsMap | undefined;
   /** The project's entry HTML file. Currently always "index.html". */
   entryHtml: string;
   /** Exact-version dependencies, restricted to the platform-supported set at its pinned versions. */
-  dependencies?: CanvasSourceProjectDependenciesMap;
+  dependencies?: CanvasSourceProjectDependenciesMap | undefined;
   /** Version of the host-injected `ph` canvas SDK the project targets. */
-  canvasSdkVersion?: string;
+  canvasSdkVersion?: string | undefined;
   /** Placement contract, required for (and only allowed on) component-kind canvases: the grid size the component takes and the JSON Schema of its per-placement config. */
-  component?: CanvasComponentMeta;
+  component?: CanvasComponentMeta | undefined;
   /** Bounded capabilities frozen into the built artifact. Declare every insight short id the canvas loads, every event it captures, and inlineQueries when it runs ad-hoc HogQL -- the host enforces these at runtime and validation rejects undeclared `ph` calls. Network origins must be exact HTTPS origins. Data fetched by canvas code can be sent to those origins. */
-  capabilities?: CanvasCapabilities;
+  capabilities?: CanvasCapabilities | undefined;
 }
 export interface CanvasesPublishCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -455,11 +455,11 @@ export interface CanvasesPublishCreateRequest {
   /** The complete source project to publish. */
   project: CanvasSourceProject;
   /** Short description of the change, stored on the appended version history entry. */
-  prompt?: string;
+  prompt?: string | undefined;
   /** Optional new display name for the canvas. */
-  name?: string;
+  name?: string | undefined;
   /** Optimistic-concurrency guard: the current_version_id the publisher based its edits on (null when it read a canvas with no versions yet). When the canvas has since moved past it the publish is rejected with a 409 version_conflict instead of overwriting the newer head. Omit to publish unguarded. */
-  expected_current_version_id?: string | null;
+  expected_current_version_id?: string | null | undefined;
 }
 export interface CanvasesPublishCurrentVersionCreateRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -499,13 +499,13 @@ export interface CanvasArtifactManifest {
   /** Version of the `ph` canvas SDK the artifact targets. */
   canvasSdkVersion: string;
   /** Path of the runtime-mounted React component, for legacy-tier artifacts. */
-  legacyComponentPath?: string | null;
+  legacyComponentPath?: string | null | undefined;
   /** The runtime-mounted component source, for legacy-tier artifacts. */
-  legacyCode?: string | null;
+  legacyCode?: string | null | undefined;
   /** Declared PostHog/network capabilities the artifact is held to at runtime. */
   capabilities: CanvasArtifactManifestCapabilitiesMap;
   /** For component artifacts: the placement contract (size, configSchema) frozen into the build. */
-  component?: CanvasArtifactManifestComponentMap | null;
+  component?: CanvasArtifactManifestComponentMap | null | undefined;
 }
 /** Lifecycle record of one build of a canvas source version. */
 export interface CanvasBuild {
@@ -518,7 +518,7 @@ export interface CanvasBuild {
   /** Structured diagnostics recorded by the build (errors explain a failed status). */
   diagnostics: CanvasBuildDiagnosticsList;
   /** The frozen artifact manifest -- present once the build is ready. */
-  manifest?: CanvasArtifactManifest | null;
+  manifest?: CanvasArtifactManifest | null | undefined;
   /** Hex SHA-256 over the manifest -- the artifact's integrity anchor. Null until ready. */
   integrity: string | null;
   /** Signed URL for the ready build's entry HTML. Null until ready or when artifact delivery is unavailable. */
@@ -555,11 +555,11 @@ export interface CreateCanvaseRequest {
   /** Id of the channel the canvas belongs to. */
   channel_id: string;
   /** What to create: 'freeform' (a standalone app), 'component' (a reusable widget for grids -- its published project must declare a `component` placement contract), or 'grid' (a composition of components, edited through the layout endpoints). * `freeform` - freeform * `grid` - grid * `component` - component */
-  kind?: CanvasKindEnum | (string & {});
+  kind?: CanvasKindEnum | (string & {}) | undefined;
   /** Short prose describing the canvas. For components this is the store-search text agents match against -- say what the widget shows and what its config controls. */
-  description?: string;
+  description?: string | undefined;
   /** Canvas template identifier. */
-  template_id?: string;
+  template_id?: string | undefined;
 }
 export type UserBasicHedgehogConfigMap = { [key: string]: unknown | undefined };
 /** * `engineering` - Engineering * `data` - Data * `product` - Product Management * `founder` - Founder * `leadership` - Leadership * `marketing` - Marketing * `sales` - Sales / Success * `student` - Student * `other` - Other */
@@ -576,15 +576,15 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** A canvas document. Version/build content hangs off the source and build endpoints. */
 export interface Canvas {
@@ -630,7 +630,7 @@ export interface CreateCanvasesDraftRequest {
   /** The complete source project to stage as a draft. */
   project: CanvasSourceProject;
   /** Short description of the change, stored on the draft's version history entry. */
-  prompt?: string;
+  prompt?: string | undefined;
 }
 /** Advisory (warning-severity) diagnostics recorded for the drafted project. */
 export type CanvasSourceDraftResponseDiagnosticsList = Array<CanvasDiagnostic>;
@@ -720,7 +720,7 @@ export interface CreateCanvasesRequestFixRequest {
   /** Id of the failing or erroring build the fix should address. */
   build_id: string;
   /** Error class from the runtime report, when fixing a runtime error. Omit for a failed build; its diagnostics are read server-side. */
-  error_type?: string;
+  error_type?: string | undefined;
 }
 export interface CreateCanvasesRequestFixResponse {}
 export interface CreateCanvasesRevertRequest {
@@ -767,9 +767,9 @@ export interface GetCanvasesBuildRequest {
   /** A UUID string identifying this canvas. */
   id: string;
   /** "slim" returns only what rendering needs -- the live build, the head version's builds, and anything still in flight -- instead of the full recent-build history. Any other value (or none) returns the full window. */
-  scope?: string;
+  scope?: string | undefined;
   /** Include the retained ready build for this historical source version. */
-  version_id?: string;
+  version_id?: string | undefined;
 }
 /** Most recent builds, newest first (capped at 20; the live build is always included). */
 export type CanvasBuildsResponseBuildsList = Array<CanvasBuild>;
@@ -789,35 +789,35 @@ export interface GetCanvasesCommentRequest {
   id: string;
   root_comment_id: string;
   /** Comment id whose truncated body should continue. Use with content_offset. */
-  comment_id?: string;
+  comment_id?: string | undefined;
   /** Byte offset returned as content_next_offset for the selected comment. */
-  content_offset?: number;
+  content_offset?: number | undefined;
   /** Opaque cursor returned by the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Maximum number of comments in the thread to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface CanvasCommentAnchor {
   /** Anchor kind: text or region. */
-  kind?: string;
+  kind?: string | undefined;
   /** Selected text. */
-  quote?: string;
+  quote?: string | undefined;
   /** Text immediately before the selection. */
-  prefix?: string;
+  prefix?: string | undefined;
   /** Text immediately after the selection. */
-  suffix?: string;
+  suffix?: string | undefined;
   /** Selection start offset. */
-  start?: number;
+  start?: number | undefined;
   /** Selection end offset. */
-  end?: number;
+  end?: number | undefined;
   /** Horizontal region position. */
-  x?: number;
+  x?: number | undefined;
   /** Vertical region position. */
-  y?: number;
+  y?: number | undefined;
   /** Region width. */
-  width?: number;
+  width?: number | undefined;
   /** Region height. */
-  height?: number;
+  height?: number | undefined;
 }
 export interface CanvasCommentEntry {
   /** Comment id. */
@@ -853,7 +853,7 @@ export interface GetCanvasesConnectorRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Comma-separated MCP server hosts to include (e.g. 'mcp.calendly.com'). Defaults to every server the caller has connected in the MCP store. */
-  mcp_hosts?: string;
+  mcp_hosts?: string | undefined;
 }
 /** * `native` - Native * `mcp` - Mcp */
 export type ConnectorKindEnum = "native" | "mcp";
@@ -925,9 +925,9 @@ export interface GetCanvasesLayoutRequest {
   /** A UUID string identifying this canvas. */
   id: string;
   /** Also return the renderable build (with signed artifact URL) of every component the layout's live placements reference, so a grid renders from this one call. */
-  include_components?: boolean;
+  include_components?: boolean | undefined;
   /** Read this historical layout version instead of the head (for version browsing). */
-  version_id?: string;
+  version_id?: string | undefined;
 }
 /** The build the placement renders (live, or the pinned version's retained build). Empty when none is renderable. */
 export type CanvasComponentLifecycleBuildsList = Array<CanvasBuild>;
@@ -956,7 +956,7 @@ export interface CanvasLayoutWithComponentsResponse {
   /** The live layout version this document reflects -- pass as expected_current_version_id when publishing or patching. Null before the first layout publish. */
   current_version_id: string | null;
   /** One entry per distinct (component, pinned version) the layout's live placements reference, present only when the request passes include_components. Components the caller may not see are omitted. */
-  component_lifecycles?: CanvasLayoutWithComponentsResponseComponentLifecyclesList;
+  component_lifecycles?: CanvasLayoutWithComponentsResponseComponentLifecyclesList | undefined;
 }
 export interface GetCanvasesSourceRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -964,7 +964,7 @@ export interface GetCanvasesSourceRequest {
   /** A UUID string identifying this canvas. */
   id: string;
   /** Read this historical source version instead of the head (for version browsing). */
-  version_id?: string;
+  version_id?: string | undefined;
 }
 /** A canvas's source project plus the version pointer edits must be based on. */
 export interface CanvasSourceResponse {
@@ -982,17 +982,17 @@ export interface GetCanvasesStateRequest {
   /** A UUID string identifying this canvas. */
   id: string;
   /** Only read this exact key. */
-  key?: string;
+  key?: string | undefined;
   /** Only read entries whose key starts with this prefix. */
-  key_prefix?: string;
+  key_prefix?: string | undefined;
   /** True returns a key inventory without stored values. */
-  keys_only?: boolean;
+  keys_only?: boolean | undefined;
   /** Maximum entries per page. Omit for the full state. Prefer an inventory and state/value for large values. */
-  limit?: number;
+  limit?: number | undefined;
   /** Entry offset from next_offset. Keep filters unchanged between pages. */
-  offset?: number;
+  offset?: number | undefined;
   /** Only read this scope. * `user` - user * `shared` - shared */
-  scope?: GetCanvasesStateRequestScope | (string & {});
+  scope?: GetCanvasesStateRequestScope | (string & {}) | undefined;
 }
 /** One key of a canvas's runtime key-value state (the ph.state store). */
 export interface CanvasStateEntry {
@@ -1001,7 +1001,7 @@ export interface CanvasStateEntry {
   /** The entry's key, unique within its scope. */
   key: string;
   /** The stored JSON value. Omitted from a key inventory. */
-  value?: unknown;
+  value?: unknown | undefined;
   /** When the entry was last written. */
   updated_at: string;
 }
@@ -1025,11 +1025,11 @@ export interface GetCanvasesStateValueRequest {
   /** Exact key to read. */
   key: string;
   /** Maximum JSON characters in this response. */
-  limit?: number;
+  limit?: number | undefined;
   /** Character offset from next_offset. */
-  offset?: number;
+  offset?: number | undefined;
   /** Revision from the first chunk. Required when offset is greater than zero. */
-  revision?: string;
+  revision?: string | undefined;
   /** Scope of the value to read. * `user` - user * `shared` - shared */
   scope: GetCanvasesStateValueRequestScope | (string & {});
 }
@@ -1057,9 +1057,9 @@ export interface GetCanvasesVersionRequest {
   /** A UUID string identifying this canvas. */
   id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 /** One entry of a canvas's source-version history (metadata only -- fetch a version's files via `source?version_id=`). */
 export interface CanvasVersion {
@@ -1080,8 +1080,8 @@ export interface CanvasVersion {
 export type PaginatedCanvasVersionListResultsList = Array<CanvasVersion>;
 export interface PaginatedCanvasVersionList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedCanvasVersionListResultsList;
 }
 export interface GetCanvasesViewRequest {
@@ -1103,11 +1103,11 @@ export interface CanvasViewResponse {
   /** True while a build is queued or running -- poll the builds endpoint until it settles. */
   has_active_build: boolean;
   /** The head source project, present only when the canvas has no live build to render (the client-side fallback tier). Null otherwise, and always null for grid canvases. */
-  source?: CanvasSourceProject | null;
+  source?: CanvasSourceProject | null | undefined;
   /** For grid canvases: the head layout document. Null for other kinds. */
-  layout?: CanvasLayout | null;
+  layout?: CanvasLayout | null | undefined;
   /** For grid canvases: the renderable build of every component the layout's live placements reference, so the grid renders from this one call. Absent for other kinds. */
-  component_lifecycles?: CanvasViewResponseComponentLifecyclesList;
+  component_lifecycles?: CanvasViewResponseComponentLifecyclesList | undefined;
   /** URL of the sandbox document that renders the head source project in an iframe, served from the artifact origin. Load it by URL, not as srcdoc. Null when artifact delivery is unavailable. */
   sandbox_document_url: string | null;
 }
@@ -1121,7 +1121,7 @@ export interface InvokeCanvasesActionRequest {
   /** Registered verb to invoke, e.g. 'tasks.create'. */
   verb: string;
   /** Verb-specific arguments, validated against the verb's payload schema. */
-  payload?: InvokeCanvasesActionRequestPayloadMap;
+  payload?: InvokeCanvasesActionRequestPayloadMap | undefined;
 }
 /** Verb-specific result, e.g. {'task_id': ...} for tasks.create. */
 export type CanvasActionResultResultMap = { [key: string]: unknown | undefined };
@@ -1138,23 +1138,23 @@ export interface ListCanvasesRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Only return canvases in this channel. */
-  channel?: string;
+  channel?: string | undefined;
   /** Only return canvases of this kind. kind=component lists the component store. */
-  kind?: ListCanvasesRequestKind | (string & {});
+  kind?: ListCanvasesRequestKind | (string & {}) | undefined;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
   /** Sort order. -created_at (default) puts the newest canvases first. -updated_at puts the most recently changed canvases first. */
-  ordering?: ListCanvasesRequestOrdering | (string & {});
+  ordering?: ListCanvasesRequestOrdering | (string & {}) | undefined;
   /** Only return canvases whose name or description contains this text (case-insensitive). */
-  search?: string;
+  search?: string | undefined;
 }
 export type PaginatedCanvasListResultsList = Array<Canvas>;
 export interface PaginatedCanvasList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedCanvasListResultsList;
 }
 export interface ListCanvasesCommentsRequest {
@@ -1163,11 +1163,11 @@ export interface ListCanvasesCommentsRequest {
   /** A UUID string identifying this canvas. */
   id: string;
   /** Opaque cursor returned by the previous page. */
-  cursor?: string;
+  cursor?: string | undefined;
   /** Whether to include resolved comment threads. */
-  include_resolved?: boolean;
+  include_resolved?: boolean | undefined;
   /** Maximum number of root comments to return. */
-  limit?: number;
+  limit?: number | undefined;
 }
 export interface CanvasCommentSummary {
   /** Root comment id. */
@@ -1211,15 +1211,15 @@ export interface UpdateCanvasesPartialRequest {
   /** A UUID string identifying this canvas. */
   id: string;
   /** Updated display name. */
-  name?: string;
+  name?: string | undefined;
   /** Updated canvas description (for components, the store-search text). */
-  description?: string;
+  description?: string | undefined;
   /** Id of the space the canvas belongs to. */
-  channel_id?: string;
+  channel_id?: string | undefined;
   /** Whether the canvas is pinned in its channel. */
-  pinned?: boolean;
+  pinned?: boolean | undefined;
   /** Task currently generating this canvas, or null to clear it. */
-  generation_task_id?: string | null;
+  generation_task_id?: string | null | undefined;
 }
 export type CanvasesConnectorsCallError = BadRequest | Forbidden | PosthogOpError;
 /** Call one declared connector tool as the viewer. The canvas must declare the provider and tool in capabilities.connectors (the reviewed permission boundary); the call runs with the viewer's own connection, so two viewers of the same canvas see their own data. */

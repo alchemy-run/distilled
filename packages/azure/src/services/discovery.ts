@@ -39,16 +39,16 @@ export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "R
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** Properties of the private endpoint connection. */
 export interface BookshelfPrivateEndpointConnectionsCreateOrUpdateRequestProperties {
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpointInput;
+  privateEndpoint?: PrivateEndpointInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -62,7 +62,7 @@ export interface BookshelfPrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Properties of the private endpoint connection. */
-  properties?: BookshelfPrivateEndpointConnectionsCreateOrUpdateRequestProperties;
+  properties?: BookshelfPrivateEndpointConnectionsCreateOrUpdateRequestProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -71,17 +71,17 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type BookshelfPrivateEndpointConnectionsCreateOrUpdateResponsePropertiesGroupIdsList =
@@ -89,7 +89,7 @@ export type BookshelfPrivateEndpointConnectionsCreateOrUpdateResponsePropertiesG
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -100,29 +100,31 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface BookshelfPrivateEndpointConnectionsCreateOrUpdateResponseProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: BookshelfPrivateEndpointConnectionsCreateOrUpdateResponsePropertiesGroupIdsList;
+  groupIds?:
+    | BookshelfPrivateEndpointConnectionsCreateOrUpdateResponsePropertiesGroupIdsList
+    | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface BookshelfPrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: BookshelfPrivateEndpointConnectionsCreateOrUpdateResponseProperties;
+  properties?: BookshelfPrivateEndpointConnectionsCreateOrUpdateResponseProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type BookshelvesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -141,7 +143,7 @@ export interface BookshelfKeyVaultProperties {
   /** The Key Name in Key Vault */
   keyName: string;
   /** The Key Version in Key Vault */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
   /** The client ID of the identity to use for accessing the Key Vault. Must be a workload identity assigned to the Bookshelf resource. */
   identityClientId: string;
 }
@@ -150,19 +152,19 @@ export type PublicNetworkAccess = "Enabled" | "Disabled";
 /** Bookshelf properties */
 export interface BookshelfPropertiesInput {
   /** User assigned identity IDs to be used by knowledgebase workloads. The key value must be the resource ID of the identity resource. */
-  workloadIdentities?: BookshelfPropertiesInputWorkloadIdentitiesMap;
+  workloadIdentities?: BookshelfPropertiesInputWorkloadIdentitiesMap | undefined;
   /** Whether or not to use a customer managed key when encrypting data at rest */
-  customerManagedKeys?: CustomerManagedKeys | (string & {});
+  customerManagedKeys?: CustomerManagedKeys | (string & {}) | undefined;
   /** The key to use for encrypting data at rest when customer managed keys are enabled. Required if Customer Managed Keys is enabled. */
-  keyVaultProperties?: BookshelfKeyVaultProperties;
+  keyVaultProperties?: BookshelfKeyVaultProperties | undefined;
   /** The Log Analytics Cluster to use for debug logs. This is required when Customer Managed Keys are enabled. */
-  logAnalyticsClusterId?: string;
+  logAnalyticsClusterId?: string | undefined;
   /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Private Endpoint Subnet ID for private endpoint connections. */
-  privateEndpointSubnetId?: string;
+  privateEndpointSubnetId?: string | undefined;
   /** Search Subnet ID for search resources. */
-  searchSubnetId?: string;
+  searchSubnetId?: string | undefined;
 }
 export interface BookshelvesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -172,11 +174,11 @@ export interface BookshelvesCreateOrUpdateRequest {
   /** The name of the Bookshelf */
   bookshelfName: string;
   /** Resource tags. */
-  tags?: BookshelvesCreateOrUpdateRequestTagsMap;
+  tags?: BookshelvesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BookshelfPropertiesInput;
+  properties?: BookshelfPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type BookshelvesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -192,9 +194,9 @@ export type ProvisioningState =
 /** User assigned identity properties */
 export interface BookshelfPropertiesWorkloadIdentitiesValue {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** User assigned identity IDs to be used by knowledgebase workloads. The key value must be the resource ID of the identity resource. */
 export type BookshelfPropertiesWorkloadIdentitiesMap = {
@@ -205,26 +207,26 @@ export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The private endpoint connection resource. */
 export interface BookshelfPropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections. */
 export type BookshelfPropertiesPrivateEndpointConnectionsList =
@@ -232,7 +234,7 @@ export type BookshelfPropertiesPrivateEndpointConnectionsList =
 /** Managed-On-Behalf-Of broker resource. This resource is created by the Resource Provider to manage some resources on behalf of the user. */
 export interface WithMoboBrokerResourcesMoboBrokerResourcesItem {
   /** Resource identifier of a Managed-On-Behalf-Of broker resource */
-  id?: string;
+  id?: string | undefined;
 }
 /** Managed-On-Behalf-Of broker resources */
 export type WithMoboBrokerResourcesMoboBrokerResourcesList =
@@ -240,54 +242,54 @@ export type WithMoboBrokerResourcesMoboBrokerResourcesList =
 /** For tracking mobo resources */
 export interface WithMoboBrokerResources {
   /** Managed-On-Behalf-Of broker resources */
-  moboBrokerResources?: WithMoboBrokerResourcesMoboBrokerResourcesList;
+  moboBrokerResources?: WithMoboBrokerResourcesMoboBrokerResourcesList | undefined;
 }
 /** Bookshelf properties */
 export interface BookshelfProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** User assigned identity IDs to be used by knowledgebase workloads. The key value must be the resource ID of the identity resource. */
-  workloadIdentities?: BookshelfPropertiesWorkloadIdentitiesMap;
+  workloadIdentities?: BookshelfPropertiesWorkloadIdentitiesMap | undefined;
   /** Whether or not to use a customer managed key when encrypting data at rest */
-  customerManagedKeys?: CustomerManagedKeys;
+  customerManagedKeys?: CustomerManagedKeys | undefined;
   /** The key to use for encrypting data at rest when customer managed keys are enabled. Required if Customer Managed Keys is enabled. */
-  keyVaultProperties?: BookshelfKeyVaultProperties;
+  keyVaultProperties?: BookshelfKeyVaultProperties | undefined;
   /** The Log Analytics Cluster to use for debug logs. This is required when Customer Managed Keys are enabled. */
-  logAnalyticsClusterId?: string;
+  logAnalyticsClusterId?: string | undefined;
   /** List of private endpoint connections. */
-  privateEndpointConnections?: BookshelfPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: BookshelfPropertiesPrivateEndpointConnectionsList | undefined;
   /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** Private Endpoint Subnet ID for private endpoint connections. */
-  privateEndpointSubnetId?: string;
+  privateEndpointSubnetId?: string | undefined;
   /** Search Subnet ID for search resources. */
-  searchSubnetId?: string;
+  searchSubnetId?: string | undefined;
   /** The resource group for resources managed on behalf of customer. */
-  managedResourceGroup?: string;
+  managedResourceGroup?: string | undefined;
   /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
-  managedOnBehalfOfConfiguration?: WithMoboBrokerResources;
+  managedOnBehalfOfConfiguration?: WithMoboBrokerResources | undefined;
   /** The bookshelf data plane API URI */
-  bookshelfUri?: string;
+  bookshelfUri?: string | undefined;
 }
 export interface BookshelvesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BookshelvesCreateOrUpdateResponseTagsMap;
+  tags?: BookshelvesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BookshelfProperties;
+  properties?: BookshelfProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ChatModelDeploymentsCreateOrUpdateRequestTagsMap = {
@@ -300,11 +302,11 @@ export interface ChatModelDeploymentPropertiesInput {
   /** Canonical provider model name available in the selected region. Verify supported values per region using the Model Catalog API. */
   modelName: string;
   /** Provider-published version of the selected model. */
-  modelVersion?: string;
+  modelVersion?: string | undefined;
   /** SKU tier used by this chat model deployment. */
-  skuName?: string;
+  skuName?: string | undefined;
   /** Provisioned SKU capacity units for this chat model deployment. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface ChatModelDeploymentsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -316,11 +318,11 @@ export interface ChatModelDeploymentsCreateOrUpdateRequest {
   /** The name of the ChatModelDeployment */
   chatModelDeploymentName: string;
   /** Resource tags. */
-  tags?: ChatModelDeploymentsCreateOrUpdateRequestTagsMap;
+  tags?: ChatModelDeploymentsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ChatModelDeploymentPropertiesInput;
+  properties?: ChatModelDeploymentPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ChatModelDeploymentsCreateOrUpdateResponseTagsMap = {
@@ -329,37 +331,37 @@ export type ChatModelDeploymentsCreateOrUpdateResponseTagsMap = {
 /** Defines a deployment binding a specific model family to a user-defined deployment name for chat inference. */
 export interface ChatModelDeploymentProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Model format as published by the provider. Verify supported formats per region using the Model Catalog API. */
   modelFormat: string;
   /** Canonical provider model name available in the selected region. Verify supported values per region using the Model Catalog API. */
   modelName: string;
   /** Provider-published version of the selected model. */
-  modelVersion?: string;
+  modelVersion?: string | undefined;
   /** SKU tier used by this chat model deployment. */
-  skuName?: string;
+  skuName?: string | undefined;
   /** Provisioned SKU capacity units for this chat model deployment. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface ChatModelDeploymentsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ChatModelDeploymentsCreateOrUpdateResponseTagsMap;
+  tags?: ChatModelDeploymentsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ChatModelDeploymentProperties;
+  properties?: ChatModelDeploymentProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBookshelfPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -373,9 +375,9 @@ export interface DeleteBookshelfPrivateEndpointConnectionRequest {
 }
 export interface DeleteBookshelfPrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteBookshelveRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -387,9 +389,9 @@ export interface DeleteBookshelveRequest {
 }
 export interface DeleteBookshelveResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteChatModelDeploymentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -403,9 +405,9 @@ export interface DeleteChatModelDeploymentRequest {
 }
 export interface DeleteChatModelDeploymentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteNodePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -419,9 +421,9 @@ export interface DeleteNodePoolRequest {
 }
 export interface DeleteNodePoolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteProjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -435,9 +437,9 @@ export interface DeleteProjectRequest {
 }
 export interface DeleteProjectResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -451,9 +453,9 @@ export interface DeleteStorageAssetRequest {
 }
 export interface DeleteStorageAssetResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteStorageContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -465,9 +467,9 @@ export interface DeleteStorageContainerRequest {
 }
 export interface DeleteStorageContainerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteSupercomputerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -479,9 +481,9 @@ export interface DeleteSupercomputerRequest {
 }
 export interface DeleteSupercomputerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteToolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -493,9 +495,9 @@ export interface DeleteToolRequest {
 }
 export interface DeleteToolResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -507,9 +509,9 @@ export interface DeleteWorkspaceRequest {
 }
 export interface DeleteWorkspaceResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteWorkspacePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -523,9 +525,9 @@ export interface DeleteWorkspacePrivateEndpointConnectionRequest {
 }
 export interface DeleteWorkspacePrivateEndpointConnectionResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface GetBookshelfPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -542,25 +544,25 @@ export type GetBookshelfPrivateEndpointConnectionResponsePropertiesGroupIdsList 
 /** Properties of the private endpoint connection. */
 export interface GetBookshelfPrivateEndpointConnectionResponseProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: GetBookshelfPrivateEndpointConnectionResponsePropertiesGroupIdsList;
+  groupIds?: GetBookshelfPrivateEndpointConnectionResponsePropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetBookshelfPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: GetBookshelfPrivateEndpointConnectionResponseProperties;
+  properties?: GetBookshelfPrivateEndpointConnectionResponseProperties | undefined;
 }
 export interface GetBookshelfPrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -579,23 +581,27 @@ export type GetBookshelfPrivateLinkResourceResponsePropertiesRequiredZoneNamesLi
 /** Properties of a private link resource. */
 export interface GetBookshelfPrivateLinkResourceResponseProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: GetBookshelfPrivateLinkResourceResponsePropertiesRequiredMembersList;
+  requiredMembers?:
+    | GetBookshelfPrivateLinkResourceResponsePropertiesRequiredMembersList
+    | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: GetBookshelfPrivateLinkResourceResponsePropertiesRequiredZoneNamesList;
+  requiredZoneNames?:
+    | GetBookshelfPrivateLinkResourceResponsePropertiesRequiredZoneNamesList
+    | undefined;
 }
 export interface GetBookshelfPrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a private link resource. */
-  properties?: GetBookshelfPrivateLinkResourceResponseProperties;
+  properties?: GetBookshelfPrivateLinkResourceResponseProperties | undefined;
 }
 export interface GetBookshelveRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -609,19 +615,19 @@ export interface GetBookshelveRequest {
 export type GetBookshelveResponseTagsMap = { [key: string]: string | undefined };
 export interface GetBookshelveResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetBookshelveResponseTagsMap;
+  tags?: GetBookshelveResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BookshelfProperties;
+  properties?: BookshelfProperties | undefined;
 }
 export interface GetChatModelDeploymentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -637,19 +643,19 @@ export interface GetChatModelDeploymentRequest {
 export type GetChatModelDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export interface GetChatModelDeploymentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetChatModelDeploymentResponseTagsMap;
+  tags?: GetChatModelDeploymentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ChatModelDeploymentProperties;
+  properties?: ChatModelDeploymentProperties | undefined;
 }
 export interface GetNodePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -684,7 +690,7 @@ export type NodePoolPropertiesScaleSetPriority = "Regular" | "Spot";
 /** NodePool properties */
 export interface NodePoolProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The node pool subnet. */
   subnetId: string;
   /** The size of the underlying Azure VM. */
@@ -692,31 +698,31 @@ export interface NodePoolProperties {
   /** The maximum number of nodes. */
   maxNodeCount: number;
   /** The minimum number of nodes. */
-  minNodeCount?: number;
+  minNodeCount?: number | undefined;
   /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
-  scaleSetPriority?: NodePoolPropertiesScaleSetPriority;
+  scaleSetPriority?: NodePoolPropertiesScaleSetPriority | undefined;
   /** The size of the OS disk in GB. If not specified, the default is 120 GB. */
-  osDiskSizeGb?: number;
+  osDiskSizeGb?: number | undefined;
   /** The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageCacheUpperThreshold. The default is 40% */
-  imageCacheLowerThreshold?: number;
+  imageCacheLowerThreshold?: number | undefined;
   /** The percent of disk usage after which image garbage collection is guaranteed to run. The default is 60% */
-  imageCacheUpperThreshold?: number;
+  imageCacheUpperThreshold?: number | undefined;
 }
 export interface GetNodePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetNodePoolResponseTagsMap;
+  tags?: GetNodePoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolProperties;
+  properties?: NodePoolProperties | undefined;
 }
 export interface GetProjectRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -735,34 +741,34 @@ export type ProjectPropertiesStorageContainerIdsList = Array<string>;
 /** Settings schema for the project */
 export interface ProjectSettings {
   /** Default preferences to guide AI behaviors in this project. */
-  behaviorPreferences?: string;
+  behaviorPreferences?: string | undefined;
 }
 /** Project properties */
 export interface ProjectProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Foundry project endpoint URI. */
-  foundryProjectEndpoint?: string;
+  foundryProjectEndpoint?: string | undefined;
   /** Allowed StorageContainers (Control plane resource references). */
-  storageContainerIds?: ProjectPropertiesStorageContainerIdsList;
+  storageContainerIds?: ProjectPropertiesStorageContainerIdsList | undefined;
   /** Settings for the project. */
-  settings?: ProjectSettings;
+  settings?: ProjectSettings | undefined;
 }
 export interface GetProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetProjectResponseTagsMap;
+  tags?: GetProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
 }
 export interface GetStorageAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -781,25 +787,25 @@ export interface StorageAssetProperties {
   /** The description */
   description: string;
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The path to the data within its parent container. This should be relative to the root of the parent container. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface GetStorageAssetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetStorageAssetResponseTagsMap;
+  tags?: GetStorageAssetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageAssetProperties;
+  properties?: StorageAssetProperties | undefined;
 }
 export interface GetStorageContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -818,34 +824,34 @@ export interface StorageStore {
   /** The storage store kind. */
   kind: StorageStoreType | (string & {});
   /** AzureStorageBlob: the associated Azure Storage account ID. */
-  storageAccountId?: string;
+  storageAccountId?: string | undefined;
   /** AzureNetAppFiles: the associated Azure NetApp Files volume ID. */
-  netAppVolumeId?: string;
+  netAppVolumeId?: string | undefined;
   /** Protocol used to mount the store: `NFS` or `BlobfuseCaching` (blob only). */
-  mountProtocol?: string;
+  mountProtocol?: string | undefined;
 }
 /** Storage Container properties */
 export interface StorageContainerProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Storage store properties */
   storageStore: StorageStore;
 }
 export interface GetStorageContainerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetStorageContainerResponseTagsMap;
+  tags?: GetStorageContainerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageContainerProperties;
+  properties?: StorageContainerProperties | undefined;
 }
 export interface GetSupercomputerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -866,9 +872,9 @@ export interface Identity {
   /** The resource ID of the user assigned identity. */
   id: string;
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** User assigned identity properties */
 export type SupercomputerIdentitiesWorkloadIdentitiesValue =
@@ -884,60 +890,60 @@ export interface SupercomputerIdentities {
   /** Kubelet identity ID used by the supercomputer. This identity is used by the supercomputer at node level to access Azure resources. This identity must have ManagedIdentityOperator role on the clusterIdentity. */
   kubeletIdentity: Identity;
   /** User assigned identity IDs to be used by workloads as federated credentials running on supercomputer. The key value must be the resource ID of the identity resource. */
-  workloadIdentities?: SupercomputerIdentitiesWorkloadIdentitiesMap;
+  workloadIdentities?: SupercomputerIdentitiesWorkloadIdentitiesMap | undefined;
 }
 /** Supercomputer properties */
 export interface SupercomputerProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** System Subnet ID associated with managed NodePool for system resources. It should have connectivity to the child NodePool subnets. */
   subnetId: string;
   /** System Subnet ID associated with AKS apiserver. Must be delegated to Microsoft.ContainerService/managedClusters. It should have connectivity to the system subnet and nodepool subnets. */
-  managementSubnetId?: string;
+  managementSubnetId?: string | undefined;
   /** Network egress type provisioned for the supercomputer workloads. Defaults to LoadBalancer if not specified. If None is specified, the customer is responsible for providing outbound connectivity for Supercomputer functionality. */
-  outboundType?: SupercomputerPropertiesOutboundType;
+  outboundType?: SupercomputerPropertiesOutboundType | undefined;
   /** The SKU to use for the system node pool. */
-  systemSku?: SystemSku;
+  systemSku?: SystemSku | undefined;
   /** Dictionary of identity properties. */
   identities: SupercomputerIdentities;
   /** Whether or not to use a customer managed key when encrypting data at rest */
-  customerManagedKeys?: CustomerManagedKeys;
+  customerManagedKeys?: CustomerManagedKeys | undefined;
   /** Disk Encryption Set ID to use for Customer Managed Keys encryption. Required if Customer Managed Keys is enabled. */
-  diskEncryptionSetId?: string;
+  diskEncryptionSetId?: string | undefined;
   /** The Log Analytics Cluster to use for debug logs. This is required when Customer Managed Keys are enabled. */
-  logAnalyticsClusterId?: string;
+  logAnalyticsClusterId?: string | undefined;
   /** The resource group for resources managed on behalf of customer. */
-  managedResourceGroup?: string;
+  managedResourceGroup?: string | undefined;
   /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
-  managedOnBehalfOfConfiguration?: WithMoboBrokerResources;
+  managedOnBehalfOfConfiguration?: WithMoboBrokerResources | undefined;
 }
 /** Type of managed service identity (either system assigned, or none). */
 export type SystemAssignedServiceIdentityType = "None" | "SystemAssigned";
 /** Managed service identity (either system assigned, or none) */
 export interface GetSupercomputerResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: SystemAssignedServiceIdentityType;
 }
 export interface GetSupercomputerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetSupercomputerResponseTagsMap;
+  tags?: GetSupercomputerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SupercomputerProperties;
+  properties?: SupercomputerProperties | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: GetSupercomputerResponseIdentity;
+  identity?: GetSupercomputerResponseIdentity | undefined;
 }
 export interface GetToolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -956,29 +962,29 @@ export type ToolPropertiesDefinitionContentMap = { [key: string]: unknown | unde
 /** Discovery Tool list item properties */
 export interface ToolProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** The version of a resource definition */
   version: string;
   /** Environment variables to make available */
-  environmentVariables?: ToolPropertiesEnvironmentVariablesMap;
+  environmentVariables?: ToolPropertiesEnvironmentVariablesMap | undefined;
   /** The JSON content for defining a resource */
   definitionContent: ToolPropertiesDefinitionContentMap;
 }
 export interface GetToolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetToolResponseTagsMap;
+  tags?: GetToolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ToolProperties;
+  properties?: ToolProperties | undefined;
 }
 export interface GetWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -999,7 +1005,7 @@ export interface KeyVaultProperties {
   /** The Key Name in Key Vault */
   keyName: string;
   /** The Key Version in Key Vault */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
 }
 /** The private endpoint connection resource. */
 export type WorkspacePropertiesPrivateEndpointConnectionsItem =
@@ -1010,51 +1016,51 @@ export type WorkspacePropertiesPrivateEndpointConnectionsList =
 /** Workspace properties */
 export interface WorkspaceProperties {
   /** The status of the last operation. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** List of linked SuperComputers. */
-  supercomputerIds?: WorkspacePropertiesSupercomputerIdsList;
+  supercomputerIds?: WorkspacePropertiesSupercomputerIdsList | undefined;
   /** workspace API endpoint Uri. */
-  workspaceApiUri?: string;
+  workspaceApiUri?: string | undefined;
   /** workspace User Interface Uri. */
-  workspaceUiUri?: string;
+  workspaceUiUri?: string | undefined;
   /** Identity IDs used for leveraging Workspace resources. */
   workspaceIdentity: Identity;
   /** Whether or not to use a customer managed key when encrypting data at rest */
-  customerManagedKeys?: CustomerManagedKeys;
+  customerManagedKeys?: CustomerManagedKeys | undefined;
   /** The key to use for encrypting data at rest when customer managed keys are enabled. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** The Log Analytics Cluster to use for debug logs. This is required when Customer Managed Keys are enabled. */
-  logAnalyticsClusterId?: string;
+  logAnalyticsClusterId?: string | undefined;
   /** List of private endpoint connections. */
-  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: WorkspacePropertiesPrivateEndpointConnectionsList | undefined;
   /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** Agent Subnet ID for agent resources. */
-  agentSubnetId?: string;
+  agentSubnetId?: string | undefined;
   /** Private Endpoint Subnet ID for private endpoint connections. */
-  privateEndpointSubnetId?: string;
+  privateEndpointSubnetId?: string | undefined;
   /** Function Subnet ID for workspace resources. */
-  workspaceSubnetId?: string;
+  workspaceSubnetId?: string | undefined;
   /** The resource group for resources managed on behalf of customer. */
-  managedResourceGroup?: string;
+  managedResourceGroup?: string | undefined;
   /** Managed-On-Behalf-Of configuration properties. This configuration exists for the resources where a resource provider manages those resources on behalf of the resource owner. */
-  managedOnBehalfOfConfiguration?: WithMoboBrokerResources;
+  managedOnBehalfOfConfiguration?: WithMoboBrokerResources | undefined;
 }
 export interface GetWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetWorkspaceResponseTagsMap;
+  tags?: GetWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 export interface GetWorkspacePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1071,25 +1077,25 @@ export type GetWorkspacePrivateEndpointConnectionResponsePropertiesGroupIdsList 
 /** Properties of the private endpoint connection. */
 export interface GetWorkspacePrivateEndpointConnectionResponseProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: GetWorkspacePrivateEndpointConnectionResponsePropertiesGroupIdsList;
+  groupIds?: GetWorkspacePrivateEndpointConnectionResponsePropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface GetWorkspacePrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: GetWorkspacePrivateEndpointConnectionResponseProperties;
+  properties?: GetWorkspacePrivateEndpointConnectionResponseProperties | undefined;
 }
 export interface GetWorkspacePrivateLinkResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1108,23 +1114,27 @@ export type GetWorkspacePrivateLinkResourceResponsePropertiesRequiredZoneNamesLi
 /** Properties of a private link resource. */
 export interface GetWorkspacePrivateLinkResourceResponseProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: GetWorkspacePrivateLinkResourceResponsePropertiesRequiredMembersList;
+  requiredMembers?:
+    | GetWorkspacePrivateLinkResourceResponsePropertiesRequiredMembersList
+    | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: GetWorkspacePrivateLinkResourceResponsePropertiesRequiredZoneNamesList;
+  requiredZoneNames?:
+    | GetWorkspacePrivateLinkResourceResponsePropertiesRequiredZoneNamesList
+    | undefined;
 }
 export interface GetWorkspacePrivateLinkResourceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a private link resource. */
-  properties?: GetWorkspacePrivateLinkResourceResponseProperties;
+  properties?: GetWorkspacePrivateLinkResourceResponseProperties | undefined;
 }
 export interface ListBookshelfPrivateEndpointConnectionByBookshelfRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1139,26 +1149,26 @@ export type BookshelfPrivateEndpointConnectionPropertiesGroupIdsList = Array<str
 /** Properties of the private endpoint connection. */
 export interface BookshelfPrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: BookshelfPrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: BookshelfPrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The Private Endpoint Connection resource for Bookshelf. */
 export interface BookshelfPrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: BookshelfPrivateEndpointConnectionProperties;
+  properties?: BookshelfPrivateEndpointConnectionProperties | undefined;
 }
 /** The BookshelfPrivateEndpointConnection items on this page */
 export type BookshelfPrivateEndpointConnectionListResultValueList =
@@ -1168,7 +1178,7 @@ export interface BookshelfPrivateEndpointConnectionListResult {
   /** The BookshelfPrivateEndpointConnection items on this page */
   value: BookshelfPrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBookshelfPrivateLinkResourceByBookshelfRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1185,24 +1195,24 @@ export type BookshelfPrivateLinkResourcePropertiesRequiredZoneNamesList = Array<
 /** Properties of a private link resource. */
 export interface BookshelfPrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: BookshelfPrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: BookshelfPrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: BookshelfPrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: BookshelfPrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource for Bookshelf. */
 export interface BookshelfPrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a private link resource. */
-  properties?: BookshelfPrivateLinkResourceProperties;
+  properties?: BookshelfPrivateLinkResourceProperties | undefined;
 }
 /** The BookshelfPrivateLinkResource items on this page */
 export type BookshelfPrivateLinkResourceListResultValueList = Array<BookshelfPrivateLinkResource>;
@@ -1211,7 +1221,7 @@ export interface BookshelfPrivateLinkResourceListResult {
   /** The BookshelfPrivateLinkResource items on this page */
   value: BookshelfPrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBookshelveByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1224,19 +1234,19 @@ export type BookshelfTagsMap = { [key: string]: string | undefined };
 /** Bookshelf tracked resource */
 export interface Bookshelf {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: BookshelfTagsMap;
+  tags?: BookshelfTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BookshelfProperties;
+  properties?: BookshelfProperties | undefined;
 }
 /** The Bookshelf items on this page */
 export type BookshelfListResultValueList = Array<Bookshelf>;
@@ -1245,7 +1255,7 @@ export interface BookshelfListResult {
   /** The Bookshelf items on this page */
   value: BookshelfListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListBookshelveBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1264,19 +1274,19 @@ export type ChatModelDeploymentTagsMap = { [key: string]: string | undefined };
 /** Represents a deployment that ties a specific model family to a user defined deployment name used when invoking the chat model. */
 export interface ChatModelDeployment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ChatModelDeploymentTagsMap;
+  tags?: ChatModelDeploymentTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ChatModelDeploymentProperties;
+  properties?: ChatModelDeploymentProperties | undefined;
 }
 /** The ChatModelDeployment items on this page */
 export type ChatModelDeploymentListResultValueList = Array<ChatModelDeployment>;
@@ -1285,7 +1295,7 @@ export interface ChatModelDeploymentListResult {
   /** The ChatModelDeployment items on this page */
   value: ChatModelDeploymentListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListNodePoolBySupercomputerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1300,19 +1310,19 @@ export type NodePoolTagsMap = { [key: string]: string | undefined };
 /** NodePool tracked resource */
 export interface NodePool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NodePoolTagsMap;
+  tags?: NodePoolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolProperties;
+  properties?: NodePoolProperties | undefined;
 }
 /** The NodePool items on this page */
 export type NodePoolListResultValueList = Array<NodePool>;
@@ -1321,19 +1331,19 @@ export interface NodePoolListResult {
   /** The NodePool items on this page */
   value: NodePoolListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -1342,23 +1352,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListProjectByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1373,19 +1383,19 @@ export type ProjectTagsMap = { [key: string]: string | undefined };
 /** Project tracked resource */
 export interface Project {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProjectTagsMap;
+  tags?: ProjectTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
 }
 /** The Project items on this page */
 export type ProjectListResultValueList = Array<Project>;
@@ -1394,7 +1404,7 @@ export interface ProjectListResult {
   /** The Project items on this page */
   value: ProjectListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageAssetByStorageContainerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1409,19 +1419,19 @@ export type StorageAssetTagsMap = { [key: string]: string | undefined };
 /** Storage Asset tracked resource */
 export interface StorageAsset {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageAssetTagsMap;
+  tags?: StorageAssetTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageAssetProperties;
+  properties?: StorageAssetProperties | undefined;
 }
 /** The StorageAsset items on this page */
 export type StorageAssetListResultValueList = Array<StorageAsset>;
@@ -1430,7 +1440,7 @@ export interface StorageAssetListResult {
   /** The StorageAsset items on this page */
   value: StorageAssetListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageContainerByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1443,19 +1453,19 @@ export type StorageContainerTagsMap = { [key: string]: string | undefined };
 /** Storage Container tracked resource */
 export interface StorageContainer {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageContainerTagsMap;
+  tags?: StorageContainerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageContainerProperties;
+  properties?: StorageContainerProperties | undefined;
 }
 /** The StorageContainer items on this page */
 export type StorageContainerListResultValueList = Array<StorageContainer>;
@@ -1464,7 +1474,7 @@ export interface StorageContainerListResult {
   /** The StorageContainer items on this page */
   value: StorageContainerListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListStorageContainerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1483,21 +1493,21 @@ export type SupercomputerIdentity = GetSupercomputerResponseIdentity;
 /** Supercomputer tracked resource */
 export interface Supercomputer {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SupercomputerTagsMap;
+  tags?: SupercomputerTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SupercomputerProperties;
+  properties?: SupercomputerProperties | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: GetSupercomputerResponseIdentity;
+  identity?: GetSupercomputerResponseIdentity | undefined;
 }
 /** The Supercomputer items on this page */
 export type SupercomputerListResultValueList = Array<Supercomputer>;
@@ -1506,7 +1516,7 @@ export interface SupercomputerListResult {
   /** The Supercomputer items on this page */
   value: SupercomputerListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListSupercomputerBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1523,19 +1533,19 @@ export type ToolTagsMap = { [key: string]: string | undefined };
 /** Tool tracked resource */
 export interface Tool {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ToolTagsMap;
+  tags?: ToolTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ToolProperties;
+  properties?: ToolProperties | undefined;
 }
 /** The Tool items on this page */
 export type ToolListResultValueList = Array<Tool>;
@@ -1544,7 +1554,7 @@ export interface ToolListResult {
   /** The Tool items on this page */
   value: ToolListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListToolBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1561,19 +1571,19 @@ export type WorkspaceTagsMap = { [key: string]: string | undefined };
 /** Workspace tracked resource */
 export interface Workspace {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkspaceTagsMap;
+  tags?: WorkspaceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
 }
 /** The Workspace items on this page */
 export type WorkspaceListResultValueList = Array<Workspace>;
@@ -1582,7 +1592,7 @@ export interface WorkspaceListResult {
   /** The Workspace items on this page */
   value: WorkspaceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspaceBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1601,26 +1611,26 @@ export type WorkspacePrivateEndpointConnectionPropertiesGroupIdsList = Array<str
 /** Properties of the private endpoint connection. */
 export interface WorkspacePrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: WorkspacePrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: WorkspacePrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The Private Endpoint Connection resource for Workspace. */
 export interface WorkspacePrivateEndpointConnection {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: WorkspacePrivateEndpointConnectionProperties;
+  properties?: WorkspacePrivateEndpointConnectionProperties | undefined;
 }
 /** The WorkspacePrivateEndpointConnection items on this page */
 export type WorkspacePrivateEndpointConnectionListResultValueList =
@@ -1630,7 +1640,7 @@ export interface WorkspacePrivateEndpointConnectionListResult {
   /** The WorkspacePrivateEndpointConnection items on this page */
   value: WorkspacePrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListWorkspacePrivateLinkResourceByWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1647,24 +1657,24 @@ export type WorkspacePrivateLinkResourcePropertiesRequiredZoneNamesList = Array<
 /** Properties of a private link resource. */
 export interface WorkspacePrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: WorkspacePrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: WorkspacePrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: WorkspacePrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: WorkspacePrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource for Workspace. */
 export interface WorkspacePrivateLinkResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of a private link resource. */
-  properties?: WorkspacePrivateLinkResourceProperties;
+  properties?: WorkspacePrivateLinkResourceProperties | undefined;
 }
 /** The WorkspacePrivateLinkResource items on this page */
 export type WorkspacePrivateLinkResourceListResultValueList = Array<WorkspacePrivateLinkResource>;
@@ -1673,7 +1683,7 @@ export interface WorkspacePrivateLinkResourceListResult {
   /** The WorkspacePrivateLinkResource items on this page */
   value: WorkspacePrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 /** Resource tags. */
 export type NodePoolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1688,15 +1698,15 @@ export interface NodePoolPropertiesInput {
   /** The maximum number of nodes. */
   maxNodeCount: number;
   /** The minimum number of nodes. */
-  minNodeCount?: number;
+  minNodeCount?: number | undefined;
   /** The Virtual Machine Scale Set priority. If not specified, the default is 'Regular'. */
-  scaleSetPriority?: NodePoolPropertiesInputScaleSetPriority | (string & {});
+  scaleSetPriority?: NodePoolPropertiesInputScaleSetPriority | (string & {}) | undefined;
   /** The size of the OS disk in GB. If not specified, the default is 120 GB. */
-  osDiskSizeGb?: number;
+  osDiskSizeGb?: number | undefined;
   /** The percent of disk usage before which image garbage collection is never run. This cannot be set higher than imageCacheUpperThreshold. The default is 40% */
-  imageCacheLowerThreshold?: number;
+  imageCacheLowerThreshold?: number | undefined;
   /** The percent of disk usage after which image garbage collection is guaranteed to run. The default is 60% */
-  imageCacheUpperThreshold?: number;
+  imageCacheUpperThreshold?: number | undefined;
 }
 export interface NodePoolsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1708,33 +1718,33 @@ export interface NodePoolsCreateOrUpdateRequest {
   /** The name of the NodePool */
   nodePoolName: string;
   /** Resource tags. */
-  tags?: NodePoolsCreateOrUpdateRequestTagsMap;
+  tags?: NodePoolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolPropertiesInput;
+  properties?: NodePoolPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type NodePoolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface NodePoolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: NodePoolsCreateOrUpdateResponseTagsMap;
+  tags?: NodePoolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolProperties;
+  properties?: NodePoolProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ProjectsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1743,9 +1753,9 @@ export type ProjectPropertiesInputStorageContainerIdsList = Array<string>;
 /** Project properties */
 export interface ProjectPropertiesInput {
   /** Allowed StorageContainers (Control plane resource references). */
-  storageContainerIds?: ProjectPropertiesInputStorageContainerIdsList;
+  storageContainerIds?: ProjectPropertiesInputStorageContainerIdsList | undefined;
   /** Settings for the project. */
-  settings?: ProjectSettings;
+  settings?: ProjectSettings | undefined;
 }
 export interface ProjectsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1757,33 +1767,33 @@ export interface ProjectsCreateOrUpdateRequest {
   /** The name of the Project */
   projectName: string;
   /** Resource tags. */
-  tags?: ProjectsCreateOrUpdateRequestTagsMap;
+  tags?: ProjectsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ProjectsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ProjectsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ProjectsCreateOrUpdateResponseTagsMap;
+  tags?: ProjectsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type StorageAssetsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1792,7 +1802,7 @@ export interface StorageAssetPropertiesInput {
   /** The description */
   description: string;
   /** The path to the data within its parent container. This should be relative to the root of the parent container. */
-  path?: string;
+  path?: string | undefined;
 }
 export interface StorageAssetsCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1804,33 +1814,33 @@ export interface StorageAssetsCreateOrUpdateRequest {
   /** The name of the StorageAsset */
   storageAssetName: string;
   /** Resource tags. */
-  tags?: StorageAssetsCreateOrUpdateRequestTagsMap;
+  tags?: StorageAssetsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageAssetPropertiesInput;
+  properties?: StorageAssetPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type StorageAssetsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface StorageAssetsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageAssetsCreateOrUpdateResponseTagsMap;
+  tags?: StorageAssetsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageAssetProperties;
+  properties?: StorageAssetProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type StorageContainersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1847,33 +1857,33 @@ export interface StorageContainersCreateOrUpdateRequest {
   /** The name of the StorageContainer */
   storageContainerName: string;
   /** Resource tags. */
-  tags?: StorageContainersCreateOrUpdateRequestTagsMap;
+  tags?: StorageContainersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageContainerPropertiesInput;
+  properties?: StorageContainerPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type StorageContainersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface StorageContainersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: StorageContainersCreateOrUpdateResponseTagsMap;
+  tags?: StorageContainersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageContainerProperties;
+  properties?: StorageContainerProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type SupercomputersCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1892,26 +1902,26 @@ export interface SupercomputerIdentitiesInput {
   /** Kubelet identity ID used by the supercomputer. This identity is used by the supercomputer at node level to access Azure resources. This identity must have ManagedIdentityOperator role on the clusterIdentity. */
   kubeletIdentity: Identity;
   /** User assigned identity IDs to be used by workloads as federated credentials running on supercomputer. The key value must be the resource ID of the identity resource. */
-  workloadIdentities?: SupercomputerIdentitiesInputWorkloadIdentitiesMap;
+  workloadIdentities?: SupercomputerIdentitiesInputWorkloadIdentitiesMap | undefined;
 }
 /** Supercomputer properties */
 export interface SupercomputerPropertiesInput {
   /** System Subnet ID associated with managed NodePool for system resources. It should have connectivity to the child NodePool subnets. */
   subnetId: string;
   /** System Subnet ID associated with AKS apiserver. Must be delegated to Microsoft.ContainerService/managedClusters. It should have connectivity to the system subnet and nodepool subnets. */
-  managementSubnetId?: string;
+  managementSubnetId?: string | undefined;
   /** Network egress type provisioned for the supercomputer workloads. Defaults to LoadBalancer if not specified. If None is specified, the customer is responsible for providing outbound connectivity for Supercomputer functionality. */
-  outboundType?: SupercomputerPropertiesInputOutboundType | (string & {});
+  outboundType?: SupercomputerPropertiesInputOutboundType | (string & {}) | undefined;
   /** The SKU to use for the system node pool. */
-  systemSku?: SystemSku | (string & {});
+  systemSku?: SystemSku | (string & {}) | undefined;
   /** Dictionary of identity properties. */
   identities: SupercomputerIdentitiesInput;
   /** Whether or not to use a customer managed key when encrypting data at rest */
-  customerManagedKeys?: CustomerManagedKeys | (string & {});
+  customerManagedKeys?: CustomerManagedKeys | (string & {}) | undefined;
   /** Disk Encryption Set ID to use for Customer Managed Keys encryption. Required if Customer Managed Keys is enabled. */
-  diskEncryptionSetId?: string;
+  diskEncryptionSetId?: string | undefined;
   /** The Log Analytics Cluster to use for debug logs. This is required when Customer Managed Keys are enabled. */
-  logAnalyticsClusterId?: string;
+  logAnalyticsClusterId?: string | undefined;
 }
 /** Managed service identity (either system assigned, or none) */
 export interface SupercomputersCreateOrUpdateRequestIdentity {
@@ -1925,13 +1935,13 @@ export interface SupercomputersCreateOrUpdateRequest {
   /** The name of the Supercomputer */
   supercomputerName: string;
   /** Resource tags. */
-  tags?: SupercomputersCreateOrUpdateRequestTagsMap;
+  tags?: SupercomputersCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SupercomputerPropertiesInput;
+  properties?: SupercomputerPropertiesInput | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: SupercomputersCreateOrUpdateRequestIdentity;
+  identity?: SupercomputersCreateOrUpdateRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type SupercomputersCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
@@ -1939,25 +1949,25 @@ export type SupercomputersCreateOrUpdateResponseTagsMap = { [key: string]: strin
 export type SupercomputersCreateOrUpdateResponseIdentity = GetSupercomputerResponseIdentity;
 export interface SupercomputersCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: SupercomputersCreateOrUpdateResponseTagsMap;
+  tags?: SupercomputersCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SupercomputerProperties;
+  properties?: SupercomputerProperties | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: GetSupercomputerResponseIdentity;
+  identity?: GetSupercomputerResponseIdentity | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type ToolsCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -1970,7 +1980,7 @@ export interface ToolPropertiesInput {
   /** The version of a resource definition */
   version: string;
   /** Environment variables to make available */
-  environmentVariables?: ToolPropertiesInputEnvironmentVariablesMap;
+  environmentVariables?: ToolPropertiesInputEnvironmentVariablesMap | undefined;
   /** The JSON content for defining a resource */
   definitionContent: ToolPropertiesInputDefinitionContentMap;
 }
@@ -1982,49 +1992,49 @@ export interface ToolsCreateOrUpdateRequest {
   /** The name of the Tool */
   toolName: string;
   /** Resource tags. */
-  tags?: ToolsCreateOrUpdateRequestTagsMap;
+  tags?: ToolsCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ToolPropertiesInput;
+  properties?: ToolPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type ToolsCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface ToolsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: ToolsCreateOrUpdateResponseTagsMap;
+  tags?: ToolsCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ToolProperties;
+  properties?: ToolProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateBookshelveRequestTagsMap = { [key: string]: string | undefined };
 /** Key Vault Properties with clientId selection */
 export interface BookshelfKeyVaultPropertiesUpdate {
   /** The Key Name in Key Vault */
-  keyName?: string;
+  keyName?: string | undefined;
   /** The Key Version in Key Vault */
-  keyVersion?: string;
+  keyVersion?: string | undefined;
 }
 /** Bookshelf properties */
 export interface BookshelfPropertiesUpdate {
   /** The key to use for encrypting data at rest when customer managed keys are enabled. Required if Customer Managed Keys is enabled. */
-  keyVaultProperties?: BookshelfKeyVaultPropertiesUpdate;
+  keyVaultProperties?: BookshelfKeyVaultPropertiesUpdate | undefined;
   /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 export interface UpdateBookshelveRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2034,38 +2044,38 @@ export interface UpdateBookshelveRequest {
   /** The name of the Bookshelf */
   bookshelfName: string;
   /** Resource tags. */
-  tags?: UpdateBookshelveRequestTagsMap;
+  tags?: UpdateBookshelveRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: BookshelfPropertiesUpdate;
+  properties?: BookshelfPropertiesUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdateBookshelveResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateBookshelveResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateBookshelveResponseTagsMap;
+  tags?: UpdateBookshelveResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: BookshelfProperties;
+  properties?: BookshelfProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateChatModelDeploymentRequestTagsMap = { [key: string]: string | undefined };
 /** Defines a deployment binding a specific model family to a user-defined deployment name for chat inference. */
 export interface ChatModelDeploymentPropertiesUpdate {
   /** Provisioned SKU capacity units for this chat model deployment. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 export interface UpdateChatModelDeploymentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2077,40 +2087,40 @@ export interface UpdateChatModelDeploymentRequest {
   /** The name of the ChatModelDeployment */
   chatModelDeploymentName: string;
   /** Resource tags. */
-  tags?: UpdateChatModelDeploymentRequestTagsMap;
+  tags?: UpdateChatModelDeploymentRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ChatModelDeploymentPropertiesUpdate;
+  properties?: ChatModelDeploymentPropertiesUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdateChatModelDeploymentResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateChatModelDeploymentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateChatModelDeploymentResponseTagsMap;
+  tags?: UpdateChatModelDeploymentResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ChatModelDeploymentProperties;
+  properties?: ChatModelDeploymentProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateNodePoolRequestTagsMap = { [key: string]: string | undefined };
 /** NodePool properties */
 export interface NodePoolPropertiesUpdate {
   /** The maximum number of nodes. */
-  maxNodeCount?: number;
+  maxNodeCount?: number | undefined;
   /** The minimum number of nodes. */
-  minNodeCount?: number;
+  minNodeCount?: number | undefined;
 }
 export interface UpdateNodePoolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2122,31 +2132,31 @@ export interface UpdateNodePoolRequest {
   /** The name of the NodePool */
   nodePoolName: string;
   /** Resource tags. */
-  tags?: UpdateNodePoolRequestTagsMap;
+  tags?: UpdateNodePoolRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolPropertiesUpdate;
+  properties?: NodePoolPropertiesUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdateNodePoolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateNodePoolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateNodePoolResponseTagsMap;
+  tags?: UpdateNodePoolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: NodePoolProperties;
+  properties?: NodePoolProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectRequestTagsMap = { [key: string]: string | undefined };
@@ -2160,38 +2170,38 @@ export interface UpdateProjectRequest {
   /** The name of the Project */
   projectName: string;
   /** Resource tags. */
-  tags?: UpdateProjectRequestTagsMap;
+  tags?: UpdateProjectRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ProjectPropertiesInput;
+  properties?: ProjectPropertiesInput | undefined;
 }
 /** Resource tags. */
 export type UpdateProjectResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateProjectResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateProjectResponseTagsMap;
+  tags?: UpdateProjectResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ProjectProperties;
+  properties?: ProjectProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageAssetRequestTagsMap = { [key: string]: string | undefined };
 /** Storage Asset properties */
 export interface StorageAssetPropertiesUpdate {
   /** The description */
-  description?: string;
+  description?: string | undefined;
 }
 export interface UpdateStorageAssetRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2203,31 +2213,31 @@ export interface UpdateStorageAssetRequest {
   /** The name of the StorageAsset */
   storageAssetName: string;
   /** Resource tags. */
-  tags?: UpdateStorageAssetRequestTagsMap;
+  tags?: UpdateStorageAssetRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: StorageAssetPropertiesUpdate;
+  properties?: StorageAssetPropertiesUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageAssetResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateStorageAssetResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateStorageAssetResponseTagsMap;
+  tags?: UpdateStorageAssetResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageAssetProperties;
+  properties?: StorageAssetProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageContainerRequestTagsMap = { [key: string]: string | undefined };
@@ -2239,31 +2249,31 @@ export interface UpdateStorageContainerRequest {
   /** The name of the StorageContainer */
   storageContainerName: string;
   /** Resource tags. */
-  tags?: UpdateStorageContainerRequestTagsMap;
+  tags?: UpdateStorageContainerRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: unknown;
+  properties?: unknown | undefined;
 }
 /** Resource tags. */
 export type UpdateStorageContainerResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateStorageContainerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateStorageContainerResponseTagsMap;
+  tags?: UpdateStorageContainerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: StorageContainerProperties;
+  properties?: StorageContainerProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateSupercomputerRequestTagsMap = { [key: string]: string | undefined };
@@ -2276,12 +2286,12 @@ export type SupercomputerIdentitiesUpdateInputWorkloadIdentitiesMap = {
 /** Dictionary of identity properties for the Supercomputer. */
 export interface SupercomputerIdentitiesUpdateInput {
   /** User assigned identity IDs to be used by workloads as federated credentials running on supercomputer. The key value must be the resource ID of the identity resource. */
-  workloadIdentities?: SupercomputerIdentitiesUpdateInputWorkloadIdentitiesMap;
+  workloadIdentities?: SupercomputerIdentitiesUpdateInputWorkloadIdentitiesMap | undefined;
 }
 /** Supercomputer properties */
 export interface SupercomputerPropertiesUpdateInput {
   /** Dictionary of identity properties. */
-  identities?: SupercomputerIdentitiesUpdateInput;
+  identities?: SupercomputerIdentitiesUpdateInput | undefined;
 }
 /** Type of managed service identity (either system assigned, or none). */
 export type AzureResourceManagerCommonTypesSystemAssignedServiceIdentityUpdateType =
@@ -2290,7 +2300,10 @@ export type AzureResourceManagerCommonTypesSystemAssignedServiceIdentityUpdateTy
 /** Managed service identity (either system assigned, or none) */
 export interface AzureResourceManagerCommonTypesSystemAssignedServiceIdentityUpdate {
   /** Type of managed service identity (either system assigned, or none). */
-  type?: AzureResourceManagerCommonTypesSystemAssignedServiceIdentityUpdateType | (string & {});
+  type?:
+    | AzureResourceManagerCommonTypesSystemAssignedServiceIdentityUpdateType
+    | (string & {})
+    | undefined;
 }
 export interface UpdateSupercomputerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2300,11 +2313,11 @@ export interface UpdateSupercomputerRequest {
   /** The name of the Supercomputer */
   supercomputerName: string;
   /** Resource tags. */
-  tags?: UpdateSupercomputerRequestTagsMap;
+  tags?: UpdateSupercomputerRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: SupercomputerPropertiesUpdateInput;
+  properties?: SupercomputerPropertiesUpdateInput | undefined;
   /** The managed service identities assigned to this resource. */
-  identity?: AzureResourceManagerCommonTypesSystemAssignedServiceIdentityUpdate;
+  identity?: AzureResourceManagerCommonTypesSystemAssignedServiceIdentityUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdateSupercomputerResponseTagsMap = { [key: string]: string | undefined };
@@ -2312,25 +2325,25 @@ export type UpdateSupercomputerResponseTagsMap = { [key: string]: string | undef
 export type UpdateSupercomputerResponseIdentity = GetSupercomputerResponseIdentity;
 export interface UpdateSupercomputerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateSupercomputerResponseTagsMap;
+  tags?: UpdateSupercomputerResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: SupercomputerProperties;
+  properties?: SupercomputerProperties | undefined;
   /** Managed service identity (either system assigned, or none) */
-  identity?: GetSupercomputerResponseIdentity;
+  identity?: GetSupercomputerResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateToolRequestTagsMap = { [key: string]: string | undefined };
@@ -2341,11 +2354,11 @@ export type ToolPropertiesUpdateDefinitionContentMap = { [key: string]: unknown 
 /** Discovery Tool list item properties */
 export interface ToolPropertiesUpdate {
   /** The version of a resource definition */
-  version?: string;
+  version?: string | undefined;
   /** Environment variables to make available */
-  environmentVariables?: ToolPropertiesUpdateEnvironmentVariablesMap;
+  environmentVariables?: ToolPropertiesUpdateEnvironmentVariablesMap | undefined;
   /** The JSON content for defining a resource */
-  definitionContent?: ToolPropertiesUpdateDefinitionContentMap;
+  definitionContent?: ToolPropertiesUpdateDefinitionContentMap | undefined;
 }
 export interface UpdateToolRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2355,31 +2368,31 @@ export interface UpdateToolRequest {
   /** The name of the Tool */
   toolName: string;
   /** Resource tags. */
-  tags?: UpdateToolRequestTagsMap;
+  tags?: UpdateToolRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: ToolPropertiesUpdate;
+  properties?: ToolPropertiesUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdateToolResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateToolResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateToolResponseTagsMap;
+  tags?: UpdateToolResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: ToolProperties;
+  properties?: ToolProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceRequestTagsMap = { [key: string]: string | undefined };
@@ -2390,11 +2403,11 @@ export type KeyVaultPropertiesUpdate = BookshelfKeyVaultPropertiesUpdate;
 /** Workspace properties */
 export interface WorkspacePropertiesUpdate {
   /** List of linked SuperComputers. */
-  supercomputerIds?: WorkspacePropertiesUpdateSupercomputerIdsList;
+  supercomputerIds?: WorkspacePropertiesUpdateSupercomputerIdsList | undefined;
   /** The key to use for encrypting data at rest when customer managed keys are enabled. */
-  keyVaultProperties?: BookshelfKeyVaultPropertiesUpdate;
+  keyVaultProperties?: BookshelfKeyVaultPropertiesUpdate | undefined;
   /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
 }
 export interface UpdateWorkspaceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2404,31 +2417,31 @@ export interface UpdateWorkspaceRequest {
   /** The name of the Workspace */
   workspaceName: string;
   /** Resource tags. */
-  tags?: UpdateWorkspaceRequestTagsMap;
+  tags?: UpdateWorkspaceRequestTagsMap | undefined;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspacePropertiesUpdate;
+  properties?: WorkspacePropertiesUpdate | undefined;
 }
 /** Resource tags. */
 export type UpdateWorkspaceResponseTagsMap = { [key: string]: string | undefined };
 export interface UpdateWorkspaceResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateWorkspaceResponseTagsMap;
+  tags?: UpdateWorkspaceResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Properties of the private endpoint connection. */
 export type WorkspacePrivateEndpointConnectionsCreateOrUpdateRequestProperties =
@@ -2443,7 +2456,7 @@ export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Properties of the private endpoint connection. */
-  properties?: BookshelfPrivateEndpointConnectionsCreateOrUpdateRequestProperties;
+  properties?: BookshelfPrivateEndpointConnectionsCreateOrUpdateRequestProperties | undefined;
 }
 /** The group ids for the private endpoint resource. */
 export type WorkspacePrivateEndpointConnectionsCreateOrUpdateResponsePropertiesGroupIdsList =
@@ -2451,29 +2464,31 @@ export type WorkspacePrivateEndpointConnectionsCreateOrUpdateResponsePropertiesG
 /** Properties of the private endpoint connection. */
 export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: WorkspacePrivateEndpointConnectionsCreateOrUpdateResponsePropertiesGroupIdsList;
+  groupIds?:
+    | WorkspacePrivateEndpointConnectionsCreateOrUpdateResponsePropertiesGroupIdsList
+    | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 export interface WorkspacePrivateEndpointConnectionsCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the private endpoint connection. */
-  properties?: WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseProperties;
+  properties?: WorkspacePrivateEndpointConnectionsCreateOrUpdateResponseProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateRequestTagsMap = { [key: string]: string | undefined };
@@ -2482,23 +2497,23 @@ export type WorkspacePropertiesInputSupercomputerIdsList = Array<string>;
 /** Workspace properties */
 export interface WorkspacePropertiesInput {
   /** List of linked SuperComputers. */
-  supercomputerIds?: WorkspacePropertiesInputSupercomputerIdsList;
+  supercomputerIds?: WorkspacePropertiesInputSupercomputerIdsList | undefined;
   /** Identity IDs used for leveraging Workspace resources. */
   workspaceIdentity: Identity;
   /** Whether or not to use a customer managed key when encrypting data at rest */
-  customerManagedKeys?: CustomerManagedKeys | (string & {});
+  customerManagedKeys?: CustomerManagedKeys | (string & {}) | undefined;
   /** The key to use for encrypting data at rest when customer managed keys are enabled. */
-  keyVaultProperties?: KeyVaultProperties;
+  keyVaultProperties?: KeyVaultProperties | undefined;
   /** The Log Analytics Cluster to use for debug logs. This is required when Customer Managed Keys are enabled. */
-  logAnalyticsClusterId?: string;
+  logAnalyticsClusterId?: string | undefined;
   /** Whether or not public network access is allowed for this resource. For security reasons, it is recommended to disable it whenever possible. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Agent Subnet ID for agent resources. */
-  agentSubnetId?: string;
+  agentSubnetId?: string | undefined;
   /** Private Endpoint Subnet ID for private endpoint connections. */
-  privateEndpointSubnetId?: string;
+  privateEndpointSubnetId?: string | undefined;
   /** Function Subnet ID for workspace resources. */
-  workspaceSubnetId?: string;
+  workspaceSubnetId?: string | undefined;
 }
 export interface WorkspacesCreateOrUpdateRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -2508,33 +2523,33 @@ export interface WorkspacesCreateOrUpdateRequest {
   /** The name of the Workspace */
   workspaceName: string;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateRequestTagsMap;
+  tags?: WorkspacesCreateOrUpdateRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspacePropertiesInput;
+  properties?: WorkspacePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type WorkspacesCreateOrUpdateResponseTagsMap = { [key: string]: string | undefined };
 export interface WorkspacesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: WorkspacesCreateOrUpdateResponseTagsMap;
+  tags?: WorkspacesCreateOrUpdateResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The resource-specific properties for this resource. */
-  properties?: WorkspaceProperties;
+  properties?: WorkspaceProperties | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type BookshelfPrivateEndpointConnectionsCreateOrUpdateError = AzureOpError;
 /** Approves or updates the specified private endpoint connection. */

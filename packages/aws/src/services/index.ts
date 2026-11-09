@@ -359,6 +359,7 @@ export * as SagemakerRuntimeHttp2 from "./sagemaker-runtime-http2.ts";
 export * as SagemakerRuntime from "./sagemaker-runtime.ts";
 export * as Sagemaker from "./sagemaker.ts";
 export * as Sagemakerjobruntime from "./sagemakerjobruntime.ts";
+export * as Sagemakertrainingsessionruntime from "./sagemakertrainingsessionruntime.ts";
 export * as Savingsplans from "./savingsplans.ts";
 export * as Scheduler from "./scheduler.ts";
 export * as Schemas from "./schemas.ts";

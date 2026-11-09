@@ -255,7 +255,7 @@ export interface AssociatePhoneNumberWithUserRequest {
 export interface AssociatePhoneNumberWithUserResponse {}
 export type NonEmptyString = string;
 export interface SigninDelegateGroup {
-  GroupName?: string;
+  GroupName?: string | undefined;
 }
 export type SigninDelegateGroupList = SigninDelegateGroup[];
 export interface AssociateSigninDelegateGroupsWithAccountRequest {
@@ -265,8 +265,8 @@ export interface AssociateSigninDelegateGroupsWithAccountRequest {
 export interface AssociateSigninDelegateGroupsWithAccountResponse {}
 export type RoomMembershipRole = "Administrator" | "Member" | (string & {});
 export interface MembershipItem {
-  MemberId?: string;
-  Role?: RoomMembershipRole;
+  MemberId?: string | undefined;
+  Role?: RoomMembershipRole | undefined;
 }
 export type MembershipItemList = MembershipItem[];
 export interface BatchCreateRoomMembershipRequest {
@@ -292,26 +292,26 @@ export type ErrorCode =
   | "PhoneNumberAssociationsExist"
   | (string & {});
 export interface MemberError {
-  MemberId?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  MemberId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type MemberErrorList = MemberError[];
 export interface BatchCreateRoomMembershipResponse {
-  Errors?: MemberError[];
+  Errors?: MemberError[] | undefined;
 }
 export type NonEmptyStringList = string[];
 export interface BatchDeletePhoneNumberRequest {
   PhoneNumberIds: string[];
 }
 export interface PhoneNumberError {
-  PhoneNumberId?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  PhoneNumberId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type PhoneNumberErrorList = PhoneNumberError[];
 export interface BatchDeletePhoneNumberResponse {
-  PhoneNumberErrors?: PhoneNumberError[];
+  PhoneNumberErrors?: PhoneNumberError[] | undefined;
 }
 export type UserIdList = string[];
 export interface BatchSuspendUserRequest {
@@ -319,20 +319,20 @@ export interface BatchSuspendUserRequest {
   UserIdList: string[];
 }
 export interface UserError {
-  UserId?: string;
-  ErrorCode?: ErrorCode;
-  ErrorMessage?: string;
+  UserId?: string | undefined;
+  ErrorCode?: ErrorCode | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type UserErrorList = UserError[];
 export interface BatchSuspendUserResponse {
-  UserErrors?: UserError[];
+  UserErrors?: UserError[] | undefined;
 }
 export interface BatchUnsuspendUserRequest {
   AccountId: string;
   UserIdList: string[];
 }
 export interface BatchUnsuspendUserResponse {
-  UserErrors?: UserError[];
+  UserErrors?: UserError[] | undefined;
 }
 export type PhoneNumberProductType =
   | "BusinessCalling"
@@ -342,28 +342,28 @@ export type PhoneNumberProductType =
 export type CallingName = string | redacted.Redacted<string>;
 export interface UpdatePhoneNumberRequestItem {
   PhoneNumberId: string;
-  ProductType?: PhoneNumberProductType;
-  CallingName?: string | redacted.Redacted<string>;
+  ProductType?: PhoneNumberProductType | undefined;
+  CallingName?: string | redacted.Redacted<string> | undefined;
 }
 export type UpdatePhoneNumberRequestItemList = UpdatePhoneNumberRequestItem[];
 export interface BatchUpdatePhoneNumberRequest {
   UpdatePhoneNumberRequestItems: UpdatePhoneNumberRequestItem[];
 }
 export interface BatchUpdatePhoneNumberResponse {
-  PhoneNumberErrors?: PhoneNumberError[];
+  PhoneNumberErrors?: PhoneNumberError[] | undefined;
 }
 export type License = "Basic" | "Plus" | "Pro" | "ProTrial" | (string & {});
 export type UserType = "PrivateUser" | "SharedDevice" | (string & {});
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface AlexaForBusinessMetadata {
-  IsAlexaForBusinessEnabled?: boolean;
-  AlexaForBusinessRoomArn?: string | redacted.Redacted<string>;
+  IsAlexaForBusinessEnabled?: boolean | undefined;
+  AlexaForBusinessRoomArn?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateUserRequestItem {
   UserId: string;
-  LicenseType?: License;
-  UserType?: UserType;
-  AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
+  LicenseType?: License | undefined;
+  UserType?: UserType | undefined;
+  AlexaForBusinessMetadata?: AlexaForBusinessMetadata | undefined;
 }
 export type UpdateUserRequestItemList = UpdateUserRequestItem[];
 export interface BatchUpdateUserRequest {
@@ -371,7 +371,7 @@ export interface BatchUpdateUserRequest {
   UpdateUserRequestItems: UpdateUserRequestItem[];
 }
 export interface BatchUpdateUserResponse {
-  UserErrors?: UserError[];
+  UserErrors?: UserError[] | undefined;
 }
 export type AccountName = string;
 export interface CreateAccountRequest {
@@ -390,35 +390,35 @@ export interface Account {
   AwsAccountId: string;
   AccountId: string;
   Name: string;
-  AccountType?: AccountType;
-  CreatedTimestamp?: Date;
-  DefaultLicense?: License;
-  SupportedLicenses?: License[];
-  AccountStatus?: AccountStatus;
-  SigninDelegateGroups?: SigninDelegateGroup[];
+  AccountType?: AccountType | undefined;
+  CreatedTimestamp?: Date | undefined;
+  DefaultLicense?: License | undefined;
+  SupportedLicenses?: License[] | undefined;
+  AccountStatus?: AccountStatus | undefined;
+  SigninDelegateGroups?: SigninDelegateGroup[] | undefined;
 }
 export interface CreateAccountResponse {
-  Account?: Account;
+  Account?: Account | undefined;
 }
 export interface CreateBotRequest {
   AccountId: string;
   DisplayName: string | redacted.Redacted<string>;
-  Domain?: string;
+  Domain?: string | undefined;
 }
 export type BotType = "ChatBot" | (string & {});
 export interface Bot {
-  BotId?: string;
-  UserId?: string;
-  DisplayName?: string | redacted.Redacted<string>;
-  BotType?: BotType;
-  Disabled?: boolean;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  BotEmail?: string | redacted.Redacted<string>;
-  SecurityToken?: string | redacted.Redacted<string>;
+  BotId?: string | undefined;
+  UserId?: string | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  BotType?: BotType | undefined;
+  Disabled?: boolean | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  BotEmail?: string | redacted.Redacted<string> | undefined;
+  SecurityToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateBotResponse {
-  Bot?: Bot;
+  Bot?: Bot | undefined;
 }
 export type GuidString = string;
 export type JoinTokenString = string | redacted.Redacted<string>;
@@ -429,7 +429,7 @@ export interface CreateMeetingDialOutRequest {
   JoinToken: string | redacted.Redacted<string>;
 }
 export interface CreateMeetingDialOutResponse {
-  TransactionId?: string;
+  TransactionId?: string | undefined;
 }
 export type E164PhoneNumberList = (string | redacted.Redacted<string>)[];
 export interface CreatePhoneNumberOrderRequest {
@@ -444,88 +444,88 @@ export type PhoneNumberOrderStatus =
   | (string & {});
 export type OrderedPhoneNumberStatus = "Processing" | "Acquired" | "Failed" | (string & {});
 export interface OrderedPhoneNumber {
-  E164PhoneNumber?: string | redacted.Redacted<string>;
-  Status?: OrderedPhoneNumberStatus;
+  E164PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  Status?: OrderedPhoneNumberStatus | undefined;
 }
 export type OrderedPhoneNumberList = OrderedPhoneNumber[];
 export interface PhoneNumberOrder {
-  PhoneNumberOrderId?: string;
-  ProductType?: PhoneNumberProductType;
-  Status?: PhoneNumberOrderStatus;
-  OrderedPhoneNumbers?: OrderedPhoneNumber[];
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  PhoneNumberOrderId?: string | undefined;
+  ProductType?: PhoneNumberProductType | undefined;
+  Status?: PhoneNumberOrderStatus | undefined;
+  OrderedPhoneNumbers?: OrderedPhoneNumber[] | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreatePhoneNumberOrderResponse {
-  PhoneNumberOrder?: PhoneNumberOrder;
+  PhoneNumberOrder?: PhoneNumberOrder | undefined;
 }
 export type ClientRequestToken = string | redacted.Redacted<string>;
 export interface CreateRoomRequest {
   AccountId: string;
   Name: string | redacted.Redacted<string>;
-  ClientRequestToken?: string | redacted.Redacted<string>;
+  ClientRequestToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface Room {
-  RoomId?: string;
-  Name?: string | redacted.Redacted<string>;
-  AccountId?: string;
-  CreatedBy?: string;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
+  RoomId?: string | undefined;
+  Name?: string | redacted.Redacted<string> | undefined;
+  AccountId?: string | undefined;
+  CreatedBy?: string | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreateRoomResponse {
-  Room?: Room;
+  Room?: Room | undefined;
 }
 export interface CreateRoomMembershipRequest {
   AccountId: string;
   RoomId: string;
   MemberId: string;
-  Role?: RoomMembershipRole;
+  Role?: RoomMembershipRole | undefined;
 }
 export type MemberType = "User" | "Bot" | "Webhook" | (string & {});
 export interface Member {
-  MemberId?: string;
-  MemberType?: MemberType;
-  Email?: string | redacted.Redacted<string>;
-  FullName?: string | redacted.Redacted<string>;
-  AccountId?: string;
+  MemberId?: string | undefined;
+  MemberType?: MemberType | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
+  FullName?: string | redacted.Redacted<string> | undefined;
+  AccountId?: string | undefined;
 }
 export interface RoomMembership {
-  RoomId?: string;
-  Member?: Member;
-  Role?: RoomMembershipRole;
-  InvitedBy?: string;
-  UpdatedTimestamp?: Date;
+  RoomId?: string | undefined;
+  Member?: Member | undefined;
+  Role?: RoomMembershipRole | undefined;
+  InvitedBy?: string | undefined;
+  UpdatedTimestamp?: Date | undefined;
 }
 export interface CreateRoomMembershipResponse {
-  RoomMembership?: RoomMembership;
+  RoomMembership?: RoomMembership | undefined;
 }
 export type EmailAddress = string | redacted.Redacted<string>;
 export interface CreateUserRequest {
   AccountId: string;
-  Username?: string;
-  Email?: string | redacted.Redacted<string>;
-  UserType?: UserType;
+  Username?: string | undefined;
+  Email?: string | redacted.Redacted<string> | undefined;
+  UserType?: UserType | undefined;
 }
 export type RegistrationStatus = "Unregistered" | "Registered" | "Suspended" | (string & {});
 export type InviteStatus = "Pending" | "Accepted" | "Failed" | (string & {});
 export interface User {
   UserId: string;
-  AccountId?: string;
-  PrimaryEmail?: string | redacted.Redacted<string>;
-  PrimaryProvisionedNumber?: string | redacted.Redacted<string>;
-  DisplayName?: string | redacted.Redacted<string>;
-  LicenseType?: License;
-  UserType?: UserType;
-  UserRegistrationStatus?: RegistrationStatus;
-  UserInvitationStatus?: InviteStatus;
-  RegisteredOn?: Date;
-  InvitedOn?: Date;
-  AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
-  PersonalPIN?: string;
+  AccountId?: string | undefined;
+  PrimaryEmail?: string | redacted.Redacted<string> | undefined;
+  PrimaryProvisionedNumber?: string | redacted.Redacted<string> | undefined;
+  DisplayName?: string | redacted.Redacted<string> | undefined;
+  LicenseType?: License | undefined;
+  UserType?: UserType | undefined;
+  UserRegistrationStatus?: RegistrationStatus | undefined;
+  UserInvitationStatus?: InviteStatus | undefined;
+  RegisteredOn?: Date | undefined;
+  InvitedOn?: Date | undefined;
+  AlexaForBusinessMetadata?: AlexaForBusinessMetadata | undefined;
+  PersonalPIN?: string | undefined;
 }
 export interface CreateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface DeleteAccountRequest {
   AccountId: string;
@@ -565,47 +565,47 @@ export interface GetAccountRequest {
   AccountId: string;
 }
 export interface GetAccountResponse {
-  Account?: Account;
+  Account?: Account | undefined;
 }
 export interface GetAccountSettingsRequest {
   AccountId: string;
 }
 export interface AccountSettings {
-  DisableRemoteControl?: boolean;
-  EnableDialOut?: boolean;
+  DisableRemoteControl?: boolean | undefined;
+  EnableDialOut?: boolean | undefined;
 }
 export interface GetAccountSettingsResponse {
-  AccountSettings?: AccountSettings;
+  AccountSettings?: AccountSettings | undefined;
 }
 export interface GetBotRequest {
   AccountId: string;
   BotId: string;
 }
 export interface GetBotResponse {
-  Bot?: Bot;
+  Bot?: Bot | undefined;
 }
 export interface GetEventsConfigurationRequest {
   AccountId: string;
   BotId: string;
 }
 export interface EventsConfiguration {
-  BotId?: string;
-  OutboundEventsHTTPSEndpoint?: string | redacted.Redacted<string>;
-  LambdaFunctionArn?: string | redacted.Redacted<string>;
+  BotId?: string | undefined;
+  OutboundEventsHTTPSEndpoint?: string | redacted.Redacted<string> | undefined;
+  LambdaFunctionArn?: string | redacted.Redacted<string> | undefined;
 }
 export interface GetEventsConfigurationResponse {
-  EventsConfiguration?: EventsConfiguration;
+  EventsConfiguration?: EventsConfiguration | undefined;
 }
 export interface GetGlobalSettingsRequest {}
 export interface BusinessCallingSettings {
-  CdrBucket?: string;
+  CdrBucket?: string | undefined;
 }
 export interface VoiceConnectorSettings {
-  CdrBucket?: string;
+  CdrBucket?: string | undefined;
 }
 export interface GetGlobalSettingsResponse {
-  BusinessCalling?: BusinessCallingSettings;
-  VoiceConnector?: VoiceConnectorSettings;
+  BusinessCalling?: BusinessCallingSettings | undefined;
+  VoiceConnector?: VoiceConnectorSettings | undefined;
 }
 export interface GetPhoneNumberRequest {
   PhoneNumberId: string;
@@ -623,12 +623,12 @@ export type PhoneNumberStatus =
   | "DeleteFailed"
   | (string & {});
 export interface PhoneNumberCapabilities {
-  InboundCall?: boolean;
-  OutboundCall?: boolean;
-  InboundSMS?: boolean;
-  OutboundSMS?: boolean;
-  InboundMMS?: boolean;
-  OutboundMMS?: boolean;
+  InboundCall?: boolean | undefined;
+  OutboundCall?: boolean | undefined;
+  InboundSMS?: boolean | undefined;
+  OutboundSMS?: boolean | undefined;
+  InboundMMS?: boolean | undefined;
+  OutboundMMS?: boolean | undefined;
 }
 export type PhoneNumberAssociationName =
   | "AccountId"
@@ -638,9 +638,9 @@ export type PhoneNumberAssociationName =
   | "SipRuleId"
   | (string & {});
 export interface PhoneNumberAssociation {
-  Value?: string;
-  Name?: PhoneNumberAssociationName;
-  AssociatedTimestamp?: Date;
+  Value?: string | undefined;
+  Name?: PhoneNumberAssociationName | undefined;
+  AssociatedTimestamp?: Date | undefined;
 }
 export type PhoneNumberAssociationList = PhoneNumberAssociation[];
 export type CallingNameStatus =
@@ -650,65 +650,65 @@ export type CallingNameStatus =
   | "UpdateFailed"
   | (string & {});
 export interface PhoneNumber {
-  PhoneNumberId?: string;
-  E164PhoneNumber?: string | redacted.Redacted<string>;
-  Country?: string;
-  Type?: PhoneNumberType;
-  ProductType?: PhoneNumberProductType;
-  Status?: PhoneNumberStatus;
-  Capabilities?: PhoneNumberCapabilities;
-  Associations?: PhoneNumberAssociation[];
-  CallingName?: string | redacted.Redacted<string>;
-  CallingNameStatus?: CallingNameStatus;
-  CreatedTimestamp?: Date;
-  UpdatedTimestamp?: Date;
-  DeletionTimestamp?: Date;
+  PhoneNumberId?: string | undefined;
+  E164PhoneNumber?: string | redacted.Redacted<string> | undefined;
+  Country?: string | undefined;
+  Type?: PhoneNumberType | undefined;
+  ProductType?: PhoneNumberProductType | undefined;
+  Status?: PhoneNumberStatus | undefined;
+  Capabilities?: PhoneNumberCapabilities | undefined;
+  Associations?: PhoneNumberAssociation[] | undefined;
+  CallingName?: string | redacted.Redacted<string> | undefined;
+  CallingNameStatus?: CallingNameStatus | undefined;
+  CreatedTimestamp?: Date | undefined;
+  UpdatedTimestamp?: Date | undefined;
+  DeletionTimestamp?: Date | undefined;
 }
 export interface GetPhoneNumberResponse {
-  PhoneNumber?: PhoneNumber;
+  PhoneNumber?: PhoneNumber | undefined;
 }
 export interface GetPhoneNumberOrderRequest {
   PhoneNumberOrderId: string;
 }
 export interface GetPhoneNumberOrderResponse {
-  PhoneNumberOrder?: PhoneNumberOrder;
+  PhoneNumberOrder?: PhoneNumberOrder | undefined;
 }
 export interface GetPhoneNumberSettingsRequest {}
 export interface GetPhoneNumberSettingsResponse {
-  CallingName?: string | redacted.Redacted<string>;
-  CallingNameUpdatedTimestamp?: Date;
+  CallingName?: string | redacted.Redacted<string> | undefined;
+  CallingNameUpdatedTimestamp?: Date | undefined;
 }
 export interface GetRetentionSettingsRequest {
   AccountId: string;
 }
 export type RetentionDays = number;
 export interface RoomRetentionSettings {
-  RetentionDays?: number;
+  RetentionDays?: number | undefined;
 }
 export interface ConversationRetentionSettings {
-  RetentionDays?: number;
+  RetentionDays?: number | undefined;
 }
 export interface RetentionSettings {
-  RoomRetentionSettings?: RoomRetentionSettings;
-  ConversationRetentionSettings?: ConversationRetentionSettings;
+  RoomRetentionSettings?: RoomRetentionSettings | undefined;
+  ConversationRetentionSettings?: ConversationRetentionSettings | undefined;
 }
 export interface GetRetentionSettingsResponse {
-  RetentionSettings?: RetentionSettings;
-  InitiateDeletionTimestamp?: Date;
+  RetentionSettings?: RetentionSettings | undefined;
+  InitiateDeletionTimestamp?: Date | undefined;
 }
 export interface GetRoomRequest {
   AccountId: string;
   RoomId: string;
 }
 export interface GetRoomResponse {
-  Room?: Room;
+  Room?: Room | undefined;
 }
 export interface GetUserRequest {
   AccountId: string;
   UserId: string;
 }
 export interface GetUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface GetUserSettingsRequest {
   AccountId: string;
@@ -723,115 +723,115 @@ export interface UserSettings {
   Telephony: TelephonySettings;
 }
 export interface GetUserSettingsResponse {
-  UserSettings?: UserSettings;
+  UserSettings?: UserSettings | undefined;
 }
 export type UserEmailList = (string | redacted.Redacted<string>)[];
 export interface InviteUsersRequest {
   AccountId: string;
   UserEmailList: (string | redacted.Redacted<string>)[];
-  UserType?: UserType;
+  UserType?: UserType | undefined;
 }
 export type EmailStatus = "NotSent" | "Sent" | "Failed" | (string & {});
 export interface Invite {
-  InviteId?: string;
-  Status?: InviteStatus;
-  EmailAddress?: string | redacted.Redacted<string>;
-  EmailStatus?: EmailStatus;
+  InviteId?: string | undefined;
+  Status?: InviteStatus | undefined;
+  EmailAddress?: string | redacted.Redacted<string> | undefined;
+  EmailStatus?: EmailStatus | undefined;
 }
 export type InviteList = Invite[];
 export interface InviteUsersResponse {
-  Invites?: Invite[];
+  Invites?: Invite[] | undefined;
 }
 export type ProfileServiceMaxResults = number;
 export interface ListAccountsRequest {
-  Name?: string;
-  UserEmail?: string | redacted.Redacted<string>;
-  NextToken?: string;
-  MaxResults?: number;
+  Name?: string | undefined;
+  UserEmail?: string | redacted.Redacted<string> | undefined;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type AccountList = Account[];
 export interface ListAccountsResponse {
-  Accounts?: Account[];
-  NextToken?: string;
+  Accounts?: Account[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResultMax = number;
 export interface ListBotsRequest {
   AccountId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type BotList = Bot[];
 export interface ListBotsResponse {
-  Bots?: Bot[];
-  NextToken?: string;
+  Bots?: Bot[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPhoneNumberOrdersRequest {
-  NextToken?: string;
-  MaxResults?: number;
+  NextToken?: string | undefined;
+  MaxResults?: number | undefined;
 }
 export type PhoneNumberOrderList = PhoneNumberOrder[];
 export interface ListPhoneNumberOrdersResponse {
-  PhoneNumberOrders?: PhoneNumberOrder[];
-  NextToken?: string;
+  PhoneNumberOrders?: PhoneNumberOrder[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListPhoneNumbersRequest {
-  Status?: PhoneNumberStatus;
-  ProductType?: PhoneNumberProductType;
-  FilterName?: PhoneNumberAssociationName;
-  FilterValue?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  Status?: PhoneNumberStatus | undefined;
+  ProductType?: PhoneNumberProductType | undefined;
+  FilterName?: PhoneNumberAssociationName | undefined;
+  FilterValue?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type PhoneNumberList = PhoneNumber[];
 export interface ListPhoneNumbersResponse {
-  PhoneNumbers?: PhoneNumber[];
-  NextToken?: string;
+  PhoneNumbers?: PhoneNumber[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRoomMembershipsRequest {
   AccountId: string;
   RoomId: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RoomMembershipList = RoomMembership[];
 export interface ListRoomMembershipsResponse {
-  RoomMemberships?: RoomMembership[];
-  NextToken?: string;
+  RoomMemberships?: RoomMembership[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListRoomsRequest {
   AccountId: string;
-  MemberId?: string;
-  MaxResults?: number;
-  NextToken?: string;
+  MemberId?: string | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type RoomList = Room[];
 export interface ListRoomsResponse {
-  Rooms?: Room[];
-  NextToken?: string;
+  Rooms?: Room[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListSupportedPhoneNumberCountriesRequest {
   ProductType: PhoneNumberProductType;
 }
 export type PhoneNumberTypeList = PhoneNumberType[];
 export interface PhoneNumberCountry {
-  CountryCode?: string;
-  SupportedPhoneNumberTypes?: PhoneNumberType[];
+  CountryCode?: string | undefined;
+  SupportedPhoneNumberTypes?: PhoneNumberType[] | undefined;
 }
 export type PhoneNumberCountriesList = PhoneNumberCountry[];
 export interface ListSupportedPhoneNumberCountriesResponse {
-  PhoneNumberCountries?: PhoneNumberCountry[];
+  PhoneNumberCountries?: PhoneNumberCountry[] | undefined;
 }
 export interface ListUsersRequest {
   AccountId: string;
-  UserEmail?: string | redacted.Redacted<string>;
-  UserType?: UserType;
-  MaxResults?: number;
-  NextToken?: string;
+  UserEmail?: string | redacted.Redacted<string> | undefined;
+  UserType?: UserType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type UserList = User[];
 export interface ListUsersResponse {
-  Users?: User[];
-  NextToken?: string;
+  Users?: User[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface LogoutUserRequest {
   AccountId: string;
@@ -841,19 +841,19 @@ export interface LogoutUserResponse {}
 export interface PutEventsConfigurationRequest {
   AccountId: string;
   BotId: string;
-  OutboundEventsHTTPSEndpoint?: string | redacted.Redacted<string>;
-  LambdaFunctionArn?: string | redacted.Redacted<string>;
+  OutboundEventsHTTPSEndpoint?: string | redacted.Redacted<string> | undefined;
+  LambdaFunctionArn?: string | redacted.Redacted<string> | undefined;
 }
 export interface PutEventsConfigurationResponse {
-  EventsConfiguration?: EventsConfiguration;
+  EventsConfiguration?: EventsConfiguration | undefined;
 }
 export interface PutRetentionSettingsRequest {
   AccountId: string;
   RetentionSettings: RetentionSettings;
 }
 export interface PutRetentionSettingsResponse {
-  RetentionSettings?: RetentionSettings;
-  InitiateDeletionTimestamp?: Date;
+  RetentionSettings?: RetentionSettings | undefined;
+  InitiateDeletionTimestamp?: Date | undefined;
 }
 export interface RedactConversationMessageRequest {
   AccountId: string;
@@ -872,44 +872,44 @@ export interface RegenerateSecurityTokenRequest {
   BotId: string;
 }
 export interface RegenerateSecurityTokenResponse {
-  Bot?: Bot;
+  Bot?: Bot | undefined;
 }
 export interface ResetPersonalPINRequest {
   AccountId: string;
   UserId: string;
 }
 export interface ResetPersonalPINResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface RestorePhoneNumberRequest {
   PhoneNumberId: string;
 }
 export interface RestorePhoneNumberResponse {
-  PhoneNumber?: PhoneNumber;
+  PhoneNumber?: PhoneNumber | undefined;
 }
 export type TollFreePrefix = string;
 export type PhoneNumberMaxResults = number;
 export interface SearchAvailablePhoneNumbersRequest {
-  AreaCode?: string;
-  City?: string;
-  Country?: string;
-  State?: string;
-  TollFreePrefix?: string;
-  PhoneNumberType?: PhoneNumberType;
-  MaxResults?: number;
-  NextToken?: string;
+  AreaCode?: string | undefined;
+  City?: string | undefined;
+  Country?: string | undefined;
+  State?: string | undefined;
+  TollFreePrefix?: string | undefined;
+  PhoneNumberType?: PhoneNumberType | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SearchAvailablePhoneNumbersResponse {
-  E164PhoneNumbers?: (string | redacted.Redacted<string>)[];
-  NextToken?: string;
+  E164PhoneNumbers?: (string | redacted.Redacted<string>)[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface UpdateAccountRequest {
   AccountId: string;
-  Name?: string;
-  DefaultLicense?: License;
+  Name?: string | undefined;
+  DefaultLicense?: License | undefined;
 }
 export interface UpdateAccountResponse {
-  Account?: Account;
+  Account?: Account | undefined;
 }
 export interface UpdateAccountSettingsRequest {
   AccountId: string;
@@ -919,23 +919,23 @@ export interface UpdateAccountSettingsResponse {}
 export interface UpdateBotRequest {
   AccountId: string;
   BotId: string;
-  Disabled?: boolean;
+  Disabled?: boolean | undefined;
 }
 export interface UpdateBotResponse {
-  Bot?: Bot;
+  Bot?: Bot | undefined;
 }
 export interface UpdateGlobalSettingsRequest {
-  BusinessCalling?: BusinessCallingSettings;
-  VoiceConnector?: VoiceConnectorSettings;
+  BusinessCalling?: BusinessCallingSettings | undefined;
+  VoiceConnector?: VoiceConnectorSettings | undefined;
 }
 export interface UpdateGlobalSettingsResponse {}
 export interface UpdatePhoneNumberRequest {
   PhoneNumberId: string;
-  ProductType?: PhoneNumberProductType;
-  CallingName?: string | redacted.Redacted<string>;
+  ProductType?: PhoneNumberProductType | undefined;
+  CallingName?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdatePhoneNumberResponse {
-  PhoneNumber?: PhoneNumber;
+  PhoneNumber?: PhoneNumber | undefined;
 }
 export interface UpdatePhoneNumberSettingsRequest {
   CallingName: string | redacted.Redacted<string>;
@@ -944,29 +944,29 @@ export interface UpdatePhoneNumberSettingsResponse {}
 export interface UpdateRoomRequest {
   AccountId: string;
   RoomId: string;
-  Name?: string | redacted.Redacted<string>;
+  Name?: string | redacted.Redacted<string> | undefined;
 }
 export interface UpdateRoomResponse {
-  Room?: Room;
+  Room?: Room | undefined;
 }
 export interface UpdateRoomMembershipRequest {
   AccountId: string;
   RoomId: string;
   MemberId: string;
-  Role?: RoomMembershipRole;
+  Role?: RoomMembershipRole | undefined;
 }
 export interface UpdateRoomMembershipResponse {
-  RoomMembership?: RoomMembership;
+  RoomMembership?: RoomMembership | undefined;
 }
 export interface UpdateUserRequest {
   AccountId: string;
   UserId: string;
-  LicenseType?: License;
-  UserType?: UserType;
-  AlexaForBusinessMetadata?: AlexaForBusinessMetadata;
+  LicenseType?: License | undefined;
+  UserType?: UserType | undefined;
+  AlexaForBusinessMetadata?: AlexaForBusinessMetadata | undefined;
 }
 export interface UpdateUserResponse {
-  User?: User;
+  User?: User | undefined;
 }
 export interface UpdateUserSettingsRequest {
   AccountId: string;

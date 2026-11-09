@@ -43,7 +43,7 @@ export type AccessPolicyAssignmentProvisioningState =
 /** Properties for an access policy assignment */
 export interface RedisCacheAccessPolicyAssignmentProperties {
   /** Provisioning state of an access policy assignment set */
-  provisioningState?: AccessPolicyAssignmentProvisioningState | (string & {});
+  provisioningState?: AccessPolicyAssignmentProvisioningState | (string & {}) | undefined;
   /** Object Id to assign access policy to */
   objectId: string;
   /** User friendly name for object id. Also represents username for token based authentication */
@@ -61,7 +61,7 @@ export interface AccessPolicyAssignmentCreateUpdateRequest {
   /** The name of the access policy assignment. */
   accessPolicyAssignmentName: string;
   /** Properties of an access policy assignment */
-  properties?: RedisCacheAccessPolicyAssignmentProperties;
+  properties?: RedisCacheAccessPolicyAssignmentProperties | undefined;
 }
 /** The type of identity that created the resource. */
 export type SystemDataCreatedByType = "User" | "Application" | "ManagedIdentity" | "Key";
@@ -70,33 +70,33 @@ export type SystemDataLastModifiedByType = "User" | "Application" | "ManagedIden
 /** Metadata pertaining to creation and last modification of the resource. */
 export interface SystemData {
   /** The identity that created the resource. */
-  createdBy?: string;
+  createdBy?: string | undefined;
   /** The type of identity that created the resource. */
-  createdByType?: SystemDataCreatedByType;
+  createdByType?: SystemDataCreatedByType | undefined;
   /** The timestamp of resource creation (UTC). */
-  createdAt?: string;
+  createdAt?: string | undefined;
   /** The identity that last modified the resource. */
-  lastModifiedBy?: string;
+  lastModifiedBy?: string | undefined;
   /** The type of identity that last modified the resource. */
-  lastModifiedByType?: SystemDataLastModifiedByType;
+  lastModifiedByType?: SystemDataLastModifiedByType | undefined;
   /** The timestamp of resource last modification (UTC) */
-  lastModifiedAt?: string;
+  lastModifiedAt?: string | undefined;
 }
 export interface AccessPolicyAssignmentCreateUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an access policy assignment */
-  properties?: RedisCacheAccessPolicyAssignmentProperties;
+  properties?: RedisCacheAccessPolicyAssignmentProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Provisioning state of access policy */
 export type AccessPolicyProvisioningState =
@@ -111,9 +111,9 @@ export type AccessPolicyType = "Custom" | "BuiltIn";
 /** All properties of an access policy. */
 export interface RedisCacheAccessPolicyProperties {
   /** Provisioning state of access policy */
-  provisioningState?: AccessPolicyProvisioningState | (string & {});
+  provisioningState?: AccessPolicyProvisioningState | (string & {}) | undefined;
   /** Built-In or Custom access policy */
-  type?: AccessPolicyType | (string & {});
+  type?: AccessPolicyType | (string & {}) | undefined;
   /** Permissions for the access policy. Learn how to configure permissions at https://aka.ms/redis/AADPreRequisites */
   permissions: string;
 }
@@ -127,23 +127,23 @@ export interface AccessPolicyCreateUpdateRequest {
   /** The name of the access policy that is being added to the Redis cache. */
   accessPolicyName: string;
   /** Properties of an access policy. */
-  properties?: RedisCacheAccessPolicyProperties;
+  properties?: RedisCacheAccessPolicyProperties | undefined;
 }
 export interface AccessPolicyCreateUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an access policy. */
-  properties?: RedisCacheAccessPolicyProperties;
+  properties?: RedisCacheAccessPolicyProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface CheckRedisNameAvailabilityRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -186,60 +186,60 @@ export interface RedisLinkedServerProperties {
   /** Role of the linked server. */
   serverRole: ReplicationRole;
   /** The unchanging DNS name which will always point to current geo-primary cache among the linked redis caches for seamless Geo Failover experience. */
-  geoReplicatedPrimaryHostName?: string;
+  geoReplicatedPrimaryHostName?: string | undefined;
   /** The changing DNS name that resolves to the current geo-primary cache among the linked redis caches before or after the Geo Failover. */
-  primaryHostName?: string;
+  primaryHostName?: string | undefined;
   /** Terminal state of the link between primary and secondary redis cache. */
-  provisioningState?: string;
+  provisioningState?: string | undefined;
 }
 export interface CreateLinkedServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the linked server. */
-  properties?: RedisLinkedServerProperties;
+  properties?: RedisLinkedServerProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
 export interface RedisCommonPropertiesRedisConfigurationInput {
   /** Specifies whether the RDB backup is enabled */
-  rdb_backup_enabled?: string;
+  rdb_backup_enabled?: string | undefined;
   /** Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720, 1440) */
-  rdb_backup_frequency?: string;
+  rdb_backup_frequency?: string | undefined;
   /** Specifies the maximum number of snapshots for rdb backup */
-  rdb_backup_max_snapshot_count?: string;
+  rdb_backup_max_snapshot_count?: string | undefined;
   /** The storage account connection string for storing rdb file */
-  rdb_storage_connection_string?: string;
+  rdb_storage_connection_string?: string | undefined;
   /** Specifies whether the aof backup is enabled */
-  aof_backup_enabled?: string;
+  aof_backup_enabled?: string | undefined;
   /** First storage account connection string */
-  aof_storage_connection_string_0?: string;
+  aof_storage_connection_string_0?: string | undefined;
   /** Second storage account connection string */
-  aof_storage_connection_string_1?: string;
+  aof_storage_connection_string_1?: string | undefined;
   /** Value in megabytes reserved for fragmentation per shard */
-  maxfragmentationmemory_reserved?: string;
+  maxfragmentationmemory_reserved?: string | undefined;
   /** The eviction strategy used when your data won't fit within its memory limit. */
-  maxmemory_policy?: string;
+  maxmemory_policy?: string | undefined;
   /** Value in megabytes reserved for non-cache usage per shard e.g. failover. */
-  maxmemory_reserved?: string;
+  maxmemory_reserved?: string | undefined;
   /** Value in megabytes reserved for non-cache usage per shard e.g. failover. */
-  maxmemory_delta?: string;
+  maxmemory_delta?: string | undefined;
   /** The keyspace events which should be monitored. */
-  notify_keyspace_events?: string;
+  notify_keyspace_events?: string | undefined;
   /** Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS */
-  preferred_data_persistence_auth_method?: string;
+  preferred_data_persistence_auth_method?: string | undefined;
   /** Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view; you should never disable authentication using this property! */
-  authnotrequired?: string;
+  authnotrequired?: string | undefined;
   /** SubscriptionId of the storage account for persistence (aof/rdb) using ManagedIdentity. */
-  storage_subscription_id?: string;
+  storage_subscription_id?: string | undefined;
   /** Specifies whether AAD based authentication has been enabled or disabled for the cache */
-  aad_enabled?: string;
+  aad_enabled?: string | undefined;
   [key: string]: unknown;
 }
 /** A dictionary of tenant settings */
@@ -268,35 +268,35 @@ export interface Sku {
 /** Properties supplied to Create Redis operation. */
 export interface RedisCreatePropertiesInput {
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
-  redisConfiguration?: RedisCommonPropertiesRedisConfigurationInput;
+  redisConfiguration?: RedisCommonPropertiesRedisConfigurationInput | undefined;
   /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
-  redisVersion?: string;
+  redisVersion?: string | undefined;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
-  enableNonSslPort?: boolean;
+  enableNonSslPort?: boolean | undefined;
   /** The number of replicas to be created per primary. */
-  replicasPerMaster?: number;
+  replicasPerMaster?: number | undefined;
   /** The number of replicas to be created per primary. */
-  replicasPerPrimary?: number;
+  replicasPerPrimary?: number | undefined;
   /** A dictionary of tenant settings */
-  tenantSettings?: RedisCreatePropertiesInputTenantSettingsMap;
+  tenantSettings?: RedisCreatePropertiesInputTenantSettingsMap | undefined;
   /** The number of shards to be created on a Premium Cluster Cache. */
-  shardCount?: number;
+  shardCount?: number | undefined;
   /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2') */
-  minimumTlsVersion?: TlsVersion | (string & {});
+  minimumTlsVersion?: TlsVersion | (string & {}) | undefined;
   /** Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
-  updateChannel?: UpdateChannel | (string & {});
+  updateChannel?: UpdateChannel | (string & {}) | undefined;
   /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
-  disableAccessKeyAuthentication?: boolean;
+  disableAccessKeyAuthentication?: boolean | undefined;
   /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
-  zonalAllocationPolicy?: ZonalAllocationPolicy | (string & {});
+  zonalAllocationPolicy?: ZonalAllocationPolicy | (string & {}) | undefined;
   /** The SKU of the Redis cache to deploy. */
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. */
-  staticIP?: string;
+  staticIP?: string | undefined;
 }
 /** A list of availability zones denoting where the resource needs to come from. */
 export type CreateRedisRequestZonesList = Array<string>;
@@ -315,7 +315,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityI
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateRedisRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 export interface CreateRedisRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -327,56 +327,56 @@ export interface CreateRedisRequest {
   /** Redis cache properties. */
   properties: RedisCreatePropertiesInput;
   /** A list of availability zones denoting where the resource needs to come from. */
-  zones?: CreateRedisRequestZonesList;
+  zones?: CreateRedisRequestZonesList | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Resource tags. */
-  tags?: CreateRedisRequestTagsMap;
+  tags?: CreateRedisRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisRequestIdentity;
+  identity?: CreateRedisRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type CreateRedisResponseTagsMap = { [key: string]: string | undefined };
 /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
 export interface RedisCommonPropertiesRedisConfiguration {
   /** Specifies whether the RDB backup is enabled */
-  rdb_backup_enabled?: string;
+  rdb_backup_enabled?: string | undefined;
   /** Specifies the frequency for creating rdb backup in minutes. Valid values: (15, 30, 60, 360, 720, 1440) */
-  rdb_backup_frequency?: string;
+  rdb_backup_frequency?: string | undefined;
   /** Specifies the maximum number of snapshots for rdb backup */
-  rdb_backup_max_snapshot_count?: string;
+  rdb_backup_max_snapshot_count?: string | undefined;
   /** The storage account connection string for storing rdb file */
-  rdb_storage_connection_string?: string;
+  rdb_storage_connection_string?: string | undefined;
   /** Specifies whether the aof backup is enabled */
-  aof_backup_enabled?: string;
+  aof_backup_enabled?: string | undefined;
   /** First storage account connection string */
-  aof_storage_connection_string_0?: string;
+  aof_storage_connection_string_0?: string | undefined;
   /** Second storage account connection string */
-  aof_storage_connection_string_1?: string;
+  aof_storage_connection_string_1?: string | undefined;
   /** Value in megabytes reserved for fragmentation per shard */
-  maxfragmentationmemory_reserved?: string;
+  maxfragmentationmemory_reserved?: string | undefined;
   /** The eviction strategy used when your data won't fit within its memory limit. */
-  maxmemory_policy?: string;
+  maxmemory_policy?: string | undefined;
   /** Value in megabytes reserved for non-cache usage per shard e.g. failover. */
-  maxmemory_reserved?: string;
+  maxmemory_reserved?: string | undefined;
   /** Value in megabytes reserved for non-cache usage per shard e.g. failover. */
-  maxmemory_delta?: string;
+  maxmemory_delta?: string | undefined;
   /** The max clients config */
-  maxclients?: string;
+  maxclients?: string | undefined;
   /** The keyspace events which should be monitored. */
-  notify_keyspace_events?: string;
+  notify_keyspace_events?: string | undefined;
   /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
-  preferred_data_archive_auth_method?: string;
+  preferred_data_archive_auth_method?: string | undefined;
   /** Preferred auth method to communicate to storage account used for data persistence, specify SAS or ManagedIdentity, default value is SAS */
-  preferred_data_persistence_auth_method?: string;
+  preferred_data_persistence_auth_method?: string | undefined;
   /** Zonal Configuration */
-  zonal_configuration?: string;
+  zonal_configuration?: string | undefined;
   /** Specifies whether the authentication is disabled. Setting this property is highly discouraged from security point of view; you should never disable authentication using this property! */
-  authnotrequired?: string;
+  authnotrequired?: string | undefined;
   /** SubscriptionId of the storage account for persistence (aof/rdb) using ManagedIdentity. */
-  storage_subscription_id?: string;
+  storage_subscription_id?: string | undefined;
   /** Specifies whether AAD based authentication has been enabled or disabled for the cache */
-  aad_enabled?: string;
+  aad_enabled?: string | undefined;
   [key: string]: unknown;
 }
 /** A dictionary of tenant settings */
@@ -399,31 +399,31 @@ export type ProvisioningState =
 /** Redis cache access keys. */
 export interface RedisAccessKeys {
   /** The current primary key that clients can use to authenticate with Redis cache. */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The current secondary key that clients can use to authenticate with Redis cache. */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
 }
 /** Linked server Id */
 export interface RedisLinkedServer {
   /** Linked server Id. */
-  id?: string;
+  id?: string | undefined;
 }
 /** List of the linked servers associated with the cache */
 export type RedisPropertiesLinkedServersList = Array<RedisLinkedServer>;
 /** Details of single instance of redis. */
 export interface RedisInstanceDetails {
   /** Redis instance SSL port. */
-  sslPort?: number;
+  sslPort?: number | undefined;
   /** If enableNonSslPort is true, provides Redis instance Non-SSL port. */
-  nonSslPort?: number;
+  nonSslPort?: number | undefined;
   /** If the Cache uses availability zones, specifies availability zone where this instance is located. */
-  zone?: string;
+  zone?: string | undefined;
   /** If clustering is enabled, the Shard ID of Redis Instance */
-  shardId?: number;
+  shardId?: number | undefined;
   /** Specifies whether the instance is a primary node. */
-  isMaster?: boolean;
+  isMaster?: boolean | undefined;
   /** Specifies whether the instance is a primary node. */
-  isPrimary?: boolean;
+  isPrimary?: boolean | undefined;
 }
 /** List of the Redis instances associated with the cache */
 export type RedisPropertiesInstancesList = Array<RedisInstanceDetails>;
@@ -432,18 +432,18 @@ export type PrivateEndpointConnectionPropertiesGroupIdsList = Array<string>;
 /** The private endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for private endpoint. */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -454,26 +454,26 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionProperties {
   /** The group ids for the private endpoint resource. */
-  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList;
+  groupIds?: PrivateEndpointConnectionPropertiesGroupIdsList | undefined;
   /** The private endpoint resource. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The private endpoint connection resource. */
 export interface RedisPropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connection associated with the specified redis cache */
 export type RedisPropertiesPrivateEndpointConnectionsList =
@@ -481,93 +481,93 @@ export type RedisPropertiesPrivateEndpointConnectionsList =
 /** Properties of the redis cache. */
 export interface RedisProperties {
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
-  redisConfiguration?: RedisCommonPropertiesRedisConfiguration;
+  redisConfiguration?: RedisCommonPropertiesRedisConfiguration | undefined;
   /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
-  redisVersion?: string;
+  redisVersion?: string | undefined;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
-  enableNonSslPort?: boolean;
+  enableNonSslPort?: boolean | undefined;
   /** The number of replicas to be created per primary. */
-  replicasPerMaster?: number;
+  replicasPerMaster?: number | undefined;
   /** The number of replicas to be created per primary. */
-  replicasPerPrimary?: number;
+  replicasPerPrimary?: number | undefined;
   /** A dictionary of tenant settings */
-  tenantSettings?: RedisPropertiesTenantSettingsMap;
+  tenantSettings?: RedisPropertiesTenantSettingsMap | undefined;
   /** The number of shards to be created on a Premium Cluster Cache. */
-  shardCount?: number;
+  shardCount?: number | undefined;
   /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2') */
-  minimumTlsVersion?: TlsVersion;
+  minimumTlsVersion?: TlsVersion | undefined;
   /** Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. */
-  publicNetworkAccess?: PublicNetworkAccess;
+  publicNetworkAccess?: PublicNetworkAccess | undefined;
   /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
-  updateChannel?: UpdateChannel;
+  updateChannel?: UpdateChannel | undefined;
   /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
-  disableAccessKeyAuthentication?: boolean;
+  disableAccessKeyAuthentication?: boolean | undefined;
   /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
-  zonalAllocationPolicy?: ZonalAllocationPolicy;
+  zonalAllocationPolicy?: ZonalAllocationPolicy | undefined;
   /** The SKU of the Redis cache to deploy. */
   sku: Sku;
   /** The full resource ID of a subnet in a virtual network to deploy the Redis cache in. Example format: /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/Microsoft.{Network|ClassicNetwork}/VirtualNetworks/vnet1/subnets/subnet1 */
-  subnetId?: string;
+  subnetId?: string | undefined;
   /** Static IP address. Optionally, may be specified when deploying a Redis cache inside an existing Azure Virtual Network; auto assigned by default. */
-  staticIP?: string;
+  staticIP?: string | undefined;
   /** Redis instance provisioning status. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Redis host name. */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Redis non-SSL port. */
-  port?: number;
+  port?: number | undefined;
   /** Redis SSL port. */
-  sslPort?: number;
+  sslPort?: number | undefined;
   /** The keys of the Redis cache - not set if this object is not the response to Create or Update redis cache */
-  accessKeys?: RedisAccessKeys;
+  accessKeys?: RedisAccessKeys | undefined;
   /** List of the linked servers associated with the cache */
-  linkedServers?: RedisPropertiesLinkedServersList;
+  linkedServers?: RedisPropertiesLinkedServersList | undefined;
   /** List of the Redis instances associated with the cache */
-  instances?: RedisPropertiesInstancesList;
+  instances?: RedisPropertiesInstancesList | undefined;
   /** List of private endpoint connection associated with the specified redis cache */
-  privateEndpointConnections?: RedisPropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: RedisPropertiesPrivateEndpointConnectionsList | undefined;
 }
 /** The availability zones. */
 export type CreateRedisResponseZonesList = Array<string>;
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateRedisResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 export interface CreateRedisResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: CreateRedisResponseTagsMap;
+  tags?: CreateRedisResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Redis cache properties. */
   properties: RedisProperties;
   /** The availability zones. */
-  zones?: CreateRedisResponseZonesList;
+  zones?: CreateRedisResponseZonesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisResponseIdentity;
+  identity?: CreateRedisResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export interface DeleteAccessPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -581,9 +581,9 @@ export interface DeleteAccessPolicyRequest {
 }
 export interface DeleteAccessPolicyResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteAccessPolicyAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -597,9 +597,9 @@ export interface DeleteAccessPolicyAssignmentRequest {
 }
 export interface DeleteAccessPolicyAssignmentResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface DeleteFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -624,9 +624,9 @@ export interface DeleteLinkedServerRequest {
 }
 export interface DeleteLinkedServerResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export type DeletePatchScheduleRequestDefault = "default";
 export interface DeletePatchScheduleRequest {
@@ -661,9 +661,9 @@ export interface DeleteRedisRequest {
 }
 export interface DeleteRedisResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ExportRedisDataRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -673,21 +673,21 @@ export interface ExportRedisDataRequest {
   /** The name of the RedisResource */
   name: string;
   /** File format. */
-  format?: string;
+  format?: string | undefined;
   /** Prefix to use for exported files. */
   prefix: string;
   /** Container name to export to. */
   container: string;
   /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
-  preferred_data_archive_auth_method?: string;
+  preferred_data_archive_auth_method?: string | undefined;
   /** Subscription id of the storage container for data to be exported using ManagedIdentity. */
-  storage_subscription_id?: string;
+  storage_subscription_id?: string | undefined;
 }
 export interface ExportRedisDataResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Specifies a range of IP addresses permitted to connect to the cache */
 export interface RedisFirewallRuleProperties {
@@ -710,13 +710,13 @@ export interface FirewallRulesCreateOrUpdateRequest {
 }
 export interface FirewallRulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** redis cache firewall rule properties */
   properties: RedisFirewallRuleProperties;
 }
@@ -735,67 +735,67 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** The current status of an async operation. */
 export interface OperationStatusResult {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: OperationStatusResultOperationsList;
+  operations?: OperationStatusResultOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The operations list. */
 export type FlushRedisCacheResponseOperationsList = Array<OperationStatusResult>;
 export interface FlushRedisCacheResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: FlushRedisCacheResponseOperationsList;
+  operations?: FlushRedisCacheResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** A link to the status monitor */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetAccessPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -809,15 +809,15 @@ export interface GetAccessPolicyRequest {
 }
 export interface GetAccessPolicyResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an access policy. */
-  properties?: RedisCacheAccessPolicyProperties;
+  properties?: RedisCacheAccessPolicyProperties | undefined;
 }
 export interface GetAccessPolicyAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -831,15 +831,15 @@ export interface GetAccessPolicyAssignmentRequest {
 }
 export interface GetAccessPolicyAssignmentResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an access policy assignment */
-  properties?: RedisCacheAccessPolicyAssignmentProperties;
+  properties?: RedisCacheAccessPolicyAssignmentProperties | undefined;
 }
 export interface GetAsyncOperationStatusRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -855,23 +855,23 @@ export type GetAsyncOperationStatusResponseOperationsList = Array<OperationStatu
 export type GetAsyncOperationStatusResponsePropertiesMap = { [key: string]: unknown | undefined };
 export interface GetAsyncOperationStatusResponse {
   /** Fully qualified ID for the async operation. */
-  id?: string;
+  id?: string | undefined;
   /** Name of the async operation. */
-  name?: string;
+  name?: string | undefined;
   /** Operation status. */
   status: string;
   /** Percent of the operation that is complete. */
-  percentComplete?: number;
+  percentComplete?: number | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The operations list. */
-  operations?: GetAsyncOperationStatusResponseOperationsList;
+  operations?: GetAsyncOperationStatusResponseOperationsList | undefined;
   /** If present, details of the operation error. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
   /** Additional properties from RP, only when operation is successful */
-  properties?: GetAsyncOperationStatusResponsePropertiesMap;
+  properties?: GetAsyncOperationStatusResponsePropertiesMap | undefined;
 }
 export interface GetFirewallRuleRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -885,13 +885,13 @@ export interface GetFirewallRuleRequest {
 }
 export interface GetFirewallRuleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** redis cache firewall rule properties */
   properties: RedisFirewallRuleProperties;
 }
@@ -907,15 +907,15 @@ export interface GetLinkedServerRequest {
 }
 export interface GetLinkedServerResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the linked server. */
-  properties?: RedisLinkedServerProperties;
+  properties?: RedisLinkedServerProperties | undefined;
 }
 export type GetPatchScheduleRequestDefault = "default";
 export interface GetPatchScheduleRequest {
@@ -946,7 +946,7 @@ export interface ScheduleEntry {
   /** Start hour after which cache patching can start. */
   startHourUtc: number;
   /** ISO8601 timespan specifying how much time cache patching can take. */
-  maintenanceWindow?: string;
+  maintenanceWindow?: string | undefined;
 }
 /** List of patch schedules for a Redis cache. */
 export type ScheduleEntriesScheduleEntriesList = Array<ScheduleEntry>;
@@ -957,17 +957,17 @@ export interface ScheduleEntries {
 }
 export interface GetPatchScheduleResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** List of patch schedules for a Redis cache. */
   properties: ScheduleEntries;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -981,15 +981,15 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetRedisRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1007,23 +1007,23 @@ export type GetRedisResponseZonesList = Array<string>;
 export type GetRedisResponseIdentity = CreateRedisResponseIdentity;
 export interface GetRedisResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: GetRedisResponseTagsMap;
+  tags?: GetRedisResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Redis cache properties. */
   properties: RedisProperties;
   /** The availability zones. */
-  zones?: GetRedisResponseZonesList;
+  zones?: GetRedisResponseZonesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisResponseIdentity;
+  identity?: CreateRedisResponseIdentity | undefined;
 }
 /** files to import. */
 export type ImportRedisDataRequestFilesList = Array<string>;
@@ -1035,19 +1035,19 @@ export interface ImportRedisDataRequest {
   /** The name of the RedisResource */
   name: string;
   /** File format. */
-  format?: string;
+  format?: string | undefined;
   /** files to import. */
   files: ImportRedisDataRequestFilesList;
   /** Preferred auth method to communicate to storage account used for data archive, specify SAS or ManagedIdentity, default value is SAS */
-  preferred_data_archive_auth_method?: string;
+  preferred_data_archive_auth_method?: string | undefined;
   /** Subscription id of the storage container containing files to import using Managed Identity. */
-  storage_subscription_id?: string;
+  storage_subscription_id?: string | undefined;
 }
 export interface ImportRedisDataResponse {
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 export interface ListAccessPolicyRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1060,15 +1060,15 @@ export interface ListAccessPolicyRequest {
 /** Response to get/put access policy. */
 export interface RedisCacheAccessPolicy {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an access policy. */
-  properties?: RedisCacheAccessPolicyProperties;
+  properties?: RedisCacheAccessPolicyProperties | undefined;
 }
 /** The RedisCacheAccessPolicy items on this page */
 export type RedisCacheAccessPolicyListValueList = Array<RedisCacheAccessPolicy>;
@@ -1077,7 +1077,7 @@ export interface RedisCacheAccessPolicyList {
   /** The RedisCacheAccessPolicy items on this page */
   value: RedisCacheAccessPolicyListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListAccessPolicyAssignmentRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1090,15 +1090,15 @@ export interface ListAccessPolicyAssignmentRequest {
 /** Response to an operation on access policy assignment */
 export interface RedisCacheAccessPolicyAssignment {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of an access policy assignment */
-  properties?: RedisCacheAccessPolicyAssignmentProperties;
+  properties?: RedisCacheAccessPolicyAssignmentProperties | undefined;
 }
 /** The RedisCacheAccessPolicyAssignment items on this page */
 export type RedisCacheAccessPolicyAssignmentListValueList = Array<RedisCacheAccessPolicyAssignment>;
@@ -1107,7 +1107,7 @@ export interface RedisCacheAccessPolicyAssignmentList {
   /** The RedisCacheAccessPolicyAssignment items on this page */
   value: RedisCacheAccessPolicyAssignmentListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListFirewallRulesRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1120,13 +1120,13 @@ export interface ListFirewallRulesRequest {
 /** A firewall rule on a redis cache has a name, and describes a contiguous range of IP addresses permitted to connect */
 export interface RedisFirewallRule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** redis cache firewall rule properties */
   properties: RedisFirewallRuleProperties;
 }
@@ -1137,7 +1137,7 @@ export interface RedisFirewallRuleListResult {
   /** The RedisFirewallRule items on this page */
   value: RedisFirewallRuleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListLinkedServerRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1150,15 +1150,15 @@ export interface ListLinkedServerRequest {
 /** Response to put/get linked server (with properties) for Redis cache. */
 export interface RedisLinkedServerWithProperties {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Properties of the linked server. */
-  properties?: RedisLinkedServerProperties;
+  properties?: RedisLinkedServerProperties | undefined;
 }
 /** The RedisLinkedServerWithProperties items on this page */
 export type RedisLinkedServerWithPropertiesListValueList = Array<RedisLinkedServerWithProperties>;
@@ -1167,26 +1167,26 @@ export interface RedisLinkedServerWithPropertiesList {
   /** The RedisLinkedServerWithProperties items on this page */
   value: RedisLinkedServerWithPropertiesListValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** The object that describes the operation. */
 export interface OperationDisplay {
   /** Friendly name of the resource provider */
-  provider?: string;
+  provider?: string | undefined;
   /** Operation type: read, write, delete, listKeys/action, etc. */
-  operation?: string;
+  operation?: string | undefined;
   /** Resource type on which the operation is performed. */
-  resource?: string;
+  resource?: string | undefined;
   /** Friendly name of the operation */
-  description?: string;
+  description?: string | undefined;
 }
 /** REST API operation */
 export interface Operation {
   /** Operation name: {provider}/{resource}/{operation} */
-  name?: string;
+  name?: string | undefined;
   /** The object that describes the operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
 }
 /** List of operations supported by the resource provider. */
 export type OperationListResultValueList = Array<Operation>;
@@ -1195,7 +1195,7 @@ export interface OperationListResult {
   /** List of operations supported by the resource provider. */
   value: OperationListResultValueList;
   /** URL to get the next set of operation list results if there are any. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPatchScheduleByRedisResourceRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1208,17 +1208,17 @@ export interface ListPatchScheduleByRedisResourceRequest {
 /** Response to put/get patch schedules for Redis cache. */
 export interface RedisPatchSchedule {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** List of patch schedules for a Redis cache. */
   properties: ScheduleEntries;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The RedisPatchSchedule items on this page */
 export type RedisPatchScheduleListResultValueList = Array<RedisPatchSchedule>;
@@ -1227,7 +1227,7 @@ export interface RedisPatchScheduleListResult {
   /** The RedisPatchSchedule items on this page */
   value: RedisPatchScheduleListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1248,7 +1248,7 @@ export interface PrivateEndpointConnectionListResult {
   /** The PrivateEndpointConnection items on this page */
   value: PrivateEndpointConnectionListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateLinkResourceByRedisCacheRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1265,24 +1265,24 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource. */
 export interface PrivateLinkResourceListResultValueItem {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** The PrivateLinkResource items on this page */
 export type PrivateLinkResourceListResultValueList = Array<PrivateLinkResourceListResultValueItem>;
@@ -1291,7 +1291,7 @@ export interface PrivateLinkResourceListResult {
   /** The PrivateLinkResource items on this page */
   value: PrivateLinkResourceListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRedisByResourceGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1308,23 +1308,23 @@ export type RedisResourceIdentity = CreateRedisResponseIdentity;
 /** A single Redis item in List or Get Operation. */
 export interface RedisResource {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: RedisResourceTagsMap;
+  tags?: RedisResourceTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Redis cache properties. */
   properties: RedisProperties;
   /** The availability zones. */
-  zones?: RedisResourceZonesList;
+  zones?: RedisResourceZonesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisResponseIdentity;
+  identity?: CreateRedisResponseIdentity | undefined;
 }
 /** The RedisResource items on this page */
 export type RedisListResultValueList = Array<RedisResource>;
@@ -1333,7 +1333,7 @@ export interface RedisListResult {
   /** The RedisResource items on this page */
   value: RedisListResultValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRedisBySubscriptionRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -1362,11 +1362,11 @@ export type UpgradeNotificationUpsellNotificationMap = { [key: string]: string |
 /** Properties of upgrade notification. */
 export interface UpgradeNotification {
   /** Name of upgrade notification. */
-  name?: string;
+  name?: string | undefined;
   /** Timestamp when upgrade notification occurred. */
-  timestamp?: string;
+  timestamp?: string | undefined;
   /** Details about this upgrade notification */
-  upsellNotification?: UpgradeNotificationUpsellNotificationMap;
+  upsellNotification?: UpgradeNotificationUpsellNotificationMap | undefined;
 }
 /** The UpgradeNotification items on this page */
 export type NotificationListResponseValueList = Array<UpgradeNotification>;
@@ -1375,7 +1375,7 @@ export interface NotificationListResponse {
   /** The UpgradeNotification items on this page */
   value: NotificationListResponseValueList;
   /** The link to the next page of items */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export type PatchSchedulesCreateOrUpdateRequestDefault = "default";
 export interface PatchSchedulesCreateOrUpdateRequest {
@@ -1392,24 +1392,24 @@ export interface PatchSchedulesCreateOrUpdateRequest {
 }
 export interface PatchSchedulesCreateOrUpdateResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** List of patch schedules for a Redis cache. */
   properties: ScheduleEntries;
   /** The geo-location where the resource lives */
-  location?: string;
+  location?: string | undefined;
 }
 /** The private endpoint resource. */
 export type PrivateEndpointInput = UserAssignedIdentityInput;
 /** Properties of the private endpoint connection. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The private endpoint resource. */
-  privateEndpoint?: UserAssignedIdentityInput;
+  privateEndpoint?: UserAssignedIdentityInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -1423,23 +1423,23 @@ export interface PutPrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource. */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PutPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  location?: string;
+  location?: string | undefined;
   /** The Retry-After header can indicate how long the client should wait before polling the operation status. */
-  retryAfter?: number;
+  retryAfter?: number | undefined;
 }
 /** Which Redis node(s) to reboot. Depending on this value data loss is possible. */
 export type RebootType = "PrimaryNode" | "SecondaryNode" | "AllNodes";
@@ -1453,16 +1453,16 @@ export interface RebootRedisForceRequest {
   /** The name of the RedisResource */
   name: string;
   /** Which Redis node(s) to reboot. Depending on this value data loss is possible. */
-  rebootType?: RebootType | (string & {});
+  rebootType?: RebootType | (string & {}) | undefined;
   /** If clustering is enabled, the ID of the shard to be rebooted. */
-  shardId?: number;
+  shardId?: number | undefined;
   /** A list of redis instances to reboot, specified by per-instance SSL ports or non-SSL ports. */
-  ports?: RebootRedisForceRequestPortsList;
+  ports?: RebootRedisForceRequestPortsList | undefined;
 }
 /** Response to force reboot for Redis cache. */
 export interface RebootRedisForceResponse {
   /** Status message */
-  message?: string;
+  message?: string | undefined;
 }
 /** The Redis access key to regenerate. */
 export type RedisKeyType = "Primary" | "Secondary";
@@ -1481,31 +1481,31 @@ export type RedisUpdatePropertiesInputTenantSettingsMap = { [key: string]: strin
 /** Patchable properties of the redis cache. */
 export interface RedisUpdatePropertiesInput {
   /** All Redis Settings. Few possible keys: rdb-backup-enabled,rdb-storage-connection-string,rdb-backup-frequency,maxmemory-delta, maxmemory-policy,notify-keyspace-events, aof-backup-enabled, aof-storage-connection-string-0, aof-storage-connection-string-1 etc. */
-  redisConfiguration?: RedisCommonPropertiesRedisConfigurationInput;
+  redisConfiguration?: RedisCommonPropertiesRedisConfigurationInput | undefined;
   /** Redis version. This should be in the form 'major[.minor]' (only 'major' is required) or the value 'latest' which refers to the latest stable Redis version that is available. Supported versions: 4.0, 6.0 (latest). Default value is 'latest'. */
-  redisVersion?: string;
+  redisVersion?: string | undefined;
   /** Specifies whether the non-ssl Redis server port (6379) is enabled. */
-  enableNonSslPort?: boolean;
+  enableNonSslPort?: boolean | undefined;
   /** The number of replicas to be created per primary. */
-  replicasPerMaster?: number;
+  replicasPerMaster?: number | undefined;
   /** The number of replicas to be created per primary. */
-  replicasPerPrimary?: number;
+  replicasPerPrimary?: number | undefined;
   /** A dictionary of tenant settings */
-  tenantSettings?: RedisUpdatePropertiesInputTenantSettingsMap;
+  tenantSettings?: RedisUpdatePropertiesInputTenantSettingsMap | undefined;
   /** The number of shards to be created on a Premium Cluster Cache. */
-  shardCount?: number;
+  shardCount?: number | undefined;
   /** Optional: requires clients to use a specified TLS version (or higher) to connect (e,g, '1.0', '1.1', '1.2') */
-  minimumTlsVersion?: TlsVersion | (string & {});
+  minimumTlsVersion?: TlsVersion | (string & {}) | undefined;
   /** Whether or not public endpoint access is allowed for this cache. Value is optional but if passed in, must be 'Enabled' or 'Disabled'. If 'Disabled', private endpoints are the exclusive access method. */
-  publicNetworkAccess?: PublicNetworkAccess | (string & {});
+  publicNetworkAccess?: PublicNetworkAccess | (string & {}) | undefined;
   /** Optional: Specifies the update channel for the monthly Redis updates your Redis Cache will receive. Caches using 'Preview' update channel get latest Redis updates at least 4 weeks ahead of 'Stable' channel caches. Default value is 'Stable'. */
-  updateChannel?: UpdateChannel | (string & {});
+  updateChannel?: UpdateChannel | (string & {}) | undefined;
   /** Authentication to Redis through access keys is disabled when set as true. Default value is false. */
-  disableAccessKeyAuthentication?: boolean;
+  disableAccessKeyAuthentication?: boolean | undefined;
   /** Optional: Specifies how availability zones are allocated to the Redis cache. 'Automatic' enables zone redundancy and Azure will automatically select zones based on regional availability and capacity. 'UserDefined' will select availability zones passed in by you using the 'zones' parameter. 'NoZones' will produce a non-zonal cache. If 'zonalAllocationPolicy' is not passed, it will be set to 'UserDefined' when zones are passed in, otherwise, it will be set to 'Automatic' in regions where zones are supported and 'NoZones' in regions where zones are not supported. */
-  zonalAllocationPolicy?: ZonalAllocationPolicy | (string & {});
+  zonalAllocationPolicy?: ZonalAllocationPolicy | (string & {}) | undefined;
   /** The SKU of the Redis cache to deploy. */
-  sku?: Sku;
+  sku?: Sku | undefined;
 }
 /** Resource tags. */
 export type UpdateRedisRequestTagsMap = { [key: string]: string | undefined };
@@ -1519,11 +1519,11 @@ export interface UpdateRedisRequest {
   /** The name of the RedisResource */
   name: string;
   /** Redis cache properties. */
-  properties?: RedisUpdatePropertiesInput;
+  properties?: RedisUpdatePropertiesInput | undefined;
   /** Resource tags. */
-  tags?: UpdateRedisRequestTagsMap;
+  tags?: UpdateRedisRequestTagsMap | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisRequestIdentity;
+  identity?: CreateRedisRequestIdentity | undefined;
 }
 /** Resource tags. */
 export type UpdateRedisResponseTagsMap = { [key: string]: string | undefined };
@@ -1533,25 +1533,25 @@ export type UpdateRedisResponseZonesList = Array<string>;
 export type UpdateRedisResponseIdentity = CreateRedisResponseIdentity;
 export interface UpdateRedisResponse {
   /** Fully qualified resource ID for the resource. E.g. "/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}" */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Azure Resource Manager metadata containing createdBy and modifiedBy information. */
-  systemData?: SystemData;
+  systemData?: SystemData | undefined;
   /** Resource tags. */
-  tags?: UpdateRedisResponseTagsMap;
+  tags?: UpdateRedisResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** Redis cache properties. */
   properties: RedisProperties;
   /** The availability zones. */
-  zones?: UpdateRedisResponseZonesList;
+  zones?: UpdateRedisResponseZonesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisResponseIdentity;
+  identity?: CreateRedisResponseIdentity | undefined;
   /** The Location header contains the URL where the status of the long running operation can be checked. */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
 }
 export type AccessPolicyAssignmentCreateUpdateError = AzureOpError;
 /** Adds the access policy assignment to the specified users */

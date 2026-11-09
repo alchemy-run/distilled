@@ -28,7 +28,7 @@ export interface AddPinRequest {
   /** Channel to pin the messsage to. You must also include a `timestamp` when pinning messages. */
   channel: string;
   /** Timestamp of the message to pin. You must also include the `channel`. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export interface AddPinResponse {
   /** Always `true` (a failed call raises a typed error instead). */
@@ -43,23 +43,23 @@ export interface ListPinsResponseItemsItem {
   type: ListPinsResponseItemsItemType;
   created: number;
   created_by: string;
-  channel?: string;
-  message?: unknown;
-  file?: unknown;
-  comment?: string;
+  channel?: string | undefined;
+  message?: unknown | undefined;
+  file?: unknown | undefined;
+  comment?: string | undefined;
 }
 export type ListPinsResponseItemsList = Array<ListPinsResponseItemsItem>;
 export interface ListPinsResponse {
   /** Always `true` (a failed call raises a typed error instead). */
   ok: boolean;
-  items?: ListPinsResponseItemsList;
-  count?: number;
+  items?: ListPinsResponseItemsList | undefined;
+  count?: number | undefined;
 }
 export interface RemovePinRequest {
   /** Channel where the item is pinned to. */
   channel: string;
   /** Timestamp of the message to un-pin. */
-  timestamp?: string;
+  timestamp?: string | undefined;
 }
 export interface RemovePinResponse {
   /** Always `true` (a failed call raises a typed error instead). */

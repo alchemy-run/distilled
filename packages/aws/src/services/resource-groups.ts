@@ -165,12 +165,12 @@ export type GroupConfigurationParameterValue = string;
 export type GroupConfigurationParameterValueList = string[];
 export interface GroupConfigurationParameter {
   Name: string;
-  Values?: string[];
+  Values?: string[] | undefined;
 }
 export type GroupParameterList = GroupConfigurationParameter[];
 export interface GroupConfigurationItem {
   Type: string;
-  Parameters?: GroupConfigurationParameter[];
+  Parameters?: GroupConfigurationParameter[] | undefined;
 }
 export type GroupConfigurationList = GroupConfigurationItem[];
 export type Criticality = number;
@@ -178,13 +178,13 @@ export type Owner = string;
 export type DisplayName = string;
 export interface CreateGroupInput {
   Name: string;
-  Description?: string;
-  ResourceQuery?: ResourceQuery;
-  Tags?: { [key: string]: string | undefined };
-  Configuration?: GroupConfigurationItem[];
-  Criticality?: number;
-  Owner?: string;
-  DisplayName?: string;
+  Description?: string | undefined;
+  ResourceQuery?: ResourceQuery | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  Configuration?: GroupConfigurationItem[] | undefined;
+  Criticality?: number | undefined;
+  Owner?: string | undefined;
+  DisplayName?: string | undefined;
 }
 export type GroupArnV2 = string;
 export type GroupName = string;
@@ -194,11 +194,11 @@ export type ApplicationTag = { [key: string]: string | undefined };
 export interface Group {
   GroupArn: string;
   Name: string;
-  Description?: string;
-  Criticality?: number;
-  Owner?: string;
-  DisplayName?: string;
-  ApplicationTag?: { [key: string]: string | undefined };
+  Description?: string | undefined;
+  Criticality?: number | undefined;
+  Owner?: string | undefined;
+  DisplayName?: string | undefined;
+  ApplicationTag?: { [key: string]: string | undefined } | undefined;
 }
 export type GroupConfigurationStatus =
   | "UPDATING"
@@ -207,24 +207,24 @@ export type GroupConfigurationStatus =
   | (string & {});
 export type GroupConfigurationFailureReason = string;
 export interface GroupConfiguration {
-  Configuration?: GroupConfigurationItem[];
-  ProposedConfiguration?: GroupConfigurationItem[];
-  Status?: GroupConfigurationStatus;
-  FailureReason?: string;
+  Configuration?: GroupConfigurationItem[] | undefined;
+  ProposedConfiguration?: GroupConfigurationItem[] | undefined;
+  Status?: GroupConfigurationStatus | undefined;
+  FailureReason?: string | undefined;
 }
 export interface CreateGroupOutput {
   Group: Group;
-  ResourceQuery?: ResourceQuery;
-  Tags?: { [key: string]: string | undefined };
-  GroupConfiguration?: GroupConfiguration;
+  ResourceQuery?: ResourceQuery | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
+  GroupConfiguration?: GroupConfiguration | undefined;
 }
 export type GroupStringV2 = string;
 export interface DeleteGroupInput {
-  GroupName?: string;
-  Group?: string;
+  GroupName?: string | undefined;
+  Group?: string | undefined;
 }
 export interface DeleteGroupOutput {
-  Group?: Group;
+  Group?: Group | undefined;
 }
 export interface GetAccountSettingsRequest {}
 export type GroupLifecycleEventsDesiredStatus = "ACTIVE" | "INACTIVE" | (string & {});
@@ -236,44 +236,44 @@ export type GroupLifecycleEventsStatus =
   | (string & {});
 export type GroupLifecycleEventsStatusMessage = string;
 export interface AccountSettings {
-  GroupLifecycleEventsDesiredStatus?: GroupLifecycleEventsDesiredStatus;
-  GroupLifecycleEventsStatus?: GroupLifecycleEventsStatus;
-  GroupLifecycleEventsStatusMessage?: string;
+  GroupLifecycleEventsDesiredStatus?: GroupLifecycleEventsDesiredStatus | undefined;
+  GroupLifecycleEventsStatus?: GroupLifecycleEventsStatus | undefined;
+  GroupLifecycleEventsStatusMessage?: string | undefined;
 }
 export interface GetAccountSettingsOutput {
-  AccountSettings?: AccountSettings;
+  AccountSettings?: AccountSettings | undefined;
 }
 export interface GetGroupInput {
-  GroupName?: string;
-  Group?: string;
+  GroupName?: string | undefined;
+  Group?: string | undefined;
 }
 export interface GetGroupOutput {
   Group: Group;
 }
 export type GroupString = string;
 export interface GetGroupConfigurationInput {
-  Group?: string;
+  Group?: string | undefined;
 }
 export interface GetGroupConfigurationOutput {
-  GroupConfiguration?: GroupConfiguration;
+  GroupConfiguration?: GroupConfiguration | undefined;
 }
 export interface GetGroupQueryInput {
-  GroupName?: string;
-  Group?: string;
+  GroupName?: string | undefined;
+  Group?: string | undefined;
 }
 export interface GroupQuery {
   GroupName: string;
   ResourceQuery: ResourceQuery;
 }
 export interface GetGroupQueryOutput {
-  GroupQuery?: GroupQuery;
+  GroupQuery?: GroupQuery | undefined;
 }
 export interface GetTagsInput {
   Arn: string;
 }
 export interface GetTagsOutput {
-  Arn?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface GetTagSyncTaskInput {
   TaskArn: string;
@@ -282,16 +282,16 @@ export type RoleArn = string;
 export type TagSyncTaskStatus = "ACTIVE" | "ERROR" | (string & {});
 export type ErrorMessage = string;
 export interface GetTagSyncTaskOutput {
-  GroupArn?: string;
-  GroupName?: string;
-  TaskArn?: string;
-  TagKey?: string;
-  TagValue?: string;
-  ResourceQuery?: ResourceQuery;
-  RoleArn?: string;
-  Status?: TagSyncTaskStatus;
-  ErrorMessage?: string;
-  CreatedAt?: Date;
+  GroupArn?: string | undefined;
+  GroupName?: string | undefined;
+  TaskArn?: string | undefined;
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
+  ResourceQuery?: ResourceQuery | undefined;
+  RoleArn?: string | undefined;
+  Status?: TagSyncTaskStatus | undefined;
+  ErrorMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type ResourceArn = string;
 export type ResourceArnList = string[];
@@ -301,19 +301,19 @@ export interface GroupResourcesInput {
 }
 export type ErrorCode = string;
 export interface FailedResource {
-  ResourceArn?: string;
-  ErrorMessage?: string;
-  ErrorCode?: string;
+  ResourceArn?: string | undefined;
+  ErrorMessage?: string | undefined;
+  ErrorCode?: string | undefined;
 }
 export type FailedResourceList = FailedResource[];
 export interface PendingResource {
-  ResourceArn?: string;
+  ResourceArn?: string | undefined;
 }
 export type PendingResourceList = PendingResource[];
 export interface GroupResourcesOutput {
-  Succeeded?: string[];
-  Failed?: FailedResource[];
-  Pending?: PendingResource[];
+  Succeeded?: string[] | undefined;
+  Failed?: FailedResource[] | undefined;
+  Pending?: PendingResource[] | undefined;
 }
 export type MaxResults = number;
 export type ListGroupingStatusesFilterName = "status" | "resource-arn" | (string & {});
@@ -327,25 +327,25 @@ export type ListGroupingStatusesFilterList = ListGroupingStatusesFilter[];
 export type NextToken = string;
 export interface ListGroupingStatusesInput {
   Group: string;
-  MaxResults?: number;
-  Filters?: ListGroupingStatusesFilter[];
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  Filters?: ListGroupingStatusesFilter[] | undefined;
+  NextToken?: string | undefined;
 }
 export type GroupingType = "GROUP" | "UNGROUP" | (string & {});
 export type GroupingStatus = "SUCCESS" | "FAILED" | "IN_PROGRESS" | "SKIPPED" | (string & {});
 export interface GroupingStatusesItem {
-  ResourceArn?: string;
-  Action?: GroupingType;
-  Status?: GroupingStatus;
-  ErrorMessage?: string;
-  ErrorCode?: string;
-  UpdatedAt?: Date;
+  ResourceArn?: string | undefined;
+  Action?: GroupingType | undefined;
+  Status?: GroupingStatus | undefined;
+  ErrorMessage?: string | undefined;
+  ErrorCode?: string | undefined;
+  UpdatedAt?: Date | undefined;
 }
 export type GroupingStatusesList = GroupingStatusesItem[];
 export interface ListGroupingStatusesOutput {
-  Group?: string;
-  GroupingStatuses?: GroupingStatusesItem[];
-  NextToken?: string;
+  Group?: string | undefined;
+  GroupingStatuses?: GroupingStatusesItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceFilterName = "resource-type" | (string & {});
 export type ResourceFilterValue = string;
@@ -356,24 +356,24 @@ export interface ResourceFilter {
 }
 export type ResourceFilterList = ResourceFilter[];
 export interface ListGroupResourcesInput {
-  GroupName?: string;
-  Group?: string;
-  Filters?: ResourceFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  GroupName?: string | undefined;
+  Group?: string | undefined;
+  Filters?: ResourceFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type ResourceType = string;
 export interface ResourceIdentifier {
-  ResourceArn?: string;
-  ResourceType?: string;
+  ResourceArn?: string | undefined;
+  ResourceType?: string | undefined;
 }
 export type ResourceStatusValue = "PENDING" | (string & {});
 export interface ResourceStatus {
-  Name?: ResourceStatusValue;
+  Name?: ResourceStatusValue | undefined;
 }
 export interface ListGroupResourcesItem {
-  Identifier?: ResourceIdentifier;
-  Status?: ResourceStatus;
+  Identifier?: ResourceIdentifier | undefined;
+  Status?: ResourceStatus | undefined;
 }
 export type ListGroupResourcesItemList = ListGroupResourcesItem[];
 export type ResourceIdentifierList = ResourceIdentifier[];
@@ -385,15 +385,15 @@ export type QueryErrorCode =
   | (string & {});
 export type QueryErrorMessage = string;
 export interface QueryError {
-  ErrorCode?: QueryErrorCode;
-  Message?: string;
+  ErrorCode?: QueryErrorCode | undefined;
+  Message?: string | undefined;
 }
 export type QueryErrorList = QueryError[];
 export interface ListGroupResourcesOutput {
-  Resources?: ListGroupResourcesItem[];
-  ResourceIdentifiers?: ResourceIdentifier[];
-  NextToken?: string;
-  QueryErrors?: QueryError[];
+  Resources?: ListGroupResourcesItem[] | undefined;
+  ResourceIdentifiers?: ResourceIdentifier[] | undefined;
+  NextToken?: string | undefined;
+  QueryErrors?: QueryError[] | undefined;
 }
 export type GroupFilterName =
   | "resource-type"
@@ -410,100 +410,100 @@ export interface GroupFilter {
 }
 export type GroupFilterList = GroupFilter[];
 export interface ListGroupsInput {
-  Filters?: GroupFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: GroupFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export type GroupArn = string;
 export interface GroupIdentifier {
-  GroupName?: string;
-  GroupArn?: string;
-  Description?: string;
-  Criticality?: number;
-  Owner?: string;
-  DisplayName?: string;
+  GroupName?: string | undefined;
+  GroupArn?: string | undefined;
+  Description?: string | undefined;
+  Criticality?: number | undefined;
+  Owner?: string | undefined;
+  DisplayName?: string | undefined;
 }
 export type GroupIdentifierList = GroupIdentifier[];
 export type GroupList = Group[];
 export interface ListGroupsOutput {
-  GroupIdentifiers?: GroupIdentifier[];
-  Groups?: Group[];
-  NextToken?: string;
+  GroupIdentifiers?: GroupIdentifier[] | undefined;
+  Groups?: Group[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface ListTagSyncTasksFilter {
-  GroupArn?: string;
-  GroupName?: string;
+  GroupArn?: string | undefined;
+  GroupName?: string | undefined;
 }
 export type ListTagSyncTasksFilterList = ListTagSyncTasksFilter[];
 export interface ListTagSyncTasksInput {
-  Filters?: ListTagSyncTasksFilter[];
-  MaxResults?: number;
-  NextToken?: string;
+  Filters?: ListTagSyncTasksFilter[] | undefined;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface TagSyncTaskItem {
-  GroupArn?: string;
-  GroupName?: string;
-  TaskArn?: string;
-  TagKey?: string;
-  TagValue?: string;
-  ResourceQuery?: ResourceQuery;
-  RoleArn?: string;
-  Status?: TagSyncTaskStatus;
-  ErrorMessage?: string;
-  CreatedAt?: Date;
+  GroupArn?: string | undefined;
+  GroupName?: string | undefined;
+  TaskArn?: string | undefined;
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
+  ResourceQuery?: ResourceQuery | undefined;
+  RoleArn?: string | undefined;
+  Status?: TagSyncTaskStatus | undefined;
+  ErrorMessage?: string | undefined;
+  CreatedAt?: Date | undefined;
 }
 export type TagSyncTaskList = TagSyncTaskItem[];
 export interface ListTagSyncTasksOutput {
-  TagSyncTasks?: TagSyncTaskItem[];
-  NextToken?: string;
+  TagSyncTasks?: TagSyncTaskItem[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface PutGroupConfigurationInput {
-  Group?: string;
-  Configuration?: GroupConfigurationItem[];
+  Group?: string | undefined;
+  Configuration?: GroupConfigurationItem[] | undefined;
 }
 export interface PutGroupConfigurationOutput {}
 export interface SearchResourcesInput {
   ResourceQuery: ResourceQuery;
-  MaxResults?: number;
-  NextToken?: string;
+  MaxResults?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface SearchResourcesOutput {
-  ResourceIdentifiers?: ResourceIdentifier[];
-  NextToken?: string;
-  QueryErrors?: QueryError[];
+  ResourceIdentifiers?: ResourceIdentifier[] | undefined;
+  NextToken?: string | undefined;
+  QueryErrors?: QueryError[] | undefined;
 }
 export interface StartTagSyncTaskInput {
   Group: string;
-  TagKey?: string;
-  TagValue?: string;
-  ResourceQuery?: ResourceQuery;
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
+  ResourceQuery?: ResourceQuery | undefined;
   RoleArn: string;
 }
 export interface StartTagSyncTaskOutput {
-  GroupArn?: string;
-  GroupName?: string;
-  TaskArn?: string;
-  TagKey?: string;
-  TagValue?: string;
-  ResourceQuery?: ResourceQuery;
-  RoleArn?: string;
+  GroupArn?: string | undefined;
+  GroupName?: string | undefined;
+  TaskArn?: string | undefined;
+  TagKey?: string | undefined;
+  TagValue?: string | undefined;
+  ResourceQuery?: ResourceQuery | undefined;
+  RoleArn?: string | undefined;
 }
 export interface TagInput {
   Arn: string;
   Tags: { [key: string]: string | undefined };
 }
 export interface TagOutput {
-  Arn?: string;
-  Tags?: { [key: string]: string | undefined };
+  Arn?: string | undefined;
+  Tags?: { [key: string]: string | undefined } | undefined;
 }
 export interface UngroupResourcesInput {
   Group: string;
   ResourceArns: string[];
 }
 export interface UngroupResourcesOutput {
-  Succeeded?: string[];
-  Failed?: FailedResource[];
-  Pending?: PendingResource[];
+  Succeeded?: string[] | undefined;
+  Failed?: FailedResource[] | undefined;
+  Pending?: PendingResource[] | undefined;
 }
 export type TagKeyList = string[];
 export interface UntagInput {
@@ -511,33 +511,33 @@ export interface UntagInput {
   Keys: string[];
 }
 export interface UntagOutput {
-  Arn?: string;
-  Keys?: string[];
+  Arn?: string | undefined;
+  Keys?: string[] | undefined;
 }
 export interface UpdateAccountSettingsInput {
-  GroupLifecycleEventsDesiredStatus?: GroupLifecycleEventsDesiredStatus;
+  GroupLifecycleEventsDesiredStatus?: GroupLifecycleEventsDesiredStatus | undefined;
 }
 export interface UpdateAccountSettingsOutput {
-  AccountSettings?: AccountSettings;
+  AccountSettings?: AccountSettings | undefined;
 }
 export interface UpdateGroupInput {
-  GroupName?: string;
-  Group?: string;
-  Description?: string;
-  Criticality?: number;
-  Owner?: string;
-  DisplayName?: string;
+  GroupName?: string | undefined;
+  Group?: string | undefined;
+  Description?: string | undefined;
+  Criticality?: number | undefined;
+  Owner?: string | undefined;
+  DisplayName?: string | undefined;
 }
 export interface UpdateGroupOutput {
-  Group?: Group;
+  Group?: Group | undefined;
 }
 export interface UpdateGroupQueryInput {
-  GroupName?: string;
-  Group?: string;
+  GroupName?: string | undefined;
+  Group?: string | undefined;
   ResourceQuery: ResourceQuery;
 }
 export interface UpdateGroupQueryOutput {
-  GroupQuery?: GroupQuery;
+  GroupQuery?: GroupQuery | undefined;
 }
 export type CancelTagSyncTaskError =
   | BadRequestException

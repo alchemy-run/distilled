@@ -46,15 +46,15 @@ export class StorageOverloaded
 
 export interface CreateActorRequest {
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Actor name, 1 to 64 bytes. */
   name: string;
   /** Actor key in canonical slash-separated form, at most 1024 bytes. Omit for an actor without a key. */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Actor input as standard base64 (with padding). */
-  input?: string | null;
+  input?: string | null | undefined;
   /** Name of the node pool to run the actor in. Defaults to `default`. */
-  pool?: string | null;
+  pool?: string | null | undefined;
 }
 export interface Actor {
   actor_id: string;
@@ -90,29 +90,29 @@ export interface DeleteActorRequest {
   /** ID of the actor. */
   actor_id: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export type DeleteActorResponse = unknown;
 export interface GetActorRequest {
   /** ID of the actor. */
   actor_id: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface ActorsGetResponse {
   actor: Actor;
 }
 export interface GetOrCreateActorRequest {
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Actor name, 1 to 64 bytes. */
   name: string;
   /** Actor key in canonical slash-separated form, at most 1024 bytes. Without a key, a new actor is always created. */
-  key?: string | null;
+  key?: string | null | undefined;
   /** Actor input as standard base64 (with padding). */
-  input?: string | null;
+  input?: string | null | undefined;
   /** Name of the node pool to run the actor in. Defaults to `default`. */
-  pool?: string | null;
+  pool?: string | null | undefined;
 }
 export interface ActorsGetOrCreateResponse {
   actor: Actor;
@@ -121,7 +121,7 @@ export interface ActorsGetOrCreateResponse {
 }
 export interface ListActorNamesRequest {
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 /** Metadata for the actor name. Currently always empty. */
 export type ActorNameMetadataMap = { [key: string]: unknown | undefined };
@@ -137,21 +137,21 @@ export interface ActorsListNamesResponse {
 }
 export interface ListActorsRequest {
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
   /** Actor name. Required unless `actor_ids` or `actor_id` is set. Without `key`, lists every actor with this name, newest first. */
-  name?: string;
+  name?: string | undefined;
   /** Actor key in slash-separated form. Requires `name`. Returns at most one actor. */
-  key?: string;
+  key?: string | undefined;
   /** Comma-separated actor IDs to look up. Takes precedence over `actor_id`, `name` and `key`. IDs of missing actors or of actors in another namespace are skipped. */
-  actor_ids?: string;
+  actor_ids?: string | undefined;
   /** Same as `actor_ids`, used when `actor_ids` is absent. */
-  actor_id?: string;
+  actor_id?: string | undefined;
   /** Include destroyed actors. Must be exactly `true` or `false`. */
-  include_destroyed?: boolean;
+  include_destroyed?: boolean | undefined;
   /** Maximum number of actors to return for a listing by name, from 1 to 100. Defaults to 100. A page can hold fewer actors even when more remain. */
-  limit?: number;
+  limit?: number | undefined;
   /** Opaque cursor from the previous response's `pagination.cursor`. Only used for a listing by name. */
-  cursor?: string;
+  cursor?: string | undefined;
 }
 export type ActorsListResponseActorsList = Array<Actor>;
 export interface Pagination {
@@ -166,14 +166,14 @@ export interface RescheduleActorRequest {
   /** ID of the actor. */
   actor_id: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export type RescheduleActorResponse = unknown;
 export interface SleepActorRequest {
   /** ID of the actor. */
   actor_id: string;
   /** Name of the namespace to operate in. Defaults to `default`. */
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export type SleepActorResponse = unknown;
 export type CreateActorError = StorageOverloaded | CommandDeadlineElapsed | RivetOpError;

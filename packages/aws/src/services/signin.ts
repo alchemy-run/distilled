@@ -397,10 +397,10 @@ export type RefreshToken = string | redacted.Redacted<string>;
 export interface CreateOAuth2TokenRequestBody {
   clientId: string;
   grantType: string;
-  code?: string;
-  redirectUri?: string;
-  codeVerifier?: string;
-  refreshToken?: string | redacted.Redacted<string>;
+  code?: string | undefined;
+  redirectUri?: string | undefined;
+  codeVerifier?: string | undefined;
+  refreshToken?: string | redacted.Redacted<string> | undefined;
 }
 export interface CreateOAuth2TokenRequest {
   tokenInput: CreateOAuth2TokenRequestBody;
@@ -418,7 +418,7 @@ export interface CreateOAuth2TokenResponseBody {
   tokenType: string;
   expiresIn: number;
   refreshToken: string | redacted.Redacted<string>;
-  idToken?: string;
+  idToken?: string | undefined;
 }
 export interface CreateOAuth2TokenResponse {
   tokenOutput: CreateOAuth2TokenResponseBody;
@@ -438,7 +438,7 @@ export interface CreateOAuth2TokenWithIAMResponse {
 }
 export type TargetId = string;
 export interface DeleteConsoleAuthorizationConfigurationInput {
-  targetId?: string;
+  targetId?: string | undefined;
 }
 export interface DeleteConsoleAuthorizationConfigurationOutput {
   targetId: string;
@@ -449,11 +449,11 @@ export type StatementId = string;
 export type ClientToken = string;
 export interface DeleteResourcePermissionStatementInput {
   statementId: string;
-  clientToken?: string;
+  clientToken?: string | undefined;
 }
 export interface DeleteResourcePermissionStatementOutput {}
 export interface GetConsoleAuthorizationConfigurationInput {
-  targetId?: string;
+  targetId?: string | undefined;
 }
 export interface GetConsoleAuthorizationConfigurationOutput {
   targetId: string;
@@ -468,16 +468,16 @@ export type ConditionValues = string[];
 export type Condition = { [key: string]: string[] | undefined };
 export type ConditionBlock = { [key: string]: { [key: string]: string[] | undefined } | undefined };
 export interface PolicyStatement {
-  effect?: string;
-  principal?: { [key: string]: string | undefined };
-  action?: string[];
-  resource?: string;
-  condition?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
+  effect?: string | undefined;
+  principal?: { [key: string]: string | undefined } | undefined;
+  action?: string[] | undefined;
+  resource?: string | undefined;
+  condition?: { [key: string]: { [key: string]: string[] | undefined } | undefined } | undefined;
 }
 export type PolicyStatements = PolicyStatement[];
 export interface SigninResourceBasedPolicy {
-  version?: string;
-  statement?: PolicyStatement[];
+  version?: string | undefined;
+  statement?: PolicyStatement[] | undefined;
 }
 export interface GetResourcePolicyOutput {
   signinResourceBasedPolicy: SigninResourceBasedPolicy;
@@ -486,43 +486,43 @@ export type IntrospectionToken = string | redacted.Redacted<string>;
 export type TokenTypeHint = string;
 export interface IntrospectOAuth2TokenWithIAMRequest {
   token: string | redacted.Redacted<string>;
-  tokenTypeHint?: string;
+  tokenTypeHint?: string | undefined;
 }
 export type IntrospectedTokenType = string;
 export type AccountId = string;
 export interface IntrospectOAuth2TokenWithIAMResponse {
   active: boolean;
-  clientId?: string;
-  userId?: string;
-  tokenType?: string;
-  exp?: number;
-  iat?: number;
-  nbf?: number;
-  sub?: string;
-  aud?: string;
-  iss?: string;
-  jti?: string;
-  accountId?: string;
-  signinSession?: string;
-  resource?: string;
+  clientId?: string | undefined;
+  userId?: string | undefined;
+  tokenType?: string | undefined;
+  exp?: number | undefined;
+  iat?: number | undefined;
+  nbf?: number | undefined;
+  sub?: string | undefined;
+  aud?: string | undefined;
+  iss?: string | undefined;
+  jti?: string | undefined;
+  accountId?: string | undefined;
+  signinSession?: string | undefined;
+  resource?: string | undefined;
 }
 export type ConsolePermissionMaxResults = number;
 export type NextToken = string;
 export interface ListResourcePermissionStatementsInput {
-  maxResults?: number;
-  nextToken?: string;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface PermissionStatementSummary {
   sid: string;
-  condition?: { [key: string]: { [key: string]: string[] | undefined } | undefined };
+  condition?: { [key: string]: { [key: string]: string[] | undefined } | undefined } | undefined;
 }
 export type PermissionStatementSummaries = PermissionStatementSummary[];
 export interface ListResourcePermissionStatementsOutput {
   permissionStatements: PermissionStatementSummary[];
-  nextToken?: string;
+  nextToken?: string | undefined;
 }
 export interface PutConsoleAuthorizationConfigurationInput {
-  targetId?: string;
+  targetId?: string | undefined;
 }
 export interface PutConsoleAuthorizationConfigurationOutput {
   targetId: string;
@@ -536,14 +536,14 @@ export type SourceIp = string;
 export type RequestedRegion = string;
 export type ExcludedPrincipal = string;
 export interface PutResourcePermissionStatementInput {
-  sourceVpc?: string;
-  signinSourceVpce?: string;
-  consoleSourceVpce?: string;
-  vpcSourceIp?: string;
-  sourceIp?: string;
-  requestedRegion?: string;
-  excludedPrincipal?: string;
-  clientToken?: string;
+  sourceVpc?: string | undefined;
+  signinSourceVpce?: string | undefined;
+  consoleSourceVpce?: string | undefined;
+  vpcSourceIp?: string | undefined;
+  sourceIp?: string | undefined;
+  requestedRegion?: string | undefined;
+  excludedPrincipal?: string | undefined;
+  clientToken?: string | undefined;
 }
 export interface PutResourcePermissionStatementOutput {
   statementId: string;

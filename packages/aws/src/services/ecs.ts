@@ -248,41 +248,41 @@ export type DeploymentLifecycleHookAction = "ROLLBACK" | "CONTINUE" | (string & 
 export interface ContinueServiceDeploymentRequest {
   serviceDeploymentArn: string;
   hookId: string;
-  action?: DeploymentLifecycleHookAction;
+  action?: DeploymentLifecycleHookAction | undefined;
 }
 export interface ContinueServiceDeploymentResponse {
-  serviceDeploymentArn?: string;
+  serviceDeploymentArn?: string | undefined;
 }
 export type ManagedScalingStatus = "ENABLED" | "DISABLED" | (string & {});
 export type ManagedScalingTargetCapacity = number;
 export type ManagedScalingStepSize = number;
 export type ManagedScalingInstanceWarmupPeriod = number;
 export interface ManagedScaling {
-  status?: ManagedScalingStatus;
-  targetCapacity?: number;
-  minimumScalingStepSize?: number;
-  maximumScalingStepSize?: number;
-  instanceWarmupPeriod?: number;
+  status?: ManagedScalingStatus | undefined;
+  targetCapacity?: number | undefined;
+  minimumScalingStepSize?: number | undefined;
+  maximumScalingStepSize?: number | undefined;
+  instanceWarmupPeriod?: number | undefined;
 }
 export type ManagedTerminationProtection = "ENABLED" | "DISABLED" | (string & {});
 export type ManagedDraining = "ENABLED" | "DISABLED" | (string & {});
 export interface AutoScalingGroupProvider {
   autoScalingGroupArn: string;
-  managedScaling?: ManagedScaling;
-  managedTerminationProtection?: ManagedTerminationProtection;
-  managedDraining?: ManagedDraining;
+  managedScaling?: ManagedScaling | undefined;
+  managedTerminationProtection?: ManagedTerminationProtection | undefined;
+  managedDraining?: ManagedDraining | undefined;
 }
 export type StringList = string[];
 export interface ManagedInstancesNetworkConfiguration {
-  subnets?: string[];
-  securityGroups?: string[];
+  subnets?: string[] | undefined;
+  securityGroups?: string[] | undefined;
 }
 export type TaskVolumeStorageGiB = number;
 export interface ManagedInstancesStorageConfiguration {
-  storageSizeGiB?: number;
+  storageSizeGiB?: number | undefined;
 }
 export interface ManagedInstancesLocalStorageConfiguration {
-  useLocalStorage?: boolean;
+  useLocalStorage?: boolean | undefined;
 }
 export type ManagedInstancesMonitoringOptions = "BASIC" | "DETAILED" | (string & {});
 export type CapacityOptionType = "ON_DEMAND" | "SPOT" | "RESERVED" | (string & {});
@@ -290,18 +290,18 @@ export type BoxedBoolean = boolean;
 export type BoxedInteger = number;
 export interface VCpuCountRangeRequest {
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export interface MemoryMiBRequest {
   min: number;
-  max?: number;
+  max?: number | undefined;
 }
 export type CpuManufacturer = "intel" | "amd" | "amazon-web-services" | (string & {});
 export type CpuManufacturerSet = CpuManufacturer[];
 export type BoxedDouble = number;
 export interface MemoryGiBPerVCpuRequest {
-  min?: number;
-  max?: number;
+  min?: number | undefined;
+  max?: number | undefined;
 }
 export type ExcludedInstanceType = string;
 export type ExcludedInstanceTypeSet = string[];
@@ -310,25 +310,25 @@ export type InstanceGenerationSet = InstanceGeneration[];
 export type BareMetal = "included" | "required" | "excluded" | (string & {});
 export type BurstablePerformance = "included" | "required" | "excluded" | (string & {});
 export interface NetworkInterfaceCountRequest {
-  min?: number;
-  max?: number;
+  min?: number | undefined;
+  max?: number | undefined;
 }
 export type LocalStorage = "included" | "required" | "excluded" | (string & {});
 export type LocalStorageType = "hdd" | "ssd" | (string & {});
 export type LocalStorageTypeSet = LocalStorageType[];
 export interface TotalLocalStorageGBRequest {
-  min?: number;
-  max?: number;
+  min?: number | undefined;
+  max?: number | undefined;
 }
 export interface BaselineEbsBandwidthMbpsRequest {
-  min?: number;
-  max?: number;
+  min?: number | undefined;
+  max?: number | undefined;
 }
 export type AcceleratorType = "gpu" | "fpga" | "inference" | (string & {});
 export type AcceleratorTypeSet = AcceleratorType[];
 export interface AcceleratorCountRequest {
-  min?: number;
-  max?: number;
+  min?: number | undefined;
+  max?: number | undefined;
 }
 export type AcceleratorManufacturer =
   | "amazon-web-services"
@@ -354,40 +354,40 @@ export type AcceleratorName =
   | (string & {});
 export type AcceleratorNameSet = AcceleratorName[];
 export interface AcceleratorTotalMemoryMiBRequest {
-  min?: number;
-  max?: number;
+  min?: number | undefined;
+  max?: number | undefined;
 }
 export interface NetworkBandwidthGbpsRequest {
-  min?: number;
-  max?: number;
+  min?: number | undefined;
+  max?: number | undefined;
 }
 export type AllowedInstanceType = string;
 export type AllowedInstanceTypeSet = string[];
 export interface InstanceRequirementsRequest {
   vCpuCount: VCpuCountRangeRequest;
   memoryMiB: MemoryMiBRequest;
-  cpuManufacturers?: CpuManufacturer[];
-  memoryGiBPerVCpu?: MemoryGiBPerVCpuRequest;
-  excludedInstanceTypes?: string[];
-  instanceGenerations?: InstanceGeneration[];
-  spotMaxPricePercentageOverLowestPrice?: number;
-  onDemandMaxPricePercentageOverLowestPrice?: number;
-  bareMetal?: BareMetal;
-  burstablePerformance?: BurstablePerformance;
-  requireHibernateSupport?: boolean;
-  networkInterfaceCount?: NetworkInterfaceCountRequest;
-  localStorage?: LocalStorage;
-  localStorageTypes?: LocalStorageType[];
-  totalLocalStorageGB?: TotalLocalStorageGBRequest;
-  baselineEbsBandwidthMbps?: BaselineEbsBandwidthMbpsRequest;
-  acceleratorTypes?: AcceleratorType[];
-  acceleratorCount?: AcceleratorCountRequest;
-  acceleratorManufacturers?: AcceleratorManufacturer[];
-  acceleratorNames?: AcceleratorName[];
-  acceleratorTotalMemoryMiB?: AcceleratorTotalMemoryMiBRequest;
-  networkBandwidthGbps?: NetworkBandwidthGbpsRequest;
-  allowedInstanceTypes?: string[];
-  maxSpotPriceAsPercentageOfOptimalOnDemandPrice?: number;
+  cpuManufacturers?: CpuManufacturer[] | undefined;
+  memoryGiBPerVCpu?: MemoryGiBPerVCpuRequest | undefined;
+  excludedInstanceTypes?: string[] | undefined;
+  instanceGenerations?: InstanceGeneration[] | undefined;
+  spotMaxPricePercentageOverLowestPrice?: number | undefined;
+  onDemandMaxPricePercentageOverLowestPrice?: number | undefined;
+  bareMetal?: BareMetal | undefined;
+  burstablePerformance?: BurstablePerformance | undefined;
+  requireHibernateSupport?: boolean | undefined;
+  networkInterfaceCount?: NetworkInterfaceCountRequest | undefined;
+  localStorage?: LocalStorage | undefined;
+  localStorageTypes?: LocalStorageType[] | undefined;
+  totalLocalStorageGB?: TotalLocalStorageGBRequest | undefined;
+  baselineEbsBandwidthMbps?: BaselineEbsBandwidthMbpsRequest | undefined;
+  acceleratorTypes?: AcceleratorType[] | undefined;
+  acceleratorCount?: AcceleratorCountRequest | undefined;
+  acceleratorManufacturers?: AcceleratorManufacturer[] | undefined;
+  acceleratorNames?: AcceleratorName[] | undefined;
+  acceleratorTotalMemoryMiB?: AcceleratorTotalMemoryMiBRequest | undefined;
+  networkBandwidthGbps?: NetworkBandwidthGbpsRequest | undefined;
+  allowedInstanceTypes?: string[] | undefined;
+  maxSpotPriceAsPercentageOfOptimalOnDemandPrice?: number | undefined;
 }
 export type CapacityReservationPreference =
   | "RESERVATIONS_ONLY"
@@ -395,49 +395,49 @@ export type CapacityReservationPreference =
   | "RESERVATIONS_EXCLUDED"
   | (string & {});
 export interface CapacityReservationRequest {
-  reservationGroupArn?: string;
-  reservationPreference?: CapacityReservationPreference;
+  reservationGroupArn?: string | undefined;
+  reservationPreference?: CapacityReservationPreference | undefined;
 }
 export interface InstanceLaunchTemplate {
   ec2InstanceProfileArn: string;
   networkConfiguration: ManagedInstancesNetworkConfiguration;
-  storageConfiguration?: ManagedInstancesStorageConfiguration;
-  localStorageConfiguration?: ManagedInstancesLocalStorageConfiguration;
-  monitoring?: ManagedInstancesMonitoringOptions;
-  capacityOptionType?: CapacityOptionType;
-  instanceMetadataTagsPropagation?: boolean;
-  instanceRequirements?: InstanceRequirementsRequest;
-  fipsEnabled?: boolean;
-  capacityReservations?: CapacityReservationRequest;
+  storageConfiguration?: ManagedInstancesStorageConfiguration | undefined;
+  localStorageConfiguration?: ManagedInstancesLocalStorageConfiguration | undefined;
+  monitoring?: ManagedInstancesMonitoringOptions | undefined;
+  capacityOptionType?: CapacityOptionType | undefined;
+  instanceMetadataTagsPropagation?: boolean | undefined;
+  instanceRequirements?: InstanceRequirementsRequest | undefined;
+  fipsEnabled?: boolean | undefined;
+  capacityReservations?: CapacityReservationRequest | undefined;
 }
 export type PropagateMITags = "CAPACITY_PROVIDER" | "NONE" | (string & {});
 export interface InfrastructureOptimization {
-  scaleInAfter?: number;
+  scaleInAfter?: number | undefined;
 }
 export type AutoRepairActionsStatus = "ENABLED" | "DISABLED" | (string & {});
 export interface AutoRepairConfiguration {
-  actionsStatus?: AutoRepairActionsStatus;
+  actionsStatus?: AutoRepairActionsStatus | undefined;
 }
 export interface CreateManagedInstancesProviderConfiguration {
   infrastructureRoleArn: string;
   instanceLaunchTemplate: InstanceLaunchTemplate;
-  propagateTags?: PropagateMITags;
-  infrastructureOptimization?: InfrastructureOptimization;
-  autoRepairConfiguration?: AutoRepairConfiguration;
+  propagateTags?: PropagateMITags | undefined;
+  infrastructureOptimization?: InfrastructureOptimization | undefined;
+  autoRepairConfiguration?: AutoRepairConfiguration | undefined;
 }
 export type TagKey = string;
 export type TagValue = string;
 export interface Tag {
-  key?: string;
-  value?: string;
+  key?: string | undefined;
+  value?: string | undefined;
 }
 export type Tags = Tag[];
 export interface CreateCapacityProviderRequest {
   name: string;
-  cluster?: string;
-  autoScalingGroupProvider?: AutoScalingGroupProvider;
-  managedInstancesProvider?: CreateManagedInstancesProviderConfiguration;
-  tags?: Tag[];
+  cluster?: string | undefined;
+  autoScalingGroupProvider?: AutoScalingGroupProvider | undefined;
+  managedInstancesProvider?: CreateManagedInstancesProviderConfiguration | undefined;
+  tags?: Tag[] | undefined;
 }
 export type CapacityProviderStatus =
   | "PROVISIONING"
@@ -446,11 +446,11 @@ export type CapacityProviderStatus =
   | "INACTIVE"
   | (string & {});
 export interface ManagedInstancesProvider {
-  infrastructureRoleArn?: string;
-  instanceLaunchTemplate?: InstanceLaunchTemplate;
-  propagateTags?: PropagateMITags;
-  infrastructureOptimization?: InfrastructureOptimization;
-  autoRepairConfiguration?: AutoRepairConfiguration;
+  infrastructureRoleArn?: string | undefined;
+  instanceLaunchTemplate?: InstanceLaunchTemplate | undefined;
+  propagateTags?: PropagateMITags | undefined;
+  infrastructureOptimization?: InfrastructureOptimization | undefined;
+  autoRepairConfiguration?: AutoRepairConfiguration | undefined;
 }
 export type CapacityProviderUpdateStatus =
   | "CREATE_IN_PROGRESS"
@@ -470,141 +470,141 @@ export type CapacityProviderType =
   | "FARGATE_SPOT"
   | (string & {});
 export interface CapacityProvider {
-  capacityProviderArn?: string;
-  name?: string;
-  cluster?: string;
-  status?: CapacityProviderStatus;
-  autoScalingGroupProvider?: AutoScalingGroupProvider;
-  managedInstancesProvider?: ManagedInstancesProvider;
-  updateStatus?: CapacityProviderUpdateStatus;
-  updateStatusReason?: string;
-  tags?: Tag[];
-  type?: CapacityProviderType;
+  capacityProviderArn?: string | undefined;
+  name?: string | undefined;
+  cluster?: string | undefined;
+  status?: CapacityProviderStatus | undefined;
+  autoScalingGroupProvider?: AutoScalingGroupProvider | undefined;
+  managedInstancesProvider?: ManagedInstancesProvider | undefined;
+  updateStatus?: CapacityProviderUpdateStatus | undefined;
+  updateStatusReason?: string | undefined;
+  tags?: Tag[] | undefined;
+  type?: CapacityProviderType | undefined;
 }
 export interface CreateCapacityProviderResponse {
-  capacityProvider?: CapacityProvider;
+  capacityProvider?: CapacityProvider | undefined;
 }
 export type ClusterSettingName = "containerInsights" | (string & {});
 export interface ClusterSetting {
-  name?: ClusterSettingName;
-  value?: string;
+  name?: ClusterSettingName | undefined;
+  value?: string | undefined;
 }
 export type ClusterSettings = ClusterSetting[];
 export type ExecuteCommandLogging = "NONE" | "DEFAULT" | "OVERRIDE" | (string & {});
 export interface ExecuteCommandLogConfiguration {
-  cloudWatchLogGroupName?: string;
-  cloudWatchEncryptionEnabled?: boolean;
-  s3BucketName?: string;
-  s3EncryptionEnabled?: boolean;
-  s3KeyPrefix?: string;
+  cloudWatchLogGroupName?: string | undefined;
+  cloudWatchEncryptionEnabled?: boolean | undefined;
+  s3BucketName?: string | undefined;
+  s3EncryptionEnabled?: boolean | undefined;
+  s3KeyPrefix?: string | undefined;
 }
 export interface ExecuteCommandConfiguration {
-  kmsKeyId?: string;
-  logging?: ExecuteCommandLogging;
-  logConfiguration?: ExecuteCommandLogConfiguration;
+  kmsKeyId?: string | undefined;
+  logging?: ExecuteCommandLogging | undefined;
+  logConfiguration?: ExecuteCommandLogConfiguration | undefined;
 }
 export interface ManagedStorageConfiguration {
-  kmsKeyId?: string;
-  fargateEphemeralStorageKmsKeyId?: string;
+  kmsKeyId?: string | undefined;
+  fargateEphemeralStorageKmsKeyId?: string | undefined;
 }
 export interface ClusterConfiguration {
-  executeCommandConfiguration?: ExecuteCommandConfiguration;
-  managedStorageConfiguration?: ManagedStorageConfiguration;
+  executeCommandConfiguration?: ExecuteCommandConfiguration | undefined;
+  managedStorageConfiguration?: ManagedStorageConfiguration | undefined;
 }
 export type CapacityProviderStrategyItemWeight = number;
 export type CapacityProviderStrategyItemBase = number;
 export interface CapacityProviderStrategyItem {
   capacityProvider: string;
-  weight?: number;
-  base?: number;
+  weight?: number | undefined;
+  base?: number | undefined;
 }
 export type CapacityProviderStrategy = CapacityProviderStrategyItem[];
 export interface ClusterServiceConnectDefaultsRequest {
   namespace: string;
 }
 export interface CreateClusterRequest {
-  clusterName?: string;
-  tags?: Tag[];
-  settings?: ClusterSetting[];
-  configuration?: ClusterConfiguration;
-  capacityProviders?: string[];
-  defaultCapacityProviderStrategy?: CapacityProviderStrategyItem[];
-  serviceConnectDefaults?: ClusterServiceConnectDefaultsRequest;
+  clusterName?: string | undefined;
+  tags?: Tag[] | undefined;
+  settings?: ClusterSetting[] | undefined;
+  configuration?: ClusterConfiguration | undefined;
+  capacityProviders?: string[] | undefined;
+  defaultCapacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  serviceConnectDefaults?: ClusterServiceConnectDefaultsRequest | undefined;
 }
 export interface KeyValuePair {
-  name?: string;
-  value?: string;
+  name?: string | undefined;
+  value?: string | undefined;
 }
 export type Statistics = KeyValuePair[];
 export type AttachmentDetails = KeyValuePair[];
 export interface Attachment {
-  id?: string;
-  type?: string;
-  status?: string;
-  details?: KeyValuePair[];
+  id?: string | undefined;
+  type?: string | undefined;
+  status?: string | undefined;
+  details?: KeyValuePair[] | undefined;
 }
 export type Attachments = Attachment[];
 export interface ClusterServiceConnectDefaults {
-  namespace?: string;
+  namespace?: string | undefined;
 }
 export interface Cluster {
-  clusterArn?: string;
-  clusterName?: string;
-  configuration?: ClusterConfiguration;
-  status?: string;
-  registeredContainerInstancesCount?: number;
-  runningTasksCount?: number;
-  pendingTasksCount?: number;
-  activeServicesCount?: number;
-  statistics?: KeyValuePair[];
-  tags?: Tag[];
-  settings?: ClusterSetting[];
-  capacityProviders?: string[];
-  defaultCapacityProviderStrategy?: CapacityProviderStrategyItem[];
-  attachments?: Attachment[];
-  attachmentsStatus?: string;
-  serviceConnectDefaults?: ClusterServiceConnectDefaults;
+  clusterArn?: string | undefined;
+  clusterName?: string | undefined;
+  configuration?: ClusterConfiguration | undefined;
+  status?: string | undefined;
+  registeredContainerInstancesCount?: number | undefined;
+  runningTasksCount?: number | undefined;
+  pendingTasksCount?: number | undefined;
+  activeServicesCount?: number | undefined;
+  statistics?: KeyValuePair[] | undefined;
+  tags?: Tag[] | undefined;
+  settings?: ClusterSetting[] | undefined;
+  capacityProviders?: string[] | undefined;
+  defaultCapacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  attachments?: Attachment[] | undefined;
+  attachmentsStatus?: string | undefined;
+  serviceConnectDefaults?: ClusterServiceConnectDefaults | undefined;
 }
 export interface CreateClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export type DaemonDrainPercent = number;
 export interface DaemonAlarmConfiguration {
-  alarmNames?: string[];
-  enable?: boolean;
+  alarmNames?: string[] | undefined;
+  enable?: boolean | undefined;
 }
 export interface DaemonDeploymentConfiguration {
-  drainPercent?: number;
-  alarms?: DaemonAlarmConfiguration;
-  bakeTimeInMinutes?: number;
+  drainPercent?: number | undefined;
+  alarms?: DaemonAlarmConfiguration | undefined;
+  bakeTimeInMinutes?: number | undefined;
 }
 export type DaemonPropagateTags = "DAEMON" | "NONE" | (string & {});
 export interface CreateDaemonRequest {
   daemonName: string;
-  clusterArn?: string;
+  clusterArn?: string | undefined;
   daemonTaskDefinitionArn: string;
   capacityProviderArns: string[];
-  deploymentConfiguration?: DaemonDeploymentConfiguration;
-  tags?: Tag[];
-  propagateTags?: DaemonPropagateTags;
-  enableECSManagedTags?: boolean;
-  enableExecuteCommand?: boolean;
-  clientToken?: string;
-  critical?: boolean;
+  deploymentConfiguration?: DaemonDeploymentConfiguration | undefined;
+  tags?: Tag[] | undefined;
+  propagateTags?: DaemonPropagateTags | undefined;
+  enableECSManagedTags?: boolean | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  clientToken?: string | undefined;
+  critical?: boolean | undefined;
 }
 export type DaemonStatus = "ACTIVE" | "DELETE_IN_PROGRESS" | (string & {});
 export interface CreateDaemonResponse {
-  daemonArn?: string;
-  status?: DaemonStatus;
-  createdAt?: Date;
-  deploymentArn?: string;
+  daemonArn?: string | undefined;
+  status?: DaemonStatus | undefined;
+  createdAt?: Date | undefined;
+  deploymentArn?: string | undefined;
 }
 export interface ExpressGatewayServiceAwsLogsConfiguration {
   logGroup: string;
   logStreamPrefix: string;
 }
 export interface ExpressGatewayRepositoryCredentials {
-  credentialsParameter?: string;
+  credentialsParameter?: string | undefined;
 }
 export type EnvironmentVariables = KeyValuePair[];
 export interface Secret {
@@ -614,16 +614,16 @@ export interface Secret {
 export type SecretList = Secret[];
 export interface ExpressGatewayContainer {
   image: string;
-  containerPort?: number;
-  awsLogsConfiguration?: ExpressGatewayServiceAwsLogsConfiguration;
-  repositoryCredentials?: ExpressGatewayRepositoryCredentials;
-  command?: string[];
-  environment?: KeyValuePair[];
-  secrets?: Secret[];
+  containerPort?: number | undefined;
+  awsLogsConfiguration?: ExpressGatewayServiceAwsLogsConfiguration | undefined;
+  repositoryCredentials?: ExpressGatewayRepositoryCredentials | undefined;
+  command?: string[] | undefined;
+  environment?: KeyValuePair[] | undefined;
+  secrets?: Secret[] | undefined;
 }
 export interface ExpressGatewayServiceNetworkConfiguration {
-  securityGroups?: string[];
-  subnets?: string[];
+  securityGroups?: string[] | undefined;
+  subnets?: string[] | undefined;
 }
 export type ExpressCpuArchitecture = "X86_64" | "ARM64" | (string & {});
 export type ExpressGatewayServiceScalingMetric =
@@ -632,31 +632,31 @@ export type ExpressGatewayServiceScalingMetric =
   | "REQUEST_COUNT_PER_TARGET"
   | (string & {});
 export interface ExpressGatewayScalingTarget {
-  minTaskCount?: number;
-  maxTaskCount?: number;
-  autoScalingMetric?: ExpressGatewayServiceScalingMetric;
-  autoScalingTargetValue?: number;
+  minTaskCount?: number | undefined;
+  maxTaskCount?: number | undefined;
+  autoScalingMetric?: ExpressGatewayServiceScalingMetric | undefined;
+  autoScalingTargetValue?: number | undefined;
 }
 export interface CreateExpressGatewayServiceRequest {
-  executionRoleArn?: string;
+  executionRoleArn?: string | undefined;
   infrastructureRoleArn: string;
-  serviceName?: string;
-  cluster?: string;
-  healthCheckPath?: string;
-  primaryContainer?: ExpressGatewayContainer;
-  taskRoleArn?: string;
-  networkConfiguration?: ExpressGatewayServiceNetworkConfiguration;
-  cpu?: string;
-  memory?: string;
-  cpuArchitecture?: ExpressCpuArchitecture;
-  scalingTarget?: ExpressGatewayScalingTarget;
-  tags?: Tag[];
-  taskDefinitionArn?: string;
+  serviceName?: string | undefined;
+  cluster?: string | undefined;
+  healthCheckPath?: string | undefined;
+  primaryContainer?: ExpressGatewayContainer | undefined;
+  taskRoleArn?: string | undefined;
+  networkConfiguration?: ExpressGatewayServiceNetworkConfiguration | undefined;
+  cpu?: string | undefined;
+  memory?: string | undefined;
+  cpuArchitecture?: ExpressCpuArchitecture | undefined;
+  scalingTarget?: ExpressGatewayScalingTarget | undefined;
+  tags?: Tag[] | undefined;
+  taskDefinitionArn?: string | undefined;
 }
 export type ExpressGatewayServiceStatusCode = "ACTIVE" | "DRAINING" | "INACTIVE" | (string & {});
 export interface ExpressGatewayServiceStatus {
-  statusCode?: ExpressGatewayServiceStatusCode;
-  statusReason?: string;
+  statusCode?: ExpressGatewayServiceStatusCode | undefined;
+  statusReason?: string | undefined;
 }
 export type AccessType = "PUBLIC" | "PRIVATE" | (string & {});
 export interface IngressPathSummary {
@@ -665,56 +665,56 @@ export interface IngressPathSummary {
 }
 export type IngressPathSummaries = IngressPathSummary[];
 export interface ExpressGatewayServiceConfiguration {
-  serviceRevisionArn?: string;
-  executionRoleArn?: string;
-  taskRoleArn?: string;
-  taskDefinitionArn?: string;
-  cpu?: string;
-  memory?: string;
-  cpuArchitecture?: ExpressCpuArchitecture;
-  networkConfiguration?: ExpressGatewayServiceNetworkConfiguration;
-  healthCheckPath?: string;
-  primaryContainer?: ExpressGatewayContainer;
-  scalingTarget?: ExpressGatewayScalingTarget;
-  ingressPaths?: IngressPathSummary[];
-  createdAt?: Date;
+  serviceRevisionArn?: string | undefined;
+  executionRoleArn?: string | undefined;
+  taskRoleArn?: string | undefined;
+  taskDefinitionArn?: string | undefined;
+  cpu?: string | undefined;
+  memory?: string | undefined;
+  cpuArchitecture?: ExpressCpuArchitecture | undefined;
+  networkConfiguration?: ExpressGatewayServiceNetworkConfiguration | undefined;
+  healthCheckPath?: string | undefined;
+  primaryContainer?: ExpressGatewayContainer | undefined;
+  scalingTarget?: ExpressGatewayScalingTarget | undefined;
+  ingressPaths?: IngressPathSummary[] | undefined;
+  createdAt?: Date | undefined;
 }
 export type ExpressGatewayServiceConfigurations = ExpressGatewayServiceConfiguration[];
 export interface ECSExpressGatewayService {
-  cluster?: string;
-  serviceName?: string;
-  serviceArn?: string;
-  infrastructureRoleArn?: string;
-  status?: ExpressGatewayServiceStatus;
-  currentDeployment?: string;
-  activeConfigurations?: ExpressGatewayServiceConfiguration[];
-  tags?: Tag[];
-  createdAt?: Date;
-  updatedAt?: Date;
+  cluster?: string | undefined;
+  serviceName?: string | undefined;
+  serviceArn?: string | undefined;
+  infrastructureRoleArn?: string | undefined;
+  status?: ExpressGatewayServiceStatus | undefined;
+  currentDeployment?: string | undefined;
+  activeConfigurations?: ExpressGatewayServiceConfiguration[] | undefined;
+  tags?: Tag[] | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface CreateExpressGatewayServiceResponse {
-  service?: ECSExpressGatewayService;
+  service?: ECSExpressGatewayService | undefined;
 }
 export type AvailabilityZoneRebalancing = "ENABLED" | "DISABLED" | (string & {});
 export interface AdvancedConfiguration {
-  alternateTargetGroupArn?: string;
-  productionListenerRule?: string;
-  testListenerRule?: string;
-  roleArn?: string;
+  alternateTargetGroupArn?: string | undefined;
+  productionListenerRule?: string | undefined;
+  testListenerRule?: string | undefined;
+  roleArn?: string | undefined;
 }
 export interface LoadBalancer {
-  targetGroupArn?: string;
-  loadBalancerName?: string;
-  containerName?: string;
-  containerPort?: number;
-  advancedConfiguration?: AdvancedConfiguration;
+  targetGroupArn?: string | undefined;
+  loadBalancerName?: string | undefined;
+  containerName?: string | undefined;
+  containerPort?: number | undefined;
+  advancedConfiguration?: AdvancedConfiguration | undefined;
 }
 export type LoadBalancers = LoadBalancer[];
 export interface ServiceRegistry {
-  registryArn?: string;
-  port?: number;
-  containerName?: string;
-  containerPort?: number;
+  registryArn?: string | undefined;
+  port?: number | undefined;
+  containerName?: string | undefined;
+  containerPort?: number | undefined;
 }
 export type ServiceRegistries = ServiceRegistry[];
 export type LaunchType = "EC2" | "FARGATE" | "EXTERNAL" | "MANAGED_INSTANCES" | (string & {});
@@ -726,8 +726,8 @@ export interface ThresholdConfiguration {
 export interface DeploymentCircuitBreaker {
   enable: boolean;
   rollback: boolean;
-  resetOnHealthyTask?: boolean;
-  thresholdConfiguration?: ThresholdConfiguration;
+  resetOnHealthyTask?: boolean | undefined;
+  thresholdConfiguration?: ThresholdConfiguration | undefined;
 }
 export interface DeploymentAlarms {
   alarmNames: string[];
@@ -751,65 +751,65 @@ export type DeploymentLifecycleHookStageList = DeploymentLifecycleHookStage[];
 export type HookDetails = unknown;
 export type DeploymentLifecycleHookDuration = number;
 export interface DeploymentLifecycleHookTimeoutConfiguration {
-  timeoutInMinutes?: number;
-  action?: DeploymentLifecycleHookAction;
+  timeoutInMinutes?: number | undefined;
+  action?: DeploymentLifecycleHookAction | undefined;
 }
 export interface DeploymentLifecycleHook {
-  targetType?: DeploymentLifecycleHookTargetType;
-  hookTargetArn?: string;
-  roleArn?: string;
-  lifecycleStages?: DeploymentLifecycleHookStage[];
-  hookDetails?: any;
-  timeoutConfiguration?: DeploymentLifecycleHookTimeoutConfiguration;
+  targetType?: DeploymentLifecycleHookTargetType | undefined;
+  hookTargetArn?: string | undefined;
+  roleArn?: string | undefined;
+  lifecycleStages?: DeploymentLifecycleHookStage[] | undefined;
+  hookDetails?: any | undefined;
+  timeoutConfiguration?: DeploymentLifecycleHookTimeoutConfiguration | undefined;
 }
 export type DeploymentLifecycleHookList = DeploymentLifecycleHook[];
 export interface LinearConfiguration {
-  stepPercent?: number;
-  stepBakeTimeInMinutes?: number;
+  stepPercent?: number | undefined;
+  stepBakeTimeInMinutes?: number | undefined;
 }
 export interface CanaryConfiguration {
-  canaryPercent?: number;
-  canaryBakeTimeInMinutes?: number;
+  canaryPercent?: number | undefined;
+  canaryBakeTimeInMinutes?: number | undefined;
 }
 export type HealthyPercentInteger = number;
 export type ServiceRevisionCleanup = "BLOCKING" | "DEFERRED" | (string & {});
 export interface DeploymentEarlySuccessCriteria {
   enable: boolean;
-  healthyPercent?: number;
-  sourceServiceRevisionCleanup?: ServiceRevisionCleanup;
+  healthyPercent?: number | undefined;
+  sourceServiceRevisionCleanup?: ServiceRevisionCleanup | undefined;
 }
 export interface DeploymentConfiguration {
-  deploymentCircuitBreaker?: DeploymentCircuitBreaker;
-  maximumPercent?: number;
-  minimumHealthyPercent?: number;
-  alarms?: DeploymentAlarms;
-  strategy?: DeploymentStrategy;
-  bakeTimeInMinutes?: number;
-  lifecycleHooks?: DeploymentLifecycleHook[];
-  linearConfiguration?: LinearConfiguration;
-  canaryConfiguration?: CanaryConfiguration;
-  earlySuccessCriteria?: DeploymentEarlySuccessCriteria;
+  deploymentCircuitBreaker?: DeploymentCircuitBreaker | undefined;
+  maximumPercent?: number | undefined;
+  minimumHealthyPercent?: number | undefined;
+  alarms?: DeploymentAlarms | undefined;
+  strategy?: DeploymentStrategy | undefined;
+  bakeTimeInMinutes?: number | undefined;
+  lifecycleHooks?: DeploymentLifecycleHook[] | undefined;
+  linearConfiguration?: LinearConfiguration | undefined;
+  canaryConfiguration?: CanaryConfiguration | undefined;
+  earlySuccessCriteria?: DeploymentEarlySuccessCriteria | undefined;
 }
 export type PlacementConstraintType = "distinctInstance" | "memberOf" | (string & {});
 export interface PlacementConstraint {
-  type?: PlacementConstraintType;
-  expression?: string;
+  type?: PlacementConstraintType | undefined;
+  expression?: string | undefined;
 }
 export type PlacementConstraints = PlacementConstraint[];
 export type PlacementStrategyType = "random" | "spread" | "binpack" | (string & {});
 export interface PlacementStrategy {
-  type?: PlacementStrategyType;
-  field?: string;
+  type?: PlacementStrategyType | undefined;
+  field?: string | undefined;
 }
 export type PlacementStrategies = PlacementStrategy[];
 export type AssignPublicIp = "ENABLED" | "DISABLED" | (string & {});
 export interface AwsVpcConfiguration {
   subnets: string[];
-  securityGroups?: string[];
-  assignPublicIp?: AssignPublicIp;
+  securityGroups?: string[] | undefined;
+  assignPublicIp?: AssignPublicIp | undefined;
 }
 export interface NetworkConfiguration {
-  awsvpcConfiguration?: AwsVpcConfiguration;
+  awsvpcConfiguration?: AwsVpcConfiguration | undefined;
 }
 export type SchedulingStrategy = "REPLICA" | "DAEMON" | (string & {});
 export type DeploymentControllerType = "ECS" | "CODE_DEPLOY" | "EXTERNAL" | (string & {});
@@ -823,37 +823,37 @@ export interface ServiceConnectTestTrafficHeaderMatchRules {
 }
 export interface ServiceConnectTestTrafficHeaderRules {
   name: string;
-  value?: ServiceConnectTestTrafficHeaderMatchRules;
+  value?: ServiceConnectTestTrafficHeaderMatchRules | undefined;
 }
 export interface ServiceConnectTestTrafficRules {
   header: ServiceConnectTestTrafficHeaderRules;
 }
 export interface ServiceConnectClientAlias {
   port: number;
-  dnsName?: string;
-  testTrafficRules?: ServiceConnectTestTrafficRules;
+  dnsName?: string | undefined;
+  testTrafficRules?: ServiceConnectTestTrafficRules | undefined;
 }
 export type ServiceConnectClientAliasList = ServiceConnectClientAlias[];
 export type Duration = number;
 export interface TimeoutConfiguration {
-  idleTimeoutSeconds?: number;
-  perRequestTimeoutSeconds?: number;
+  idleTimeoutSeconds?: number | undefined;
+  perRequestTimeoutSeconds?: number | undefined;
 }
 export interface ServiceConnectTlsCertificateAuthority {
-  awsPcaAuthorityArn?: string;
+  awsPcaAuthorityArn?: string | undefined;
 }
 export interface ServiceConnectTlsConfiguration {
   issuerCertificateAuthority: ServiceConnectTlsCertificateAuthority;
-  kmsKey?: string;
-  roleArn?: string;
+  kmsKey?: string | undefined;
+  roleArn?: string | undefined;
 }
 export interface ServiceConnectService {
   portName: string;
-  discoveryName?: string;
-  clientAliases?: ServiceConnectClientAlias[];
-  ingressPortOverride?: number;
-  timeout?: TimeoutConfiguration;
-  tls?: ServiceConnectTlsConfiguration;
+  discoveryName?: string | undefined;
+  clientAliases?: ServiceConnectClientAlias[] | undefined;
+  ingressPortOverride?: number | undefined;
+  timeout?: TimeoutConfiguration | undefined;
+  tls?: ServiceConnectTlsConfiguration | undefined;
 }
 export type ServiceConnectServiceList = ServiceConnectService[];
 export type LogDriver =
@@ -869,21 +869,21 @@ export type LogDriver =
 export type LogConfigurationOptionsMap = { [key: string]: string | undefined };
 export interface LogConfiguration {
   logDriver: LogDriver;
-  options?: { [key: string]: string | undefined };
-  secretOptions?: Secret[];
+  options?: { [key: string]: string | undefined } | undefined;
+  secretOptions?: Secret[] | undefined;
 }
 export type ServiceConnectAccessLoggingFormat = "TEXT" | "JSON" | (string & {});
 export type ServiceConnectIncludeQueryParameters = "DISABLED" | "ENABLED" | (string & {});
 export interface ServiceConnectAccessLogConfiguration {
   format: ServiceConnectAccessLoggingFormat;
-  includeQueryParameters?: ServiceConnectIncludeQueryParameters;
+  includeQueryParameters?: ServiceConnectIncludeQueryParameters | undefined;
 }
 export interface ServiceConnectConfiguration {
   enabled: boolean;
-  namespace?: string;
-  services?: ServiceConnectService[];
-  logConfiguration?: LogConfiguration;
-  accessLogConfiguration?: ServiceConnectAccessLogConfiguration;
+  namespace?: string | undefined;
+  services?: ServiceConnectService[] | undefined;
+  logConfiguration?: LogConfiguration | undefined;
+  accessLogConfiguration?: ServiceConnectAccessLogConfiguration | undefined;
 }
 export type ECSVolumeName = string;
 export type EBSKMSKeyId = string;
@@ -892,39 +892,39 @@ export type EBSSnapshotId = string;
 export type EBSResourceType = "volume" | (string & {});
 export interface EBSTagSpecification {
   resourceType: EBSResourceType;
-  tags?: Tag[];
-  propagateTags?: PropagateTags;
+  tags?: Tag[] | undefined;
+  propagateTags?: PropagateTags | undefined;
 }
 export type EBSTagSpecifications = EBSTagSpecification[];
 export type TaskFilesystemType = "ext3" | "ext4" | "xfs" | "ntfs" | (string & {});
 export interface ServiceManagedEBSVolumeConfiguration {
-  encrypted?: boolean;
-  kmsKeyId?: string;
-  volumeType?: string;
-  sizeInGiB?: number;
-  snapshotId?: string;
-  volumeInitializationRate?: number;
-  iops?: number;
-  throughput?: number;
-  tagSpecifications?: EBSTagSpecification[];
+  encrypted?: boolean | undefined;
+  kmsKeyId?: string | undefined;
+  volumeType?: string | undefined;
+  sizeInGiB?: number | undefined;
+  snapshotId?: string | undefined;
+  volumeInitializationRate?: number | undefined;
+  iops?: number | undefined;
+  throughput?: number | undefined;
+  tagSpecifications?: EBSTagSpecification[] | undefined;
   roleArn: string;
-  filesystemType?: TaskFilesystemType;
+  filesystemType?: TaskFilesystemType | undefined;
 }
 export interface ServiceVolumeConfiguration {
   name: string;
-  managedEBSVolume?: ServiceManagedEBSVolumeConfiguration;
+  managedEBSVolume?: ServiceManagedEBSVolumeConfiguration | undefined;
 }
 export type ServiceVolumeConfigurations = ServiceVolumeConfiguration[];
 export interface VpcLatticeAdvancedConfiguration {
-  alternateTargetGroupArn?: string;
-  productionListenerRule?: string;
-  testListenerRule?: string;
+  alternateTargetGroupArn?: string | undefined;
+  productionListenerRule?: string | undefined;
+  testListenerRule?: string | undefined;
 }
 export interface VpcLatticeConfiguration {
   roleArn: string;
   targetGroupArn: string;
   portName: string;
-  advancedConfiguration?: VpcLatticeAdvancedConfiguration;
+  advancedConfiguration?: VpcLatticeAdvancedConfiguration | undefined;
 }
 export type VpcLatticeConfigurations = VpcLatticeConfiguration[];
 export type MetricName = string;
@@ -936,175 +936,175 @@ export interface MetricConfiguration {
 }
 export type MetricConfigurationList = MetricConfiguration[];
 export interface MonitoringConfiguration {
-  metricConfigurations?: MetricConfiguration[];
+  metricConfigurations?: MetricConfiguration[] | undefined;
 }
 export interface CreateServiceRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   serviceName: string;
-  taskDefinition?: string;
-  availabilityZoneRebalancing?: AvailabilityZoneRebalancing;
-  loadBalancers?: LoadBalancer[];
-  serviceRegistries?: ServiceRegistry[];
-  desiredCount?: number;
-  clientToken?: string;
-  launchType?: LaunchType;
-  capacityProviderStrategy?: CapacityProviderStrategyItem[];
-  platformVersion?: string;
-  role?: string;
-  deploymentConfiguration?: DeploymentConfiguration;
-  placementConstraints?: PlacementConstraint[];
-  placementStrategy?: PlacementStrategy[];
-  networkConfiguration?: NetworkConfiguration;
-  healthCheckGracePeriodSeconds?: number;
-  schedulingStrategy?: SchedulingStrategy;
-  deploymentController?: DeploymentController;
-  tags?: Tag[];
-  enableECSManagedTags?: boolean;
-  propagateTags?: PropagateTags;
-  enableExecuteCommand?: boolean;
-  serviceConnectConfiguration?: ServiceConnectConfiguration;
-  volumeConfigurations?: ServiceVolumeConfiguration[];
-  vpcLatticeConfigurations?: VpcLatticeConfiguration[];
-  monitoring?: MonitoringConfiguration;
+  taskDefinition?: string | undefined;
+  availabilityZoneRebalancing?: AvailabilityZoneRebalancing | undefined;
+  loadBalancers?: LoadBalancer[] | undefined;
+  serviceRegistries?: ServiceRegistry[] | undefined;
+  desiredCount?: number | undefined;
+  clientToken?: string | undefined;
+  launchType?: LaunchType | undefined;
+  capacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  platformVersion?: string | undefined;
+  role?: string | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  placementConstraints?: PlacementConstraint[] | undefined;
+  placementStrategy?: PlacementStrategy[] | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  healthCheckGracePeriodSeconds?: number | undefined;
+  schedulingStrategy?: SchedulingStrategy | undefined;
+  deploymentController?: DeploymentController | undefined;
+  tags?: Tag[] | undefined;
+  enableECSManagedTags?: boolean | undefined;
+  propagateTags?: PropagateTags | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  serviceConnectConfiguration?: ServiceConnectConfiguration | undefined;
+  volumeConfigurations?: ServiceVolumeConfiguration[] | undefined;
+  vpcLatticeConfigurations?: VpcLatticeConfiguration[] | undefined;
+  monitoring?: MonitoringConfiguration | undefined;
 }
 export type ScaleUnit = "PERCENT" | (string & {});
 export interface Scale {
-  value?: number;
-  unit?: ScaleUnit;
+  value?: number | undefined;
+  unit?: ScaleUnit | undefined;
 }
 export type StabilityStatus = "STEADY_STATE" | "STABILIZING" | (string & {});
 export interface DeploymentEphemeralStorage {
-  kmsKeyId?: string;
+  kmsKeyId?: string | undefined;
 }
 export interface TaskSet {
-  id?: string;
-  taskSetArn?: string;
-  serviceArn?: string;
-  clusterArn?: string;
-  startedBy?: string;
-  externalId?: string;
-  status?: string;
-  taskDefinition?: string;
-  computedDesiredCount?: number;
-  pendingCount?: number;
-  runningCount?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  launchType?: LaunchType;
-  capacityProviderStrategy?: CapacityProviderStrategyItem[];
-  platformVersion?: string;
-  platformFamily?: string;
-  networkConfiguration?: NetworkConfiguration;
-  loadBalancers?: LoadBalancer[];
-  serviceRegistries?: ServiceRegistry[];
-  scale?: Scale;
-  stabilityStatus?: StabilityStatus;
-  stabilityStatusAt?: Date;
-  tags?: Tag[];
-  fargateEphemeralStorage?: DeploymentEphemeralStorage;
+  id?: string | undefined;
+  taskSetArn?: string | undefined;
+  serviceArn?: string | undefined;
+  clusterArn?: string | undefined;
+  startedBy?: string | undefined;
+  externalId?: string | undefined;
+  status?: string | undefined;
+  taskDefinition?: string | undefined;
+  computedDesiredCount?: number | undefined;
+  pendingCount?: number | undefined;
+  runningCount?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  launchType?: LaunchType | undefined;
+  capacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  platformVersion?: string | undefined;
+  platformFamily?: string | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  loadBalancers?: LoadBalancer[] | undefined;
+  serviceRegistries?: ServiceRegistry[] | undefined;
+  scale?: Scale | undefined;
+  stabilityStatus?: StabilityStatus | undefined;
+  stabilityStatusAt?: Date | undefined;
+  tags?: Tag[] | undefined;
+  fargateEphemeralStorage?: DeploymentEphemeralStorage | undefined;
 }
 export type TaskSets = TaskSet[];
 export type DeploymentRolloutState = "COMPLETED" | "FAILED" | "IN_PROGRESS" | (string & {});
 export interface ServiceConnectServiceResource {
-  discoveryName?: string;
-  discoveryArn?: string;
+  discoveryName?: string | undefined;
+  discoveryArn?: string | undefined;
 }
 export type ServiceConnectServiceResourceList = ServiceConnectServiceResource[];
 export interface Deployment {
-  id?: string;
-  status?: string;
-  taskDefinition?: string;
-  desiredCount?: number;
-  pendingCount?: number;
-  runningCount?: number;
-  failedTasks?: number;
-  createdAt?: Date;
-  updatedAt?: Date;
-  capacityProviderStrategy?: CapacityProviderStrategyItem[];
-  launchType?: LaunchType;
-  platformVersion?: string;
-  platformFamily?: string;
-  networkConfiguration?: NetworkConfiguration;
-  rolloutState?: DeploymentRolloutState;
-  rolloutStateReason?: string;
-  serviceConnectConfiguration?: ServiceConnectConfiguration;
-  serviceConnectResources?: ServiceConnectServiceResource[];
-  volumeConfigurations?: ServiceVolumeConfiguration[];
-  fargateEphemeralStorage?: DeploymentEphemeralStorage;
-  vpcLatticeConfigurations?: VpcLatticeConfiguration[];
+  id?: string | undefined;
+  status?: string | undefined;
+  taskDefinition?: string | undefined;
+  desiredCount?: number | undefined;
+  pendingCount?: number | undefined;
+  runningCount?: number | undefined;
+  failedTasks?: number | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  capacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  launchType?: LaunchType | undefined;
+  platformVersion?: string | undefined;
+  platformFamily?: string | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  rolloutState?: DeploymentRolloutState | undefined;
+  rolloutStateReason?: string | undefined;
+  serviceConnectConfiguration?: ServiceConnectConfiguration | undefined;
+  serviceConnectResources?: ServiceConnectServiceResource[] | undefined;
+  volumeConfigurations?: ServiceVolumeConfiguration[] | undefined;
+  fargateEphemeralStorage?: DeploymentEphemeralStorage | undefined;
+  vpcLatticeConfigurations?: VpcLatticeConfiguration[] | undefined;
 }
 export type Deployments = Deployment[];
 export interface ServiceEvent {
-  id?: string;
-  createdAt?: Date;
-  message?: string;
+  id?: string | undefined;
+  createdAt?: Date | undefined;
+  message?: string | undefined;
 }
 export type ServiceEvents = ServiceEvent[];
 export interface ServiceCurrentRevisionSummary {
-  arn?: string;
-  requestedTaskCount?: number;
-  runningTaskCount?: number;
-  pendingTaskCount?: number;
+  arn?: string | undefined;
+  requestedTaskCount?: number | undefined;
+  runningTaskCount?: number | undefined;
+  pendingTaskCount?: number | undefined;
 }
 export type ServiceCurrentRevisionSummaryList = ServiceCurrentRevisionSummary[];
 export type ResourceManagementType = "CUSTOMER" | "ECS" | (string & {});
 export interface Service {
-  serviceArn?: string;
-  serviceName?: string;
-  clusterArn?: string;
-  loadBalancers?: LoadBalancer[];
-  serviceRegistries?: ServiceRegistry[];
-  status?: string;
-  desiredCount?: number;
-  runningCount?: number;
-  pendingCount?: number;
-  launchType?: LaunchType;
-  capacityProviderStrategy?: CapacityProviderStrategyItem[];
-  platformVersion?: string;
-  platformFamily?: string;
-  taskDefinition?: string;
-  deploymentConfiguration?: DeploymentConfiguration;
-  taskSets?: TaskSet[];
-  deployments?: Deployment[];
-  roleArn?: string;
-  events?: ServiceEvent[];
-  createdAt?: Date;
-  currentServiceDeployment?: string;
-  currentServiceRevisions?: ServiceCurrentRevisionSummary[];
-  placementConstraints?: PlacementConstraint[];
-  placementStrategy?: PlacementStrategy[];
-  networkConfiguration?: NetworkConfiguration;
-  healthCheckGracePeriodSeconds?: number;
-  schedulingStrategy?: SchedulingStrategy;
-  deploymentController?: DeploymentController;
-  tags?: Tag[];
-  createdBy?: string;
-  enableECSManagedTags?: boolean;
-  propagateTags?: PropagateTags;
-  enableExecuteCommand?: boolean;
-  availabilityZoneRebalancing?: AvailabilityZoneRebalancing;
-  resourceManagementType?: ResourceManagementType;
+  serviceArn?: string | undefined;
+  serviceName?: string | undefined;
+  clusterArn?: string | undefined;
+  loadBalancers?: LoadBalancer[] | undefined;
+  serviceRegistries?: ServiceRegistry[] | undefined;
+  status?: string | undefined;
+  desiredCount?: number | undefined;
+  runningCount?: number | undefined;
+  pendingCount?: number | undefined;
+  launchType?: LaunchType | undefined;
+  capacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  platformVersion?: string | undefined;
+  platformFamily?: string | undefined;
+  taskDefinition?: string | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  taskSets?: TaskSet[] | undefined;
+  deployments?: Deployment[] | undefined;
+  roleArn?: string | undefined;
+  events?: ServiceEvent[] | undefined;
+  createdAt?: Date | undefined;
+  currentServiceDeployment?: string | undefined;
+  currentServiceRevisions?: ServiceCurrentRevisionSummary[] | undefined;
+  placementConstraints?: PlacementConstraint[] | undefined;
+  placementStrategy?: PlacementStrategy[] | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  healthCheckGracePeriodSeconds?: number | undefined;
+  schedulingStrategy?: SchedulingStrategy | undefined;
+  deploymentController?: DeploymentController | undefined;
+  tags?: Tag[] | undefined;
+  createdBy?: string | undefined;
+  enableECSManagedTags?: boolean | undefined;
+  propagateTags?: PropagateTags | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  availabilityZoneRebalancing?: AvailabilityZoneRebalancing | undefined;
+  resourceManagementType?: ResourceManagementType | undefined;
 }
 export interface CreateServiceResponse {
-  service?: Service;
+  service?: Service | undefined;
 }
 export interface CreateTaskSetRequest {
   service: string;
   cluster: string;
-  externalId?: string;
+  externalId?: string | undefined;
   taskDefinition: string;
-  networkConfiguration?: NetworkConfiguration;
-  loadBalancers?: LoadBalancer[];
-  serviceRegistries?: ServiceRegistry[];
-  launchType?: LaunchType;
-  capacityProviderStrategy?: CapacityProviderStrategyItem[];
-  platformVersion?: string;
-  scale?: Scale;
-  clientToken?: string;
-  tags?: Tag[];
+  networkConfiguration?: NetworkConfiguration | undefined;
+  loadBalancers?: LoadBalancer[] | undefined;
+  serviceRegistries?: ServiceRegistry[] | undefined;
+  launchType?: LaunchType | undefined;
+  capacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  platformVersion?: string | undefined;
+  scale?: Scale | undefined;
+  clientToken?: string | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface CreateTaskSetResponse {
-  taskSet?: TaskSet;
+  taskSet?: TaskSet | undefined;
 }
 export type SettingName =
   | "serviceLongArnFormat"
@@ -1121,75 +1121,75 @@ export type SettingName =
   | (string & {});
 export interface DeleteAccountSettingRequest {
   name: SettingName;
-  principalArn?: string;
+  principalArn?: string | undefined;
 }
 export type SettingType = "user" | "aws_managed" | (string & {});
 export interface Setting {
-  name?: SettingName;
-  value?: string;
-  principalArn?: string;
-  type?: SettingType;
+  name?: SettingName | undefined;
+  value?: string | undefined;
+  principalArn?: string | undefined;
+  type?: SettingType | undefined;
 }
 export interface DeleteAccountSettingResponse {
-  setting?: Setting;
+  setting?: Setting | undefined;
 }
 export type TargetType = "container-instance" | (string & {});
 export interface Attribute {
   name: string;
-  value?: string;
-  targetType?: TargetType;
-  targetId?: string;
+  value?: string | undefined;
+  targetType?: TargetType | undefined;
+  targetId?: string | undefined;
 }
 export type Attributes = Attribute[];
 export interface DeleteAttributesRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   attributes: Attribute[];
 }
 export interface DeleteAttributesResponse {
-  attributes?: Attribute[];
+  attributes?: Attribute[] | undefined;
 }
 export interface DeleteCapacityProviderRequest {
   capacityProvider: string;
-  cluster?: string;
+  cluster?: string | undefined;
 }
 export interface DeleteCapacityProviderResponse {
-  capacityProvider?: CapacityProvider;
+  capacityProvider?: CapacityProvider | undefined;
 }
 export interface DeleteClusterRequest {
   cluster: string;
 }
 export interface DeleteClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export interface DeleteDaemonRequest {
   daemonArn: string;
 }
 export interface DeleteDaemonResponse {
-  daemonArn?: string;
-  status?: DaemonStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  deploymentArn?: string;
+  daemonArn?: string | undefined;
+  status?: DaemonStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  deploymentArn?: string | undefined;
 }
 export interface DeleteDaemonTaskDefinitionRequest {
   daemonTaskDefinition: string;
 }
 export interface DeleteDaemonTaskDefinitionResponse {
-  daemonTaskDefinitionArn?: string;
+  daemonTaskDefinitionArn?: string | undefined;
 }
 export interface DeleteExpressGatewayServiceRequest {
   serviceArn: string;
 }
 export interface DeleteExpressGatewayServiceResponse {
-  service?: ECSExpressGatewayService;
+  service?: ECSExpressGatewayService | undefined;
 }
 export interface DeleteServiceRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   service: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteServiceResponse {
-  service?: Service;
+  service?: Service | undefined;
 }
 export interface DeleteTaskDefinitionsRequest {
   taskDefinitions: string[];
@@ -1200,19 +1200,19 @@ export interface RepositoryCredentials {
 export type TransportProtocol = "tcp" | "udp" | (string & {});
 export type ApplicationProtocol = "http" | "http2" | "grpc" | (string & {});
 export interface PortMapping {
-  containerPort?: number;
-  hostPort?: number;
-  protocol?: TransportProtocol;
-  name?: string;
-  appProtocol?: ApplicationProtocol;
-  containerPortRange?: string;
+  containerPort?: number | undefined;
+  hostPort?: number | undefined;
+  protocol?: TransportProtocol | undefined;
+  name?: string | undefined;
+  appProtocol?: ApplicationProtocol | undefined;
+  containerPortRange?: string | undefined;
 }
 export type PortMappingList = PortMapping[];
 export type IntegerList = number[];
 export interface ContainerRestartPolicy {
   enabled: boolean;
-  ignoredExitCodes?: number[];
-  restartAttemptPeriod?: number;
+  ignoredExitCodes?: number[] | undefined;
+  restartAttemptPeriod?: number | undefined;
 }
 export type EnvironmentFileType = "s3" | (string & {});
 export interface EnvironmentFile {
@@ -1221,42 +1221,42 @@ export interface EnvironmentFile {
 }
 export type EnvironmentFiles = EnvironmentFile[];
 export interface MountPoint {
-  sourceVolume?: string;
-  containerPath?: string;
-  readOnly?: boolean;
+  sourceVolume?: string | undefined;
+  containerPath?: string | undefined;
+  readOnly?: boolean | undefined;
 }
 export type MountPointList = MountPoint[];
 export interface VolumeFrom {
-  sourceContainer?: string;
-  readOnly?: boolean;
+  sourceContainer?: string | undefined;
+  readOnly?: boolean | undefined;
 }
 export type VolumeFromList = VolumeFrom[];
 export interface KernelCapabilities {
-  add?: string[];
-  drop?: string[];
+  add?: string[] | undefined;
+  drop?: string[] | undefined;
 }
 export type DeviceCgroupPermission = "read" | "write" | "mknod" | (string & {});
 export type DeviceCgroupPermissions = DeviceCgroupPermission[];
 export interface Device {
   hostPath: string;
-  containerPath?: string;
-  permissions?: DeviceCgroupPermission[];
+  containerPath?: string | undefined;
+  permissions?: DeviceCgroupPermission[] | undefined;
 }
 export type DevicesList = Device[];
 export interface Tmpfs {
   containerPath: string;
   size: number;
-  mountOptions?: string[];
+  mountOptions?: string[] | undefined;
 }
 export type TmpfsList = Tmpfs[];
 export interface LinuxParameters {
-  capabilities?: KernelCapabilities;
-  devices?: Device[];
-  initProcessEnabled?: boolean;
-  sharedMemorySize?: number;
-  tmpfs?: Tmpfs[];
-  maxSwap?: number;
-  swappiness?: number;
+  capabilities?: KernelCapabilities | undefined;
+  devices?: Device[] | undefined;
+  initProcessEnabled?: boolean | undefined;
+  sharedMemorySize?: number | undefined;
+  tmpfs?: Tmpfs[] | undefined;
+  maxSwap?: number | undefined;
+  swappiness?: number | undefined;
 }
 export type ContainerCondition = "START" | "COMPLETE" | "SUCCESS" | "HEALTHY" | (string & {});
 export interface ContainerDependency {
@@ -1296,14 +1296,14 @@ export interface Ulimit {
 export type UlimitList = Ulimit[];
 export interface HealthCheck {
   command: string[];
-  interval?: number;
-  timeout?: number;
-  retries?: number;
-  startPeriod?: number;
+  interval?: number | undefined;
+  timeout?: number | undefined;
+  retries?: number | undefined;
+  startPeriod?: number | undefined;
 }
 export interface SystemControl {
-  namespace?: string;
-  value?: string;
+  namespace?: string | undefined;
+  value?: string | undefined;
 }
 export type SystemControls = SystemControl[];
 export type ResourceType = "GPU" | "InferenceAccelerator" | "NeuronDevice" | (string & {});
@@ -1316,84 +1316,84 @@ export type FirelensConfigurationType = "fluentd" | "fluentbit" | (string & {});
 export type FirelensConfigurationOptionsMap = { [key: string]: string | undefined };
 export interface FirelensConfiguration {
   type: FirelensConfigurationType;
-  options?: { [key: string]: string | undefined };
+  options?: { [key: string]: string | undefined } | undefined;
 }
 export interface ContainerDefinition {
-  name?: string;
-  image?: string;
-  repositoryCredentials?: RepositoryCredentials;
-  cpu?: number;
-  memory?: number;
-  memoryReservation?: number;
-  links?: string[];
-  portMappings?: PortMapping[];
-  essential?: boolean;
-  restartPolicy?: ContainerRestartPolicy;
-  entryPoint?: string[];
-  command?: string[];
-  environment?: KeyValuePair[];
-  environmentFiles?: EnvironmentFile[];
-  mountPoints?: MountPoint[];
-  volumesFrom?: VolumeFrom[];
-  linuxParameters?: LinuxParameters;
-  secrets?: Secret[];
-  dependsOn?: ContainerDependency[];
-  startTimeout?: number;
-  stopTimeout?: number;
-  versionConsistency?: VersionConsistency;
-  hostname?: string;
-  user?: string;
-  workingDirectory?: string;
-  disableNetworking?: boolean;
-  privileged?: boolean;
-  readonlyRootFilesystem?: boolean;
-  dnsServers?: string[];
-  dnsSearchDomains?: string[];
-  extraHosts?: HostEntry[];
-  dockerSecurityOptions?: string[];
-  interactive?: boolean;
-  pseudoTerminal?: boolean;
-  dockerLabels?: { [key: string]: string | undefined };
-  ulimits?: Ulimit[];
-  logConfiguration?: LogConfiguration;
-  healthCheck?: HealthCheck;
-  systemControls?: SystemControl[];
-  resourceRequirements?: ResourceRequirement[];
-  firelensConfiguration?: FirelensConfiguration;
-  credentialSpecs?: string[];
+  name?: string | undefined;
+  image?: string | undefined;
+  repositoryCredentials?: RepositoryCredentials | undefined;
+  cpu?: number | undefined;
+  memory?: number | undefined;
+  memoryReservation?: number | undefined;
+  links?: string[] | undefined;
+  portMappings?: PortMapping[] | undefined;
+  essential?: boolean | undefined;
+  restartPolicy?: ContainerRestartPolicy | undefined;
+  entryPoint?: string[] | undefined;
+  command?: string[] | undefined;
+  environment?: KeyValuePair[] | undefined;
+  environmentFiles?: EnvironmentFile[] | undefined;
+  mountPoints?: MountPoint[] | undefined;
+  volumesFrom?: VolumeFrom[] | undefined;
+  linuxParameters?: LinuxParameters | undefined;
+  secrets?: Secret[] | undefined;
+  dependsOn?: ContainerDependency[] | undefined;
+  startTimeout?: number | undefined;
+  stopTimeout?: number | undefined;
+  versionConsistency?: VersionConsistency | undefined;
+  hostname?: string | undefined;
+  user?: string | undefined;
+  workingDirectory?: string | undefined;
+  disableNetworking?: boolean | undefined;
+  privileged?: boolean | undefined;
+  readonlyRootFilesystem?: boolean | undefined;
+  dnsServers?: string[] | undefined;
+  dnsSearchDomains?: string[] | undefined;
+  extraHosts?: HostEntry[] | undefined;
+  dockerSecurityOptions?: string[] | undefined;
+  interactive?: boolean | undefined;
+  pseudoTerminal?: boolean | undefined;
+  dockerLabels?: { [key: string]: string | undefined } | undefined;
+  ulimits?: Ulimit[] | undefined;
+  logConfiguration?: LogConfiguration | undefined;
+  healthCheck?: HealthCheck | undefined;
+  systemControls?: SystemControl[] | undefined;
+  resourceRequirements?: ResourceRequirement[] | undefined;
+  firelensConfiguration?: FirelensConfiguration | undefined;
+  credentialSpecs?: string[] | undefined;
 }
 export type ContainerDefinitions = ContainerDefinition[];
 export type NetworkMode = "bridge" | "host" | "awsvpc" | "none" | (string & {});
 export interface HostVolumeProperties {
-  sourcePath?: string;
+  sourcePath?: string | undefined;
 }
 export type Scope = "task" | "shared" | (string & {});
 export type StringMap = { [key: string]: string | undefined };
 export interface DockerVolumeConfiguration {
-  scope?: Scope;
-  autoprovision?: boolean;
-  driver?: string;
-  driverOpts?: { [key: string]: string | undefined };
-  labels?: { [key: string]: string | undefined };
+  scope?: Scope | undefined;
+  autoprovision?: boolean | undefined;
+  driver?: string | undefined;
+  driverOpts?: { [key: string]: string | undefined } | undefined;
+  labels?: { [key: string]: string | undefined } | undefined;
 }
 export type EFSTransitEncryption = "ENABLED" | "DISABLED" | (string & {});
 export type EFSAuthorizationConfigIAM = "ENABLED" | "DISABLED" | (string & {});
 export interface EFSAuthorizationConfig {
-  accessPointId?: string;
-  iam?: EFSAuthorizationConfigIAM;
+  accessPointId?: string | undefined;
+  iam?: EFSAuthorizationConfigIAM | undefined;
 }
 export interface EFSVolumeConfiguration {
   fileSystemId: string;
-  rootDirectory?: string;
-  transitEncryption?: EFSTransitEncryption;
-  transitEncryptionPort?: number;
-  authorizationConfig?: EFSAuthorizationConfig;
+  rootDirectory?: string | undefined;
+  transitEncryption?: EFSTransitEncryption | undefined;
+  transitEncryptionPort?: number | undefined;
+  authorizationConfig?: EFSAuthorizationConfig | undefined;
 }
 export interface S3FilesVolumeConfiguration {
   fileSystemArn: string;
-  rootDirectory?: string;
-  transitEncryptionPort?: number;
-  accessPointArn?: string;
+  rootDirectory?: string | undefined;
+  transitEncryptionPort?: number | undefined;
+  accessPointArn?: string | undefined;
 }
 export interface FSxWindowsFileServerAuthorizationConfig {
   credentialsParameter: string;
@@ -1405,21 +1405,21 @@ export interface FSxWindowsFileServerVolumeConfiguration {
   authorizationConfig: FSxWindowsFileServerAuthorizationConfig;
 }
 export interface Volume {
-  name?: string;
-  host?: HostVolumeProperties;
-  dockerVolumeConfiguration?: DockerVolumeConfiguration;
-  efsVolumeConfiguration?: EFSVolumeConfiguration;
-  s3filesVolumeConfiguration?: S3FilesVolumeConfiguration;
-  fsxWindowsFileServerVolumeConfiguration?: FSxWindowsFileServerVolumeConfiguration;
-  configuredAtLaunch?: boolean;
+  name?: string | undefined;
+  host?: HostVolumeProperties | undefined;
+  dockerVolumeConfiguration?: DockerVolumeConfiguration | undefined;
+  efsVolumeConfiguration?: EFSVolumeConfiguration | undefined;
+  s3filesVolumeConfiguration?: S3FilesVolumeConfiguration | undefined;
+  fsxWindowsFileServerVolumeConfiguration?: FSxWindowsFileServerVolumeConfiguration | undefined;
+  configuredAtLaunch?: boolean | undefined;
 }
 export type VolumeList = Volume[];
 export type TaskDefinitionStatus = "ACTIVE" | "INACTIVE" | "DELETE_IN_PROGRESS" | (string & {});
 export type RequiresAttributes = Attribute[];
 export type TaskDefinitionPlacementConstraintType = "memberOf" | (string & {});
 export interface TaskDefinitionPlacementConstraint {
-  type?: TaskDefinitionPlacementConstraintType;
-  expression?: string;
+  type?: TaskDefinitionPlacementConstraintType | undefined;
+  expression?: string | undefined;
 }
 export type TaskDefinitionPlacementConstraints = TaskDefinitionPlacementConstraint[];
 export type Compatibility = "EC2" | "FARGATE" | "EXTERNAL" | "MANAGED_INSTANCES" | (string & {});
@@ -1438,8 +1438,8 @@ export type OSFamily =
   | "LINUX"
   | (string & {});
 export interface RuntimePlatform {
-  cpuArchitecture?: CPUArchitecture;
-  operatingSystemFamily?: OSFamily;
+  cpuArchitecture?: CPUArchitecture | undefined;
+  operatingSystemFamily?: OSFamily | undefined;
 }
 export interface InferenceAccelerator {
   deviceName: string;
@@ -1451,78 +1451,78 @@ export type IpcMode = "host" | "task" | "none" | (string & {});
 export type ProxyConfigurationType = "APPMESH" | (string & {});
 export type ProxyConfigurationProperties = KeyValuePair[];
 export interface ProxyConfiguration {
-  type?: ProxyConfigurationType;
+  type?: ProxyConfigurationType | undefined;
   containerName: string;
-  properties?: KeyValuePair[];
+  properties?: KeyValuePair[] | undefined;
 }
 export interface EphemeralStorage {
   sizeInGiB: number;
 }
 export interface TaskDefinition {
-  taskDefinitionArn?: string;
-  containerDefinitions?: ContainerDefinition[];
-  family?: string;
-  taskRoleArn?: string;
-  executionRoleArn?: string;
-  networkMode?: NetworkMode;
-  revision?: number;
-  volumes?: Volume[];
-  status?: TaskDefinitionStatus;
-  requiresAttributes?: Attribute[];
-  placementConstraints?: TaskDefinitionPlacementConstraint[];
-  compatibilities?: Compatibility[];
-  runtimePlatform?: RuntimePlatform;
-  requiresCompatibilities?: Compatibility[];
-  cpu?: string;
-  memory?: string;
-  inferenceAccelerators?: InferenceAccelerator[];
-  pidMode?: PidMode;
-  ipcMode?: IpcMode;
-  proxyConfiguration?: ProxyConfiguration;
-  registeredAt?: Date;
-  deregisteredAt?: Date;
-  deleteRequestedAt?: Date;
-  registeredBy?: string;
-  ephemeralStorage?: EphemeralStorage;
-  enableFaultInjection?: boolean;
+  taskDefinitionArn?: string | undefined;
+  containerDefinitions?: ContainerDefinition[] | undefined;
+  family?: string | undefined;
+  taskRoleArn?: string | undefined;
+  executionRoleArn?: string | undefined;
+  networkMode?: NetworkMode | undefined;
+  revision?: number | undefined;
+  volumes?: Volume[] | undefined;
+  status?: TaskDefinitionStatus | undefined;
+  requiresAttributes?: Attribute[] | undefined;
+  placementConstraints?: TaskDefinitionPlacementConstraint[] | undefined;
+  compatibilities?: Compatibility[] | undefined;
+  runtimePlatform?: RuntimePlatform | undefined;
+  requiresCompatibilities?: Compatibility[] | undefined;
+  cpu?: string | undefined;
+  memory?: string | undefined;
+  inferenceAccelerators?: InferenceAccelerator[] | undefined;
+  pidMode?: PidMode | undefined;
+  ipcMode?: IpcMode | undefined;
+  proxyConfiguration?: ProxyConfiguration | undefined;
+  registeredAt?: Date | undefined;
+  deregisteredAt?: Date | undefined;
+  deleteRequestedAt?: Date | undefined;
+  registeredBy?: string | undefined;
+  ephemeralStorage?: EphemeralStorage | undefined;
+  enableFaultInjection?: boolean | undefined;
 }
 export type TaskDefinitionList = TaskDefinition[];
 export interface Failure {
-  arn?: string;
-  reason?: string;
-  detail?: string;
+  arn?: string | undefined;
+  reason?: string | undefined;
+  detail?: string | undefined;
 }
 export type Failures = Failure[];
 export interface DeleteTaskDefinitionsResponse {
-  taskDefinitions?: TaskDefinition[];
-  failures?: Failure[];
+  taskDefinitions?: TaskDefinition[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export interface DeleteTaskSetRequest {
   cluster: string;
   service: string;
   taskSet: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface DeleteTaskSetResponse {
-  taskSet?: TaskSet;
+  taskSet?: TaskSet | undefined;
 }
 export interface DeregisterContainerInstanceRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   containerInstance: string;
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface VersionInfo {
-  agentVersion?: string;
-  agentHash?: string;
-  dockerVersion?: string;
+  agentVersion?: string | undefined;
+  agentHash?: string | undefined;
+  dockerVersion?: string | undefined;
 }
 export interface Resource {
-  name?: string;
-  type?: string;
-  doubleValue?: number;
-  longValue?: number;
-  integerValue?: number;
-  stringSetValue?: string[];
+  name?: string | undefined;
+  type?: string | undefined;
+  doubleValue?: number | undefined;
+  longValue?: number | undefined;
+  integerValue?: number | undefined;
+  stringSetValue?: string[] | undefined;
 }
 export type Resources = Resource[];
 export type AgentUpdateStatus =
@@ -1546,60 +1546,60 @@ export type InstanceHealthCheckType =
   | "AGENT_CONNECTIVITY"
   | (string & {});
 export interface InstanceHealthCheckResult {
-  type?: InstanceHealthCheckType;
-  status?: InstanceHealthCheckState;
-  statusReason?: string;
-  lastUpdated?: Date;
-  lastStatusChange?: Date;
+  type?: InstanceHealthCheckType | undefined;
+  status?: InstanceHealthCheckState | undefined;
+  statusReason?: string | undefined;
+  lastUpdated?: Date | undefined;
+  lastStatusChange?: Date | undefined;
 }
 export type InstanceHealthCheckResultList = InstanceHealthCheckResult[];
 export interface ContainerInstanceHealthStatus {
-  overallStatus?: InstanceHealthCheckState;
-  details?: InstanceHealthCheckResult[];
+  overallStatus?: InstanceHealthCheckState | undefined;
+  details?: InstanceHealthCheckResult[] | undefined;
 }
 export interface ContainerInstance {
-  containerInstanceArn?: string;
-  ec2InstanceId?: string;
-  capacityProviderName?: string;
-  version?: number;
-  versionInfo?: VersionInfo;
-  remainingResources?: Resource[];
-  registeredResources?: Resource[];
-  status?: string;
-  statusReason?: string;
-  agentConnected?: boolean;
-  runningTasksCount?: number;
-  pendingTasksCount?: number;
-  agentUpdateStatus?: AgentUpdateStatus;
-  attributes?: Attribute[];
-  registeredAt?: Date;
-  attachments?: Attachment[];
-  tags?: Tag[];
-  healthStatus?: ContainerInstanceHealthStatus;
+  containerInstanceArn?: string | undefined;
+  ec2InstanceId?: string | undefined;
+  capacityProviderName?: string | undefined;
+  version?: number | undefined;
+  versionInfo?: VersionInfo | undefined;
+  remainingResources?: Resource[] | undefined;
+  registeredResources?: Resource[] | undefined;
+  status?: string | undefined;
+  statusReason?: string | undefined;
+  agentConnected?: boolean | undefined;
+  runningTasksCount?: number | undefined;
+  pendingTasksCount?: number | undefined;
+  agentUpdateStatus?: AgentUpdateStatus | undefined;
+  attributes?: Attribute[] | undefined;
+  registeredAt?: Date | undefined;
+  attachments?: Attachment[] | undefined;
+  tags?: Tag[] | undefined;
+  healthStatus?: ContainerInstanceHealthStatus | undefined;
 }
 export interface DeregisterContainerInstanceResponse {
-  containerInstance?: ContainerInstance;
+  containerInstance?: ContainerInstance | undefined;
 }
 export interface DeregisterTaskDefinitionRequest {
   taskDefinition: string;
 }
 export interface DeregisterTaskDefinitionResponse {
-  taskDefinition?: TaskDefinition;
+  taskDefinition?: TaskDefinition | undefined;
 }
 export type CapacityProviderField = "TAGS" | (string & {});
 export type CapacityProviderFieldList = CapacityProviderField[];
 export interface DescribeCapacityProvidersRequest {
-  capacityProviders?: string[];
-  cluster?: string;
-  include?: CapacityProviderField[];
-  maxResults?: number;
-  nextToken?: string;
+  capacityProviders?: string[] | undefined;
+  cluster?: string | undefined;
+  include?: CapacityProviderField[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export type CapacityProviders = CapacityProvider[];
 export interface DescribeCapacityProvidersResponse {
-  capacityProviders?: CapacityProvider[];
-  failures?: Failure[];
-  nextToken?: string;
+  capacityProviders?: CapacityProvider[] | undefined;
+  failures?: Failure[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ClusterField =
   | "ATTACHMENTS"
@@ -1610,53 +1610,53 @@ export type ClusterField =
   | (string & {});
 export type ClusterFieldList = ClusterField[];
 export interface DescribeClustersRequest {
-  clusters?: string[];
-  include?: ClusterField[];
+  clusters?: string[] | undefined;
+  include?: ClusterField[] | undefined;
 }
 export type Clusters = Cluster[];
 export interface DescribeClustersResponse {
-  clusters?: Cluster[];
-  failures?: Failure[];
+  clusters?: Cluster[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export type ContainerInstanceField = "TAGS" | "CONTAINER_INSTANCE_HEALTH" | (string & {});
 export type ContainerInstanceFieldList = ContainerInstanceField[];
 export interface DescribeContainerInstancesRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   containerInstances: string[];
-  include?: ContainerInstanceField[];
+  include?: ContainerInstanceField[] | undefined;
 }
 export type ContainerInstances = ContainerInstance[];
 export interface DescribeContainerInstancesResponse {
-  containerInstances?: ContainerInstance[];
-  failures?: Failure[];
+  containerInstances?: ContainerInstance[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export interface DescribeDaemonRequest {
   daemonArn: string;
 }
 export interface DaemonCapacityProvider {
-  arn?: string;
-  runningCount?: number;
-  withoutDaemonCount?: number;
+  arn?: string | undefined;
+  runningCount?: number | undefined;
+  withoutDaemonCount?: number | undefined;
 }
 export type DaemonCapacityProviderList = DaemonCapacityProvider[];
 export interface DaemonRevisionDetail {
-  arn?: string;
-  capacityProviders?: DaemonCapacityProvider[];
-  totalRunningCount?: number;
-  totalWithoutDaemonCount?: number;
+  arn?: string | undefined;
+  capacityProviders?: DaemonCapacityProvider[] | undefined;
+  totalRunningCount?: number | undefined;
+  totalWithoutDaemonCount?: number | undefined;
 }
 export type DaemonRevisionDetailList = DaemonRevisionDetail[];
 export interface DaemonDetail {
-  daemonArn?: string;
-  clusterArn?: string;
-  status?: DaemonStatus;
-  currentRevisions?: DaemonRevisionDetail[];
-  deploymentArn?: string;
-  createdAt?: Date;
-  updatedAt?: Date;
+  daemonArn?: string | undefined;
+  clusterArn?: string | undefined;
+  status?: DaemonStatus | undefined;
+  currentRevisions?: DaemonRevisionDetail[] | undefined;
+  deploymentArn?: string | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface DescribeDaemonResponse {
-  daemon?: DaemonDetail;
+  daemon?: DaemonDetail | undefined;
 }
 export interface DescribeDaemonDeploymentsRequest {
   daemonDeploymentArns: string[];
@@ -1672,18 +1672,18 @@ export type DaemonDeploymentStatus =
   | "ROLLBACK_FAILED"
   | (string & {});
 export interface DaemonDeploymentCapacityProvider {
-  arn?: string;
-  runningInstanceCount?: number;
-  withoutDaemonInstanceCount?: number;
-  drainingInstanceCount?: number;
+  arn?: string | undefined;
+  runningInstanceCount?: number | undefined;
+  withoutDaemonInstanceCount?: number | undefined;
+  drainingInstanceCount?: number | undefined;
 }
 export type DaemonDeploymentCapacityProviderList = DaemonDeploymentCapacityProvider[];
 export interface DaemonDeploymentRevisionDetail {
-  arn?: string;
-  capacityProviders?: DaemonDeploymentCapacityProvider[];
-  totalRunningInstanceCount?: number;
-  totalWithoutDaemonInstanceCount?: number;
-  totalDrainingInstanceCount?: number;
+  arn?: string | undefined;
+  capacityProviders?: DaemonDeploymentCapacityProvider[] | undefined;
+  totalRunningInstanceCount?: number | undefined;
+  totalWithoutDaemonInstanceCount?: number | undefined;
+  totalDrainingInstanceCount?: number | undefined;
 }
 export type DaemonDeploymentRevisionDetailList = DaemonDeploymentRevisionDetail[];
 export type DaemonDeploymentRollbackMonitorsStatus =
@@ -1693,112 +1693,112 @@ export type DaemonDeploymentRollbackMonitorsStatus =
   | "DISABLED"
   | (string & {});
 export interface DaemonCircuitBreaker {
-  failureCount?: number;
-  status?: DaemonDeploymentRollbackMonitorsStatus;
-  threshold?: number;
+  failureCount?: number | undefined;
+  status?: DaemonDeploymentRollbackMonitorsStatus | undefined;
+  threshold?: number | undefined;
 }
 export interface DaemonDeploymentAlarms {
-  status?: DaemonDeploymentRollbackMonitorsStatus;
-  alarmNames?: string[];
-  triggeredAlarmNames?: string[];
+  status?: DaemonDeploymentRollbackMonitorsStatus | undefined;
+  alarmNames?: string[] | undefined;
+  triggeredAlarmNames?: string[] | undefined;
 }
 export interface DaemonRollback {
-  reason?: string;
-  startedAt?: Date;
-  rollbackTargetDaemonRevisionArn?: string;
-  rollbackCapacityProviders?: string[];
+  reason?: string | undefined;
+  startedAt?: Date | undefined;
+  rollbackTargetDaemonRevisionArn?: string | undefined;
+  rollbackCapacityProviders?: string[] | undefined;
 }
 export interface DaemonDeployment {
-  daemonDeploymentArn?: string;
-  clusterArn?: string;
-  status?: DaemonDeploymentStatus;
-  statusReason?: string;
-  targetDaemonRevision?: DaemonDeploymentRevisionDetail;
-  sourceDaemonRevisions?: DaemonDeploymentRevisionDetail[];
-  circuitBreaker?: DaemonCircuitBreaker;
-  alarms?: DaemonDeploymentAlarms;
-  rollback?: DaemonRollback;
-  deploymentConfiguration?: DaemonDeploymentConfiguration;
-  createdAt?: Date;
-  startedAt?: Date;
-  stoppedAt?: Date;
-  finishedAt?: Date;
+  daemonDeploymentArn?: string | undefined;
+  clusterArn?: string | undefined;
+  status?: DaemonDeploymentStatus | undefined;
+  statusReason?: string | undefined;
+  targetDaemonRevision?: DaemonDeploymentRevisionDetail | undefined;
+  sourceDaemonRevisions?: DaemonDeploymentRevisionDetail[] | undefined;
+  circuitBreaker?: DaemonCircuitBreaker | undefined;
+  alarms?: DaemonDeploymentAlarms | undefined;
+  rollback?: DaemonRollback | undefined;
+  deploymentConfiguration?: DaemonDeploymentConfiguration | undefined;
+  createdAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
+  finishedAt?: Date | undefined;
 }
 export type DaemonDeploymentList = DaemonDeployment[];
 export interface DescribeDaemonDeploymentsResponse {
-  failures?: Failure[];
-  daemonDeployments?: DaemonDeployment[];
+  failures?: Failure[] | undefined;
+  daemonDeployments?: DaemonDeployment[] | undefined;
 }
 export interface DescribeDaemonRevisionsRequest {
   daemonRevisionArns: string[];
 }
 export interface DaemonContainerImage {
-  containerName?: string;
-  imageDigest?: string;
-  image?: string;
+  containerName?: string | undefined;
+  imageDigest?: string | undefined;
+  image?: string | undefined;
 }
 export type DaemonContainerImages = DaemonContainerImage[];
 export interface DaemonRevision {
-  daemonRevisionArn?: string;
-  clusterArn?: string;
-  daemonArn?: string;
-  daemonTaskDefinitionArn?: string;
-  createdAt?: Date;
-  containerImages?: DaemonContainerImage[];
-  propagateTags?: DaemonPropagateTags;
-  enableECSManagedTags?: boolean;
-  enableExecuteCommand?: boolean;
-  critical?: boolean;
+  daemonRevisionArn?: string | undefined;
+  clusterArn?: string | undefined;
+  daemonArn?: string | undefined;
+  daemonTaskDefinitionArn?: string | undefined;
+  createdAt?: Date | undefined;
+  containerImages?: DaemonContainerImage[] | undefined;
+  propagateTags?: DaemonPropagateTags | undefined;
+  enableECSManagedTags?: boolean | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  critical?: boolean | undefined;
 }
 export type DaemonRevisions = DaemonRevision[];
 export interface DescribeDaemonRevisionsResponse {
-  daemonRevisions?: DaemonRevision[];
-  failures?: Failure[];
+  daemonRevisions?: DaemonRevision[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export interface DescribeDaemonTaskDefinitionRequest {
   daemonTaskDefinition: string;
 }
 export interface DaemonLinuxParameters {
-  capabilities?: KernelCapabilities;
-  devices?: Device[];
-  initProcessEnabled?: boolean;
-  tmpfs?: Tmpfs[];
+  capabilities?: KernelCapabilities | undefined;
+  devices?: Device[] | undefined;
+  initProcessEnabled?: boolean | undefined;
+  tmpfs?: Tmpfs[] | undefined;
 }
 export interface DaemonContainerDefinition {
-  name?: string;
+  name?: string | undefined;
   image: string;
-  memory?: number;
-  memoryReservation?: number;
-  repositoryCredentials?: RepositoryCredentials;
-  healthCheck?: HealthCheck;
-  cpu?: number;
-  essential?: boolean;
-  entryPoint?: string[];
-  command?: string[];
-  workingDirectory?: string;
-  environmentFiles?: EnvironmentFile[];
-  environment?: KeyValuePair[];
-  secrets?: Secret[];
-  readonlyRootFilesystem?: boolean;
-  mountPoints?: MountPoint[];
-  logConfiguration?: LogConfiguration;
-  firelensConfiguration?: FirelensConfiguration;
-  privileged?: boolean;
-  user?: string;
-  ulimits?: Ulimit[];
-  linuxParameters?: DaemonLinuxParameters;
-  dependsOn?: ContainerDependency[];
-  startTimeout?: number;
-  stopTimeout?: number;
-  systemControls?: SystemControl[];
-  interactive?: boolean;
-  pseudoTerminal?: boolean;
-  restartPolicy?: ContainerRestartPolicy;
+  memory?: number | undefined;
+  memoryReservation?: number | undefined;
+  repositoryCredentials?: RepositoryCredentials | undefined;
+  healthCheck?: HealthCheck | undefined;
+  cpu?: number | undefined;
+  essential?: boolean | undefined;
+  entryPoint?: string[] | undefined;
+  command?: string[] | undefined;
+  workingDirectory?: string | undefined;
+  environmentFiles?: EnvironmentFile[] | undefined;
+  environment?: KeyValuePair[] | undefined;
+  secrets?: Secret[] | undefined;
+  readonlyRootFilesystem?: boolean | undefined;
+  mountPoints?: MountPoint[] | undefined;
+  logConfiguration?: LogConfiguration | undefined;
+  firelensConfiguration?: FirelensConfiguration | undefined;
+  privileged?: boolean | undefined;
+  user?: string | undefined;
+  ulimits?: Ulimit[] | undefined;
+  linuxParameters?: DaemonLinuxParameters | undefined;
+  dependsOn?: ContainerDependency[] | undefined;
+  startTimeout?: number | undefined;
+  stopTimeout?: number | undefined;
+  systemControls?: SystemControl[] | undefined;
+  interactive?: boolean | undefined;
+  pseudoTerminal?: boolean | undefined;
+  restartPolicy?: ContainerRestartPolicy | undefined;
 }
 export type DaemonContainerDefinitionList = DaemonContainerDefinition[];
 export interface DaemonVolume {
-  name?: string;
-  host?: HostVolumeProperties;
+  name?: string | undefined;
+  host?: HostVolumeProperties | undefined;
 }
 export type DaemonVolumeList = DaemonVolume[];
 export type DaemonTaskDefinitionStatus =
@@ -1809,44 +1809,44 @@ export type DaemonTaskDefinitionStatus =
 export type DaemonPidMode = "none" | "shared" | (string & {});
 export type DaemonIpcMode = "none" | "shared" | (string & {});
 export interface DaemonTaskDefinition {
-  daemonTaskDefinitionArn?: string;
-  family?: string;
-  revision?: number;
-  taskRoleArn?: string;
-  executionRoleArn?: string;
-  containerDefinitions?: DaemonContainerDefinition[];
-  volumes?: DaemonVolume[];
-  cpu?: string;
-  memory?: string;
-  status?: DaemonTaskDefinitionStatus;
-  registeredAt?: Date;
-  deleteRequestedAt?: Date;
-  registeredBy?: string;
-  pidMode?: DaemonPidMode;
-  ipcMode?: DaemonIpcMode;
+  daemonTaskDefinitionArn?: string | undefined;
+  family?: string | undefined;
+  revision?: number | undefined;
+  taskRoleArn?: string | undefined;
+  executionRoleArn?: string | undefined;
+  containerDefinitions?: DaemonContainerDefinition[] | undefined;
+  volumes?: DaemonVolume[] | undefined;
+  cpu?: string | undefined;
+  memory?: string | undefined;
+  status?: DaemonTaskDefinitionStatus | undefined;
+  registeredAt?: Date | undefined;
+  deleteRequestedAt?: Date | undefined;
+  registeredBy?: string | undefined;
+  pidMode?: DaemonPidMode | undefined;
+  ipcMode?: DaemonIpcMode | undefined;
 }
 export interface DescribeDaemonTaskDefinitionResponse {
-  daemonTaskDefinition?: DaemonTaskDefinition;
+  daemonTaskDefinition?: DaemonTaskDefinition | undefined;
 }
 export type ExpressGatewayServiceInclude = "TAGS" | (string & {});
 export type ExpressGatewayServiceIncludeList = ExpressGatewayServiceInclude[];
 export interface DescribeExpressGatewayServiceRequest {
   serviceArn: string;
-  include?: ExpressGatewayServiceInclude[];
+  include?: ExpressGatewayServiceInclude[] | undefined;
 }
 export interface DescribeExpressGatewayServiceResponse {
-  service?: ECSExpressGatewayService;
+  service?: ECSExpressGatewayService | undefined;
 }
 export interface DescribeServiceDeploymentsRequest {
   serviceDeploymentArns: string[];
 }
 export interface ServiceRevisionSummary {
-  arn?: string;
-  requestedTaskCount?: number;
-  runningTaskCount?: number;
-  pendingTaskCount?: number;
-  requestedTestTrafficWeight?: number;
-  requestedProductionTrafficWeight?: number;
+  arn?: string | undefined;
+  requestedTaskCount?: number | undefined;
+  runningTaskCount?: number | undefined;
+  pendingTaskCount?: number | undefined;
+  requestedTestTrafficWeight?: number | undefined;
+  requestedProductionTrafficWeight?: number | undefined;
 }
 export type ServiceRevisionsSummaryList = ServiceRevisionSummary[];
 export type ServiceDeploymentStatus =
@@ -1880,18 +1880,18 @@ export type DeploymentLifecycleHookStatus =
   | "TIMED_OUT"
   | (string & {});
 export interface DeploymentLifecycleHookDetail {
-  hookId?: string;
-  targetType?: DeploymentLifecycleHookTargetType;
-  targetArn?: string;
-  status?: DeploymentLifecycleHookStatus;
-  expiresAt?: Date;
-  timeoutAction?: DeploymentLifecycleHookAction;
+  hookId?: string | undefined;
+  targetType?: DeploymentLifecycleHookTargetType | undefined;
+  targetArn?: string | undefined;
+  status?: DeploymentLifecycleHookStatus | undefined;
+  expiresAt?: Date | undefined;
+  timeoutAction?: DeploymentLifecycleHookAction | undefined;
 }
 export type DeploymentLifecycleHookDetailList = DeploymentLifecycleHookDetail[];
 export interface Rollback {
-  reason?: string;
-  startedAt?: Date;
-  serviceRevisionArn?: string;
+  reason?: string | undefined;
+  startedAt?: Date | undefined;
+  serviceRevisionArn?: string | undefined;
 }
 export type ServiceDeploymentRollbackMonitorsStatus =
   | "TRIGGERED"
@@ -1900,62 +1900,62 @@ export type ServiceDeploymentRollbackMonitorsStatus =
   | "DISABLED"
   | (string & {});
 export interface ServiceDeploymentCircuitBreaker {
-  status?: ServiceDeploymentRollbackMonitorsStatus;
-  failureCount?: number;
-  threshold?: number;
+  status?: ServiceDeploymentRollbackMonitorsStatus | undefined;
+  failureCount?: number | undefined;
+  threshold?: number | undefined;
 }
 export interface ServiceDeploymentAlarms {
-  status?: ServiceDeploymentRollbackMonitorsStatus;
-  alarmNames?: string[];
-  triggeredAlarmNames?: string[];
+  status?: ServiceDeploymentRollbackMonitorsStatus | undefined;
+  alarmNames?: string[] | undefined;
+  triggeredAlarmNames?: string[] | undefined;
 }
 export interface ServiceDeployment {
-  serviceDeploymentArn?: string;
-  serviceArn?: string;
-  clusterArn?: string;
-  createdAt?: Date;
-  startedAt?: Date;
-  finishedAt?: Date;
-  stoppedAt?: Date;
-  updatedAt?: Date;
-  sourceServiceRevisions?: ServiceRevisionSummary[];
-  targetServiceRevision?: ServiceRevisionSummary;
-  status?: ServiceDeploymentStatus;
-  statusReason?: string;
-  lifecycleStage?: ServiceDeploymentLifecycleStage;
-  lifecycleHookDetails?: DeploymentLifecycleHookDetail[];
-  deploymentConfiguration?: DeploymentConfiguration;
-  rollback?: Rollback;
-  deploymentCircuitBreaker?: ServiceDeploymentCircuitBreaker;
-  alarms?: ServiceDeploymentAlarms;
+  serviceDeploymentArn?: string | undefined;
+  serviceArn?: string | undefined;
+  clusterArn?: string | undefined;
+  createdAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  finishedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  sourceServiceRevisions?: ServiceRevisionSummary[] | undefined;
+  targetServiceRevision?: ServiceRevisionSummary | undefined;
+  status?: ServiceDeploymentStatus | undefined;
+  statusReason?: string | undefined;
+  lifecycleStage?: ServiceDeploymentLifecycleStage | undefined;
+  lifecycleHookDetails?: DeploymentLifecycleHookDetail[] | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  rollback?: Rollback | undefined;
+  deploymentCircuitBreaker?: ServiceDeploymentCircuitBreaker | undefined;
+  alarms?: ServiceDeploymentAlarms | undefined;
 }
 export type ServiceDeployments = ServiceDeployment[];
 export interface DescribeServiceDeploymentsResponse {
-  serviceDeployments?: ServiceDeployment[];
-  failures?: Failure[];
+  serviceDeployments?: ServiceDeployment[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export interface DescribeServiceRevisionsRequest {
   serviceRevisionArns: string[];
 }
 export interface ContainerImage {
-  containerName?: string;
-  imageDigest?: string;
-  image?: string;
+  containerName?: string | undefined;
+  imageDigest?: string | undefined;
+  image?: string | undefined;
 }
 export type ContainerImages = ContainerImage[];
 export interface ServiceRevisionLoadBalancer {
-  targetGroupArn?: string;
-  productionListenerRule?: string;
+  targetGroupArn?: string | undefined;
+  productionListenerRule?: string | undefined;
 }
 export type ServiceRevisionLoadBalancers = ServiceRevisionLoadBalancer[];
 export interface ServiceRevisionVpcLatticeConfiguration {
-  targetGroupArn?: string;
-  productionListenerRule?: string;
+  targetGroupArn?: string | undefined;
+  productionListenerRule?: string | undefined;
 }
 export type ServiceRevisionVpcLatticeConfigurations = ServiceRevisionVpcLatticeConfiguration[];
 export interface ResolvedConfiguration {
-  loadBalancers?: ServiceRevisionLoadBalancer[];
-  vpcLatticeConfigurations?: ServiceRevisionVpcLatticeConfiguration[];
+  loadBalancers?: ServiceRevisionLoadBalancer[] | undefined;
+  vpcLatticeConfigurations?: ServiceRevisionVpcLatticeConfiguration[] | undefined;
 }
 export type ManagedResourceStatus =
   | "PROVISIONING"
@@ -1965,44 +1965,44 @@ export type ManagedResourceStatus =
   | "FAILED"
   | (string & {});
 export interface ManagedLoadBalancer {
-  arn?: string;
+  arn?: string | undefined;
   status: ManagedResourceStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   updatedAt: Date;
   scheme: string;
-  subnetIds?: string[];
-  securityGroupIds?: string[];
+  subnetIds?: string[] | undefined;
+  securityGroupIds?: string[] | undefined;
 }
 export interface ManagedSecurityGroup {
-  arn?: string;
+  arn?: string | undefined;
   status: ManagedResourceStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   updatedAt: Date;
 }
 export type ManagedSecurityGroups = ManagedSecurityGroup[];
 export interface ManagedCertificate {
-  arn?: string;
+  arn?: string | undefined;
   status: ManagedResourceStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   updatedAt: Date;
   domainName: string;
 }
 export interface ManagedListener {
-  arn?: string;
+  arn?: string | undefined;
   status: ManagedResourceStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   updatedAt: Date;
 }
 export interface ManagedListenerRule {
-  arn?: string;
+  arn?: string | undefined;
   status: ManagedResourceStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   updatedAt: Date;
 }
 export interface ManagedTargetGroup {
-  arn?: string;
+  arn?: string | undefined;
   status: ManagedResourceStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   updatedAt: Date;
   healthCheckPath: string;
   healthCheckPort: number;
@@ -2012,26 +2012,26 @@ export type ManagedTargetGroups = ManagedTargetGroup[];
 export interface ManagedIngressPath {
   accessType: AccessType;
   endpoint: string;
-  loadBalancer?: ManagedLoadBalancer;
-  loadBalancerSecurityGroups?: ManagedSecurityGroup[];
-  certificate?: ManagedCertificate;
-  listener?: ManagedListener;
-  rule?: ManagedListenerRule;
-  targetGroups?: ManagedTargetGroup[];
+  loadBalancer?: ManagedLoadBalancer | undefined;
+  loadBalancerSecurityGroups?: ManagedSecurityGroup[] | undefined;
+  certificate?: ManagedCertificate | undefined;
+  listener?: ManagedListener | undefined;
+  rule?: ManagedListenerRule | undefined;
+  targetGroups?: ManagedTargetGroup[] | undefined;
 }
 export type ManagedIngressPaths = ManagedIngressPath[];
 export interface ManagedScalableTarget {
-  arn?: string;
+  arn?: string | undefined;
   status: ManagedResourceStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   updatedAt: Date;
   minCapacity: number;
   maxCapacity: number;
 }
 export interface ManagedApplicationAutoScalingPolicy {
-  arn?: string;
+  arn?: string | undefined;
   status: ManagedResourceStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   updatedAt: Date;
   policyType: string;
   targetValue: number;
@@ -2039,167 +2039,167 @@ export interface ManagedApplicationAutoScalingPolicy {
 }
 export type ManagedApplicationAutoScalingPolicies = ManagedApplicationAutoScalingPolicy[];
 export interface ManagedAutoScaling {
-  scalableTarget?: ManagedScalableTarget;
-  applicationAutoScalingPolicies?: ManagedApplicationAutoScalingPolicy[];
+  scalableTarget?: ManagedScalableTarget | undefined;
+  applicationAutoScalingPolicies?: ManagedApplicationAutoScalingPolicy[] | undefined;
 }
 export interface ManagedMetricAlarm {
-  arn?: string;
+  arn?: string | undefined;
   status: ManagedResourceStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   updatedAt: Date;
 }
 export type ManagedMetricAlarms = ManagedMetricAlarm[];
 export interface ManagedLogGroup {
-  arn?: string;
+  arn?: string | undefined;
   status: ManagedResourceStatus;
-  statusReason?: string;
+  statusReason?: string | undefined;
   updatedAt: Date;
   logGroupName: string;
 }
 export type ManagedLogGroups = ManagedLogGroup[];
 export interface ECSManagedResources {
-  ingressPaths?: ManagedIngressPath[];
-  autoScaling?: ManagedAutoScaling;
-  metricAlarms?: ManagedMetricAlarm[];
-  serviceSecurityGroups?: ManagedSecurityGroup[];
-  logGroups?: ManagedLogGroup[];
+  ingressPaths?: ManagedIngressPath[] | undefined;
+  autoScaling?: ManagedAutoScaling | undefined;
+  metricAlarms?: ManagedMetricAlarm[] | undefined;
+  serviceSecurityGroups?: ManagedSecurityGroup[] | undefined;
+  logGroups?: ManagedLogGroup[] | undefined;
 }
 export interface RuntimePlatformOverride {
-  cpuArchitecture?: string;
+  cpuArchitecture?: string | undefined;
 }
 export interface ServiceRevisionOverrides {
-  runtimePlatform?: RuntimePlatformOverride;
+  runtimePlatform?: RuntimePlatformOverride | undefined;
 }
 export interface ServiceRevision {
-  serviceRevisionArn?: string;
-  serviceArn?: string;
-  clusterArn?: string;
-  taskDefinition?: string;
-  capacityProviderStrategy?: CapacityProviderStrategyItem[];
-  launchType?: LaunchType;
-  platformVersion?: string;
-  platformFamily?: string;
-  loadBalancers?: LoadBalancer[];
-  serviceRegistries?: ServiceRegistry[];
-  networkConfiguration?: NetworkConfiguration;
-  containerImages?: ContainerImage[];
-  guardDutyEnabled?: boolean;
-  serviceConnectConfiguration?: ServiceConnectConfiguration;
-  volumeConfigurations?: ServiceVolumeConfiguration[];
-  fargateEphemeralStorage?: DeploymentEphemeralStorage;
-  createdAt?: Date;
-  vpcLatticeConfigurations?: VpcLatticeConfiguration[];
-  resolvedConfiguration?: ResolvedConfiguration;
-  ecsManagedResources?: ECSManagedResources;
-  overrides?: ServiceRevisionOverrides;
-  monitoring?: MonitoringConfiguration;
+  serviceRevisionArn?: string | undefined;
+  serviceArn?: string | undefined;
+  clusterArn?: string | undefined;
+  taskDefinition?: string | undefined;
+  capacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  launchType?: LaunchType | undefined;
+  platformVersion?: string | undefined;
+  platformFamily?: string | undefined;
+  loadBalancers?: LoadBalancer[] | undefined;
+  serviceRegistries?: ServiceRegistry[] | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  containerImages?: ContainerImage[] | undefined;
+  guardDutyEnabled?: boolean | undefined;
+  serviceConnectConfiguration?: ServiceConnectConfiguration | undefined;
+  volumeConfigurations?: ServiceVolumeConfiguration[] | undefined;
+  fargateEphemeralStorage?: DeploymentEphemeralStorage | undefined;
+  createdAt?: Date | undefined;
+  vpcLatticeConfigurations?: VpcLatticeConfiguration[] | undefined;
+  resolvedConfiguration?: ResolvedConfiguration | undefined;
+  ecsManagedResources?: ECSManagedResources | undefined;
+  overrides?: ServiceRevisionOverrides | undefined;
+  monitoring?: MonitoringConfiguration | undefined;
 }
 export type ServiceRevisions = ServiceRevision[];
 export interface DescribeServiceRevisionsResponse {
-  serviceRevisions?: ServiceRevision[];
-  failures?: Failure[];
+  serviceRevisions?: ServiceRevision[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export type ServiceField = "TAGS" | (string & {});
 export type ServiceFieldList = ServiceField[];
 export interface DescribeServicesRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   services: string[];
-  include?: ServiceField[];
+  include?: ServiceField[] | undefined;
 }
 export type Services = Service[];
 export interface DescribeServicesResponse {
-  services?: Service[];
-  failures?: Failure[];
+  services?: Service[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export type TaskDefinitionField = "TAGS" | (string & {});
 export type TaskDefinitionFieldList = TaskDefinitionField[];
 export interface DescribeTaskDefinitionRequest {
   taskDefinition: string;
-  include?: TaskDefinitionField[];
+  include?: TaskDefinitionField[] | undefined;
 }
 export interface DescribeTaskDefinitionResponse {
-  taskDefinition?: TaskDefinition;
-  tags?: Tag[];
+  taskDefinition?: TaskDefinition | undefined;
+  tags?: Tag[] | undefined;
 }
 export type TaskField = "TAGS" | (string & {});
 export type TaskFieldList = TaskField[];
 export interface DescribeTasksRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   tasks: string[];
-  include?: TaskField[];
+  include?: TaskField[] | undefined;
 }
 export type Connectivity = "CONNECTED" | "DISCONNECTED" | (string & {});
 export interface NetworkBinding {
-  bindIP?: string;
-  containerPort?: number;
-  hostPort?: number;
-  protocol?: TransportProtocol;
-  containerPortRange?: string;
-  hostPortRange?: string;
+  bindIP?: string | undefined;
+  containerPort?: number | undefined;
+  hostPort?: number | undefined;
+  protocol?: TransportProtocol | undefined;
+  containerPortRange?: string | undefined;
+  hostPortRange?: string | undefined;
 }
 export type NetworkBindings = NetworkBinding[];
 export interface NetworkInterface {
-  attachmentId?: string;
-  privateIpv4Address?: string;
-  ipv6Address?: string;
+  attachmentId?: string | undefined;
+  privateIpv4Address?: string | undefined;
+  ipv6Address?: string | undefined;
 }
 export type NetworkInterfaces = NetworkInterface[];
 export type HealthStatus = "HEALTHY" | "UNHEALTHY" | "UNKNOWN" | (string & {});
 export type ManagedAgentName = "ExecuteCommandAgent" | (string & {});
 export interface ManagedAgent {
-  lastStartedAt?: Date;
-  name?: ManagedAgentName;
-  reason?: string;
-  lastStatus?: string;
+  lastStartedAt?: Date | undefined;
+  name?: ManagedAgentName | undefined;
+  reason?: string | undefined;
+  lastStatus?: string | undefined;
 }
 export type ManagedAgents = ManagedAgent[];
 export type GpuIds = string[];
 export type NeuronDeviceIds = string[];
 export interface Container {
-  containerArn?: string;
-  taskArn?: string;
-  name?: string;
-  image?: string;
-  imageDigest?: string;
-  runtimeId?: string;
-  lastStatus?: string;
-  exitCode?: number;
-  reason?: string;
-  networkBindings?: NetworkBinding[];
-  networkInterfaces?: NetworkInterface[];
-  healthStatus?: HealthStatus;
-  managedAgents?: ManagedAgent[];
-  cpu?: string;
-  memory?: string;
-  memoryReservation?: string;
-  gpuIds?: string[];
-  neuronDeviceIds?: string[];
+  containerArn?: string | undefined;
+  taskArn?: string | undefined;
+  name?: string | undefined;
+  image?: string | undefined;
+  imageDigest?: string | undefined;
+  runtimeId?: string | undefined;
+  lastStatus?: string | undefined;
+  exitCode?: number | undefined;
+  reason?: string | undefined;
+  networkBindings?: NetworkBinding[] | undefined;
+  networkInterfaces?: NetworkInterface[] | undefined;
+  healthStatus?: HealthStatus | undefined;
+  managedAgents?: ManagedAgent[] | undefined;
+  cpu?: string | undefined;
+  memory?: string | undefined;
+  memoryReservation?: string | undefined;
+  gpuIds?: string[] | undefined;
+  neuronDeviceIds?: string[] | undefined;
 }
 export type Containers = Container[];
 export interface ContainerOverride {
-  name?: string;
-  command?: string[];
-  environment?: KeyValuePair[];
-  environmentFiles?: EnvironmentFile[];
-  cpu?: number;
-  memory?: number;
-  memoryReservation?: number;
-  resourceRequirements?: ResourceRequirement[];
+  name?: string | undefined;
+  command?: string[] | undefined;
+  environment?: KeyValuePair[] | undefined;
+  environmentFiles?: EnvironmentFile[] | undefined;
+  cpu?: number | undefined;
+  memory?: number | undefined;
+  memoryReservation?: number | undefined;
+  resourceRequirements?: ResourceRequirement[] | undefined;
 }
 export type ContainerOverrides = ContainerOverride[];
 export interface InferenceAcceleratorOverride {
-  deviceName?: string;
-  deviceType?: string;
+  deviceName?: string | undefined;
+  deviceType?: string | undefined;
 }
 export type InferenceAcceleratorOverrides = InferenceAcceleratorOverride[];
 export interface TaskOverride {
-  containerOverrides?: ContainerOverride[];
-  cpu?: string;
-  inferenceAcceleratorOverrides?: InferenceAcceleratorOverride[];
-  executionRoleArn?: string;
-  memory?: string;
-  taskRoleArn?: string;
-  ephemeralStorage?: EphemeralStorage;
+  containerOverrides?: ContainerOverride[] | undefined;
+  cpu?: string | undefined;
+  inferenceAcceleratorOverrides?: InferenceAcceleratorOverride[] | undefined;
+  executionRoleArn?: string | undefined;
+  memory?: string | undefined;
+  taskRoleArn?: string | undefined;
+  ephemeralStorage?: EphemeralStorage | undefined;
 }
 export type TaskStopCode =
   | "TaskFailedToStart"
@@ -2211,141 +2211,141 @@ export type TaskStopCode =
   | "InfrastructureHealth"
   | (string & {});
 export interface TaskEphemeralStorage {
-  sizeInGiB?: number;
-  kmsKeyId?: string;
+  sizeInGiB?: number | undefined;
+  kmsKeyId?: string | undefined;
 }
 export interface Task {
-  attachments?: Attachment[];
-  attributes?: Attribute[];
-  availabilityZone?: string;
-  capacityProviderName?: string;
-  clusterArn?: string;
-  connectivity?: Connectivity;
-  connectivityAt?: Date;
-  containerInstanceArn?: string;
-  containers?: Container[];
-  cpu?: string;
-  createdAt?: Date;
-  desiredStatus?: string;
-  enableExecuteCommand?: boolean;
-  executionStoppedAt?: Date;
-  group?: string;
-  healthStatus?: HealthStatus;
-  inferenceAccelerators?: InferenceAccelerator[];
-  lastStatus?: string;
-  launchType?: LaunchType;
-  memory?: string;
-  overrides?: TaskOverride;
-  platformVersion?: string;
-  platformFamily?: string;
-  pullStartedAt?: Date;
-  pullStoppedAt?: Date;
-  startedAt?: Date;
-  startedBy?: string;
-  stopCode?: TaskStopCode;
-  stoppedAt?: Date;
-  stoppedReason?: string;
-  stoppingAt?: Date;
-  tags?: Tag[];
-  taskArn?: string;
-  taskDefinitionArn?: string;
-  version?: number;
-  ephemeralStorage?: EphemeralStorage;
-  fargateEphemeralStorage?: TaskEphemeralStorage;
+  attachments?: Attachment[] | undefined;
+  attributes?: Attribute[] | undefined;
+  availabilityZone?: string | undefined;
+  capacityProviderName?: string | undefined;
+  clusterArn?: string | undefined;
+  connectivity?: Connectivity | undefined;
+  connectivityAt?: Date | undefined;
+  containerInstanceArn?: string | undefined;
+  containers?: Container[] | undefined;
+  cpu?: string | undefined;
+  createdAt?: Date | undefined;
+  desiredStatus?: string | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  executionStoppedAt?: Date | undefined;
+  group?: string | undefined;
+  healthStatus?: HealthStatus | undefined;
+  inferenceAccelerators?: InferenceAccelerator[] | undefined;
+  lastStatus?: string | undefined;
+  launchType?: LaunchType | undefined;
+  memory?: string | undefined;
+  overrides?: TaskOverride | undefined;
+  platformVersion?: string | undefined;
+  platformFamily?: string | undefined;
+  pullStartedAt?: Date | undefined;
+  pullStoppedAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  startedBy?: string | undefined;
+  stopCode?: TaskStopCode | undefined;
+  stoppedAt?: Date | undefined;
+  stoppedReason?: string | undefined;
+  stoppingAt?: Date | undefined;
+  tags?: Tag[] | undefined;
+  taskArn?: string | undefined;
+  taskDefinitionArn?: string | undefined;
+  version?: number | undefined;
+  ephemeralStorage?: EphemeralStorage | undefined;
+  fargateEphemeralStorage?: TaskEphemeralStorage | undefined;
 }
 export type Tasks = Task[];
 export interface DescribeTasksResponse {
-  tasks?: Task[];
-  failures?: Failure[];
+  tasks?: Task[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export type TaskSetField = "TAGS" | (string & {});
 export type TaskSetFieldList = TaskSetField[];
 export interface DescribeTaskSetsRequest {
   cluster: string;
   service: string;
-  taskSets?: string[];
-  include?: TaskSetField[];
+  taskSets?: string[] | undefined;
+  include?: TaskSetField[] | undefined;
 }
 export interface DescribeTaskSetsResponse {
-  taskSets?: TaskSet[];
-  failures?: Failure[];
+  taskSets?: TaskSet[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export interface DiscoverPollEndpointRequest {
-  containerInstance?: string;
-  cluster?: string;
+  containerInstance?: string | undefined;
+  cluster?: string | undefined;
 }
 export interface DiscoverPollEndpointResponse {
-  endpoint?: string;
-  telemetryEndpoint?: string;
-  serviceConnectEndpoint?: string;
+  endpoint?: string | undefined;
+  telemetryEndpoint?: string | undefined;
+  serviceConnectEndpoint?: string | undefined;
 }
 export interface ExecuteCommandRequest {
-  cluster?: string;
-  container?: string;
+  cluster?: string | undefined;
+  container?: string | undefined;
   command: string;
   interactive: boolean;
   task: string;
 }
 export type SensitiveString = string | redacted.Redacted<string>;
 export interface Session {
-  sessionId?: string;
-  streamUrl?: string;
-  tokenValue?: string | redacted.Redacted<string>;
+  sessionId?: string | undefined;
+  streamUrl?: string | undefined;
+  tokenValue?: string | redacted.Redacted<string> | undefined;
 }
 export interface ExecuteCommandResponse {
-  clusterArn?: string;
-  containerArn?: string;
-  containerName?: string;
-  interactive?: boolean;
-  session?: Session;
-  taskArn?: string;
+  clusterArn?: string | undefined;
+  containerArn?: string | undefined;
+  containerName?: string | undefined;
+  interactive?: boolean | undefined;
+  session?: Session | undefined;
+  taskArn?: string | undefined;
 }
 export interface GetTaskProtectionRequest {
   cluster: string;
-  tasks?: string[];
+  tasks?: string[] | undefined;
 }
 export interface ProtectedTask {
-  taskArn?: string;
-  protectionEnabled?: boolean;
-  expirationDate?: Date;
+  taskArn?: string | undefined;
+  protectionEnabled?: boolean | undefined;
+  expirationDate?: Date | undefined;
 }
 export type ProtectedTasks = ProtectedTask[];
 export interface GetTaskProtectionResponse {
-  protectedTasks?: ProtectedTask[];
-  failures?: Failure[];
+  protectedTasks?: ProtectedTask[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export interface ListAccountSettingsRequest {
-  name?: SettingName;
-  value?: string;
-  principalArn?: string;
-  effectiveSettings?: boolean;
-  nextToken?: string;
-  maxResults?: number;
+  name?: SettingName | undefined;
+  value?: string | undefined;
+  principalArn?: string | undefined;
+  effectiveSettings?: boolean | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export type Settings = Setting[];
 export interface ListAccountSettingsResponse {
-  settings?: Setting[];
-  nextToken?: string;
+  settings?: Setting[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListAttributesRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   targetType: TargetType;
-  attributeName?: string;
-  attributeValue?: string;
-  nextToken?: string;
-  maxResults?: number;
+  attributeName?: string | undefined;
+  attributeValue?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListAttributesResponse {
-  attributes?: Attribute[];
-  nextToken?: string;
+  attributes?: Attribute[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListClustersRequest {
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListClustersResponse {
-  clusterArns?: string[];
-  nextToken?: string;
+  clusterArns?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ContainerInstanceStatus =
   | "ACTIVE"
@@ -2355,61 +2355,61 @@ export type ContainerInstanceStatus =
   | "REGISTRATION_FAILED"
   | (string & {});
 export interface ListContainerInstancesRequest {
-  cluster?: string;
-  filter?: string;
-  nextToken?: string;
-  maxResults?: number;
-  status?: ContainerInstanceStatus;
+  cluster?: string | undefined;
+  filter?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  status?: ContainerInstanceStatus | undefined;
 }
 export interface ListContainerInstancesResponse {
-  containerInstanceArns?: string[];
-  nextToken?: string;
+  containerInstanceArns?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DaemonDeploymentStatusList = DaemonDeploymentStatus[];
 export interface CreatedAt {
-  before?: Date;
-  after?: Date;
+  before?: Date | undefined;
+  after?: Date | undefined;
 }
 export interface ListDaemonDeploymentsRequest {
   daemonArn: string;
-  status?: DaemonDeploymentStatus[];
-  createdAt?: CreatedAt;
-  maxResults?: number;
-  nextToken?: string;
+  status?: DaemonDeploymentStatus[] | undefined;
+  createdAt?: CreatedAt | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DaemonDeploymentSummary {
-  daemonDeploymentArn?: string;
-  daemonArn?: string;
-  clusterArn?: string;
-  status?: DaemonDeploymentStatus;
-  statusReason?: string;
-  targetDaemonRevisionArn?: string;
-  createdAt?: Date;
-  startedAt?: Date;
-  stoppedAt?: Date;
-  finishedAt?: Date;
+  daemonDeploymentArn?: string | undefined;
+  daemonArn?: string | undefined;
+  clusterArn?: string | undefined;
+  status?: DaemonDeploymentStatus | undefined;
+  statusReason?: string | undefined;
+  targetDaemonRevisionArn?: string | undefined;
+  createdAt?: Date | undefined;
+  startedAt?: Date | undefined;
+  stoppedAt?: Date | undefined;
+  finishedAt?: Date | undefined;
 }
 export type DaemonDeploymentSummaryList = DaemonDeploymentSummary[];
 export interface ListDaemonDeploymentsResponse {
-  nextToken?: string;
-  daemonDeployments?: DaemonDeploymentSummary[];
+  nextToken?: string | undefined;
+  daemonDeployments?: DaemonDeploymentSummary[] | undefined;
 }
 export interface ListDaemonsRequest {
-  clusterArn?: string;
-  capacityProviderArns?: string[];
-  maxResults?: number;
-  nextToken?: string;
+  clusterArn?: string | undefined;
+  capacityProviderArns?: string[] | undefined;
+  maxResults?: number | undefined;
+  nextToken?: string | undefined;
 }
 export interface DaemonSummary {
-  daemonArn?: string;
-  status?: DaemonStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
+  daemonArn?: string | undefined;
+  status?: DaemonStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export type DaemonSummariesList = DaemonSummary[];
 export interface ListDaemonsResponse {
-  daemonSummariesList?: DaemonSummary[];
-  nextToken?: string;
+  daemonSummariesList?: DaemonSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DaemonTaskDefinitionRevisionFilter = "LAST_REGISTERED" | (string & {});
 export type DaemonTaskDefinitionStatusFilter =
@@ -2419,138 +2419,138 @@ export type DaemonTaskDefinitionStatusFilter =
   | (string & {});
 export type SortOrder = "ASC" | "DESC" | (string & {});
 export interface ListDaemonTaskDefinitionsRequest {
-  familyPrefix?: string;
-  family?: string;
-  revision?: DaemonTaskDefinitionRevisionFilter;
-  status?: DaemonTaskDefinitionStatusFilter;
-  sort?: SortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  familyPrefix?: string | undefined;
+  family?: string | undefined;
+  revision?: DaemonTaskDefinitionRevisionFilter | undefined;
+  status?: DaemonTaskDefinitionStatusFilter | undefined;
+  sort?: SortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface DaemonTaskDefinitionSummary {
-  arn?: string;
-  registeredAt?: Date;
-  registeredBy?: string;
-  deleteRequestedAt?: Date;
-  status?: DaemonTaskDefinitionStatus;
+  arn?: string | undefined;
+  registeredAt?: Date | undefined;
+  registeredBy?: string | undefined;
+  deleteRequestedAt?: Date | undefined;
+  status?: DaemonTaskDefinitionStatus | undefined;
 }
 export type DaemonTaskDefinitionSummaries = DaemonTaskDefinitionSummary[];
 export interface ListDaemonTaskDefinitionsResponse {
-  daemonTaskDefinitions?: DaemonTaskDefinitionSummary[];
-  nextToken?: string;
+  daemonTaskDefinitions?: DaemonTaskDefinitionSummary[] | undefined;
+  nextToken?: string | undefined;
 }
 export type ServiceDeploymentStatusList = ServiceDeploymentStatus[];
 export interface ListServiceDeploymentsRequest {
   service: string;
-  cluster?: string;
-  status?: ServiceDeploymentStatus[];
-  createdAt?: CreatedAt;
-  nextToken?: string;
-  maxResults?: number;
+  cluster?: string | undefined;
+  status?: ServiceDeploymentStatus[] | undefined;
+  createdAt?: CreatedAt | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ServiceDeploymentBrief {
-  serviceDeploymentArn?: string;
-  serviceArn?: string;
-  clusterArn?: string;
-  startedAt?: Date;
-  createdAt?: Date;
-  finishedAt?: Date;
-  targetServiceRevisionArn?: string;
-  status?: ServiceDeploymentStatus;
-  statusReason?: string;
+  serviceDeploymentArn?: string | undefined;
+  serviceArn?: string | undefined;
+  clusterArn?: string | undefined;
+  startedAt?: Date | undefined;
+  createdAt?: Date | undefined;
+  finishedAt?: Date | undefined;
+  targetServiceRevisionArn?: string | undefined;
+  status?: ServiceDeploymentStatus | undefined;
+  statusReason?: string | undefined;
 }
 export type ServiceDeploymentsBrief = ServiceDeploymentBrief[];
 export interface ListServiceDeploymentsResponse {
-  serviceDeployments?: ServiceDeploymentBrief[];
-  nextToken?: string;
+  serviceDeployments?: ServiceDeploymentBrief[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListServicesRequest {
-  cluster?: string;
-  nextToken?: string;
-  maxResults?: number;
-  launchType?: LaunchType;
-  schedulingStrategy?: SchedulingStrategy;
-  resourceManagementType?: ResourceManagementType;
+  cluster?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  launchType?: LaunchType | undefined;
+  schedulingStrategy?: SchedulingStrategy | undefined;
+  resourceManagementType?: ResourceManagementType | undefined;
 }
 export interface ListServicesResponse {
-  serviceArns?: string[];
-  nextToken?: string;
+  serviceArns?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListServicesByNamespaceRequest {
   namespace: string;
-  nextToken?: string;
-  maxResults?: number;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListServicesByNamespaceResponse {
-  serviceArns?: string[];
-  nextToken?: string;
+  serviceArns?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTagsForResourceRequest {
   resourceArn: string;
 }
 export interface ListTagsForResourceResponse {
-  tags?: Tag[];
+  tags?: Tag[] | undefined;
 }
 export type TaskDefinitionFamilyStatus = "ACTIVE" | "INACTIVE" | "ALL" | (string & {});
 export interface ListTaskDefinitionFamiliesRequest {
-  familyPrefix?: string;
-  status?: TaskDefinitionFamilyStatus;
-  nextToken?: string;
-  maxResults?: number;
+  familyPrefix?: string | undefined;
+  status?: TaskDefinitionFamilyStatus | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTaskDefinitionFamiliesResponse {
-  families?: string[];
-  nextToken?: string;
+  families?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface ListTaskDefinitionsRequest {
-  familyPrefix?: string;
-  status?: TaskDefinitionStatus;
-  sort?: SortOrder;
-  nextToken?: string;
-  maxResults?: number;
+  familyPrefix?: string | undefined;
+  status?: TaskDefinitionStatus | undefined;
+  sort?: SortOrder | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
 }
 export interface ListTaskDefinitionsResponse {
-  taskDefinitionArns?: string[];
-  nextToken?: string;
+  taskDefinitionArns?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export type DesiredStatus = "RUNNING" | "PENDING" | "STOPPED" | (string & {});
 export interface ListTasksRequest {
-  cluster?: string;
-  containerInstance?: string;
-  family?: string;
-  nextToken?: string;
-  maxResults?: number;
-  startedBy?: string;
-  serviceName?: string;
-  desiredStatus?: DesiredStatus;
-  launchType?: LaunchType;
-  daemonName?: string;
+  cluster?: string | undefined;
+  containerInstance?: string | undefined;
+  family?: string | undefined;
+  nextToken?: string | undefined;
+  maxResults?: number | undefined;
+  startedBy?: string | undefined;
+  serviceName?: string | undefined;
+  desiredStatus?: DesiredStatus | undefined;
+  launchType?: LaunchType | undefined;
+  daemonName?: string | undefined;
 }
 export interface ListTasksResponse {
-  taskArns?: string[];
-  nextToken?: string;
+  taskArns?: string[] | undefined;
+  nextToken?: string | undefined;
 }
 export interface PutAccountSettingRequest {
   name: SettingName;
   value: string;
-  principalArn?: string;
+  principalArn?: string | undefined;
 }
 export interface PutAccountSettingResponse {
-  setting?: Setting;
+  setting?: Setting | undefined;
 }
 export interface PutAccountSettingDefaultRequest {
   name: SettingName;
   value: string;
 }
 export interface PutAccountSettingDefaultResponse {
-  setting?: Setting;
+  setting?: Setting | undefined;
 }
 export interface PutAttributesRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   attributes: Attribute[];
 }
 export interface PutAttributesResponse {
-  attributes?: Attribute[];
+  attributes?: Attribute[] | undefined;
 }
 export interface PutClusterCapacityProvidersRequest {
   cluster: string;
@@ -2558,7 +2558,7 @@ export interface PutClusterCapacityProvidersRequest {
   defaultCapacityProviderStrategy: CapacityProviderStrategyItem[];
 }
 export interface PutClusterCapacityProvidersResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export type PlatformDeviceType = "GPU" | "NEURON_DEVICE" | (string & {});
 export interface PlatformDevice {
@@ -2567,139 +2567,139 @@ export interface PlatformDevice {
 }
 export type PlatformDevices = PlatformDevice[];
 export interface RegisterContainerInstanceRequest {
-  cluster?: string;
-  instanceIdentityDocument?: string;
-  instanceIdentityDocumentSignature?: string;
-  totalResources?: Resource[];
-  versionInfo?: VersionInfo;
-  containerInstanceArn?: string;
-  attributes?: Attribute[];
-  platformDevices?: PlatformDevice[];
-  tags?: Tag[];
+  cluster?: string | undefined;
+  instanceIdentityDocument?: string | undefined;
+  instanceIdentityDocumentSignature?: string | undefined;
+  totalResources?: Resource[] | undefined;
+  versionInfo?: VersionInfo | undefined;
+  containerInstanceArn?: string | undefined;
+  attributes?: Attribute[] | undefined;
+  platformDevices?: PlatformDevice[] | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface RegisterContainerInstanceResponse {
-  containerInstance?: ContainerInstance;
+  containerInstance?: ContainerInstance | undefined;
 }
 export interface RegisterDaemonTaskDefinitionRequest {
   family: string;
-  taskRoleArn?: string;
-  executionRoleArn?: string;
+  taskRoleArn?: string | undefined;
+  executionRoleArn?: string | undefined;
   containerDefinitions: DaemonContainerDefinition[];
-  cpu?: string;
-  memory?: string;
-  volumes?: DaemonVolume[];
-  tags?: Tag[];
-  pidMode?: DaemonPidMode;
-  ipcMode?: DaemonIpcMode;
+  cpu?: string | undefined;
+  memory?: string | undefined;
+  volumes?: DaemonVolume[] | undefined;
+  tags?: Tag[] | undefined;
+  pidMode?: DaemonPidMode | undefined;
+  ipcMode?: DaemonIpcMode | undefined;
 }
 export interface RegisterDaemonTaskDefinitionResponse {
-  daemonTaskDefinitionArn?: string;
+  daemonTaskDefinitionArn?: string | undefined;
 }
 export interface RegisterTaskDefinitionRequest {
   family: string;
-  taskRoleArn?: string;
-  executionRoleArn?: string;
-  networkMode?: NetworkMode;
+  taskRoleArn?: string | undefined;
+  executionRoleArn?: string | undefined;
+  networkMode?: NetworkMode | undefined;
   containerDefinitions: ContainerDefinition[];
-  volumes?: Volume[];
-  placementConstraints?: TaskDefinitionPlacementConstraint[];
-  requiresCompatibilities?: Compatibility[];
-  cpu?: string;
-  memory?: string;
-  tags?: Tag[];
-  pidMode?: PidMode;
-  ipcMode?: IpcMode;
-  proxyConfiguration?: ProxyConfiguration;
-  inferenceAccelerators?: InferenceAccelerator[];
-  ephemeralStorage?: EphemeralStorage;
-  runtimePlatform?: RuntimePlatform;
-  enableFaultInjection?: boolean;
+  volumes?: Volume[] | undefined;
+  placementConstraints?: TaskDefinitionPlacementConstraint[] | undefined;
+  requiresCompatibilities?: Compatibility[] | undefined;
+  cpu?: string | undefined;
+  memory?: string | undefined;
+  tags?: Tag[] | undefined;
+  pidMode?: PidMode | undefined;
+  ipcMode?: IpcMode | undefined;
+  proxyConfiguration?: ProxyConfiguration | undefined;
+  inferenceAccelerators?: InferenceAccelerator[] | undefined;
+  ephemeralStorage?: EphemeralStorage | undefined;
+  runtimePlatform?: RuntimePlatform | undefined;
+  enableFaultInjection?: boolean | undefined;
 }
 export interface RegisterTaskDefinitionResponse {
-  taskDefinition?: TaskDefinition;
-  tags?: Tag[];
+  taskDefinition?: TaskDefinition | undefined;
+  tags?: Tag[] | undefined;
 }
 export interface TaskManagedEBSVolumeTerminationPolicy {
   deleteOnTermination: boolean;
 }
 export interface TaskManagedEBSVolumeConfiguration {
-  encrypted?: boolean;
-  kmsKeyId?: string;
-  volumeType?: string;
-  sizeInGiB?: number;
-  snapshotId?: string;
-  volumeInitializationRate?: number;
-  iops?: number;
-  throughput?: number;
-  tagSpecifications?: EBSTagSpecification[];
+  encrypted?: boolean | undefined;
+  kmsKeyId?: string | undefined;
+  volumeType?: string | undefined;
+  sizeInGiB?: number | undefined;
+  snapshotId?: string | undefined;
+  volumeInitializationRate?: number | undefined;
+  iops?: number | undefined;
+  throughput?: number | undefined;
+  tagSpecifications?: EBSTagSpecification[] | undefined;
   roleArn: string;
-  terminationPolicy?: TaskManagedEBSVolumeTerminationPolicy;
-  filesystemType?: TaskFilesystemType;
+  terminationPolicy?: TaskManagedEBSVolumeTerminationPolicy | undefined;
+  filesystemType?: TaskFilesystemType | undefined;
 }
 export interface TaskVolumeConfiguration {
   name: string;
-  managedEBSVolume?: TaskManagedEBSVolumeConfiguration;
+  managedEBSVolume?: TaskManagedEBSVolumeConfiguration | undefined;
 }
 export type TaskVolumeConfigurations = TaskVolumeConfiguration[];
 export interface RunTaskRequest {
-  capacityProviderStrategy?: CapacityProviderStrategyItem[];
-  cluster?: string;
-  count?: number;
-  enableECSManagedTags?: boolean;
-  enableExecuteCommand?: boolean;
-  group?: string;
-  launchType?: LaunchType;
-  networkConfiguration?: NetworkConfiguration;
-  overrides?: TaskOverride;
-  placementConstraints?: PlacementConstraint[];
-  placementStrategy?: PlacementStrategy[];
-  platformVersion?: string;
-  propagateTags?: PropagateTags;
-  referenceId?: string;
-  startedBy?: string;
-  tags?: Tag[];
+  capacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  cluster?: string | undefined;
+  count?: number | undefined;
+  enableECSManagedTags?: boolean | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  group?: string | undefined;
+  launchType?: LaunchType | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  overrides?: TaskOverride | undefined;
+  placementConstraints?: PlacementConstraint[] | undefined;
+  placementStrategy?: PlacementStrategy[] | undefined;
+  platformVersion?: string | undefined;
+  propagateTags?: PropagateTags | undefined;
+  referenceId?: string | undefined;
+  startedBy?: string | undefined;
+  tags?: Tag[] | undefined;
   taskDefinition: string;
-  clientToken?: string;
-  volumeConfigurations?: TaskVolumeConfiguration[];
+  clientToken?: string | undefined;
+  volumeConfigurations?: TaskVolumeConfiguration[] | undefined;
 }
 export interface RunTaskResponse {
-  tasks?: Task[];
-  failures?: Failure[];
+  tasks?: Task[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export interface StartTaskRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   containerInstances: string[];
-  enableECSManagedTags?: boolean;
-  enableExecuteCommand?: boolean;
-  group?: string;
-  networkConfiguration?: NetworkConfiguration;
-  overrides?: TaskOverride;
-  propagateTags?: PropagateTags;
-  referenceId?: string;
-  startedBy?: string;
-  tags?: Tag[];
+  enableECSManagedTags?: boolean | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  group?: string | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  overrides?: TaskOverride | undefined;
+  propagateTags?: PropagateTags | undefined;
+  referenceId?: string | undefined;
+  startedBy?: string | undefined;
+  tags?: Tag[] | undefined;
   taskDefinition: string;
-  volumeConfigurations?: TaskVolumeConfiguration[];
+  volumeConfigurations?: TaskVolumeConfiguration[] | undefined;
 }
 export interface StartTaskResponse {
-  tasks?: Task[];
-  failures?: Failure[];
+  tasks?: Task[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export type StopServiceDeploymentStopType = "ABORT" | "ROLLBACK" | (string & {});
 export interface StopServiceDeploymentRequest {
   serviceDeploymentArn: string;
-  stopType?: StopServiceDeploymentStopType;
+  stopType?: StopServiceDeploymentStopType | undefined;
 }
 export interface StopServiceDeploymentResponse {
-  serviceDeploymentArn?: string;
+  serviceDeploymentArn?: string | undefined;
 }
 export interface StopTaskRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   task: string;
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface StopTaskResponse {
-  task?: Task;
+  task?: Task | undefined;
 }
 export interface AttachmentStateChange {
   attachmentArn: string;
@@ -2707,56 +2707,56 @@ export interface AttachmentStateChange {
 }
 export type AttachmentStateChanges = AttachmentStateChange[];
 export interface SubmitAttachmentStateChangesRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   attachments: AttachmentStateChange[];
 }
 export interface SubmitAttachmentStateChangesResponse {
-  acknowledgment?: string;
+  acknowledgment?: string | undefined;
 }
 export interface SubmitContainerStateChangeRequest {
-  cluster?: string;
-  task?: string;
-  containerName?: string;
-  runtimeId?: string;
-  status?: string;
-  exitCode?: number;
-  reason?: string;
-  networkBindings?: NetworkBinding[];
+  cluster?: string | undefined;
+  task?: string | undefined;
+  containerName?: string | undefined;
+  runtimeId?: string | undefined;
+  status?: string | undefined;
+  exitCode?: number | undefined;
+  reason?: string | undefined;
+  networkBindings?: NetworkBinding[] | undefined;
 }
 export interface SubmitContainerStateChangeResponse {
-  acknowledgment?: string;
+  acknowledgment?: string | undefined;
 }
 export interface ContainerStateChange {
-  containerName?: string;
-  imageDigest?: string;
-  runtimeId?: string;
-  exitCode?: number;
-  networkBindings?: NetworkBinding[];
-  reason?: string;
-  status?: string;
+  containerName?: string | undefined;
+  imageDigest?: string | undefined;
+  runtimeId?: string | undefined;
+  exitCode?: number | undefined;
+  networkBindings?: NetworkBinding[] | undefined;
+  reason?: string | undefined;
+  status?: string | undefined;
 }
 export type ContainerStateChanges = ContainerStateChange[];
 export interface ManagedAgentStateChange {
   containerName: string;
   managedAgentName: ManagedAgentName;
   status: string;
-  reason?: string;
+  reason?: string | undefined;
 }
 export type ManagedAgentStateChanges = ManagedAgentStateChange[];
 export interface SubmitTaskStateChangeRequest {
-  cluster?: string;
-  task?: string;
-  status?: string;
-  reason?: string;
-  containers?: ContainerStateChange[];
-  attachments?: AttachmentStateChange[];
-  managedAgents?: ManagedAgentStateChange[];
-  pullStartedAt?: Date;
-  pullStoppedAt?: Date;
-  executionStoppedAt?: Date;
+  cluster?: string | undefined;
+  task?: string | undefined;
+  status?: string | undefined;
+  reason?: string | undefined;
+  containers?: ContainerStateChange[] | undefined;
+  attachments?: AttachmentStateChange[] | undefined;
+  managedAgents?: ManagedAgentStateChange[] | undefined;
+  pullStartedAt?: Date | undefined;
+  pullStoppedAt?: Date | undefined;
+  executionStoppedAt?: Date | undefined;
 }
 export interface SubmitTaskStateChangeResponse {
-  acknowledgment?: string;
+  acknowledgment?: string | undefined;
 }
 export interface TagResourceRequest {
   resourceArn: string;
@@ -2770,137 +2770,137 @@ export interface UntagResourceRequest {
 }
 export interface UntagResourceResponse {}
 export interface AutoScalingGroupProviderUpdate {
-  managedScaling?: ManagedScaling;
-  managedTerminationProtection?: ManagedTerminationProtection;
-  managedDraining?: ManagedDraining;
+  managedScaling?: ManagedScaling | undefined;
+  managedTerminationProtection?: ManagedTerminationProtection | undefined;
+  managedDraining?: ManagedDraining | undefined;
 }
 export interface InstanceLaunchTemplateUpdate {
-  ec2InstanceProfileArn?: string;
-  networkConfiguration?: ManagedInstancesNetworkConfiguration;
-  storageConfiguration?: ManagedInstancesStorageConfiguration;
-  instanceMetadataTagsPropagation?: boolean;
-  localStorageConfiguration?: ManagedInstancesLocalStorageConfiguration;
-  monitoring?: ManagedInstancesMonitoringOptions;
-  instanceRequirements?: InstanceRequirementsRequest;
-  capacityReservations?: CapacityReservationRequest;
+  ec2InstanceProfileArn?: string | undefined;
+  networkConfiguration?: ManagedInstancesNetworkConfiguration | undefined;
+  storageConfiguration?: ManagedInstancesStorageConfiguration | undefined;
+  instanceMetadataTagsPropagation?: boolean | undefined;
+  localStorageConfiguration?: ManagedInstancesLocalStorageConfiguration | undefined;
+  monitoring?: ManagedInstancesMonitoringOptions | undefined;
+  instanceRequirements?: InstanceRequirementsRequest | undefined;
+  capacityReservations?: CapacityReservationRequest | undefined;
 }
 export interface UpdateManagedInstancesProviderConfiguration {
   infrastructureRoleArn: string;
   instanceLaunchTemplate: InstanceLaunchTemplateUpdate;
-  propagateTags?: PropagateMITags;
-  infrastructureOptimization?: InfrastructureOptimization;
-  autoRepairConfiguration?: AutoRepairConfiguration;
+  propagateTags?: PropagateMITags | undefined;
+  infrastructureOptimization?: InfrastructureOptimization | undefined;
+  autoRepairConfiguration?: AutoRepairConfiguration | undefined;
 }
 export interface UpdateCapacityProviderRequest {
   name: string;
-  cluster?: string;
-  autoScalingGroupProvider?: AutoScalingGroupProviderUpdate;
-  managedInstancesProvider?: UpdateManagedInstancesProviderConfiguration;
+  cluster?: string | undefined;
+  autoScalingGroupProvider?: AutoScalingGroupProviderUpdate | undefined;
+  managedInstancesProvider?: UpdateManagedInstancesProviderConfiguration | undefined;
 }
 export interface UpdateCapacityProviderResponse {
-  capacityProvider?: CapacityProvider;
+  capacityProvider?: CapacityProvider | undefined;
 }
 export interface UpdateClusterRequest {
   cluster: string;
-  settings?: ClusterSetting[];
-  configuration?: ClusterConfiguration;
-  serviceConnectDefaults?: ClusterServiceConnectDefaultsRequest;
+  settings?: ClusterSetting[] | undefined;
+  configuration?: ClusterConfiguration | undefined;
+  serviceConnectDefaults?: ClusterServiceConnectDefaultsRequest | undefined;
 }
 export interface UpdateClusterResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export interface UpdateClusterSettingsRequest {
   cluster: string;
   settings: ClusterSetting[];
 }
 export interface UpdateClusterSettingsResponse {
-  cluster?: Cluster;
+  cluster?: Cluster | undefined;
 }
 export interface UpdateContainerAgentRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   containerInstance: string;
 }
 export interface UpdateContainerAgentResponse {
-  containerInstance?: ContainerInstance;
+  containerInstance?: ContainerInstance | undefined;
 }
 export interface UpdateContainerInstancesStateRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   containerInstances: string[];
   status: ContainerInstanceStatus;
 }
 export interface UpdateContainerInstancesStateResponse {
-  containerInstances?: ContainerInstance[];
-  failures?: Failure[];
+  containerInstances?: ContainerInstance[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export interface UpdateDaemonRequest {
   daemonArn: string;
   daemonTaskDefinitionArn: string;
   capacityProviderArns: string[];
-  deploymentConfiguration?: DaemonDeploymentConfiguration;
-  propagateTags?: DaemonPropagateTags;
-  enableECSManagedTags?: boolean;
-  enableExecuteCommand?: boolean;
-  critical?: boolean;
+  deploymentConfiguration?: DaemonDeploymentConfiguration | undefined;
+  propagateTags?: DaemonPropagateTags | undefined;
+  enableECSManagedTags?: boolean | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  critical?: boolean | undefined;
 }
 export interface UpdateDaemonResponse {
-  daemonArn?: string;
-  status?: DaemonStatus;
-  createdAt?: Date;
-  updatedAt?: Date;
-  deploymentArn?: string;
+  daemonArn?: string | undefined;
+  status?: DaemonStatus | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
+  deploymentArn?: string | undefined;
 }
 export interface UpdateExpressGatewayServiceRequest {
   serviceArn: string;
-  executionRoleArn?: string;
-  healthCheckPath?: string;
-  primaryContainer?: ExpressGatewayContainer;
-  taskRoleArn?: string;
-  networkConfiguration?: ExpressGatewayServiceNetworkConfiguration;
-  cpu?: string;
-  memory?: string;
-  cpuArchitecture?: ExpressCpuArchitecture;
-  scalingTarget?: ExpressGatewayScalingTarget;
-  taskDefinitionArn?: string;
+  executionRoleArn?: string | undefined;
+  healthCheckPath?: string | undefined;
+  primaryContainer?: ExpressGatewayContainer | undefined;
+  taskRoleArn?: string | undefined;
+  networkConfiguration?: ExpressGatewayServiceNetworkConfiguration | undefined;
+  cpu?: string | undefined;
+  memory?: string | undefined;
+  cpuArchitecture?: ExpressCpuArchitecture | undefined;
+  scalingTarget?: ExpressGatewayScalingTarget | undefined;
+  taskDefinitionArn?: string | undefined;
 }
 export interface UpdatedExpressGatewayService {
-  serviceArn?: string;
-  cluster?: string;
-  serviceName?: string;
-  status?: ExpressGatewayServiceStatus;
-  targetConfiguration?: ExpressGatewayServiceConfiguration;
-  createdAt?: Date;
-  updatedAt?: Date;
+  serviceArn?: string | undefined;
+  cluster?: string | undefined;
+  serviceName?: string | undefined;
+  status?: ExpressGatewayServiceStatus | undefined;
+  targetConfiguration?: ExpressGatewayServiceConfiguration | undefined;
+  createdAt?: Date | undefined;
+  updatedAt?: Date | undefined;
 }
 export interface UpdateExpressGatewayServiceResponse {
-  service?: UpdatedExpressGatewayService;
+  service?: UpdatedExpressGatewayService | undefined;
 }
 export interface UpdateServiceRequest {
-  cluster?: string;
+  cluster?: string | undefined;
   service: string;
-  desiredCount?: number;
-  taskDefinition?: string;
-  capacityProviderStrategy?: CapacityProviderStrategyItem[];
-  deploymentConfiguration?: DeploymentConfiguration;
-  availabilityZoneRebalancing?: AvailabilityZoneRebalancing;
-  networkConfiguration?: NetworkConfiguration;
-  placementConstraints?: PlacementConstraint[];
-  placementStrategy?: PlacementStrategy[];
-  platformVersion?: string;
-  forceNewDeployment?: boolean;
-  healthCheckGracePeriodSeconds?: number;
-  deploymentController?: DeploymentController;
-  enableExecuteCommand?: boolean;
-  enableECSManagedTags?: boolean;
-  loadBalancers?: LoadBalancer[];
-  propagateTags?: PropagateTags;
-  serviceRegistries?: ServiceRegistry[];
-  serviceConnectConfiguration?: ServiceConnectConfiguration;
-  volumeConfigurations?: ServiceVolumeConfiguration[];
-  vpcLatticeConfigurations?: VpcLatticeConfiguration[];
-  monitoring?: MonitoringConfiguration;
+  desiredCount?: number | undefined;
+  taskDefinition?: string | undefined;
+  capacityProviderStrategy?: CapacityProviderStrategyItem[] | undefined;
+  deploymentConfiguration?: DeploymentConfiguration | undefined;
+  availabilityZoneRebalancing?: AvailabilityZoneRebalancing | undefined;
+  networkConfiguration?: NetworkConfiguration | undefined;
+  placementConstraints?: PlacementConstraint[] | undefined;
+  placementStrategy?: PlacementStrategy[] | undefined;
+  platformVersion?: string | undefined;
+  forceNewDeployment?: boolean | undefined;
+  healthCheckGracePeriodSeconds?: number | undefined;
+  deploymentController?: DeploymentController | undefined;
+  enableExecuteCommand?: boolean | undefined;
+  enableECSManagedTags?: boolean | undefined;
+  loadBalancers?: LoadBalancer[] | undefined;
+  propagateTags?: PropagateTags | undefined;
+  serviceRegistries?: ServiceRegistry[] | undefined;
+  serviceConnectConfiguration?: ServiceConnectConfiguration | undefined;
+  volumeConfigurations?: ServiceVolumeConfiguration[] | undefined;
+  vpcLatticeConfigurations?: VpcLatticeConfiguration[] | undefined;
+  monitoring?: MonitoringConfiguration | undefined;
 }
 export interface UpdateServiceResponse {
-  service?: Service;
+  service?: Service | undefined;
 }
 export interface UpdateServicePrimaryTaskSetRequest {
   cluster: string;
@@ -2908,17 +2908,17 @@ export interface UpdateServicePrimaryTaskSetRequest {
   primaryTaskSet: string;
 }
 export interface UpdateServicePrimaryTaskSetResponse {
-  taskSet?: TaskSet;
+  taskSet?: TaskSet | undefined;
 }
 export interface UpdateTaskProtectionRequest {
   cluster: string;
   tasks: string[];
   protectionEnabled: boolean;
-  expiresInMinutes?: number;
+  expiresInMinutes?: number | undefined;
 }
 export interface UpdateTaskProtectionResponse {
-  protectedTasks?: ProtectedTask[];
-  failures?: Failure[];
+  protectedTasks?: ProtectedTask[] | undefined;
+  failures?: Failure[] | undefined;
 }
 export interface UpdateTaskSetRequest {
   cluster: string;
@@ -2927,7 +2927,7 @@ export interface UpdateTaskSetRequest {
   scale: Scale;
 }
 export interface UpdateTaskSetResponse {
-  taskSet?: TaskSet;
+  taskSet?: TaskSet | undefined;
 }
 export type ResourceIds = string[];
 export type ContinueServiceDeploymentError =

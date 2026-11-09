@@ -36,15 +36,15 @@ export type PlatformAlertConfigurationSourceConfigMap = { [key: string]: unknown
 export type CalendarUnitEnum = "day" | "week" | "month";
 export interface AlertScheduleRestrictionWindow {
   /** Start time HH:MM (24-hour, project timezone). Inclusive. Each window must span >= 30 minutes on the local daily timeline (half-open [start, end)). */
-  start?: string;
+  start?: string | undefined;
   /** End time HH:MM (24-hour). Exclusive (half-open interval). Each window must span >= 30 minutes locally. */
-  end?: string;
+  end?: string | undefined;
 }
 /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
 export type AlertScheduleRestrictionBlockedWindowsList = Array<AlertScheduleRestrictionWindow>;
 export interface AlertScheduleRestriction {
   /** Blocked local time windows when the alert must not run. Overlapping or identical windows are merged when saved. At most five windows before normalization; empty array clears quiet hours. */
-  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList;
+  blocked_windows?: AlertScheduleRestrictionBlockedWindowsList | undefined;
 }
 /** * `not_firing` - Not firing * `firing` - Firing * `errored` - Errored * `snoozed` - Snoozed * `broken` - Broken */
 export type BillingAlertConfigurationStateEnum =
@@ -117,15 +117,15 @@ export interface ListPlatformAlertsRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Number of results to return per page. */
-  limit?: number;
+  limit?: number | undefined;
   /** The initial index from which to return the results. */
-  offset?: number;
+  offset?: number | undefined;
 }
 export type PaginatedPlatformAlertConfigurationListResultsList = Array<PlatformAlertConfiguration>;
 export interface PaginatedPlatformAlertConfigurationList {
   count: number;
-  next?: string | null;
-  previous?: string | null;
+  next?: string | null | undefined;
+  previous?: string | null | undefined;
   results: PaginatedPlatformAlertConfigurationListResultsList;
 }
 export type GetPlatformAlertError = PosthogOpError;

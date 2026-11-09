@@ -86,24 +86,24 @@ export class NotFound
 /** Request to decode the integrity token. */
 export interface DecodeIntegrityTokenRequest {
   /** Encoded integrity token. */
-  integrityToken?: string;
+  integrityToken?: string | undefined;
 }
 export interface DecodeIntegrityTokenV1Request {
   /** Package name of the app the attached integrity token belongs to. */
   packageName: string;
   /** Request body */
-  body?: DecodeIntegrityTokenRequest;
+  body?: DecodeIntegrityTokenRequest | undefined;
 }
 /** Contains the integrity request information. */
 export interface RequestDetails {
   /** Nonce that was provided in the request (which is base64 web-safe no-wrap). */
-  nonce?: string;
+  nonce?: string | undefined;
   /** Required. Timestamp, in milliseconds, of the integrity application request. */
-  timestampMillis?: string;
+  timestampMillis?: string | undefined;
   /** Required. Application package name this attestation was requested for. Note: This field makes no guarantees or promises on the caller integrity. For details on application integrity, check application_integrity. */
-  requestPackageName?: string;
+  requestPackageName?: string | undefined;
   /** Request hash that was provided in the request. */
-  requestHash?: string;
+  requestHash?: string | undefined;
 }
 export type EnvironmentDetailsPlayProtectVerdictEnum =
   | "PLAY_PROTECT_VERDICT_UNSPECIFIED"
@@ -128,7 +128,7 @@ export type AppAccessRiskVerdictAppsDetectedItemEnumList =
 /** Contains signals about others apps on the device which could be used to access or control the requesting app. */
 export interface AppAccessRiskVerdict {
   /** List of detected app types signalled for App Access Risk. */
-  appsDetected?: AppAccessRiskVerdictAppsDetectedItemEnumList;
+  appsDetected?: AppAccessRiskVerdictAppsDetectedItemEnumList | undefined;
 }
 export type EnvironmentDetailsLocationSpoofingRiskVerdictItemEnum =
   | "LOCATION_SPOOFING_RISK_VERDICT_UNSPECIFIED"
@@ -143,11 +143,13 @@ export type EnvironmentDetailsLocationSpoofingRiskVerdictItemEnumList =
 /** Contains information about the environment Play Integrity API runs in, e.g. Play Protect verdict. */
 export interface EnvironmentDetails {
   /** The evaluation of Play Protect verdict. */
-  playProtectVerdict?: EnvironmentDetailsPlayProtectVerdictEnum;
+  playProtectVerdict?: EnvironmentDetailsPlayProtectVerdictEnum | undefined;
   /** The evaluation of the App Access Risk verdicts. */
-  appAccessRiskVerdict?: AppAccessRiskVerdict;
+  appAccessRiskVerdict?: AppAccessRiskVerdict | undefined;
   /** The evaluation of the Location Spoofing Risk verdict. */
-  locationSpoofingRiskVerdict?: EnvironmentDetailsLocationSpoofingRiskVerdictItemEnumList;
+  locationSpoofingRiskVerdict?:
+    | EnvironmentDetailsLocationSpoofingRiskVerdictItemEnumList
+    | undefined;
 }
 export type AccountActivityActivityLevelEnum =
   | "ACTIVITY_LEVEL_UNSPECIFIED"
@@ -159,7 +161,7 @@ export type AccountActivityActivityLevelEnum =
 /** (Restricted Access) Contains a signal helping apps differentiating between likely genuine and likely non-genuine user traffic. */
 export interface AccountActivity {
   /** Required. Indicates the activity level of the account. */
-  activityLevel?: AccountActivityActivityLevelEnum;
+  activityLevel?: AccountActivityActivityLevelEnum | undefined;
 }
 export type AccountDetailsAppLicensingVerdictEnum =
   | "UNKNOWN"
@@ -169,14 +171,14 @@ export type AccountDetailsAppLicensingVerdictEnum =
 /** Contains the account information such as the licensing status for the user in the scope. */
 export interface AccountDetails {
   /** (Restricted Access) Details about the account activity for the user in the scope. */
-  accountActivity?: AccountActivity;
+  accountActivity?: AccountActivity | undefined;
   /** Required. Details about the licensing status of the user for the app in the scope. */
-  appLicensingVerdict?: AccountDetailsAppLicensingVerdictEnum;
+  appLicensingVerdict?: AccountDetailsAppLicensingVerdictEnum | undefined;
 }
 /** Contains additional information generated for testing responses. */
 export interface TestingDetails {
   /** Required. Indicates that the information contained in this payload is a testing response that is statically overridden for a tester. */
-  isTestingResponse?: boolean;
+  isTestingResponse?: boolean | undefined;
 }
 export type DeviceIntegrityDeviceRecognitionVerdictItemEnum =
   | "UNKNOWN"
@@ -189,32 +191,32 @@ export type DeviceIntegrityDeviceRecognitionVerdictItemEnumList =
 /** Contains the recall bits write dates. */
 export interface WriteDates {
   /** Optional. Write time in YYYYMM format (in UTC, e.g. 202402) for the first bit. Note that this value won't be set if the first bit is false. */
-  yyyymmFirst?: number;
+  yyyymmFirst?: number | undefined;
   /** Optional. Write time in YYYYMM format (in UTC, e.g. 202402) for the second bit. Note that this value won't be set if the second bit is false. */
-  yyyymmSecond?: number;
+  yyyymmSecond?: number | undefined;
   /** Optional. Write time in YYYYMM format (in UTC, e.g. 202402) for the third bit. Note that this value won't be set if the third bit is false. */
-  yyyymmThird?: number;
+  yyyymmThird?: number | undefined;
 }
 /** Contains the recall bits values. */
 export interface Values {
   /** Required. Second recall bit value. */
-  bitSecond?: boolean;
+  bitSecond?: boolean | undefined;
   /** Required. First recall bit value. */
-  bitFirst?: boolean;
+  bitFirst?: boolean | undefined;
   /** Required. Third recall bit value. */
-  bitThird?: boolean;
+  bitThird?: boolean | undefined;
 }
 /** Contains the recall bits per device set by the developer. */
 export interface DeviceRecall {
   /** Required. Contains the recall bits write dates. */
-  writeDates?: WriteDates;
+  writeDates?: WriteDates | undefined;
   /** Required. Contains the recall bits values. */
-  values?: Values;
+  values?: Values | undefined;
 }
 /** Contains information about the device for which the integrity token was generated, e.g. Android SDK version. */
 export interface DeviceAttributes {
   /** Android SDK version of the device, as defined in the public Android documentation: https://developer.android.com/reference/android/os/Build.VERSION_CODES. It won't be set if a necessary requirement was missed. For example DeviceIntegrity did not meet the minimum bar. */
-  sdkVersion?: number;
+  sdkVersion?: number | undefined;
 }
 export type DeviceIntegrityLegacyDeviceRecognitionVerdictItemEnum =
   | "UNKNOWN"
@@ -234,20 +236,22 @@ export type RecentDeviceActivityDeviceActivityLevelEnum =
 /** Recent device activity can help developers identify devices that have exhibited hyperactive attestation activity, which could be a sign of an attack or token farming. */
 export interface RecentDeviceActivity {
   /** Required. Indicates the activity level of the device. */
-  deviceActivityLevel?: RecentDeviceActivityDeviceActivityLevelEnum;
+  deviceActivityLevel?: RecentDeviceActivityDeviceActivityLevelEnum | undefined;
 }
 /** Contains the device attestation information. */
 export interface DeviceIntegrity {
   /** Details about the integrity of the device the app is running on. */
-  deviceRecognitionVerdict?: DeviceIntegrityDeviceRecognitionVerdictItemEnumList;
+  deviceRecognitionVerdict?: DeviceIntegrityDeviceRecognitionVerdictItemEnumList | undefined;
   /** Details about the device recall bits set by the developer. */
-  deviceRecall?: DeviceRecall;
+  deviceRecall?: DeviceRecall | undefined;
   /** Attributes of the device where the integrity token was generated. */
-  deviceAttributes?: DeviceAttributes;
+  deviceAttributes?: DeviceAttributes | undefined;
   /** Contains legacy details about the integrity of the device the app is running on. Only for devices with Android version T or higher and only for apps opted in to the new verdicts. Only available during the transition period to the new verdicts system and will be removed afterwards. */
-  legacyDeviceRecognitionVerdict?: DeviceIntegrityLegacyDeviceRecognitionVerdictItemEnumList;
+  legacyDeviceRecognitionVerdict?:
+    | DeviceIntegrityLegacyDeviceRecognitionVerdictItemEnumList
+    | undefined;
   /** Details about the device activity of the device the app is running on. */
-  recentDeviceActivity?: RecentDeviceActivity;
+  recentDeviceActivity?: RecentDeviceActivity | undefined;
 }
 export type AppIntegrityAppRecognitionVerdictEnum =
   | "UNKNOWN"
@@ -258,33 +262,33 @@ export type StringList = Array<string>;
 /** Contains the application integrity information. */
 export interface AppIntegrity {
   /** Package name of the application under attestation. Set iff app_recognition_verdict != UNEVALUATED. */
-  packageName?: string;
+  packageName?: string | undefined;
   /** Version code of the application. Set iff app_recognition_verdict != UNEVALUATED. */
-  versionCode?: string;
+  versionCode?: string | undefined;
   /** Required. Details about the app recognition verdict */
-  appRecognitionVerdict?: AppIntegrityAppRecognitionVerdictEnum;
+  appRecognitionVerdict?: AppIntegrityAppRecognitionVerdictEnum | undefined;
   /** The SHA256 hash of the requesting app's signing certificates (base64 web-safe encoded). Set iff app_recognition_verdict != UNEVALUATED. */
-  certificateSha256Digest?: StringList;
+  certificateSha256Digest?: StringList | undefined;
 }
 /** Contains basic app information and integrity signals like device attestation and licensing details. */
 export interface TokenPayloadExternal {
   /** Required. Details about the integrity request. */
-  requestDetails?: RequestDetails;
+  requestDetails?: RequestDetails | undefined;
   /** Details of the environment Play Integrity API runs in. */
-  environmentDetails?: EnvironmentDetails;
+  environmentDetails?: EnvironmentDetails | undefined;
   /** Required. Details about the Play Store account. */
-  accountDetails?: AccountDetails;
+  accountDetails?: AccountDetails | undefined;
   /** Indicates that this payload is generated for testing purposes and contains any additional data that is linked with testing status. */
-  testingDetails?: TestingDetails;
+  testingDetails?: TestingDetails | undefined;
   /** Required. Details about the device integrity. */
-  deviceIntegrity?: DeviceIntegrity;
+  deviceIntegrity?: DeviceIntegrity | undefined;
   /** Required. Details about the application integrity. */
-  appIntegrity?: AppIntegrity;
+  appIntegrity?: AppIntegrity | undefined;
 }
 /** Response containing the decoded integrity payload. */
 export interface DecodeIntegrityTokenResponse {
   /** Plain token payload generated from the decoded integrity token. */
-  tokenPayloadExternal?: TokenPayloadExternal;
+  tokenPayloadExternal?: TokenPayloadExternal | undefined;
 }
 /** Request to decode the PC integrity token. */
 export type DecodePcIntegrityTokenRequest = DecodeIntegrityTokenRequest;
@@ -292,16 +296,16 @@ export interface DecodePcIntegrityTokenV1Request {
   /** Package name of the app the attached integrity token belongs to. */
   packageName: string;
   /** Request body */
-  body?: DecodeIntegrityTokenRequest;
+  body?: DecodeIntegrityTokenRequest | undefined;
 }
 /** Contains the integrity request information. */
 export interface PcRequestDetails {
   /** Required. Application package name this attestation was requested for. Note: This field makes no guarantees or promises on the caller integrity. */
-  requestPackageName?: string;
+  requestPackageName?: string | undefined;
   /** Required. Timestamp, of the integrity application request. */
-  requestTime?: string;
+  requestTime?: string | undefined;
   /** Request hash that was provided in the request. */
-  requestHash?: string;
+  requestHash?: string | undefined;
 }
 export type PcAccountDetailsAppLicensingVerdictEnum =
   | "UNKNOWN"
@@ -311,12 +315,12 @@ export type PcAccountDetailsAppLicensingVerdictEnum =
 /** Contains the account information such as the licensing status for the user in the scope. */
 export interface PcAccountDetails {
   /** Required. Details about the licensing status of the user for the app in the scope. */
-  appLicensingVerdict?: PcAccountDetailsAppLicensingVerdictEnum;
+  appLicensingVerdict?: PcAccountDetailsAppLicensingVerdictEnum | undefined;
 }
 /** Contains additional information generated for testing responses. */
 export interface PcTestingDetails {
   /** Indicates that the information contained in this payload is a testing response that is statically overridden for a tester. */
-  isTestingResponse?: boolean;
+  isTestingResponse?: boolean | undefined;
 }
 export type PcDeviceIntegrityDeviceRecognitionVerdictItemEnum =
   | "DEVICE_RECOGNITION_VERDICT_UNSPECIFIED"
@@ -326,36 +330,36 @@ export type PcDeviceIntegrityDeviceRecognitionVerdictItemEnumList =
 /** Contains the device attestation information. */
 export interface PcDeviceIntegrity {
   /** Details about the integrity of the device the app is running on. */
-  deviceRecognitionVerdict?: PcDeviceIntegrityDeviceRecognitionVerdictItemEnumList;
+  deviceRecognitionVerdict?: PcDeviceIntegrityDeviceRecognitionVerdictItemEnumList | undefined;
 }
 /** Contains PC device attestation details. */
 export interface PcTokenPayloadExternal {
   /** Required. Details about the integrity request. */
-  requestDetails?: PcRequestDetails;
+  requestDetails?: PcRequestDetails | undefined;
   /** Details about the account information such as the licensing status. */
-  accountDetails?: PcAccountDetails;
+  accountDetails?: PcAccountDetails | undefined;
   /** Indicates that this payload is generated for testing purposes and contains any additional data that is linked with testing status. */
-  testingDetails?: PcTestingDetails;
+  testingDetails?: PcTestingDetails | undefined;
   /** Required. Details about the device integrity. */
-  deviceIntegrity?: PcDeviceIntegrity;
+  deviceIntegrity?: PcDeviceIntegrity | undefined;
 }
 /** Response containing the decoded PC integrity payload. */
 export interface DecodePcIntegrityTokenResponse {
   /** Plain token payload generated from the decoded integrity token. */
-  tokenPayloadExternal?: PcTokenPayloadExternal;
+  tokenPayloadExternal?: PcTokenPayloadExternal | undefined;
 }
 /** Request to write device recall bits. */
 export interface WriteDeviceRecallRequest {
   /** Required. The new values for the device recall bits to be written. */
-  newValues?: Values;
+  newValues?: Values | undefined;
   /** Required. Integrity token obtained from calling Play Integrity API. */
-  integrityToken?: string;
+  integrityToken?: string | undefined;
 }
 export interface WriteDeviceRecallRequest_ {
   /** Required. Package name of the app the attached integrity token belongs to. */
   packageName: string;
   /** Request body */
-  body?: WriteDeviceRecallRequest;
+  body?: WriteDeviceRecallRequest | undefined;
 }
 /** Response for the Write Device Recall action. Currently empty. */
 export interface WriteDeviceRecallResponse {}

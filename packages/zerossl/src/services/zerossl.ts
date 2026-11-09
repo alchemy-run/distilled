@@ -821,11 +821,11 @@ export interface CreateCertificateRequest {
   /** Use this parameter to specify a *certificate signing request (CSR)* for your certificate. The CSR has to be *2048-bit or 4096-bit encrypted*, otherwise it is rejected or might cause other issues. The CSRs' CN (common name) should be identical to the first element in your `certificate_domains` parameter. *It is highly recommended to use a fresh, unique and correct CSR for each and every certificate* (for security reasons and in order to avoid any problems with the certificate). Valid examples for the CSRs' CN (common name): `example.com`, `127.0.0.1`. */
   certificate_csr: string;
   /** For creating 1-year certificates specify `365` here, the default is `90`. Other values are currently not supported. */
-  certificate_validity_days?: string;
+  certificate_validity_days?: string | undefined;
   /** Set this parameter to `1` in order to create a certificate exactly for the domains passed in the `certificate_domains` parameter. This means the certificates' *Subject Alternative Names (SAN)* will not include any alternative DNS entries. In practice this mostly affects *www./non-www.* variants: While most users prefer to cover and validate both variants by default, you might want to create a certificate which covers exactly one of those variants. */
-  strict_domains?: string;
+  strict_domains?: string | undefined;
   /** Certificate hash of the certificate to be replaced. The certificate to be replaced must be in status `issued` or `expiring_soon`. You can only create one replacement certificate for an existing certificate. This parameter is entirely optional and not yet widely adapted. In the future it might be used in the UI. */
-  replacement_for_certificate?: string;
+  replacement_for_certificate?: string | undefined;
 }
 export type CreateCertificateResponseValidationEmailValidationValueList = Array<string>;
 export type CreateCertificateResponseValidationEmailValidationMap = {
@@ -870,14 +870,14 @@ export interface CreateCertificateResponse {
   /** Returns the current certificate status. Possible values: `draft`, `pending_validation`, `issued`, `cancelled`, `revoked`, `expired` */
   status: string;
   /** Returns `null` if domain verification has not been initiated, or the selected verification type. Possible values: `EMAIL` (email verification), `CNAME_CSR_HASH` (CNAME verification), `HTTP_CSR_HASH` (HTTP file upload), `HTTPS_CSR_HASH` (HTTPS file upload) */
-  validation_type?: string | null;
+  validation_type?: string | null | undefined;
   /** Returns one or a comma-separated list of selected verification emails if email verification is chosen for this certificate. */
-  validation_emails?: string | null;
+  validation_emails?: string | null | undefined;
   /** Returns the ID (certificate hash) of the existing certificate this certificate is replacing as part of a renewal. */
   replacement_for: string;
-  fingerprint_sha1?: string | null;
-  brand_validation?: string | null;
-  signature_algorithm_properties?: string | null;
+  fingerprint_sha1?: string | null | undefined;
+  brand_validation?: string | null | undefined;
+  signature_algorithm_properties?: string | null | undefined;
   /** Returns a series of sub-objects related to domain verification. */
   validation: CreateCertificateResponseValidation;
 }
@@ -885,7 +885,7 @@ export interface DownloadCertificateInlineRequest {
   /** Use this parameter to specify your certificate ID / hash. */
   id: string;
   /** Set this parameter to `1` to include the cross signed certificate in the response [(further information)](https://help.zerossl.com/hc/en-us/articles/360060198034-Legacy-Client-Compatibility-Cross-Signed-Root-Certificates). */
-  include_cross_signed?: string;
+  include_cross_signed?: string | undefined;
 }
 export interface DownloadCertificateInlineResponse {
   /** Returns your primary certificate file. */
@@ -949,15 +949,15 @@ export interface GetCertificateResponse {
   /** Returns the current certificate status. Possible values: `draft`, `pending_validation`, `issued`, `revoked`, `cancelled`, `expired` */
   status: string;
   /** Returns `null` if domain verification has not been initiated, or the selected verification type. Possible values: `EMAIL` (email verification), `CNAME_CSR_HASH` (CNAME verification), `HTTP_CSR_HASH` (HTTP file upload), `HTTPS_CSR_HASH` (HTTPS file upload) */
-  validation_type?: string | null;
+  validation_type?: string | null | undefined;
   /** Returns one or a comma-separated list of selected verification emails if email verification is chosen for this certificate. */
-  validation_emails?: string | null;
+  validation_emails?: string | null | undefined;
   /** Returns the ID (certificate hash) of the existing certificate this certificate is replacing as part of a renewal. */
   replacement_for: string;
   /** The SHA-1 fingerprint of the certificate (if issued). [Note: Added in autumn 2022, is `null` for older certificates.] */
-  fingerprint_sha1?: string | null;
+  fingerprint_sha1?: string | null | undefined;
   /** Usually `null` or `false` - only true for very few certificates where the domain has to be manually reviewed. */
-  brand_validation?: string | null;
+  brand_validation?: string | null | undefined;
   /** Signature algorithm and key size for your certificate. Syntax: `[OpenSSL parsed signature algorithm]:[key size]`. Examples: `sha384WithRSAEncryption:2048`, `ecdsa-with-SHA384:256`. We get that information by best effort: It is `null` until a certificate has been issued and its signature algorithm properties have been determined. It can also be `null` for certificates being issued before December 2025, although we try to catch up. Furthermore, it can be `null` in case we are unable to retrieve the required information (can also be `unknown` or similar). */
   signature_algorithm_properties: string;
   /** Returns a series of sub-objects related to domain verification. */
@@ -984,7 +984,7 @@ export interface GetVerificationStatusResponse {
 }
 export interface ListCertificatesRequest {
   /** Use this parameter to specify one or multiple comma-separated certificate status values. Possible values: `draft`, `pending_validation`, `issued`, `cancelled`, `revoked`, `expired`. You can also send the special status `expiring_soon`. In this case all issued certificates are included, which expire within the next 30 days and should be renewed (in paid ZeroSSL accounts those are not credited anymore). */
-  certificate_status?: string;
+  certificate_status?: string | undefined;
 }
 export type ListCertificatesResponseResultsItemValidationEmailValidationValueList = Array<string>;
 export type ListCertificatesResponseResultsItemValidationEmailValidationMap = {
@@ -1014,11 +1014,11 @@ export interface ListCertificatesResponseResultsItem {
   created: string;
   expires: string;
   status: string;
-  validation_type?: string | null;
-  validation_emails?: string | null;
+  validation_type?: string | null | undefined;
+  validation_emails?: string | null | undefined;
   replacement_for: string;
-  fingerprint_sha1?: string | null;
-  brand_validation?: string | null;
+  fingerprint_sha1?: string | null | undefined;
+  brand_validation?: string | null | undefined;
   signature_algorithm_properties: string;
   validation: ListCertificatesResponseResultsItemValidation;
 }
@@ -1049,7 +1049,7 @@ export interface RevokeCertificateRequest {
   /** Use this parameter to specify the certificate ID (hash) of the certificate to be revoked. */
   id: string;
   /** One of: * `Unspecified`: Default * `keyCompromise`: Compromised private key * `affiliationChanged`: Subjects' name or identity information has changed * `Superseded`: Certificate has been replaced * `cessationOfOperation`: Authorized domain names are no longer owned */
-  reason?: string;
+  reason?: string | undefined;
 }
 export interface RevokeCertificateResponse {
   /** Returns `1` to indicate that your API request was successful. */
@@ -1064,7 +1064,7 @@ export interface ValidateCsrResponse {
   /** Returns `true` to indicate your CSR is valid, false otherwise. */
   valid: boolean;
   /** Returns `null` in case the CSR was successfully validated, error code and description otherwise. */
-  error?: string | null;
+  error?: string | null | undefined;
   /** Returns an array containing the key size and signature algorithm in case the CSR was successfully validated, `null` otherwise. */
   csrResponse: ValidateCsrResponseCsrResponseList;
 }
@@ -1074,7 +1074,7 @@ export interface VerifyDomainsRequest {
   /** Use this parameter to specify the verification method to use for this certificate. Possible values: `EMAIL` (email verification), `CNAME_CSR_HASH` (CNAME verification), `HTTP_CSR_HASH` (HTTP file upload), `HTTPS_CSR_HASH` (HTTPS file upload) */
   validation_method: string;
   /** If your selected verification method is **email verification**, use this parameter to specify one or multiple comma-seperated verification email addresses. You need to specify one verification email address per domain. */
-  validation_email?: string;
+  validation_email?: string | undefined;
 }
 export interface VerifyDomainsResponseErrorDetailsValueValue {
   /** Returns `1` or `0` depending on whether your CNAME-record was found. */

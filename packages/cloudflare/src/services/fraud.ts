@@ -67,7 +67,7 @@ export interface GetResponseAuthenticationSettingsFailureCriteria {
   /** The type of criterion. Currently only `status_code` is supported. */
   kind: GetResponseAuthenticationSettingsFailureCriteriaKind;
   /** HTTP status codes to match against the origin response. */
-  statusCodes?: GetResponseAuthenticationSettingsFailureCriteriaStatusCodesList | null;
+  statusCodes?: GetResponseAuthenticationSettingsFailureCriteriaStatusCodesList | null | undefined;
 }
 export type GetResponseAuthenticationSettingsSuccessCriteriaKind = "status_code";
 export type GetResponseAuthenticationSettingsSuccessCriteriaStatusCodesList = Array<number>;
@@ -75,24 +75,24 @@ export interface GetResponseAuthenticationSettingsSuccessCriteria {
   /** The type of criterion. Currently only `status_code` is supported. */
   kind: GetResponseAuthenticationSettingsSuccessCriteriaKind;
   /** HTTP status codes to match against the origin response. */
-  statusCodes?: GetResponseAuthenticationSettingsSuccessCriteriaStatusCodesList | null;
+  statusCodes?: GetResponseAuthenticationSettingsSuccessCriteriaStatusCodesList | null | undefined;
 }
 export interface GetResponseAuthenticationSettings {
   /** Criterion for identifying failed login responses. */
-  failureCriteria?: GetResponseAuthenticationSettingsFailureCriteria | null;
+  failureCriteria?: GetResponseAuthenticationSettingsFailureCriteria | null | undefined;
   /** Criterion for identifying successful login responses. */
-  successCriteria?: GetResponseAuthenticationSettingsSuccessCriteria | null;
+  successCriteria?: GetResponseAuthenticationSettingsSuccessCriteria | null | undefined;
 }
 export type GetResponseUserProfiles = "enabled" | "disabled";
 export type GetResponseUsernameExpressionsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface GetFraudResponse {
   /** Configuration for classifying login authentication outcomes based on the origin response. Requires `user_profiles` to be enabled. */
-  authenticationSettings?: GetResponseAuthenticationSettings | null;
+  authenticationSettings?: GetResponseAuthenticationSettings | null | undefined;
   /** Whether Fraud User Profiles is enabled for the zone. */
-  userProfiles?: GetResponseUserProfiles | null;
+  userProfiles?: GetResponseUserProfiles | null | undefined;
   /** List of expressions to detect usernames in write HTTP requests. */
-  usernameExpressions?: GetResponseUsernameExpressionsList | null;
+  usernameExpressions?: GetResponseUsernameExpressionsList | null | undefined;
 }
 export type UpdateRequestAuthenticationSettingsFailureCriteriaKind = "status_code";
 export type UpdateRequestAuthenticationSettingsFailureCriteriaStatusCodesList = Array<number>;
@@ -100,7 +100,7 @@ export interface UpdateRequestAuthenticationSettingsFailureCriteria {
   /** The type of criterion. Currently only `status_code` is supported. */
   kind: UpdateRequestAuthenticationSettingsFailureCriteriaKind | (string & {});
   /** HTTP status codes to match against the origin response. */
-  statusCodes?: UpdateRequestAuthenticationSettingsFailureCriteriaStatusCodesList;
+  statusCodes?: UpdateRequestAuthenticationSettingsFailureCriteriaStatusCodesList | undefined;
 }
 export type UpdateRequestAuthenticationSettingsSuccessCriteriaKind = "status_code";
 export type UpdateRequestAuthenticationSettingsSuccessCriteriaStatusCodesList = Array<number>;
@@ -108,13 +108,13 @@ export interface UpdateRequestAuthenticationSettingsSuccessCriteria {
   /** The type of criterion. Currently only `status_code` is supported. */
   kind: UpdateRequestAuthenticationSettingsSuccessCriteriaKind | (string & {});
   /** HTTP status codes to match against the origin response. */
-  statusCodes?: UpdateRequestAuthenticationSettingsSuccessCriteriaStatusCodesList;
+  statusCodes?: UpdateRequestAuthenticationSettingsSuccessCriteriaStatusCodesList | undefined;
 }
 export interface UpdateRequestAuthenticationSettings {
   /** Criterion for identifying failed login responses. */
-  failureCriteria?: UpdateRequestAuthenticationSettingsFailureCriteria;
+  failureCriteria?: UpdateRequestAuthenticationSettingsFailureCriteria | undefined;
   /** Criterion for identifying successful login responses. */
-  successCriteria?: UpdateRequestAuthenticationSettingsSuccessCriteria;
+  successCriteria?: UpdateRequestAuthenticationSettingsSuccessCriteria | undefined;
 }
 export type UpdateRequestUserProfiles = "enabled" | "disabled";
 export type UpdateRequestUsernameExpressionsList = Array<string>;
@@ -122,11 +122,11 @@ export interface PutFraudRequest {
   /** Identifier. */
   zoneId: string;
   /** Configuration for classifying login authentication outcomes based on the origin response. Requires `user_profiles` to be enabled. */
-  authenticationSettings?: UpdateRequestAuthenticationSettings;
+  authenticationSettings?: UpdateRequestAuthenticationSettings | undefined;
   /** Whether Fraud User Profiles is enabled for the zone. */
-  userProfiles?: UpdateRequestUserProfiles | (string & {});
+  userProfiles?: UpdateRequestUserProfiles | (string & {}) | undefined;
   /** List of expressions to detect usernames in write HTTP requests. */
-  usernameExpressions?: UpdateRequestUsernameExpressionsList;
+  usernameExpressions?: UpdateRequestUsernameExpressionsList | undefined;
 }
 export type UpdateResponseAuthenticationSettingsFailureCriteriaKind = "status_code";
 export type UpdateResponseAuthenticationSettingsFailureCriteriaStatusCodesList = Array<number>;
@@ -134,7 +134,10 @@ export interface UpdateResponseAuthenticationSettingsFailureCriteria {
   /** The type of criterion. Currently only `status_code` is supported. */
   kind: UpdateResponseAuthenticationSettingsFailureCriteriaKind;
   /** HTTP status codes to match against the origin response. */
-  statusCodes?: UpdateResponseAuthenticationSettingsFailureCriteriaStatusCodesList | null;
+  statusCodes?:
+    | UpdateResponseAuthenticationSettingsFailureCriteriaStatusCodesList
+    | null
+    | undefined;
 }
 export type UpdateResponseAuthenticationSettingsSuccessCriteriaKind = "status_code";
 export type UpdateResponseAuthenticationSettingsSuccessCriteriaStatusCodesList = Array<number>;
@@ -142,24 +145,27 @@ export interface UpdateResponseAuthenticationSettingsSuccessCriteria {
   /** The type of criterion. Currently only `status_code` is supported. */
   kind: UpdateResponseAuthenticationSettingsSuccessCriteriaKind;
   /** HTTP status codes to match against the origin response. */
-  statusCodes?: UpdateResponseAuthenticationSettingsSuccessCriteriaStatusCodesList | null;
+  statusCodes?:
+    | UpdateResponseAuthenticationSettingsSuccessCriteriaStatusCodesList
+    | null
+    | undefined;
 }
 export interface UpdateResponseAuthenticationSettings {
   /** Criterion for identifying failed login responses. */
-  failureCriteria?: UpdateResponseAuthenticationSettingsFailureCriteria | null;
+  failureCriteria?: UpdateResponseAuthenticationSettingsFailureCriteria | null | undefined;
   /** Criterion for identifying successful login responses. */
-  successCriteria?: UpdateResponseAuthenticationSettingsSuccessCriteria | null;
+  successCriteria?: UpdateResponseAuthenticationSettingsSuccessCriteria | null | undefined;
 }
 export type UpdateResponseUserProfiles = "enabled" | "disabled";
 export type UpdateResponseUsernameExpressionsList = Array<string>;
 /** Unwrapped `result` payload of the Cloudflare v4 response envelope. */
 export interface PutFraudResponse {
   /** Configuration for classifying login authentication outcomes based on the origin response. Requires `user_profiles` to be enabled. */
-  authenticationSettings?: UpdateResponseAuthenticationSettings | null;
+  authenticationSettings?: UpdateResponseAuthenticationSettings | null | undefined;
   /** Whether Fraud User Profiles is enabled for the zone. */
-  userProfiles?: UpdateResponseUserProfiles | null;
+  userProfiles?: UpdateResponseUserProfiles | null | undefined;
   /** List of expressions to detect usernames in write HTTP requests. */
-  usernameExpressions?: UpdateResponseUsernameExpressionsList | null;
+  usernameExpressions?: UpdateResponseUsernameExpressionsList | null | undefined;
 }
 export type GetFraudError = Forbidden | CloudflareOpError;
 /** Retrieve Fraud Detection settings for a zone. */

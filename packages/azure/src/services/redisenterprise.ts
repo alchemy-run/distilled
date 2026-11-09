@@ -35,7 +35,7 @@ const TELEMETRY = {
 /** The user associated with the access policy. */
 export interface AccessPolicyAssignmentPropertiesInputUser {
   /** The object ID of the user. */
-  objectId?: string;
+  objectId?: string | undefined;
 }
 /** Properties of Redis Enterprise database access policy assignment. */
 export interface AccessPolicyAssignmentPropertiesInput {
@@ -56,7 +56,7 @@ export interface AccessPolicyAssignmentCreateUpdateRequest {
   /** The name of the Redis Enterprise database access policy assignment. */
   accessPolicyAssignmentName: string;
   /** Properties of the access policy assignment. */
-  properties?: AccessPolicyAssignmentPropertiesInput;
+  properties?: AccessPolicyAssignmentPropertiesInput | undefined;
 }
 /** Current provisioning status */
 export type ProvisioningState =
@@ -71,7 +71,7 @@ export type AccessPolicyAssignmentPropertiesUser = AccessPolicyAssignmentPropert
 /** Properties of Redis Enterprise database access policy assignment. */
 export interface AccessPolicyAssignmentProperties {
   /** Current provisioning status of the access policy assignment. */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Name of access policy under specific access policy assignment. Only "default" policy is supported for now. */
   accessPolicyName: string;
   /** The user associated with the access policy. */
@@ -79,13 +79,13 @@ export interface AccessPolicyAssignmentProperties {
 }
 export interface AccessPolicyAssignmentCreateUpdateResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the access policy assignment. */
-  properties?: AccessPolicyAssignmentProperties;
+  properties?: AccessPolicyAssignmentProperties | undefined;
 }
 /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
 export type DatabaseCreatePropertiesInputClientProtocol = "Encrypted" | "Plaintext";
@@ -111,27 +111,27 @@ export type PersistenceRdbFrequency = "1h" | "6h" | "12h";
 /** Persistence-related configuration for the Redis Enterprise database */
 export interface Persistence {
   /** Sets whether AOF is enabled. Note that at most one of AOF or RDB persistence may be enabled. */
-  aofEnabled?: boolean;
+  aofEnabled?: boolean | undefined;
   /** Sets whether RDB is enabled. Note that at most one of AOF or RDB persistence may be enabled. */
-  rdbEnabled?: boolean;
+  rdbEnabled?: boolean | undefined;
   /** Sets the frequency at which data is written to disk. Defaults to '1s', meaning 'every second'. Note that the 'always' setting is deprecated, because of its performance impact. */
-  aofFrequency?: PersistenceAofFrequency | (string & {});
+  aofFrequency?: PersistenceAofFrequency | (string & {}) | undefined;
   /** Sets the frequency at which a snapshot of the database is created. */
-  rdbFrequency?: PersistenceRdbFrequency | (string & {});
+  rdbFrequency?: PersistenceRdbFrequency | (string & {}) | undefined;
 }
 /** Specifies configuration of a redis module */
 export interface ModuleInput {
   /** The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries' */
   name: string;
   /** Configuration options for the module, e.g. 'ERROR_RATE 0.01 INITIAL_SIZE 400'. */
-  args?: string;
+  args?: string | undefined;
 }
 /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
 export type DatabaseCreatePropertiesInputModulesList = Array<ModuleInput>;
 /** Specifies details of a linked database resource. */
 export interface LinkedDatabaseInput {
   /** Resource ID of a database resource to link with this database. */
-  id?: string;
+  id?: string | undefined;
 }
 /** List of database resources to link with this database */
 export type DatabaseCreatePropertiesInputGeoReplicationLinkedDatabasesList =
@@ -139,9 +139,9 @@ export type DatabaseCreatePropertiesInputGeoReplicationLinkedDatabasesList =
 /** Optional set of properties to configure geo replication for this database. */
 export interface DatabaseCreatePropertiesInputGeoReplication {
   /** Name for the group of linked database resources */
-  groupNickname?: string;
+  groupNickname?: string | undefined;
   /** List of database resources to link with this database */
-  linkedDatabases?: DatabaseCreatePropertiesInputGeoReplicationLinkedDatabasesList;
+  linkedDatabases?: DatabaseCreatePropertiesInputGeoReplicationLinkedDatabasesList | undefined;
 }
 /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
 export type DatabaseCreatePropertiesInputDeferUpgrade = "Deferred" | "NotDeferred";
@@ -150,23 +150,26 @@ export type DatabaseCreatePropertiesInputAccessKeysAuthentication = "Disabled" |
 /** Properties for creating Redis Enterprise databases */
 export interface DatabaseCreatePropertiesInput {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
-  clientProtocol?: DatabaseCreatePropertiesInputClientProtocol | (string & {});
+  clientProtocol?: DatabaseCreatePropertiesInputClientProtocol | (string & {}) | undefined;
   /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
-  port?: number;
+  port?: number | undefined;
   /** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
-  clusteringPolicy?: DatabaseCreatePropertiesInputClusteringPolicy | (string & {});
+  clusteringPolicy?: DatabaseCreatePropertiesInputClusteringPolicy | (string & {}) | undefined;
   /** Redis eviction policy - default is VolatileLRU */
-  evictionPolicy?: DatabaseCreatePropertiesInputEvictionPolicy | (string & {});
+  evictionPolicy?: DatabaseCreatePropertiesInputEvictionPolicy | (string & {}) | undefined;
   /** Persistence settings */
-  persistence?: Persistence;
+  persistence?: Persistence | undefined;
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
-  modules?: DatabaseCreatePropertiesInputModulesList;
+  modules?: DatabaseCreatePropertiesInputModulesList | undefined;
   /** Optional set of properties to configure geo replication for this database. */
-  geoReplication?: DatabaseCreatePropertiesInputGeoReplication;
+  geoReplication?: DatabaseCreatePropertiesInputGeoReplication | undefined;
   /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
-  deferUpgrade?: DatabaseCreatePropertiesInputDeferUpgrade | (string & {});
+  deferUpgrade?: DatabaseCreatePropertiesInputDeferUpgrade | (string & {}) | undefined;
   /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
-  accessKeysAuthentication?: DatabaseCreatePropertiesInputAccessKeysAuthentication | (string & {});
+  accessKeysAuthentication?:
+    | DatabaseCreatePropertiesInputAccessKeysAuthentication
+    | (string & {})
+    | undefined;
 }
 export interface CreateDatabaseRequest {
   /** The ID of the target subscription. */
@@ -178,7 +181,7 @@ export interface CreateDatabaseRequest {
   /** The name of the Redis Enterprise database. */
   databaseName: string;
   /** Other properties of the database. */
-  properties?: DatabaseCreatePropertiesInput;
+  properties?: DatabaseCreatePropertiesInput | undefined;
 }
 /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
 export type DatabaseCreatePropertiesClientProtocol = "Encrypted" | "Plaintext";
@@ -219,9 +222,9 @@ export interface Module {
   /** The name of the module, e.g. 'RedisBloom', 'RediSearch', 'RedisTimeSeries' */
   name: string;
   /** Configuration options for the module, e.g. 'ERROR_RATE 0.01 INITIAL_SIZE 400'. */
-  args?: string;
+  args?: string | undefined;
   /** The version of the module, e.g. '1.0'. */
-  version?: string;
+  version?: string | undefined;
 }
 /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
 export type DatabaseCreatePropertiesModulesList = Array<Module>;
@@ -235,18 +238,18 @@ export type LinkedDatabaseState =
 /** Specifies details of a linked database resource. */
 export interface LinkedDatabase {
   /** Resource ID of a database resource to link with this database. */
-  id?: string;
+  id?: string | undefined;
   /** State of the link between the database resources. */
-  state?: LinkedDatabaseState;
+  state?: LinkedDatabaseState | undefined;
 }
 /** List of database resources to link with this database */
 export type DatabaseCreatePropertiesGeoReplicationLinkedDatabasesList = Array<LinkedDatabase>;
 /** Optional set of properties to configure geo replication for this database. */
 export interface DatabaseCreatePropertiesGeoReplication {
   /** Name for the group of linked database resources */
-  groupNickname?: string;
+  groupNickname?: string | undefined;
   /** List of database resources to link with this database */
-  linkedDatabases?: DatabaseCreatePropertiesGeoReplicationLinkedDatabasesList;
+  linkedDatabases?: DatabaseCreatePropertiesGeoReplicationLinkedDatabasesList | undefined;
 }
 /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
 export type DatabaseCreatePropertiesDeferUpgrade = "Deferred" | "NotDeferred";
@@ -255,39 +258,39 @@ export type DatabaseCreatePropertiesAccessKeysAuthentication = "Disabled" | "Ena
 /** Properties for creating Redis Enterprise databases */
 export interface DatabaseCreateProperties {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
-  clientProtocol?: DatabaseCreatePropertiesClientProtocol;
+  clientProtocol?: DatabaseCreatePropertiesClientProtocol | undefined;
   /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
-  port?: number;
+  port?: number | undefined;
   /** Current provisioning status of the database */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Current resource status of the database */
-  resourceState?: ResourceState;
+  resourceState?: ResourceState | undefined;
   /** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
-  clusteringPolicy?: DatabaseCreatePropertiesClusteringPolicy;
+  clusteringPolicy?: DatabaseCreatePropertiesClusteringPolicy | undefined;
   /** Redis eviction policy - default is VolatileLRU */
-  evictionPolicy?: DatabaseCreatePropertiesEvictionPolicy;
+  evictionPolicy?: DatabaseCreatePropertiesEvictionPolicy | undefined;
   /** Persistence settings */
-  persistence?: Persistence;
+  persistence?: Persistence | undefined;
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
-  modules?: DatabaseCreatePropertiesModulesList;
+  modules?: DatabaseCreatePropertiesModulesList | undefined;
   /** Optional set of properties to configure geo replication for this database. */
-  geoReplication?: DatabaseCreatePropertiesGeoReplication;
+  geoReplication?: DatabaseCreatePropertiesGeoReplication | undefined;
   /** Version of Redis the database is running on, e.g. '6.0' */
-  redisVersion?: string;
+  redisVersion?: string | undefined;
   /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
-  deferUpgrade?: DatabaseCreatePropertiesDeferUpgrade;
+  deferUpgrade?: DatabaseCreatePropertiesDeferUpgrade | undefined;
   /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
-  accessKeysAuthentication?: DatabaseCreatePropertiesAccessKeysAuthentication;
+  accessKeysAuthentication?: DatabaseCreatePropertiesAccessKeysAuthentication | undefined;
 }
 export interface CreateDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Other properties of the database. */
-  properties?: DatabaseCreateProperties;
+  properties?: DatabaseCreateProperties | undefined;
 }
 /** Resource tags. */
 export type CreateRedisEnterpriseRequestTagsMap = { [key: string]: string | undefined };
@@ -353,7 +356,7 @@ export interface Sku {
   /** The level of Redis Enterprise cluster to deploy. Possible values: ('Balanced_B5', 'MemoryOptimized_M10', 'ComputeOptimized_X5', etc.). For more information on SKUs see the latest pricing documentation. Note that additional SKUs may become supported in the future. */
   name: SkuName | (string & {});
   /** This property is only used with Enterprise and EnterpriseFlash SKUs. Determines the size of the cluster. Valid values are (2, 4, 6, ...) for Enterprise SKUs and (3, 9, 15, ...) for EnterpriseFlash SKUs. */
-  capacity?: number;
+  capacity?: number | undefined;
 }
 /** The Availability Zones where this cluster will be deployed. */
 export type CreateRedisEnterpriseRequestZonesList = Array<string>;
@@ -370,7 +373,7 @@ export type UserAssignedIdentitiesInput = { [key: string]: UserAssignedIdentityI
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateRedisEnterpriseRequestIdentity {
   type: ManagedServiceIdentityType | (string & {});
-  userAssignedIdentities?: UserAssignedIdentitiesInput;
+  userAssignedIdentities?: UserAssignedIdentitiesInput | undefined;
 }
 /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
 export type ClusterCreatePropertiesInputHighAvailability = "Enabled" | "Disabled";
@@ -383,34 +386,39 @@ export type ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryptionKe
 /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
 export interface ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity {
   /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/<sub uuid>/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
   /** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
   identityType?:
     | ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
 export interface ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryption {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?:
+    | ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity
+    | undefined;
   /** Key encryption key Url, versioned only. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 */
-  keyEncryptionKeyUrl?: string;
+  keyEncryptionKeyUrl?: string | undefined;
 }
 /** Encryption-at-rest configuration for the cluster. */
 export interface ClusterCreatePropertiesInputEncryption {
   /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-  customerManagedKeyEncryption?: ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryption;
+  customerManagedKeyEncryption?:
+    | ClusterCreatePropertiesInputEncryptionCustomerManagedKeyEncryption
+    | undefined;
 }
 /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
 export type ClusterCreatePropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
 /** Properties of Redis Enterprise clusters for create operations */
 export interface ClusterCreatePropertiesInput {
   /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
-  highAvailability?: ClusterCreatePropertiesInputHighAvailability | (string & {});
+  highAvailability?: ClusterCreatePropertiesInputHighAvailability | (string & {}) | undefined;
   /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
-  minimumTlsVersion?: ClusterCreatePropertiesInputMinimumTlsVersion | (string & {});
+  minimumTlsVersion?: ClusterCreatePropertiesInputMinimumTlsVersion | (string & {}) | undefined;
   /** Encryption-at-rest configuration for the cluster. */
-  encryption?: ClusterCreatePropertiesInputEncryption;
+  encryption?: ClusterCreatePropertiesInputEncryption | undefined;
   /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
   publicNetworkAccess: ClusterCreatePropertiesInputPublicNetworkAccess | (string & {}) | null;
 }
@@ -422,17 +430,17 @@ export interface CreateRedisEnterpriseRequest {
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
   /** Resource tags. */
-  tags?: CreateRedisEnterpriseRequestTagsMap;
+  tags?: CreateRedisEnterpriseRequestTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
   /** The Availability Zones where this cluster will be deployed. */
-  zones?: CreateRedisEnterpriseRequestZonesList;
+  zones?: CreateRedisEnterpriseRequestZonesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisEnterpriseRequestIdentity;
+  identity?: CreateRedisEnterpriseRequestIdentity | undefined;
   /** Other properties of the cluster. */
-  properties?: ClusterCreatePropertiesInput;
+  properties?: ClusterCreatePropertiesInput | undefined;
 }
 /** Resource tags. */
 export type CreateRedisEnterpriseResponseTagsMap = { [key: string]: string | undefined };
@@ -443,20 +451,20 @@ export type CreateRedisEnterpriseResponseZonesList = Array<string>;
 /** User assigned identity properties */
 export interface UserAssignedIdentity {
   /** The principal ID of the assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The client ID of the assigned identity. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** The set of user assigned identities associated with the resource. The userAssignedIdentities dictionary keys will be ARM resource ids in the form: '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}. The dictionary values can be empty objects ({}) in requests. */
 export type UserAssignedIdentities = { [key: string]: UserAssignedIdentity | undefined };
 /** Managed service identity (system assigned and/or user assigned identities) */
 export interface CreateRedisEnterpriseResponseIdentity {
   /** The service principal ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  principalId?: string;
+  principalId?: string | undefined;
   /** The tenant ID of the system assigned identity. This property will only be provided for a system assigned identity. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   type: ManagedServiceIdentityType;
-  userAssignedIdentities?: UserAssignedIdentities;
+  userAssignedIdentities?: UserAssignedIdentities | undefined;
 }
 /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
 export type ClusterCreatePropertiesHighAvailability = "Enabled" | "Disabled";
@@ -469,39 +477,45 @@ export type ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryptionKeyEncr
 /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
 export interface ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity {
   /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/<sub uuid>/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
   /** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
-  identityType?: ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType;
+  identityType?:
+    | ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType
+    | undefined;
 }
 /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
 export interface ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryption {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?:
+    | ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity
+    | undefined;
   /** Key encryption key Url, versioned only. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 */
-  keyEncryptionKeyUrl?: string;
+  keyEncryptionKeyUrl?: string | undefined;
 }
 /** Encryption-at-rest configuration for the cluster. */
 export interface ClusterCreatePropertiesEncryption {
   /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-  customerManagedKeyEncryption?: ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryption;
+  customerManagedKeyEncryption?:
+    | ClusterCreatePropertiesEncryptionCustomerManagedKeyEncryption
+    | undefined;
 }
 /** Explains the current redundancy strategy of the cluster, which affects the expected SLA. */
 export type ClusterCreatePropertiesRedundancyMode = "None" | "LR" | "ZR";
 /** The Private Endpoint resource. */
 export interface PrivateEndpoint {
   /** The ARM identifier for Private Endpoint */
-  id?: string;
+  id?: string | undefined;
 }
 /** The private endpoint connection status. */
 export type PrivateEndpointServiceConnectionStatus = "Pending" | "Approved" | "Rejected";
 /** A collection of information about the state of the connection between service consumer and provider. */
 export interface PrivateLinkServiceConnectionState {
   /** Indicates whether the connection has been Approved/Rejected/Removed by the owner of the service. */
-  status?: PrivateEndpointServiceConnectionStatus | (string & {});
+  status?: PrivateEndpointServiceConnectionStatus | (string & {}) | undefined;
   /** The reason for approval/rejection of the connection. */
-  description?: string;
+  description?: string | undefined;
   /** A message indicating if changes on the service provider require any updates on the consumer. */
-  actionsRequired?: string;
+  actionsRequired?: string | undefined;
 }
 /** The current provisioning state. */
 export type PrivateEndpointConnectionProvisioningState =
@@ -512,22 +526,22 @@ export type PrivateEndpointConnectionProvisioningState =
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionProperties {
   /** The resource of private end point. */
-  privateEndpoint?: PrivateEndpoint;
+  privateEndpoint?: PrivateEndpoint | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
   /** The provisioning state of the private endpoint connection resource. */
-  provisioningState?: PrivateEndpointConnectionProvisioningState;
+  provisioningState?: PrivateEndpointConnectionProvisioningState | undefined;
 }
 /** The Private Endpoint Connection resource. */
 export interface ClusterCreatePropertiesPrivateEndpointConnectionsItem {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** List of private endpoint connections associated with the specified Redis Enterprise cluster */
 export type ClusterCreatePropertiesPrivateEndpointConnectionsList =
@@ -537,46 +551,46 @@ export type ClusterCreatePropertiesPublicNetworkAccess = "Enabled" | "Disabled";
 /** Properties of Redis Enterprise clusters for create operations */
 export interface ClusterCreateProperties {
   /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
-  highAvailability?: ClusterCreatePropertiesHighAvailability;
+  highAvailability?: ClusterCreatePropertiesHighAvailability | undefined;
   /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
-  minimumTlsVersion?: ClusterCreatePropertiesMinimumTlsVersion;
+  minimumTlsVersion?: ClusterCreatePropertiesMinimumTlsVersion | undefined;
   /** Encryption-at-rest configuration for the cluster. */
-  encryption?: ClusterCreatePropertiesEncryption;
+  encryption?: ClusterCreatePropertiesEncryption | undefined;
   /** DNS name of the cluster endpoint */
-  hostName?: string;
+  hostName?: string | undefined;
   /** Current provisioning status of the cluster */
-  provisioningState?: ProvisioningState;
+  provisioningState?: ProvisioningState | undefined;
   /** Explains the current redundancy strategy of the cluster, which affects the expected SLA. */
-  redundancyMode?: ClusterCreatePropertiesRedundancyMode;
+  redundancyMode?: ClusterCreatePropertiesRedundancyMode | undefined;
   /** Current resource status of the cluster */
-  resourceState?: ResourceState;
+  resourceState?: ResourceState | undefined;
   /** Version of redis the cluster supports, e.g. '6' */
-  redisVersion?: string;
+  redisVersion?: string | undefined;
   /** List of private endpoint connections associated with the specified Redis Enterprise cluster */
-  privateEndpointConnections?: ClusterCreatePropertiesPrivateEndpointConnectionsList;
+  privateEndpointConnections?: ClusterCreatePropertiesPrivateEndpointConnectionsList | undefined;
   /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
   publicNetworkAccess: ClusterCreatePropertiesPublicNetworkAccess | null;
 }
 export interface CreateRedisEnterpriseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: CreateRedisEnterpriseResponseTagsMap;
+  tags?: CreateRedisEnterpriseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
   /** The Availability Zones where this cluster will be deployed. */
-  zones?: CreateRedisEnterpriseResponseZonesList;
+  zones?: CreateRedisEnterpriseResponseZonesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisEnterpriseResponseIdentity;
+  identity?: CreateRedisEnterpriseResponseIdentity | undefined;
   /** Other properties of the cluster. */
-  properties?: ClusterCreateProperties;
+  properties?: ClusterCreateProperties | undefined;
 }
 /** The resource IDs of the databases that are expected to be linked and included in the replication group. This parameter is used to validate that the linking is to the expected (unlinked) part of the replication group, if it is splintered. */
 export type DatabasesForceLinkToReplicationGroupRequestGeoReplicationLinkedDatabasesList =
@@ -584,9 +598,11 @@ export type DatabasesForceLinkToReplicationGroupRequestGeoReplicationLinkedDatab
 /** Properties to configure geo replication for this database. */
 export interface DatabasesForceLinkToReplicationGroupRequestGeoReplication {
   /** The name of the group of linked database resources. This should match the existing replication group name. */
-  groupNickname?: string;
+  groupNickname?: string | undefined;
   /** The resource IDs of the databases that are expected to be linked and included in the replication group. This parameter is used to validate that the linking is to the expected (unlinked) part of the replication group, if it is splintered. */
-  linkedDatabases?: DatabasesForceLinkToReplicationGroupRequestGeoReplicationLinkedDatabasesList;
+  linkedDatabases?:
+    | DatabasesForceLinkToReplicationGroupRequestGeoReplicationLinkedDatabasesList
+    | undefined;
 }
 export interface DatabasesForceLinkToReplicationGroupRequest {
   /** The ID of the target subscription. The value must be an UUID. */
@@ -602,9 +618,9 @@ export interface DatabasesForceLinkToReplicationGroupRequest {
 }
 export interface DatabasesForceLinkToReplicationGroupResponse {
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation URI to poll for result */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface DatabasesUpgradeDBRedisVersionRequest {
   /** The ID of the target subscription. */
@@ -618,9 +634,9 @@ export interface DatabasesUpgradeDBRedisVersionRequest {
 }
 export interface DatabasesUpgradeDBRedisVersionResponse {
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** URI to poll for the operation status */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface DeleteAccessPolicyAssignmentRequest {
   /** The ID of the target subscription. */
@@ -636,9 +652,9 @@ export interface DeleteAccessPolicyAssignmentRequest {
 }
 export interface DeleteAccessPolicyAssignmentResponse {
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation URI to poll for result */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface DeleteDatabaseRequest {
   /** The ID of the target subscription. */
@@ -652,9 +668,9 @@ export interface DeleteDatabaseRequest {
 }
 export interface DeleteDatabaseResponse {
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation URI to poll for result */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface DeletePrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -668,9 +684,9 @@ export interface DeletePrivateEndpointConnectionRequest {
 }
 export interface DeletePrivateEndpointConnectionResponse {
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** URI to poll for the operation status */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface DeleteRedisEnterpriseRequest {
   /** The ID of the target subscription. */
@@ -682,9 +698,9 @@ export interface DeleteRedisEnterpriseRequest {
 }
 export interface DeleteRedisEnterpriseResponse {
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation URI to poll for result */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface ExportDatabaseRequest {
   /** The ID of the target subscription. */
@@ -700,9 +716,9 @@ export interface ExportDatabaseRequest {
 }
 export interface ExportDatabaseResponse {
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation URI to poll for result */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The identifiers of all the other database resources in the georeplication group to be flushed. */
 export type FlushDatabaseRequestIdsList = Array<string>;
@@ -716,13 +732,13 @@ export interface FlushDatabaseRequest {
   /** The name of the Redis Enterprise database. */
   databaseName: string;
   /** The identifiers of all the other database resources in the georeplication group to be flushed. */
-  ids?: FlushDatabaseRequestIdsList;
+  ids?: FlushDatabaseRequestIdsList | undefined;
 }
 export interface FlushDatabaseResponse {
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** URI to poll for the operation status */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface GetAccessPolicyAssignmentRequest {
   /** The ID of the target subscription. */
@@ -738,13 +754,13 @@ export interface GetAccessPolicyAssignmentRequest {
 }
 export interface GetAccessPolicyAssignmentResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the access policy assignment. */
-  properties?: AccessPolicyAssignmentProperties;
+  properties?: AccessPolicyAssignmentProperties | undefined;
 }
 export interface GetDatabaseRequest {
   /** The ID of the target subscription. */
@@ -758,13 +774,13 @@ export interface GetDatabaseRequest {
 }
 export interface GetDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Other properties of the database. */
-  properties?: DatabaseCreateProperties;
+  properties?: DatabaseCreateProperties | undefined;
 }
 export interface GetOperationsStatusRequest {
   /** The ID of the target subscription. */
@@ -779,44 +795,44 @@ export type ErrorDetailDetailsList = Array<ErrorDetail>;
 /** The resource management error additional info. */
 export interface ErrorAdditionalInfo {
   /** The additional info type. */
-  type?: string;
+  type?: string | undefined;
   /** The additional info. */
-  info?: unknown;
+  info?: unknown | undefined;
 }
 /** The error additional info. */
 export type ErrorDetailAdditionalInfoList = Array<ErrorAdditionalInfo>;
 /** The error detail. */
 export interface ErrorDetail {
   /** The error code. */
-  code?: string;
+  code?: string | undefined;
   /** The error message. */
-  message?: string;
+  message?: string | undefined;
   /** The error target. */
-  target?: string;
+  target?: string | undefined;
   /** The error details. */
-  details?: ErrorDetailDetailsList;
+  details?: ErrorDetailDetailsList | undefined;
   /** The error additional info. */
-  additionalInfo?: ErrorDetailAdditionalInfoList;
+  additionalInfo?: ErrorDetailAdditionalInfoList | undefined;
 }
 /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
 export interface OperationStatusError {
   /** The error object. */
-  error?: ErrorDetail;
+  error?: ErrorDetail | undefined;
 }
 /** The status of a long-running operation. */
 export interface OperationStatus {
   /** The operation's unique id. */
-  id?: string;
+  id?: string | undefined;
   /** The operation's name. */
-  name?: string;
+  name?: string | undefined;
   /** The start time of the operation. */
-  startTime?: string;
+  startTime?: string | undefined;
   /** The end time of the operation. */
-  endTime?: string;
+  endTime?: string | undefined;
   /** The current status of the operation. */
-  status?: string;
+  status?: string | undefined;
   /** Common error response for all Azure Resource Manager APIs to return error details for failed operations. (This also follows the OData error response format.). */
-  error?: OperationStatusError;
+  error?: OperationStatusError | undefined;
 }
 export interface GetPrivateEndpointConnectionRequest {
   /** The ID of the target subscription. */
@@ -830,13 +846,13 @@ export interface GetPrivateEndpointConnectionRequest {
 }
 export interface GetPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 export interface GetRedisEnterpriseRequest {
   /** The ID of the target subscription. */
@@ -854,24 +870,24 @@ export type GetRedisEnterpriseResponseZonesList = Array<string>;
 export type GetRedisEnterpriseResponseIdentity = CreateRedisEnterpriseResponseIdentity;
 export interface GetRedisEnterpriseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: GetRedisEnterpriseResponseTagsMap;
+  tags?: GetRedisEnterpriseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
   /** The Availability Zones where this cluster will be deployed. */
-  zones?: GetRedisEnterpriseResponseZonesList;
+  zones?: GetRedisEnterpriseResponseZonesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisEnterpriseResponseIdentity;
+  identity?: CreateRedisEnterpriseResponseIdentity | undefined;
   /** Other properties of the cluster. */
-  properties?: ClusterCreateProperties;
+  properties?: ClusterCreateProperties | undefined;
 }
 /** SAS URIs for the target blobs to import from */
 export type ImportDatabaseRequestSasUrisList = Array<string>;
@@ -889,9 +905,9 @@ export interface ImportDatabaseRequest {
 }
 export interface ImportDatabaseResponse {
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation URI to poll for result */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export interface ListAccessPolicyAssignmentRequest {
   /** The ID of the target subscription. */
@@ -906,22 +922,22 @@ export interface ListAccessPolicyAssignmentRequest {
 /** Describes the access policy assignment of Redis Enterprise database */
 export interface AccessPolicyAssignment {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Properties of the access policy assignment. */
-  properties?: AccessPolicyAssignmentProperties;
+  properties?: AccessPolicyAssignmentProperties | undefined;
 }
 /** List of access policy assignments. */
 export type AccessPolicyAssignmentListValueList = Array<AccessPolicyAssignment>;
 /** The response of a list-all operation. */
 export interface AccessPolicyAssignmentList {
   /** List of access policy assignments. */
-  value?: AccessPolicyAssignmentListValueList;
+  value?: AccessPolicyAssignmentListValueList | undefined;
   /** The URI to fetch the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDatabaseByClusterRequest {
   /** The ID of the target subscription. */
@@ -934,22 +950,22 @@ export interface ListDatabaseByClusterRequest {
 /** Describes a database on the Redis Enterprise cluster */
 export interface Database {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Other properties of the database. */
-  properties?: DatabaseCreateProperties;
+  properties?: DatabaseCreateProperties | undefined;
 }
 /** List of databases */
 export type DatabaseListValueList = Array<Database>;
 /** The response of a list-all operation. */
 export interface DatabaseList {
   /** List of databases */
-  value?: DatabaseListValueList;
+  value?: DatabaseListValueList | undefined;
   /** The URI to fetch the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListDatabaseKeysRequest {
   /** The ID of the target subscription. */
@@ -964,21 +980,21 @@ export interface ListDatabaseKeysRequest {
 /** The secret access keys used for authenticating connections to redis */
 export interface AccessKeys {
   /** The current primary key that clients can use to authenticate */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The current secondary key that clients can use to authenticate */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
 }
 export interface ListOperationsRequest {}
 /** Localized display information for this particular operation. */
 export interface OperationDisplay {
   /** The localized friendly form of the resource provider name, e.g. "Microsoft Monitoring Insights" or "Microsoft Compute". */
-  provider?: string;
+  provider?: string | undefined;
   /** The localized friendly name of the resource type related to this operation. E.g. "Virtual Machines" or "Job Schedule Collections". */
-  resource?: string;
+  resource?: string | undefined;
   /** The concise, localized friendly name for the operation; suitable for dropdowns. E.g. "Create or Update Virtual Machine", "Restart Virtual Machine". */
-  operation?: string;
+  operation?: string | undefined;
   /** The short, localized friendly description of the operation; suitable for tool tips and detailed views. */
-  description?: string;
+  description?: string | undefined;
 }
 /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
 export type OperationOrigin = "user" | "system" | "user,system";
@@ -987,23 +1003,23 @@ export type OperationActionType = "Internal";
 /** Details of a REST API operation, returned from the Resource Provider Operations API */
 export interface Operation {
   /** The name of the operation, as per Resource-Based Access Control (RBAC). Examples: "Microsoft.Compute/virtualMachines/write", "Microsoft.Compute/virtualMachines/capture/action" */
-  name?: string;
+  name?: string | undefined;
   /** Whether the operation applies to data-plane. This is "true" for data-plane operations and "false" for ARM/control-plane operations. */
-  isDataAction?: boolean;
+  isDataAction?: boolean | undefined;
   /** Localized display information for this particular operation. */
-  display?: OperationDisplay;
+  display?: OperationDisplay | undefined;
   /** The intended executor of the operation; as in Resource Based Access Control (RBAC) and audit logs UX. Default value is "user,system" */
-  origin?: OperationOrigin;
+  origin?: OperationOrigin | undefined;
   /** Enum. Indicates the action type. "Internal" refers to actions that are for internal only APIs. */
-  actionType?: OperationActionType;
+  actionType?: OperationActionType | undefined;
 }
 /** List of operations supported by the resource provider */
 export type ListOperationsResponseValueList = Array<Operation>;
 export interface ListOperationsResponse {
   /** List of operations supported by the resource provider */
-  value?: ListOperationsResponseValueList;
+  value?: ListOperationsResponseValueList | undefined;
   /** URL to get the next set of operation list results (if there are any). */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListPrivateEndpointConnectionsRequest {
   /** The ID of the target subscription. */
@@ -1020,7 +1036,7 @@ export type ListPrivateEndpointConnectionsResponseValueList =
   Array<ClusterCreatePropertiesPrivateEndpointConnectionsItem>;
 export interface ListPrivateEndpointConnectionsResponse {
   /** Array of private endpoint connections */
-  value?: ListPrivateEndpointConnectionsResponseValueList;
+  value?: ListPrivateEndpointConnectionsResponseValueList | undefined;
 }
 export interface ListPrivateLinkResourceByClusterRequest {
   /** The ID of the target subscription. */
@@ -1037,28 +1053,28 @@ export type PrivateLinkResourcePropertiesRequiredZoneNamesList = Array<string>;
 /** Properties of a private link resource. */
 export interface PrivateLinkResourceProperties {
   /** The private link resource group id. */
-  groupId?: string;
+  groupId?: string | undefined;
   /** The private link resource required member names. */
-  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList;
+  requiredMembers?: PrivateLinkResourcePropertiesRequiredMembersList | undefined;
   /** The private link resource Private link DNS zone name. */
-  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList;
+  requiredZoneNames?: PrivateLinkResourcePropertiesRequiredZoneNamesList | undefined;
 }
 /** A private link resource */
 export interface PrivateLinkResource {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateLinkResourceProperties;
+  properties?: PrivateLinkResourceProperties | undefined;
 }
 /** Array of private link resources */
 export type ListPrivateLinkResourceByClusterResponseValueList = Array<PrivateLinkResource>;
 export interface ListPrivateLinkResourceByClusterResponse {
   /** Array of private link resources */
-  value?: ListPrivateLinkResourceByClusterResponseValueList;
+  value?: ListPrivateLinkResourceByClusterResponseValueList | undefined;
 }
 export interface ListRedisEnterpriseRequest {
   /** The ID of the target subscription. */
@@ -1073,33 +1089,33 @@ export type ClusterIdentity = CreateRedisEnterpriseResponseIdentity;
 /** Describes the Redis Enterprise cluster */
 export interface Cluster {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: ClusterTagsMap;
+  tags?: ClusterTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
   /** The Availability Zones where this cluster will be deployed. */
-  zones?: ClusterZonesList;
+  zones?: ClusterZonesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisEnterpriseResponseIdentity;
+  identity?: CreateRedisEnterpriseResponseIdentity | undefined;
   /** Other properties of the cluster. */
-  properties?: ClusterCreateProperties;
+  properties?: ClusterCreateProperties | undefined;
 }
 /** List of clusters. */
 export type ClusterListValueList = Array<Cluster>;
 /** The response of a list-all operation. */
 export interface ClusterList {
   /** List of clusters. */
-  value?: ClusterListValueList;
+  value?: ClusterListValueList | undefined;
   /** The URI to fetch the next page of results. */
-  nextLink?: string;
+  nextLink?: string | undefined;
 }
 export interface ListRedisEnterpriseByResourceGroupRequest {
   /** The ID of the target subscription. */
@@ -1118,23 +1134,23 @@ export interface ListRedisEnterpriseSkusForScalingRequest {
 /** Details of a Redis Enterprise cluster SKU. */
 export interface SkuDetails {
   /** The name of the SKU. */
-  name?: string;
+  name?: string | undefined;
   /** The cache size in GB. */
-  sizeInGB?: number;
+  sizeInGB?: number | undefined;
 }
 /** List of SKUS available to scale up or scale down. */
 export type SkuDetailsListSkusList = Array<SkuDetails>;
 /** The response of a listSkusForScaling operation. */
 export interface SkuDetailsList {
   /** List of SKUS available to scale up or scale down. */
-  skus?: SkuDetailsListSkusList;
+  skus?: SkuDetailsListSkusList | undefined;
 }
 /** The Private Endpoint resource. */
 export type PrivateEndpointInput = UserAssignedIdentityInput;
 /** Properties of the PrivateEndpointConnectProperties. */
 export interface PrivateEndpointConnectionPropertiesInput {
   /** The resource of private end point. */
-  privateEndpoint?: UserAssignedIdentityInput;
+  privateEndpoint?: UserAssignedIdentityInput | undefined;
   /** A collection of information about the state of the connection between service consumer and provider. */
   privateLinkServiceConnectionState: PrivateLinkServiceConnectionState;
 }
@@ -1148,17 +1164,17 @@ export interface PutPrivateEndpointConnectionRequest {
   /** The name of the private endpoint connection associated with the Azure resource */
   privateEndpointConnectionName: string;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionPropertiesInput;
+  properties?: PrivateEndpointConnectionPropertiesInput | undefined;
 }
 export interface PutPrivateEndpointConnectionResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource properties. */
-  properties?: PrivateEndpointConnectionProperties;
+  properties?: PrivateEndpointConnectionProperties | undefined;
 }
 /** Which access key to regenerate. */
 export type RegenerateDatabaseKeyRequestKeyType = "Primary" | "Secondary";
@@ -1177,13 +1193,13 @@ export interface RegenerateDatabaseKeyRequest {
 /** The secret access keys used for authenticating connections to redis */
 export interface RegenerateDatabaseKeyResponse {
   /** The current primary key that clients can use to authenticate */
-  primaryKey?: string;
+  primaryKey?: string | undefined;
   /** The current secondary key that clients can use to authenticate */
-  secondaryKey?: string;
+  secondaryKey?: string | undefined;
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation URI to poll for result */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** The resource IDs of the database resources to be unlinked. */
 export type UnlinkDatabasesForceRequestIdsList = Array<string>;
@@ -1201,9 +1217,9 @@ export interface UnlinkDatabasesForceRequest {
 }
 export interface UnlinkDatabasesForceResponse {
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation URI to poll for result */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
 export type DatabaseUpdatePropertiesInputClientProtocol = "Encrypted" | "Plaintext";
@@ -1230,9 +1246,9 @@ export type DatabaseUpdatePropertiesInputGeoReplicationLinkedDatabasesList =
 /** Optional set of properties to configure geo replication for this database. */
 export interface DatabaseUpdatePropertiesInputGeoReplication {
   /** Name for the group of linked database resources */
-  groupNickname?: string;
+  groupNickname?: string | undefined;
   /** List of database resources to link with this database */
-  linkedDatabases?: DatabaseUpdatePropertiesInputGeoReplicationLinkedDatabasesList;
+  linkedDatabases?: DatabaseUpdatePropertiesInputGeoReplicationLinkedDatabasesList | undefined;
 }
 /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
 export type DatabaseUpdatePropertiesInputDeferUpgrade = "Deferred" | "NotDeferred";
@@ -1241,23 +1257,26 @@ export type DatabaseUpdatePropertiesInputAccessKeysAuthentication = "Disabled" |
 /** Properties for updating Redis Enterprise databases */
 export interface DatabaseUpdatePropertiesInput {
   /** Specifies whether redis clients can connect using TLS-encrypted or plaintext redis protocols. Default is TLS-encrypted. */
-  clientProtocol?: DatabaseUpdatePropertiesInputClientProtocol | (string & {});
+  clientProtocol?: DatabaseUpdatePropertiesInputClientProtocol | (string & {}) | undefined;
   /** TCP port of the database endpoint. Specified at create time. Defaults to an available port. */
-  port?: number;
+  port?: number | undefined;
   /** Clustering policy - default is OSSCluster. This property can be updated only if the current value is NoCluster. If the value is OSSCluster or EnterpriseCluster, it cannot be updated without deleting the database. */
-  clusteringPolicy?: DatabaseUpdatePropertiesInputClusteringPolicy | (string & {});
+  clusteringPolicy?: DatabaseUpdatePropertiesInputClusteringPolicy | (string & {}) | undefined;
   /** Redis eviction policy - default is VolatileLRU */
-  evictionPolicy?: DatabaseUpdatePropertiesInputEvictionPolicy | (string & {});
+  evictionPolicy?: DatabaseUpdatePropertiesInputEvictionPolicy | (string & {}) | undefined;
   /** Persistence settings */
-  persistence?: Persistence;
+  persistence?: Persistence | undefined;
   /** Optional set of redis modules to enable in this database - modules can only be added at creation time. */
-  modules?: DatabaseUpdatePropertiesInputModulesList;
+  modules?: DatabaseUpdatePropertiesInputModulesList | undefined;
   /** Optional set of properties to configure geo replication for this database. */
-  geoReplication?: DatabaseUpdatePropertiesInputGeoReplication;
+  geoReplication?: DatabaseUpdatePropertiesInputGeoReplication | undefined;
   /** Option to defer upgrade when newest version is released - default is NotDeferred. Learn more: https://aka.ms/redisversionupgrade */
-  deferUpgrade?: DatabaseUpdatePropertiesInputDeferUpgrade | (string & {});
+  deferUpgrade?: DatabaseUpdatePropertiesInputDeferUpgrade | (string & {}) | undefined;
   /** This property can be Enabled/Disabled to allow or deny access with the current access keys. Can be updated even after database is created. */
-  accessKeysAuthentication?: DatabaseUpdatePropertiesInputAccessKeysAuthentication | (string & {});
+  accessKeysAuthentication?:
+    | DatabaseUpdatePropertiesInputAccessKeysAuthentication
+    | (string & {})
+    | undefined;
 }
 export interface UpdateDatabaseRequest {
   /** The ID of the target subscription. */
@@ -1269,21 +1288,21 @@ export interface UpdateDatabaseRequest {
   /** The name of the Redis Enterprise database. */
   databaseName: string;
   /** Properties of the database. */
-  properties?: DatabaseUpdatePropertiesInput;
+  properties?: DatabaseUpdatePropertiesInput | undefined;
 }
 export interface UpdateDatabaseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Other properties of the database. */
-  properties?: DatabaseCreateProperties;
+  properties?: DatabaseCreateProperties | undefined;
   /** Location URI to poll for result */
-  location?: string;
+  location?: string | undefined;
   /** Azure-AsyncOperation URI to poll for result */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
 export type ClusterUpdatePropertiesInputHighAvailability = "Enabled" | "Disabled";
@@ -1296,36 +1315,45 @@ export type ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryptionKe
 /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
 export interface ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity {
   /** User assigned identity to use for accessing key encryption key Url. Ex: /subscriptions/<sub uuid>/resourceGroups/<resource group>/providers/Microsoft.ManagedIdentity/userAssignedIdentities/myId. */
-  userAssignedIdentityResourceId?: string;
+  userAssignedIdentityResourceId?: string | undefined;
   /** Only userAssignedIdentity is supported in this API version; other types may be supported in the future */
   identityType?:
     | ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentityIdentityType
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
 export interface ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryption {
   /** All identity configuration for Customer-managed key settings defining which identity should be used to auth to Key Vault. */
-  keyEncryptionKeyIdentity?: ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity;
+  keyEncryptionKeyIdentity?:
+    | ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryptionKeyEncryptionKeyIdentity
+    | undefined;
   /** Key encryption key Url, versioned only. Ex: https://contosovault.vault.azure.net/keys/contosokek/562a4bb76b524a1493a6afe8e536ee78 */
-  keyEncryptionKeyUrl?: string;
+  keyEncryptionKeyUrl?: string | undefined;
 }
 /** Encryption-at-rest configuration for the cluster. */
 export interface ClusterUpdatePropertiesInputEncryption {
   /** All Customer-managed key encryption properties for the resource. Set this to an empty object to use Microsoft-managed key encryption. */
-  customerManagedKeyEncryption?: ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryption;
+  customerManagedKeyEncryption?:
+    | ClusterUpdatePropertiesInputEncryptionCustomerManagedKeyEncryption
+    | undefined;
 }
 /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
 export type ClusterUpdatePropertiesInputPublicNetworkAccess = "Enabled" | "Disabled";
 /** Properties of Redis Enterprise clusters for update operations */
 export interface ClusterUpdatePropertiesInput {
   /** Enabled by default. If highAvailability is disabled, the data set is not replicated. This affects the availability SLA, and increases the risk of data loss. */
-  highAvailability?: ClusterUpdatePropertiesInputHighAvailability | (string & {});
+  highAvailability?: ClusterUpdatePropertiesInputHighAvailability | (string & {}) | undefined;
   /** The minimum TLS version for the cluster to support, e.g. '1.2'. Newer versions can be added in the future. Note that TLS 1.0 and TLS 1.1 are now completely obsolete -- you cannot use them. They are mentioned only for the sake of consistency with old API versions. */
-  minimumTlsVersion?: ClusterUpdatePropertiesInputMinimumTlsVersion | (string & {});
+  minimumTlsVersion?: ClusterUpdatePropertiesInputMinimumTlsVersion | (string & {}) | undefined;
   /** Encryption-at-rest configuration for the cluster. */
-  encryption?: ClusterUpdatePropertiesInputEncryption;
+  encryption?: ClusterUpdatePropertiesInputEncryption | undefined;
   /** Whether or not public network traffic can access the Redis cluster. Only 'Enabled' or 'Disabled' can be set. null is returned only for clusters created using an old API version which do not have this property and cannot be set. */
-  publicNetworkAccess?: ClusterUpdatePropertiesInputPublicNetworkAccess | (string & {}) | null;
+  publicNetworkAccess?:
+    | ClusterUpdatePropertiesInputPublicNetworkAccess
+    | (string & {})
+    | null
+    | undefined;
 }
 /** Managed service identity (system assigned and/or user assigned identities) */
 export type UpdateRedisEnterpriseRequestIdentity = CreateRedisEnterpriseRequestIdentity;
@@ -1339,13 +1367,13 @@ export interface UpdateRedisEnterpriseRequest {
   /** The name of the Redis Enterprise cluster. Name must be 1-60 characters long. Allowed characters(A-Z, a-z, 0-9) and hyphen(-). There can be no leading nor trailing nor consecutive hyphens */
   clusterName: string;
   /** The SKU to create, which affects price, performance, and features. */
-  sku?: Sku;
+  sku?: Sku | undefined;
   /** Other properties of the cluster. */
-  properties?: ClusterUpdatePropertiesInput;
+  properties?: ClusterUpdatePropertiesInput | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisEnterpriseRequestIdentity;
+  identity?: CreateRedisEnterpriseRequestIdentity | undefined;
   /** Resource tags. */
-  tags?: UpdateRedisEnterpriseRequestTagsMap;
+  tags?: UpdateRedisEnterpriseRequestTagsMap | undefined;
 }
 /** Resource tags. */
 export type UpdateRedisEnterpriseResponseTagsMap = { [key: string]: string | undefined };
@@ -1355,28 +1383,28 @@ export type UpdateRedisEnterpriseResponseZonesList = Array<string>;
 export type UpdateRedisEnterpriseResponseIdentity = CreateRedisEnterpriseResponseIdentity;
 export interface UpdateRedisEnterpriseResponse {
   /** Fully qualified resource ID for the resource. Ex - /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName} */
-  id?: string;
+  id?: string | undefined;
   /** The name of the resource */
-  name?: string;
+  name?: string | undefined;
   /** The type of the resource. E.g. "Microsoft.Compute/virtualMachines" or "Microsoft.Storage/storageAccounts" */
-  type?: string;
+  type?: string | undefined;
   /** Resource tags. */
-  tags?: UpdateRedisEnterpriseResponseTagsMap;
+  tags?: UpdateRedisEnterpriseResponseTagsMap | undefined;
   /** The geo-location where the resource lives */
   location: string;
-  kind?: Kind;
+  kind?: Kind | undefined;
   /** The SKU to create, which affects price, performance, and features. */
   sku: Sku;
   /** The Availability Zones where this cluster will be deployed. */
-  zones?: UpdateRedisEnterpriseResponseZonesList;
+  zones?: UpdateRedisEnterpriseResponseZonesList | undefined;
   /** Managed service identity (system assigned and/or user assigned identities) */
-  identity?: CreateRedisEnterpriseResponseIdentity;
+  identity?: CreateRedisEnterpriseResponseIdentity | undefined;
   /** Other properties of the cluster. */
-  properties?: ClusterCreateProperties;
+  properties?: ClusterCreateProperties | undefined;
   /** Location URI to poll for result */
-  locationHeader?: string;
+  locationHeader?: string | undefined;
   /** Azure-AsyncOperation URI to poll for result */
-  azureAsyncOperation?: string;
+  azureAsyncOperation?: string | undefined;
 }
 export type AccessPolicyAssignmentCreateUpdateError = AzureOpError;
 /** Creates/Updates a particular access policy assignment for a database */

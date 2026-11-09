@@ -26,9 +26,9 @@ const TELEMETRY = {
 
 export interface GetPushAccessRequest {
   /** Region the build context will be used in. When that region has its own build-context bucket, the returned credentials target it; otherwise they target the Daytona-hosted bucket. */
-  regionId?: string;
+  regionId?: string | undefined;
   /** Use with JWT to specify the organization ID */
-  xDaytonaOrganizationID?: string;
+  xDaytonaOrganizationID?: string | undefined;
 }
 export interface StorageAccessDto {
   /** Access key for storage authentication */

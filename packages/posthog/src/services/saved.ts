@@ -59,19 +59,19 @@ export interface CreateSavedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Human-readable label for the saved heatmap. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Exact page URL to render and overlay heatmap data on. Wildcards are not allowed. */
   url: string;
   /** URL whose heatmap data is overlaid on the screenshot. Defaults to 'url' when omitted. */
-  data_url?: string;
+  data_url?: string | undefined;
   /** Viewport widths (px, 100-3000) to render the heatmap screenshot at -- one render per width. Defaults to [320, 375, 425, 768, 1024, 1440, 1920] when omitted. At most 16 widths. */
-  widths?: CreateSavedRequestWidthsList;
+  widths?: CreateSavedRequestWidthsList | undefined;
   /** Render mode: 'screenshot' (renders the page headlessly, default), 'iframe', or 'recording'. Only 'screenshot' generates image bytes. * `screenshot` - Screenshot * `iframe` - Iframe * `recording` - Recording */
-  type?: SavedHeatmapTypeEnum | (string & {});
+  type?: SavedHeatmapTypeEnum | (string & {}) | undefined;
   /** Set true to soft-delete the saved heatmap. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** When true, ask the headless browser to dismiss cookie/consent banners before capturing the screenshot. Off by default: the blocker can stall the render on some sites and time out. Only applies to 'screenshot' heatmaps. */
-  block_consent_modals?: boolean;
+  block_consent_modals?: boolean | undefined;
 }
 /** Viewport widths (CSS pixels) the screenshot is rendered at. */
 export type HeatmapScreenshotResponseTargetWidthsList = Array<number>;
@@ -102,50 +102,50 @@ export type RoleAtOrganizationEnum =
 export type BlankEnum = "";
 export type UserBasicRoleAtOrganization = RoleAtOrganizationEnum | BlankEnum;
 export interface UserBasic {
-  id?: number;
-  uuid?: string;
-  distinct_id?: string | null;
-  first_name?: string;
-  last_name?: string;
-  email?: string;
-  is_email_verified?: boolean | null;
-  hedgehog_config?: UserBasicHedgehogConfigMap | null;
-  role_at_organization?: UserBasicRoleAtOrganization | null;
+  id?: number | undefined;
+  uuid?: string | undefined;
+  distinct_id?: string | null | undefined;
+  first_name?: string | undefined;
+  last_name?: string | undefined;
+  email?: string | undefined;
+  is_email_verified?: boolean | null | undefined;
+  hedgehog_config?: UserBasicHedgehogConfigMap | null | undefined;
+  role_at_organization?: UserBasicRoleAtOrganization | null | undefined;
 }
 /** Mixin for serializers to add user access control fields */
 export interface HeatmapScreenshotResponse {
-  id?: string;
+  id?: string | undefined;
   /** Short, URL-safe identifier used as the lookup key for saved-heatmap routes. */
-  short_id?: string;
+  short_id?: string | undefined;
   /** Human-readable label for the saved heatmap. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** The page URL this saved heatmap renders and overlays data on. */
-  url?: string;
+  url?: string | undefined;
   /** URL whose heatmap data is overlaid on the screenshot (defaults to 'url'). */
-  data_url?: string;
+  data_url?: string | undefined;
   /** Viewport widths (CSS pixels) the screenshot is rendered at. */
-  target_widths?: HeatmapScreenshotResponseTargetWidthsList;
+  target_widths?: HeatmapScreenshotResponseTargetWidthsList | undefined;
   /** Render mode: 'screenshot', 'iframe', or 'recording'. * `screenshot` - Screenshot * `iframe` - Iframe * `recording` - Recording */
-  type?: SavedHeatmapTypeEnum;
+  type?: SavedHeatmapTypeEnum | undefined;
   /** How the screenshot was captured: 'server' (rendered headlessly via Browserless) or 'toolbar' (captured client-side from the on-page toolbar, e.g. for pages behind a login). * `server` - Server * `toolbar` - Toolbar */
-  source?: SavedHeatmapSourceEnum;
+  source?: SavedHeatmapSourceEnum | undefined;
   /** Screenshot generation status: 'processing', 'completed', or 'failed'. * `processing` - Processing * `completed` - Completed * `failed` - Failed */
-  status?: SavedHeatmapStatusEnum;
+  status?: SavedHeatmapStatusEnum | undefined;
   /** Whether at least one rendered image is ready to fetch. */
-  has_content?: boolean;
+  has_content?: boolean | undefined;
   /** Per-width render metadata. Fetch the actual image bytes for a width from the content endpoint. */
-  snapshots?: HeatmapScreenshotResponseSnapshotsList;
+  snapshots?: HeatmapScreenshotResponseSnapshotsList | undefined;
   /** Soft-delete flag; deleted heatmaps are hidden from the list. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** Whether the headless browser dismisses cookie/consent banners before capturing the screenshot. Only applies to 'screenshot' heatmaps. */
-  block_consent_modals?: boolean;
-  created_by?: UserBasic | null;
-  created_at?: string;
-  updated_at?: string;
+  block_consent_modals?: boolean | undefined;
+  created_by?: UserBasic | null | undefined;
+  created_at?: string | undefined;
+  updated_at?: string | undefined;
   /** Error detail when screenshot generation failed, otherwise null. */
-  exception?: string | null;
+  exception?: string | null | undefined;
   /** The effective access level the user has for this object */
-  user_access_level?: string | null;
+  user_access_level?: string | null | undefined;
 }
 /** One screenshot per viewport width, parallel to 'widths' (same length, same order). Lets a single toolbar capture cover the same viewport widths the server renders. At most 16 widths. */
 export type CreateSavedCaptureRequestImagesList = Array<string>;
@@ -155,19 +155,19 @@ export interface CreateSavedCaptureRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Single screenshot of the page, captured client-side by the toolbar (JPEG or PNG). Max 20MB. Pair with 'width'. Use 'images'/'widths' instead to save several viewport widths on one heatmap. */
-  image?: string | null;
+  image?: string | null | undefined;
   /** Viewport width (CSS pixels) the single 'image' was captured at. */
-  width?: number;
+  width?: number | undefined;
   /** One screenshot per viewport width, parallel to 'widths' (same length, same order). Lets a single toolbar capture cover the same viewport widths the server renders. At most 16 widths. */
-  images?: CreateSavedCaptureRequestImagesList;
+  images?: CreateSavedCaptureRequestImagesList | undefined;
   /** Viewport widths (CSS pixels) the 'images' were captured at, parallel to 'images'. */
-  widths?: CreateSavedCaptureRequestWidthsList;
+  widths?: CreateSavedCaptureRequestWidthsList | undefined;
   /** Exact page URL the screenshot was captured on. Wildcards are not allowed. */
   url: string;
   /** URL or wildcard pattern used to select the heatmap data overlaid on the screenshot. Defaults to the captured page URL when omitted or empty. */
-  data_url?: string;
+  data_url?: string | undefined;
   /** Human-readable label for the saved heatmap. Defaults to the URL when omitted. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateSavedPreflightRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -195,7 +195,7 @@ export interface CreateSavedPrewarmRequest {
   /** Exact page URL to speculatively render ahead of heatmap creation. Wildcards are not allowed. */
   url: string;
   /** When true, ask the headless browser to dismiss cookie/consent banners before capturing. Must match the value used at creation time for the prewarmed render to be reused. */
-  block_consent_modals?: boolean;
+  block_consent_modals?: boolean | undefined;
 }
 export interface GetSavedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
@@ -206,19 +206,19 @@ export interface ListSavedRequest {
   /** Project ID of the project you're trying to access. To find the ID of the project, make a call to /api/projects/. */
   project_id: string;
   /** Filter by the creating user's ID. */
-  created_by?: number;
+  created_by?: number | undefined;
   /** Maximum saved heatmaps to return. */
-  limit?: number;
+  limit?: number | undefined;
   /** Number to skip, for pagination. */
-  offset?: number;
+  offset?: number | undefined;
   /** Field to order by, e.g. '-updated_at' (default) or 'created_at'. */
-  order?: string;
+  order?: string | undefined;
   /** Case-insensitive substring match on URL or name. */
-  search?: string;
+  search?: string | undefined;
   /** Filter by generation status: 'processing', 'completed', or 'failed'. */
-  status?: string;
+  status?: string | undefined;
   /** Filter by render mode: 'screenshot', 'iframe', or 'recording'. */
-  type?: string;
+  type?: string | undefined;
 }
 export type SavedHeatmapListResponseResultsList = Array<HeatmapScreenshotResponse>;
 export interface SavedHeatmapListResponse {
@@ -246,19 +246,19 @@ export interface UpdateSavedPartialRequest {
   project_id: string;
   short_id: string;
   /** Human-readable label for the saved heatmap. */
-  name?: string | null;
+  name?: string | null | undefined;
   /** Exact page URL to render and overlay heatmap data on. Wildcards are not allowed. */
-  url?: string;
+  url?: string | undefined;
   /** URL whose heatmap data is overlaid on the screenshot. Defaults to 'url' when omitted. */
-  data_url?: string;
+  data_url?: string | undefined;
   /** Viewport widths (px, 100-3000) to render the heatmap screenshot at -- one render per width. Defaults to [320, 375, 425, 768, 1024, 1440, 1920] when omitted. At most 16 widths. */
-  widths?: UpdateSavedPartialRequestWidthsList;
+  widths?: UpdateSavedPartialRequestWidthsList | undefined;
   /** Render mode: 'screenshot' (renders the page headlessly, default), 'iframe', or 'recording'. Only 'screenshot' generates image bytes. * `screenshot` - Screenshot * `iframe` - Iframe * `recording` - Recording */
-  type?: SavedHeatmapTypeEnum | (string & {});
+  type?: SavedHeatmapTypeEnum | (string & {}) | undefined;
   /** Set true to soft-delete the saved heatmap. */
-  deleted?: boolean;
+  deleted?: boolean | undefined;
   /** When true, ask the headless browser to dismiss cookie/consent banners before capturing the screenshot. Off by default: the blocker can stall the render on some sites and time out. Only applies to 'screenshot' heatmaps. */
-  block_consent_modals?: boolean;
+  block_consent_modals?: boolean | undefined;
 }
 export type CreateSavedError = BadRequest | Forbidden | NotFound | PosthogOpError;
 /** Create a saved heatmap for a page URL. For type 'screenshot' (the default) this enqueues a headless render of the page at each target width; poll the saved heatmap or its content endpoint until status is 'completed'. Provide 'widths' to control which viewport widths are rendered. */

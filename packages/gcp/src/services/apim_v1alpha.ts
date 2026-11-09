@@ -101,60 +101,60 @@ export type TagActionActionEnum = "ACTION_UNSPECIFIED" | "ADD" | "REMOVE";
 /** Message for edit tag action */
 export interface TagAction {
   /** Required. Tag to be added or removed */
-  tag?: string;
+  tag?: string | undefined;
   /** Required. Action to be applied */
-  action?: TagActionActionEnum | (string & {});
+  action?: TagActionActionEnum | (string & {}) | undefined;
 }
 export type TagActionList = Array<TagAction>;
 /** Message for requesting edit tags for ApiObservation */
 export interface EditTagsApiObservationsRequest {
   /** Required. Identifier of ApiObservation need to be edit tags Format example: "apigee.googleapis.com|us-west1|443" */
-  apiObservationId?: string;
+  apiObservationId?: string | undefined;
   /** Required. Tag actions to be applied */
-  tagActions?: TagActionList;
+  tagActions?: TagActionList | undefined;
 }
 export type EditTagsApiObservationsRequestList = Array<EditTagsApiObservationsRequest>;
 /** Message for requesting batch edit tags for ApiObservations */
 export interface BatchEditTagsApiObservationsRequest {
   /** Required. The request message specifying the resources to update. A maximum of 1000 apiObservations can be modified in a batch. */
-  requests?: EditTagsApiObservationsRequestList;
+  requests?: EditTagsApiObservationsRequestList | undefined;
 }
 export interface BatchEditTagsProjectsLocationsObservationJobsApiObservationsRequest {
   /** Required. The parent resource shared by all ApiObservations being edited. Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
   parent: string;
   /** Request body */
-  body?: BatchEditTagsApiObservationsRequest;
+  body?: BatchEditTagsApiObservationsRequest | undefined;
 }
 export type StringList = Array<string>;
 export type ApiObservationStyleEnum = "STYLE_UNSPECIFIED" | "REST" | "GRPC" | "GRAPHQL";
 /** Message describing ApiObservation object */
 export interface ApiObservation {
   /** Update time stamp */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Last event detected time stamp */
-  lastEventDetectedTime?: string;
+  lastEventDetectedTime?: string | undefined;
   /** Create time stamp */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The hostname of requests processed for this Observation. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** User-defined tags to organize and sort */
-  tags?: StringList;
+  tags?: StringList | undefined;
   /** Location of the Observation Source, for example "us-central1" or "europe-west1." */
-  sourceLocations?: StringList;
+  sourceLocations?: StringList | undefined;
   /** Style of ApiObservation */
-  style?: ApiObservationStyleEnum;
+  style?: ApiObservationStyleEnum | undefined;
   /** Identifier. Name of resource */
-  name?: string;
+  name?: string | undefined;
   /** The IP address (IPv4 or IPv6) of the origin server that the request was sent to. This field can include port information. Examples: `"192.168.1.1"`, `"10.0.0.1:80"`, `"FE80::0202:B3FF:FE1E:8329"`. */
-  serverIps?: StringList;
+  serverIps?: StringList | undefined;
   /** The number of observed API Operations. */
-  apiOperationCount?: string;
+  apiOperationCount?: string | undefined;
 }
 export type ApiObservationList = Array<ApiObservation>;
 /** Message for response to edit Tags for ApiObservations */
 export interface BatchEditTagsApiObservationsResponse {
   /** ApiObservations that were changed */
-  apiObservations?: ApiObservationList;
+  apiObservations?: ApiObservationList | undefined;
 }
 /** The request message for Operations.CancelOperation. */
 export interface CancelOperationRequest {}
@@ -162,7 +162,7 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
@@ -178,49 +178,49 @@ export type ObservationJobStateEnum =
 /** Message describing ObservationJob object */
 export interface ObservationJob {
   /** Identifier. name of resource Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
-  name?: string;
+  name?: string | undefined;
   /** Optional. These should be of the same kind of source. */
-  sources?: StringList;
+  sources?: StringList | undefined;
   /** Output only. [Output only] Create time stamp */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. [Output only] Update time stamp */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The observation job state */
-  state?: ObservationJobStateEnum | (string & {});
+  state?: ObservationJobStateEnum | (string & {}) | undefined;
 }
 export interface CreateProjectsLocationsObservationJobsRequest {
   /** Required. The ID to use for the Observation Job. This value should be 4-63 characters, and valid characters are /a-z-/. */
-  observationJobId?: string;
+  observationJobId?: string | undefined;
   /** Required. The parent resource where this ObservationJob will be created. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: ObservationJob;
+  body?: ObservationJob | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
 }
 export type ObservationSourceStateEnum =
   | "STATE_UNSPECIFIED"
@@ -231,39 +231,39 @@ export type ObservationSourceStateEnum =
 /** Network information for setting up a PSC connection. */
 export interface GclbObservationSourcePscNetworkConfig {
   /** Required. The VPC network. Format: `projects/{project_id}/global/networks/{network}` */
-  network?: string;
+  network?: string | undefined;
   /** Required. The subnetwork in the source region that will be used to connect to the Cloud Load Balancers via PSC NEGs. Must belong to `network`. Format: projects/{project_id}/regions/{region}/subnetworks/{subnet} */
-  subnetwork?: string;
+  subnetwork?: string | undefined;
 }
 export type GclbObservationSourcePscNetworkConfigList =
   Array<GclbObservationSourcePscNetworkConfig>;
 /** The GCLB observation source. */
 export interface GclbObservationSource {
   /** Required. The VPC networks where traffic will be observed. All load balancers within this network will be observed. Currently, this is limited to only one network. */
-  pscNetworkConfigs?: GclbObservationSourcePscNetworkConfigList;
+  pscNetworkConfigs?: GclbObservationSourcePscNetworkConfigList | undefined;
 }
 /** Observation source configuration types */
 export interface ObservationSource {
   /** Output only. The observation source state */
-  state?: ObservationSourceStateEnum | (string & {});
+  state?: ObservationSourceStateEnum | (string & {}) | undefined;
   /** Output only. [Output only] Update time stamp */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. [Output only] Create time stamp */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The GCLB observation source */
-  gclbObservationSource?: GclbObservationSource;
+  gclbObservationSource?: GclbObservationSource | undefined;
   /** Identifier. name of resource For MVP, each region can only have 1 source. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsObservationSourcesRequest {
   /** Required. Value for parent. */
   parent: string;
   /** Optional. An optional request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The ID to use for the Observation Source. This value should be 4-63 characters, and valid characters are /a-z-/. */
-  observationSourceId?: string;
+  observationSourceId?: string | undefined;
   /** Request body */
-  body?: ObservationSource;
+  body?: ObservationSource | undefined;
 }
 export interface DeleteProjectsLocationsObservationJobsRequest {
   /** Required. Name of the resource Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
@@ -283,7 +283,7 @@ export interface DisableProjectsLocationsObservationJobsRequest {
   /** Required. The name of the ObservationJob to disable. Format: projects/{project}/locations/{location}/observationJobs/{job} */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Message for enabling an ObservationJob */
 export type EnableObservationJobRequest = CancelOperationRequest;
@@ -291,7 +291,7 @@ export interface EnableProjectsLocationsObservationJobsRequest {
   /** Required. The name of the ObservationJob to enable. Format: projects/{project}/locations/{location}/observationJobs/{job} */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 export interface GetEntitlementProjectsLocationsRequest {
   /** Required. The entitlement resource name Format: projects/{project}/locations/{location}/entitlement */
@@ -300,15 +300,15 @@ export interface GetEntitlementProjectsLocationsRequest {
 /** Entitlement stores data related to API Observation entitlement for a given project */
 export interface Entitlement {
   /** Output only. The time of the entitlement creation. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The time of the entitlement update. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Whether API Observation is entitled. */
-  apiObservationEntitled?: boolean;
+  apiObservationEntitled?: boolean | undefined;
   /** Identifier. The entitlement resource name `projects/{project}/locations/{location}/entitlement` */
-  name?: string;
+  name?: string | undefined;
   /** Project number of associated billing project that has Apigee and Advanced API Security entitled. */
-  billingProjectNumber?: string;
+  billingProjectNumber?: string | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -318,15 +318,15 @@ export type StringMap = { [key: string]: string | undefined };
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
 }
 export interface GetProjectsLocationsObservationJobsRequest {
   /** Required. The name of the ObservationJob to retrieve. Format: projects/{project}/locations/{location}/observationJobs/{job} */
@@ -350,9 +350,9 @@ export type HttpOperationPathParamDataTypeEnum =
 /** HTTP Path parameter. */
 export interface HttpOperationPathParam {
   /** Data type of path param */
-  dataType?: HttpOperationPathParamDataTypeEnum;
+  dataType?: HttpOperationPathParamDataTypeEnum | undefined;
   /** Segment location in the path, 1-indexed */
-  position?: number;
+  position?: number | undefined;
 }
 export type HttpOperationPathParamList = Array<HttpOperationPathParam>;
 export type HttpOperationHeaderDataTypeEnum =
@@ -365,24 +365,24 @@ export type HttpOperationHeaderDataTypeEnum =
 /** An aggregation of HTTP header occurrences. */
 export interface HttpOperationHeader {
   /** Data type of header */
-  dataType?: HttpOperationHeaderDataTypeEnum;
+  dataType?: HttpOperationHeaderDataTypeEnum | undefined;
   /** The number of occurrences of this Header across transactions. */
-  count?: string;
+  count?: string | undefined;
   /** Header name. */
-  name?: string;
+  name?: string | undefined;
 }
 export type HttpOperationHeaderMap = { [key: string]: HttpOperationHeader | undefined };
 /** An aggregation of HTTP responses. */
 export interface HttpOperationHttpResponse {
   /** Unordered map from header name to header metadata */
-  headers?: HttpOperationHeaderMap;
+  headers?: HttpOperationHeaderMap | undefined;
   /** Map of status code to observed count */
-  responseCodes?: StringMap;
+  responseCodes?: StringMap | undefined;
 }
 /** An aggregation of HTTP requests. */
 export interface HttpOperationHttpRequest {
   /** Unordered map from header name to header metadata */
-  headers?: HttpOperationHeaderMap;
+  headers?: HttpOperationHeaderMap | undefined;
 }
 export type HttpOperationMethodEnum =
   | "HTTP_METHOD_UNSPECIFIED"
@@ -405,40 +405,40 @@ export type HttpOperationQueryParamDataTypeEnum =
 /** An aggregation of HTTP query parameter occurrences. */
 export interface HttpOperationQueryParam {
   /** Data type of path param */
-  dataType?: HttpOperationQueryParamDataTypeEnum;
+  dataType?: HttpOperationQueryParamDataTypeEnum | undefined;
   /** The number of occurrences of this query parameter across transactions. */
-  count?: string;
+  count?: string | undefined;
   /** Name of query param */
-  name?: string;
+  name?: string | undefined;
 }
 export type HttpOperationQueryParamMap = { [key: string]: HttpOperationQueryParam | undefined };
 /** An HTTP-based API Operation, sometimes called a "REST" Operation. */
 export interface HttpOperation {
   /** Path params of HttpOperation */
-  pathParams?: HttpOperationPathParamList;
+  pathParams?: HttpOperationPathParamList | undefined;
   /** Response metadata. */
-  response?: HttpOperationHttpResponse;
+  response?: HttpOperationHttpResponse | undefined;
   /** Path of the HTTP request. */
-  path?: string;
+  path?: string | undefined;
   /** Request metadata. */
-  request?: HttpOperationHttpRequest;
+  request?: HttpOperationHttpRequest | undefined;
   /** HTTP Method. */
-  method?: HttpOperationMethodEnum;
+  method?: HttpOperationMethodEnum | undefined;
   /** Query params of HttpOperation */
-  queryParams?: HttpOperationQueryParamMap;
+  queryParams?: HttpOperationQueryParamMap | undefined;
 }
 /** Message describing ApiOperation object */
 export interface ApiOperation {
   /** First seen time stamp */
-  firstSeenTime?: string;
+  firstSeenTime?: string | undefined;
   /** The number of occurrences of this API Operation. */
-  count?: string;
+  count?: string | undefined;
   /** Last seen time stamp */
-  lastSeenTime?: string;
+  lastSeenTime?: string | undefined;
   /** Identifier. Name of resource */
-  name?: string;
+  name?: string | undefined;
   /** An HTTP Operation. */
-  httpOperation?: HttpOperation;
+  httpOperation?: HttpOperation | undefined;
 }
 export interface GetProjectsLocationsObservationSourcesRequest {
   /** Required. The name of the ObservationSource to retrieve. Format: projects/{project}/locations/{location}/observationSources/{source} */
@@ -450,44 +450,44 @@ export interface GetProjectsLocationsOperationsRequest {
 }
 export interface ListApiObservationTagsProjectsLocationsRequest {
   /** Optional. A page token, received from a previous `ListApiObservationTags` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListApiObservationTags` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of tags. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. The maximum number of tags to return. The service may return fewer than this value. If unspecified, at most 10 tags will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 /** Message for response to listing tags */
 export interface ListApiObservationTagsResponse {
   /** The tags from the specified project */
-  apiObservationTags?: StringList;
+  apiObservationTags?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsObservationJobsRequest {
   /** Optional. The maximum number of ObservationJobs to return. The service may return fewer than this value. If unspecified, at most 10 ObservationJobs will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListObservationJobs` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListObservationJobs` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of ObservationJobs. Format: projects/{project}/locations/{location} */
   parent: string;
 }
@@ -495,82 +495,82 @@ export type ObservationJobList = Array<ObservationJob>;
 /** Message for response to listing ObservationJobs */
 export interface ListObservationJobsResponse {
   /** The ObservationJob from the specified project and location. */
-  observationJobs?: ObservationJobList;
+  observationJobs?: ObservationJobList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsObservationJobsApiObservationsRequest {
   /** Optional. The maximum number of ApiObservations to return. The service may return fewer than this value. If unspecified, at most 10 ApiObservations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListApiObservations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListApiObservations` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent, which owns this collection of ApiObservations. Format: projects/{project}/locations/{location}/observationJobs/{observation_job} */
   parent: string;
 }
 /** Message for response to listing ApiObservations */
 export interface ListApiObservationsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** The ApiObservation from the specified project and location and ObservationJobs. */
-  apiObservations?: ApiObservationList;
+  apiObservations?: ApiObservationList | undefined;
 }
 export interface ListProjectsLocationsObservationJobsApiObservationsApiOperationsRequest {
   /** Required. The parent, which owns this collection of ApiOperations. Format: projects/{project}/locations/{location}/observationJobs/{observation_job}/apiObservations/{api_observation} */
   parent: string;
   /** Optional. A page token, received from a previous `ListApiApiOperations` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListApiApiOperations` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. The maximum number of ApiOperations to return. The service may return fewer than this value. If unspecified, at most 10 ApiOperations will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
 }
 export type ApiOperationList = Array<ApiOperation>;
 /** Message for response to listing ApiOperations */
 export interface ListApiOperationsResponse {
   /** The ApiOperations from the specified project and location and ObservationJob and ApiObservation. */
-  apiOperations?: ApiOperationList;
+  apiOperations?: ApiOperationList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsObservationSourcesRequest {
   /** Required. The parent, which owns this collection of ObservationSources. Format: projects/{project}/locations/{location} */
   parent: string;
   /** Optional. The maximum number of ObservationSources to return. The service may return fewer than this value. If unspecified, at most 10 ObservationSources will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListObservationSources` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListObservationSources` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type ObservationSourceList = Array<ObservationSource>;
 /** Message for response to listing ObservationSources */
 export interface ListObservationSourcesResponse {
   /** The ObservationSource from the specified project and location. */
-  observationSources?: ObservationSourceList;
+  observationSources?: ObservationSourceList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export type BatchEditTagsProjectsLocationsObservationJobsApiObservationsError =
   | NotFound

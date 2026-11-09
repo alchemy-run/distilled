@@ -227,117 +227,117 @@ export type XmlStringMaxLen19 = string;
 export type InstanceIds = string[];
 export type XmlStringMaxLen255 = string;
 export interface AttachInstancesQuery {
-  InstanceIds?: string[];
-  AutoScalingGroupName?: string;
+  InstanceIds?: string[] | undefined;
+  AutoScalingGroupName?: string | undefined;
 }
 export interface AttachInstancesResponse {}
 export type LoadBalancerNames = string[];
 export interface AttachLoadBalancersType {
-  AutoScalingGroupName?: string;
-  LoadBalancerNames?: string[];
+  AutoScalingGroupName?: string | undefined;
+  LoadBalancerNames?: string[] | undefined;
 }
 export interface AttachLoadBalancersResultType {}
 export type XmlStringMaxLen511 = string;
 export type TargetGroupARNs = string[];
 export interface AttachLoadBalancerTargetGroupsType {
-  AutoScalingGroupName?: string;
-  TargetGroupARNs?: string[];
+  AutoScalingGroupName?: string | undefined;
+  TargetGroupARNs?: string[] | undefined;
 }
 export interface AttachLoadBalancerTargetGroupsResultType {}
 export interface TrafficSourceIdentifier {
-  Identifier?: string;
-  Type?: string;
+  Identifier?: string | undefined;
+  Type?: string | undefined;
 }
 export type TrafficSources = TrafficSourceIdentifier[];
 export type SkipZonalShiftValidation = boolean;
 export interface AttachTrafficSourcesType {
-  AutoScalingGroupName?: string;
-  TrafficSources?: TrafficSourceIdentifier[];
-  SkipZonalShiftValidation?: boolean;
+  AutoScalingGroupName?: string | undefined;
+  TrafficSources?: TrafficSourceIdentifier[] | undefined;
+  SkipZonalShiftValidation?: boolean | undefined;
 }
 export interface AttachTrafficSourcesResultType {}
 export type ScheduledActionNames = string[];
 export interface BatchDeleteScheduledActionType {
-  AutoScalingGroupName?: string;
-  ScheduledActionNames?: string[];
+  AutoScalingGroupName?: string | undefined;
+  ScheduledActionNames?: string[] | undefined;
 }
 export type XmlStringMaxLen64 = string;
 export type XmlString = string;
 export interface FailedScheduledUpdateGroupActionRequest {
-  ScheduledActionName?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  ScheduledActionName?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type FailedScheduledUpdateGroupActionRequests = FailedScheduledUpdateGroupActionRequest[];
 export interface BatchDeleteScheduledActionAnswer {
-  FailedScheduledActions?: (FailedScheduledUpdateGroupActionRequest & {
-    ScheduledActionName: XmlStringMaxLen255;
-  })[];
+  FailedScheduledActions?:
+    | (FailedScheduledUpdateGroupActionRequest & { ScheduledActionName: XmlStringMaxLen255 })[]
+    | undefined;
 }
 export type AutoScalingGroupMinSize = number;
 export type AutoScalingGroupMaxSize = number;
 export type AutoScalingGroupDesiredCapacity = number;
 export interface ScheduledUpdateGroupActionRequest {
-  ScheduledActionName?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  Recurrence?: string;
-  MinSize?: number;
-  MaxSize?: number;
-  DesiredCapacity?: number;
-  TimeZone?: string;
+  ScheduledActionName?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Recurrence?: string | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  DesiredCapacity?: number | undefined;
+  TimeZone?: string | undefined;
 }
 export type ScheduledUpdateGroupActionRequests = ScheduledUpdateGroupActionRequest[];
 export interface BatchPutScheduledUpdateGroupActionType {
-  AutoScalingGroupName?: string;
-  ScheduledUpdateGroupActions?: ScheduledUpdateGroupActionRequest[];
+  AutoScalingGroupName?: string | undefined;
+  ScheduledUpdateGroupActions?: ScheduledUpdateGroupActionRequest[] | undefined;
 }
 export interface BatchPutScheduledUpdateGroupActionAnswer {
-  FailedScheduledUpdateGroupActions?: (FailedScheduledUpdateGroupActionRequest & {
-    ScheduledActionName: XmlStringMaxLen255;
-  })[];
+  FailedScheduledUpdateGroupActions?:
+    | (FailedScheduledUpdateGroupActionRequest & { ScheduledActionName: XmlStringMaxLen255 })[]
+    | undefined;
 }
 export interface CancelInstanceRefreshType {
-  AutoScalingGroupName?: string;
-  WaitForTransitioningInstances?: boolean;
+  AutoScalingGroupName?: string | undefined;
+  WaitForTransitioningInstances?: boolean | undefined;
 }
 export interface CancelInstanceRefreshAnswer {
-  InstanceRefreshId?: string;
+  InstanceRefreshId?: string | undefined;
 }
 export type AsciiStringMaxLen255 = string;
 export type ResourceName = string;
 export type LifecycleActionToken = string;
 export type LifecycleActionResult = string;
 export interface CompleteLifecycleActionType {
-  LifecycleHookName?: string;
-  AutoScalingGroupName?: string;
-  LifecycleActionToken?: string;
-  LifecycleActionResult?: string;
-  InstanceId?: string;
+  LifecycleHookName?: string | undefined;
+  AutoScalingGroupName?: string | undefined;
+  LifecycleActionToken?: string | undefined;
+  LifecycleActionResult?: string | undefined;
+  InstanceId?: string | undefined;
 }
 export interface CompleteLifecycleActionAnswer {}
 export type LaunchTemplateName = string;
 export interface LaunchTemplateSpecification {
-  LaunchTemplateId?: string;
-  LaunchTemplateName?: string;
-  Version?: string;
+  LaunchTemplateId?: string | undefined;
+  LaunchTemplateName?: string | undefined;
+  Version?: string | undefined;
 }
 export type XmlStringMaxLen32 = string;
 export type NullablePositiveInteger = number;
 export interface VCpuCountRequest {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export interface MemoryMiBRequest {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export type CpuManufacturer = "intel" | "amd" | "amazon-web-services" | "apple" | (string & {});
 export type CpuManufacturers = CpuManufacturer[];
 export type NullablePositiveDouble = number;
 export interface MemoryGiBPerVCpuRequest {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export type ExcludedInstance = string;
 export type ExcludedInstanceTypes = string[];
@@ -346,25 +346,25 @@ export type InstanceGenerations = InstanceGeneration[];
 export type BareMetal = "included" | "excluded" | "required" | (string & {});
 export type BurstablePerformance = "included" | "excluded" | "required" | (string & {});
 export interface NetworkInterfaceCountRequest {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export type LocalStorage = "included" | "excluded" | "required" | (string & {});
 export type LocalStorageType = "hdd" | "ssd" | (string & {});
 export type LocalStorageTypes = LocalStorageType[];
 export interface TotalLocalStorageGBRequest {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export interface BaselineEbsBandwidthMbpsRequest {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export type AcceleratorType = "gpu" | "fpga" | "inference" | (string & {});
 export type AcceleratorTypes = AcceleratorType[];
 export interface AcceleratorCountRequest {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export type AcceleratorManufacturer =
   | "nvidia"
@@ -384,64 +384,64 @@ export type AcceleratorName =
   | (string & {});
 export type AcceleratorNames = AcceleratorName[];
 export interface AcceleratorTotalMemoryMiBRequest {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export interface NetworkBandwidthGbpsRequest {
-  Min?: number;
-  Max?: number;
+  Min?: number | undefined;
+  Max?: number | undefined;
 }
 export type AllowedInstanceType = string;
 export type AllowedInstanceTypes = string[];
 export interface PerformanceFactorReferenceRequest {
-  InstanceFamily?: string;
+  InstanceFamily?: string | undefined;
 }
 export type PerformanceFactorReferenceSetRequest = PerformanceFactorReferenceRequest[];
 export interface CpuPerformanceFactorRequest {
-  References?: PerformanceFactorReferenceRequest[];
+  References?: PerformanceFactorReferenceRequest[] | undefined;
 }
 export interface BaselinePerformanceFactorsRequest {
-  Cpu?: CpuPerformanceFactorRequest;
+  Cpu?: CpuPerformanceFactorRequest | undefined;
 }
 export interface InstanceRequirements {
-  VCpuCount?: VCpuCountRequest;
-  MemoryMiB?: MemoryMiBRequest;
-  CpuManufacturers?: CpuManufacturer[];
-  MemoryGiBPerVCpu?: MemoryGiBPerVCpuRequest;
-  ExcludedInstanceTypes?: string[];
-  InstanceGenerations?: InstanceGeneration[];
-  SpotMaxPricePercentageOverLowestPrice?: number;
-  MaxSpotPriceAsPercentageOfOptimalOnDemandPrice?: number;
-  OnDemandMaxPricePercentageOverLowestPrice?: number;
-  BareMetal?: BareMetal;
-  BurstablePerformance?: BurstablePerformance;
-  RequireHibernateSupport?: boolean;
-  NetworkInterfaceCount?: NetworkInterfaceCountRequest;
-  LocalStorage?: LocalStorage;
-  LocalStorageTypes?: LocalStorageType[];
-  TotalLocalStorageGB?: TotalLocalStorageGBRequest;
-  BaselineEbsBandwidthMbps?: BaselineEbsBandwidthMbpsRequest;
-  AcceleratorTypes?: AcceleratorType[];
-  AcceleratorCount?: AcceleratorCountRequest;
-  AcceleratorManufacturers?: AcceleratorManufacturer[];
-  AcceleratorNames?: AcceleratorName[];
-  AcceleratorTotalMemoryMiB?: AcceleratorTotalMemoryMiBRequest;
-  NetworkBandwidthGbps?: NetworkBandwidthGbpsRequest;
-  AllowedInstanceTypes?: string[];
-  BaselinePerformanceFactors?: BaselinePerformanceFactorsRequest;
+  VCpuCount?: VCpuCountRequest | undefined;
+  MemoryMiB?: MemoryMiBRequest | undefined;
+  CpuManufacturers?: CpuManufacturer[] | undefined;
+  MemoryGiBPerVCpu?: MemoryGiBPerVCpuRequest | undefined;
+  ExcludedInstanceTypes?: string[] | undefined;
+  InstanceGenerations?: InstanceGeneration[] | undefined;
+  SpotMaxPricePercentageOverLowestPrice?: number | undefined;
+  MaxSpotPriceAsPercentageOfOptimalOnDemandPrice?: number | undefined;
+  OnDemandMaxPricePercentageOverLowestPrice?: number | undefined;
+  BareMetal?: BareMetal | undefined;
+  BurstablePerformance?: BurstablePerformance | undefined;
+  RequireHibernateSupport?: boolean | undefined;
+  NetworkInterfaceCount?: NetworkInterfaceCountRequest | undefined;
+  LocalStorage?: LocalStorage | undefined;
+  LocalStorageTypes?: LocalStorageType[] | undefined;
+  TotalLocalStorageGB?: TotalLocalStorageGBRequest | undefined;
+  BaselineEbsBandwidthMbps?: BaselineEbsBandwidthMbpsRequest | undefined;
+  AcceleratorTypes?: AcceleratorType[] | undefined;
+  AcceleratorCount?: AcceleratorCountRequest | undefined;
+  AcceleratorManufacturers?: AcceleratorManufacturer[] | undefined;
+  AcceleratorNames?: AcceleratorName[] | undefined;
+  AcceleratorTotalMemoryMiB?: AcceleratorTotalMemoryMiBRequest | undefined;
+  NetworkBandwidthGbps?: NetworkBandwidthGbpsRequest | undefined;
+  AllowedInstanceTypes?: string[] | undefined;
+  BaselinePerformanceFactors?: BaselinePerformanceFactorsRequest | undefined;
 }
 export type ImageId = string;
 export interface LaunchTemplateOverrides {
-  InstanceType?: string;
-  WeightedCapacity?: string;
-  LaunchTemplateSpecification?: LaunchTemplateSpecification;
-  InstanceRequirements?: InstanceRequirements;
-  ImageId?: string;
+  InstanceType?: string | undefined;
+  WeightedCapacity?: string | undefined;
+  LaunchTemplateSpecification?: LaunchTemplateSpecification | undefined;
+  InstanceRequirements?: InstanceRequirements | undefined;
+  ImageId?: string | undefined;
 }
 export type Overrides = LaunchTemplateOverrides[];
 export interface LaunchTemplate {
-  LaunchTemplateSpecification?: LaunchTemplateSpecification;
-  Overrides?: LaunchTemplateOverrides[];
+  LaunchTemplateSpecification?: LaunchTemplateSpecification | undefined;
+  Overrides?: LaunchTemplateOverrides[] | undefined;
 }
 export type OnDemandBaseCapacity = number;
 export type OnDemandPercentageAboveBaseCapacity = number;
@@ -455,21 +455,21 @@ export type TargetCapacityType =
   | (string & {});
 export type TargetCapacityTypes = TargetCapacityType[];
 export interface DistributionSegment {
-  TargetCapacityTypes?: TargetCapacityType[];
+  TargetCapacityTypes?: TargetCapacityType[] | undefined;
 }
 export type DistributionSegments = DistributionSegment[];
 export interface InstancesDistribution {
-  OnDemandAllocationStrategy?: string;
-  OnDemandBaseCapacity?: number;
-  OnDemandPercentageAboveBaseCapacity?: number;
-  SpotAllocationStrategy?: string;
-  SpotInstancePools?: number;
-  SpotMaxPrice?: string;
-  DistributionSegments?: DistributionSegment[];
+  OnDemandAllocationStrategy?: string | undefined;
+  OnDemandBaseCapacity?: number | undefined;
+  OnDemandPercentageAboveBaseCapacity?: number | undefined;
+  SpotAllocationStrategy?: string | undefined;
+  SpotInstancePools?: number | undefined;
+  SpotMaxPrice?: string | undefined;
+  DistributionSegments?: DistributionSegment[] | undefined;
 }
 export interface MixedInstancesPolicy {
-  LaunchTemplate?: LaunchTemplate;
-  InstancesDistribution?: InstancesDistribution;
+  LaunchTemplate?: LaunchTemplate | undefined;
+  InstancesDistribution?: InstancesDistribution | undefined;
 }
 export type Cooldown = number;
 export type AvailabilityZones = string[];
@@ -485,13 +485,13 @@ export type AnyPrintableAsciiStringMaxLen4000 = string;
 export type HeartbeatTimeout = number;
 export type NotificationTargetResourceName = string;
 export interface LifecycleHookSpecification {
-  LifecycleHookName?: string;
-  LifecycleTransition?: string;
-  NotificationMetadata?: string;
-  HeartbeatTimeout?: number;
-  DefaultResult?: string;
-  NotificationTargetARN?: string;
-  RoleARN?: string;
+  LifecycleHookName?: string | undefined;
+  LifecycleTransition?: string | undefined;
+  NotificationMetadata?: string | undefined;
+  HeartbeatTimeout?: number | undefined;
+  DefaultResult?: string | undefined;
+  NotificationTargetARN?: string | undefined;
+  RoleARN?: string | undefined;
 }
 export type LifecycleHookSpecifications = LifecycleHookSpecification[];
 export type DeletionProtection =
@@ -503,11 +503,11 @@ export type TagKey = string;
 export type TagValue = string;
 export type PropagateAtLaunch = boolean;
 export interface Tag {
-  ResourceId?: string;
-  ResourceType?: string;
-  Key?: string;
-  Value?: string;
-  PropagateAtLaunch?: boolean;
+  ResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  PropagateAtLaunch?: boolean | undefined;
 }
 export type Tags = Tag[];
 export type MaxInstanceLifetime = number;
@@ -516,8 +516,8 @@ export type DefaultInstanceWarmup = number;
 export type IntPercentResettable = number;
 export type IntPercent100To200Resettable = number;
 export interface InstanceMaintenancePolicy {
-  MinHealthyPercentage?: number;
-  MaxHealthyPercentage?: number;
+  MinHealthyPercentage?: number | undefined;
+  MaxHealthyPercentage?: number | undefined;
 }
 export type CapacityDistributionStrategy =
   | "balanced-only"
@@ -525,7 +525,7 @@ export type CapacityDistributionStrategy =
   | "reservations-then-balanced"
   | (string & {});
 export interface AvailabilityZoneDistribution {
-  CapacityDistributionStrategy?: CapacityDistributionStrategy;
+  CapacityDistributionStrategy?: CapacityDistributionStrategy | undefined;
 }
 export type ZonalShiftEnabled = boolean;
 export type ImpairedZoneHealthCheckBehavior =
@@ -533,8 +533,8 @@ export type ImpairedZoneHealthCheckBehavior =
   | "IgnoreUnhealthy"
   | (string & {});
 export interface AvailabilityZoneImpairmentPolicy {
-  ZonalShiftEnabled?: boolean;
-  ImpairedZoneHealthCheckBehavior?: ImpairedZoneHealthCheckBehavior;
+  ZonalShiftEnabled?: boolean | undefined;
+  ImpairedZoneHealthCheckBehavior?: ImpairedZoneHealthCheckBehavior | undefined;
 }
 export type CapacityReservationPreference =
   | "capacity-reservations-only"
@@ -545,61 +545,61 @@ export type CapacityReservationPreference =
 export type CapacityReservationIds = string[];
 export type CapacityReservationResourceGroupArns = string[];
 export interface CapacityReservationTarget {
-  CapacityReservationIds?: string[];
-  CapacityReservationResourceGroupArns?: string[];
+  CapacityReservationIds?: string[] | undefined;
+  CapacityReservationResourceGroupArns?: string[] | undefined;
 }
 export interface CapacityReservationSpecification {
-  CapacityReservationPreference?: CapacityReservationPreference;
-  CapacityReservationTarget?: CapacityReservationTarget;
+  CapacityReservationPreference?: CapacityReservationPreference | undefined;
+  CapacityReservationTarget?: CapacityReservationTarget | undefined;
 }
 export type RetentionAction = "retain" | "terminate" | (string & {});
 export interface RetentionTriggers {
-  TerminateHookAbandon?: RetentionAction;
+  TerminateHookAbandon?: RetentionAction | undefined;
 }
 export interface InstanceLifecyclePolicy {
-  RetentionTriggers?: RetentionTriggers;
+  RetentionTriggers?: RetentionTriggers | undefined;
 }
 export type ManagerIdentifier = string;
 export interface Operator {
-  Principal?: string;
+  Principal?: string | undefined;
 }
 export interface CreateAutoScalingGroupType {
-  AutoScalingGroupName?: string;
-  LaunchConfigurationName?: string;
-  LaunchTemplate?: LaunchTemplateSpecification;
-  MixedInstancesPolicy?: MixedInstancesPolicy;
-  InstanceId?: string;
-  MinSize?: number;
-  MaxSize?: number;
-  DesiredCapacity?: number;
-  DefaultCooldown?: number;
-  AvailabilityZones?: string[];
-  AvailabilityZoneIds?: string[];
-  LoadBalancerNames?: string[];
-  TargetGroupARNs?: string[];
-  HealthCheckType?: string;
-  HealthCheckGracePeriod?: number;
-  PlacementGroup?: string;
-  VPCZoneIdentifier?: string;
-  TerminationPolicies?: string[];
-  NewInstancesProtectedFromScaleIn?: boolean;
-  CapacityRebalance?: boolean;
-  LifecycleHookSpecificationList?: LifecycleHookSpecification[];
-  DeletionProtection?: DeletionProtection;
-  Tags?: Tag[];
-  ServiceLinkedRoleARN?: string;
-  MaxInstanceLifetime?: number;
-  Context?: string;
-  DesiredCapacityType?: string;
-  DefaultInstanceWarmup?: number;
-  TrafficSources?: TrafficSourceIdentifier[];
-  InstanceMaintenancePolicy?: InstanceMaintenancePolicy;
-  AvailabilityZoneDistribution?: AvailabilityZoneDistribution;
-  AvailabilityZoneImpairmentPolicy?: AvailabilityZoneImpairmentPolicy;
-  SkipZonalShiftValidation?: boolean;
-  CapacityReservationSpecification?: CapacityReservationSpecification;
-  InstanceLifecyclePolicy?: InstanceLifecyclePolicy;
-  Operator?: Operator;
+  AutoScalingGroupName?: string | undefined;
+  LaunchConfigurationName?: string | undefined;
+  LaunchTemplate?: LaunchTemplateSpecification | undefined;
+  MixedInstancesPolicy?: MixedInstancesPolicy | undefined;
+  InstanceId?: string | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  DesiredCapacity?: number | undefined;
+  DefaultCooldown?: number | undefined;
+  AvailabilityZones?: string[] | undefined;
+  AvailabilityZoneIds?: string[] | undefined;
+  LoadBalancerNames?: string[] | undefined;
+  TargetGroupARNs?: string[] | undefined;
+  HealthCheckType?: string | undefined;
+  HealthCheckGracePeriod?: number | undefined;
+  PlacementGroup?: string | undefined;
+  VPCZoneIdentifier?: string | undefined;
+  TerminationPolicies?: string[] | undefined;
+  NewInstancesProtectedFromScaleIn?: boolean | undefined;
+  CapacityRebalance?: boolean | undefined;
+  LifecycleHookSpecificationList?: LifecycleHookSpecification[] | undefined;
+  DeletionProtection?: DeletionProtection | undefined;
+  Tags?: Tag[] | undefined;
+  ServiceLinkedRoleARN?: string | undefined;
+  MaxInstanceLifetime?: number | undefined;
+  Context?: string | undefined;
+  DesiredCapacityType?: string | undefined;
+  DefaultInstanceWarmup?: number | undefined;
+  TrafficSources?: TrafficSourceIdentifier[] | undefined;
+  InstanceMaintenancePolicy?: InstanceMaintenancePolicy | undefined;
+  AvailabilityZoneDistribution?: AvailabilityZoneDistribution | undefined;
+  AvailabilityZoneImpairmentPolicy?: AvailabilityZoneImpairmentPolicy | undefined;
+  SkipZonalShiftValidation?: boolean | undefined;
+  CapacityReservationSpecification?: CapacityReservationSpecification | undefined;
+  InstanceLifecyclePolicy?: InstanceLifecyclePolicy | undefined;
+  Operator?: Operator | undefined;
 }
 export interface CreateAutoScalingGroupResponse {}
 export type SecurityGroups = string[];
@@ -612,25 +612,25 @@ export type BlockDeviceEbsIops = number;
 export type BlockDeviceEbsEncrypted = boolean;
 export type BlockDeviceEbsThroughput = number;
 export interface Ebs {
-  SnapshotId?: string;
-  VolumeSize?: number;
-  VolumeType?: string;
-  DeleteOnTermination?: boolean;
-  Iops?: number;
-  Encrypted?: boolean;
-  Throughput?: number;
+  SnapshotId?: string | undefined;
+  VolumeSize?: number | undefined;
+  VolumeType?: string | undefined;
+  DeleteOnTermination?: boolean | undefined;
+  Iops?: number | undefined;
+  Encrypted?: boolean | undefined;
+  Throughput?: number | undefined;
 }
 export type NoDevice = boolean;
 export interface BlockDeviceMapping {
-  VirtualName?: string;
-  DeviceName?: string;
-  Ebs?: Ebs;
-  NoDevice?: boolean;
+  VirtualName?: string | undefined;
+  DeviceName?: string | undefined;
+  Ebs?: Ebs | undefined;
+  NoDevice?: boolean | undefined;
 }
 export type BlockDeviceMappings = BlockDeviceMapping[];
 export type MonitoringEnabled = boolean;
 export interface InstanceMonitoring {
-  Enabled?: boolean;
+  Enabled?: boolean | undefined;
 }
 export type SpotPrice = string;
 export type EbsOptimized = boolean;
@@ -639,73 +639,73 @@ export type InstanceMetadataHttpTokensState = "optional" | "required" | (string 
 export type InstanceMetadataHttpPutResponseHopLimit = number;
 export type InstanceMetadataEndpointState = "disabled" | "enabled" | (string & {});
 export interface InstanceMetadataOptions {
-  HttpTokens?: InstanceMetadataHttpTokensState;
-  HttpPutResponseHopLimit?: number;
-  HttpEndpoint?: InstanceMetadataEndpointState;
+  HttpTokens?: InstanceMetadataHttpTokensState | undefined;
+  HttpPutResponseHopLimit?: number | undefined;
+  HttpEndpoint?: InstanceMetadataEndpointState | undefined;
 }
 export interface CreateLaunchConfigurationType {
-  LaunchConfigurationName?: string;
-  ImageId?: string;
-  KeyName?: string;
-  SecurityGroups?: string[];
-  ClassicLinkVPCId?: string;
-  ClassicLinkVPCSecurityGroups?: string[];
-  UserData?: string;
-  InstanceId?: string;
-  InstanceType?: string;
-  KernelId?: string;
-  RamdiskId?: string;
-  BlockDeviceMappings?: BlockDeviceMapping[];
-  InstanceMonitoring?: InstanceMonitoring;
-  SpotPrice?: string;
-  IamInstanceProfile?: string;
-  EbsOptimized?: boolean;
-  AssociatePublicIpAddress?: boolean;
-  PlacementTenancy?: string;
-  MetadataOptions?: InstanceMetadataOptions;
+  LaunchConfigurationName?: string | undefined;
+  ImageId?: string | undefined;
+  KeyName?: string | undefined;
+  SecurityGroups?: string[] | undefined;
+  ClassicLinkVPCId?: string | undefined;
+  ClassicLinkVPCSecurityGroups?: string[] | undefined;
+  UserData?: string | undefined;
+  InstanceId?: string | undefined;
+  InstanceType?: string | undefined;
+  KernelId?: string | undefined;
+  RamdiskId?: string | undefined;
+  BlockDeviceMappings?: BlockDeviceMapping[] | undefined;
+  InstanceMonitoring?: InstanceMonitoring | undefined;
+  SpotPrice?: string | undefined;
+  IamInstanceProfile?: string | undefined;
+  EbsOptimized?: boolean | undefined;
+  AssociatePublicIpAddress?: boolean | undefined;
+  PlacementTenancy?: string | undefined;
+  MetadataOptions?: InstanceMetadataOptions | undefined;
 }
 export interface CreateLaunchConfigurationResponse {}
 export interface CreateOrUpdateTagsType {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface CreateOrUpdateTagsResponse {}
 export type ForceDelete = boolean;
 export interface DeleteAutoScalingGroupType {
-  AutoScalingGroupName?: string;
-  ForceDelete?: boolean;
+  AutoScalingGroupName?: string | undefined;
+  ForceDelete?: boolean | undefined;
 }
 export interface DeleteAutoScalingGroupResponse {}
 export interface LaunchConfigurationNameType {
-  LaunchConfigurationName?: string;
+  LaunchConfigurationName?: string | undefined;
 }
 export interface DeleteLaunchConfigurationResponse {}
 export interface DeleteLifecycleHookType {
-  LifecycleHookName?: string;
-  AutoScalingGroupName?: string;
+  LifecycleHookName?: string | undefined;
+  AutoScalingGroupName?: string | undefined;
 }
 export interface DeleteLifecycleHookAnswer {}
 export interface DeleteNotificationConfigurationType {
-  AutoScalingGroupName?: string;
-  TopicARN?: string;
+  AutoScalingGroupName?: string | undefined;
+  TopicARN?: string | undefined;
 }
 export interface DeleteNotificationConfigurationResponse {}
 export interface DeletePolicyType {
-  AutoScalingGroupName?: string;
-  PolicyName?: string;
+  AutoScalingGroupName?: string | undefined;
+  PolicyName?: string | undefined;
 }
 export interface DeletePolicyResponse {}
 export interface DeleteScheduledActionType {
-  AutoScalingGroupName?: string;
-  ScheduledActionName?: string;
+  AutoScalingGroupName?: string | undefined;
+  ScheduledActionName?: string | undefined;
 }
 export interface DeleteScheduledActionResponse {}
 export interface DeleteTagsType {
-  Tags?: Tag[];
+  Tags?: Tag[] | undefined;
 }
 export interface DeleteTagsResponse {}
 export interface DeleteWarmPoolType {
-  AutoScalingGroupName?: string;
-  ForceDelete?: boolean;
+  AutoScalingGroupName?: string | undefined;
+  ForceDelete?: boolean | undefined;
 }
 export interface DeleteWarmPoolAnswer {}
 export interface DescribeAccountLimitsRequest {}
@@ -714,34 +714,34 @@ export type MaxNumberOfLaunchConfigurations = number;
 export type NumberOfAutoScalingGroups = number;
 export type NumberOfLaunchConfigurations = number;
 export interface DescribeAccountLimitsAnswer {
-  MaxNumberOfAutoScalingGroups?: number;
-  MaxNumberOfLaunchConfigurations?: number;
-  NumberOfAutoScalingGroups?: number;
-  NumberOfLaunchConfigurations?: number;
+  MaxNumberOfAutoScalingGroups?: number | undefined;
+  MaxNumberOfLaunchConfigurations?: number | undefined;
+  NumberOfAutoScalingGroups?: number | undefined;
+  NumberOfLaunchConfigurations?: number | undefined;
 }
 export interface DescribeAdjustmentTypesRequest {}
 export interface AdjustmentType {
-  AdjustmentType?: string;
+  AdjustmentType?: string | undefined;
 }
 export type AdjustmentTypes = AdjustmentType[];
 export interface DescribeAdjustmentTypesAnswer {
-  AdjustmentTypes?: AdjustmentType[];
+  AdjustmentTypes?: AdjustmentType[] | undefined;
 }
 export type AutoScalingGroupNames = string[];
 export type IncludeInstances = boolean;
 export type MaxRecords = number;
 export type Values = string[];
 export interface Filter {
-  Name?: string;
-  Values?: string[];
+  Name?: string | undefined;
+  Values?: string[] | undefined;
 }
 export type Filters = Filter[];
 export interface AutoScalingGroupNamesType {
-  AutoScalingGroupNames?: string[];
-  IncludeInstances?: boolean;
-  NextToken?: string;
-  MaxRecords?: number;
-  Filters?: Filter[];
+  AutoScalingGroupNames?: string[] | undefined;
+  IncludeInstances?: boolean | undefined;
+  NextToken?: string | undefined;
+  MaxRecords?: number | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type AutoScalingGroupPredictedCapacity = number;
 export type LifecycleState =
@@ -777,35 +777,35 @@ export type LifecycleState =
   | "Warmed:Hibernated"
   | (string & {});
 export interface Instance {
-  InstanceId?: string;
-  InstanceType?: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
-  LifecycleState?: LifecycleState;
-  HealthStatus?: string;
-  LaunchConfigurationName?: string;
-  LaunchTemplate?: LaunchTemplateSpecification;
-  ImageId?: string;
-  ProtectedFromScaleIn?: boolean;
-  WeightedCapacity?: string;
+  InstanceId?: string | undefined;
+  InstanceType?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  LifecycleState?: LifecycleState | undefined;
+  HealthStatus?: string | undefined;
+  LaunchConfigurationName?: string | undefined;
+  LaunchTemplate?: LaunchTemplateSpecification | undefined;
+  ImageId?: string | undefined;
+  ProtectedFromScaleIn?: boolean | undefined;
+  WeightedCapacity?: string | undefined;
 }
 export type Instances = Instance[];
 export interface SuspendedProcess {
-  ProcessName?: string;
-  SuspensionReason?: string;
+  ProcessName?: string | undefined;
+  SuspensionReason?: string | undefined;
 }
 export type SuspendedProcesses = SuspendedProcess[];
 export interface EnabledMetric {
-  Metric?: string;
-  Granularity?: string;
+  Metric?: string | undefined;
+  Granularity?: string | undefined;
 }
 export type EnabledMetrics = EnabledMetric[];
 export interface TagDescription {
-  ResourceId?: string;
-  ResourceType?: string;
-  Key?: string;
-  Value?: string;
-  PropagateAtLaunch?: boolean;
+  ResourceId?: string | undefined;
+  ResourceType?: string | undefined;
+  Key?: string | undefined;
+  Value?: string | undefined;
+  PropagateAtLaunch?: boolean | undefined;
 }
 export type TagDescriptionList = TagDescription[];
 export type MaxGroupPreparedCapacity = number;
@@ -814,59 +814,59 @@ export type WarmPoolState = "Stopped" | "Running" | "Hibernated" | (string & {})
 export type WarmPoolStatus = "PendingDelete" | (string & {});
 export type ReuseOnScaleIn = boolean;
 export interface InstanceReusePolicy {
-  ReuseOnScaleIn?: boolean;
+  ReuseOnScaleIn?: boolean | undefined;
 }
 export interface WarmPoolConfiguration {
-  MaxGroupPreparedCapacity?: number;
-  MinSize?: number;
-  PoolState?: WarmPoolState;
-  Status?: WarmPoolStatus;
-  InstanceReusePolicy?: InstanceReusePolicy;
+  MaxGroupPreparedCapacity?: number | undefined;
+  MinSize?: number | undefined;
+  PoolState?: WarmPoolState | undefined;
+  Status?: WarmPoolStatus | undefined;
+  InstanceReusePolicy?: InstanceReusePolicy | undefined;
 }
 export type WarmPoolSize = number;
 export interface AutoScalingGroup {
-  AutoScalingGroupName?: string;
-  AutoScalingGroupARN?: string;
-  LaunchConfigurationName?: string;
-  LaunchTemplate?: LaunchTemplateSpecification;
-  MixedInstancesPolicy?: MixedInstancesPolicy;
-  MinSize?: number;
-  MaxSize?: number;
-  DesiredCapacity?: number;
-  PredictedCapacity?: number;
-  DefaultCooldown?: number;
-  AvailabilityZones?: string[];
-  AvailabilityZoneIds?: string[];
-  LoadBalancerNames?: string[];
-  TargetGroupARNs?: string[];
-  HealthCheckType?: string;
-  HealthCheckGracePeriod?: number;
-  Instances?: Instance[];
-  CreatedTime?: Date;
-  SuspendedProcesses?: SuspendedProcess[];
-  PlacementGroup?: string;
-  VPCZoneIdentifier?: string;
-  EnabledMetrics?: EnabledMetric[];
-  Status?: string;
-  Tags?: TagDescription[];
-  TerminationPolicies?: string[];
-  NewInstancesProtectedFromScaleIn?: boolean;
-  ServiceLinkedRoleARN?: string;
-  MaxInstanceLifetime?: number;
-  CapacityRebalance?: boolean;
-  WarmPoolConfiguration?: WarmPoolConfiguration;
-  WarmPoolSize?: number;
-  Context?: string;
-  DesiredCapacityType?: string;
-  DefaultInstanceWarmup?: number;
-  TrafficSources?: TrafficSourceIdentifier[];
-  InstanceMaintenancePolicy?: InstanceMaintenancePolicy;
-  DeletionProtection?: DeletionProtection;
-  AvailabilityZoneDistribution?: AvailabilityZoneDistribution;
-  AvailabilityZoneImpairmentPolicy?: AvailabilityZoneImpairmentPolicy;
-  CapacityReservationSpecification?: CapacityReservationSpecification;
-  InstanceLifecyclePolicy?: InstanceLifecyclePolicy;
-  Operator?: Operator;
+  AutoScalingGroupName?: string | undefined;
+  AutoScalingGroupARN?: string | undefined;
+  LaunchConfigurationName?: string | undefined;
+  LaunchTemplate?: LaunchTemplateSpecification | undefined;
+  MixedInstancesPolicy?: MixedInstancesPolicy | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  DesiredCapacity?: number | undefined;
+  PredictedCapacity?: number | undefined;
+  DefaultCooldown?: number | undefined;
+  AvailabilityZones?: string[] | undefined;
+  AvailabilityZoneIds?: string[] | undefined;
+  LoadBalancerNames?: string[] | undefined;
+  TargetGroupARNs?: string[] | undefined;
+  HealthCheckType?: string | undefined;
+  HealthCheckGracePeriod?: number | undefined;
+  Instances?: Instance[] | undefined;
+  CreatedTime?: Date | undefined;
+  SuspendedProcesses?: SuspendedProcess[] | undefined;
+  PlacementGroup?: string | undefined;
+  VPCZoneIdentifier?: string | undefined;
+  EnabledMetrics?: EnabledMetric[] | undefined;
+  Status?: string | undefined;
+  Tags?: TagDescription[] | undefined;
+  TerminationPolicies?: string[] | undefined;
+  NewInstancesProtectedFromScaleIn?: boolean | undefined;
+  ServiceLinkedRoleARN?: string | undefined;
+  MaxInstanceLifetime?: number | undefined;
+  CapacityRebalance?: boolean | undefined;
+  WarmPoolConfiguration?: WarmPoolConfiguration | undefined;
+  WarmPoolSize?: number | undefined;
+  Context?: string | undefined;
+  DesiredCapacityType?: string | undefined;
+  DefaultInstanceWarmup?: number | undefined;
+  TrafficSources?: TrafficSourceIdentifier[] | undefined;
+  InstanceMaintenancePolicy?: InstanceMaintenancePolicy | undefined;
+  DeletionProtection?: DeletionProtection | undefined;
+  AvailabilityZoneDistribution?: AvailabilityZoneDistribution | undefined;
+  AvailabilityZoneImpairmentPolicy?: AvailabilityZoneImpairmentPolicy | undefined;
+  CapacityReservationSpecification?: CapacityReservationSpecification | undefined;
+  InstanceLifecyclePolicy?: InstanceLifecyclePolicy | undefined;
+  Operator?: Operator | undefined;
 }
 export type AutoScalingGroups = AutoScalingGroup[];
 export interface AutoScalingGroupsType {
@@ -899,50 +899,52 @@ export interface AutoScalingGroupsType {
     TrafficSources: (TrafficSourceIdentifier & { Identifier: XmlStringMaxLen511 })[];
     Operator: Operator & { Principal: ManagerIdentifier };
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeAutoScalingInstancesType {
-  InstanceIds?: string[];
-  MaxRecords?: number;
-  NextToken?: string;
+  InstanceIds?: string[] | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface AutoScalingInstanceDetails {
-  InstanceId?: string;
-  InstanceType?: string;
-  AutoScalingGroupName?: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
-  LifecycleState?: string;
-  HealthStatus?: string;
-  LaunchConfigurationName?: string;
-  LaunchTemplate?: LaunchTemplateSpecification;
-  ImageId?: string;
-  ProtectedFromScaleIn?: boolean;
-  WeightedCapacity?: string;
+  InstanceId?: string | undefined;
+  InstanceType?: string | undefined;
+  AutoScalingGroupName?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  LifecycleState?: string | undefined;
+  HealthStatus?: string | undefined;
+  LaunchConfigurationName?: string | undefined;
+  LaunchTemplate?: LaunchTemplateSpecification | undefined;
+  ImageId?: string | undefined;
+  ProtectedFromScaleIn?: boolean | undefined;
+  WeightedCapacity?: string | undefined;
 }
 export type AutoScalingInstances = AutoScalingInstanceDetails[];
 export interface AutoScalingInstancesType {
-  AutoScalingInstances?: (AutoScalingInstanceDetails & {
-    InstanceId: XmlStringMaxLen19;
-    AutoScalingGroupName: XmlStringMaxLen255;
-    AvailabilityZone: XmlStringMaxLen255;
-    LifecycleState: XmlStringMaxLen32;
-    HealthStatus: XmlStringMaxLen32;
-    ProtectedFromScaleIn: InstanceProtected;
-  })[];
-  NextToken?: string;
+  AutoScalingInstances?:
+    | (AutoScalingInstanceDetails & {
+        InstanceId: XmlStringMaxLen19;
+        AutoScalingGroupName: XmlStringMaxLen255;
+        AvailabilityZone: XmlStringMaxLen255;
+        LifecycleState: XmlStringMaxLen32;
+        HealthStatus: XmlStringMaxLen32;
+        ProtectedFromScaleIn: InstanceProtected;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeAutoScalingNotificationTypesRequest {}
 export type AutoScalingNotificationTypes = string[];
 export interface DescribeAutoScalingNotificationTypesAnswer {
-  AutoScalingNotificationTypes?: string[];
+  AutoScalingNotificationTypes?: string[] | undefined;
 }
 export type InstanceRefreshIds = string[];
 export interface DescribeInstanceRefreshesType {
-  AutoScalingGroupName?: string;
-  InstanceRefreshIds?: string[];
-  NextToken?: string;
-  MaxRecords?: number;
+  AutoScalingGroupName?: string | undefined;
+  InstanceRefreshIds?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export type InstanceRefreshStatus =
   | "Pending"
@@ -960,16 +962,16 @@ export type XmlStringMaxLen1023 = string;
 export type IntPercent = number;
 export type InstancesToUpdate = number;
 export interface InstanceRefreshLivePoolProgress {
-  PercentageComplete?: number;
-  InstancesToUpdate?: number;
+  PercentageComplete?: number | undefined;
+  InstancesToUpdate?: number | undefined;
 }
 export interface InstanceRefreshWarmPoolProgress {
-  PercentageComplete?: number;
-  InstancesToUpdate?: number;
+  PercentageComplete?: number | undefined;
+  InstancesToUpdate?: number | undefined;
 }
 export interface InstanceRefreshProgressDetails {
-  LivePoolProgress?: InstanceRefreshLivePoolProgress;
-  WarmPoolProgress?: InstanceRefreshWarmPoolProgress;
+  LivePoolProgress?: InstanceRefreshLivePoolProgress | undefined;
+  WarmPoolProgress?: InstanceRefreshWarmPoolProgress | undefined;
 }
 export type RefreshInstanceWarmup = number;
 export type NonZeroIntPercent = number;
@@ -981,95 +983,97 @@ export type ScaleInProtectedInstances = "Refresh" | "Ignore" | "Wait" | (string 
 export type StandbyInstances = "Terminate" | "Ignore" | "Wait" | (string & {});
 export type AlarmList = string[];
 export interface AlarmSpecification {
-  Alarms?: string[];
+  Alarms?: string[] | undefined;
 }
 export type IntPercent100To200 = number;
 export type BakeTime = number;
 export interface RefreshPreferences {
-  MinHealthyPercentage?: number;
-  InstanceWarmup?: number;
-  CheckpointPercentages?: number[];
-  CheckpointDelay?: number;
-  SkipMatching?: boolean;
-  AutoRollback?: boolean;
-  ScaleInProtectedInstances?: ScaleInProtectedInstances;
-  StandbyInstances?: StandbyInstances;
-  AlarmSpecification?: AlarmSpecification;
-  MaxHealthyPercentage?: number;
-  BakeTime?: number;
+  MinHealthyPercentage?: number | undefined;
+  InstanceWarmup?: number | undefined;
+  CheckpointPercentages?: number[] | undefined;
+  CheckpointDelay?: number | undefined;
+  SkipMatching?: boolean | undefined;
+  AutoRollback?: boolean | undefined;
+  ScaleInProtectedInstances?: ScaleInProtectedInstances | undefined;
+  StandbyInstances?: StandbyInstances | undefined;
+  AlarmSpecification?: AlarmSpecification | undefined;
+  MaxHealthyPercentage?: number | undefined;
+  BakeTime?: number | undefined;
 }
 export interface DesiredConfiguration {
-  LaunchTemplate?: LaunchTemplateSpecification;
-  MixedInstancesPolicy?: MixedInstancesPolicy;
+  LaunchTemplate?: LaunchTemplateSpecification | undefined;
+  MixedInstancesPolicy?: MixedInstancesPolicy | undefined;
 }
 export interface RollbackDetails {
-  RollbackReason?: string;
-  RollbackStartTime?: Date;
-  PercentageCompleteOnRollback?: number;
-  InstancesToUpdateOnRollback?: number;
-  ProgressDetailsOnRollback?: InstanceRefreshProgressDetails;
+  RollbackReason?: string | undefined;
+  RollbackStartTime?: Date | undefined;
+  PercentageCompleteOnRollback?: number | undefined;
+  InstancesToUpdateOnRollback?: number | undefined;
+  ProgressDetailsOnRollback?: InstanceRefreshProgressDetails | undefined;
 }
 export type RefreshStrategy = "Rolling" | "ReplaceRootVolume" | (string & {});
 export interface InstanceRefresh {
-  InstanceRefreshId?: string;
-  AutoScalingGroupName?: string;
-  Status?: InstanceRefreshStatus;
-  StatusReason?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  PercentageComplete?: number;
-  InstancesToUpdate?: number;
-  ProgressDetails?: InstanceRefreshProgressDetails;
-  Preferences?: RefreshPreferences;
-  DesiredConfiguration?: DesiredConfiguration;
-  RollbackDetails?: RollbackDetails;
-  Strategy?: RefreshStrategy;
+  InstanceRefreshId?: string | undefined;
+  AutoScalingGroupName?: string | undefined;
+  Status?: InstanceRefreshStatus | undefined;
+  StatusReason?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  PercentageComplete?: number | undefined;
+  InstancesToUpdate?: number | undefined;
+  ProgressDetails?: InstanceRefreshProgressDetails | undefined;
+  Preferences?: RefreshPreferences | undefined;
+  DesiredConfiguration?: DesiredConfiguration | undefined;
+  RollbackDetails?: RollbackDetails | undefined;
+  Strategy?: RefreshStrategy | undefined;
 }
 export type InstanceRefreshes = InstanceRefresh[];
 export interface DescribeInstanceRefreshesAnswer {
-  InstanceRefreshes?: (InstanceRefresh & {
-    DesiredConfiguration: DesiredConfiguration & {
-      MixedInstancesPolicy: MixedInstancesPolicy & {
-        LaunchTemplate: LaunchTemplate & {
-          Overrides: (LaunchTemplateOverrides & {
-            InstanceRequirements: InstanceRequirements & {
-              VCpuCount: VCpuCountRequest & { Min: NullablePositiveInteger };
-              MemoryMiB: MemoryMiBRequest & { Min: NullablePositiveInteger };
+  InstanceRefreshes?:
+    | (InstanceRefresh & {
+        DesiredConfiguration: DesiredConfiguration & {
+          MixedInstancesPolicy: MixedInstancesPolicy & {
+            LaunchTemplate: LaunchTemplate & {
+              Overrides: (LaunchTemplateOverrides & {
+                InstanceRequirements: InstanceRequirements & {
+                  VCpuCount: VCpuCountRequest & { Min: NullablePositiveInteger };
+                  MemoryMiB: MemoryMiBRequest & { Min: NullablePositiveInteger };
+                };
+              })[];
             };
-          })[];
+          };
         };
-      };
-    };
-  })[];
-  NextToken?: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type LaunchConfigurationNames = string[];
 export interface LaunchConfigurationNamesType {
-  LaunchConfigurationNames?: string[];
-  NextToken?: string;
-  MaxRecords?: number;
+  LaunchConfigurationNames?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface LaunchConfiguration {
-  LaunchConfigurationName?: string;
-  LaunchConfigurationARN?: string;
-  ImageId?: string;
-  KeyName?: string;
-  SecurityGroups?: string[];
-  ClassicLinkVPCId?: string;
-  ClassicLinkVPCSecurityGroups?: string[];
-  UserData?: string;
-  InstanceType?: string;
-  KernelId?: string;
-  RamdiskId?: string;
-  BlockDeviceMappings?: BlockDeviceMapping[];
-  InstanceMonitoring?: InstanceMonitoring;
-  SpotPrice?: string;
-  IamInstanceProfile?: string;
-  CreatedTime?: Date;
-  EbsOptimized?: boolean;
-  AssociatePublicIpAddress?: boolean;
-  PlacementTenancy?: string;
-  MetadataOptions?: InstanceMetadataOptions;
+  LaunchConfigurationName?: string | undefined;
+  LaunchConfigurationARN?: string | undefined;
+  ImageId?: string | undefined;
+  KeyName?: string | undefined;
+  SecurityGroups?: string[] | undefined;
+  ClassicLinkVPCId?: string | undefined;
+  ClassicLinkVPCSecurityGroups?: string[] | undefined;
+  UserData?: string | undefined;
+  InstanceType?: string | undefined;
+  KernelId?: string | undefined;
+  RamdiskId?: string | undefined;
+  BlockDeviceMappings?: BlockDeviceMapping[] | undefined;
+  InstanceMonitoring?: InstanceMonitoring | undefined;
+  SpotPrice?: string | undefined;
+  IamInstanceProfile?: string | undefined;
+  CreatedTime?: Date | undefined;
+  EbsOptimized?: boolean | undefined;
+  AssociatePublicIpAddress?: boolean | undefined;
+  PlacementTenancy?: string | undefined;
+  MetadataOptions?: InstanceMetadataOptions | undefined;
 }
 export type LaunchConfigurations = LaunchConfiguration[];
 export interface LaunchConfigurationsType {
@@ -1080,112 +1084,112 @@ export interface LaunchConfigurationsType {
     CreatedTime: Date;
     BlockDeviceMappings: (BlockDeviceMapping & { DeviceName: XmlStringMaxLen255 })[];
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type LifecycleHookNames = string[];
 export interface DescribeLifecycleHooksType {
-  AutoScalingGroupName?: string;
-  LifecycleHookNames?: string[];
+  AutoScalingGroupName?: string | undefined;
+  LifecycleHookNames?: string[] | undefined;
 }
 export type GlobalTimeout = number;
 export interface LifecycleHook {
-  LifecycleHookName?: string;
-  AutoScalingGroupName?: string;
-  LifecycleTransition?: string;
-  NotificationTargetARN?: string;
-  RoleARN?: string;
-  NotificationMetadata?: string;
-  HeartbeatTimeout?: number;
-  GlobalTimeout?: number;
-  DefaultResult?: string;
+  LifecycleHookName?: string | undefined;
+  AutoScalingGroupName?: string | undefined;
+  LifecycleTransition?: string | undefined;
+  NotificationTargetARN?: string | undefined;
+  RoleARN?: string | undefined;
+  NotificationMetadata?: string | undefined;
+  HeartbeatTimeout?: number | undefined;
+  GlobalTimeout?: number | undefined;
+  DefaultResult?: string | undefined;
 }
 export type LifecycleHooks = LifecycleHook[];
 export interface DescribeLifecycleHooksAnswer {
-  LifecycleHooks?: LifecycleHook[];
+  LifecycleHooks?: LifecycleHook[] | undefined;
 }
 export interface DescribeLifecycleHookTypesRequest {}
 export interface DescribeLifecycleHookTypesAnswer {
-  LifecycleHookTypes?: string[];
+  LifecycleHookTypes?: string[] | undefined;
 }
 export interface DescribeLoadBalancersRequest {
-  AutoScalingGroupName?: string;
-  NextToken?: string;
-  MaxRecords?: number;
+  AutoScalingGroupName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface LoadBalancerState {
-  LoadBalancerName?: string;
-  State?: string;
+  LoadBalancerName?: string | undefined;
+  State?: string | undefined;
 }
 export type LoadBalancerStates = LoadBalancerState[];
 export interface DescribeLoadBalancersResponse {
-  LoadBalancers?: LoadBalancerState[];
-  NextToken?: string;
+  LoadBalancers?: LoadBalancerState[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeLoadBalancerTargetGroupsRequest {
-  AutoScalingGroupName?: string;
-  NextToken?: string;
-  MaxRecords?: number;
+  AutoScalingGroupName?: string | undefined;
+  NextToken?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface LoadBalancerTargetGroupState {
-  LoadBalancerTargetGroupARN?: string;
-  State?: string;
+  LoadBalancerTargetGroupARN?: string | undefined;
+  State?: string | undefined;
 }
 export type LoadBalancerTargetGroupStates = LoadBalancerTargetGroupState[];
 export interface DescribeLoadBalancerTargetGroupsResponse {
-  LoadBalancerTargetGroups?: LoadBalancerTargetGroupState[];
-  NextToken?: string;
+  LoadBalancerTargetGroups?: LoadBalancerTargetGroupState[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeMetricCollectionTypesRequest {}
 export interface MetricCollectionType {
-  Metric?: string;
+  Metric?: string | undefined;
 }
 export type MetricCollectionTypes = MetricCollectionType[];
 export interface MetricGranularityType {
-  Granularity?: string;
+  Granularity?: string | undefined;
 }
 export type MetricGranularityTypes = MetricGranularityType[];
 export interface DescribeMetricCollectionTypesAnswer {
-  Metrics?: MetricCollectionType[];
-  Granularities?: MetricGranularityType[];
+  Metrics?: MetricCollectionType[] | undefined;
+  Granularities?: MetricGranularityType[] | undefined;
 }
 export interface DescribeNotificationConfigurationsType {
-  AutoScalingGroupNames?: string[];
-  NextToken?: string;
-  MaxRecords?: number;
+  AutoScalingGroupNames?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface NotificationConfiguration {
-  AutoScalingGroupName?: string;
-  TopicARN?: string;
-  NotificationType?: string;
+  AutoScalingGroupName?: string | undefined;
+  TopicARN?: string | undefined;
+  NotificationType?: string | undefined;
 }
 export type NotificationConfigurations = NotificationConfiguration[];
 export interface DescribeNotificationConfigurationsAnswer {
   NotificationConfigurations: NotificationConfiguration[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export type PolicyNames = string[];
 export type PolicyTypes = string[];
 export interface DescribePoliciesType {
-  AutoScalingGroupName?: string;
-  PolicyNames?: string[];
-  PolicyTypes?: string[];
-  NextToken?: string;
-  MaxRecords?: number;
+  AutoScalingGroupName?: string | undefined;
+  PolicyNames?: string[] | undefined;
+  PolicyTypes?: string[] | undefined;
+  NextToken?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export type MinAdjustmentStep = number;
 export type MinAdjustmentMagnitude = number;
 export type PolicyIncrement = number;
 export type MetricScale = number;
 export interface StepAdjustment {
-  MetricIntervalLowerBound?: number;
-  MetricIntervalUpperBound?: number;
-  ScalingAdjustment?: number;
+  MetricIntervalLowerBound?: number | undefined;
+  MetricIntervalUpperBound?: number | undefined;
+  ScalingAdjustment?: number | undefined;
 }
 export type StepAdjustments = StepAdjustment[];
 export type EstimatedInstanceWarmup = number;
 export interface Alarm {
-  AlarmName?: string;
-  AlarmARN?: string;
+  AlarmName?: string | undefined;
+  AlarmARN?: string | undefined;
 }
 export type Alarms = Alarm[];
 export type MetricType =
@@ -1195,16 +1199,16 @@ export type MetricType =
   | "ALBRequestCountPerTarget"
   | (string & {});
 export interface PredefinedMetricSpecification {
-  PredefinedMetricType?: MetricType;
-  ResourceLabel?: string;
+  PredefinedMetricType?: MetricType | undefined;
+  ResourceLabel?: string | undefined;
 }
 export type MetricName = string;
 export type MetricNamespace = string;
 export type MetricDimensionName = string;
 export type MetricDimensionValue = string;
 export interface MetricDimension {
-  Name?: string;
-  Value?: string;
+  Name?: string | undefined;
+  Value?: string | undefined;
 }
 export type MetricDimensions = MetricDimension[];
 export type MetricStatistic =
@@ -1218,43 +1222,43 @@ export type MetricUnit = string;
 export type MetricGranularityInSeconds = number;
 export type XmlStringMaxLen2047 = string;
 export interface Metric {
-  Namespace?: string;
-  MetricName?: string;
-  Dimensions?: MetricDimension[];
+  Namespace?: string | undefined;
+  MetricName?: string | undefined;
+  Dimensions?: MetricDimension[] | undefined;
 }
 export type XmlStringMetricStat = string;
 export interface TargetTrackingMetricStat {
-  Metric?: Metric;
-  Stat?: string;
-  Unit?: string;
-  Period?: number;
+  Metric?: Metric | undefined;
+  Stat?: string | undefined;
+  Unit?: string | undefined;
+  Period?: number | undefined;
 }
 export type XmlStringMetricLabel = string;
 export type ReturnData = boolean;
 export interface TargetTrackingMetricDataQuery {
-  Id?: string;
-  Expression?: string;
-  MetricStat?: TargetTrackingMetricStat;
-  Label?: string;
-  Period?: number;
-  ReturnData?: boolean;
+  Id?: string | undefined;
+  Expression?: string | undefined;
+  MetricStat?: TargetTrackingMetricStat | undefined;
+  Label?: string | undefined;
+  Period?: number | undefined;
+  ReturnData?: boolean | undefined;
 }
 export type TargetTrackingMetricDataQueries = TargetTrackingMetricDataQuery[];
 export interface CustomizedMetricSpecification {
-  MetricName?: string;
-  Namespace?: string;
-  Dimensions?: MetricDimension[];
-  Statistic?: MetricStatistic;
-  Unit?: string;
-  Period?: number;
-  Metrics?: TargetTrackingMetricDataQuery[];
+  MetricName?: string | undefined;
+  Namespace?: string | undefined;
+  Dimensions?: MetricDimension[] | undefined;
+  Statistic?: MetricStatistic | undefined;
+  Unit?: string | undefined;
+  Period?: number | undefined;
+  Metrics?: TargetTrackingMetricDataQuery[] | undefined;
 }
 export type DisableScaleIn = boolean;
 export interface TargetTrackingConfiguration {
-  PredefinedMetricSpecification?: PredefinedMetricSpecification;
-  CustomizedMetricSpecification?: CustomizedMetricSpecification;
-  TargetValue?: number;
-  DisableScaleIn?: boolean;
+  PredefinedMetricSpecification?: PredefinedMetricSpecification | undefined;
+  CustomizedMetricSpecification?: CustomizedMetricSpecification | undefined;
+  TargetValue?: number | undefined;
+  DisableScaleIn?: boolean | undefined;
 }
 export type ScalingPolicyEnabled = boolean;
 export type PredefinedMetricPairType =
@@ -1264,8 +1268,8 @@ export type PredefinedMetricPairType =
   | "ALBRequestCount"
   | (string & {});
 export interface PredictiveScalingPredefinedMetricPair {
-  PredefinedMetricType?: PredefinedMetricPairType;
-  ResourceLabel?: string;
+  PredefinedMetricType?: PredefinedMetricPairType | undefined;
+  ResourceLabel?: string | undefined;
 }
 export type PredefinedScalingMetricType =
   | "ASGAverageCPUUtilization"
@@ -1274,8 +1278,8 @@ export type PredefinedScalingMetricType =
   | "ALBRequestCountPerTarget"
   | (string & {});
 export interface PredictiveScalingPredefinedScalingMetric {
-  PredefinedMetricType?: PredefinedScalingMetricType;
-  ResourceLabel?: string;
+  PredefinedMetricType?: PredefinedScalingMetricType | undefined;
+  ResourceLabel?: string | undefined;
 }
 export type PredefinedLoadMetricType =
   | "ASGTotalCPUUtilization"
@@ -1284,39 +1288,39 @@ export type PredefinedLoadMetricType =
   | "ALBTargetGroupRequestCount"
   | (string & {});
 export interface PredictiveScalingPredefinedLoadMetric {
-  PredefinedMetricType?: PredefinedLoadMetricType;
-  ResourceLabel?: string;
+  PredefinedMetricType?: PredefinedLoadMetricType | undefined;
+  ResourceLabel?: string | undefined;
 }
 export interface MetricStat {
-  Metric?: Metric;
-  Stat?: string;
-  Unit?: string;
+  Metric?: Metric | undefined;
+  Stat?: string | undefined;
+  Unit?: string | undefined;
 }
 export interface MetricDataQuery {
-  Id?: string;
-  Expression?: string;
-  MetricStat?: MetricStat;
-  Label?: string;
-  ReturnData?: boolean;
+  Id?: string | undefined;
+  Expression?: string | undefined;
+  MetricStat?: MetricStat | undefined;
+  Label?: string | undefined;
+  ReturnData?: boolean | undefined;
 }
 export type MetricDataQueries = MetricDataQuery[];
 export interface PredictiveScalingCustomizedScalingMetric {
-  MetricDataQueries?: MetricDataQuery[];
+  MetricDataQueries?: MetricDataQuery[] | undefined;
 }
 export interface PredictiveScalingCustomizedLoadMetric {
-  MetricDataQueries?: MetricDataQuery[];
+  MetricDataQueries?: MetricDataQuery[] | undefined;
 }
 export interface PredictiveScalingCustomizedCapacityMetric {
-  MetricDataQueries?: MetricDataQuery[];
+  MetricDataQueries?: MetricDataQuery[] | undefined;
 }
 export interface PredictiveScalingMetricSpecification {
-  TargetValue?: number;
-  PredefinedMetricPairSpecification?: PredictiveScalingPredefinedMetricPair;
-  PredefinedScalingMetricSpecification?: PredictiveScalingPredefinedScalingMetric;
-  PredefinedLoadMetricSpecification?: PredictiveScalingPredefinedLoadMetric;
-  CustomizedScalingMetricSpecification?: PredictiveScalingCustomizedScalingMetric;
-  CustomizedLoadMetricSpecification?: PredictiveScalingCustomizedLoadMetric;
-  CustomizedCapacityMetricSpecification?: PredictiveScalingCustomizedCapacityMetric;
+  TargetValue?: number | undefined;
+  PredefinedMetricPairSpecification?: PredictiveScalingPredefinedMetricPair | undefined;
+  PredefinedScalingMetricSpecification?: PredictiveScalingPredefinedScalingMetric | undefined;
+  PredefinedLoadMetricSpecification?: PredictiveScalingPredefinedLoadMetric | undefined;
+  CustomizedScalingMetricSpecification?: PredictiveScalingCustomizedScalingMetric | undefined;
+  CustomizedLoadMetricSpecification?: PredictiveScalingCustomizedLoadMetric | undefined;
+  CustomizedCapacityMetricSpecification?: PredictiveScalingCustomizedCapacityMetric | undefined;
 }
 export type PredictiveScalingMetricSpecifications = PredictiveScalingMetricSpecification[];
 export type PredictiveScalingMode = "ForecastAndScale" | "ForecastOnly" | (string & {});
@@ -1327,134 +1331,136 @@ export type PredictiveScalingMaxCapacityBreachBehavior =
   | (string & {});
 export type PredictiveScalingMaxCapacityBuffer = number;
 export interface PredictiveScalingConfiguration {
-  MetricSpecifications?: PredictiveScalingMetricSpecification[];
-  Mode?: PredictiveScalingMode;
-  SchedulingBufferTime?: number;
-  MaxCapacityBreachBehavior?: PredictiveScalingMaxCapacityBreachBehavior;
-  MaxCapacityBuffer?: number;
+  MetricSpecifications?: PredictiveScalingMetricSpecification[] | undefined;
+  Mode?: PredictiveScalingMode | undefined;
+  SchedulingBufferTime?: number | undefined;
+  MaxCapacityBreachBehavior?: PredictiveScalingMaxCapacityBreachBehavior | undefined;
+  MaxCapacityBuffer?: number | undefined;
 }
 export interface ScalingPolicy {
-  AutoScalingGroupName?: string;
-  PolicyName?: string;
-  PolicyARN?: string;
-  PolicyType?: string;
-  AdjustmentType?: string;
-  MinAdjustmentStep?: number;
-  MinAdjustmentMagnitude?: number;
-  ScalingAdjustment?: number;
-  Cooldown?: number;
-  StepAdjustments?: StepAdjustment[];
-  MetricAggregationType?: string;
-  EstimatedInstanceWarmup?: number;
-  Alarms?: Alarm[];
-  TargetTrackingConfiguration?: TargetTrackingConfiguration;
-  Enabled?: boolean;
-  PredictiveScalingConfiguration?: PredictiveScalingConfiguration;
+  AutoScalingGroupName?: string | undefined;
+  PolicyName?: string | undefined;
+  PolicyARN?: string | undefined;
+  PolicyType?: string | undefined;
+  AdjustmentType?: string | undefined;
+  MinAdjustmentStep?: number | undefined;
+  MinAdjustmentMagnitude?: number | undefined;
+  ScalingAdjustment?: number | undefined;
+  Cooldown?: number | undefined;
+  StepAdjustments?: StepAdjustment[] | undefined;
+  MetricAggregationType?: string | undefined;
+  EstimatedInstanceWarmup?: number | undefined;
+  Alarms?: Alarm[] | undefined;
+  TargetTrackingConfiguration?: TargetTrackingConfiguration | undefined;
+  Enabled?: boolean | undefined;
+  PredictiveScalingConfiguration?: PredictiveScalingConfiguration | undefined;
 }
 export type ScalingPolicies = ScalingPolicy[];
 export interface PoliciesType {
-  ScalingPolicies?: (ScalingPolicy & {
-    StepAdjustments: (StepAdjustment & { ScalingAdjustment: PolicyIncrement })[];
-    TargetTrackingConfiguration: TargetTrackingConfiguration & {
-      TargetValue: MetricScale;
-      PredefinedMetricSpecification: PredefinedMetricSpecification & {
-        PredefinedMetricType: MetricType;
-      };
-      CustomizedMetricSpecification: CustomizedMetricSpecification & {
-        Dimensions: (MetricDimension & {
-          Name: MetricDimensionName;
-          Value: MetricDimensionValue;
-        })[];
-        Metrics: (TargetTrackingMetricDataQuery & {
-          Id: XmlStringMaxLen64;
-          MetricStat: TargetTrackingMetricStat & {
-            Metric: Metric & {
-              Namespace: MetricNamespace;
-              MetricName: MetricName;
-              Dimensions: (MetricDimension & {
-                Name: MetricDimensionName;
-                Value: MetricDimensionValue;
+  ScalingPolicies?:
+    | (ScalingPolicy & {
+        StepAdjustments: (StepAdjustment & { ScalingAdjustment: PolicyIncrement })[];
+        TargetTrackingConfiguration: TargetTrackingConfiguration & {
+          TargetValue: MetricScale;
+          PredefinedMetricSpecification: PredefinedMetricSpecification & {
+            PredefinedMetricType: MetricType;
+          };
+          CustomizedMetricSpecification: CustomizedMetricSpecification & {
+            Dimensions: (MetricDimension & {
+              Name: MetricDimensionName;
+              Value: MetricDimensionValue;
+            })[];
+            Metrics: (TargetTrackingMetricDataQuery & {
+              Id: XmlStringMaxLen64;
+              MetricStat: TargetTrackingMetricStat & {
+                Metric: Metric & {
+                  Namespace: MetricNamespace;
+                  MetricName: MetricName;
+                  Dimensions: (MetricDimension & {
+                    Name: MetricDimensionName;
+                    Value: MetricDimensionValue;
+                  })[];
+                };
+                Stat: XmlStringMetricStat;
+              };
+            })[];
+          };
+        };
+        PredictiveScalingConfiguration: PredictiveScalingConfiguration & {
+          MetricSpecifications: (PredictiveScalingMetricSpecification & {
+            TargetValue: MetricScale;
+            PredefinedMetricPairSpecification: PredictiveScalingPredefinedMetricPair & {
+              PredefinedMetricType: PredefinedMetricPairType;
+            };
+            PredefinedScalingMetricSpecification: PredictiveScalingPredefinedScalingMetric & {
+              PredefinedMetricType: PredefinedScalingMetricType;
+            };
+            PredefinedLoadMetricSpecification: PredictiveScalingPredefinedLoadMetric & {
+              PredefinedMetricType: PredefinedLoadMetricType;
+            };
+            CustomizedScalingMetricSpecification: PredictiveScalingCustomizedScalingMetric & {
+              MetricDataQueries: (MetricDataQuery & {
+                Id: XmlStringMaxLen255;
+                MetricStat: MetricStat & {
+                  Metric: Metric & {
+                    Namespace: MetricNamespace;
+                    MetricName: MetricName;
+                    Dimensions: (MetricDimension & {
+                      Name: MetricDimensionName;
+                      Value: MetricDimensionValue;
+                    })[];
+                  };
+                  Stat: XmlStringMetricStat;
+                };
               })[];
             };
-            Stat: XmlStringMetricStat;
-          };
-        })[];
-      };
-    };
-    PredictiveScalingConfiguration: PredictiveScalingConfiguration & {
-      MetricSpecifications: (PredictiveScalingMetricSpecification & {
-        TargetValue: MetricScale;
-        PredefinedMetricPairSpecification: PredictiveScalingPredefinedMetricPair & {
-          PredefinedMetricType: PredefinedMetricPairType;
-        };
-        PredefinedScalingMetricSpecification: PredictiveScalingPredefinedScalingMetric & {
-          PredefinedMetricType: PredefinedScalingMetricType;
-        };
-        PredefinedLoadMetricSpecification: PredictiveScalingPredefinedLoadMetric & {
-          PredefinedMetricType: PredefinedLoadMetricType;
-        };
-        CustomizedScalingMetricSpecification: PredictiveScalingCustomizedScalingMetric & {
-          MetricDataQueries: (MetricDataQuery & {
-            Id: XmlStringMaxLen255;
-            MetricStat: MetricStat & {
-              Metric: Metric & {
-                Namespace: MetricNamespace;
-                MetricName: MetricName;
-                Dimensions: (MetricDimension & {
-                  Name: MetricDimensionName;
-                  Value: MetricDimensionValue;
-                })[];
-              };
-              Stat: XmlStringMetricStat;
+            CustomizedLoadMetricSpecification: PredictiveScalingCustomizedLoadMetric & {
+              MetricDataQueries: (MetricDataQuery & {
+                Id: XmlStringMaxLen255;
+                MetricStat: MetricStat & {
+                  Metric: Metric & {
+                    Namespace: MetricNamespace;
+                    MetricName: MetricName;
+                    Dimensions: (MetricDimension & {
+                      Name: MetricDimensionName;
+                      Value: MetricDimensionValue;
+                    })[];
+                  };
+                  Stat: XmlStringMetricStat;
+                };
+              })[];
+            };
+            CustomizedCapacityMetricSpecification: PredictiveScalingCustomizedCapacityMetric & {
+              MetricDataQueries: (MetricDataQuery & {
+                Id: XmlStringMaxLen255;
+                MetricStat: MetricStat & {
+                  Metric: Metric & {
+                    Namespace: MetricNamespace;
+                    MetricName: MetricName;
+                    Dimensions: (MetricDimension & {
+                      Name: MetricDimensionName;
+                      Value: MetricDimensionValue;
+                    })[];
+                  };
+                  Stat: XmlStringMetricStat;
+                };
+              })[];
             };
           })[];
         };
-        CustomizedLoadMetricSpecification: PredictiveScalingCustomizedLoadMetric & {
-          MetricDataQueries: (MetricDataQuery & {
-            Id: XmlStringMaxLen255;
-            MetricStat: MetricStat & {
-              Metric: Metric & {
-                Namespace: MetricNamespace;
-                MetricName: MetricName;
-                Dimensions: (MetricDimension & {
-                  Name: MetricDimensionName;
-                  Value: MetricDimensionValue;
-                })[];
-              };
-              Stat: XmlStringMetricStat;
-            };
-          })[];
-        };
-        CustomizedCapacityMetricSpecification: PredictiveScalingCustomizedCapacityMetric & {
-          MetricDataQueries: (MetricDataQuery & {
-            Id: XmlStringMaxLen255;
-            MetricStat: MetricStat & {
-              Metric: Metric & {
-                Namespace: MetricNamespace;
-                MetricName: MetricName;
-                Dimensions: (MetricDimension & {
-                  Name: MetricDimensionName;
-                  Value: MetricDimensionValue;
-                })[];
-              };
-              Stat: XmlStringMetricStat;
-            };
-          })[];
-        };
-      })[];
-    };
-  })[];
-  NextToken?: string;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type ActivityIds = string[];
 export type IncludeDeletedGroups = boolean;
 export interface DescribeScalingActivitiesType {
-  ActivityIds?: string[];
-  AutoScalingGroupName?: string;
-  IncludeDeletedGroups?: boolean;
-  MaxRecords?: number;
-  NextToken?: string;
-  Filters?: Filter[];
+  ActivityIds?: string[] | undefined;
+  AutoScalingGroupName?: string | undefined;
+  IncludeDeletedGroups?: boolean | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
+  Filters?: Filter[] | undefined;
 }
 export type ScalingActivityStatusCode =
   | "PendingSpotBidPlacement"
@@ -1477,18 +1483,18 @@ export type ScalingActivityStatusCode =
 export type Progress = number;
 export type AutoScalingGroupState = string;
 export interface Activity {
-  ActivityId?: string;
-  AutoScalingGroupName?: string;
-  Description?: string;
-  Cause?: string;
-  StartTime?: Date;
-  EndTime?: Date;
-  StatusCode?: ScalingActivityStatusCode;
-  StatusMessage?: string;
-  Progress?: number;
-  Details?: string;
-  AutoScalingGroupState?: string;
-  AutoScalingGroupARN?: string;
+  ActivityId?: string | undefined;
+  AutoScalingGroupName?: string | undefined;
+  Description?: string | undefined;
+  Cause?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  StatusCode?: ScalingActivityStatusCode | undefined;
+  StatusMessage?: string | undefined;
+  Progress?: number | undefined;
+  Details?: string | undefined;
+  AutoScalingGroupState?: string | undefined;
+  AutoScalingGroupARN?: string | undefined;
 }
 export type Activities = Activity[];
 export interface ActivitiesType {
@@ -1499,183 +1505,191 @@ export interface ActivitiesType {
     StartTime: Date;
     StatusCode: ScalingActivityStatusCode;
   })[];
-  NextToken?: string;
+  NextToken?: string | undefined;
 }
 export interface DescribeScalingProcessTypesRequest {}
 export interface ProcessType {
-  ProcessName?: string;
+  ProcessName?: string | undefined;
 }
 export type Processes = ProcessType[];
 export interface ProcessesType {
-  Processes?: (ProcessType & { ProcessName: XmlStringMaxLen255 })[];
+  Processes?: (ProcessType & { ProcessName: XmlStringMaxLen255 })[] | undefined;
 }
 export interface DescribeScheduledActionsType {
-  AutoScalingGroupName?: string;
-  ScheduledActionNames?: string[];
-  StartTime?: Date;
-  EndTime?: Date;
-  NextToken?: string;
-  MaxRecords?: number;
+  AutoScalingGroupName?: string | undefined;
+  ScheduledActionNames?: string[] | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  NextToken?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface ScheduledUpdateGroupAction {
-  AutoScalingGroupName?: string;
-  ScheduledActionName?: string;
-  ScheduledActionARN?: string;
-  Time?: Date;
-  StartTime?: Date;
-  EndTime?: Date;
-  Recurrence?: string;
-  MinSize?: number;
-  MaxSize?: number;
-  DesiredCapacity?: number;
-  TimeZone?: string;
+  AutoScalingGroupName?: string | undefined;
+  ScheduledActionName?: string | undefined;
+  ScheduledActionARN?: string | undefined;
+  Time?: Date | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Recurrence?: string | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  DesiredCapacity?: number | undefined;
+  TimeZone?: string | undefined;
 }
 export type ScheduledUpdateGroupActions = ScheduledUpdateGroupAction[];
 export interface ScheduledActionsType {
-  ScheduledUpdateGroupActions?: ScheduledUpdateGroupAction[];
-  NextToken?: string;
+  ScheduledUpdateGroupActions?: ScheduledUpdateGroupAction[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeTagsType {
-  Filters?: Filter[];
-  NextToken?: string;
-  MaxRecords?: number;
+  Filters?: Filter[] | undefined;
+  NextToken?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface TagsType {
-  Tags?: TagDescription[];
-  NextToken?: string;
+  Tags?: TagDescription[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeTerminationPolicyTypesRequest {}
 export interface DescribeTerminationPolicyTypesAnswer {
-  TerminationPolicyTypes?: string[];
+  TerminationPolicyTypes?: string[] | undefined;
 }
 export interface DescribeTrafficSourcesRequest {
-  AutoScalingGroupName?: string;
-  TrafficSourceType?: string;
-  NextToken?: string;
-  MaxRecords?: number;
+  AutoScalingGroupName?: string | undefined;
+  TrafficSourceType?: string | undefined;
+  NextToken?: string | undefined;
+  MaxRecords?: number | undefined;
 }
 export interface TrafficSourceState {
-  TrafficSource?: string;
-  State?: string;
-  Identifier?: string;
-  Type?: string;
+  TrafficSource?: string | undefined;
+  State?: string | undefined;
+  Identifier?: string | undefined;
+  Type?: string | undefined;
 }
 export type TrafficSourceStates = TrafficSourceState[];
 export interface DescribeTrafficSourcesResponse {
-  TrafficSources?: TrafficSourceState[];
-  NextToken?: string;
+  TrafficSources?: TrafficSourceState[] | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeWarmPoolType {
-  AutoScalingGroupName?: string;
-  MaxRecords?: number;
-  NextToken?: string;
+  AutoScalingGroupName?: string | undefined;
+  MaxRecords?: number | undefined;
+  NextToken?: string | undefined;
 }
 export interface DescribeWarmPoolAnswer {
-  WarmPoolConfiguration?: WarmPoolConfiguration;
-  Instances?: (Instance & {
-    InstanceId: XmlStringMaxLen19;
-    AvailabilityZone: XmlStringMaxLen255;
-    LifecycleState: LifecycleState;
-    HealthStatus: XmlStringMaxLen32;
-    ProtectedFromScaleIn: InstanceProtected;
-  })[];
-  NextToken?: string;
+  WarmPoolConfiguration?: WarmPoolConfiguration | undefined;
+  Instances?:
+    | (Instance & {
+        InstanceId: XmlStringMaxLen19;
+        AvailabilityZone: XmlStringMaxLen255;
+        LifecycleState: LifecycleState;
+        HealthStatus: XmlStringMaxLen32;
+        ProtectedFromScaleIn: InstanceProtected;
+      })[]
+    | undefined;
+  NextToken?: string | undefined;
 }
 export type ShouldDecrementDesiredCapacity = boolean;
 export interface DetachInstancesQuery {
-  InstanceIds?: string[];
-  AutoScalingGroupName?: string;
-  ShouldDecrementDesiredCapacity?: boolean;
+  InstanceIds?: string[] | undefined;
+  AutoScalingGroupName?: string | undefined;
+  ShouldDecrementDesiredCapacity?: boolean | undefined;
 }
 export interface DetachInstancesAnswer {
-  Activities?: (Activity & {
-    ActivityId: XmlString;
-    AutoScalingGroupName: XmlStringMaxLen255;
-    Cause: XmlStringMaxLen1023;
-    StartTime: Date;
-    StatusCode: ScalingActivityStatusCode;
-  })[];
+  Activities?:
+    | (Activity & {
+        ActivityId: XmlString;
+        AutoScalingGroupName: XmlStringMaxLen255;
+        Cause: XmlStringMaxLen1023;
+        StartTime: Date;
+        StatusCode: ScalingActivityStatusCode;
+      })[]
+    | undefined;
 }
 export interface DetachLoadBalancersType {
-  AutoScalingGroupName?: string;
-  LoadBalancerNames?: string[];
+  AutoScalingGroupName?: string | undefined;
+  LoadBalancerNames?: string[] | undefined;
 }
 export interface DetachLoadBalancersResultType {}
 export interface DetachLoadBalancerTargetGroupsType {
-  AutoScalingGroupName?: string;
-  TargetGroupARNs?: string[];
+  AutoScalingGroupName?: string | undefined;
+  TargetGroupARNs?: string[] | undefined;
 }
 export interface DetachLoadBalancerTargetGroupsResultType {}
 export interface DetachTrafficSourcesType {
-  AutoScalingGroupName?: string;
-  TrafficSources?: TrafficSourceIdentifier[];
+  AutoScalingGroupName?: string | undefined;
+  TrafficSources?: TrafficSourceIdentifier[] | undefined;
 }
 export interface DetachTrafficSourcesResultType {}
 export type Metrics = string[];
 export interface DisableMetricsCollectionQuery {
-  AutoScalingGroupName?: string;
-  Metrics?: string[];
+  AutoScalingGroupName?: string | undefined;
+  Metrics?: string[] | undefined;
 }
 export interface DisableMetricsCollectionResponse {}
 export interface EnableMetricsCollectionQuery {
-  AutoScalingGroupName?: string;
-  Metrics?: string[];
-  Granularity?: string;
+  AutoScalingGroupName?: string | undefined;
+  Metrics?: string[] | undefined;
+  Granularity?: string | undefined;
 }
 export interface EnableMetricsCollectionResponse {}
 export interface EnterStandbyQuery {
-  InstanceIds?: string[];
-  AutoScalingGroupName?: string;
-  ShouldDecrementDesiredCapacity?: boolean;
+  InstanceIds?: string[] | undefined;
+  AutoScalingGroupName?: string | undefined;
+  ShouldDecrementDesiredCapacity?: boolean | undefined;
 }
 export interface EnterStandbyAnswer {
-  Activities?: (Activity & {
-    ActivityId: XmlString;
-    AutoScalingGroupName: XmlStringMaxLen255;
-    Cause: XmlStringMaxLen1023;
-    StartTime: Date;
-    StatusCode: ScalingActivityStatusCode;
-  })[];
+  Activities?:
+    | (Activity & {
+        ActivityId: XmlString;
+        AutoScalingGroupName: XmlStringMaxLen255;
+        Cause: XmlStringMaxLen1023;
+        StartTime: Date;
+        StatusCode: ScalingActivityStatusCode;
+      })[]
+    | undefined;
 }
 export type HonorCooldown = boolean;
 export interface ExecutePolicyType {
-  AutoScalingGroupName?: string;
-  PolicyName?: string;
-  HonorCooldown?: boolean;
-  MetricValue?: number;
-  BreachThreshold?: number;
+  AutoScalingGroupName?: string | undefined;
+  PolicyName?: string | undefined;
+  HonorCooldown?: boolean | undefined;
+  MetricValue?: number | undefined;
+  BreachThreshold?: number | undefined;
 }
 export interface ExecutePolicyResponse {}
 export interface ExitStandbyQuery {
-  InstanceIds?: string[];
-  AutoScalingGroupName?: string;
+  InstanceIds?: string[] | undefined;
+  AutoScalingGroupName?: string | undefined;
 }
 export interface ExitStandbyAnswer {
-  Activities?: (Activity & {
-    ActivityId: XmlString;
-    AutoScalingGroupName: XmlStringMaxLen255;
-    Cause: XmlStringMaxLen1023;
-    StartTime: Date;
-    StatusCode: ScalingActivityStatusCode;
-  })[];
+  Activities?:
+    | (Activity & {
+        ActivityId: XmlString;
+        AutoScalingGroupName: XmlStringMaxLen255;
+        Cause: XmlStringMaxLen1023;
+        StartTime: Date;
+        StatusCode: ScalingActivityStatusCode;
+      })[]
+    | undefined;
 }
 export interface GetPredictiveScalingForecastType {
-  AutoScalingGroupName?: string;
-  PolicyName?: string;
-  StartTime?: Date;
-  EndTime?: Date;
+  AutoScalingGroupName?: string | undefined;
+  PolicyName?: string | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
 }
 export type PredictiveScalingForecastTimestamps = Date[];
 export type PredictiveScalingForecastValues = number[];
 export interface LoadForecast {
-  Timestamps?: Date[];
-  Values?: number[];
-  MetricSpecification?: PredictiveScalingMetricSpecification;
+  Timestamps?: Date[] | undefined;
+  Values?: number[] | undefined;
+  MetricSpecification?: PredictiveScalingMetricSpecification | undefined;
 }
 export type LoadForecasts = LoadForecast[];
 export interface CapacityForecast {
-  Timestamps?: Date[];
-  Values?: number[];
+  Timestamps?: Date[] | undefined;
+  Values?: number[] | undefined;
 }
 export interface GetPredictiveScalingForecastAnswer {
   LoadForecast: (LoadForecast & {
@@ -1755,200 +1769,204 @@ export type AvailabilityZoneIdsLimit1 = string[];
 export type SubnetIdsLimit1 = string[];
 export type RetryStrategy = "retry-with-group-configuration" | "none" | (string & {});
 export interface LaunchInstancesRequest {
-  AutoScalingGroupName?: string;
-  RequestedCapacity?: number;
-  ClientToken?: string;
-  AvailabilityZones?: string[];
-  AvailabilityZoneIds?: string[];
-  SubnetIds?: string[];
-  RetryStrategy?: RetryStrategy;
+  AutoScalingGroupName?: string | undefined;
+  RequestedCapacity?: number | undefined;
+  ClientToken?: string | undefined;
+  AvailabilityZones?: string[] | undefined;
+  AvailabilityZoneIds?: string[] | undefined;
+  SubnetIds?: string[] | undefined;
+  RetryStrategy?: RetryStrategy | undefined;
 }
 export interface InstanceCollection {
-  InstanceType?: string;
-  MarketType?: string;
-  SubnetId?: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
-  InstanceIds?: string[];
+  InstanceType?: string | undefined;
+  MarketType?: string | undefined;
+  SubnetId?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  InstanceIds?: string[] | undefined;
 }
 export type InstanceCollections = InstanceCollection[];
 export interface LaunchInstancesError_ {
-  InstanceType?: string;
-  MarketType?: string;
-  SubnetId?: string;
-  AvailabilityZone?: string;
-  AvailabilityZoneId?: string;
-  ErrorCode?: string;
-  ErrorMessage?: string;
+  InstanceType?: string | undefined;
+  MarketType?: string | undefined;
+  SubnetId?: string | undefined;
+  AvailabilityZone?: string | undefined;
+  AvailabilityZoneId?: string | undefined;
+  ErrorCode?: string | undefined;
+  ErrorMessage?: string | undefined;
 }
 export type LaunchInstancesErrors = LaunchInstancesError_[];
 export interface LaunchInstancesResult {
-  AutoScalingGroupName?: string;
-  ClientToken?: string;
-  Instances?: InstanceCollection[];
-  Errors?: LaunchInstancesError_[];
+  AutoScalingGroupName?: string | undefined;
+  ClientToken?: string | undefined;
+  Instances?: InstanceCollection[] | undefined;
+  Errors?: LaunchInstancesError_[] | undefined;
 }
 export interface PutLifecycleHookType {
-  LifecycleHookName?: string;
-  AutoScalingGroupName?: string;
-  LifecycleTransition?: string;
-  RoleARN?: string;
-  NotificationTargetARN?: string;
-  NotificationMetadata?: string;
-  HeartbeatTimeout?: number;
-  DefaultResult?: string;
+  LifecycleHookName?: string | undefined;
+  AutoScalingGroupName?: string | undefined;
+  LifecycleTransition?: string | undefined;
+  RoleARN?: string | undefined;
+  NotificationTargetARN?: string | undefined;
+  NotificationMetadata?: string | undefined;
+  HeartbeatTimeout?: number | undefined;
+  DefaultResult?: string | undefined;
 }
 export interface PutLifecycleHookAnswer {}
 export interface PutNotificationConfigurationType {
-  AutoScalingGroupName?: string;
-  TopicARN?: string;
-  NotificationTypes?: string[];
+  AutoScalingGroupName?: string | undefined;
+  TopicARN?: string | undefined;
+  NotificationTypes?: string[] | undefined;
 }
 export interface PutNotificationConfigurationResponse {}
 export interface PutScalingPolicyType {
-  AutoScalingGroupName?: string;
-  PolicyName?: string;
-  PolicyType?: string;
-  AdjustmentType?: string;
-  MinAdjustmentStep?: number;
-  MinAdjustmentMagnitude?: number;
-  ScalingAdjustment?: number;
-  Cooldown?: number;
-  MetricAggregationType?: string;
-  StepAdjustments?: StepAdjustment[];
-  EstimatedInstanceWarmup?: number;
-  TargetTrackingConfiguration?: TargetTrackingConfiguration;
-  Enabled?: boolean;
-  PredictiveScalingConfiguration?: PredictiveScalingConfiguration;
+  AutoScalingGroupName?: string | undefined;
+  PolicyName?: string | undefined;
+  PolicyType?: string | undefined;
+  AdjustmentType?: string | undefined;
+  MinAdjustmentStep?: number | undefined;
+  MinAdjustmentMagnitude?: number | undefined;
+  ScalingAdjustment?: number | undefined;
+  Cooldown?: number | undefined;
+  MetricAggregationType?: string | undefined;
+  StepAdjustments?: StepAdjustment[] | undefined;
+  EstimatedInstanceWarmup?: number | undefined;
+  TargetTrackingConfiguration?: TargetTrackingConfiguration | undefined;
+  Enabled?: boolean | undefined;
+  PredictiveScalingConfiguration?: PredictiveScalingConfiguration | undefined;
 }
 export interface PolicyARNType {
-  PolicyARN?: string;
-  Alarms?: Alarm[];
+  PolicyARN?: string | undefined;
+  Alarms?: Alarm[] | undefined;
 }
 export interface PutScheduledUpdateGroupActionType {
-  AutoScalingGroupName?: string;
-  ScheduledActionName?: string;
-  Time?: Date;
-  StartTime?: Date;
-  EndTime?: Date;
-  Recurrence?: string;
-  MinSize?: number;
-  MaxSize?: number;
-  DesiredCapacity?: number;
-  TimeZone?: string;
+  AutoScalingGroupName?: string | undefined;
+  ScheduledActionName?: string | undefined;
+  Time?: Date | undefined;
+  StartTime?: Date | undefined;
+  EndTime?: Date | undefined;
+  Recurrence?: string | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  DesiredCapacity?: number | undefined;
+  TimeZone?: string | undefined;
 }
 export interface PutScheduledUpdateGroupActionResponse {}
 export interface PutWarmPoolType {
-  AutoScalingGroupName?: string;
-  MaxGroupPreparedCapacity?: number;
-  MinSize?: number;
-  PoolState?: WarmPoolState;
-  InstanceReusePolicy?: InstanceReusePolicy;
+  AutoScalingGroupName?: string | undefined;
+  MaxGroupPreparedCapacity?: number | undefined;
+  MinSize?: number | undefined;
+  PoolState?: WarmPoolState | undefined;
+  InstanceReusePolicy?: InstanceReusePolicy | undefined;
 }
 export interface PutWarmPoolAnswer {}
 export interface RecordLifecycleActionHeartbeatType {
-  LifecycleHookName?: string;
-  AutoScalingGroupName?: string;
-  LifecycleActionToken?: string;
-  InstanceId?: string;
+  LifecycleHookName?: string | undefined;
+  AutoScalingGroupName?: string | undefined;
+  LifecycleActionToken?: string | undefined;
+  InstanceId?: string | undefined;
 }
 export interface RecordLifecycleActionHeartbeatAnswer {}
 export type ProcessNames = string[];
 export interface ScalingProcessQuery {
-  AutoScalingGroupName?: string;
-  ScalingProcesses?: string[];
+  AutoScalingGroupName?: string | undefined;
+  ScalingProcesses?: string[] | undefined;
 }
 export interface ResumeProcessesResponse {}
 export interface RollbackInstanceRefreshType {
-  AutoScalingGroupName?: string;
+  AutoScalingGroupName?: string | undefined;
 }
 export interface RollbackInstanceRefreshAnswer {
-  InstanceRefreshId?: string;
+  InstanceRefreshId?: string | undefined;
 }
 export interface SetDesiredCapacityType {
-  AutoScalingGroupName?: string;
-  DesiredCapacity?: number;
-  HonorCooldown?: boolean;
+  AutoScalingGroupName?: string | undefined;
+  DesiredCapacity?: number | undefined;
+  HonorCooldown?: boolean | undefined;
 }
 export interface SetDesiredCapacityResponse {}
 export type ShouldRespectGracePeriod = boolean;
 export interface SetInstanceHealthQuery {
-  InstanceId?: string;
-  HealthStatus?: string;
-  ShouldRespectGracePeriod?: boolean;
+  InstanceId?: string | undefined;
+  HealthStatus?: string | undefined;
+  ShouldRespectGracePeriod?: boolean | undefined;
 }
 export interface SetInstanceHealthResponse {}
 export type ProtectedFromScaleIn = boolean;
 export interface SetInstanceProtectionQuery {
-  InstanceIds?: string[];
-  AutoScalingGroupName?: string;
-  ProtectedFromScaleIn?: boolean;
+  InstanceIds?: string[] | undefined;
+  AutoScalingGroupName?: string | undefined;
+  ProtectedFromScaleIn?: boolean | undefined;
 }
 export interface SetInstanceProtectionAnswer {}
 export interface StartInstanceRefreshType {
-  AutoScalingGroupName?: string;
-  Strategy?: RefreshStrategy;
-  DesiredConfiguration?: DesiredConfiguration;
-  Preferences?: RefreshPreferences;
+  AutoScalingGroupName?: string | undefined;
+  Strategy?: RefreshStrategy | undefined;
+  DesiredConfiguration?: DesiredConfiguration | undefined;
+  Preferences?: RefreshPreferences | undefined;
 }
 export interface StartInstanceRefreshAnswer {
-  InstanceRefreshId?: string;
+  InstanceRefreshId?: string | undefined;
 }
 export interface SuspendProcessesResponse {}
 export type TerminationInstanceIds = string[];
 export interface TerminateInstanceInAutoScalingGroupType {
-  InstanceId?: string;
-  InstanceIds?: string[];
-  AutoScalingGroupName?: string;
-  ShouldDecrementDesiredCapacity?: boolean;
+  InstanceId?: string | undefined;
+  InstanceIds?: string[] | undefined;
+  AutoScalingGroupName?: string | undefined;
+  ShouldDecrementDesiredCapacity?: boolean | undefined;
 }
 export interface ActivityType {
-  Activity?: Activity & {
-    ActivityId: XmlString;
-    AutoScalingGroupName: XmlStringMaxLen255;
-    Cause: XmlStringMaxLen1023;
-    StartTime: Date;
-    StatusCode: ScalingActivityStatusCode;
-  };
-  Activities?: (Activity & {
-    ActivityId: XmlString;
-    AutoScalingGroupName: XmlStringMaxLen255;
-    Cause: XmlStringMaxLen1023;
-    StartTime: Date;
-    StatusCode: ScalingActivityStatusCode;
-  })[];
+  Activity?:
+    | (Activity & {
+        ActivityId: XmlString;
+        AutoScalingGroupName: XmlStringMaxLen255;
+        Cause: XmlStringMaxLen1023;
+        StartTime: Date;
+        StatusCode: ScalingActivityStatusCode;
+      })
+    | undefined;
+  Activities?:
+    | (Activity & {
+        ActivityId: XmlString;
+        AutoScalingGroupName: XmlStringMaxLen255;
+        Cause: XmlStringMaxLen1023;
+        StartTime: Date;
+        StatusCode: ScalingActivityStatusCode;
+      })[]
+    | undefined;
 }
 export type UpdatePlacementGroupParam = string;
 export interface UpdateAutoScalingGroupType {
-  AutoScalingGroupName?: string;
-  LaunchConfigurationName?: string;
-  LaunchTemplate?: LaunchTemplateSpecification;
-  MixedInstancesPolicy?: MixedInstancesPolicy;
-  MinSize?: number;
-  MaxSize?: number;
-  DesiredCapacity?: number;
-  DefaultCooldown?: number;
-  AvailabilityZones?: string[];
-  AvailabilityZoneIds?: string[];
-  HealthCheckType?: string;
-  HealthCheckGracePeriod?: number;
-  PlacementGroup?: string;
-  VPCZoneIdentifier?: string;
-  TerminationPolicies?: string[];
-  NewInstancesProtectedFromScaleIn?: boolean;
-  ServiceLinkedRoleARN?: string;
-  MaxInstanceLifetime?: number;
-  CapacityRebalance?: boolean;
-  Context?: string;
-  DesiredCapacityType?: string;
-  DefaultInstanceWarmup?: number;
-  InstanceMaintenancePolicy?: InstanceMaintenancePolicy;
-  AvailabilityZoneDistribution?: AvailabilityZoneDistribution;
-  AvailabilityZoneImpairmentPolicy?: AvailabilityZoneImpairmentPolicy;
-  SkipZonalShiftValidation?: boolean;
-  CapacityReservationSpecification?: CapacityReservationSpecification;
-  InstanceLifecyclePolicy?: InstanceLifecyclePolicy;
-  DeletionProtection?: DeletionProtection;
+  AutoScalingGroupName?: string | undefined;
+  LaunchConfigurationName?: string | undefined;
+  LaunchTemplate?: LaunchTemplateSpecification | undefined;
+  MixedInstancesPolicy?: MixedInstancesPolicy | undefined;
+  MinSize?: number | undefined;
+  MaxSize?: number | undefined;
+  DesiredCapacity?: number | undefined;
+  DefaultCooldown?: number | undefined;
+  AvailabilityZones?: string[] | undefined;
+  AvailabilityZoneIds?: string[] | undefined;
+  HealthCheckType?: string | undefined;
+  HealthCheckGracePeriod?: number | undefined;
+  PlacementGroup?: string | undefined;
+  VPCZoneIdentifier?: string | undefined;
+  TerminationPolicies?: string[] | undefined;
+  NewInstancesProtectedFromScaleIn?: boolean | undefined;
+  ServiceLinkedRoleARN?: string | undefined;
+  MaxInstanceLifetime?: number | undefined;
+  CapacityRebalance?: boolean | undefined;
+  Context?: string | undefined;
+  DesiredCapacityType?: string | undefined;
+  DefaultInstanceWarmup?: number | undefined;
+  InstanceMaintenancePolicy?: InstanceMaintenancePolicy | undefined;
+  AvailabilityZoneDistribution?: AvailabilityZoneDistribution | undefined;
+  AvailabilityZoneImpairmentPolicy?: AvailabilityZoneImpairmentPolicy | undefined;
+  SkipZonalShiftValidation?: boolean | undefined;
+  CapacityReservationSpecification?: CapacityReservationSpecification | undefined;
+  InstanceLifecyclePolicy?: InstanceLifecyclePolicy | undefined;
+  DeletionProtection?: DeletionProtection | undefined;
 }
 export interface UpdateAutoScalingGroupResponse {}
 export type AttachInstancesError =

@@ -49,227 +49,227 @@ export type NotifyGetListRequestSubjectTypeList = Array<
 >;
 export interface NotifyGetListRequest {
   /** If true, show notifications marked as read. Default value is false */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Show notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread & pinned. */
-  status_types?: NotifyGetListRequestStatusTypesList;
+  status_types?: NotifyGetListRequestStatusTypesList | undefined;
   /** filter notifications by subject type */
-  subject_type?: NotifyGetListRequestSubjectTypeList;
+  subject_type?: NotifyGetListRequestSubjectTypeList | undefined;
   /** Only show notifications updated after the given time. This is a timestamp in RFC 3339 format */
-  since?: string;
+  since?: string | undefined;
   /** Only show notifications updated before the given time. This is a timestamp in RFC 3339 format */
-  before?: string;
+  before?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 /** ExternalTracker represents settings for external tracker */
 export interface ExternalTracker {
   /** External Issue Tracker URL Format. Use the placeholders {user}, {repo} and {index} for the username, repository name and issue index. */
-  external_tracker_format?: string;
+  external_tracker_format?: string | undefined;
   /** External Issue Tracker issue regular expression */
-  external_tracker_regexp_pattern?: string;
+  external_tracker_regexp_pattern?: string | undefined;
   /** External Issue Tracker Number Format, either `numeric`, `alphanumeric`, or `regexp` */
-  external_tracker_style?: string;
+  external_tracker_style?: string | undefined;
   /** URL of external issue tracker. */
-  external_tracker_url?: string;
+  external_tracker_url?: string | undefined;
 }
 /** ExternalWiki represents setting for external wiki */
 export interface ExternalWiki {
   /** URL of external wiki. */
-  external_wiki_url?: string;
+  external_wiki_url?: string | undefined;
 }
 /** InternalTracker represents settings for internal tracker */
 export interface InternalTracker {
   /** Let only contributors track time (Built-in issue tracker) */
-  allow_only_contributors_to_track_time?: boolean;
+  allow_only_contributors_to_track_time?: boolean | undefined;
   /** Enable dependencies for issues and pull requests (Built-in issue tracker) */
-  enable_issue_dependencies?: boolean;
+  enable_issue_dependencies?: boolean | undefined;
   /** Enable time tracking (Built-in issue tracker) */
-  enable_time_tracker?: boolean;
+  enable_time_tracker?: boolean | undefined;
 }
 /** ObjectFormatName of the underlying git repository */
 export type RepositoryObjectFormatName = "sha1" | "sha256";
 /** User represents a user */
 export interface User {
   /** Is user active */
-  active?: boolean;
+  active?: boolean | undefined;
   /** URL to the user's avatar */
-  avatar_url?: string;
-  created?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
   /** the user's description */
-  description?: string;
-  email?: string;
+  description?: string | undefined;
+  email?: string | undefined;
   /** user counts */
-  followers_count?: number;
-  following_count?: number;
+  followers_count?: number | undefined;
+  following_count?: number | undefined;
   /** the user's full name */
-  full_name?: string;
+  full_name?: string | undefined;
   /** URL to the user's profile page */
-  html_url?: string;
+  html_url?: string | undefined;
   /** the user's id */
   id: number;
   /** Is the user an administrator */
-  is_admin?: boolean;
+  is_admin?: boolean | undefined;
   /** User locale */
-  language?: string;
-  last_login?: string;
+  language?: string | undefined;
+  last_login?: string | undefined;
   /** the user's location */
-  location?: string;
+  location?: string | undefined;
   /** the user's username */
   login: string;
   /** the user's authentication sign-in name. */
-  login_name?: string;
+  login_name?: string | undefined;
   /** Is user login prohibited */
-  prohibit_login?: boolean;
+  prohibit_login?: boolean | undefined;
   /** the user's pronouns */
-  pronouns?: string;
+  pronouns?: string | undefined;
   /** Is user restricted */
-  restricted?: boolean;
+  restricted?: boolean | undefined;
   /** The ID of the user's Authentication Source */
-  source_id?: number;
-  starred_repos_count?: number;
+  source_id?: number | undefined;
+  starred_repos_count?: number | undefined;
   /** User visibility level option: public, limited, private */
-  visibility?: string;
+  visibility?: string | undefined;
   /** the user's website */
-  website?: string;
+  website?: string | undefined;
 }
 /** Permission represents a set of permissions */
 export interface Permission {
-  admin?: boolean;
-  pull?: boolean;
-  push?: boolean;
+  admin?: boolean | undefined;
+  pull?: boolean | undefined;
+  push?: boolean | undefined;
 }
 /** Organization represents an organization */
 export interface Organization {
-  avatar_url?: string;
-  created?: string;
-  description?: string;
-  email?: string;
-  full_name?: string;
+  avatar_url?: string | undefined;
+  created?: string | undefined;
+  description?: string | undefined;
+  email?: string | undefined;
+  full_name?: string | undefined;
   id: number;
-  location?: string;
-  name?: string;
-  repo_admin_change_team_access?: boolean;
+  location?: string | undefined;
+  name?: string | undefined;
+  repo_admin_change_team_access?: boolean | undefined;
   /** deprecated */
   username: string;
-  visibility?: string;
-  website?: string;
+  visibility?: string | undefined;
+  website?: string | undefined;
 }
 export type TeamPermission = "none" | "read" | "write" | "admin" | "owner";
 export type TeamUnitsList = Array<string>;
 export type TeamUnitsMapMap = { [key: string]: string | undefined };
 /** Team represents a team in an organization */
 export interface Team {
-  can_create_org_repo?: boolean;
-  description?: string;
+  can_create_org_repo?: boolean | undefined;
+  description?: string | undefined;
   id: number;
-  includes_all_repositories?: boolean;
+  includes_all_repositories?: boolean | undefined;
   name: string;
-  organization?: Organization;
-  permission?: TeamPermission;
-  units?: TeamUnitsList;
-  units_map?: TeamUnitsMapMap;
+  organization?: Organization | undefined;
+  permission?: TeamPermission | undefined;
+  units?: TeamUnitsList | undefined;
+  units_map?: TeamUnitsMapMap | undefined;
 }
 export type RepoTransferTeamsList = Array<Team>;
 /** RepoTransfer represents a pending repo transfer */
 export interface RepoTransfer {
-  doer?: User;
-  recipient?: User;
-  teams?: RepoTransferTeamsList;
+  doer?: User | undefined;
+  recipient?: User | undefined;
+  teams?: RepoTransferTeamsList | undefined;
 }
 export type RepositoryTopicsList = Array<string>;
 /** Repository represents a repository */
 export interface Repository {
-  allow_fast_forward_only_merge?: boolean;
-  allow_merge_commits?: boolean;
-  allow_rebase?: boolean;
-  allow_rebase_explicit?: boolean;
-  allow_rebase_update?: boolean;
-  allow_squash_merge?: boolean;
-  archived?: boolean;
-  archived_at?: string;
-  avatar_url?: string;
+  allow_fast_forward_only_merge?: boolean | undefined;
+  allow_merge_commits?: boolean | undefined;
+  allow_rebase?: boolean | undefined;
+  allow_rebase_explicit?: boolean | undefined;
+  allow_rebase_update?: boolean | undefined;
+  allow_squash_merge?: boolean | undefined;
+  archived?: boolean | undefined;
+  archived_at?: string | undefined;
+  avatar_url?: string | undefined;
   clone_url: string;
   created_at: string;
-  default_allow_maintainer_edit?: boolean;
+  default_allow_maintainer_edit?: boolean | undefined;
   default_branch: string;
-  default_delete_branch_after_merge?: boolean;
-  default_merge_style?: string;
-  default_update_style?: string;
-  description?: string;
-  empty?: boolean;
-  external_tracker?: ExternalTracker;
-  external_wiki?: ExternalWiki;
-  fork?: boolean;
-  forks_count?: number;
+  default_delete_branch_after_merge?: boolean | undefined;
+  default_merge_style?: string | undefined;
+  default_update_style?: string | undefined;
+  description?: string | undefined;
+  empty?: boolean | undefined;
+  external_tracker?: ExternalTracker | undefined;
+  external_wiki?: ExternalWiki | undefined;
+  fork?: boolean | undefined;
+  forks_count?: number | undefined;
   full_name: string;
-  globally_editable_wiki?: boolean;
-  has_actions?: boolean;
-  has_issues?: boolean;
-  has_packages?: boolean;
-  has_projects?: boolean;
-  has_pull_requests?: boolean;
-  has_releases?: boolean;
+  globally_editable_wiki?: boolean | undefined;
+  has_actions?: boolean | undefined;
+  has_issues?: boolean | undefined;
+  has_packages?: boolean | undefined;
+  has_projects?: boolean | undefined;
+  has_pull_requests?: boolean | undefined;
+  has_releases?: boolean | undefined;
   /** is the wiki enabled */
-  has_wiki?: boolean;
+  has_wiki?: boolean | undefined;
   /** have wiki pages ever been created */
-  has_wiki_contents?: boolean;
+  has_wiki_contents?: boolean | undefined;
   html_url: string;
   id: number;
-  ignore_whitespace_conflicts?: boolean;
-  internal?: boolean;
-  internal_tracker?: InternalTracker;
-  language?: string;
-  languages_url?: string;
-  link?: string;
-  mirror?: boolean;
-  mirror_interval?: string;
-  mirror_updated?: string;
+  ignore_whitespace_conflicts?: boolean | undefined;
+  internal?: boolean | undefined;
+  internal_tracker?: InternalTracker | undefined;
+  language?: string | undefined;
+  languages_url?: string | undefined;
+  link?: string | undefined;
+  mirror?: boolean | undefined;
+  mirror_interval?: string | undefined;
+  mirror_updated?: string | undefined;
   name: string;
   /** ObjectFormatName of the underlying git repository */
-  object_format_name?: RepositoryObjectFormatName;
-  open_issues_count?: number;
-  open_pr_counter?: number;
-  original_url?: string;
+  object_format_name?: RepositoryObjectFormatName | undefined;
+  open_issues_count?: number | undefined;
+  open_pr_counter?: number | undefined;
+  original_url?: string | undefined;
   owner: User;
-  parent?: Repository;
-  permissions?: Permission;
-  private?: boolean;
-  release_counter?: number;
-  repo_transfer?: RepoTransfer;
-  size?: number;
+  parent?: Repository | undefined;
+  permissions?: Permission | undefined;
+  private?: boolean | undefined;
+  release_counter?: number | undefined;
+  repo_transfer?: RepoTransfer | undefined;
+  size?: number | undefined;
   ssh_url: string;
-  stars_count?: number;
-  template?: boolean;
-  topics?: RepositoryTopicsList;
+  stars_count?: number | undefined;
+  template?: boolean | undefined;
+  topics?: RepositoryTopicsList | undefined;
   updated_at: string;
-  url?: string;
-  watchers_count?: number;
-  website?: string;
-  wiki_branch?: string;
-  wiki_clone_url?: string;
-  wiki_ssh_url?: string;
+  url?: string | undefined;
+  watchers_count?: number | undefined;
+  website?: string | undefined;
+  wiki_branch?: string | undefined;
+  wiki_clone_url?: string | undefined;
+  wiki_ssh_url?: string | undefined;
 }
 /** NotificationSubject contains the notification subject (Issue/Pull/Commit) */
 export interface NotificationSubject {
-  html_url?: string;
-  latest_comment_html_url?: string;
-  latest_comment_url?: string;
-  state?: string;
-  title?: string;
-  type?: string;
-  url?: string;
+  html_url?: string | undefined;
+  latest_comment_html_url?: string | undefined;
+  latest_comment_url?: string | undefined;
+  state?: string | undefined;
+  title?: string | undefined;
+  type?: string | undefined;
+  url?: string | undefined;
 }
 /** NotificationThread expose Notification on API */
 export interface NotificationThread {
-  id?: number;
-  pinned?: boolean;
-  repository?: Repository;
-  subject?: NotificationSubject;
-  unread?: boolean;
-  updated_at?: string;
-  url?: string;
+  id?: number | undefined;
+  pinned?: boolean | undefined;
+  repository?: Repository | undefined;
+  subject?: NotificationSubject | undefined;
+  unread?: boolean | undefined;
+  updated_at?: string | undefined;
+  url?: string | undefined;
 }
 export type NotifyGetListResponseBodyList = Array<NotificationThread>;
 export type NotifyGetListResponse = NotifyGetListResponseBodyList;
@@ -284,19 +284,19 @@ export interface NotifyGetRepoListRequest {
   /** name of the repo */
   repo: string;
   /** If true, show notifications marked as read. Default value is false */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Show notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread & pinned */
-  status_types?: NotifyGetRepoListRequestStatusTypesList;
+  status_types?: NotifyGetRepoListRequestStatusTypesList | undefined;
   /** filter notifications by subject type */
-  subject_type?: NotifyGetRepoListRequestSubjectTypeList;
+  subject_type?: NotifyGetRepoListRequestSubjectTypeList | undefined;
   /** Only show notifications updated after the given time. This is a timestamp in RFC 3339 format */
-  since?: string;
+  since?: string | undefined;
   /** Only show notifications updated before the given time. This is a timestamp in RFC 3339 format */
-  before?: string;
+  before?: string | undefined;
   /** page number of results to return (1-based) */
-  page?: number;
+  page?: number | undefined;
   /** page size of results */
-  limit?: number;
+  limit?: number | undefined;
 }
 export type NotifyGetRepoListResponseBodyList = Array<NotificationThread>;
 export type NotifyGetRepoListResponse = NotifyGetRepoListResponseBodyList;
@@ -307,18 +307,18 @@ export interface NotifyGetThreadRequest {
 export interface NotifyNewAvailableRequest {}
 /** NotificationCount number of unread notifications */
 export interface NotificationCount {
-  new?: number;
+  new?: number | undefined;
 }
 export type NotifyReadListRequestStatusTypesList = Array<string>;
 export interface NotifyReadListRequest {
   /** Describes the last point that notifications were checked. Anything updated since this time will not be updated. */
-  last_read_at?: string;
+  last_read_at?: string | undefined;
   /** If true, mark all notifications on this repo. Default value is false */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Mark notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread. */
-  status_types?: NotifyReadListRequestStatusTypesList;
+  status_types?: NotifyReadListRequestStatusTypesList | undefined;
   /** Status to mark notifications as, Defaults to read. */
-  to_status?: string;
+  to_status?: string | undefined;
 }
 export interface NotifyReadListResponse {}
 export type NotifyReadRepoListRequestStatusTypesList = Array<string>;
@@ -328,20 +328,20 @@ export interface NotifyReadRepoListRequest {
   /** name of the repo */
   repo: string;
   /** If true, mark all notifications on this repo. Default value is false */
-  all?: boolean;
+  all?: boolean | undefined;
   /** Mark notifications with the provided status types. Options are: unread, read and/or pinned. Defaults to unread. */
-  status_types?: NotifyReadRepoListRequestStatusTypesList;
+  status_types?: NotifyReadRepoListRequestStatusTypesList | undefined;
   /** Status to mark notifications as. Defaults to read. */
-  to_status?: string;
+  to_status?: string | undefined;
   /** Describes the last point that notifications were checked. Anything updated since this time will not be updated. */
-  last_read_at?: string;
+  last_read_at?: string | undefined;
 }
 export interface NotifyReadRepoListResponse {}
 export interface NotifyReadThreadRequest {
   /** id of notification thread */
   id: number;
   /** Status to mark notifications as */
-  to_status?: string;
+  to_status?: string | undefined;
 }
 export interface NotifyReadThreadResponse {}
 export type NotifyGetListError = ForgejoOpError;

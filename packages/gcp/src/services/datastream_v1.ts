@@ -89,52 +89,52 @@ export interface CancelProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be cancelled. */
   name: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** A generic empty message that you can re-use to avoid defining duplicated empty messages in your APIs. A typical example is to use it as the request or the response type of an API method. For instance: service Foo { rpc Bar(google.protobuf.Empty) returns (google.protobuf.Empty); } */
 export interface Empty {}
 /** A confidential piece of information where the actual value is either directly specified in the message as a raw string or stored in GCP secret manager. */
 export interface Secret {
   /** Optional. Input only. The actual raw value of the secret as plain text. */
-  rawValue?: string;
+  rawValue?: string | undefined;
   /** Optional. A Secret Manager resource name storing the actual value of the secret. Supported formats: * projects/{project}/locations/{location}/secrets/{secret}/versions/{version} * projects/{project}/secrets/{secret}/versions/{version} */
-  secretVersion?: string;
+  secretVersion?: string | undefined;
 }
 /** OAuth Client Credentials. */
 export interface OauthClientCredentials {
   /** Required. Client secret for OAuth Client Credentials. */
-  clientSecret?: Secret;
+  clientSecret?: Secret | undefined;
   /** Required. Client ID for OAuth Client Credentials. */
-  clientId?: string;
+  clientId?: string | undefined;
 }
 /** OAuth Refresh Token Credentials. */
 export interface OauthRefreshTokenCredentials {
   /** Required. Specifies the OAuth Refresh Token. */
-  refreshToken?: Secret;
+  refreshToken?: Secret | undefined;
   /** Required. Specifies the OAuth Client Credentials. */
-  oauthClientCredentials?: OauthClientCredentials;
+  oauthClientCredentials?: OauthClientCredentials | undefined;
 }
 /** Profile for connecting to a Workday source. */
 export interface WorkdayProfile {
   /** Required. Tenant for the Workday connection (e.g., `google12`). */
-  tenant?: string;
+  tenant?: string | undefined;
   /** Required. Host for the Workday connection. Must be a valid hostname (e.g., `wd3-impl-services1.workday.com`). */
-  host?: string;
+  host?: string | undefined;
   /** Required. Credentials for authenticating with the Workday API. OAuth Refresh Token credentials for authenticating with the Workday API. */
-  oauthRefreshTokenCredentials?: OauthRefreshTokenCredentials;
+  oauthRefreshTokenCredentials?: OauthRefreshTokenCredentials | undefined;
 }
 /** Forward SSH Tunnel connectivity. */
 export interface ForwardSshTunnelConnectivity {
   /** Input only. SSH password. */
-  password?: string;
+  password?: string | undefined;
   /** Port for the SSH tunnel, default value is 22. */
-  port?: number;
+  port?: number | undefined;
   /** Input only. SSH private key. */
-  privateKey?: string;
+  privateKey?: string | undefined;
   /** Required. Hostname for the SSH tunnel. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Required. Username for the SSH tunnel. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Message to represent the option where encryption is not enforced. An empty message right now to allow future extensibility. */
 export type EncryptionNotEnforced = CancelOperationRequest;
@@ -143,70 +143,70 @@ export type BasicEncryption = CancelOperationRequest;
 /** Message to represent the option where Datastream will enforce encryption and authenticate server identity. ca_certificate must be set if user selects this option. */
 export interface EncryptionAndServerValidation {
   /** Optional. The hostname mentioned in the Subject or SAN extension of the server certificate. This field is used for bypassing the hostname validation while verifying server certificate. This is required for scenarios where the host name that datastream connects to is different from the certificate's subject. This specifically happens for private connectivity. It could also happen when the customer provides a public IP in connection profile but the same is not present in the server certificate. */
-  serverCertificateHostname?: string;
+  serverCertificateHostname?: string | undefined;
   /** Optional. Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
 }
 /** SQL Server SSL configuration information. */
 export interface SqlServerSslConfig {
   /** If set, Datastream will not enforce encryption. If the DB server mandates encryption, then connection will be encrypted but server identity will not be authenticated. */
-  encryptionNotEnforced?: CancelOperationRequest;
+  encryptionNotEnforced?: CancelOperationRequest | undefined;
   /** If set, Datastream will enforce encryption without authenticating server identity. Server certificates will be trusted by default. */
-  basicEncryption?: CancelOperationRequest;
+  basicEncryption?: CancelOperationRequest | undefined;
   /** If set, Datastream will enforce encryption and authenticate server identity. */
-  encryptionAndServerValidation?: EncryptionAndServerValidation;
+  encryptionAndServerValidation?: EncryptionAndServerValidation | undefined;
 }
 /** Profile for connecting to a SQLServer source. */
 export interface SqlServerProfile {
   /** Optional. A reference to a Secret Manager resource name storing the SQLServer connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
+  secretManagerStoredPassword?: string | undefined;
   /** Required. Username for the SQLServer connection. */
-  username?: string;
+  username?: string | undefined;
   /** Optional. SSL configuration for the SQLServer connection. */
-  sslConfig?: SqlServerSslConfig;
+  sslConfig?: SqlServerSslConfig | undefined;
   /** Optional. Password for the SQLServer connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
+  password?: string | undefined;
   /** Required. Database for the SQLServer connection. */
-  database?: string;
+  database?: string | undefined;
   /** Port for the SQLServer connection, default value is 1433. */
-  port?: number;
+  port?: number | undefined;
   /** Required. Hostname for the SQLServer connection. */
-  hostname?: string;
+  hostname?: string | undefined;
 }
 /** Private Connectivity */
 export interface PrivateConnectivity {
   /** Required. A reference to a private connection resource. Format: `projects/{project}/locations/{location}/privateConnections/{name}` */
-  privateConnection?: string;
+  privateConnection?: string | undefined;
 }
 /** A HostAddress represents a transport end point, which is the combination of an IP address or hostname and a port number. */
 export interface HostAddress {
   /** Optional. Port for the connection. */
-  port?: number;
+  port?: number | undefined;
   /** Required. Hostname for the connection. */
-  hostname?: string;
+  hostname?: string | undefined;
 }
 export type HostAddressList = Array<HostAddress>;
 /** Standard connection format. */
 export interface StandardConnectionFormat {
   /** Optional. Deprecated: Use the `additional_options` map to specify the `directConnection` parameter instead. For example: `additional_options = {"directConnection": "true"}`. Specifies whether the client connects directly to the host[:port] in the connection URI. */
-  directConnection?: boolean;
+  directConnection?: boolean | undefined;
 }
 /** MongoDB SSL configuration information. */
 export interface MongodbSslConfig {
   /** Output only. Indicates whether the client_certificate field is set. */
-  clientCertificateSet?: boolean;
+  clientCertificateSet?: boolean | undefined;
   /** Output only. Indicates whether the client_key field is set. */
-  clientKeySet?: boolean;
+  clientKeySet?: boolean | undefined;
   /** Output only. Indicates whether the ca_certificate field is set. */
-  caCertificateSet?: boolean;
+  caCertificateSet?: boolean | undefined;
   /** Optional. Input only. PEM-encoded certificate that will be used by the replica to authenticate against the source database server. If this field is used then the 'client_key' and the 'ca_certificate' fields are mandatory. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** Optional. Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
   /** Optional. Input only. PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. */
-  clientKey?: string;
+  clientKey?: string | undefined;
   /** Optional. Input only. A reference to a Secret Manager resource name storing the PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. Mutually exclusive with the `client_key` field. */
-  secretManagerStoredClientKey?: string;
+  secretManagerStoredClientKey?: string | undefined;
 }
 export type StringMap = { [key: string]: string | undefined };
 /** Srv connection format. */
@@ -214,312 +214,312 @@ export type SrvConnectionFormat = CancelOperationRequest;
 /** Profile for connecting to a MongoDB source. */
 export interface MongodbProfile {
   /** Optional. Password for the MongoDB connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
+  password?: string | undefined;
   /** Required. List of host addresses for a MongoDB cluster. For SRV connection format, this list must contain exactly one DNS host without a port. For Standard connection format, this list must contain all the required hosts in the cluster with their respective ports. */
-  hostAddresses?: HostAddressList;
+  hostAddresses?: HostAddressList | undefined;
   /** Standard connection format. */
-  standardConnectionFormat?: StandardConnectionFormat;
+  standardConnectionFormat?: StandardConnectionFormat | undefined;
   /** Optional. SSL configuration for the MongoDB connection. */
-  sslConfig?: MongodbSslConfig;
+  sslConfig?: MongodbSslConfig | undefined;
   /** Optional. Specifies additional options for the MongoDB connection. The options should be sent as key-value pairs, for example: `additional_options = {"serverSelectionTimeoutMS": "10000", "directConnection": "true"}`. Keys are case-sensitive and should match the official MongoDB connection string options: https://www.mongodb.com/docs/manual/reference/connection-string-options/ The server will not modify the values provided by the user. */
-  additionalOptions?: StringMap;
+  additionalOptions?: StringMap | undefined;
   /** Srv connection format. */
-  srvConnectionFormat?: CancelOperationRequest;
+  srvConnectionFormat?: CancelOperationRequest | undefined;
   /** Optional. Name of the replica set. Only needed for self hosted replica set type MongoDB cluster. For SRV connection format, this field must be empty. For Standard connection format, this field must be specified. */
-  replicaSet?: string;
+  replicaSet?: string | undefined;
   /** Optional. A reference to a Secret Manager resource name storing the SQLServer connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
+  secretManagerStoredPassword?: string | undefined;
   /** Required. Username for the MongoDB connection. */
-  username?: string;
+  username?: string | undefined;
 }
 /** Profile for connecting to a BigQuery destination. */
 export type BigQueryProfile = CancelOperationRequest;
 /** User-password credentials. */
 export interface UserPasswordCredentials {
   /** Required. Username for the connection. */
-  username?: string;
+  username?: string | undefined;
   /** Required. Password for the connection. */
-  password?: Secret;
+  password?: Secret | undefined;
 }
 /** Profile for connecting to a ServiceNow source. */
 export interface ServiceNowProfile {
   /** Required. The instance of the ServiceNow account. This is the `` part of the URL `https://.service-now.com`. */
-  instance?: string;
+  instance?: string | undefined;
   /** Credentials for authenticating with the ServiceNow API. */
-  oauthClientCredentials?: OauthClientCredentials;
+  oauthClientCredentials?: OauthClientCredentials | undefined;
   /** User-password authentication. */
-  userPasswordCredentials?: UserPasswordCredentials;
+  userPasswordCredentials?: UserPasswordCredentials | undefined;
 }
 /** Oracle SSL configuration information. */
 export interface OracleSslConfig {
   /** Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
   /** Optional. The distinguished name (DN) mentioned in the server certificate. This corresponds to SSL_SERVER_CERT_DN sqlnet parameter. Refer https://docs.oracle.com/en/database/oracle/oracle-database/19/netrf/local-naming-parameters-in-tns-ora-file.html#GUID-70AB0695-A9AA-4A94-B141-4C605236EEB7 If this field is not provided, the DN matching is not enforced. */
-  serverCertificateDistinguishedName?: string;
+  serverCertificateDistinguishedName?: string | undefined;
   /** Output only. Indicates whether the ca_certificate field has been set for this Connection-Profile. */
-  caCertificateSet?: boolean;
+  caCertificateSet?: boolean | undefined;
 }
 /** Configuration for Oracle Automatic Storage Management (ASM) connection. */
 export interface OracleAsmConfig {
   /** Optional. Password for the Oracle ASM connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
+  password?: string | undefined;
   /** Required. ASM service name for the Oracle ASM connection. */
-  asmService?: string;
+  asmService?: string | undefined;
   /** Optional. Connection string attributes */
-  connectionAttributes?: StringMap;
+  connectionAttributes?: StringMap | undefined;
   /** Optional. A reference to a Secret Manager resource name storing the Oracle ASM connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
+  secretManagerStoredPassword?: string | undefined;
   /** Required. Hostname for the Oracle ASM connection. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Optional. SSL configuration for the Oracle connection. */
-  oracleSslConfig?: OracleSslConfig;
+  oracleSslConfig?: OracleSslConfig | undefined;
   /** Required. Username for the Oracle ASM connection. */
-  username?: string;
+  username?: string | undefined;
   /** Required. Port for the Oracle ASM connection. */
-  port?: number;
+  port?: number | undefined;
 }
 /** Profile for connecting to an Oracle source. */
 export interface OracleProfile {
   /** Required. Hostname for the Oracle connection. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Required. Username for the Oracle connection. */
-  username?: string;
+  username?: string | undefined;
   /** Optional. A reference to a Secret Manager resource name storing the Oracle connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
+  secretManagerStoredPassword?: string | undefined;
   /** Optional. SSL configuration for the Oracle connection. */
-  oracleSslConfig?: OracleSslConfig;
+  oracleSslConfig?: OracleSslConfig | undefined;
   /** Optional. Password for the Oracle connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
+  password?: string | undefined;
   /** Port for the Oracle connection, default value is 1521. */
-  port?: number;
+  port?: number | undefined;
   /** Required. Database for the Oracle connection. */
-  databaseService?: string;
+  databaseService?: string | undefined;
   /** Connection string attributes */
-  connectionAttributes?: StringMap;
+  connectionAttributes?: StringMap | undefined;
   /** Optional. Configuration for Oracle ASM connection. */
-  oracleAsmConfig?: OracleAsmConfig;
+  oracleAsmConfig?: OracleAsmConfig | undefined;
 }
 /** MySQL SSL configuration information. */
 export interface MysqlSslConfig {
   /** Input only. PEM-encoded certificate of the CA that signed the source database server's certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
   /** Optional. Input only. PEM-encoded certificate that will be used by the replica to authenticate against the source database server. If this field is used then the 'client_key' and the 'ca_certificate' fields are mandatory. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** Output only. Indicates whether the client_certificate field is set. */
-  clientCertificateSet?: boolean;
+  clientCertificateSet?: boolean | undefined;
   /** Output only. Indicates whether the client_key field is set. */
-  clientKeySet?: boolean;
+  clientKeySet?: boolean | undefined;
   /** Optional. Input only. PEM-encoded private key associated with the Client Certificate. If this field is used then the 'client_certificate' and the 'ca_certificate' fields are mandatory. */
-  clientKey?: string;
+  clientKey?: string | undefined;
   /** Output only. Indicates whether the ca_certificate field is set. */
-  caCertificateSet?: boolean;
+  caCertificateSet?: boolean | undefined;
 }
 /** Profile for connecting to a MySQL source. */
 export interface MysqlProfile {
   /** Required. Hostname for the MySQL connection. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** SSL configuration for the MySQL connection. */
-  sslConfig?: MysqlSslConfig;
+  sslConfig?: MysqlSslConfig | undefined;
   /** Optional. Input only. Password for the MySQL connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
+  password?: string | undefined;
   /** Port for the MySQL connection, default value is 3306. */
-  port?: number;
+  port?: number | undefined;
   /** Required. Username for the MySQL connection. */
-  username?: string;
+  username?: string | undefined;
   /** Optional. A reference to a Secret Manager resource name storing the MySQL connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
+  secretManagerStoredPassword?: string | undefined;
 }
 /** Static IP address connectivity. Used when the source database is configured to allow incoming connections from the Datastream public IP addresses for the region specified in the connection profile. */
 export type StaticServiceIpConnectivity = CancelOperationRequest;
 /** OAuth2 Client Credentials. */
 export interface Oauth2ClientCredentials {
   /** Required. Client ID for Salesforce OAuth2 Client Credentials. */
-  clientId?: string;
+  clientId?: string | undefined;
   /** Optional. A reference to a Secret Manager resource name storing the Salesforce OAuth2 client_secret. Mutually exclusive with the `client_secret` field. */
-  secretManagerStoredClientSecret?: string;
+  secretManagerStoredClientSecret?: string | undefined;
   /** Optional. Client secret for Salesforce OAuth2 Client Credentials. Mutually exclusive with the `secret_manager_stored_client_secret` field. */
-  clientSecret?: string;
+  clientSecret?: string | undefined;
 }
 /** Deprecated: Salesforce is retiring Username-Password authentication. Use `Oauth2ClientCredentials` instead. */
 export interface UserCredentials {
   /** Optional. A reference to a Secret Manager resource name storing the Salesforce connection's password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
+  secretManagerStoredPassword?: string | undefined;
   /** Required. Username for the Salesforce connection. */
-  username?: string;
+  username?: string | undefined;
   /** Optional. Security token for the Salesforce connection. Mutually exclusive with the `secret_manager_stored_security_token` field. */
-  securityToken?: string;
+  securityToken?: string | undefined;
   /** Optional. A reference to a Secret Manager resource name storing the Salesforce connection's security token. Mutually exclusive with the `security_token` field. */
-  secretManagerStoredSecurityToken?: string;
+  secretManagerStoredSecurityToken?: string | undefined;
   /** Optional. Password for the Salesforce connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
+  password?: string | undefined;
 }
 /** Profile for connecting to a Salesforce source. */
 export interface SalesforceProfile {
   /** Connected app authentication. */
-  oauth2ClientCredentials?: Oauth2ClientCredentials;
+  oauth2ClientCredentials?: Oauth2ClientCredentials | undefined;
   /** Deprecated: Salesforce is retiring Username-Password authentication. Use `oauth2_client_credentials` instead. */
-  userCredentials?: UserCredentials;
+  userCredentials?: UserCredentials | undefined;
   /** Required. Domain endpoint for the Salesforce connection. */
-  domain?: string;
+  domain?: string | undefined;
 }
 /** Profile for connecting to a Cloud Storage destination. */
 export interface GcsProfile {
   /** Required. The Cloud Storage bucket name. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** Optional. The root path inside the Cloud Storage bucket. */
-  rootPath?: string;
+  rootPath?: string | undefined;
 }
 /** Message represents the option where Datastream will enforce the encryption and authenticate the server identity. ca_certificate must be set if user selects this option. */
 export interface ServerVerification {
   /** Optional. The hostname mentioned in the Subject or SAN extension of the server certificate. If this field is not provided, the hostname in the server certificate is not validated. */
-  serverCertificateHostname?: string;
+  serverCertificateHostname?: string | undefined;
   /** Required. Input only. PEM-encoded server root CA certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
 }
 /** Message represents the option where Datastream will enforce the encryption and authenticate the server identity as well as the client identity. ca_certificate, client_certificate and client_key must be set if user selects this option. */
 export interface ServerAndClientVerification {
   /** Optional. The hostname mentioned in the Subject or SAN extension of the server certificate. If this field is not provided, the hostname in the server certificate is not validated. */
-  serverCertificateHostname?: string;
+  serverCertificateHostname?: string | undefined;
   /** Optional. Input only. PEM-encoded private key associated with the client certificate. This value will be used during the SSL/TLS handshake, allowing the PostgreSQL server to authenticate the client's identity, i.e. identity of the Datastream. */
-  clientKey?: string;
+  clientKey?: string | undefined;
   /** Required. Input only. PEM-encoded certificate used by the source database to authenticate the client identity (i.e., the Datastream's identity). This certificate is signed by either a root certificate trusted by the server or one or more intermediate certificates (which is stored with the leaf certificate) to link the this certificate to the trusted root certificate. */
-  clientCertificate?: string;
+  clientCertificate?: string | undefined;
   /** Required. Input only. PEM-encoded server root CA certificate. */
-  caCertificate?: string;
+  caCertificate?: string | undefined;
 }
 /** PostgreSQL SSL configuration information. */
 export interface PostgresqlSslConfig {
   /** If this field is set, the communication will be encrypted with TLS encryption and the server identity will be authenticated. */
-  serverVerification?: ServerVerification;
+  serverVerification?: ServerVerification | undefined;
   /** If this field is set, the communication will be encrypted with TLS encryption and both the server identity and the client identity will be authenticated. */
-  serverAndClientVerification?: ServerAndClientVerification;
+  serverAndClientVerification?: ServerAndClientVerification | undefined;
 }
 /** Profile for connecting to a PostgreSQL source. */
 export interface PostgresqlProfile {
   /** Optional. Password for the PostgreSQL connection. Mutually exclusive with the `secret_manager_stored_password` field. */
-  password?: string;
+  password?: string | undefined;
   /** Required. Database for the PostgreSQL connection. */
-  database?: string;
+  database?: string | undefined;
   /** Required. Hostname for the PostgreSQL connection. */
-  hostname?: string;
+  hostname?: string | undefined;
   /** Port for the PostgreSQL connection, default value is 5432. */
-  port?: number;
+  port?: number | undefined;
   /** Required. Username for the PostgreSQL connection. */
-  username?: string;
+  username?: string | undefined;
   /** Optional. SSL configuration for the PostgreSQL connection. In case PostgresqlSslConfig is not set, the connection will use the default SSL mode, which is `prefer` (i.e. this mode will only use encryption if enabled from database side, otherwise will use unencrypted communication) */
-  sslConfig?: PostgresqlSslConfig;
+  sslConfig?: PostgresqlSslConfig | undefined;
   /** Optional. A reference to a Secret Manager resource name storing the PostgreSQL connection password. Mutually exclusive with the `password` field. */
-  secretManagerStoredPassword?: string;
+  secretManagerStoredPassword?: string | undefined;
 }
 /** Profile for connecting to a Dataverse source. */
 export interface DataverseProfile {
   /** Required. Tenant id of the Microsoft Dataverse instance. */
-  tenantId?: string;
+  tenantId?: string | undefined;
   /** Required. Environment URL of the Microsoft Dataverse instance. Example: `.crm.dynamics.com` */
-  environmentUrl?: string;
+  environmentUrl?: string | undefined;
   /** Required. Credentials for authenticating with the Dataverse API. */
-  oauthClientCredentials?: OauthClientCredentials;
+  oauthClientCredentials?: OauthClientCredentials | undefined;
 }
 /** Profile for connecting to a Spanner source. */
 export interface SpannerProfile {
   /** Required. Immutable. Cloud Spanner database resource. This field is immutable. Must be in the format: projects/{project}/instances/{instance}/databases/{database_id}. */
-  database?: string;
+  database?: string | undefined;
   /** Optional. The Spanner endpoint to connect to. Defaults to the global endpoint (https://spanner.googleapis.com). Must be in the format: https://spanner.{region}.rep.googleapis.com. */
-  host?: string;
+  host?: string | undefined;
 }
 /** Profile for connecting to a Salesforce Marketing Cloud source. */
 export interface SalesforceMarketingCloudProfile {
   /** Required. Input only. Credentials for authenticating with the Salesforce Marketing Cloud API. */
-  oauthClientCredentials?: OauthClientCredentials;
+  oauthClientCredentials?: OauthClientCredentials | undefined;
   /** Required. Subdomain for the Salesforce Marketing Cloud connection. Example: if your specific endpoint is `https://{your-specific-subdomain}.rest.marketingcloudapis.com/`, the subdomain is `{your-specific-subdomain}`. Must be 1-63 characters, start and end with an alphanumeric character, and contain only lowercase letters, numbers, and hyphens (-). */
-  subdomain?: string;
+  subdomain?: string | undefined;
 }
 /** A set of reusable connection configurations to be used as a source or destination for a stream. */
 export interface ConnectionProfile {
   /** Optional. Profile for connecting to a Workday source. */
-  workdayProfile?: WorkdayProfile;
+  workdayProfile?: WorkdayProfile | undefined;
   /** Forward SSH tunnel connectivity. */
-  forwardSshConnectivity?: ForwardSshTunnelConnectivity;
+  forwardSshConnectivity?: ForwardSshTunnelConnectivity | undefined;
   /** Profile for connecting to a SQLServer source. */
-  sqlServerProfile?: SqlServerProfile;
+  sqlServerProfile?: SqlServerProfile | undefined;
   /** Private connectivity. */
-  privateConnectivity?: PrivateConnectivity;
+  privateConnectivity?: PrivateConnectivity | undefined;
   /** Profile for connecting to a MongoDB source. */
-  mongodbProfile?: MongodbProfile;
+  mongodbProfile?: MongodbProfile | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Profile for connecting to a BigQuery destination. */
-  bigqueryProfile?: CancelOperationRequest;
+  bigqueryProfile?: CancelOperationRequest | undefined;
   /** Profile for connecting to a ServiceNow source. */
-  serviceNowProfile?: ServiceNowProfile;
+  serviceNowProfile?: ServiceNowProfile | undefined;
   /** Profile for connecting to an Oracle source. */
-  oracleProfile?: OracleProfile;
+  oracleProfile?: OracleProfile | undefined;
   /** Profile for connecting to a MySQL source. */
-  mysqlProfile?: MysqlProfile;
+  mysqlProfile?: MysqlProfile | undefined;
   /** Static Service IP connectivity. */
-  staticServiceIpConnectivity?: CancelOperationRequest;
+  staticServiceIpConnectivity?: CancelOperationRequest | undefined;
   /** Profile for connecting to a Salesforce source. */
-  salesforceProfile?: SalesforceProfile;
+  salesforceProfile?: SalesforceProfile | undefined;
   /** Profile for connecting to a Cloud Storage destination. */
-  gcsProfile?: GcsProfile;
+  gcsProfile?: GcsProfile | undefined;
   /** Profile for connecting to a PostgreSQL source. */
-  postgresqlProfile?: PostgresqlProfile;
+  postgresqlProfile?: PostgresqlProfile | undefined;
   /** Required. Display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. Identifier. The resource's name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The create time of the resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Profile for connecting to a Dataverse source. */
-  dataverseProfile?: DataverseProfile;
+  dataverseProfile?: DataverseProfile | undefined;
   /** Output only. The update time of the resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Profile for connecting to a Spanner source. */
-  spannerProfile?: SpannerProfile;
+  spannerProfile?: SpannerProfile | undefined;
   /** Profile for connecting to a Salesforce Marketing Cloud source. */
-  salesforceMarketingCloudProfile?: SalesforceMarketingCloudProfile;
+  salesforceMarketingCloudProfile?: SalesforceMarketingCloudProfile | undefined;
   /** Labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsConnectionProfilesRequest {
   /** Required. The parent that owns the collection of ConnectionProfiles. */
   parent: string;
   /** Optional. Create the connection profile without validating it. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. Only validate the connection profile, but don't create any resources. The default is false. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The connection profile identifier. */
-  connectionProfileId?: string;
+  connectionProfileId?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Request body */
-  body?: ConnectionProfile;
+  body?: ConnectionProfile | undefined;
 }
 export type DocumentMap = { [key: string]: unknown | undefined };
 export type DocumentMapList = Array<DocumentMap>;
 /** The `Status` type defines a logical error model that is suitable for different programming environments, including REST APIs and RPC APIs. It is used by [gRPC](https://github.com/grpc). Each `Status` message contains three pieces of data: error code, error message, and error details. You can find out more about this error model and how to work with it in the [API Design Guide](https://cloud.google.com/apis/design/errors). */
 export interface Status {
   /** A list of messages that carry the error details. There is a common set of message types for APIs to use. */
-  details?: DocumentMapList;
+  details?: DocumentMapList | undefined;
   /** The status code, which should be an enum value of google.rpc.Code. */
-  code?: number;
+  code?: number | undefined;
   /** A developer-facing error message, which should be in English. Any user-facing error message should be localized and sent in the google.rpc.Status.details field, or localized by the client. */
-  message?: string;
+  message?: string | undefined;
 }
 /** This resource represents a long-running operation that is the result of a network API call. */
 export interface Operation {
   /** The normal, successful response of the operation. If the original method returns no data on success, such as `Delete`, the response is `google.protobuf.Empty`. If the original method is standard `Get`/`Create`/`Update`, the response should be the resource. For other methods, the response should have the type `XxxResponse`, where `Xxx` is the original method name. For example, if the original method name is `TakeSnapshot()`, the inferred response type is `TakeSnapshotResponse`. */
-  response?: DocumentMap;
+  response?: DocumentMap | undefined;
   /** Service-specific metadata associated with the operation. It typically contains progress information and common metadata such as create time. Some services might not provide such metadata. Any method that returns a long-running operation should document the metadata type, if any. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** If the value is `false`, it means the operation is still in progress. If `true`, the operation is completed, and either `error` or `response` is available. */
-  done?: boolean;
+  done?: boolean | undefined;
   /** The server-assigned name, which is only unique within the same service that originally returns it. If you use the default HTTP mapping, the `name` should be a resource name ending with `operations/{unique_id}`. */
-  name?: string;
+  name?: string | undefined;
   /** The error result of the operation in case of failure or cancellation. */
-  error?: Status;
+  error?: Status | undefined;
 }
 export type PrivateConnectionStateEnum =
   | "STATE_UNSPECIFIED"
@@ -531,93 +531,93 @@ export type PrivateConnectionStateEnum =
 /** The VPC Peering configuration is used to create VPC peering between Datastream and the consumer's VPC. */
 export interface VpcPeeringConfig {
   /** Required. A free subnet for peering. (CIDR of /29) */
-  subnet?: string;
+  subnet?: string | undefined;
   /** Required. Fully qualified name of the VPC that Datastream will peer to. Format: `projects/{project}/global/{networks}/{name}` */
-  vpc?: string;
+  vpc?: string | undefined;
 }
 /** Represent a user-facing Error. */
 export interface Datastream_Error {
   /** A message containing more information about the error that occurred. */
-  message?: string;
+  message?: string | undefined;
   /** A title that explains the reason for the error. */
-  reason?: string;
+  reason?: string | undefined;
   /** A unique identifier for this specific error, allowing it to be traced throughout the system in logs and API responses. */
-  errorUuid?: string;
+  errorUuid?: string | undefined;
   /** The time when the error occurred. */
-  errorTime?: string;
+  errorTime?: string | undefined;
   /** Additional information about the error. */
-  details?: StringMap;
+  details?: StringMap | undefined;
 }
 /** The PSC Interface configuration is used to create PSC Interface between Datastream and the consumer's PSC. */
 export interface PscInterfaceConfig {
   /** Required. Fully qualified name of the Network Attachment that Datastream will connect to. Format: `projects/{project}/regions/{region}/networkAttachments/{name}` */
-  networkAttachment?: string;
+  networkAttachment?: string | undefined;
 }
 /** The PrivateConnection resource is used to establish private connectivity between Datastream and a customer's network. */
 export interface PrivateConnection {
   /** Output only. The state of the Private Connection. */
-  state?: PrivateConnectionStateEnum | (string & {});
+  state?: PrivateConnectionStateEnum | (string & {}) | undefined;
   /** Required. Display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** VPC Peering Config. */
-  vpcPeeringConfig?: VpcPeeringConfig;
+  vpcPeeringConfig?: VpcPeeringConfig | undefined;
   /** Labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. In case of error, the details of the error in a user-friendly format. */
-  error?: Datastream_Error;
+  error?: Datastream_Error | undefined;
   /** Output only. The create time of the resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Output only. Identifier. The resource's name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The update time of the resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** PSC Interface Config. */
-  pscInterfaceConfig?: PscInterfaceConfig;
+  pscInterfaceConfig?: PscInterfaceConfig | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
 }
 export interface CreateProjectsLocationsPrivateConnectionsRequest {
   /** Optional. When supplied with PSC Interface config, will get/create the tenant project required for the customer to allow list and won't actually create the private connection. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. If set to true, will skip validations. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The private connectivity identifier. */
-  privateConnectionId?: string;
+  privateConnectionId?: string | undefined;
   /** Required. The parent that owns the collection of PrivateConnections. */
   parent: string;
   /** Request body */
-  body?: PrivateConnection;
+  body?: PrivateConnection | undefined;
 }
 /** The route resource is the child of the private connection resource, used for defining a route for a private connection. */
 export interface Route {
   /** Destination port for connection */
-  destinationPort?: number;
+  destinationPort?: number | undefined;
   /** Required. Display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. Destination address for connection */
-  destinationAddress?: string;
+  destinationAddress?: string | undefined;
   /** Output only. The update time of the resource. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Output only. The create time of the resource. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
   /** Output only. Identifier. The resource's name. */
-  name?: string;
+  name?: string | undefined;
 }
 export interface CreateProjectsLocationsPrivateConnectionsRoutesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The parent that owns the collection of Routes. */
   parent: string;
   /** Required. The Route identifier. */
-  routeId?: string;
+  routeId?: string | undefined;
   /** Request body */
-  body?: Route;
+  body?: Route | undefined;
 }
 export type StreamStateEnum =
   | "STATE_UNSPECIFIED"
@@ -632,77 +632,77 @@ export type StreamStateEnum =
 /** Salesforce field. */
 export interface SalesforceField {
   /** The data type. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** The field name. */
-  name?: string;
+  name?: string | undefined;
   /** Indicates whether the field can accept nil values. */
-  nillable?: boolean;
+  nillable?: boolean | undefined;
 }
 export type SalesforceFieldList = Array<SalesforceField>;
 /** Salesforce object. */
 export interface SalesforceObject {
   /** The object name. */
-  objectName?: string;
+  objectName?: string | undefined;
   /** Salesforce fields. When unspecified as part of include objects, includes everything, when unspecified as part of exclude objects, excludes nothing. */
-  fields?: SalesforceFieldList;
+  fields?: SalesforceFieldList | undefined;
 }
 export type SalesforceObjectList = Array<SalesforceObject>;
 /** Salesforce organization structure. */
 export interface SalesforceOrg {
   /** Salesforce objects in the database server. */
-  objects?: SalesforceObjectList;
+  objects?: SalesforceObjectList | undefined;
 }
 /** Configuration for syncing data from a Salesforce source. */
 export interface SalesforceSourceConfig {
   /** Required. Salesforce objects polling interval. The interval at which new changes will be polled for each object. The duration must be from `5 minutes` to `24 hours`, inclusive. */
-  pollingInterval?: string;
+  pollingInterval?: string | undefined;
   /** The Salesforce objects to exclude from the stream. */
-  excludeObjects?: SalesforceOrg;
+  excludeObjects?: SalesforceOrg | undefined;
   /** The Salesforce objects to retrieve from the source. */
-  includeObjects?: SalesforceOrg;
+  includeObjects?: SalesforceOrg | undefined;
 }
 /** Source property. */
 export interface SourceProperty {
   /** Required. The property name. */
-  propertyName?: string;
+  propertyName?: string | undefined;
   /** Optional. Source properties. When specified, it means that the current property contains nested properties of its own. When unspecified as part of include objects, includes everything, when unspecified as part of exclude objects, excludes nothing. */
-  properties?: SourcePropertyList;
+  properties?: SourcePropertyList | undefined;
   /** Optional. Whether or not the property is a primary key. */
-  primaryKey?: boolean;
+  primaryKey?: boolean | undefined;
 }
 export type SourcePropertyList = Array<SourceProperty>;
 /** Source object. */
 export interface SourceObject {
   /** Required. The object name. */
-  objectName?: string;
+  objectName?: string | undefined;
   /** Optional. Source properties. When unspecified as part of include objects, includes everything, when unspecified as part of exclude objects, excludes nothing. */
-  properties?: SourcePropertyList;
+  properties?: SourcePropertyList | undefined;
 }
 export type SourceObjectList = Array<SourceObject>;
 /** Source catalog. */
 export interface SourceCatalog {
   /** Optional. Source objects in the catalog. */
-  objects?: SourceObjectList;
+  objects?: SourceObjectList | undefined;
 }
 /** Configuration for syncing data from a Workday source. */
 export interface WorkdaySourceConfig {
   /** Optional. The objects to retrieve from the source. */
-  includeObjects?: SourceCatalog;
+  includeObjects?: SourceCatalog | undefined;
   /** Optional. The objects to exclude from the stream. */
-  excludeObjects?: SourceCatalog;
+  excludeObjects?: SourceCatalog | undefined;
   /** Required. Incremental sync polling interval for all objects. If not set, a default value of `5 minutes` is used. The duration must be from `5 minutes` to `24 hours`, inclusive. */
-  pollingInterval?: string;
+  pollingInterval?: string | undefined;
 }
 /** Configuration for syncing data from a Salesforce Marketing Cloud source. */
 export interface SalesforceMarketingCloudSourceConfig {
   /** Required. Incremental sync polling interval for all objects. If not set, a default value of `5 minutes` is used. The duration must be from `5 minutes` to `24 hours`, inclusive. */
-  pollingInterval?: string;
+  pollingInterval?: string | undefined;
   /** Optional. The objects to retrieve from the source. */
-  includeObjects?: SourceCatalog;
+  includeObjects?: SourceCatalog | undefined;
   /** Optional. The objects to exclude from the stream. */
-  excludeObjects?: SourceCatalog;
+  excludeObjects?: SourceCatalog | undefined;
   /** Required. Specifies the polling interval for a full refresh of objects that do not support incremental sync. If not set, a default value of 24 hours is used. The duration must be between 1 and 24 hours, inclusive. */
-  fullRefreshPollingInterval?: string;
+  fullRefreshPollingInterval?: string | undefined;
 }
 /** Configuration to stream large object values. */
 export type StreamLargeObjects = CancelOperationRequest;
@@ -711,45 +711,45 @@ export type DropLargeObjects = CancelOperationRequest;
 /** Oracle Column. */
 export interface OracleColumn {
   /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
+  ordinalPosition?: number | undefined;
   /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
+  primaryKey?: boolean | undefined;
   /** The column name. */
-  column?: string;
+  column?: string | undefined;
   /** Column encoding. */
-  encoding?: string;
+  encoding?: string | undefined;
   /** Column length. */
-  length?: number;
+  length?: number | undefined;
   /** The Oracle data type. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Column scale. */
-  scale?: number;
+  scale?: number | undefined;
   /** Column precision. */
-  precision?: number;
+  precision?: number | undefined;
 }
 export type OracleColumnList = Array<OracleColumn>;
 /** Oracle table. */
 export interface OracleTable {
   /** Oracle columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything. */
-  oracleColumns?: OracleColumnList;
+  oracleColumns?: OracleColumnList | undefined;
   /** The table name. */
-  table?: string;
+  table?: string | undefined;
 }
 export type OracleTableList = Array<OracleTable>;
 /** Oracle schema. */
 export interface OracleSchema {
   /** The schema name. */
-  schema?: string;
+  schema?: string | undefined;
   /** Tables in the schema. */
-  oracleTables?: OracleTableList;
+  oracleTables?: OracleTableList | undefined;
 }
 export type OracleSchemaList = Array<OracleSchema>;
 /** Oracle database structure. */
 export interface OracleRdbms {
   /** Oracle schemas/databases in the database server. */
-  oracleSchemas?: OracleSchemaList;
+  oracleSchemas?: OracleSchemaList | undefined;
 }
 /** Configuration to use LogMiner CDC method. */
 export type LogMiner = CancelOperationRequest;
@@ -758,195 +758,195 @@ export type OracleAsmLogFileAccess = CancelOperationRequest;
 /** Configuration to specify the Oracle directories to access the log files. */
 export interface LogFileDirectories {
   /** Required. Oracle directory for archived logs. */
-  archivedLogDirectory?: string;
+  archivedLogDirectory?: string | undefined;
   /** Required. Oracle directory for online logs. */
-  onlineLogDirectory?: string;
+  onlineLogDirectory?: string | undefined;
 }
 /** Configuration to use Binary Log Parser CDC technique. */
 export interface BinaryLogParser {
   /** Use Oracle ASM. */
-  oracleAsmLogFileAccess?: CancelOperationRequest;
+  oracleAsmLogFileAccess?: CancelOperationRequest | undefined;
   /** Use Oracle directories. */
-  logFileDirectories?: LogFileDirectories;
+  logFileDirectories?: LogFileDirectories | undefined;
 }
 /** Configuration for syncing data from an Oracle source. */
 export interface OracleSourceConfig {
   /** Stream large object values. */
-  streamLargeObjects?: CancelOperationRequest;
+  streamLargeObjects?: CancelOperationRequest | undefined;
   /** Maximum number of concurrent backfill tasks. The number should be non-negative. If not set (or set to 0), the system's default value is used. */
-  maxConcurrentBackfillTasks?: number;
+  maxConcurrentBackfillTasks?: number | undefined;
   /** Drop large object values. */
-  dropLargeObjects?: CancelOperationRequest;
+  dropLargeObjects?: CancelOperationRequest | undefined;
   /** The Oracle objects to exclude from the stream. */
-  excludeObjects?: OracleRdbms;
+  excludeObjects?: OracleRdbms | undefined;
   /** Maximum number of concurrent CDC tasks. The number should be non-negative. If not set (or set to 0), the system's default value is used. */
-  maxConcurrentCdcTasks?: number;
+  maxConcurrentCdcTasks?: number | undefined;
   /** Use LogMiner. */
-  logMiner?: CancelOperationRequest;
+  logMiner?: CancelOperationRequest | undefined;
   /** The Oracle objects to include in the stream. */
-  includeObjects?: OracleRdbms;
+  includeObjects?: OracleRdbms | undefined;
   /** Use Binary Log Parser. */
-  binaryLogParser?: BinaryLogParser;
+  binaryLogParser?: BinaryLogParser | undefined;
 }
 /** SQLServer Column. */
 export interface SqlServerColumn {
   /** Column length. */
-  length?: number;
+  length?: number | undefined;
   /** Column scale. */
-  scale?: number;
+  scale?: number | undefined;
   /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
+  primaryKey?: boolean | undefined;
   /** The SQLServer data type. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** The column name. */
-  column?: string;
+  column?: string | undefined;
   /** Column precision. */
-  precision?: number;
+  precision?: number | undefined;
   /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
+  ordinalPosition?: number | undefined;
 }
 export type SqlServerColumnList = Array<SqlServerColumn>;
 /** SQLServer table. */
 export interface SqlServerTable {
   /** The table name. */
-  table?: string;
+  table?: string | undefined;
   /** SQLServer columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything. */
-  columns?: SqlServerColumnList;
+  columns?: SqlServerColumnList | undefined;
 }
 export type SqlServerTableList = Array<SqlServerTable>;
 /** SQLServer schema. */
 export interface SqlServerSchema {
   /** Tables in the schema. */
-  tables?: SqlServerTableList;
+  tables?: SqlServerTableList | undefined;
   /** The schema name. */
-  schema?: string;
+  schema?: string | undefined;
 }
 export type SqlServerSchemaList = Array<SqlServerSchema>;
 /** SQLServer database structure. */
 export interface SqlServerRdbms {
   /** SQLServer schemas in the database server. */
-  schemas?: SqlServerSchemaList;
+  schemas?: SqlServerSchemaList | undefined;
 }
 /** Configuration to use Transaction Logs CDC read method. */
 export type SqlServerTransactionLogs = CancelOperationRequest;
 /** DDL configuration for change tables. */
 export interface SqlServerDdlConfig {
   /** Optional. If set to true, Datastream will automatically delete the old capture instance after creating a new one to support a DDL change. The default is false and means that the customer has to delete the old capture instance manually. */
-  autoDeleteOldCaptureInstance?: boolean;
+  autoDeleteOldCaptureInstance?: boolean | undefined;
   /** Optional. If set to true, Datastream will automatically create a new capture instance when DDL is detected on a table.The customer will be responsible for deleting it so that the next set of DDLs can be handled. The default is false and it means that DDL's will not be handled . */
-  autoCreateNewCaptureInstanceOnDdl?: boolean;
+  autoCreateNewCaptureInstanceOnDdl?: boolean | undefined;
 }
 /** Configuration to use Change Tables CDC read method. */
 export interface SqlServerChangeTables {
   /** Optional. DDL configuration for change tables. */
-  ddlConfig?: SqlServerDdlConfig;
+  ddlConfig?: SqlServerDdlConfig | undefined;
 }
 /** Configuration for syncing data from a SQLServer source. */
 export interface SqlServerSourceConfig {
   /** Max concurrent backfill tasks. */
-  maxConcurrentBackfillTasks?: number;
+  maxConcurrentBackfillTasks?: number | undefined;
   /** The SQLServer objects to exclude from the stream. */
-  excludeObjects?: SqlServerRdbms;
+  excludeObjects?: SqlServerRdbms | undefined;
   /** The SQLServer objects to include in the stream. */
-  includeObjects?: SqlServerRdbms;
+  includeObjects?: SqlServerRdbms | undefined;
   /** CDC reader reads from transaction logs. */
-  transactionLogs?: CancelOperationRequest;
+  transactionLogs?: CancelOperationRequest | undefined;
   /** CDC reader reads from change tables. */
-  changeTables?: SqlServerChangeTables;
+  changeTables?: SqlServerChangeTables | undefined;
   /** Max concurrent CDC tasks. */
-  maxConcurrentCdcTasks?: number;
+  maxConcurrentCdcTasks?: number | undefined;
 }
 /** PostgreSQL Column. */
 export interface PostgresqlColumn {
   /** Column precision. */
-  precision?: number;
+  precision?: number | undefined;
   /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
+  ordinalPosition?: number | undefined;
   /** The column name. */
-  column?: string;
+  column?: string | undefined;
   /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
+  primaryKey?: boolean | undefined;
   /** The PostgreSQL data type. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** Column scale. */
-  scale?: number;
+  scale?: number | undefined;
   /** Column length. */
-  length?: number;
+  length?: number | undefined;
 }
 export type PostgresqlColumnList = Array<PostgresqlColumn>;
 /** PostgreSQL table. */
 export interface PostgresqlTable {
   /** PostgreSQL columns in the schema. When unspecified as part of include/exclude objects, includes/excludes everything. */
-  postgresqlColumns?: PostgresqlColumnList;
+  postgresqlColumns?: PostgresqlColumnList | undefined;
   /** The table name. */
-  table?: string;
+  table?: string | undefined;
 }
 export type PostgresqlTableList = Array<PostgresqlTable>;
 /** PostgreSQL schema. */
 export interface PostgresqlSchema {
   /** Tables in the schema. */
-  postgresqlTables?: PostgresqlTableList;
+  postgresqlTables?: PostgresqlTableList | undefined;
   /** The schema name. */
-  schema?: string;
+  schema?: string | undefined;
 }
 export type PostgresqlSchemaList = Array<PostgresqlSchema>;
 /** PostgreSQL database structure. */
 export interface PostgresqlRdbms {
   /** PostgreSQL schemas in the database server. */
-  postgresqlSchemas?: PostgresqlSchemaList;
+  postgresqlSchemas?: PostgresqlSchemaList | undefined;
 }
 /** Configuration for syncing data from a PostgreSQL source. */
 export interface PostgresqlSourceConfig {
   /** Required. Immutable. The name of the logical replication slot that's configured with the pgoutput plugin. */
-  replicationSlot?: string;
+  replicationSlot?: string | undefined;
   /** Required. The name of the publication that includes the set of all tables that are defined in the stream's include_objects. */
-  publication?: string;
+  publication?: string | undefined;
   /** The PostgreSQL objects to include in the stream. */
-  includeObjects?: PostgresqlRdbms;
+  includeObjects?: PostgresqlRdbms | undefined;
   /** The PostgreSQL objects to exclude from the stream. */
-  excludeObjects?: PostgresqlRdbms;
+  excludeObjects?: PostgresqlRdbms | undefined;
   /** Maximum number of concurrent backfill tasks. The number should be non negative. If not set (or set to 0), the system's default value will be used. */
-  maxConcurrentBackfillTasks?: number;
+  maxConcurrentBackfillTasks?: number | undefined;
 }
 /** Configuration for syncing data from a Dataverse source. */
 export interface DataverseSourceConfig {
   /** Optional. The objects to retrieve from the source. */
-  includeObjects?: SourceCatalog;
+  includeObjects?: SourceCatalog | undefined;
   /** Required. Incremental sync polling interval for all objects. If not set, a default value of `5 minutes` is used. The duration must be from `5 minutes` to `24 hours`, inclusive. */
-  pollingInterval?: string;
+  pollingInterval?: string | undefined;
   /** Optional. The objects to exclude from the stream. */
-  excludeObjects?: SourceCatalog;
+  excludeObjects?: SourceCatalog | undefined;
 }
 /** MongoDB Field. */
 export interface MongodbField {
   /** The field name. */
-  field?: string;
+  field?: string | undefined;
 }
 export type MongodbFieldList = Array<MongodbField>;
 /** MongoDB Collection. */
 export interface MongodbCollection {
   /** The collection name. */
-  collection?: string;
+  collection?: string | undefined;
   /** Fields in the collection. */
-  fields?: MongodbFieldList;
+  fields?: MongodbFieldList | undefined;
 }
 export type MongodbCollectionList = Array<MongodbCollection>;
 /** MongoDB Database. */
 export interface MongodbDatabase {
   /** Collections in the database. */
-  collections?: MongodbCollectionList;
+  collections?: MongodbCollectionList | undefined;
   /** The database name. */
-  database?: string;
+  database?: string | undefined;
 }
 export type MongodbDatabaseList = Array<MongodbDatabase>;
 /** MongoDB Cluster structure. */
 export interface MongodbCluster {
   /** MongoDB databases in the cluster. */
-  databases?: MongodbDatabaseList;
+  databases?: MongodbDatabaseList | undefined;
 }
 export type MongodbSourceConfigJsonModeEnum =
   | "MONGODB_JSON_MODE_UNSPECIFIED"
@@ -955,65 +955,65 @@ export type MongodbSourceConfigJsonModeEnum =
 /** Configuration for syncing data from a MongoDB source. */
 export interface MongodbSourceConfig {
   /** The MongoDB collections to include in the stream. */
-  includeObjects?: MongodbCluster;
+  includeObjects?: MongodbCluster | undefined;
   /** Optional. MongoDB JSON mode to use for the stream. */
-  jsonMode?: MongodbSourceConfigJsonModeEnum | (string & {});
+  jsonMode?: MongodbSourceConfigJsonModeEnum | (string & {}) | undefined;
   /** Optional. Maximum number of concurrent backfill tasks. The number should be non-negative and less than or equal to 50. If not set (or set to 0), the system's default value is used */
-  maxConcurrentBackfillTasks?: number;
+  maxConcurrentBackfillTasks?: number | undefined;
   /** The MongoDB collections to exclude from the stream. */
-  excludeObjects?: MongodbCluster;
+  excludeObjects?: MongodbCluster | undefined;
 }
 /** Configuration for syncing data from a ServiceNow source. */
 export interface ServiceNowSourceConfig {
   /** Required. Incremental sync polling interval for all objects. If not set, a default value of `5 minutes` is used. The duration must be from `5 minutes` to `24 hours`, inclusive. */
-  pollingInterval?: string;
+  pollingInterval?: string | undefined;
   /** Optional. The objects to retrieve from the source. */
-  includeObjects?: SourceCatalog;
+  includeObjects?: SourceCatalog | undefined;
   /** Optional. The objects to exclude from the stream. */
-  excludeObjects?: SourceCatalog;
+  excludeObjects?: SourceCatalog | undefined;
 }
 /** MySQL Column. */
 export interface MysqlColumn {
   /** Column length. */
-  length?: number;
+  length?: number | undefined;
   /** Column scale. */
-  scale?: number;
+  scale?: number | undefined;
   /** The MySQL data type. Full data types list can be found here: https://dev.mysql.com/doc/refman/8.0/en/data-types.html */
-  dataType?: string;
+  dataType?: string | undefined;
   /** The ordinal position of the column in the table. */
-  ordinalPosition?: number;
+  ordinalPosition?: number | undefined;
   /** Column precision. */
-  precision?: number;
+  precision?: number | undefined;
   /** Whether or not the column can accept a null value. */
-  nullable?: boolean;
+  nullable?: boolean | undefined;
   /** The column name. */
-  column?: string;
+  column?: string | undefined;
   /** Whether or not the column represents a primary key. */
-  primaryKey?: boolean;
+  primaryKey?: boolean | undefined;
   /** Column collation. */
-  collation?: string;
+  collation?: string | undefined;
 }
 export type MysqlColumnList = Array<MysqlColumn>;
 /** MySQL table. */
 export interface MysqlTable {
   /** The table name. */
-  table?: string;
+  table?: string | undefined;
   /** MySQL columns in the database. When unspecified as part of include/exclude objects, includes/excludes everything. */
-  mysqlColumns?: MysqlColumnList;
+  mysqlColumns?: MysqlColumnList | undefined;
 }
 export type MysqlTableList = Array<MysqlTable>;
 /** MySQL database. */
 export interface MysqlDatabase {
   /** Tables in the database. */
-  mysqlTables?: MysqlTableList;
+  mysqlTables?: MysqlTableList | undefined;
   /** The database name. */
-  database?: string;
+  database?: string | undefined;
 }
 export type MysqlDatabaseList = Array<MysqlDatabase>;
 /** MySQL database structure */
 export interface MysqlRdbms {
   /** Mysql databases on the server */
-  mysqlDatabases?: MysqlDatabaseList;
+  mysqlDatabases?: MysqlDatabaseList | undefined;
 }
 /** Use GTID based replication. */
 export type Gtid = CancelOperationRequest;
@@ -1022,17 +1022,17 @@ export type BinaryLogPosition = CancelOperationRequest;
 /** Configuration for syncing data from a MySQL source. */
 export interface MysqlSourceConfig {
   /** The MySQL objects to retrieve from the source. */
-  includeObjects?: MysqlRdbms;
+  includeObjects?: MysqlRdbms | undefined;
   /** Maximum number of concurrent CDC tasks. The number should be non negative. If not set (or set to 0), the system's default value will be used. */
-  maxConcurrentCdcTasks?: number;
+  maxConcurrentCdcTasks?: number | undefined;
   /** The MySQL objects to exclude from the stream. */
-  excludeObjects?: MysqlRdbms;
+  excludeObjects?: MysqlRdbms | undefined;
   /** Use GTID based replication. */
-  gtid?: CancelOperationRequest;
+  gtid?: CancelOperationRequest | undefined;
   /** Maximum number of concurrent backfill tasks. The number should be non negative. If not set (or set to 0), the system's default value will be used. */
-  maxConcurrentBackfillTasks?: number;
+  maxConcurrentBackfillTasks?: number | undefined;
   /** Use Binary log position based replication. */
-  binaryLogPosition?: CancelOperationRequest;
+  binaryLogPosition?: CancelOperationRequest | undefined;
 }
 export type SpannerSourceConfigSpannerRpcPriorityEnum =
   | "SPANNER_RPC_PRIORITY_UNSPECIFIED"
@@ -1042,106 +1042,106 @@ export type SpannerSourceConfigSpannerRpcPriorityEnum =
 /** Spanner column. */
 export interface SpannerColumn {
   /** Required. The column name. */
-  column?: string;
+  column?: string | undefined;
   /** Optional. Spanner data type. */
-  dataType?: string;
+  dataType?: string | undefined;
   /** Optional. Whether or not the column is a primary key. */
-  isPrimaryKey?: boolean;
+  isPrimaryKey?: boolean | undefined;
   /** Optional. The ordinal position of the column in the table. */
-  ordinalPosition?: string;
+  ordinalPosition?: string | undefined;
 }
 export type SpannerColumnList = Array<SpannerColumn>;
 /** Spanner table. */
 export interface SpannerTable {
   /** Required. The table name. */
-  table?: string;
+  table?: string | undefined;
   /** Optional. Spanner columns in the table. */
-  columns?: SpannerColumnList;
+  columns?: SpannerColumnList | undefined;
 }
 export type SpannerTableList = Array<SpannerTable>;
 /** Spanner schema. */
 export interface SpannerSchema {
   /** Required. The schema name. */
-  schema?: string;
+  schema?: string | undefined;
   /** Optional. Spanner tables in the schema. */
-  tables?: SpannerTableList;
+  tables?: SpannerTableList | undefined;
 }
 export type SpannerSchemaList = Array<SpannerSchema>;
 /** Spanner database structure. */
 export interface SpannerDatabase {
   /** Optional. Spanner schemas in the database. */
-  schemas?: SpannerSchemaList;
+  schemas?: SpannerSchemaList | undefined;
 }
 /** Configuration for syncing data from a Spanner source. */
 export interface SpannerSourceConfig {
   /** Optional. Maximum number of concurrent backfill tasks. */
-  maxConcurrentBackfillTasks?: number;
+  maxConcurrentBackfillTasks?: number | undefined;
   /** Optional. Maximum number of concurrent CDC tasks. */
-  maxConcurrentCdcTasks?: number;
+  maxConcurrentCdcTasks?: number | undefined;
   /** Optional. The RPC priority to use for the stream. */
-  spannerRpcPriority?: SpannerSourceConfigSpannerRpcPriorityEnum | (string & {});
+  spannerRpcPriority?: SpannerSourceConfigSpannerRpcPriorityEnum | (string & {}) | undefined;
   /** Required. Immutable. The change stream name to use for the stream. */
-  changeStreamName?: string;
+  changeStreamName?: string | undefined;
   /** Optional. The Spanner objects to avoid retrieving. If some objects are both included and excluded, an error will be thrown. */
-  excludeObjects?: SpannerDatabase;
+  excludeObjects?: SpannerDatabase | undefined;
   /** Optional. The FGAC role to use for the stream. */
-  fgacRole?: string;
+  fgacRole?: string | undefined;
   /** Optional. The Spanner objects to retrieve from the data source. If some objects are both included and excluded, an error will be thrown. */
-  includeObjects?: SpannerDatabase;
+  includeObjects?: SpannerDatabase | undefined;
   /** Optional. Whether to use Data Boost for Spanner backfills. Defaults to false if not set. */
-  backfillDataBoostEnabled?: boolean;
+  backfillDataBoostEnabled?: boolean | undefined;
 }
 /** The configuration of the stream source. */
 export interface SourceConfig {
   /** Required. Source connection profile resource. Format: `projects/{project}/locations/{location}/connectionProfiles/{name}` */
-  sourceConnectionProfile?: string;
+  sourceConnectionProfile?: string | undefined;
   /** Salesforce data source configuration. */
-  salesforceSourceConfig?: SalesforceSourceConfig;
+  salesforceSourceConfig?: SalesforceSourceConfig | undefined;
   /** Optional. Workday data source configuration. */
-  workdaySourceConfig?: WorkdaySourceConfig;
+  workdaySourceConfig?: WorkdaySourceConfig | undefined;
   /** Salesforce Marketing Cloud data source configuration. */
-  salesforceMarketingCloudSourceConfig?: SalesforceMarketingCloudSourceConfig;
+  salesforceMarketingCloudSourceConfig?: SalesforceMarketingCloudSourceConfig | undefined;
   /** Oracle data source configuration. */
-  oracleSourceConfig?: OracleSourceConfig;
+  oracleSourceConfig?: OracleSourceConfig | undefined;
   /** SQLServer data source configuration. */
-  sqlServerSourceConfig?: SqlServerSourceConfig;
+  sqlServerSourceConfig?: SqlServerSourceConfig | undefined;
   /** PostgreSQL data source configuration. */
-  postgresqlSourceConfig?: PostgresqlSourceConfig;
+  postgresqlSourceConfig?: PostgresqlSourceConfig | undefined;
   /** Dataverse data source configuration. */
-  dataverseSourceConfig?: DataverseSourceConfig;
+  dataverseSourceConfig?: DataverseSourceConfig | undefined;
   /** MongoDB data source configuration. */
-  mongodbSourceConfig?: MongodbSourceConfig;
+  mongodbSourceConfig?: MongodbSourceConfig | undefined;
   /** ServiceNow data source configuration. */
-  serviceNowSourceConfig?: ServiceNowSourceConfig;
+  serviceNowSourceConfig?: ServiceNowSourceConfig | undefined;
   /** MySQL data source configuration. */
-  mysqlSourceConfig?: MysqlSourceConfig;
+  mysqlSourceConfig?: MysqlSourceConfig | undefined;
   /** Spanner data source configuration. */
-  spannerSourceConfig?: SpannerSourceConfig;
+  spannerSourceConfig?: SpannerSourceConfig | undefined;
 }
 /** Backfill strategy to automatically backfill the Stream's objects. Specific objects can be excluded. */
 export interface BackfillAllStrategy {
   /** PostgreSQL data source objects to avoid backfilling. */
-  postgresqlExcludedObjects?: PostgresqlRdbms;
+  postgresqlExcludedObjects?: PostgresqlRdbms | undefined;
   /** MongoDB data source objects to avoid backfilling */
-  mongodbExcludedObjects?: MongodbCluster;
+  mongodbExcludedObjects?: MongodbCluster | undefined;
   /** Oracle data source objects to avoid backfilling. */
-  oracleExcludedObjects?: OracleRdbms;
+  oracleExcludedObjects?: OracleRdbms | undefined;
   /** Salesforce data source objects to avoid backfilling */
-  salesforceExcludedObjects?: SalesforceOrg;
+  salesforceExcludedObjects?: SalesforceOrg | undefined;
   /** MySQL data source objects to avoid backfilling. */
-  mysqlExcludedObjects?: MysqlRdbms;
+  mysqlExcludedObjects?: MysqlRdbms | undefined;
   /** Spanner data source objects to avoid backfilling. */
-  spannerExcludedObjects?: SpannerDatabase;
+  spannerExcludedObjects?: SpannerDatabase | undefined;
   /** Source catalog data source objects to avoid backfilling. This is mainly used to represent SaaS applications objects. */
-  saasExcludedObjects?: SourceCatalog;
+  saasExcludedObjects?: SourceCatalog | undefined;
   /** SQLServer data source objects to avoid backfilling */
-  sqlServerExcludedObjects?: SqlServerRdbms;
+  sqlServerExcludedObjects?: SqlServerRdbms | undefined;
 }
 export type StringList = Array<string>;
 /** BigQuery clustering configuration. */
 export interface BigQueryClustering {
   /** Required. Column names to set as clustering columns. */
-  columns?: StringList;
+  columns?: StringList | undefined;
 }
 export type TimeUnitPartitionPartitioningTimeGranularityEnum =
   | "PARTITIONING_TIME_GRANULARITY_UNSPECIFIED"
@@ -1152,9 +1152,12 @@ export type TimeUnitPartitionPartitioningTimeGranularityEnum =
 /** Time unit column partitioning. see https://cloud.google.com/bigquery/docs/partitioned-tables#date_timestamp_partitioned_tables */
 export interface TimeUnitPartition {
   /** Required. The partitioning column. */
-  column?: string;
+  column?: string | undefined;
   /** Optional. Partition granularity. */
-  partitioningTimeGranularity?: TimeUnitPartitionPartitioningTimeGranularityEnum | (string & {});
+  partitioningTimeGranularity?:
+    | TimeUnitPartitionPartitioningTimeGranularityEnum
+    | (string & {})
+    | undefined;
 }
 export type IngestionTimePartitionPartitioningTimeGranularityEnum =
   | "PARTITIONING_TIME_GRANULARITY_UNSPECIFIED"
@@ -1167,108 +1170,109 @@ export interface IngestionTimePartition {
   /** Optional. Partition granularity */
   partitioningTimeGranularity?:
     | IngestionTimePartitionPartitioningTimeGranularityEnum
-    | (string & {});
+    | (string & {})
+    | undefined;
 }
 /** Integer range partitioning. see https://cloud.google.com/bigquery/docs/partitioned-tables#integer_range */
 export interface IntegerRangePartition {
   /** Required. The interval of each range within the partition. */
-  interval?: string;
+  interval?: string | undefined;
   /** Required. The starting value for range partitioning (inclusive). */
-  start?: string;
+  start?: string | undefined;
   /** Required. The partitioning column. */
-  column?: string;
+  column?: string | undefined;
   /** Required. The ending value for range partitioning (exclusive). */
-  end?: string;
+  end?: string | undefined;
 }
 /** BigQuery partitioning configuration. */
 export interface BigQueryPartitioning {
   /** Time unit column partitioning. */
-  timeUnitPartition?: TimeUnitPartition;
+  timeUnitPartition?: TimeUnitPartition | undefined;
   /** Ingestion time partitioning. */
-  ingestionTimePartition?: IngestionTimePartition;
+  ingestionTimePartition?: IngestionTimePartition | undefined;
   /** Integer range partitioning. */
-  integerRangePartition?: IntegerRangePartition;
+  integerRangePartition?: IntegerRangePartition | undefined;
   /** Optional. If true, queries over the table require a partition filter. */
-  requirePartitionFilter?: boolean;
+  requirePartitionFilter?: boolean | undefined;
 }
 /** A customization rule to apply to a set of objects. */
 export interface CustomizationRule {
   /** BigQuery clustering rule. */
-  bigqueryClustering?: BigQueryClustering;
+  bigqueryClustering?: BigQueryClustering | undefined;
   /** BigQuery partitioning rule. */
-  bigqueryPartitioning?: BigQueryPartitioning;
+  bigqueryPartitioning?: BigQueryPartitioning | undefined;
 }
 export type CustomizationRuleList = Array<CustomizationRule>;
 /** Spanner data source object identifier. */
 export interface SpannerObjectIdentifier {
   /** Required. The table name. */
-  table?: string;
+  table?: string | undefined;
   /** Optional. The schema name. */
-  schema?: string;
+  schema?: string | undefined;
 }
 /** MongoDB data source object identifier. */
 export interface MongodbObjectIdentifier {
   /** Required. The database name. */
-  database?: string;
+  database?: string | undefined;
   /** Required. The collection name. */
-  collection?: string;
+  collection?: string | undefined;
 }
 /** PostgreSQL data source object identifier. */
 export interface PostgresqlObjectIdentifier {
   /** Required. The table name. */
-  table?: string;
+  table?: string | undefined;
   /** Required. The schema name. */
-  schema?: string;
+  schema?: string | undefined;
 }
 /** SQLServer data source object identifier. */
 export type SqlServerObjectIdentifier = PostgresqlObjectIdentifier;
 /** Salesforce data source object identifier. */
 export interface SalesforceObjectIdentifier {
   /** Required. The object name. */
-  objectName?: string;
+  objectName?: string | undefined;
 }
 /** Mysql data source object identifier. */
 export interface MysqlObjectIdentifier {
   /** Required. The table name. */
-  table?: string;
+  table?: string | undefined;
   /** Required. The database name. */
-  database?: string;
+  database?: string | undefined;
 }
 /** Oracle data source object identifier. */
 export interface OracleObjectIdentifier {
   /** Required. The schema name. */
-  schema?: string;
+  schema?: string | undefined;
   /** Required. The table name. */
-  table?: string;
+  table?: string | undefined;
 }
 /** Represents an identifier of an object in the data source. */
 export interface SourceObjectIdentifier {
   /** Spanner data source object identifier. */
-  spannerIdentifier?: SpannerObjectIdentifier;
+  spannerIdentifier?: SpannerObjectIdentifier | undefined;
   /** MongoDB data source object identifier. */
-  mongodbIdentifier?: MongodbObjectIdentifier;
+  mongodbIdentifier?: MongodbObjectIdentifier | undefined;
   /** PostgreSQL data source object identifier. */
-  postgresqlIdentifier?: PostgresqlObjectIdentifier;
+  postgresqlIdentifier?: PostgresqlObjectIdentifier | undefined;
   /** SQLServer data source object identifier. */
-  sqlServerIdentifier?: PostgresqlObjectIdentifier;
+  sqlServerIdentifier?: PostgresqlObjectIdentifier | undefined;
   /** Salesforce data source object identifier. */
-  salesforceIdentifier?: SalesforceObjectIdentifier;
+  salesforceIdentifier?: SalesforceObjectIdentifier | undefined;
   /** Mysql data source object identifier. */
-  mysqlIdentifier?: MysqlObjectIdentifier;
+  mysqlIdentifier?: MysqlObjectIdentifier | undefined;
   /** Oracle data source object identifier. */
-  oracleIdentifier?: OracleObjectIdentifier;
+  oracleIdentifier?: OracleObjectIdentifier | undefined;
 }
 /** Object filter to apply the rules to. */
 export interface ObjectFilter {
   /** Specific source object identifier. */
-  sourceObjectIdentifier?: SourceObjectIdentifier;
+  sourceObjectIdentifier?: SourceObjectIdentifier | undefined;
 }
 /** A set of rules to apply to a set of objects. */
 export interface RuleSet {
   /** Required. List of customization rules to apply. */
-  customizationRules?: CustomizationRuleList;
+  customizationRules?: CustomizationRuleList | undefined;
   /** Required. Object filter to apply the customization rules to. */
-  objectFilter?: ObjectFilter;
+  objectFilter?: ObjectFilter | undefined;
 }
 export type RuleSetList = Array<RuleSet>;
 /** Backfill strategy to disable automatic backfill for the Stream's objects. */
@@ -1280,53 +1284,53 @@ export type BlmtConfigFileFormatEnum = "FILE_FORMAT_UNSPECIFIED" | "PARQUET";
 /** The configuration for BLMT. */
 export interface BlmtConfig {
   /** Required. The table format. */
-  tableFormat?: BlmtConfigTableFormatEnum | (string & {});
+  tableFormat?: BlmtConfigTableFormatEnum | (string & {}) | undefined;
   /** Required. The Cloud Storage bucket name. */
-  bucket?: string;
+  bucket?: string | undefined;
   /** Required. The bigquery connection. Format: `{project}.{location}.{name}` */
-  connectionName?: string;
+  connectionName?: string | undefined;
   /** The root path inside the Cloud Storage bucket. */
-  rootPath?: string;
+  rootPath?: string | undefined;
   /** Required. The file format. */
-  fileFormat?: BlmtConfigFileFormatEnum | (string & {});
+  fileFormat?: BlmtConfigFileFormatEnum | (string & {}) | undefined;
 }
 /** Merge mode defines that all changes to a table will be merged at the destination table. */
 export type Merge = CancelOperationRequest;
 /** A single target dataset to which all data will be streamed. */
 export interface SingleTargetDataset {
   /** The dataset ID of the target dataset. DatasetIds allowed characters: https://cloud.google.com/bigquery/docs/reference/rest/v2/datasets#datasetreference. */
-  datasetId?: string;
+  datasetId?: string | undefined;
 }
 /** Dataset template used for dynamic dataset creation. */
 export interface DatasetTemplate {
   /** Required. The geographic location where the dataset should reside. See https://cloud.google.com/bigquery/docs/locations for supported locations. */
-  location?: string;
+  location?: string | undefined;
   /** If supplied, every created dataset will have its name prefixed by the provided value. The prefix and name will be separated by an underscore. i.e. _. */
-  datasetIdPrefix?: string;
+  datasetIdPrefix?: string | undefined;
   /** Describes the Cloud KMS encryption key that will be used to protect destination BigQuery table. The BigQuery Service Account associated with your project requires access to this encryption key. i.e. projects/{project}/locations/{location}/keyRings/{key_ring}/cryptoKeys/{cryptoKey}. See https://cloud.google.com/bigquery/docs/customer-managed-encryption for more information. */
-  kmsKeyName?: string;
+  kmsKeyName?: string | undefined;
 }
 /** Destination datasets are created so that hierarchy of the destination data objects matches the source hierarchy. */
 export interface SourceHierarchyDatasets {
   /** Optional. The project id of the BigQuery dataset. If not specified, the project will be inferred from the stream resource. */
-  projectId?: string;
+  projectId?: string | undefined;
   /** The dataset template to use for dynamic dataset creation. */
-  datasetTemplate?: DatasetTemplate;
+  datasetTemplate?: DatasetTemplate | undefined;
 }
 /** BigQuery destination configuration */
 export interface BigQueryDestinationConfig {
   /** Append only mode */
-  appendOnly?: CancelOperationRequest;
+  appendOnly?: CancelOperationRequest | undefined;
   /** Optional. Big Lake Managed Tables (BLMT) configuration. */
-  blmtConfig?: BlmtConfig;
+  blmtConfig?: BlmtConfig | undefined;
   /** The standard mode */
-  merge?: CancelOperationRequest;
+  merge?: CancelOperationRequest | undefined;
   /** Single destination dataset. */
-  singleTargetDataset?: SingleTargetDataset;
+  singleTargetDataset?: SingleTargetDataset | undefined;
   /** The guaranteed data freshness (in seconds) when querying tables created by the stream. Editing this field will only affect new tables created in the future, but existing tables will not be impacted. Lower values mean that queries will return fresher data, but may result in higher cost. */
-  dataFreshness?: string;
+  dataFreshness?: string | undefined;
   /** Source hierarchy datasets. */
-  sourceHierarchyDatasets?: SourceHierarchyDatasets;
+  sourceHierarchyDatasets?: SourceHierarchyDatasets | undefined;
 }
 /** AVRO file format configuration. */
 export type AvroFileFormat = CancelOperationRequest;
@@ -1341,87 +1345,87 @@ export type JsonFileFormatSchemaFileFormatEnum =
 /** JSON file format configuration. */
 export interface JsonFileFormat {
   /** Compression of the loaded JSON file. */
-  compression?: JsonFileFormatCompressionEnum | (string & {});
+  compression?: JsonFileFormatCompressionEnum | (string & {}) | undefined;
   /** The schema file format along JSON data files. */
-  schemaFileFormat?: JsonFileFormatSchemaFileFormatEnum | (string & {});
+  schemaFileFormat?: JsonFileFormatSchemaFileFormatEnum | (string & {}) | undefined;
 }
 /** Google Cloud Storage destination configuration */
 export interface GcsDestinationConfig {
   /** AVRO file format configuration. */
-  avroFileFormat?: CancelOperationRequest;
+  avroFileFormat?: CancelOperationRequest | undefined;
   /** The maximum file size to be saved in the bucket. */
-  fileRotationMb?: number;
+  fileRotationMb?: number | undefined;
   /** Path inside the Cloud Storage bucket to write data to. */
-  path?: string;
+  path?: string | undefined;
   /** The maximum duration for which new events are added before a file is closed and a new file is created. Values within the range of 15-60 seconds are allowed. */
-  fileRotationInterval?: string;
+  fileRotationInterval?: string | undefined;
   /** JSON file format configuration. */
-  jsonFileFormat?: JsonFileFormat;
+  jsonFileFormat?: JsonFileFormat | undefined;
 }
 /** The configuration of the stream destination. */
 export interface DestinationConfig {
   /** Required. Destination connection profile resource. Format: `projects/{project}/locations/{location}/connectionProfiles/{name}` */
-  destinationConnectionProfile?: string;
+  destinationConnectionProfile?: string | undefined;
   /** BigQuery destination configuration. */
-  bigqueryDestinationConfig?: BigQueryDestinationConfig;
+  bigqueryDestinationConfig?: BigQueryDestinationConfig | undefined;
   /** A configuration for how data should be loaded to Cloud Storage. */
-  gcsDestinationConfig?: GcsDestinationConfig;
+  gcsDestinationConfig?: GcsDestinationConfig | undefined;
 }
 export type Datastream_ErrorList = Array<Datastream_Error>;
 /** A resource representing streaming data from a source to a destination. */
 export interface Stream {
   /** The state of the stream. */
-  state?: StreamStateEnum | (string & {});
+  state?: StreamStateEnum | (string & {}) | undefined;
   /** Output only. If the stream was recovered, the time of the last recovery. Note: This field is currently experimental. */
-  lastRecoveryTime?: string;
+  lastRecoveryTime?: string | undefined;
   /** Required. Source connection profile configuration. */
-  sourceConfig?: SourceConfig;
+  sourceConfig?: SourceConfig | undefined;
   /** Automatically backfill objects included in the stream source configuration. Specific objects can be excluded. */
-  backfillAll?: BackfillAllStrategy;
+  backfillAll?: BackfillAllStrategy | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzs?: boolean;
+  satisfiesPzs?: boolean | undefined;
   /** Optional. Rule sets to apply to the stream. */
-  ruleSets?: RuleSetList;
+  ruleSets?: RuleSetList | undefined;
   /** Output only. Reserved for future use. */
-  satisfiesPzi?: boolean;
+  satisfiesPzi?: boolean | undefined;
   /** Immutable. A reference to a KMS encryption key. If provided, it will be used to encrypt the data. If left blank, data will be encrypted using an internal Stream-specific encryption key provisioned through KMS. */
-  customerManagedEncryptionKey?: string;
+  customerManagedEncryptionKey?: string | undefined;
   /** Do not automatically backfill any objects. */
-  backfillNone?: CancelOperationRequest;
+  backfillNone?: CancelOperationRequest | undefined;
   /** Output only. The creation time of the stream. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** Output only. The last update time of the stream. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. Display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Required. Destination connection profile configuration. */
-  destinationConfig?: DestinationConfig;
+  destinationConfig?: DestinationConfig | undefined;
   /** Output only. Identifier. The stream's name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. Errors on the Stream. */
-  errors?: Datastream_ErrorList;
+  errors?: Datastream_ErrorList | undefined;
   /** Labels. */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface CreateProjectsLocationsStreamsRequest {
   /** Required. The stream identifier. */
-  streamId?: string;
+  streamId?: string | undefined;
   /** Optional. Only validate the stream, but don't create any resources. The default is false. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Required. The parent that owns the collection of streams. */
   parent: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Create the stream without validating it. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Request body */
-  body?: Stream;
+  body?: Stream | undefined;
 }
 export interface DeleteProjectsLocationsConnectionProfilesRequest {
   /** Required. The name of the connection profile resource to delete. */
   name: string;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
 }
 export interface DeleteProjectsLocationsOperationsRequest {
   /** The name of the operation resource to be deleted. */
@@ -1429,90 +1433,90 @@ export interface DeleteProjectsLocationsOperationsRequest {
 }
 export interface DeleteProjectsLocationsPrivateConnectionsRequest {
   /** Optional. If set to true, any child routes that belong to this PrivateConnection will also be deleted. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the private connectivity configuration to delete. */
   name: string;
 }
 export interface DeleteProjectsLocationsPrivateConnectionsRoutesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the Route resource to delete. */
   name: string;
 }
 export interface DeleteProjectsLocationsStreamsRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes after the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Required. The name of the stream resource to delete. */
   name: string;
 }
 /** Request message for 'discover' ConnectionProfile request. */
 export interface DiscoverConnectionProfileRequest {
   /** Optional. Salesforce organization to enrich with child data objects and metadata. */
-  salesforceOrg?: SalesforceOrg;
+  salesforceOrg?: SalesforceOrg | undefined;
   /** Optional. A reference to an existing connection profile. */
-  connectionProfileName?: string;
+  connectionProfileName?: string | undefined;
   /** Optional. Whether to retrieve the full hierarchy of data objects (TRUE) or only the current level (FALSE). */
-  fullHierarchy?: boolean;
+  fullHierarchy?: boolean | undefined;
   /** Optional. Source catalog to enrich with child data objects and metadata. This is mainly used to represent SaaS sources databases. */
-  sourceCatalog?: SourceCatalog;
+  sourceCatalog?: SourceCatalog | undefined;
   /** Optional. SQLServer RDBMS to enrich with child data objects and metadata. */
-  sqlServerRdbms?: SqlServerRdbms;
+  sqlServerRdbms?: SqlServerRdbms | undefined;
   /** Optional. An ad-hoc connection profile configuration. */
-  connectionProfile?: ConnectionProfile;
+  connectionProfile?: ConnectionProfile | undefined;
   /** Optional. MySQL RDBMS to enrich with child data objects and metadata. */
-  mysqlRdbms?: MysqlRdbms;
+  mysqlRdbms?: MysqlRdbms | undefined;
   /** Optional. The number of hierarchy levels below the current level to be retrieved. */
-  hierarchyDepth?: number;
+  hierarchyDepth?: number | undefined;
   /** Optional. Spanner database to enrich with child data objects and metadata. */
-  spannerDatabase?: SpannerDatabase;
+  spannerDatabase?: SpannerDatabase | undefined;
   /** Optional. Oracle RDBMS to enrich with child data objects and metadata. */
-  oracleRdbms?: OracleRdbms;
+  oracleRdbms?: OracleRdbms | undefined;
   /** Optional. PostgreSQL RDBMS to enrich with child data objects and metadata. */
-  postgresqlRdbms?: PostgresqlRdbms;
+  postgresqlRdbms?: PostgresqlRdbms | undefined;
   /** Optional. MongoDB cluster to enrich with child data objects and metadata. */
-  mongodbCluster?: MongodbCluster;
+  mongodbCluster?: MongodbCluster | undefined;
 }
 export interface DiscoverProjectsLocationsConnectionProfilesRequest {
   /** Required. The parent resource of the connection profile type. Must be in the format `projects/*\/locations/*`. */
   parent: string;
   /** Request body */
-  body?: DiscoverConnectionProfileRequest;
+  body?: DiscoverConnectionProfileRequest | undefined;
 }
 /** Response from a discover request. */
 export interface DiscoverConnectionProfileResponse {
   /** Enriched Spanner database. */
-  spannerDatabase?: SpannerDatabase;
+  spannerDatabase?: SpannerDatabase | undefined;
   /** Enriched MySQL RDBMS object. */
-  mysqlRdbms?: MysqlRdbms;
+  mysqlRdbms?: MysqlRdbms | undefined;
   /** Enriched MongoDB cluster. */
-  mongodbCluster?: MongodbCluster;
+  mongodbCluster?: MongodbCluster | undefined;
   /** Enriched Salesforce organization. */
-  salesforceOrg?: SalesforceOrg;
+  salesforceOrg?: SalesforceOrg | undefined;
   /** Enriched Oracle RDBMS object. */
-  oracleRdbms?: OracleRdbms;
+  oracleRdbms?: OracleRdbms | undefined;
   /** Enriched SQLServer RDBMS object. */
-  sqlServerRdbms?: SqlServerRdbms;
+  sqlServerRdbms?: SqlServerRdbms | undefined;
   /** Enriched PostgreSQL RDBMS object. */
-  postgresqlRdbms?: PostgresqlRdbms;
+  postgresqlRdbms?: PostgresqlRdbms | undefined;
   /** Enriched source catalog. This is mainly used to represent SaaS sources databases. */
-  sourceCatalog?: SourceCatalog;
+  sourceCatalog?: SourceCatalog | undefined;
 }
 export interface FetchStaticIpsProjectsLocationsRequest {
   /** Required. The resource name for the location for which static IPs should be returned. Must be in the format `projects/*\/locations/*`. */
   name: string;
   /** Optional. Maximum number of Ips to return, will likely not be specified. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. A page token, received from a previous `ListStaticIps` call. will likely not be specified. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 /** Response message for a 'FetchStaticIps' response. */
 export interface FetchStaticIpsResponse {
   /** A token that can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** list of static ips by account */
-  staticIps?: StringList;
+  staticIps?: StringList | undefined;
 }
 export interface GetProjectsLocationsRequest {
   /** Resource name for the location. */
@@ -1521,15 +1525,15 @@ export interface GetProjectsLocationsRequest {
 /** A resource that represents a Google Cloud location. */
 export interface Location {
   /** The friendly name for this location, typically a nearby city name. For example, "Tokyo". */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Resource name for the location, which may vary between implementations. For example: `"projects/example-project/locations/us-east1"` */
-  name?: string;
+  name?: string | undefined;
   /** The canonical id for this location. For example: `"us-east1"`. */
-  locationId?: string;
+  locationId?: string | undefined;
   /** Service-specific metadata. For example the available capacity at the given location. */
-  metadata?: DocumentMap;
+  metadata?: DocumentMap | undefined;
   /** Cross-service attributes for the location. For example {"cloud.googleapis.com/region": "us-east1"} */
-  labels?: StringMap;
+  labels?: StringMap | undefined;
 }
 export interface GetProjectsLocationsConnectionProfilesRequest {
   /** Required. The name of the connection profile resource to get. */
@@ -1558,7 +1562,7 @@ export interface GetProjectsLocationsStreamsObjectsRequest {
 /** Represents a filter for included data on a stream object. */
 export interface EventFilter {
   /** An SQL-query Where clause selecting which data should be included, not including the "WHERE" keyword. e.g., `t.key1 = 'value1' AND t.key2 = 'value2'` */
-  sqlWhereClause?: string;
+  sqlWhereClause?: string | undefined;
 }
 export type BackfillJobStateEnum =
   | "STATE_UNSPECIFIED"
@@ -1573,132 +1577,132 @@ export type BackfillJobTriggerEnum = "TRIGGER_UNSPECIFIED" | "AUTOMATIC" | "MANU
 /** Represents a backfill job on a specific stream object. */
 export interface BackfillJob {
   /** Output only. The filter for performing a partial backfill. */
-  eventFilter?: EventFilter;
+  eventFilter?: EventFilter | undefined;
   /** Output only. Backfill job's start time. */
-  lastStartTime?: string;
+  lastStartTime?: string | undefined;
   /** Output only. Backfill job's end time. */
-  lastEndTime?: string;
+  lastEndTime?: string | undefined;
   /** Output only. Backfill job state. */
-  state?: BackfillJobStateEnum;
+  state?: BackfillJobStateEnum | undefined;
   /** Backfill job's triggering reason. */
-  trigger?: BackfillJobTriggerEnum;
+  trigger?: BackfillJobTriggerEnum | undefined;
   /** Output only. Errors which caused the backfill job to fail. */
-  errors?: Datastream_ErrorList;
+  errors?: Datastream_ErrorList | undefined;
 }
 /** A specific stream object (e.g a specific DB table). */
 export interface StreamObject {
   /** The object identifier in the data source. */
-  sourceObject?: SourceObjectIdentifier;
+  sourceObject?: SourceObjectIdentifier | undefined;
   /** Output only. Active errors on the object. */
-  errors?: Datastream_ErrorList;
+  errors?: Datastream_ErrorList | undefined;
   /** Output only. The last update time of the object. */
-  updateTime?: string;
+  updateTime?: string | undefined;
   /** Required. Display name. */
-  displayName?: string;
+  displayName?: string | undefined;
   /** Output only. The customization rules for the object. These rules are derived from the parent Stream's `rule_sets` and represent the intended configuration for the object. */
-  customizationRules?: CustomizationRuleList;
+  customizationRules?: CustomizationRuleList | undefined;
   /** Output only. Identifier. The object resource's name. */
-  name?: string;
+  name?: string | undefined;
   /** Output only. The creation time of the object. */
-  createTime?: string;
+  createTime?: string | undefined;
   /** The latest backfill job that was initiated for the stream object. */
-  backfillJob?: BackfillJob;
+  backfillJob?: BackfillJob | undefined;
 }
 export interface ListProjectsLocationsRequest {
   /** A page token received from the `next_page_token` field in the response. Send that page token to receive the subsequent page. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The maximum number of results to return. If not set, the service selects a default. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Do not use this field unless explicitly documented otherwise. This is primarily for internal usage. */
-  extraLocationTypes?: StringList;
+  extraLocationTypes?: StringList | undefined;
   /** The resource that owns the locations collection, if applicable. */
   name: string;
   /** A filter to narrow down results to a preferred subset. The filtering language accepts strings like `"displayName=tokyo"`, and is documented in more detail in [AIP-160](https://google.aip.dev/160). */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type LocationList = Array<Location>;
 /** The response message for Locations.ListLocations. */
 export interface ListLocationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of locations that matches the specified filter in the request. */
-  locations?: LocationList;
+  locations?: LocationList | undefined;
 }
 export interface ListProjectsLocationsConnectionProfilesRequest {
   /** Optional. Page token received from a previous `ListConnectionProfiles` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListConnectionProfiles` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Required. The parent that owns the collection of connection profiles. */
   parent: string;
   /** Optional. Maximum number of connection profiles to return. If unspecified, at most 50 connection profiles will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filter request. */
-  filter?: string;
+  filter?: string | undefined;
 }
 export type ConnectionProfileList = Array<ConnectionProfile>;
 /** Response message for listing connection profiles. */
 export interface ListConnectionProfilesResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of connection profiles. */
-  connectionProfiles?: ConnectionProfileList;
+  connectionProfiles?: ConnectionProfileList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsOperationsRequest {
   /** The name of the operation's parent resource. */
   name: string;
   /** The standard list page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** The standard list filter. */
-  filter?: string;
+  filter?: string | undefined;
   /** The standard list page size. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** When set to `true`, operations that are reachable are returned as normal, and those that are unreachable are returned in the ListOperationsResponse.unreachable field. This can only be `true` when reading across collections. For example, when `parent` is set to `"projects/example/locations/-"`. This field is not supported by default and will result in an `UNIMPLEMENTED` error if set unless explicitly documented otherwise in service or product specific documentation. */
-  returnPartialSuccess?: boolean;
+  returnPartialSuccess?: boolean | undefined;
 }
 export type OperationList = Array<Operation>;
 /** The response message for Operations.ListOperations. */
 export interface ListOperationsResponse {
   /** The standard List next-page token. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** A list of operations that matches the specified filter in the request. */
-  operations?: OperationList;
+  operations?: OperationList | undefined;
   /** Unordered list. Unreachable resources. Populated when the request sets `ListOperationsRequest.return_partial_success` and reads across collections. For example, when attempting to list all resources across all supported locations. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
 }
 export interface ListProjectsLocationsPrivateConnectionsRequest {
   /** Optional. Filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Page token received from a previous `ListPrivateConnections` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListPrivateConnections` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Maximum number of private connectivity configurations to return. If unspecified, at most 50 private connectivity configurations that will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent that owns the collection of private connectivity configurations. */
   parent: string;
   /** Optional. Order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type PrivateConnectionList = Array<PrivateConnection>;
 /** Response containing a list of private connection configurations. */
 export interface ListPrivateConnectionsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** List of private connectivity configurations. */
-  privateConnections?: PrivateConnectionList;
+  privateConnections?: PrivateConnectionList | undefined;
 }
 export interface ListProjectsLocationsPrivateConnectionsRoutesRequest {
   /** Optional. Order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
   /** Optional. Filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Page token received from a previous `ListRoutes` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListRoutes` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Optional. Maximum number of Routes to return. The service may return fewer than this value. If unspecified, at most 50 Routes will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent that owns the collection of Routess. */
   parent: string;
 }
@@ -1706,177 +1710,177 @@ export type RouteList = Array<Route>;
 /** Route list response. */
 export interface ListRoutesResponse {
   /** List of Routes. */
-  routes?: RouteList;
+  routes?: RouteList | undefined;
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
 }
 export interface ListProjectsLocationsStreamsRequest {
   /** Optional. Page token received from a previous `ListStreams` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListStreams` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
   /** Required. The parent that owns the collection of streams. */
   parent: string;
   /** Optional. Maximum number of streams to return. If unspecified, at most 50 streams will be returned. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Optional. Filter request. */
-  filter?: string;
+  filter?: string | undefined;
   /** Optional. Order by fields for the result. */
-  orderBy?: string;
+  orderBy?: string | undefined;
 }
 export type StreamList = Array<Stream>;
 /** Response message for listing streams. */
 export interface ListStreamsResponse {
   /** Locations that could not be reached. */
-  unreachable?: StringList;
+  unreachable?: StringList | undefined;
   /** A token, which can be sent as `page_token` to retrieve the next page. If this field is omitted, there are no subsequent pages. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of streams */
-  streams?: StreamList;
+  streams?: StreamList | undefined;
 }
 export interface ListProjectsLocationsStreamsObjectsRequest {
   /** Optional. Maximum number of objects to return. Default is 50. The maximum value is 1000; values above 1000 will be coerced to 1000. */
-  pageSize?: number;
+  pageSize?: number | undefined;
   /** Required. The parent stream that owns the collection of objects. */
   parent: string;
   /** Optional. Page token received from a previous `ListStreamObjectsRequest` call. Provide this to retrieve the subsequent page. When paginating, all other parameters provided to `ListStreamObjectsRequest` must match the call that provided the page token. */
-  pageToken?: string;
+  pageToken?: string | undefined;
 }
 export type StreamObjectList = Array<StreamObject>;
 /** Response containing the objects for a stream. */
 export interface ListStreamObjectsResponse {
   /** A token, which can be sent as `page_token` to retrieve the next page. */
-  nextPageToken?: string;
+  nextPageToken?: string | undefined;
   /** List of stream objects. */
-  streamObjects?: StreamObjectList;
+  streamObjects?: StreamObjectList | undefined;
 }
 /** Request for looking up a specific stream object by its source object identifier. */
 export interface LookupStreamObjectRequest {
   /** Required. The source object identifier which maps to the stream object. */
-  sourceObjectIdentifier?: SourceObjectIdentifier;
+  sourceObjectIdentifier?: SourceObjectIdentifier | undefined;
 }
 export interface LookupProjectsLocationsStreamsObjectsRequest {
   /** Required. The parent stream that owns the collection of objects. */
   parent: string;
   /** Request body */
-  body?: LookupStreamObjectRequest;
+  body?: LookupStreamObjectRequest | undefined;
 }
 export interface PatchProjectsLocationsConnectionProfilesRequest {
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Field mask is used to specify the fields to be overwritten in the ConnectionProfile resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. Only validate the connection profile, but don't update any resources. The default is false. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. Update the connection profile without validating it. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Output only. Identifier. The resource's name. */
   name: string;
   /** Request body */
-  body?: ConnectionProfile;
+  body?: ConnectionProfile | undefined;
 }
 export interface PatchProjectsLocationsStreamsRequest {
   /** Optional. Field mask is used to specify the fields to be overwritten in the stream resource by the update. The fields specified in the update_mask are relative to the resource, not the full request. A field will be overwritten if it is in the mask. If the user does not provide a mask then all fields will be overwritten. */
-  updateMask?: string;
+  updateMask?: string | undefined;
   /** Optional. A request ID to identify requests. Specify a unique request ID so that if you must retry your request, the server will know to ignore the request if it has already been completed. The server will guarantee that for at least 60 minutes since the first request. For example, consider a situation where you make an initial request and the request times out. If you make the request again with the same request ID, the server can check if original operation with the same request ID was received, and if so, will ignore the second request. This prevents clients from accidentally creating duplicate commitments. The request ID must be a valid UUID with the exception that zero UUID is not supported (00000000-0000-0000-0000-000000000000). */
-  requestId?: string;
+  requestId?: string | undefined;
   /** Optional. Only validate the stream with the changes, without actually updating it. The default is false. */
-  validateOnly?: boolean;
+  validateOnly?: boolean | undefined;
   /** Optional. Update the stream without validating it. */
-  force?: boolean;
+  force?: boolean | undefined;
   /** Output only. Identifier. The stream's name. */
   name: string;
   /** Request body */
-  body?: Stream;
+  body?: Stream | undefined;
 }
 /** CDC strategy to resume replication from the next available position in the source. */
 export type NextAvailableStartPosition = CancelOperationRequest;
 /** Represents a position in a Spanner change stream from which to start replicating. */
 export interface SpannerChangeStreamPosition {
   /** Required. The timestamp to start change stream queries from. The timestamp must be a positive value. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** MySQL GTID position */
 export interface MysqlGtidPosition {
   /** Required. The gtid set to start replication from. */
-  gtidSet?: string;
+  gtidSet?: string | undefined;
 }
 /** Oracle SCN position */
 export interface OracleScnPosition {
   /** Required. SCN number from where Logs will be read */
-  scn?: string;
+  scn?: string | undefined;
 }
 /** MongoDB change stream position */
 export interface MongodbChangeStreamPosition {
   /** Required. The timestamp to start change stream from. */
-  startTime?: string;
+  startTime?: string | undefined;
 }
 /** MySQL log position */
 export interface MysqlLogPosition {
   /** Required. The binary log file name. */
-  logFile?: string;
+  logFile?: string | undefined;
   /** Optional. The position within the binary log file. Default is head of file. */
-  logPosition?: number;
+  logPosition?: number | undefined;
 }
 /** SQL Server LSN position */
 export interface SqlServerLsnPosition {
   /** Required. Log sequence number (LSN) from where Logs will be read */
-  lsn?: string;
+  lsn?: string | undefined;
 }
 /** CDC strategy to start replicating from a specific position in the source. */
 export interface SpecificStartPosition {
   /** Optional. Spanner change stream position to start replicating from. */
-  spannerChangeStreamPosition?: SpannerChangeStreamPosition;
+  spannerChangeStreamPosition?: SpannerChangeStreamPosition | undefined;
   /** MySQL GTID set to start replicating from. */
-  mysqlGtidPosition?: MysqlGtidPosition;
+  mysqlGtidPosition?: MysqlGtidPosition | undefined;
   /** Oracle SCN to start replicating from. */
-  oracleScnPosition?: OracleScnPosition;
+  oracleScnPosition?: OracleScnPosition | undefined;
   /** MongoDB change stream position to start replicating from. */
-  mongodbChangeStreamPosition?: MongodbChangeStreamPosition;
+  mongodbChangeStreamPosition?: MongodbChangeStreamPosition | undefined;
   /** MySQL specific log position to start replicating from. */
-  mysqlLogPosition?: MysqlLogPosition;
+  mysqlLogPosition?: MysqlLogPosition | undefined;
   /** SqlServer LSN to start replicating from. */
-  sqlServerLsnPosition?: SqlServerLsnPosition;
+  sqlServerLsnPosition?: SqlServerLsnPosition | undefined;
 }
 /** CDC strategy to start replicating from the most recent position in the source. */
 export type MostRecentStartPosition = CancelOperationRequest;
 /** The strategy that the stream uses for CDC replication. */
 export interface CdcStrategy {
   /** Optional. Resume replication from the next available position in the source. */
-  nextAvailableStartPosition?: CancelOperationRequest;
+  nextAvailableStartPosition?: CancelOperationRequest | undefined;
   /** Optional. Start replicating from a specific position in the source. */
-  specificStartPosition?: SpecificStartPosition;
+  specificStartPosition?: SpecificStartPosition | undefined;
   /** Optional. Start replicating from the most recent position in the source. */
-  mostRecentStartPosition?: CancelOperationRequest;
+  mostRecentStartPosition?: CancelOperationRequest | undefined;
 }
 /** Request message for running a stream. */
 export interface RunStreamRequest {
   /** Optional. The CDC strategy of the stream. If not set, the system's default value will be used. */
-  cdcStrategy?: CdcStrategy;
+  cdcStrategy?: CdcStrategy | undefined;
   /** Optional. Update the stream without validating it. */
-  force?: boolean;
+  force?: boolean | undefined;
 }
 export interface RunProjectsLocationsStreamsRequest {
   /** Required. Name of the stream resource to start, in the format: projects/{project_id}/locations/{location}/streams/{stream_name} */
   name: string;
   /** Request body */
-  body?: RunStreamRequest;
+  body?: RunStreamRequest | undefined;
 }
 /** Request for manually initiating a backfill job for a specific stream object. */
 export interface StartBackfillJobRequest {
   /** Optional. Optional event filter. If not set, or empty, the backfill will be performed on the entire object. This is currently used for partial backfill and only supported for SQL sources. */
-  eventFilter?: EventFilter;
+  eventFilter?: EventFilter | undefined;
 }
 export interface StartBackfillJobProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to start a backfill job for. */
   object: string;
   /** Request body */
-  body?: StartBackfillJobRequest;
+  body?: StartBackfillJobRequest | undefined;
 }
 /** Response for manually initiating a backfill job for a specific stream object. */
 export interface StartBackfillJobResponse {
   /** The stream object resource a backfill job was started for. */
-  object?: StreamObject;
+  object?: StreamObject | undefined;
 }
 /** Request for manually stopping a running backfill job for a specific stream object. */
 export type StopBackfillJobRequest = CancelOperationRequest;
@@ -1884,12 +1888,12 @@ export interface StopBackfillJobProjectsLocationsStreamsObjectsRequest {
   /** Required. The name of the stream object resource to stop the backfill job for. */
   object: string;
   /** Request body */
-  body?: CancelOperationRequest;
+  body?: CancelOperationRequest | undefined;
 }
 /** Response for manually stop a backfill job for a specific stream object. */
 export interface StopBackfillJobResponse {
   /** The stream object resource the backfill job was stopped for. */
-  object?: StreamObject;
+  object?: StreamObject | undefined;
 }
 export type CancelProjectsLocationsOperationsError =
   | NotFound
